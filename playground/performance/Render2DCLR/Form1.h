@@ -20,6 +20,8 @@ namespace Render2DCLR {
     int QueryPerformanceCounter(Int64% count);
     [DllImport("kernel32.dll")]
     int QueryPerformanceFrequency(Int64% frequency);
+	[DllImport("interpolator.dll")]
+	void fninterpolator(IntPtr, int, int, int, IntPtr, IntPtr);
 
 	/// <summary>
 	/// Summary for Form1
@@ -435,7 +437,7 @@ namespace Render2DCLR {
 			short* p0 = (short*)tmp + IMAGEWIDTH*IMAGEHEIGHT*currentImage;
 
 			array<double>^ interp = gcnew array<double>(IMAGEWIDTH+1);
-			// set value at each pixel, use linear interplation
+			// set value at each pixel, use linear interpolation
 			short* lo;
 			short* hi;
 			Byte v;
@@ -552,6 +554,50 @@ private: System::Void Form1_MouseMove(System::Object^  sender, System::Windows::
 private:
 	System::Void mathToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e)
 	{
+#ifdef _DEBUG
+		System::IO::FileStream^ fs = gcnew System::IO::FileStream("D:\\clrBench\\Native_CppCLRHostDebug.txt", System::IO::FileMode::Create);
+#else
+		System::IO::FileStream^ fs = gcnew System::IO::FileStream("D:\\clrBench\\Native_CppCLRHostRelease.txt", System::IO::FileMode::Create);
+#endif
+		System::IO::TextWriter^ sw = gcnew System::IO::StreamWriter(fs);
+		pin_ptr<Int16> tmp1 = &imageArray[0];
+		pin_ptr<Byte> plut = &lut[0];
+		pin_ptr<Byte> pDisp = &dispArray[0];
+        Int64 now1, delta1;
+		QueryPerformanceCounter(tmr);
+        QueryPerformanceCounter(now1);
+		delta1 = now1-tmr;	// find the p/invoke penalty
+        Int64 fact1;
+        QueryPerformanceFrequency(fact1);
+		for (int length = 10; length < 512; length+=10)
+		{
+			QueryPerformanceCounter(tmr);
+		    QueryPerformanceCounter(now1);
+			delta1 = now1-tmr;	// find the p/invoke penalty
+			QueryPerformanceCounter(tmr);
+			fninterpolator(IntPtr(tmp1), IMAGEWIDTH, IMAGEHEIGHT, length, IntPtr(pDisp), IntPtr(plut));
+			QueryPerformanceCounter(now1);
+	        Int64 span1 = now1 - tmr - delta1;
+			Int64 fact2 = fact1;
+		    while (span1 > 1000000 && fact2 > 1000)
+			{
+				span1 = span1 >> 1;
+			    fact2 = fact2 >> 1;
+			}
+			span1 = span1*1000/fact2;
+			sw->WriteLine("{0} {1} {2}", length, span1, delta1);
+			sw->Flush();
+		}
+		sw->Close();
+		fs->Close();
+
+        //double fps1 = (double)(IMAGELENGTH) * fact1 / (double)(span1);
+        //StringBuilder^ sb1 = gcnew StringBuilder();
+        //sb1->AppendFormat("fps: {0}", fps1);
+        //currentImage = 0;
+		//MessageBox::Show(sb1->ToString());
+		return;
+
 		System::Drawing::Rectangle rect = ClientRectangle;
 		pin_ptr<Int16> tmp = &imageArray[0];
 		currentImage = 0;
@@ -566,7 +612,7 @@ private:
 			Int16* p0 = (Int16*)tmp + IMAGEWIDTH*IMAGEHEIGHT*currentImage;
 			pin_ptr<Byte> ppv = &dispArray[300*300*currentImage];
 			Byte* pv = (Byte*)ppv;
-			// set value at each pixel, use linear interplation
+			// set value at each pixel, use linear interpolation
 			Int16* lo;
 			Int16* hi;
 			Byte v;

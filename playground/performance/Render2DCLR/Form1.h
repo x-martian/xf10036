@@ -55,6 +55,8 @@ namespace Render2DCLR {
 			{
 				lut[b] = b*256/2048;
 			}
+
+			dispArray = gcnew array<System::Byte>(300*300*IMAGELENGTH);
 		}
 
 	protected:
@@ -75,6 +77,7 @@ namespace Render2DCLR {
 		/// </summary>
 		System::ComponentModel::Container ^components;
 		array<short>^ imageArray;
+		array<System::Byte>^ dispArray;
 		array<Byte>^ lut;
 		int currentImage;
 		Boolean go;
@@ -552,15 +555,17 @@ private:
 		System::Drawing::Rectangle rect = ClientRectangle;
 		pin_ptr<Int16> tmp = &imageArray[0];
 		currentImage = 0;
-		int w=rect.Width, h=rect.Height;
+		int w=300, h=300;
         Int64 now, delta;
 		QueryPerformanceCounter(tmr);
         QueryPerformanceCounter(now);
 		delta = now-tmr;	// find the p/invoke penalty
 		QueryPerformanceCounter(tmr);
+		array<System::Double>^ interp = gcnew array<double>(IMAGEWIDTH+1);
 		do {
 			Int16* p0 = (Int16*)tmp + IMAGEWIDTH*IMAGEHEIGHT*currentImage;
-			array<System::Double>^ interp = gcnew array<double>(IMAGEWIDTH+1);
+			pin_ptr<Byte> ppv = &dispArray[300*300*currentImage];
+			Byte* pv = (Byte*)ppv;
 			// set value at each pixel, use linear interplation
 			Int16* lo;
 			Int16* hi;
@@ -599,6 +604,8 @@ private:
 						x -= index;
 						double s = *(tmp+index)*(1-x)+*(tmp+index+1)*x;
 						v = lut[(int)s];
+						*pv = v;
+						++pv;
 					}
 				}
 			}

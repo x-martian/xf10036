@@ -18,21 +18,23 @@ namespace Render2DCS
         [DllImport("kernel32.dll")]
         static extern int QueryPerformanceFrequency(out Int64 frequency);
 
-        private short[] imageArray;
-        private Byte[] lut;
+        private IntPtr imageArray;
+        private IntPtr lut;
+        private IntPtr dispArray;
         private int currentImage;
         private Boolean go;
         private Int64 tmr;
         private Bitmap bm;
         private static int IMAGEWIDTH = 512;
         private static int IMAGEHEIGHT = 512;
-        private static int IMAGELENGTH = 100;
+        private static int IMAGELENGTH = 512;
 
-        public Form1()
+        public unsafe Form1()
         {
             InitializeComponent();
 
-            imageArray = new short[(IMAGEWIDTH * IMAGEHEIGHT * IMAGELENGTH)];
+            imageArray = Marshal.AllocHGlobal((int)(IMAGEWIDTH * IMAGEHEIGHT * IMAGELENGTH*2)); // two byte integers
+            short* tmp = (short*)imageArray;
             Random rand = new Random(1);
             int p = 0;
             for (int k = 0; k < IMAGELENGTH; ++k)
@@ -42,15 +44,18 @@ namespace Render2DCS
                         //short v = rand->Next(2048);
                         short v = (short)(i + j + 12 * k);
                         if (v > 2047) v = 2047;
-                        imageArray[p] = v;
-                        ++p;
+                        *tmp = v;
+                        ++tmp;
                     }
 
-            lut = new Byte[2048];
+            lut = Marshal.AllocHGlobal(2048);
+            Byte* pLut = (Byte*)lut;
             for (short b = 0; b < 2048; ++b)
             {
-                lut[b] = (Byte)(b * 256 / 2048);
+                *pLut = (Byte)(b * 256 / 2048);
+                ++pLut;
             }
+            dispArray = IntPtr.Zero;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -69,10 +74,10 @@ namespace Render2DCS
         	int w = rect.Width;
             int h = rect.Height;
             unsafe {
-                fixed (short* pData = &imageArray[0])
-                {
+                short* pData = (short*)imageArray;
+                Byte* pLut = (Byte*)lut;
                 	short* p0 = pData+IMAGEWIDTH*IMAGEHEIGHT*currentImage;
-                	double[] interp = new double[IMAGEWIDTH+1];
+                	IntPtr interp = Marshal.AllocHGlobal((IMAGEWIDTH+1)*8);
 
                     // set value at each pixel, use linear interplation
 	                short* lo;
@@ -97,7 +102,7 @@ namespace Render2DCS
                 				lo = pData + IMAGEWIDTH*(IMAGEHEIGHT*IMAGELENGTH-1);
                         }
                    		double y = 1.0-x;
-                        fixed (double* mid = &interp[0]) {
+                        double* mid = (double*)interp;
                             double* tmp = mid;
     		                for (int m=0; m<IMAGEWIDTH; ++m) {
 	    		                *tmp = *lo*y+*hi*x;
@@ -112,7 +117,7 @@ namespace Render2DCS
                                     int index = (int)x;
                                     x -= index;
                                     double s = *(mid + index) * (1 - x) + *(mid + index + 1) * x;
-                                    v = lut[(int)s];
+                                    v = *(pLut+(int)s);
                                     *p = v; ++p; *p = v; ++p; *p = v; ++p; *p = 255; ++p;
                                 }
                                 else
@@ -120,10 +125,8 @@ namespace Render2DCS
                                     p += 4;
                                 }
                             }
-                        }
         			}
         			bm.UnlockBits(bd);
-		        }   // outer fixed
         	}   // unsafe
 
 			e.Graphics.DrawImage(bm, 0, 0);
@@ -162,6 +165,11 @@ namespace Render2DCS
 				return;
 
 			bm = new Bitmap(ClientRectangle.Width, ClientRectangle.Height, CreateGraphics());
+
+            if (dispArray != IntPtr.Zero)
+                Marshal.FreeHGlobal(dispArray);
+            dispArray = Marshal.AllocHGlobal(ClientRectangle.Width * ClientRectangle.Height);
+
 			Invalidate();
         }
 
@@ -185,14 +193,16 @@ namespace Render2DCS
             // do the interplation in an unsafe context
             currentImage = 0;
             QueryPerformanceCounter(out tmr);
-            double[] interp = new double[IMAGEWIDTH + 1];
+            
+            IntPtr interp = Marshal.AllocHGlobal((IMAGEWIDTH+1)*8);
             do
             {
-                int w = rect.Width;
-                int h = rect.Height;
+                int w = 300;
+                int h = 300;
                 unsafe
                 {
-                    fixed (short* pData = &imageArray[0])
+                    short* pData = (short*)imageArray;
+                    Byte* pLut = (Byte*)lut;
                     {
                         short* p0 = pData + IMAGEWIDTH * IMAGEHEIGHT * currentImage;
 
@@ -200,6 +210,7 @@ namespace Render2DCS
                         short* lo;
                         short* hi;
                         Byte v;
+                        Byte* pv = (Byte*)dispArray;
                         for (int j = 0; j < h; ++j)
                         {
                             double x = (double)((2 * j + 1) * IMAGEHEIGHT - h) / (double)(2 * h);
@@ -220,7 +231,7 @@ namespace Render2DCS
                                     lo = pData + IMAGEWIDTH * (IMAGEHEIGHT * IMAGELENGTH - 1);
                             }
                             double y = 1.0 - x;
-                            fixed (double* mid = &interp[0])
+                            double* mid = (double*)interp;
                             {
                                 double* tmp = mid;
                                 for (int m = 0; m < IMAGEWIDTH; ++m)
@@ -238,7 +249,9 @@ namespace Render2DCS
                                         int index = (int)x;
                                         x -= index;
                                         double s = *(mid + index) * (1 - x) + *(mid + index + 1) * x;
-                                        v = lut[(int)s];
+                                        v = *(pLut+(int)s);
+                                        *pv = v;
+                                        ++pv;
                                     }
                                 }
                             }

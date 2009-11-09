@@ -118,6 +118,7 @@ namespace Render2DCLR {
 	private: System::Windows::Forms::ToolStripMenuItem^  actionToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  raceToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  mathToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  mathInDLLToolStripMenuItem;
 			 Int64 tmr;
 
 
@@ -162,6 +163,7 @@ namespace Render2DCLR {
 			this->searchToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator5 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->mathInDLLToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -323,8 +325,8 @@ namespace Render2DCLR {
 			// 
 			// actionToolStripMenuItem
 			// 
-			this->actionToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->raceToolStripMenuItem, 
-				this->mathToolStripMenuItem});
+			this->actionToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->raceToolStripMenuItem, 
+				this->mathToolStripMenuItem, this->mathInDLLToolStripMenuItem});
 			this->actionToolStripMenuItem->Name = L"actionToolStripMenuItem";
 			this->actionToolStripMenuItem->Size = System::Drawing::Size(49, 20);
 			this->actionToolStripMenuItem->Text = L"&Action";
@@ -354,13 +356,13 @@ namespace Render2DCLR {
 			// customizeToolStripMenuItem
 			// 
 			this->customizeToolStripMenuItem->Name = L"customizeToolStripMenuItem";
-			this->customizeToolStripMenuItem->Size = System::Drawing::Size(123, 22);
+			this->customizeToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->customizeToolStripMenuItem->Text = L"&Customize";
 			// 
 			// optionsToolStripMenuItem
 			// 
 			this->optionsToolStripMenuItem->Name = L"optionsToolStripMenuItem";
-			this->optionsToolStripMenuItem->Size = System::Drawing::Size(123, 22);
+			this->optionsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->optionsToolStripMenuItem->Text = L"&Options";
 			// 
 			// helpToolStripMenuItem
@@ -399,6 +401,13 @@ namespace Render2DCLR {
 			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
 			this->aboutToolStripMenuItem->Size = System::Drawing::Size(118, 22);
 			this->aboutToolStripMenuItem->Text = L"&About...";
+			// 
+			// mathInDLLToolStripMenuItem
+			// 
+			this->mathInDLLToolStripMenuItem->Name = L"mathInDLLToolStripMenuItem";
+			this->mathInDLLToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->mathInDLLToolStripMenuItem->Text = L"Math in &DLL";
+			this->mathInDLLToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::mathInDLLToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -456,7 +465,7 @@ namespace Render2DCLR {
 				double* mid = tmp;
 				double x = double((2*j+1)*IMAGEHEIGHT-rect.Height)/double(2*rect.Height);
 				if (x>0.0) {
-					int index = x;
+					int index = (int)x;
 					x -= index;
 					lo = p0+index*IMAGEWIDTH;
 					hi = lo+IMAGEWIDTH;
@@ -478,7 +487,7 @@ namespace Render2DCLR {
 					x = double((2*i+1)*IMAGEWIDTH-rect.Width)/double(2*rect.Width);
 					if (x>0.0)
 					{
-						int index = x;
+						int index = (int)x;
 						x -= index;
 						double s = *(tmp+index)*(1-x)+*(tmp+index+1)*x;
 						v = lut[(int)s];
@@ -551,13 +560,52 @@ private: System::Void Form1_MouseMove(System::Object^  sender, System::Windows::
 			 Invalidate();
 		 }
 		 
-private:
 	System::Void mathToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 #ifdef _DEBUG
-		System::IO::FileStream^ fs = gcnew System::IO::FileStream("D:\\clrBench\\Native_CppCLRHostDebug.txt", System::IO::FileMode::Create);
+		System::IO::FileStream^ fs = gcnew System::IO::FileStream("..\\Release\\clrBench\\CppCLRPureDebug.txt", System::IO::FileMode::Create);
 #else
-		System::IO::FileStream^ fs = gcnew System::IO::FileStream("D:\\clrBench\\Native_CppCLRHostRelease.txt", System::IO::FileMode::Create);
+		System::IO::FileStream^ fs = gcnew System::IO::FileStream("..\\Release\\clrBench\\CppCLRPureHostRelease.txt", System::IO::FileMode::Create);
+#endif
+		System::IO::TextWriter^ sw = gcnew System::IO::StreamWriter(fs);
+		pin_ptr<Int16> tmp = &imageArray[0];
+		pin_ptr<Byte> plut = &lut[0];
+		pin_ptr<Byte> pDisp = &dispArray[0];
+        Int64 now, delta;
+		QueryPerformanceCounter(tmr);
+        QueryPerformanceCounter(now);
+		delta = now-tmr;	// find the p/invoke penalty
+        Int64 fact0;
+        QueryPerformanceFrequency(fact0);
+		for (int length = 10; length < 512; length+=10)
+		{
+			QueryPerformanceCounter(tmr);
+		    QueryPerformanceCounter(now);
+			delta = now-tmr;	// find the p/invoke penalty
+			QueryPerformanceCounter(tmr);
+			interpolate(tmp, IMAGEWIDTH, IMAGEHEIGHT, length, pDisp, plut);
+			QueryPerformanceCounter(now);
+	        Int64 span = now - tmr - delta;
+			Int64 fact = fact0;
+		    while (span > 1000000 && fact > 1000)
+			{
+				span = span >> 1;
+			    fact = fact >> 1;
+			}
+			span = span*1000/fact;
+			sw->WriteLine("{0} {1} {2}", length, span, delta);
+			sw->Flush();
+		}
+		sw->Close();
+		fs->Close();
+	}
+
+private:
+	System::Void mathInDLLToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+#ifdef _DEBUG
+		System::IO::FileStream^ fs = gcnew System::IO::FileStream("..\\Release\\clrBench\\Native_CppCLRHostDebug.txt", System::IO::FileMode::Create);
+#else
+		System::IO::FileStream^ fs = gcnew System::IO::FileStream("..\\Release\\clrBench\\Native_CppCLRHostRelease.txt", System::IO::FileMode::Create);
 #endif
 		System::IO::TextWriter^ sw = gcnew System::IO::StreamWriter(fs);
 		pin_ptr<Int16> tmp1 = &imageArray[0];
@@ -597,20 +645,17 @@ private:
         //currentImage = 0;
 		//MessageBox::Show(sb1->ToString());
 		return;
+	}
 
-		System::Drawing::Rectangle rect = ClientRectangle;
-		pin_ptr<Int16> tmp = &imageArray[0];
+private:
+	System::Void interpolate(void* imageArray, int iw, int ih, int il, void* ppv, void* pLut)
+	{
 		currentImage = 0;
 		int w=300, h=300;
-        Int64 now, delta;
-		QueryPerformanceCounter(tmr);
-        QueryPerformanceCounter(now);
-		delta = now-tmr;	// find the p/invoke penalty
-		QueryPerformanceCounter(tmr);
-		array<System::Double>^ interp = gcnew array<double>(IMAGEWIDTH+1);
+		array<System::Double>^ interp = gcnew array<double>(iw+1);
 		do {
-			Int16* p0 = (Int16*)tmp + IMAGEWIDTH*IMAGEHEIGHT*currentImage;
-			pin_ptr<Byte> ppv = &dispArray[300*300*currentImage];
+			Int16* p0 = (Int16*)imageArray + iw*ih*currentImage;
+//			pin_ptr<Byte> ppv = &dispArray[300*300*currentImage];
 			Byte* pv = (Byte*)ppv;
 			// set value at each pixel, use linear interpolation
 			Int16* lo;
@@ -622,31 +667,31 @@ private:
 				pin_ptr<double> tmp = &interp[0];
 				double* mid = tmp;
 //				double x=0.001;
-				double x = double((2*j+1)*IMAGEHEIGHT-h)/double(2*h);
+				double x = double((2*j+1)*ih-h)/double(2*h);
 				if (x>0.0) {
-					int index = x;
+					int index = (int)x;
 					x -= index;
-					lo = p0+index*IMAGEWIDTH;
-					hi = lo+IMAGEWIDTH;
+					lo = p0+index*iw;
+					hi = lo+iw;
 				} else {
 					x += 1.0;
 					hi = p0;
 					if (hi>0)
-						lo = hi - IMAGEWIDTH;
+						lo = hi - iw;
 					else
-						lo = p0 + IMAGEWIDTH*(IMAGEHEIGHT*IMAGELENGTH-1);
+						lo = p0 + iw*(ih*il);
 				}
 				double y = 1.0-x;
-				for (int m=0; m<IMAGEWIDTH; ++m) {
+				for (int m=0; m<iw; ++m) {
 					*mid = *lo*y+*hi*x;
 					++mid; ++lo; ++hi;
 				}
 				*mid = interp[0];	// repeat the first point at the end
 				for (int i=0; i<w; ++i) {
-					x = double((2*i+1)*IMAGEWIDTH-w)/double(2*w);
+					x = double((2*i+1)*iw-w)/double(2*w);
 					if (x>0.0)
 					{
-						int index = x;
+						int index = (int)x;
 						x -= index;
 						double s = *(tmp+index)*(1-x)+*(tmp+index+1)*x;
 						v = lut[(int)s];
@@ -655,23 +700,7 @@ private:
 					}
 				}
 			}
-		} while (++currentImage<IMAGELENGTH-1);
-
-        Int64 fact;
-        QueryPerformanceCounter(now);
-        QueryPerformanceFrequency(fact);
-        Int64 span = now - tmr - delta;
-        while (span > 10000)
-        {
-            span = span >> 1;
-            fact = fact >> 1;
-        }
-
-        double fps = (double)(currentImage) * fact / (double)(span);
-        StringBuilder^ sb = gcnew StringBuilder();
-        sb->AppendFormat("fps: {0}", fps);
-        currentImage = 0;
-		MessageBox::Show(sb->ToString());
+		} while (++currentImage<il);
 	}
 };
 }

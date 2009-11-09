@@ -53,7 +53,7 @@ INTERPOLATOR_API int fninterpolator(short* imageArray, int iw, int ih, int il, u
 		double* mid = interp;
 		double x = double((2*j+1)*ih-h)/double(2*h);
 		if (x>0.0) {
-			int index = x;
+			int index = (int)x;
 			x -= index;
 			lo = p0+index*iw;
 			hi = lo+iw;
@@ -76,7 +76,7 @@ INTERPOLATOR_API int fninterpolator(short* imageArray, int iw, int ih, int il, u
 			x = double((2*i+1)*iw-w)/double(2*w);
 			if (x>0.0)
 			{
-				int index = x;
+				int index = (int)x;
 				x -= index;
 				double s = *(interp+index)*(1-x)+*(interp+index+1)*x;
 //				v = *((BYTE*)lut+(int)s);
@@ -99,7 +99,7 @@ INTERPOLATOR_API int fninterpolator(short* imageArray, int iw, int ih, int il, u
 	}
 	span = span*1000/fact2;
 
-	return span;
+	return (int)span;
 }
 
 // This is the constructor of a class that has been exported.

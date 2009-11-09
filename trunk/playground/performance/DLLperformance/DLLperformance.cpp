@@ -22,9 +22,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	unsigned char* m_lut;
 	unsigned char* m_interp;
 
-	int m_currentImage;
+//	int m_currentImage;
 	LARGE_INTEGER m_tmr;
-	bool m_go;
+//	bool m_go;
 
 	m_pData = (short*)::LocalAlloc(LMEM_FIXED, IMAGEWIDTH*IMAGEHEIGHT*IMAGELENGTH*2);
 	m_lut = (BYTE*)::LocalAlloc(LMEM_FIXED, 2048);
@@ -53,9 +53,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
 #ifdef _DEBUG
-	std::ofstream fs("D:\\clrBench\\NativeCppDebug.txt");
+	std::ofstream fs(".\\clrBench\\NativeCppDebug.txt");
 #else
-	std::ofstream fs("D:\\clrBench\\NativeCppRelease.txt");
+	std::ofstream fs(".\\clrBench\\NativeCppRelease.txt");
 #endif
 	LARGE_INTEGER now, freq;
 	::QueryPerformanceCounter(&m_tmr);
@@ -87,9 +87,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	fs.close();
 
 #ifdef _DEBUG
-	fs.open("D:\\clrBench\\DLL_CppNativeHostDebug.txt");
+	fs.open(".\\clrBench\\DLL_CppNativeHostDebug.txt");
 #else
-	fs.open("D:\\clrBench\\DLL_CppNativeHostRelease.txt");
+	fs.open(".\\clrBench\\DLL_CppNativeHostRelease.txt");
 #endif
 	HMODULE hModule = ::LoadLibrary(L"interpolator.dll");
 	PFUNC pfunc = (PFUNC)::GetProcAddress(hModule, "fninterpolator");
@@ -138,7 +138,7 @@ void localinterpolator(short* imageArray, int iw, int ih, int il, unsigned char*
 		double* mid = interp;
 		double x = double((2*j+1)*ih-h)/double(2*h);
 		if (x>0.0) {
-			int index = x;
+			int index = (int)x;
 			x -= index;
 			lo = p0+index*iw;
 			hi = lo+iw;
@@ -160,7 +160,7 @@ void localinterpolator(short* imageArray, int iw, int ih, int il, unsigned char*
 			x = double((2*i+1)*iw-w)/double(2*w);
 			if (x>0.0)
 			{
-				int index = x;
+				int index = (int)x;
 				x -= index;
 				double s = *(interp+index)*(1-x)+*(interp+index+1)*x;
 				v = *((unsigned char*)lut+(int)s);

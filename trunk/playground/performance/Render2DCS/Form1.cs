@@ -36,7 +36,6 @@ namespace Render2DCS
             imageArray = Marshal.AllocHGlobal((int)(IMAGEWIDTH * IMAGEHEIGHT * IMAGELENGTH*2)); // two byte integers
             short* tmp = (short*)imageArray;
             Random rand = new Random(1);
-            int p = 0;
             for (int k = 0; k < IMAGELENGTH; ++k)
                 for (int j = 0; j < IMAGEHEIGHT; ++j)
                     for (int i = 0; i < IMAGEWIDTH; ++i)
@@ -188,94 +187,103 @@ namespace Render2DCS
 
         private void mathToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Rectangle rect = ClientRectangle;
+		    System.IO.FileStream fs = new System.IO.FileStream("..\\..\\..\\Release\\clrBench\\CSharpRelease.txt", System.IO.FileMode.Create);
+		    System.IO.TextWriter sw = new System.IO.StreamWriter(fs);
+            Int64 now, delta;
+	    	QueryPerformanceCounter(out tmr);
+            QueryPerformanceCounter(out now);
+	    	delta = now-tmr;	// find the p/invoke penalty
+            Int64 fact0;
+            QueryPerformanceFrequency(out fact0);
+	    	for (int length = 10; length < 512; length+=10)
+		    {
+			    QueryPerformanceCounter(out tmr);
+    		    QueryPerformanceCounter(out now);
+    			delta = now-tmr;	// find the p/invoke penalty
+	    		QueryPerformanceCounter(out tmr);
+    			interpolate(imageArray, IMAGEWIDTH, IMAGEHEIGHT, length, dispArray, lut);
+    			QueryPerformanceCounter(out now);
+    	        Int64 span = now - tmr - delta;
+	    		Int64 fact = fact0;
+		        while (span > 1000000 && fact > 1000)
+			    {
+				    span = span >> 1;
+			        fact = fact >> 1;
+			    }
+    			span = span*1000/fact;
+	    		sw.WriteLine("{0} {1} {2}", length, span, delta);
+		    	sw.Flush();
+		    }
+    		sw.Close();
+	    	fs.Close();
+        }
 
+        private unsafe void interpolate(IntPtr imageArray, int iw, int ih, int il, IntPtr disp, IntPtr lut)
+        {
             // do the interplation in an unsafe context
             currentImage = 0;
-            QueryPerformanceCounter(out tmr);
-            
-            IntPtr interp = Marshal.AllocHGlobal((IMAGEWIDTH+1)*8);
+
+            int w = 300;
+            int h = 300;
+            short* pData = (short*)imageArray;
+            Byte* pLut = (Byte*)lut;
+            IntPtr interp = Marshal.AllocHGlobal((iw + 1) * 8);
             do
             {
-                int w = 300;
-                int h = 300;
-                unsafe
-                {
-                    short* pData = (short*)imageArray;
-                    Byte* pLut = (Byte*)lut;
-                    {
-                        short* p0 = pData + IMAGEWIDTH * IMAGEHEIGHT * currentImage;
+                short* p0 = pData + iw * ih * currentImage;
 
-                        // set value at each pixel, use linear interplation
-                        short* lo;
-                        short* hi;
-                        Byte v;
-                        Byte* pv = (Byte*)dispArray;
-                        for (int j = 0; j < h; ++j)
+                // set value at each pixel, use linear interplation
+                short* lo;
+                short* hi;
+                Byte v;
+                Byte* pv = (Byte*)dispArray;
+                for (int j = 0; j < h; ++j)
+                {
+                    double x = (double)((2 * j + 1) * ih - h) / (double)(2 * h);
+                    if (x > 0.0)
+                    {
+                        int index = (int)(x);
+                        x -= index;
+                        lo = p0 + index * iw;
+                        hi = lo + iw;
+                    }
+                    else
+                    {
+                        x += 1.0;
+                        hi = p0;
+                        if (hi > pData)
+                            lo = hi - iw;
+                        else
+                            lo = pData + iw * (ih * il);
+                    }
+                    double y = 1.0 - x;
+                    double* mid = (double*)interp;
+                    {
+                        double* tmp = mid;
+                        for (int m = 0; m < iw; ++m)
                         {
-                            double x = (double)((2 * j + 1) * IMAGEHEIGHT - h) / (double)(2 * h);
+                            *tmp = *lo * y + *hi * x;
+                            ++tmp; ++lo; ++hi;
+                        }
+                        *tmp = *mid;
+
+                        for (int i = 0; i < w; ++i)
+                        {
+                            x = (double)((2 * i + 1) * iw - w) / (double)(2 * w);
                             if (x > 0.0)
                             {
-                                int index = (int)(x);
+                                int index = (int)x;
                                 x -= index;
-                                lo = p0 + index * IMAGEWIDTH;
-                                hi = lo + IMAGEWIDTH;
-                            }
-                            else
-                            {
-                                x += 1.0;
-                                hi = p0;
-                                if (hi > pData)
-                                    lo = hi - IMAGEWIDTH;
-                                else
-                                    lo = pData + IMAGEWIDTH * (IMAGEHEIGHT * IMAGELENGTH - 1);
-                            }
-                            double y = 1.0 - x;
-                            double* mid = (double*)interp;
-                            {
-                                double* tmp = mid;
-                                for (int m = 0; m < IMAGEWIDTH; ++m)
-                                {
-                                    *tmp = *lo * y + *hi * x;
-                                    ++tmp; ++lo; ++hi;
-                                }
-                                *tmp = *mid;
-
-                                for (int i = 0; i < w; ++i)
-                                {
-                                    x = (double)((2 * i + 1) * IMAGEWIDTH - w) / (double)(2 * w);
-                                    if (x > 0.0)
-                                    {
-                                        int index = (int)x;
-                                        x -= index;
-                                        double s = *(mid + index) * (1 - x) + *(mid + index + 1) * x;
-                                        v = *(pLut+(int)s);
-                                        *pv = v;
-                                        ++pv;
-                                    }
-                                }
+                                double s = *(mid + index) * (1 - x) + *(mid + index + 1) * x;
+                                v = *(pLut + (int)s);
+                                *pv = v;
+                                ++pv;
                             }
                         }
-                    }   // outer fixed
-                }   // unsafe
-            } while (++currentImage < IMAGELENGTH - 1);
-
-            Int64 now, freq;
-            QueryPerformanceCounter(out now);
-            QueryPerformanceFrequency(out freq);
-            Int64 span = now - tmr;
-            Int64 fact = freq;
-            while (span > 10000)
-            {
-                span = span >> 1;
-                fact = fact >> 1;
-            }
-
-            double fps = (double)(currentImage) * fact / (double)(span);
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("fps: {0}", fps);
-            currentImage = 0;
-            MessageBox.Show(sb.ToString());
+                    }
+                }   // outer fixed
+            } while (++currentImage <= il);
+            Marshal.FreeHGlobal(interp);
         }
     }
 }

@@ -32,6 +32,7 @@
             this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.benchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mathDLLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,7 +50,8 @@
             // 
             this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.benchToolStripMenuItem,
-            this.mathToolStripMenuItem});
+            this.mathToolStripMenuItem,
+            this.mathDLLToolStripMenuItem});
             this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
             this.actionToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.actionToolStripMenuItem.Text = "&Action";
@@ -57,7 +59,7 @@
             // benchToolStripMenuItem
             // 
             this.benchToolStripMenuItem.Name = "benchToolStripMenuItem";
-            this.benchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.benchToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.benchToolStripMenuItem.Text = "&Overall";
             this.benchToolStripMenuItem.MouseMove += new System.Windows.Forms.MouseEventHandler(this.benchToolStripMenuItem_MouseMove);
             this.benchToolStripMenuItem.Click += new System.EventHandler(this.benchToolStripMenuItem_Click);
@@ -65,9 +67,16 @@
             // mathToolStripMenuItem
             // 
             this.mathToolStripMenuItem.Name = "mathToolStripMenuItem";
-            this.mathToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mathToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.mathToolStripMenuItem.Text = "&Math";
             this.mathToolStripMenuItem.Click += new System.EventHandler(this.mathToolStripMenuItem_Click);
+            // 
+            // mathDLLToolStripMenuItem
+            // 
+            this.mathDLLToolStripMenuItem.Name = "mathDLLToolStripMenuItem";
+            this.mathDLLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mathDLLToolStripMenuItem.Text = "Math &DLL";
+            this.mathDLLToolStripMenuItem.Click += new System.EventHandler(this.mathDLLToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -82,6 +91,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.Resize += new System.EventHandler(this.Form1_Resize);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.benchToolStripMenuItem_MouseMove);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -95,6 +105,7 @@
         private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem benchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mathToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mathDLLToolStripMenuItem;
     }
 }
 

@@ -9,7 +9,7 @@
 #define IMAGELENGTH 512
 
 //typedef void (*PFUNC)(void* imageArray, int iw, int ih, int il, void* disp, void* lut);
-typedef int (*PFUNC)(short* imageArray, int iw, int ih, int il, unsigned char* disp, unsigned char* lut);
+typedef int (*PFUNC)(short* imageArray, int iw, int ih, int il, int cnt, unsigned char* disp, unsigned char* lut);
 
 extern "C" {
 //	INTERPOLATOR_API void localinterpolator(void* imageArray, int iw, int ih, int il, void* disp, void* lut);
@@ -28,7 +28,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	m_pData = (short*)::LocalAlloc(LMEM_FIXED, IMAGEWIDTH*IMAGEHEIGHT*IMAGELENGTH*2);
 	m_lut = (BYTE*)::LocalAlloc(LMEM_FIXED, 2048);
-	m_interp = (unsigned char*) ::LocalAlloc(LMEM_FIXED, 300*300); //new BYTE[300*300];
+	m_interp = (unsigned char*) ::LocalAlloc(LMEM_FIXED, 300*300*512); //new BYTE[300*300];
 /*	void *tmp1, *tmp2, *tmp3;
 	fnalloc(tmp1, 512, 512, 512, tmp2, tmp3);
 	m_pData = (short*)tmp1;
@@ -41,7 +41,8 @@ int _tmain(int argc, _TCHAR* argv[])
 		for (unsigned j=0; j<IMAGEHEIGHT; ++j)
 			for (unsigned i=0; i<IMAGEWIDTH; ++i) {
 //				short v = rand()/((RAND_MAX+1)/(2048));
-				short v = i+j;//+k/2;
+				short v = i+j+k*2;
+				if (v>2047) v=2047;
 				*p = v;
 				++p;
 			}
@@ -101,7 +102,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		delta = now.QuadPart - m_tmr.QuadPart;
 
 		::QueryPerformanceCounter(&m_tmr);
-		int time = pfunc(m_pData, IMAGEWIDTH, IMAGEHEIGHT, i, m_interp, m_lut);
+		int time = pfunc(m_pData, IMAGEWIDTH, IMAGEHEIGHT, 0, i, m_interp, m_lut);
 		//fninterpolator(m_pData, IMAGEWIDTH, IMAGEHEIGHT, i, m_interp, m_lut);
 		QueryPerformanceCounter(&now);
 
@@ -131,8 +132,8 @@ void localinterpolator(short* imageArray, int iw, int ih, int il, unsigned char*
 	short* hi;
 	unsigned char v = 0;
 	int l = 0;
-	do {
 	unsigned char* pv = (unsigned char*)disp;
+	do {
 	for (int j=0; j<h; ++j) {
 		short* p0 = (short*)imageArray+iw*ih*l;
 		double* mid = interp;

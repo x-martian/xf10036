@@ -22,8 +22,8 @@ INTERPOLATOR_API void fnalloc(void*& imageArray, int iw, int ih, int il, void*& 
 
 // This is an example of an exported function.
 //INTERPOLATOR_API void fninterpolator(void* imageArray, int iw, int ih, int il, void* disp, void* lut)
-INTERPOLATOR_API int fninterpolator(short* imageArray, int iw, int ih, int il, unsigned char* disp, unsigned char* lut)
-{
+INTERPOLATOR_API int fninterpolator(short* imageArray, int iw, int ih, int il, int cnt, unsigned char* disp, unsigned char* lut)
+{/*
 	LARGE_INTEGER m_tmr, now, freq;
 	::QueryPerformanceCounter(&m_tmr);
 	::QueryPerformanceCounter(&now);
@@ -35,59 +35,61 @@ INTERPOLATOR_API int fninterpolator(short* imageArray, int iw, int ih, int il, u
 	delta = now.QuadPart - m_tmr.QuadPart;
 
 	::QueryPerformanceCounter(&m_tmr);
-
+*/
 	int w = 300;
 	int h = 300;
+    int ie = il + cnt;
 	double* interp = new double[iw+1];
 	// set value at each pixel, use linear interpolation
-	short* lo;
-	short* hi;
-	BYTE v = 0;
-	int l = 0;
-	do {
-//	BYTE* pv = (BYTE*)disp;
-	BYTE* pv = disp;
-	for (int j=0; j<h; ++j) {
-//		short* p0 = (short*)imageArray+iw*ih*l;
-		short* p0 = imageArray+iw*ih*l;
-		double* mid = interp;
-		double x = double((2*j+1)*ih-h)/double(2*h);
-		if (x>0.0) {
-			int index = (int)x;
-			x -= index;
-			lo = p0+index*iw;
-			hi = lo+iw;
-		} else {
-			x += 1.0;
-			hi = p0;
-			if (hi>imageArray)
-				lo = hi - iw;
-			else
-//				lo = (short*)imageArray + iw*(ih*il);
-				lo = imageArray + iw*(ih*il);
-		}
-		double y = 1.0-x;
-		for (int m=0; m<iw; ++m) {
-			*mid = *lo*y+*hi*x;
-			++mid; ++lo; ++hi;
-		}
-		*mid = *interp;	// repeat the first point at the end
-		for (int i=0; i<w; ++i) {
-			x = double((2*i+1)*iw-w)/double(2*w);
-			if (x>0.0)
-			{
-				int index = (int)x;
-				x -= index;
-				double s = *(interp+index)*(1-x)+*(interp+index+1)*x;
-//				v = *((BYTE*)lut+(int)s);
-				v = *(lut+(int)s);
-				*pv = v;
-				++pv;
-			}
-		}
-	}
-	} while (++l <= il);
+    BYTE* pv = disp + 300*300*il;
+    do
+    {
+        short* p0 = imageArray + iw * ih * il;
+        for (int j = 0; j < h; ++j)
+        {
+            short* lo;
+            short* hi;
+            double x = (double)((2 * j + 1) * ih - h) / (double)(2 * h);
+            if (x > 0.0)
+            {
+                int index = (int)x;
+                x -= index;
+                lo = p0 + index * iw;
+                hi = lo + iw;
+            }
+            else
+            {
+                x += 1.0;
+                hi = p0;
+                if (hi > imageArray)
+                    lo = hi - iw;
+                else
+                    lo = imageArray + iw * (ih * ie);
+            }
+            double y = 1.0 - x;
+            double* mid = (double*)interp;
+            for (int m = 0; m < iw; ++m)
+            {
+                *mid = *lo * y + *hi * x;
+                ++mid; ++lo; ++hi;
+            }
+            *mid = *interp;
 
+            for (int i = 0; i < w; ++i)
+            {
+                x = (double)((2 * i + 1) * iw - w) / (double)(2 * w);
+                if (x > 0.0)
+                {
+                    int index = (int)x;
+                    x -= index;
+                    double s = *(interp + index) * (1 - x) + *(interp + index + 1) * x;
+                    *pv = *(lut + (int)s);
+                    ++pv;
+                }
+            }
+        }   // outer fixed
+    } while (++il < ie);
+/*
 	::QueryPerformanceCounter(&now);
 
 	LONGLONG span = now.QuadPart - m_tmr.QuadPart - delta;
@@ -100,6 +102,7 @@ INTERPOLATOR_API int fninterpolator(short* imageArray, int iw, int ih, int il, u
 	span = span*1000/fact2;
 
 	return (int)span;
+	*/return 0;
 }
 
 // This is the constructor of a class that has been exported.

@@ -21,6 +21,6 @@ extern INTERPOLATOR_API int ninterpolator;
 
 extern "C" {
 //INTERPOLATOR_API void fninterpolator(void* imageArray, int iw, int ih, int il, void* disp, void* lut);
-INTERPOLATOR_API int fninterpolator(short* imageArray, int iw, int ih, int il, unsigned char* disp, unsigned char* lut);
+INTERPOLATOR_API int fninterpolator(short* imageArray, int iw, int ih, int il, int cnt, unsigned char* disp, unsigned char* lut);
 INTERPOLATOR_API void fnalloc(void*& imageArray, int iw, int ih, int il, void*& disp, void*&lut);
 }

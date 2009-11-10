@@ -322,7 +322,7 @@ namespace Render2DCS
                 QueryPerformanceCounter(out tmr);
                 unsafe
                 {
-                    interpolate((short*)(imageArray), IMAGEWIDTH, IMAGEHEIGHT, 0, length, (byte*)(dispArray), (byte*)(lut));
+                    fninterpolator(imageArray, IMAGEWIDTH, IMAGEHEIGHT, 0, length, dispArray, lut);
                 }
                 QueryPerformanceCounter(out now);
                 Int64 span = now - tmr - delta;

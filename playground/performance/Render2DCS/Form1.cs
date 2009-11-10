@@ -37,8 +37,8 @@ namespace Render2DCS
         {
             InitializeComponent();
 
-            fnalloc(out imageArray, IMAGEWIDTH, IMAGEHEIGHT, IMAGELENGTH, out dispArray, out lut);
-            //imageArray = Marshal.AllocHGlobal((int)(IMAGEWIDTH * IMAGEHEIGHT * IMAGELENGTH*2)); // two byte integers
+            //fnalloc(out imageArray, IMAGEWIDTH, IMAGEHEIGHT, IMAGELENGTH, out dispArray, out lut);
+            imageArray = Marshal.AllocHGlobal((int)(IMAGEWIDTH * IMAGEHEIGHT * IMAGELENGTH*2)); // two byte integers
             short* tmp = (short*)imageArray;
             Random rand = new Random(1);
             for (int k = 0; k < IMAGELENGTH; ++k)
@@ -52,14 +52,14 @@ namespace Render2DCS
                         ++tmp;
                     }
 
-            //lut = Marshal.AllocHGlobal(2048);
+            lut = Marshal.AllocHGlobal(2048);
             Byte* pLut = (Byte*)lut;
             for (short b = 0; b < 2048; ++b)
             {
                 *pLut = (Byte)(b * 256 / 2048);
                 ++pLut;
             }
-            //dispArray = IntPtr.Zero;
+            dispArray = IntPtr.Zero;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -81,7 +81,7 @@ namespace Render2DCS
                 BitmapData bd = bm.LockBits(rect, ImageLockMode.WriteOnly, bm.PixelFormat);
                 IntPtr ptr = bd.Scan0;
                 Byte* p = (Byte*)(void*)ptr;
-                Byte* pv = (Byte*)dispArray + 300 * 300 * currentImage;
+                Byte* pv = (Byte*)dispArray; // +300 * 300 * currentImage;
                 for (int i = 0; i < 300 * 300; ++i)
                 {
                     Byte v = *pv++;
@@ -188,12 +188,12 @@ namespace Render2DCS
 				return;
 
 			bm = new Bitmap(ClientRectangle.Width, ClientRectangle.Height, CreateGraphics());
-            /*
+            
             if (dispArray != IntPtr.Zero)
                 Marshal.FreeHGlobal(dispArray);
             dispArray = Marshal.AllocHGlobal(ClientRectangle.Width * ClientRectangle.Height * 512);
             Marshal.WriteByte(dispArray, 300 * 300 * 512 - 1, 1);
-            */
+            
 			Invalidate();
         }
 
@@ -253,9 +253,9 @@ namespace Render2DCS
             int h = 300;
             int ie = il + cnt;
             double* interp = (double*)(Marshal.AllocHGlobal((iw + 1) * 8));
-            Byte* pv = (Byte*)disp + 300*300*il;
             do
             {
+                Byte* pv = (Byte*)disp;
                 short* p0 = imageArray + iw * ih * il;
                 for (int j = 0; j < h; ++j)
                 {

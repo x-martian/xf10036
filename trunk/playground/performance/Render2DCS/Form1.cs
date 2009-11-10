@@ -19,6 +19,8 @@ namespace Render2DCS
         static extern int QueryPerformanceFrequency(out Int64 frequency);
         [DllImport("interpolator.dll")]
         static extern int fninterpolator(IntPtr imageArray, int w, int h, int l, int cnt, IntPtr outImage, IntPtr lut);
+        [DllImport("interpolator.dll")]
+        static extern void fnalloc(out IntPtr imageArray, int w, int h, int l, out IntPtr outArray, out IntPtr lut);
 
         private IntPtr imageArray;
         private IntPtr lut;
@@ -35,7 +37,8 @@ namespace Render2DCS
         {
             InitializeComponent();
 
-            imageArray = Marshal.AllocHGlobal((int)(IMAGEWIDTH * IMAGEHEIGHT * IMAGELENGTH*2)); // two byte integers
+            fnalloc(out imageArray, IMAGEWIDTH, IMAGEHEIGHT, IMAGELENGTH, out dispArray, out lut);
+            //imageArray = Marshal.AllocHGlobal((int)(IMAGEWIDTH * IMAGEHEIGHT * IMAGELENGTH*2)); // two byte integers
             short* tmp = (short*)imageArray;
             Random rand = new Random(1);
             for (int k = 0; k < IMAGELENGTH; ++k)
@@ -49,14 +52,14 @@ namespace Render2DCS
                         ++tmp;
                     }
 
-            lut = Marshal.AllocHGlobal(2048);
+            //lut = Marshal.AllocHGlobal(2048);
             Byte* pLut = (Byte*)lut;
             for (short b = 0; b < 2048; ++b)
             {
                 *pLut = (Byte)(b * 256 / 2048);
                 ++pLut;
             }
-            dispArray = IntPtr.Zero;
+            //dispArray = IntPtr.Zero;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -185,12 +188,12 @@ namespace Render2DCS
 				return;
 
 			bm = new Bitmap(ClientRectangle.Width, ClientRectangle.Height, CreateGraphics());
-
+            /*
             if (dispArray != IntPtr.Zero)
                 Marshal.FreeHGlobal(dispArray);
             dispArray = Marshal.AllocHGlobal(ClientRectangle.Width * ClientRectangle.Height * 512);
             Marshal.WriteByte(dispArray, 300 * 300 * 512 - 1, 1);
-
+            */
 			Invalidate();
         }
 

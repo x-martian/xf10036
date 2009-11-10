@@ -15,7 +15,7 @@ INTERPOLATOR_API void fnalloc(void*& imageArray, int iw, int ih, int il, void*& 
 	disp = (void*)::HeapAlloc(LMEM_FIXED, 300*300); //new BYTE[300*300];
 */	imageArray = (void*)::HeapAlloc(GetProcessHeap(), 0, iw*ih*il*2);
 	lut = (void*)::HeapAlloc(GetProcessHeap(), 0, 2048);
-	disp = (void*)::HeapAlloc(GetProcessHeap(), 0, 300*300); //new BYTE[300*300];
+	disp = (void*)::HeapAlloc(GetProcessHeap(), 0, 300*300*512); //new BYTE[300*300];
 
 }
 

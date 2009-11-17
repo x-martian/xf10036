@@ -1,0 +1,20 @@
+using System; // Uri, UriKind, EventArgs, Console
+using System.Windows; // Application, StartupEventArgs
+using System.Windows.Navigation; // NavigationWindow
+using System.Windows.Threading; // DispatcherUnhandledExceptionEventArgs
+
+namespace ExpenseIt
+{
+    public partial class App : Application
+    {        
+        void App_Startup(object sender, StartupEventArgs e)
+        {
+            // Open a window
+	    MainWindow = new NavigationWindow();
+	    MainWindow.Show();
+
+	    // Navigate to the home page
+            ((NavigationWindow)this.MainWindow).Navigate(new Uri("HomePage.xaml", UriKind.Relative));
+        }
+    }
+}

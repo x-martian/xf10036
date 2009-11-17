@@ -16,5 +16,14 @@ namespace ExpenseIt
 	    // Navigate to the home page
             ((NavigationWindow)this.MainWindow).Navigate(new Uri("HomePage.xaml", UriKind.Relative));
         }
+
+        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show(e.Exception.Message); //, MessageBoxButton.YesNo, MessageBoxImage.Error);
+	    this.Shutdown(-1);
+
+            // Prevent default unhandled exception processing
+            e.Handled = true;
+        }
     }
 }

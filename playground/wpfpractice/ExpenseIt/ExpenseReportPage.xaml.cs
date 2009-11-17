@@ -6,9 +6,12 @@ namespace ExpenseIt
 {
     public partial class ExpenseReportPage : Page
     {
-        public ExpenseReportPage()
+        public ExpenseReportPage(object data)
         {
             InitializeComponent();
+
+            // Bind to expense report data.
+            this.DataContext = data;
         }
     }
 }

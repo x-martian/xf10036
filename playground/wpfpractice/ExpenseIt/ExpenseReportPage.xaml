@@ -24,6 +24,17 @@
 
     <Grid Margin="10" Grid.Column="1" Grid.Row="1">
 
+      <Grid.Resources>
+        <!-- Reason item template -->
+        <DataTemplate x:Key="typeItemTemplate">
+          <Label Content="{Binding XPath=@ExpenseType}"/>
+        </DataTemplate>
+        <!-- Amount item template -->
+        <DataTemplate x:Key="amountItemTemplate">
+          <Label Content="{Binding XPath=@ExpenseAmount}"/>
+        </DataTemplate>
+      </Grid.Resources>
+
       <Grid.ColumnDefinitions>
         <ColumnDefinition />
         <ColumnDefinition />
@@ -37,16 +48,15 @@
       <!-- Name -->
       <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Orientation="Horizontal">
         <Label Style="{StaticResource labelStyle}">Name:</Label>
-        <Label Style="{StaticResource labelStyle}"></Label>
+        <Label Content="{Binding XPath=@Name}" Style="{StaticResource labelStyle}"/>
       </StackPanel>
 
       <!-- Department -->
       <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
         Orientation="Horizontal">
         <Label Style="{StaticResource labelStyle}">Department:</Label>
-        <Label Style="{StaticResource labelStyle}"></Label>
+        <Label Content="{Binding XPath=@Department}" Style="{StaticResource labelStyle}"/>
       </StackPanel>
-
       <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
 
         <Grid.ColumnDefinitions>
@@ -64,13 +74,15 @@
         <Border Grid.Column="0" Grid.Row="0" Style="{StaticResource listHeaderStyle}">
           <Label Style="{StaticResource listHeaderTextStyle}">Expense Type</Label>
         </Border>
-        <ListBox Grid.Column="0" Grid.Row="1" />
+        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding XPath=Expense}" 
+          ItemTemplate="{StaticResource typeItemTemplate}" />
 
         <!-- Amount list -->
         <Border Grid.Column="2" Grid.Row="0" Style="{StaticResource listHeaderStyle}">
           <Label Style="{StaticResource listHeaderTextStyle}">Amount</Label>
         </Border>
-        <ListBox Grid.Column="2" Grid.Row="1" />
+        <ListBox Grid.Column="2" Grid.Row="1" ItemsSource="{Binding XPath=Expense}" 
+          ItemTemplate="{StaticResource amountItemTemplate}" />
 
       </Grid>
 

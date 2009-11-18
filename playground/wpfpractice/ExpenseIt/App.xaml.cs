@@ -10,8 +10,8 @@ namespace ExpenseIt
         void App_Startup(object sender, StartupEventArgs e)
         {
             // Open a window
-	    MainWindow = new NavigationWindow();
-	    MainWindow.Show();
+	    NavigationWindow window = new NavigationWindow();
+	    window.Show();
 
 	    // Navigate to the home page
             ((NavigationWindow)this.MainWindow).Navigate(new Uri("HomePage.xaml", UriKind.Relative));

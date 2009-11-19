@@ -1,17 +1,14 @@
 ﻿//<SnippetContractCode>
-using System.AddIn.Contract; // IContract, INativeHandleContract
+using System.AddIn.Contract; // INativeHandleContract
 using System.AddIn.Pipeline; // AddInContractAttribute
 
 namespace Contracts
 {
     /// <summary>
-    /// Defines the services that an add-in will provide to a host application
+    /// Defines the services that an add-in will provide to a host application.
+    /// In this case, the add-in is a UI.
     /// </summary>
     [AddInContract]
-    public interface IWPFAddInContract : IContract
-    {
-        // Return a UI to the host application
-        INativeHandleContract GetAddInUI();
-    }
+    public interface IWPFAddInContract : INativeHandleContract {}
 }
 //</SnippetContractCode>

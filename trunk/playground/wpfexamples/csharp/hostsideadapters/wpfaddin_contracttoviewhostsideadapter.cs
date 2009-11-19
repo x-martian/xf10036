@@ -27,15 +27,24 @@ namespace HostSideAdapters
             // host application uses the add-in
             this.wpfAddInContractHandle = new ContractHandle(wpfAddInContract);
 
-            // Convert the INativeHandleContract for the add-in UI that was passed 
-            // from the add-in side of the isolation boundary to a FrameworkElement
-            string aqn = typeof(INativeHandleContract).AssemblyQualifiedName;
-            INativeHandleContract inhc = (INativeHandleContract)wpfAddInContract.QueryContract(aqn);
+            // Convert the INativeHandleContract that was passed from the add-in side
+            // of the isolation boundary to a FrameworkElement
+            string name = typeof(INativeHandleContract).AssemblyQualifiedName;
+            INativeHandleContract inhc = (INativeHandleContract)wpfAddInContract.QueryContract(name);
             FrameworkElement fe = (FrameworkElement)FrameworkElementAdapters.ContractToViewAdapter(inhc);
 
             // Add FrameworkElement (which displays the UI provided by the add-in) as
             // content of the view (a UserControl)
             this.Content = fe;
+        }
+
+        public override FrameworkElement GetAddInStatusUI()
+        {
+            // Convert the INativeHandleContract that was passed from the add-in side
+            // of the isolation boundary to a FrameworkElement
+            INativeHandleContract inhc = this.wpfAddInContract.GetAddInStatusUI();
+            FrameworkElement fe = FrameworkElementAdapters.ContractToViewAdapter(inhc);
+            return fe;
         }
     }
 }

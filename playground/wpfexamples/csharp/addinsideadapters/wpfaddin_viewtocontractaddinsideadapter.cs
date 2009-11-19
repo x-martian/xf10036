@@ -2,7 +2,7 @@
 using System; // IntPtr
 using System.AddIn.Contract; // INativeHandleContract
 using System.AddIn.Pipeline; // AddInAdapterAttribute, FrameworkElementAdapters, ContractBase
-using System.Security.Permissions;
+using System.Windows; // FrameworkElement
 
 using AddInViews; // WPFAddInView
 using Contracts; // IWPFAddInContract
@@ -22,6 +22,15 @@ namespace AddInSideAdapters
             // Adapt the add-in view of the contract (WPFAddInView) 
             // to the contract (IWPFAddInContract)
             this.wpfAddInView = wpfAddInView;
+        }
+
+        public INativeHandleContract GetAddInStatusUI()
+        {
+            // Convert the FrameworkElement from the add-in to an INativeHandleContract 
+            // that will be passed across the isolation boundary to the host application.
+            FrameworkElement fe = this.wpfAddInView.GetAddInStatusUI();
+            INativeHandleContract inhc = FrameworkElementAdapters.ViewToContractAdapter(fe);
+            return inhc;
         }
 
         /// <summary>
@@ -54,7 +63,6 @@ namespace AddInSideAdapters
         ///       (eg AddInSecurityLevel.Internet), you can safely return a window
         ///       handle by overriding ContractBase.QueryContract, as shown above.
         /// </summary>
-        [SecurityPermissionAttribute(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public IntPtr GetHandle()
         {
             return FrameworkElementAdapters.ViewToContractAdapter(this.wpfAddInView).GetHandle();

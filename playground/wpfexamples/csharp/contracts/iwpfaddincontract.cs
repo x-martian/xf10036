@@ -9,6 +9,10 @@ namespace Contracts
     /// In this case, the add-in is a UI.
     /// </summary>
     [AddInContract]
-    public interface IWPFAddInContract : INativeHandleContract {}
+    public interface IWPFAddInContract : INativeHandleContract
+    {
+        // Return a UI to the host application
+        INativeHandleContract GetAddInStatusUI();
+    }
 }
 //</SnippetContractCode>

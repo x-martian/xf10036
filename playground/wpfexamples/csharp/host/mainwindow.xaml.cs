@@ -1,7 +1,8 @@
 ﻿using System; // Environment
 using System.Collections.ObjectModel; // Collection<T>
+using System.AddIn.Contract; // INativeHandleContract
 using System.AddIn.Hosting; // AddInStore, AddInToken, AddInSecurityLevel, AddInController
-using System.Windows; // Window, FrameworkElement, RoutedEventArgs
+using System.Windows; // Window, RoutedEventArgs
 
 using HostViews; // IWPFAddInHostView
 
@@ -9,7 +10,7 @@ namespace Host
 {
     public partial class MainWindow : Window
     {
-        IWPFAddInHostView wpfAddInHostView;
+        WPFAddInHostView wpfAddInHostView;
 
         public MainWindow()
         {
@@ -37,13 +38,12 @@ namespace Host
             }
 
             // Activate add-in with Internet zone security isolation
-            Collection<AddInToken> addInTokens = AddInStore.FindAddIns(typeof(IWPFAddInHostView), appPath);
+            Collection<AddInToken> addInTokens = AddInStore.FindAddIns(typeof(WPFAddInHostView), appPath);
             AddInToken wpfAddInToken = addInTokens[0];
-            this.wpfAddInHostView = wpfAddInToken.Activate<IWPFAddInHostView>(AddInSecurityLevel.Internet);
+            this.wpfAddInHostView = wpfAddInToken.Activate<WPFAddInHostView>(AddInSecurityLevel.Internet);
 
-            // Get and display add-in UI
-            FrameworkElement addInUI = this.wpfAddInHostView.GetAddInUI();
-            this.addInUIHostGrid.Children.Add(addInUI);
+            // Display add-in UI
+            this.addInUIHostGrid.Children.Add(this.wpfAddInHostView);
         }
 
         void unloadAddInUIMenuItem_Click(object sender, RoutedEventArgs e)

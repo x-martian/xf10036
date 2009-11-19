@@ -1,10 +1,16 @@
-﻿//<SnippetAddInUICodeBehind>
+﻿//<SnippetAddInCodeBehind>
+using System.AddIn; // AddInAttribute
 using System.Windows; // MessageBox, RoutedEventArgs
-using System.Windows.Controls; // UserControl
+
+using AddInViews; // WPFAddInView
 
 namespace WPFAddIn1
 {
-    public partial class AddInUI : UserControl
+    /// <summary>
+    /// Implements the add-in by deriving from WPFAddInView
+    /// </summary>
+    [AddIn("WPF Add-In 1")]
+    public partial class AddInUI : WPFAddInView
     {
         public AddInUI()
         {
@@ -17,4 +23,4 @@ namespace WPFAddIn1
         }
     }
 }
-//</SnippetAddInUICodeBehind>
+//</SnippetAddInCodeBehind>

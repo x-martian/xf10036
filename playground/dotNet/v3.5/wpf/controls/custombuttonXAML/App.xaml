@@ -5,6 +5,18 @@
 	StartupUri="MainWindow.xaml">
     <Application.Resources>
         
+        <GradientStopCollection x:Key="MyGlassGradientStopsResource">
+            <GradientStop Color="WhiteSmoke" Offset="0.2" />
+            <GradientStop Color="Transparent" Offset="0.4" />
+            <GradientStop Color="WhiteSmoke" Offset="0.5" />
+            <GradientStop Color="Transparent" Offset="0.75" />
+            <GradientStop Color="WhiteSmoke" Offset="0.9" />
+            <GradientStop Color="Transparent" Offset="1.0" />
+        </GradientStopCollection>
+        
+        <LinearGradientBrush x:Key="MyGlassBrushResource" StartPoint="0,0" EndPoint="1,1" Opacity="0.75"
+                             GradientStops="{StaticResource MyGlassGradientStopsResource}" />
+        
         <LinearGradientBrush x:Key="GrayBlueGradientBrush" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="DarkGray" Offset="0" />
             <GradientStop Color="#CCCCFF" Offset="0.5" />
@@ -15,6 +27,44 @@
             <Setter Property="Background" Value="{StaticResource GrayBlueGradientBrush}" />
             <Setter Property="Width" Value="90" />
             <Setter Property="Margin" Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" ClipToBounds="True">
+                            
+                            <!-- Outer Rectangle with rounded corners -->
+                            <Rectangle x:Name="outerRectangle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                       Stroke="{TemplateBinding Background}" RadiusX="20" RadiusY="20" StrokeThickness="5"
+                                       Fill="Transparent" />
+                            
+                            <!-- Inner Rectangle with rounded corners -->
+                            <Rectangle x:Name="innerRectangle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                       Stroke="Transparent" RadiusX="20" RadiusY="20" StrokeThickness="20"
+                                       Fill="{TemplateBinding Background}" />
+                            
+                            <!-- Glass Rectangle -->
+                            <Rectangle x:Name="glassCube" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                       StrokeThickness="2" RadiusX="10" RadiusY="10" Opacity="0"
+                                       Fill="{StaticResource MyGlassBrushResource}" RenderTransformOrigin="0.5,0.5">
+                                <Rectangle.Stroke>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStop Offset="0.0" Color="LightBlue" />
+                                            <GradientStop Offset="1.0" Color="Gray" />
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </Rectangle.Stroke>
+                            </Rectangle>
+                            
+                            <!-- Present Content (text) of the button -->
+                            <DockPanel Name="myContentPresenterDockPanel">
+                                <ContentPresenter x:Name="myContentPresenter" Margin="20" Content="{TemplateBinding Content}"
+                                                  TextBlock.Foreground="Black" />
+                            </DockPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         
     </Application.Resources>

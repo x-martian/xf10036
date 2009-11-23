@@ -29,7 +29,7 @@
             <Setter Property="Margin" Value="10" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="{x:Type Button}">
                         <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" ClipToBounds="True">
                             
                             <!-- Outer Rectangle with rounded corners -->
@@ -54,6 +54,20 @@
                                         </LinearGradientBrush.GradientStops>
                                     </LinearGradientBrush>
                                 </Rectangle.Stroke>
+                                
+                                <!-- These transforms have no effect as they are declared here.  The reason the transforms are included is 
+                                     to be targets for animation (see later) -->
+                                <Rectangle.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <RotateTransform />
+                                    </TransformGroup>
+                                </Rectangle.RenderTransform>
+                                
+                                <!-- A BevelBitmapEffect is applied to give the button a "Beveled" look -->
+                                <Rectangle.BitmapEffect>
+                                    <BevelBitmapEffect />
+                                </Rectangle.BitmapEffect>
                             </Rectangle>
                             
                             <!-- Present Content (text) of the button -->
@@ -62,6 +76,24 @@
                                                   TextBlock.Foreground="Black" />
                             </DockPanel>
                         </Grid>
+                        
+                        <ControlTemplate.Triggers>
+                            <!-- Set property when mouse pointer is over the button -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <!-- Below are three property settings that occur when the condition is met (user mouses over button) -->
+                                <!-- Change the color of the outer rectangle -->
+                                <Setter Property="Rectangle.Stroke" TargetName="outerRectangle"
+                                        Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                <!-- Set the glass opacity to 1, therefore, the glass "appears" -->
+                                <Setter Property="Rectangle.Opacity" Value="1" TargetName="glassCube" />
+                                <!-- Make the text slightly blurry as though you were looking at it through blurry glass -->
+                                <Setter Property="ContentPresenter.BitmapEffect" TargetName="myContentPresenter">
+                                    <Setter.Value>
+                                        <BlurBitmapEffect Radius="2" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

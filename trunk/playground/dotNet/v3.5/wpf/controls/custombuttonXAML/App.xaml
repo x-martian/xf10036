@@ -93,6 +93,55 @@
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
+                            
+                            <!-- Set property when button has focus -->
+                            <Trigger Property="IsFocused" Value="true">
+                                <Setter Property="Rectangle.Opacity" Value="1" TargetName="glassCube" />
+                                <Setter Property="Rectangle.Stroke" TargetName="outerRectangle"
+                                        Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                <Setter Property="Rectangle.Opacity" Value="1" TargetName="glassCube" />
+                            </Trigger>
+                            
+                            <!-- Animation that start when mouse enters and leaves button -->
+                            <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard Name="mouseEnterBeginStoryboard">
+                                        <Storyboard>
+
+                                            <!-- This animation makes the glass rectangle shrink in the X direction -->
+                                            <DoubleAnimation Storyboard.TargetName="glassCube"
+                                                             Storyboard.TargetProperty="(Rectangle.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                             By="-0.1" Duration="0:0:0.5" />
+
+                                            <!-- This animation makes the glass rectangle shrink in the Y direction -->
+                                            <DoubleAnimation Storyboard.TargetName="glassCube"
+                                                             Storyboard.TargetProperty="(Rectangle.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                             By="-0.1" Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                <EventTrigger.Actions>
+
+                                    <!-- Stopping the storyboard sets all animated properties back to default -->
+                                    <StopStoryboard BeginStoryboardName="mouseEnterBeginStoryboard" />
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+
+                            <!-- Animation fires when button is clicked, causing glass to spin.  -->
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="glassCube"
+                                                             Storyboard.TargetProperty="(Rectangle.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)"
+                                                             By="360" Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>

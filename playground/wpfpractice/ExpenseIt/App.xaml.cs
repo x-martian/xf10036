@@ -14,7 +14,7 @@ namespace ExpenseIt
 	    MainWindow.Show();
 
 	    // Navigate to the home page
-            ((NavigationWindow)this.MainWindow).Navigate(new Uri("BorderThicknessAnimation.xaml", UriKind.Relative));
+            ((NavigationWindow)this.MainWindow).Navigate(new Uri("3DAnimation.xaml", UriKind.Relative));
         }
 
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

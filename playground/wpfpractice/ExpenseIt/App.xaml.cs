@@ -11,10 +11,10 @@ namespace ExpenseIt
         {
             // Open a window
 	    NavigationWindow window = new NavigationWindow();
-	    window.Show();
+	    MainWindow.Show();
 
 	    // Navigate to the home page
-            ((NavigationWindow)this.MainWindow).Navigate(new Uri("HomePage.xaml", UriKind.Relative));
+            ((NavigationWindow)this.MainWindow).Navigate(new Uri("BorderThicknessAnimation.xaml", UriKind.Relative));
         }
 
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

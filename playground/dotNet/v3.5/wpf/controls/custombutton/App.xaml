@@ -9,6 +9,16 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type Button}">
+						<ControlTemplate.Resources>
+							<Storyboard x:Key="OnMouseEnter1">
+								<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="glassCube" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+									<SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+									<SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.9"/>
+									<SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0.9"/>
+								</DoubleAnimationUsingKeyFrames>
+							</Storyboard>
+							<Storyboard x:Key="OnClick1"/>
+						</ControlTemplate.Resources>
 						<Grid>
 							<Rectangle x:Name="outerRectangle" Stroke="{TemplateBinding Background}" RadiusX="20" RadiusY="20" StrokeThickness="5">
 								<Rectangle.Fill>
@@ -17,7 +27,15 @@
 							</Rectangle>
 							<Rectangle x:Name="innerRectangle" Stroke="Transparent" StrokeThickness="20" RadiusX="20" RadiusY="20" Margin="5,0,5.125,0" Fill="{TemplateBinding Background}"/>
 							<ContentPresenter x:Name="myContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True"/>
-							<Rectangle x:Name="glassCube" Stroke="{TemplateBinding Background}" StrokeThickness="2" RadiusX="10" RadiusY="10" Opacity="0">
+							<Rectangle x:Name="glassCube" Stroke="{TemplateBinding Background}" StrokeThickness="2" RadiusX="10" RadiusY="10" Opacity="0" RenderTransformOrigin="0.5,0.5">
+								<Rectangle.RenderTransform>
+									<TransformGroup>
+										<ScaleTransform/>
+										<SkewTransform/>
+										<RotateTransform/>
+										<TranslateTransform/>
+									</TransformGroup>
+								</Rectangle.RenderTransform>
 								<Rectangle.Fill>
 									<LinearGradientBrush MappingMode="RelativeToBoundingBox" EndPoint="0.5,1" StartPoint="0.5,0">
 										<LinearGradientBrush.RelativeTransform>
@@ -40,9 +58,28 @@
 							</Rectangle>
 						</Grid>
 						<ControlTemplate.Triggers>
-							<Trigger Property="IsFocused" Value="True"/>
+							<EventTrigger RoutedEvent="FrameworkElement.Loaded"/>
+							<EventTrigger RoutedEvent="ButtonBase.Click">
+								<StopStoryboard BeginStoryboardName="OnMouseEnter1_BeginStoryboard1"/>
+								<BeginStoryboard x:Name="OnMouseEnter1_BeginStoryboard" Storyboard="{StaticResource OnClick1}"/>
+								<BeginStoryboard x:Name="OnMouseEnter1_BeginStoryboard1" Storyboard="{StaticResource OnMouseEnter1}"/>
+							</EventTrigger>
+							<Trigger Property="IsCancel" Value="False"/>
+							<Trigger Property="IsFocused" Value="True">
+								<Setter Property="Opacity" TargetName="glassCube" Value="1"/>
+								<Setter Property="Stroke" TargetName="outerRectangle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+							</Trigger>
+							<EventTrigger RoutedEvent="Mouse.MouseEnter"/>
 							<Trigger Property="IsDefaulted" Value="True"/>
-							<Trigger Property="IsMouseOver" Value="True"/>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="Opacity" TargetName="glassCube" Value="1"/>
+								<Setter Property="Stroke" TargetName="outerRectangle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+								<Setter Property="Effect" TargetName="myContentPresenter">
+									<Setter.Value>
+										<BlurEffect/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
 							<Trigger Property="IsPressed" Value="True"/>
 							<Trigger Property="IsEnabled" Value="False"/>
 						</ControlTemplate.Triggers>

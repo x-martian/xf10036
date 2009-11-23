@@ -10,8 +10,34 @@
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type Button}">
 						<Grid>
-							<Rectangle Fill="White" Stroke="Black" RadiusX="20" RadiusY="20"/>
-							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True"/>
+							<Rectangle x:Name="outerRectangle" Stroke="{TemplateBinding Background}" RadiusX="20" RadiusY="20" StrokeThickness="5">
+								<Rectangle.Fill>
+									<SolidColorBrush/>
+								</Rectangle.Fill>
+							</Rectangle>
+							<Rectangle x:Name="innerRectangle" Stroke="Transparent" StrokeThickness="20" RadiusX="20" RadiusY="20" Margin="5,0,5.125,0" Fill="{TemplateBinding Background}"/>
+							<ContentPresenter x:Name="myContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True"/>
+							<Rectangle x:Name="glassCube" Stroke="{TemplateBinding Background}" StrokeThickness="2" RadiusX="10" RadiusY="10" Opacity="0">
+								<Rectangle.Fill>
+									<LinearGradientBrush MappingMode="RelativeToBoundingBox" EndPoint="0.5,1" StartPoint="0.5,0">
+										<LinearGradientBrush.RelativeTransform>
+											<TransformGroup>
+												<ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1" ScaleY="1"/>
+												<SkewTransform AngleX="0" AngleY="0" CenterX="0.5" CenterY="0.5"/>
+												<RotateTransform Angle="-89.711" CenterX="0.5" CenterY="0.5"/>
+												<TranslateTransform/>
+											</TransformGroup>
+										</LinearGradientBrush.RelativeTransform>
+										<GradientStop Color="#BFFFFFFF"/>
+										<GradientStop Color="#BFFFFFFF" Offset="0.414"/>
+										<GradientStop Offset="0.608"/>
+										<GradientStop Offset="0.207"/>
+										<GradientStop Color="#BFFFFFFF" Offset="0.991"/>
+										<GradientStop Color="#BFFFFFFF" Offset="0.81"/>
+										<GradientStop Offset="1"/>
+									</LinearGradientBrush>
+								</Rectangle.Fill>
+							</Rectangle>
 						</Grid>
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsFocused" Value="True"/>

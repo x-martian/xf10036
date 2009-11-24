@@ -61,9 +61,9 @@
                   <!-- The Transform specifies how to transform the 3D object. The properties of the
                         Rotation object are animated causing the 3D object to rotate and "wobble" (see Storyboard below).-->
                   <GeometryModel3D.Transform>
-                    <RotateTransform3D>
+                    <RotateTransform3D x:Name="myRotateTransform3D" >
                       <RotateTransform3D.Rotation>
-                        <AxisAngleRotation3D x:Name="myAngleRotation" Axis="0,3,0" Angle="40" />
+                        <AxisAngleRotation3D Axis="0,3,0" Angle="40" />
                       </RotateTransform3D.Rotation>
                     </RotateTransform3D>
                   </GeometryModel3D.Transform>
@@ -78,19 +78,20 @@
               <BeginStoryboard>
                 <Storyboard>
 
-                  <!-- This animation animates the Angle property of the AxisAngleRotation3D
-                       making the 3D object rotate from -60 degrees to 60 degrees. -->
-                  <DoubleAnimation 
-                   Storyboard.TargetName="myAngleRotation" 
-                   Storyboard.TargetProperty="Angle" 
-                   From="-60" To="60" Duration="0:0:4" AutoReverse="True"  RepeatBehavior="Forever"/>
-
-                  <!-- This animation animates the Axis property of the AxisAngleRotation3D
-                       making the 3D wobble as it rotates. -->
-                  <Vector3DAnimation 
-                   Storyboard.TargetName="myAngleRotation" 
-                   Storyboard.TargetProperty="Axis" 
-                   From="0,3,0" To="1,0,1" Duration="0:0:4" AutoReverse="True"  RepeatBehavior="Forever"/>
+                  <!-- This animation animates the Rotation property of the RotateTransform
+                       causing the 3D shape to rotate and wobble as the rotation angle and 
+                       axis are animated. -->
+                  <Rotation3DAnimation
+                   Storyboard.TargetName="myRotateTransform3D" 
+                   Storyboard.TargetProperty="Rotation" 
+                   AutoReverse="True"  RepeatBehavior="Forever">
+                    <Rotation3DAnimation.From>
+                      <AxisAngleRotation3D Axis="0,3,0" Angle="-60" />
+                    </Rotation3DAnimation.From>
+                    <Rotation3DAnimation.To>
+                      <AxisAngleRotation3D Axis="1,0,1" Angle="60" />
+                    </Rotation3DAnimation.To>
+                  </Rotation3DAnimation>
 
                 </Storyboard>
               </BeginStoryboard>
@@ -98,7 +99,6 @@
           </Viewport3D.Triggers>
         </Viewport3D>
       </Canvas>
-
     </Viewbox>
   </DockPanel>
 </Page>

@@ -9,17 +9,22 @@
 
           <!-- Defines the camera used to view the 3D object. -->
           <Viewport3D.Camera>
-            <PerspectiveCamera x:Name="myPerspectiveCamera" Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" />
+            <PerspectiveCamera Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" />
           </Viewport3D.Camera>
 
           <!-- The ModelVisual3D children contain the 3D models -->
           <Viewport3D.Children>
 
-            <!-- This ModelVisual3D defines the lights cast in the scene. Without light, the
+            <!-- Two ModelVisual3D define the lights cast in the scene. Without light, the
                  3D object cannot be seen. Also, the direction of the lights affect shadowing. -->
             <ModelVisual3D>
               <ModelVisual3D.Content>
                 <DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" />
+              </ModelVisual3D.Content>
+            </ModelVisual3D>
+            <ModelVisual3D>
+              <ModelVisual3D.Content>
+                <DirectionalLight Color="#FFFFFF" Direction="0.612372,-0.5,-0.612372" />
               </ModelVisual3D.Content>
             </ModelVisual3D>
             <ModelVisual3D>
@@ -52,12 +57,13 @@
                       </DiffuseMaterial>
                     </MaterialGroup>
                   </GeometryModel3D.Material>
-                  <!-- The Transform specifies how to transform the 3D object. The rotation
-                       is animated using the Storyboard below. -->
+
+                  <!-- The Transform specifies how to transform the 3D object. The properties of the
+                        Rotation object are animated causing the 3D object to rotate and "wobble" (see Storyboard below).-->
                   <GeometryModel3D.Transform>
-                    <RotateTransform3D>
+                    <RotateTransform3D x:Name="myRotateTransform3D" >
                       <RotateTransform3D.Rotation>
-                        <QuaternionRotation3D x:Name="myQuaternionRotation3D" />
+                        <AxisAngleRotation3D Axis="0,3,0" Angle="40" />
                       </RotateTransform3D.Rotation>
                     </RotateTransform3D>
                   </GeometryModel3D.Transform>
@@ -65,17 +71,49 @@
               </ModelVisual3D.Content>
             </ModelVisual3D>
           </Viewport3D.Children>
+
           <!-- Trigger the rotation animation when the 3D object loads. -->
           <Viewport3D.Triggers>
             <EventTrigger RoutedEvent="Viewport3D.Loaded">
               <BeginStoryboard>
                 <Storyboard>
 
-                  <!-- This animation animates the Rotation property of the RotateTransform3D
-                       causing the 3D shape to rotate. -->
-                  <QuaternionAnimation
-                   Storyboard.TargetName="myQuaternionRotation3D"
-                   Storyboard.TargetProperty="Quaternion" From="0,0,1,0" To="0.3, 0.3, 1, 0" Duration="0:0:2" />
+                  <!-- This animation animates the Rotation property of the RotateTransform
+                       causing the 3D shape to rotate and wobble as the rotation angle and 
+                       axis are animated. -->
+                  <Rotation3DAnimationUsingKeyFrames
+                   Storyboard.TargetName="myRotateTransform3D" 
+                   Storyboard.TargetProperty="Rotation" >
+                    <Rotation3DAnimationUsingKeyFrames.KeyFrames>
+
+                      <!-- Using a LinearRotation3DKeyFrame, the object gradually rotates to an angle 
+                           of -60 degrees while the axis of rotation shifts (animates) to a new value. -->
+                      <LinearRotation3DKeyFrame KeyTime="0:0:1">
+                        <LinearRotation3DKeyFrame.Value>
+                          <AxisAngleRotation3D Axis="1,0,1" Angle="-60" />
+                        </LinearRotation3DKeyFrame.Value>
+                      </LinearRotation3DKeyFrame>
+
+                      <!-- Using a DiscreteRotation3DKeyFrame, the object suddenly rotates to the an angle 
+                           of 80 degrees on a new axis. This happens immdeiately after the first 1 and 
+                           a half seconds of the animation. -->
+                      <DiscreteRotation3DKeyFrame KeyTime="0:0:1.5">
+                        <DiscreteRotation3DKeyFrame.Value>
+                          <AxisAngleRotation3D Axis="0,0,1" Angle="80" />
+                        </DiscreteRotation3DKeyFrame.Value>
+                      </DiscreteRotation3DKeyFrame>
+
+                      <!-- Using a SplineRotation3DKeyFrame, the object rotates back to its starting position. 
+                           The animation starts out slowly at first and then speeds up. This KeyFrame ends 
+                           after the fourth second. -->
+                      <SplineRotation3DKeyFrame KeySpline="0.6,0.0 0.9,0.00" KeyTime="0:0:4">
+                        <SplineRotation3DKeyFrame.Value>
+                          <AxisAngleRotation3D Axis="0,3,0" Angle="40" />
+                        </SplineRotation3DKeyFrame.Value>
+                      </SplineRotation3DKeyFrame>
+
+                    </Rotation3DAnimationUsingKeyFrames.KeyFrames>
+                  </Rotation3DAnimationUsingKeyFrames>
 
                 </Storyboard>
               </BeginStoryboard>
@@ -83,6 +121,7 @@
           </Viewport3D.Triggers>
         </Viewport3D>
       </Canvas>
+
     </Viewbox>
   </DockPanel>
 </Page>

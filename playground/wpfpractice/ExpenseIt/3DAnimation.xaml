@@ -2,10 +2,10 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
   <DockPanel>
     <Viewbox>
-      <Canvas Width="600" Height="201">
+      <Canvas Width="321" Height="201">
 
         <!-- The Viewport3D provides a rendering surface for 3-D visual content. -->
-        <Viewport3D Name="MyAnimatedObject" ClipToBounds="True" Width="600" Height="150" Canvas.Left="0" Canvas.Top="10">
+        <Viewport3D Name="MyAnimatedObject" ClipToBounds="True" Width="150" Height="150" Canvas.Left="0" Canvas.Top="10">
 
           <!-- Defines the camera used to view the 3D object. -->
           <Viewport3D.Camera>
@@ -15,11 +15,16 @@
           <!-- The ModelVisual3D children contain the 3D models -->
           <Viewport3D.Children>
 
-            <!-- This ModelVisual3D defines the light cast in the scene. Without light, the
-                 3D object cannot be seen. -->
+            <!-- Two ModelVisual3D define the lights cast in the scene. Without light, the
+                 3D object cannot be seen. Also, the direction of the lights affect shadowing. -->
             <ModelVisual3D>
               <ModelVisual3D.Content>
                 <DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" />
+              </ModelVisual3D.Content>
+            </ModelVisual3D>
+            <ModelVisual3D>
+              <ModelVisual3D.Content>
+                <DirectionalLight Color="#FFFFFF" Direction="0.612372,-0.5,-0.612372" />
               </ModelVisual3D.Content>
             </ModelVisual3D>
             <ModelVisual3D>
@@ -40,32 +45,52 @@
                     <MaterialGroup>
                       <DiffuseMaterial>
                         <DiffuseMaterial.Brush>
-                          <SolidColorBrush Color="Cyan" Opacity="0.3"/>
+                          <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <LinearGradientBrush.GradientStops>
+                              <GradientStop Color="Yellow" Offset="0" />
+                              <GradientStop Color="Red" Offset="0.25" />
+                              <GradientStop Color="Blue" Offset="0.75" />
+                              <GradientStop Color="LimeGreen" Offset="1" />
+                            </LinearGradientBrush.GradientStops>
+                          </LinearGradientBrush>
                         </DiffuseMaterial.Brush>
                       </DiffuseMaterial>
                     </MaterialGroup>
                   </GeometryModel3D.Material>
-                  <!-- The Transform specifies how to transform the 3D object. The OffsetX property is animated
-                       in the Storyboard below. -->
+
+                  <!-- The Transform specifies how to transform the 3D object. The properties of the
+                        Rotation object are animated causing the 3D object to rotate and "wobble" (see Storyboard below).-->
                   <GeometryModel3D.Transform>
-                    <TranslateTransform3D x:Name="myTranslateTransform3D" OffsetX="0" OffsetY="0" OffsetZ="0" />
+                    <RotateTransform3D>
+                      <RotateTransform3D.Rotation>
+                        <AxisAngleRotation3D x:Name="myAngleRotation" Axis="0,3,0" Angle="40" />
+                      </RotateTransform3D.Rotation>
+                    </RotateTransform3D>
                   </GeometryModel3D.Transform>
                 </GeometryModel3D>
               </ModelVisual3D.Content>
             </ModelVisual3D>
           </Viewport3D.Children>
-          <!-- Trigger the TranslateTransform3D animation when the 3D object loads. -->
+
+          <!-- Trigger the rotation animation when the 3D object loads. -->
           <Viewport3D.Triggers>
             <EventTrigger RoutedEvent="Viewport3D.Loaded">
               <BeginStoryboard>
                 <Storyboard>
 
-                  <!-- This animation animates the OffsetX property of the TranslateTransform3D. -->
-                  <DoubleAnimation
-                   Storyboard.TargetName="myTranslateTransform3D" Storyboard.TargetProperty="OffsetX" To="-0.8" 
-                   AutoReverse="True" RepeatBehavior="Forever" />
+                  <!-- This animation animates the Angle property of the AxisAngleRotation3D
+                       making the 3D object rotate from -60 degrees to 60 degrees. -->
+                  <DoubleAnimation 
+                   Storyboard.TargetName="myAngleRotation" 
+                   Storyboard.TargetProperty="Angle" 
+                   From="-60" To="60" Duration="0:0:4" AutoReverse="True"  RepeatBehavior="Forever"/>
 
-                  <!-- If you want to animate OffsetY and/or OffsetZ, create similar DoubleAnimations respectively. -->
+                  <!-- This animation animates the Axis property of the AxisAngleRotation3D
+                       making the 3D wobble as it rotates. -->
+                  <Vector3DAnimation 
+                   Storyboard.TargetName="myAngleRotation" 
+                   Storyboard.TargetProperty="Axis" 
+                   From="0,3,0" To="1,0,1" Duration="0:0:4" AutoReverse="True"  RepeatBehavior="Forever"/>
 
                 </Storyboard>
               </BeginStoryboard>
@@ -73,6 +98,7 @@
           </Viewport3D.Triggers>
         </Viewport3D>
       </Canvas>
+
     </Viewbox>
   </DockPanel>
 </Page>

@@ -15,16 +15,11 @@
           <!-- The ModelVisual3D children contain the 3D models -->
           <Viewport3D.Children>
 
-            <!-- Two ModelVisual3D define the lights cast in the scene. Without light, the
+            <!-- This ModelVisual3D defines the lights cast in the scene. Without light, the
                  3D object cannot be seen. Also, the direction of the lights affect shadowing. -->
             <ModelVisual3D>
               <ModelVisual3D.Content>
                 <DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" />
-              </ModelVisual3D.Content>
-            </ModelVisual3D>
-            <ModelVisual3D>
-              <ModelVisual3D.Content>
-                <DirectionalLight Color="#FFFFFF" Direction="0.612372,-0.5,-0.612372" />
               </ModelVisual3D.Content>
             </ModelVisual3D>
             <ModelVisual3D>
@@ -57,13 +52,12 @@
                       </DiffuseMaterial>
                     </MaterialGroup>
                   </GeometryModel3D.Material>
-
-                  <!-- The Transform specifies how to transform the 3D object. The properties of the
-                        Rotation object are animated causing the 3D object to rotate and "wobble" (see Storyboard below).-->
+                  <!-- The Transform specifies how to transform the 3D object. The rotation
+                       is animated using the Storyboard below. -->
                   <GeometryModel3D.Transform>
-                    <RotateTransform3D x:Name="myRotateTransform3D" >
+                    <RotateTransform3D>
                       <RotateTransform3D.Rotation>
-                        <AxisAngleRotation3D Axis="0,3,0" Angle="40" />
+                        <QuaternionRotation3D x:Name="myQuaternionRotation3D" />
                       </RotateTransform3D.Rotation>
                     </RotateTransform3D>
                   </GeometryModel3D.Transform>
@@ -71,27 +65,17 @@
               </ModelVisual3D.Content>
             </ModelVisual3D>
           </Viewport3D.Children>
-
           <!-- Trigger the rotation animation when the 3D object loads. -->
           <Viewport3D.Triggers>
             <EventTrigger RoutedEvent="Viewport3D.Loaded">
               <BeginStoryboard>
                 <Storyboard>
 
-                  <!-- This animation animates the Rotation property of the RotateTransform
-                       causing the 3D shape to rotate and wobble as the rotation angle and 
-                       axis are animated. -->
-                  <Rotation3DAnimation
-                   Storyboard.TargetName="myRotateTransform3D" 
-                   Storyboard.TargetProperty="Rotation" 
-                   AutoReverse="True"  RepeatBehavior="Forever">
-                    <Rotation3DAnimation.From>
-                      <AxisAngleRotation3D Axis="0,3,0" Angle="-60" />
-                    </Rotation3DAnimation.From>
-                    <Rotation3DAnimation.To>
-                      <AxisAngleRotation3D Axis="1,0,1" Angle="60" />
-                    </Rotation3DAnimation.To>
-                  </Rotation3DAnimation>
+                  <!-- This animation animates the Rotation property of the RotateTransform3D
+                       causing the 3D shape to rotate. -->
+                  <QuaternionAnimation
+                   Storyboard.TargetName="myQuaternionRotation3D"
+                   Storyboard.TargetProperty="Quaternion" From="0,0,1,0" To="0.3, 0.3, 1, 0" Duration="0:0:2" />
 
                 </Storyboard>
               </BeginStoryboard>

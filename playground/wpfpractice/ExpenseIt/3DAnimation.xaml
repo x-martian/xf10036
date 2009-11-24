@@ -36,23 +36,27 @@
                      Positions="-0.5,-0.5,0.5 0.5,-0.5,0.5 0.5,0.5,0.5 0.5,0.5,0.5 -0.5,0.5,0.5 -0.5,-0.5,0.5 " />
                   </GeometryModel3D.Geometry>
 
-                  <!-- The material specifies the material applied to the 3D object. In this sample a linear gradient 
+                  <!-- The material specifies the material applied to the 3D object. In this sample a tiled drawing   
                        covers the surface of the 3D object.-->
                   <GeometryModel3D.Material>
-                    <MaterialGroup>
-                      <DiffuseMaterial>
-                        <DiffuseMaterial.Brush>
-                          <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                            <LinearGradientBrush.GradientStops>
-                              <GradientStop Color="Yellow" Offset="0" />
-                              <GradientStop Color="Red" Offset="0.25" />
-                              <GradientStop Color="Blue" Offset="0.75" />
-                              <GradientStop Color="LimeGreen" Offset="1" />
-                            </LinearGradientBrush.GradientStops>
-                          </LinearGradientBrush>
-                        </DiffuseMaterial.Brush>
-                      </DiffuseMaterial>
-                    </MaterialGroup>
+                    <DiffuseMaterial>
+                      <DiffuseMaterial.Brush>
+                        <DrawingBrush Viewport="0,0,0.1,0.1" TileMode="Tile">
+                          <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                              <DrawingGroup.Children>
+                                <GeometryDrawing Geometry="M0,0.1 L0.1,0 1,0.9, 0.9,1z" Brush="Gray" />
+                                <GeometryDrawing Geometry="M0.9,0 L1,0.1 0.1,1 0,0.9z" Brush="Gray" />
+                                <GeometryDrawing Geometry="M0.25,0.25 L0.5,0.125 0.75,0.25 0.5,0.5z" Brush="#FFFF00" />
+                                <GeometryDrawing Geometry="M0.25,0.75 L0.5,0.875 0.75,0.75 0.5,0.5z" Brush="Black" />
+                                <GeometryDrawing Geometry="M0.25,0.75 L0.125,0.5 0.25,0.25 0.5,0.5z" Brush="#FF0000" />
+                                <GeometryDrawing Geometry="M0.75,0.25 L0.875,0.5 0.75,0.75 0.5,0.5z" Brush="MediumBlue" />
+                              </DrawingGroup.Children>
+                            </DrawingGroup>
+                          </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                      </DiffuseMaterial.Brush>
+                    </DiffuseMaterial>
                   </GeometryModel3D.Material>
 
                   <!-- Apply a transform to the object. In this sample, a rotation transform is applied, rendering the 

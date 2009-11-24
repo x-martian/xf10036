@@ -54,16 +54,24 @@
                       </DiffuseMaterial>
                     </MaterialGroup>
                   </GeometryModel3D.Material>
-                  <!-- Apply a scale transform to the object. You can transform the scale of the object
-                       for the X, Y, or Z axis. The ScaleX, ScaleY, and ScaleZ properties resize the object 
-                       by the factor you specify. For example, a ScaleX value of 1.5 stretches the object to 
-                       150 percent of its original width. A ScaleY value of 0.5 shrinks the height of an object 
-                       by 50 percent. -->
+                  <!-- Apply multiple transformations to the object. In this sample, a rotation and scale transform 
+                  is applied. -->
                   <GeometryModel3D.Transform>
+                    <Transform3DGroup>
+                      <Transform3DGroup.Children>
+                        <RotateTransform3D>
+                          <RotateTransform3D.Rotation>
 
-                    <!-- This Scale Transform stretches the object horizontally by 200 percent and shrinks it 
-                         vertically by 50 percent. -->
-                    <ScaleTransform3D ScaleX="2" ScaleY="0.5" ScaleZ="1" CenterX="0" CenterY="0" CenterZ="0" />
+                          <!-- This transformation rotates the object. -->
+                          <AxisAngleRotation3D Axis="0,3,0" Angle="40" />
+                          </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+
+                        <!-- This Scale Transform stretches the object horizontally by 200 percent and shrinks it 
+                           vertically by 50 percent. -->
+                        <ScaleTransform3D ScaleX="2" ScaleY="0.5" ScaleZ="1" CenterX="0" CenterY="0" CenterZ="0" />
+                      </Transform3DGroup.Children>
+                   </Transform3DGroup>
                   </GeometryModel3D.Transform>
                 </GeometryModel3D>
               </ModelVisual3D.Content>

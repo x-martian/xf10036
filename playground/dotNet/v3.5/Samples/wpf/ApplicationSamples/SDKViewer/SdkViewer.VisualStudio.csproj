@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -33,6 +33,13 @@
     <PublishUrl>Publish\</PublishUrl>
     <CreateWebPageOnPublish>false</CreateWebPageOnPublish>
     <PlatformTarget Condition="'$(TARGET_WOW)' != '' And '$(HostInBrowser)' != 'true' And '$(OutputType)' != 'Library'">x86</PlatformTarget>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,17 +75,26 @@
   </ItemGroup>
   <!-- Use ProjectReference if not building in Visual Studio which stores project references in the SLN file -->
   <ItemGroup>
-    <ApplicationDefinition Include="SdkViewerApplication.xaml" />
+    <ApplicationDefinition Include="SdkViewerApplication.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
     <Compile Include="SdkViewerApplication.xaml.cs">
       <DependentUpon>SdkViewerApplication.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MainPage.xaml" />
+    <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\BrowserTabControl.xaml" />
+    <Page Include="Controls\BrowserTabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="Controls\BrowserTabControl.xaml.cs">
       <DependentUpon>Controls\BrowserTabControl.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -86,7 +102,10 @@
     <Compile Include="Controls\BrowserTabControlAutomationPeer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\BrowserTabItem.xaml" />
+    <Page Include="Controls\BrowserTabItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="Controls\BrowserTabItem.xaml.cs">
       <DependentUpon>Controls\BrowserTabItem.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -94,27 +113,42 @@
     <Compile Include="Controls\BrowserTabItemAutomationPeer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\TearOffPanel.xaml" />
+    <Page Include="Controls\TearOffPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="Controls\TearOffPanel.xaml.cs">
       <DependentUpon>Controls\TearOffPanel.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\IndexPanel.xaml" />
+    <Page Include="Controls\IndexPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="Controls\IndexPanel.xaml.cs">
       <DependentUpon>Controls\IndexPanel.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\SdkPrintDialog.xaml" />
+    <Page Include="Controls\SdkPrintDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="Controls\SdkPrintDialog.xaml.cs">
       <DependentUpon>Controls\SdkPrintDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\SnippetViewer.xaml" />
+    <Page Include="Controls\SnippetViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="Controls\SnippetViewer.xaml.cs">
       <DependentUpon>Controls\SnippetViewer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\SdkSinglePageViewer.xaml" />
+    <Page Include="Controls\SdkSinglePageViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="Controls\SdkSinglePageViewer.xaml.cs">
       <DependentUpon>Controls\SdkSinglePageViewer.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -122,7 +156,10 @@
     <Compile Include="Controls\SdkSinglePageViewerAutomationPeer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\XamlEditor.xaml" />
+    <Page Include="Controls\XamlEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="Controls\XamlEditor.xaml.cs">
       <DependentUpon>Controls\XamlEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -159,7 +196,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /y /i /f /r  "$(ProjectDir)Content\*.*" "$(TargetDir)OnlineContent\."</PostBuildEvent>
   </PropertyGroup>

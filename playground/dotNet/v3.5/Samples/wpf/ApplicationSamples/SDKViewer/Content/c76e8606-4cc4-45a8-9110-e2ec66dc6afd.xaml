@@ -1,0 +1,260 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c76e8606_4cc4_45a8_9110_e2ec66dc6afd"
+  Tag     ="Filter Data in a View"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Filter Data in a View</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to filter data in a view.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>To create a filter, define a method that provides the filtering logic. The method is used as a callback and accepts a parameter of type <Run FontWeight="Bold">object</Run>
+. The following method returns all the <Run>Order</Run>
+ objects with the <Run>filled</Run>
+ property set to "No", filtering out the rest of the objects.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public bool Contains(object de) { Order order = de as Order; 
+//Return members whose Orders have not been filled return(order.Filled== "No"); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can then apply the filter, as shown in the following example. In this example, <Run>myCollectionView</Run>
+ is a ListCollectionView object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myCollectionView.Filter = new Predicate
+&lt;object>(Contains); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To undo filtering, you can set the Filter property to <Run FontWeight="Bold">null</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myCollectionView.Filter = null; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For information about how to create or obtain a view, see <Hyperlink NavigateUri="b641e96c-c2f6-42ea-9c5d-bac81176ad65.xaml">How to: Get the Default View of a Data Collection</Hyperlink>
+. For the complete example, see Sorting and Filtering Items in a View Sample.
+    </Paragraph>
+
+    <Paragraph>If your view object comes from a CollectionViewSource object, you apply filtering logic by setting an event handler for the Filter event. In the following example, <Run>listingDataView</Run>
+ is an instance of <Run FontWeight="Bold">CollectionViewSource</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>listingDataView.Filter += new FilterEventHandler(ShowOnlyBargainsFilter); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following shows the implementation of the example <Run>ShowOnlyBargainsFilter</Run>
+ filter event handler. This event handler uses the Accepted property to filter out <Run>AuctionItem</Run>
+ objects that have a <Run>CurrentPrice</Run>
+ of $25 or greater.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void ShowOnlyBargainsFilter(object sender, FilterEventArgs e) { AuctionItem product = e.Item as AuctionItem; 
+if (product != null) { // Filter out products with price 25 or above if (product.CurrentPrice 
+&lt; 
+25) { e.Accepted = true; 
+} else { e.Accepted = false; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete example, see Data Binding Demo.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f4c43578-01b7-4774-a953-acb95a13b94a.xaml">How to: Sort Data in View</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>CanFilter
+      <LineBreak/>CustomFilter
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Filter Data in a View to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

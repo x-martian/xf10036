@@ -1,0 +1,315 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_12cadca0_b32c_4064_9a56_e6a306dcc76d"
+  Tag     ="Deploying a WPF Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Deploying a Windows Presentation Foundation Application</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Once a Windows Presentation Foundation (WPF) application is built, it needs to be deployed to the user. How a WPF application is deployed depends on the type of application it is, and what deployment mechanism it uses.
+    </Paragraph>
+
+    <Paragraph>WPF offers two main application types:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Standalone - Windows Application (WPF).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Browser-Hosted - XAML Browser Application (WPF) or loose Extensible Application Markup Language (XAML) pages.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Depending on their requirements, WPF applications can be deployed using existing deployment and installation technologies, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>XCopy deployment (see <Hyperlink NavigateUri="http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/xcopy.mspx?mfr=true">XCopy</Hyperlink>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Microsoft Windows Installer (see <Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/2kt85ked.aspx">Windows Installer Deployment</Hyperlink>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ClickOnce (see <Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/142dbbz4.aspx">ClickOnce</Hyperlink>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>While these technologies are well documented, this topic provides a brief overview of them, as well as the typical deployment scenarios for each type of WPF application and any pertinent considerations.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Deployment Technologies
+    </Paragraph>
+
+    <Paragraph FontSize="18">XCopy Deployment
+    </Paragraph>
+
+    <Paragraph>XCopy deployment refers to the use of the XCopy command line program to copy files from one location to another. XCopy deployment is suitable in the following scenarios:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Installed applications that are completely self-contained.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Moving application files from one location to another, such as from a build location to a publish location like a Web site or Universal Naming Convention (UNC) file share.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Applications that do not require shell integration such as Start Menu short cuts, desktop icons, etc.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Applications that do not require access to machine resources such as the Registry to be installed.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In general, XCopy is a fairly limited deployment technology because it requires additional management to deploy files to client machines, and does not support versioning, uninstallation, or rollback
+    </Paragraph>
+
+    <Paragraph FontSize="18">Windows Installer
+    </Paragraph>
+
+    <Paragraph>Windows Installer is a technology that allows applications to be packaged as self-contained executables that can be easily distributed to client machines and run. Furthermore, Windows Installer is a core part of Windows and enables integration with the desktop, the Start menu, the Add/Remove Programs control panel, and a host of other installation features.
+    </Paragraph>
+
+    <Paragraph>While Windows Installer does make it easy to install and remove applications, it does not provide facilities to ensure that installed applications are kept up to date from a versioning standpoint.
+    </Paragraph>
+
+    <Paragraph FontSize="18">ClickOnce Deployment
+    </Paragraph>
+
+    <Paragraph>ClickOnce is a specialized deployment technology that fundamentally enables Web-style application deployment for non-Web applications: applications are published to and browsed from Web servers. The biggest benefit of using ClickOnce is the ability to keep applications up to date as easily as Web applications simply by copying new application versions to Web servers.
+    </Paragraph>
+
+    <Paragraph>While ClickOnce does not support the full range of client-side integration that applications installed using ClickOnce get, ClickOnce applications have the following capabilities:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Can be browsed online only.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Depending on the type of application, can be installed onto the client machine, with Start menu and Add/Remove Programs control panel integration.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Support for versioning, rollback, and uninstallation.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Deploying WPF Applications
+    </Paragraph>
+
+    <Paragraph>The deployment options that can be used are determined by the type of WPF application that is being deployed, including loose XAML applications, XBAPs, and standalone applications.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Deploying Loose XAML Applications
+    </Paragraph>
+
+    <Paragraph>In general, users browse to loose XAML pages in the same way that they browse to HTML pages. Consequently, loose XAML pages are typically published to a Web server, and browsed to using Internet Explorer. 
+    </Paragraph>
+
+    <Paragraph>When browsed, WPF uses ClickOnce to facilitate the launch process, Additionally, loose XAML pages only have the permissions that are provided to applications launched from the Internet zone (see <Hyperlink NavigateUri="ee1baea0-3611-4e36-9ad6-fcd5205376fb.xaml">Windows Presentation Foundation Security</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph>While unlikely it is possible to install a loose XAML application to local disk using XCopy or Windows Installer. Such applications can still be launched from the local disk using Internet Explorer or Windows File Explorer.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Deploying XAML Browser Applications
+    </Paragraph>
+
+    <Paragraph>An XBAP is a compiled application that requires at least the following three files to be deployed:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">ApplicationName</Run>
+<Run FontWeight="Bold">.exe</Run>
+: The executable assembly application file.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">ApplicationName</Run>
+<Run FontWeight="Bold">.xbap</Run>
+: The deployment manifest, which is what users browse or double-click to launch an XBAP.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">ApplicationName</Run>
+<Run FontWeight="Bold">.exe.manifest</Run>
+: The application manifest.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>See <Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+ for more information on deployment and application manifests.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>These files are produced when an XBAP is built using MSBuild, and are the core set of files you need to deploy. Like loose XAML pages, an XBAP is typically published to a Web server, and browsed with Internet Explorer.
+    </Paragraph>
+
+    <Paragraph>While XBAPs are launched using ClickOnce, they cannot be configured to be installed on the client machine. If you need to install an XBAP on a client machine (eg to run with full trust), you can use XCopy or Windows Installer as appropriate.
+    </Paragraph>
+
+    <Paragraph>An advantage of launching an XBAP from the local disk is that it can run with full trust (see <Hyperlink NavigateUri="ee1baea0-3611-4e36-9ad6-fcd5205376fb.xaml">Windows Presentation Foundation Security</Hyperlink>
+), giving it access to the full range of system resources, including the Windows Registry, the local disk, and the Windows Event Log.
+    </Paragraph>
+
+    <Paragraph>A key disadvantage is that you lose the automatic update ability that XBAPs provides by being deployed from a server using ClickOnce. However, this is not an issue if your application is designed to be a standalone application that integrates with Windows Internet Explorer for the user experience.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Deploying Standalone Applications
+    </Paragraph>
+
+    <Paragraph>A standalone application is typically deployed using either ClickOnce or Microsoft Windows Installer.
+    </Paragraph>
+
+    <Paragraph>By default, standalone applications that are launched using ClickOnce receive full trust (see <Hyperlink NavigateUri="ee1baea0-3611-4e36-9ad6-fcd5205376fb.xaml">Windows Presentation Foundation Security</Hyperlink>
+). This is fine if your application requires access to the full range of system resources, including the Windows Registry, the local disk, and the Windows Event Log. However, ClickOnce will display a security warning dialog that users must accept before the application can be installed. If you want your users to launch an application without a security warning being displayed, or your application simply doesn't need full trust, you should consider using XBAPs.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Installing .NET Framework 3.0
+    </Paragraph>
+
+    <Paragraph>To be able to run any kind of WPF application, the Microsoft .NET Framework version 3.0 must be installed on the client machine. When WPF browser-hosted applications are launched from Windows Internet Explorer 7, Windows Internet Explorer 7 automatically detects whether the client machine has .NET Framework 3.0 installed. If not, Internet Explorer 7 prompts the user to install it before continuing.
+    </Paragraph>
+
+    <Paragraph>To facilitate this capability, Internet Explorer 7 includes a .NET Framework 3.0 bootstrapper application that is registered as the fallback Multipurpose Internet Mail Extensions (MIME) handler for content files with the following extensions: <Run FontWeight="Bold">.xaml</Run>
+, <Run FontWeight="Bold">.xps</Run>
+, <Run FontWeight="Bold">.xbap</Run>
+, and <Run FontWeight="Bold">.application</Run>
+. When any of these file types are navigated to, and the .NET Framework 3.0 is not installed on the client machine, Internet Explorer 7 notifies the user that .NET Framework 3.0 is required and asks their consent to install it. If a user doesn't provide their consent, neither the .NET Framework 3.0 nor the application is subsequently installed.
+    </Paragraph>
+
+    <Paragraph>If a user does provide their consent, Internet Explorer 7 proceeds to download and install the .NET Framework 3.0 using the Microsoft Background Intelligent Transfer Service (BITS). After successful installation of the .NET Framework 3.0, the originally requested file is launched in a new browser window.
+    </Paragraph>
+
+    <Paragraph>This feature is available on client machines that have Internet Explorer 7 installed on Windows Vista, Microsoft Windows XP Service Pack 2 (SP2), or Microsoft Windows Server 2003 (SP1).
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ee1baea0-3611-4e36-9ad6-fcd5205376fb.xaml">Windows Presentation Foundation Security</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Navigation Overview
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Deploying a Windows Presentation Foundation Application to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

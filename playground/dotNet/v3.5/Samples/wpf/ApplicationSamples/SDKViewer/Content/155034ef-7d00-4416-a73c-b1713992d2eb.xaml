@@ -1,0 +1,136 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_155034ef_7d00_4416_a73c_b1713992d2eb"
+  Tag     ="Set a Duration for an Animation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Set a Duration for an Animation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A Timeline represents a segment of time and the length of that segment is determined by the timeline's Duration. When a <Run FontWeight="Bold">Timeline</Run>
+ reaches the end of its duration, it stops playing. If the <Run FontWeight="Bold">Timeline</Run>
+ has child timelines, they stop playing as well. In the case of an animation, the <Run FontWeight="Bold">Duration</Run>
+ specifies how long the animation takes to transition from its starting value to its ending value. 
+    </Paragraph>
+
+    <Paragraph>You can specify a <Run FontWeight="Bold">Duration</Run>
+ with a specific, finite time or the special values Automatic or Forever. An animation's duration must always be a time value, because an animation must always have a defined, finite length—otherwise, the animation would not know how to transition between its target values. Container timelines (TimelineGroup objects), such as Storyboard and ParallelTimeline, have a default duration of <Run FontWeight="Bold">Automatic</Run>
+, which means they automatically end when their last child stops playing.
+    </Paragraph>
+
+    <Paragraph>In the following example, the width, height and fill color of a Rectangle is animated. Durations are set on animation and container timelines resulting in animation effects including controlling the perceived speed of an animation and overriding the duration of child timelines with the duration of a container timeline.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_155034ef_7d00_4416_a73c_b1713992d2eb_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;StackPanel Margin="20"> 
+&lt;Rectangle Width="100" Height="100" Name="myRectangle"> 
+&lt;Rectangle.Fill> 
+&lt;SolidColorBrush x:Name="MyAnimatedBrush" Color="Black" /> 
+&lt;/Rectangle.Fill> 
+&lt;Rectangle.Triggers> 
+&lt;!-- Animates the rectangle fill to yellow and width to 300. --> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;!-- By default, TimelineGroup objects like Storyboard and ParallelTimeline have a Duration of "Automatic". A TimelineGroup's automatic duration encompasses its last-ending child. In this example, there is only one child of the Storyboard, the ParallelTimeline, so when the ParallelTimeline ends, the Storyboard duration will automatically end. --> 
+&lt;Storyboard> 
+&lt;!-- This ParallelTimeline has overriden its default duration of "Automatic" with a finite duration of half a second. This will force this Timeline to end after half a second even though its child Timelines have a longer duration (2 and 4 seconds respectively). This cuts off the animation prematurely and the rectangle's fill will not go all the way to yellow nor will the rectangle width get all the way to 300. Again, the default duration of a ParallelTimeline is "Automatic" so if you remove the finite duration, the ParallelTimeline will wait for its child timelines to end before it ends. --> 
+&lt;!-- Note: To specify a finite time in XAML, use the syntax of "days:hours:seconds". As mentioned, this ParallelTimeline has a duration of half a second. --> 
+&lt;ParallelTimeline Duration="0:0:0.5"> 
+&lt;!-- For Animation Timelines like DoubleAnimation, the duration is one factor that determines the rate at which an animation appears to progress. For example, the DoubleAnimation below that animates the rectangle height will complete in only one second while the animation that animates the width willwill complete in 2 seconds which is relatively fast compared to the DoubleAnimation which animates the rectangle width over 4 seconds. --> 
+&lt;DoubleAnimation Storyboard.TargetName="myRectangle" Storyboard.TargetProperty="Height" To="300" Duration="0:0:1" /> 
+&lt;DoubleAnimation Storyboard.TargetName="myRectangle" Storyboard.TargetProperty="Width" To="300" Duration="0:0:4" /> 
+&lt;ColorAnimation Storyboard.TargetName="MyAnimatedBrush" Storyboard.TargetProperty="Color" To="Yellow" Duration="0:0:2" /> 
+&lt;/ParallelTimeline> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Duration
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Set a Duration for an Animation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

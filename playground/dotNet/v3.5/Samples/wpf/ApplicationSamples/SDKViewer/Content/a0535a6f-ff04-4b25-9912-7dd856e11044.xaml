@@ -1,0 +1,239 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a0535a6f_ff04_4b25_9912_7dd856e11044"
+  Tag     ="Share Sizing Properties Between Grids"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Share Sizing Properties Between Grids</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to share the sizing data of columns and rows between Grid elements in order to keep sizing consistent. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example introduces two <Run FontWeight="Bold">Grid</Run>
+ elements as child elements of a parent DockPanel. The IsSharedSizeScope <Run>attached property</Run>
+ of <Run FontWeight="Bold">Grid</Run>
+ is defined on the parent <Run FontWeight="Bold">DockPanel</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The example manipulates the property value by using two Button elements; 
+each element represents one of the Boolean property values. When the <Run FontWeight="Bold">IsSharedSizeScope</Run>
+ property value is set to <Run FontWeight="Bold">true</Run>
+, each column or row member of a SharedSizeGroup shares sizing information, regardless of the content of a row or column. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DockPanel Name="dp1" Grid.IsSharedSizeScope="False" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10"> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>...
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel Orientation="Horizontal" DockPanel.Dock="Top"> 
+&lt;Button Click="setTrue" Margin="0,0,10,10">Set IsSharedSizeScope="True"
+&lt;/Button> 
+&lt;Button Click="setFalse" Margin="0,0,10,10">Set IsSharedSizeScope="False"
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;StackPanel Orientation="Horizontal" DockPanel.Dock="Top"> 
+&lt;Grid ShowGridLines="True" Margin="0,0,10,0"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition SharedSizeGroup="FirstColumn"/> 
+&lt;ColumnDefinition SharedSizeGroup="SecondColumn"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto" SharedSizeGroup="FirstRow"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Rectangle Fill="Silver" Grid.Column="0" Grid.Row="0" Width="200" Height="100"/> 
+&lt;Rectangle Fill="Blue" Grid.Column="1" Grid.Row="0" Width="150" Height="100"/> 
+&lt;TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold">First Column
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" FontWeight="Bold">Second Column
+&lt;/TextBlock> 
+&lt;/Grid> 
+&lt;Grid ShowGridLines="True"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition SharedSizeGroup="FirstColumn"/> 
+&lt;ColumnDefinition SharedSizeGroup="SecondColumn"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto" SharedSizeGroup="FirstRow"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Rectangle Fill="Silver" Grid.Column="0" Grid.Row="0"/> 
+&lt;Rectangle Fill="Blue" Grid.Column="1" Grid.Row="0"/> 
+&lt;TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold">First Column
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" FontWeight="Bold">Second Column
+&lt;/TextBlock> 
+&lt;/Grid> 
+&lt;/StackPanel> 
+&lt;TextBlock Margin="10" DockPanel.Dock="Top" Name="txt1"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code-behind example handles the methods that the button Click event raises. The example writes the results of these method calls to TextBlock elements that use related get methods to output the new property values as strings.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void setTrue(object sender, System.Windows.RoutedEventArgs e) { Grid.SetIsSharedSizeScope(dp1, true); 
+txt1.Text = "IsSharedSizeScope Property is set to " + Grid.GetIsSharedSizeScope(dp1).ToString(); 
+} public void setFalse(object sender, System.Windows.RoutedEventArgs e) { Grid.SetIsSharedSizeScope(dp1, false); 
+txt1.Text = "IsSharedSizeScope Property is set to " + Grid.GetIsSharedSizeScope(dp1).ToString(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub setTrue(ByVal sender As Object, ByVal args As RoutedEventArgs) Grid.SetIsSharedSizeScope(dp1, True) txt1.Text = "IsSharedSizeScope Property is set to " + Grid.GetIsSharedSizeScope(dp1).ToString() End Sub Public Sub setFalse(ByVal sender As Object, ByVal args As RoutedEventArgs) Grid.SetIsSharedSizeScope(dp1, False) txt1.Text = "IsSharedSizeScope Property is set to " + Grid.GetIsSharedSizeScope(dp1).ToString() End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Grid Size Sharing Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Grid
+      <LineBreak/>IsSharedSizeScope
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Share Sizing Properties Between Grids to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

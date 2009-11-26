@@ -1,0 +1,888 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_cd87f7ce_af09_4401_9cfb_ef19b06f7557"
+  Tag     ="Creating a Project File"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_cd87f7ce_af09_4401_9cfb_ef19b06f7557"
+    Tag     ="Creating a Project File"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Creating a Project File</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>All the details of how to build a project with the Microsoft build engine (MSBuild) are contained in an XML-based project file. The project file is quite flexible and can encompass complex build scenarios and multiple build targets. This topic describes how to construct an MSBuild project file for an Windows Presentation Foundation application. For a more complete discussion of MSBuild project files, see MSBuild.    
+      </Paragraph>
+
+      <Paragraph>This topic contains the following sections.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="introduction">The Project File</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="project_element">The Project Element</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="import_element">The Import Element</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="propertygroup_element">The PropertyGroup Element</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="itemgroup_element">The ItemGroup Element</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">The Project File    
+      </Paragraph>
+
+      <Paragraph>The project file contains all the information needed to build the project. You can, if you wish, create your project files with a text editor such as Microsoft Notepad and compile them from the command-line with MSBuild. In that case, your project file can have any extension, although .proj is conventional. Microsoft Visual Studio uses the same project file format, although it adds several Visual Studio-specific elements that are not used by MSBuild. To use a project file with Visual Studio, it must have a .csproj extension for C# projects or a .vbproj extension for Microsoft Visual Basic .NET projects.    
+      </Paragraph>
+
+      <Paragraph>If you have created a basic MSBuild project file with a text editor, you can later open it with Visual Studio. When you do so, Visual Studio automatically converts the file to a Visual Studio project file by inserting its special elements. Conversely, if you create a new project with Visual Studio, it will create a .csproj or .vbproj file for you that contains both basic MSBuild elements and Visual Studio-specific elements. In either case, you can always use .csproj or .vbproj files to compile your project from the command line, because MSBuild only uses the basic MSBuild elements and ignores any Visual Studio-specific elements.    
+      </Paragraph>
+
+      <Paragraph>There are number of XML elements that can be used in a project file. This topic covers only the basic ones and the typical ways that they are used to create an Windows Presentation Foundation project file. For a complete discussion, see MSBuild. The following are the key elements in an Windows Presentation Foundation project file.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Project. All project files must have Project as their root element.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>PropertyGroup. This element contains project property settings such as whether the build configuration is debug or release.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>ItemGroup. This element contains the list of items, such as source or resource files, that make up the project.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Import. This element allows you to import other project files, such as target files, into your project.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>ProjectExtensions. This element allows you to include non-MSBuild information in your project file. For example, Visual Studio uses this element to include a number of Visual Studio-specific elements in its project files. MSBuild ignores the contents of this element.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>Target and Task elements define the actual build process and are essential parts of a project file. However, they are omitted from the above list because most Windows Presentation Foundation projects don't use them explicitly. Instead, you can simply import standard .targets files that contain all the Target and Target definitions that are needed for normal projects. The targets for standard Microsoft .NET Framework version 3.0 builds are defined in Microsoft.WinFX.targets, Microsoft.CSharp.targets, and Microsoft.VisualBasic.targets. If you need to construct custom Target or Task definitions, see MSBuild Tasks .    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">The Project Element    
+      </Paragraph>
+
+      <Paragraph>The Project element is the root element of all project files. It has two attributes.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">xmlns</Run>
+. Required. This attribute must be set to "http://schemas.microsoft.com/developer/msbuild/2003".        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">DefaultTargets</Run>
+. Optional. Set this attribute to the target or targets that you want to have called by default. To specify multiple targets, separate them with a semicolon (;). If you are using Microsoft.WinFX.targets, this attribute is typically set to "Build", which runs the standard build procedure. If you want to call a different target or targets, you can specify them with the /t command-line argument when you launch MSBuild.exe.         
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">The Import Element    
+      </Paragraph>
+
+      <Paragraph>The Import allows you to include another project file. It has two attributes.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">Project</Run>
+. Required. The project file to be included. This file must be a valid project file but can have any extension.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">Condition</Run>
+. Optional. A condition. If the condition evaluates to <Run>true</Run>
+ the file is included. See the section on <Run FontWeight="Bold">PropertyGroup</Run>
+ elements for further discussion of conditions.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>The Import element must come after any PropertyGroup elements, or your project might not compile properly.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>The most common use of the Import tag for Windows Presentation Foundation applications is to import the standard targets file, Microsoft.WinFX.targets and the appropriate language targets file, Microsoft.CSharp.targets or Microsoft.VisualBasic.targets. These two files define the targets that are needed for most Windows Presentation Foundation builds.    
+      </Paragraph>
+
+      <Paragraph>For C# projects, the standard import statements will be as follows:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /> 
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" /></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>For Microsoft Visual Basic .NET projects, the standard import statements will be as follows:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" /> 
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" /></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">The PropertyGroup Element    
+      </Paragraph>
+
+      <Paragraph>You use PropertyGroup elements to define your project properties. Project files normally have at least one and sometimes several of these elements. The PropertyGroup element has one optional attribute, <Run FontWeight="Bold">Condition</Run>
+. If this attribute is used, the properties in the group are set only if the condition is met.    
+      </Paragraph>
+
+      <Paragraph>Property declarations are essentially macros. They are only meaningful in the context of a particular project file, including imported .targets files. When you reference a property by name in the project file, it is automatically replaced by the specified value. Windows Presentation Foundation projects typically have a single PropertyGroup element. The properties that it contains are specific values that are used by the standard .targets .files. For example, you specify the build configuration by setting the <Run FontWeight="Bold">TargetType</Run>
+ property to "Debug" or "Release".     
+      </Paragraph>
+
+      <Paragraph>You specify properties by including them in your project file as children of a PropertyGroup element. The element name is the property name, and the inner text is the property value. Property elements have an optional <Run FontWeight="Bold">Conditional</Run>
+ attribute. If this attribute is present, the property is only set if the condition is met.    
+      </Paragraph>
+
+      <Paragraph>The following is a typical example of an Windows Presentation Foundation PropertyGroup element.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;PropertyGroup> 
+&lt;AssemblyName>Get_Set
+&lt;/AssemblyName> 
+&lt;TargetType>winexe
+&lt;/TargetType> 
+&lt;Configuration>Release
+&lt;/Configuration> 
+&lt;ProductVersion>8.0.40607
+&lt;/ProductVersion> 
+&lt;SchemaVersion>2.0
+&lt;/SchemaVersion> 
+&lt;RootNamespace>Get_Set
+&lt;/RootNamespace> 
+&lt;/PropertyGroup></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>These properties are mostly used by the standard .targets files to specify how the build should proceed. The following example of a PropertyGroup element is from Microsoft.WinFX.Targets. It shows the use of the Condition attribute and how the <Run FontWeight="Bold">TargetType</Run>
+ property shown in the previous example is used by the .targets file to specify the target type.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;PropertyGroup> 
+&lt;IsApplication Condition="'$(TargetType)'=='exe'">true
+&lt;/IsApplication> 
+&lt;IsApplication Condition="'$(TargetType)'=='winexe'">true
+&lt;/IsApplication> 
+&lt;IsLibrary Condition="'$(TargetType)'=='library'">true
+&lt;/IsLibrary> 
+&lt;IsLibrary Condition="'$(TargetType)'=='module'">true
+&lt;/IsLibrary> 
+&lt;/PropertyGroup></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Standard "Avalon" Properties    
+      </Paragraph>
+
+      <Paragraph>A number of properties can be set for Windows Presentation Foundation builds using the standard .targets files.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">ApplicationIcon</Run>
+. Optional. Set this property to the icon that will be used by the shell to represent the application. The default value is the standard icon for the application type.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">Configuration</Run>
+. Optional. Set this property to "Debug" for a debug build and "Release" for a release build. The default value is "Release".        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">Install</Run>
+. Optional. Set this property to <Run FontWeight="Bold">true</Run>
+ to generate a deployment manifest for an installed application and false to generate a deployment manifest for a XAML Browser Applications. If <Run FontWeight="Bold">HostInBrowser</Run>
+ is set to true, this property's default value is <Run FontWeight="Bold">false</Run>
+. If <Run FontWeight="Bold">HostInBrowser</Run>
+ is set to false, this property's default value is <Run FontWeight="Bold">true</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">HostInBrowser</Run>
+. Optional. Set this value to <Run FontWeight="Bold">true</Run>
+ for XAML Browser Applications and false for standalone applications. The default value is <Run FontWeight="Bold">false</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">IntermediateOutputPath</Run>
+. Optional. Set this property to the folder that will contain your build's intermediate files. The default values are ".\obj\debug" and ".\obj\release" for debug and release builds, respectively.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">OutputPath</Run>
+. Optional. Set this property to the folder that will contain your build's output files. The default values are ".\bin\debug" and ".\bin\release" for debug and release builds, respectively.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">RootNameSpace</Run>
+. Required. Set this property to the default namespace for the classes that will be created from your Extensible Application Markup Language (XAML) files.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">OutputType</Run>
+. Required. The type of output to be produced.         
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph>"Exe". A console application            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>"Library". A DLL.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>"Netmodule". A module in an assembly.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>"Winexe". A Microsoft Windows application.            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">UICulture</Run>
+. Optional. Set this property to the appropriate culture, such as "en-DE" or "en-US", to make your build localizable. If you specify a localized build, the build process creates satellite DLLs for the specified culture. The default value is "none".        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">UIDGenerationFlagFile</Run>
+. Optional. Set this property to the name of the flag file to be generated. The default value is "uidgenerationflagfile.txt".        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">The ItemGroup Element    
+      </Paragraph>
+
+      <Paragraph>ItemGroup elements are used to specify the files and resources that are included in the build and how they are to be handled. All project files have at least one ItemGroup element. A common practice is to use several ItemGroup elements, one for each type of item. You can specify a condition on the ItemGroup element, which includes the group in the build only if the condition is met.    
+      </Paragraph>
+
+      <Paragraph>As with properties, the items in an ItemGroup are only meaningful in the context of a particular project file, including imported .targets files. You specify items by including them in your project file as children of an ItemGroup element. The name of the element is the item name. All items must have an <Run FontWeight="Bold">Include</Run>
+ attribute. This is typically set to a file name, but may include other information. See the individual element references for specifics. Item's have one standard optional attribute, Localizable. Set <Run FontWeight="Bold">Localizable</Run>
+ to <Run FontWeight="Bold">True</Run>
+ if the item is localizable and <Run FontWeight="Bold">False</Run>
+ otherwise. The default value is <Run FontWeight="Bold">False</Run>
+. <Run FontWeight="Bold">Localizable</Run>
+ is valid only if the <Run FontWeight="Bold">UICulture</Run>
+ project property is defined.    
+      </Paragraph>
+
+      <Paragraph>All binary XAML (BAML) files are embedded in the assembly. This applies to files included as <Run FontWeight="Bold">ApplicationDefinition</Run>
+ or <Run FontWeight="Bold">Page</Run>
+ items. Resource files can either be embedded or loose. If you include images or data files as <Run FontWeight="Bold">Resource</Run>
+ items, they are embedded in either the main assembly or the specified satellite DLL. To specify resources as loose files, use the <Run FontWeight="Bold">Content</Run>
+ property.    
+      </Paragraph>
+
+      <Paragraph>The following example shows two ItemGroup elements from a typical Windows Presentation Foundation project file.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;ItemGroup> 
+&lt;ApplicationDefinition Include="App.xaml" /> 
+&lt;Page Include="Page1.xaml" /> 
+&lt;/ItemGroup> 
+&lt;ItemGroup> 
+&lt;Compile Include="App.xaml.cs"/> 
+&lt;Compile Include="Page1.xaml.cs"/> 
+&lt;/ItemGroup></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Item Types    
+      </Paragraph>
+
+      <Paragraph>The following sections discuss the item types that can be used with Microsoft.WinFX.targets.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="applicationdefinition">ApplicationDefinition</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Compile">Compile</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="content">Content</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="page">Page</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="reference">Reference</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="content1">Resource</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">ApplicationDefinition    
+      </Paragraph>
+
+      <Paragraph>This item is required for all XAML-based applications. Set the <Run FontWeight="Bold">Include</Run>
+ attribute to the name of the application definition's .xaml file. The standard name used by Visual Studio is App.xaml. If your application definition has a code-behind file, you must have a corresponding <Run FontWeight="Bold">Compile</Run>
+ item. See <Hyperlink NavigateUri="aefbe9d1-2bca-4bbb-9406-796980eeca63.xaml">Creating, Building, Deploying, and Launching WPF Applications</Hyperlink>
+ for a description of application definitions.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Compile    
+      </Paragraph>
+
+      <Paragraph>This item contains code that must be compiled. Set the <Run FontWeight="Bold">Include</Run>
+ attribute to the filename.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Content    
+      </Paragraph>
+
+      <Paragraph>Content such as an image or text file that is distributed with the application as loose files. Set the <Run FontWeight="Bold">Include</Run>
+ attribute to the content's file path. You can use a relative path if the content is not located in the project folder. Use the <Run FontWeight="Bold">Localizable</Run>
+ attribute to indicate that the resource is localizable. Content has one required child element, <Run FontWeight="Bold">CopyToOutputDirectory</Run>
+, which takes one of two values.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Always. Copies the items to the output folder for every build.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>PreserveNewest. Copies only new items to the output folder.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The following example shows an ItemGroup element defining a loose image file in a Windows Presentation Foundation project file.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;ItemGroup> 
+&lt;Content Include="sampleImages\leaves.jpg"> 
+&lt;CopyToOutputDirectory>PreserveNewest
+&lt;/CopyToOutputDirectory> 
+&lt;/Content> 
+&lt;/ItemGroup></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Page    
+      </Paragraph>
+
+      <Paragraph>An XAML page. Set the <Run FontWeight="Bold">Include</Run>
+ attribute to the name of the page. If the page has a code-behind file, you must have a <Run FontWeight="Bold">Compile</Run>
+ item for that file.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Reference    
+      </Paragraph>
+
+      <Paragraph>A reference to a dynamic-link library (DLL). Set the <Run FontWeight="Bold">Include</Run>
+ attribute to a comma-delimited string that includes the DLL's name, version, Culture, Public Key Token, and processorArchitecture. Refer to the code example that follows this section for some examples of this string. You can use a relative path or environment variables.    
+      </Paragraph>
+
+      <Paragraph>The Reference element has four child elements, as follows:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>HintPath. Optional. The DLL's file path. You can use relative paths.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Name. Required. The DLL's name.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>SpecificVersion. Optional. Whether a specific version must be used.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Alias. Optional. You can use this element to create an alias for the reference to be used in your code.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Resource    
+      </Paragraph>
+
+      <Paragraph>Content such as an image or text file that is embedded in the main assembly or a satellite DLL. Set the <Run FontWeight="Bold">Include</Run>
+ attribute to the content's file path. You can use a relative path if the content is not located in the project folder. Use the <Run FontWeight="Bold">Localizable</Run>
+ attribute to indicate that the resource is localizable.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">A Typical Collection of ItemGroups    
+      </Paragraph>
+
+      <Paragraph>The following code example is taken from an Windows Presentation Foundation project file. It shows a set of ItemGroup elements from a moderately complicated Windows Presentation Foundation application.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> 
+&lt;PropertyGroup> 
+&lt;Configuration Condition=" '$(Configuration)' == '' ">Debug
+&lt;/Configuration> 
+&lt;Platform Condition=" '$(Platform)' == '' ">AnyCPU
+&lt;/Platform> 
+&lt;RootNamespace>WindowsApplication1
+&lt;/RootNamespace> 
+&lt;AssemblyName>WindowsApplication1
+&lt;/AssemblyName> 
+&lt;WarningLevel>4
+&lt;/WarningLevel> 
+&lt;OutputType>winexe
+&lt;/OutputType> 
+&lt;ApplicationVersion>1.0.0.*
+&lt;/ApplicationVersion> 
+&lt;!-- Most people will use Publish dialog in Visual Studio to increment this --> 
+&lt;BootstrapperEnabled>false
+&lt;/BootstrapperEnabled> 
+&lt;ApplicationIcon>App.ico
+&lt;/ApplicationIcon> 
+&lt;/PropertyGroup> 
+&lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "> 
+&lt;DebugSymbols>true
+&lt;/DebugSymbols> 
+&lt;DebugType>full
+&lt;/DebugType> 
+&lt;Optimize>false
+&lt;/Optimize> 
+&lt;OutputPath>.\bin\Debug\
+&lt;/OutputPath> 
+&lt;DefineConstants>DEBUG;TRACE
+&lt;/DefineConstants> 
+&lt;/PropertyGroup> 
+&lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' "> 
+&lt;DebugSymbols>false
+&lt;/DebugSymbols> 
+&lt;Optimize>true
+&lt;/Optimize> 
+&lt;OutputPath>.\bin\Release\
+&lt;/OutputPath> 
+&lt;DefineConstants>TRACE
+&lt;/DefineConstants> 
+&lt;/PropertyGroup> 
+&lt;ItemGroup> 
+&lt;Reference Include="System" /> 
+&lt;Reference Include="WindowsBase" /> 
+&lt;Reference Include="PresentationCore" /> 
+&lt;Reference Include="PresentationFramework" /> 
+&lt;/ItemGroup> 
+&lt;ItemGroup> 
+&lt;ApplicationDefinition Include="App.xaml" /> 
+&lt;Compile Include="App.xaml.cs" /> 
+&lt;Page Include="Page1.xaml" /> 
+&lt;Compile Include="Page1.xaml.cs" /> 
+&lt;/ItemGroup> 
+&lt;ItemGroup> 
+&lt;Resource Include="App.ico" /> 
+&lt;/ItemGroup> 
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /> 
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" /> 
+&lt;/Project></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Creating a Project File  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

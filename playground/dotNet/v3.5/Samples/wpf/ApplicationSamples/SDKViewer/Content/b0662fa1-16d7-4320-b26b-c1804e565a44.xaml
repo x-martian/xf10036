@@ -1,0 +1,351 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b0662fa1_16d7_4320_b26b_c1804e565a44"
+  Tag     ="ComboBox ControlTemplate Example"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>ComboBox ControlTemplate Example</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Controls in Windows Presentation Foundation (WPF) have a ControlTemplate that contains the <Run>visual tree</Run>
+ of that control. You can change the structure and appearance of a control by modifying the <Run FontWeight="Bold">ControlTemplate</Run>
+ of that control. There is no way to replace only part of the visual tree of a control; 
+to change the visual tree of a control you must set the Template property of the control to its new and complete <Run FontWeight="Bold">ControlTemplate</Run>
+.
+    </Paragraph>
+
+    <Paragraph>This topic shows the <Run FontWeight="Bold">ControlTemplate</Run>
+ of the WPF ComboBox control.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="example">ComboBox ControlTemplate Example</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To run the examples in this topic, you should understand how to write WPF applications. For more information, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+. You should also understand how styles are used in WPF. For more information, see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">ComboBox ControlTemplate Example
+    </Paragraph>
+
+    <Paragraph>While this example contains all of the elements that are defined in the <Run FontWeight="Bold">ControlTemplate</Run>
+ of a <Run FontWeight="Bold">ComboBox</Run>
+ by default, the specific values should be thought of as examples.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}"> 
+&lt;Grid> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition Width="20" /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="1" /> 
+&lt;Border Grid.Column="0" CornerRadius="2,0,0,2" Margin="1" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="0,0,1,0" /> 
+&lt;Path x:Name="Arrow" Grid.Column="1" Fill="{StaticResource GlyphBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/> 
+&lt;/Grid> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="ToggleButton.IsMouseOver" Value="true"> 
+&lt;Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" /> 
+&lt;/Trigger> 
+&lt;Trigger Property="ToggleButton.IsChecked" Value="true"> 
+&lt;Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" /> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsEnabled" Value="False"> 
+&lt;Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" /> 
+&lt;Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" /> 
+&lt;Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/> 
+&lt;Setter TargetName="Arrow" Property="Fill" Value="{StaticResource DisabledForegroundBrush}" /> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}"> 
+&lt;Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" /> 
+&lt;/ControlTemplate> 
+&lt;Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}"> 
+&lt;Setter Property="SnapsToDevicePixels" Value="true"/> 
+&lt;Setter Property="OverridesDefaultStyle" Value="true"/> 
+&lt;Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/> 
+&lt;Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/> 
+&lt;Setter Property="ScrollViewer.CanContentScroll" Value="true"/> 
+&lt;Setter Property="MinWidth" Value="120"/> 
+&lt;Setter Property="MinHeight" Value="20"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type ComboBox}"> 
+&lt;Grid> 
+&lt;ToggleButton Name="ToggleButton" Template="{StaticResource ComboBoxToggleButton}" Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"> 
+&lt;/ToggleButton> 
+&lt;ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3,3,23,3" VerticalAlignment="Center" HorizontalAlignment="Left" /> 
+&lt;TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource ComboBoxTextBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,3,23,3" Focusable="True" Background="Transparent" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/> 
+&lt;Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide"> 
+&lt;Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}"> 
+&lt;Border x:Name="DropDownBorder" Background="{StaticResource WindowBackgroundBrush}" BorderThickness="1" BorderBrush="{StaticResource SolidBorderBrush}"/> 
+&lt;ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True"> 
+&lt;StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" /> 
+&lt;/ScrollViewer> 
+&lt;/Grid> 
+&lt;/Popup> 
+&lt;/Grid> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="HasItems" Value="false"> 
+&lt;Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsEnabled" Value="false"> 
+&lt;Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsGrouping" Value="true"> 
+&lt;Setter Property="ScrollViewer.CanContentScroll" Value="false"/> 
+&lt;/Trigger> 
+&lt;Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true"> 
+&lt;Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4"/> 
+&lt;Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsEditable" Value="true"> 
+&lt;Setter Property="IsTabStop" Value="false"/> 
+&lt;Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/> 
+&lt;Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Style.Triggers> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The above example uses one or more of the following resources:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Fill Brushes --> 
+&lt;LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#CCC" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="HorizontalNormalBrush" StartPoint="0,0" EndPoint="1,0"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#CCC" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="HorizontalLightBrush" StartPoint="0,0" EndPoint="1,0"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#AAA" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="PressedBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#BBB" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="0.1"/> 
+&lt;GradientStop Color="#EEE" Offset="0.9"/> 
+&lt;GradientStop Color="#FFF" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" /> 
+&lt;SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" /> 
+&lt;SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" /> 
+&lt;SolidColorBrush x:Key="SelectedBackgroundBrush" Color="#DDD" /> 
+&lt;!-- Border Brushes --> 
+&lt;LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#CCC" Offset="0.0"/> 
+&lt;GradientStop Color="#444" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="HorizontalNormalBorderBrush" StartPoint="0,0" EndPoint="1,0"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#CCC" Offset="0.0"/> 
+&lt;GradientStop Color="#444" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="DefaultedBorderBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#777" Offset="0.0"/> 
+&lt;GradientStop Color="#000" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="PressedBorderBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#444" Offset="0.0"/> 
+&lt;GradientStop Color="#888" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" /> 
+&lt;SolidColorBrush x:Key="SolidBorderBrush" Color="#888" /> 
+&lt;SolidColorBrush x:Key="LightBorderBrush" Color="#AAA" /> 
+&lt;!-- Miscellaneous Brushes --> 
+&lt;SolidColorBrush x:Key="GlyphBrush" Color="#444" /> 
+&lt;SolidColorBrush x:Key="LightColorBrush" Color="#DDD" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Styling with ControlTemplates Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="02e1e266-28eb-491c-a229-0ca0a6fca87d.xaml">ComboBoxItem ControlTemplate Example</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="c52dde45-a311-4531-af4c-853371c4d5f4.xaml">Guidelines for Designing Stylable Controls</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c19049bb-5ceb-492d-afd2-751dca0ed8e3.xaml">ControlTemplate Examples</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about ComboBox ControlTemplate Example to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

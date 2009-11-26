@@ -1,0 +1,657 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1c6f3723_e77b_4dbd_9d95_942368c3fe3e"
+  Tag     ="Walkthrough: Manually Adding a Windows Presentation Foundation Element to a Windows Forms Project"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Walkthrough: Manually Adding a Windows Presentation Foundation Element to a Windows Forms Project</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This walkthrough shows you how to use Visual Studio to add a WPF element to your Windows Forms project manually. This procedure is useful if you do not have the Development Tools for .NET Framework 3.0 installed. For information on installing these tools, see Installation Instructions for the Windows SDK.
+    </Paragraph>
+
+    <Paragraph>Tasks illustrated in this walkthrough include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Creating the project.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Editing the project file.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Defining the SimpleControl element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using the SimpleControl element on a form.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When you are finished, you will understand how to add a WPF element to your Windows Forms project.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The dialog boxes and menu commands you see might differ from those described in Help, depending on your active settings or edition. To change your settings, choose <Run FontWeight="Bold">Import and Export Settings</Run>
+ on the <Run FontWeight="Bold">Tools</Run>
+ menu. For more information, see Visual Studio Settings.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>Creating the Project</Run>
+
+    </Paragraph>
+
+    <Paragraph>The first step is to create the application project. You will modify this project to handle WPF content.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To create the project
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a Windows Forms application project named <Run FontWeight="Bold">ManuallyAddingAWpfElement</Run>
+. For more information, see How to: Create a Windows Application Project.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, add references to the following WPF assemblies. For more information, see How to: Add References to Type Libraries.
+        </Paragraph>
+
+        <Paragraph>The default location for these files is %programfiles%\Reference Assemblies\Microsoft\Framework\v3.0.
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>PresentationCore 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>PresentationFramework 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>WindowsBase 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>WindowsFormsIntegration 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, right-click <Run FontWeight="Bold">ManuallyAddingAWpfElement</Run>
+, point to <Run FontWeight="Bold">Add</Run>
+, and then click <Run FontWeight="Bold">New Item</Run>
+. In the <Run FontWeight="Bold">Add New Item</Run>
+ dialog box, select <Run FontWeight="Bold">Text File</Run>
+, name the new file <Run FontWeight="Bold">SimpleControl.xaml</Run>
+, and click <Run FontWeight="Bold">Add</Run>
+. This file will hold the code for the WPF element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Right-click <Run FontWeight="Bold">ManuallyAddingAWpfElement</Run>
+ again, point to <Run FontWeight="Bold">Add</Run>
+, and then click <Run FontWeight="Bold">New Item</Run>
+. In the <Run FontWeight="Bold">Add New Item</Run>
+ dialog box, select <Run FontWeight="Bold">Class</Run>
+, name the new file <Run FontWeight="Bold">SimpleControl.xaml.cs</Run>
+, and click <Run FontWeight="Bold">Add</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Editing the Project File</Run>
+
+    </Paragraph>
+
+    <Paragraph>You must edit the project file manually to make the WPF element build correctly.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To edit the project file
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>In Solution Explorer, right-click <Run FontWeight="Bold">ManuallyAddingAWpfElement</Run>
+ and click <Run FontWeight="Bold">Unload Project</Run>
+.
+        </Paragraph>
+
+        <Paragraph>The project name is labeled <Run FontWeight="Bold">(unavailable)</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Right-click <Run FontWeight="Bold">ManuallyAddingAWpfElement</Run>
+, and click <Run FontWeight="Bold">Edit ManuallyAddingAWpfElement.csproj</Run>
+.
+        </Paragraph>
+
+        <Paragraph>The project file opens in the Code Editor.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Find the following line.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;None Include="SimpleControl.xaml" /></Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Change this line as follows.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page Include="SimpleControl.xaml" /></Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Find the following line.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Compile Include="SimpleControl.xaml.cs" /></Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Replace this line with the following code.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Compile Include="SimpleControl.xaml.cs"> 
+&lt;DependentUpon>SimpleControl.xaml
+&lt;/DependentUpon> 
+&lt;SubType>Code
+&lt;/SubType> 
+&lt;/Compile></Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Find the following line.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /></Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>After that line, add the following line.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" /></Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Save the project file and close it.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, right-click <Run FontWeight="Bold">ManuallyAddingAWpfElement</Run>
+ and click <Run FontWeight="Bold">Reload Project</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Defining the SimpleControl Element</Run>
+
+    </Paragraph>
+
+    <Paragraph>This procedure shows how to define a simple WPF element named <Run FontWeight="Bold">SimpleControl</Run>
+. You will use this element on your form.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To define the SimpleControl element
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>In Solution Explorer, double-click <Run FontWeight="Bold">SimpleControl.xaml</Run>
+ to open it in the Code Editor. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Copy the following code into SimpleControl.xaml.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;UserControl x:Class="ManuallyAddingAWpfElement.SimpleControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;Grid> 
+&lt;Button Content="Click"/> 
+&lt;/Grid> 
+&lt;/UserControl> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph>This code defines a simple element that displays a Button control.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Close SimpleControl.xaml and open it again. This allows the Code Editor to parse the file.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, select <Run FontWeight="Bold">SimpleControl.xaml</Run>
+ to view its properties. In the Properties window, change the file's <Run FontWeight="Bold">Encoding</Run>
+ property to <Run FontWeight="Bold">UTF-8</Run>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, double-click <Run FontWeight="Bold">SimpleControl.xaml.cs</Run>
+ to open it in the Code Editor.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Copy the following code into SimpleControl.xaml.cs.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Data; 
+using System.Windows.Documents; 
+using System.Windows.Media; 
+using System.Windows.Navigation; 
+using System.Windows.Shapes; 
+namespace ManuallyAddingAWpfElement { public partial class SimpleControl : UserControl { public SimpleControl() { InitializeComponent(); 
+} } } </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Using the SimpleControl Element on a Form</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">To use the SimpleControl element on a form
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>In Solution Explorer, double-click <Run FontWeight="Bold">Form1.cs</Run>
+ to open it in the Windows Forms Designer. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Double-click the form to add an event handler for the Load event.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Load</Run>
+ event handler.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private System.Windows.Forms.Integration.ElementHost elementHost1; 
+private void Form1_Load(object sender, EventArgs e) { SimpleControl sc = new SimpleControl(); 
+this.elementHost1.Child = sc; 
+this.elementHost1.BackColor = Color.Blue; 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph>This code creates a <Run>SimpleControl</Run>
+ and assigns it as the child of the ElementHost control.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ElementHost
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0ac41286-4c1b-4b17-9196-d985cb844ce1.xaml">Walkthrough: Hosting a Windows Presentation Foundation Control in Windows Forms</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Manually Creating a Windows Presentation Foundation Project Sample
+      <LineBreak/><Hyperlink NavigateUri="619f9fcd-a71b-4db5-b3e4-da99ec3b5c41.xaml">Migration and Interoperability How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Walkthrough: Manually Adding a Windows Presentation Foundation Element to a Windows Forms Project to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

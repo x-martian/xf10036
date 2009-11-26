@@ -1,0 +1,751 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_66d7a6d6_e3b6_47bc_8dfe_8a1b26f7d901"
+  Tag     ="Shapes and Basic Drawing in WPF Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Shapes and Basic Drawing in WPF Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic gives an overview of how to draw with Shape objects. A <Run FontWeight="Bold">Shape</Run>
+ is a type of UIElement that enables you to draw a shape to the screen. Because they are UI elements, <Run FontWeight="Bold">Shape</Run>
+ objects can be used inside Panel elements and most controls. 
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) offers several layers of access to graphics and rendering services. At the top layer, <Run FontWeight="Bold">Shape</Run>
+ objects are easy to use and provide many useful features, such as layout and eventing.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="shapes">Shape Objects</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="paths">Using Paths and Geometries</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="fillpaint">Painting Shapes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="stretchableshapessection">Stretchable Shapes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="transforms">Transforming Shapes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Shape Objects
+    </Paragraph>
+
+    <Paragraph>WPF provides a number of ready-to-use <Run FontWeight="Bold">Shape</Run>
+ objects. All shape objects inherit from the <Run FontWeight="Bold">Shape</Run>
+ class. Available shape objects include Ellipse, Line, Path, Polygon, Polyline, and Rectangle. <Run FontWeight="Bold">Shape</Run>
+ objects share the following common properties.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Stroke: Describes how the shape's outline is painted. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>StrokeThickness: Describes the thickness of the shape's outline.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Fill: Describes how the interior of the shape is painted.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Data properties to specify coordinates and vertices, measured in <Run>device-independent pixels</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Because they derive from <Run FontWeight="Bold">UIElement</Run>
+, shape objects can be used inside panels and most controls. The Canvas panel is particularly good choice for creating complex drawings, because it supports absolute positioning of its child objects. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Line</Run>
+ class enables you to draw a line between two points. The following example specifies coordinates for the start and end points, a stroke color and thickness, and rounded capping on the ends of the <Run FontWeight="Bold">Line</Run>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;Line Stroke="Black" StrokeThickness="10" StrokeStartLineCap="Round" StrokeEndLineCap="Round" X1="10" Y1="10" X2="75" Y2="90"/> ...</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... Line myLine = new Line(); 
+myLine.Stroke = Brushes.Black; 
+myLine.StrokeThickness = 10; 
+myLine.StrokeStartLineCap = PenLineCap.Round; 
+myLine.StrokeEndLineCap = PenLineCap.Round; 
+myLine.X1 = 10; 
+myLine.Y1 = 10; 
+myLine.X2 = 75; 
+myLine.Y2 = 90; 
+...</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following image shows the rendered <Run FontWeight="Bold">Line</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>Although the <Run FontWeight="Bold">Line</Run>
+ class does provide a <Run FontWeight="Bold">Fill</Run>
+ property, setting it has no effect because a <Run FontWeight="Bold">Line</Run>
+ has no area.
+    </Paragraph>
+
+    <Paragraph>Another common shape is the <Run FontWeight="Bold">Ellipse</Run>
+. Create an <Run FontWeight="Bold">Ellipse</Run>
+ by defining the shape's Width and Height properties. To draw a circle, specify an <Run FontWeight="Bold">Ellipse</Run>
+ whose <Run FontWeight="Bold">Width</Run>
+ and <Run FontWeight="Bold">Height</Run>
+ values are equal.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;Ellipse Height="100" Width="200" Fill="Yellow" Stroke="Black" StrokeThickness="2" /> ...</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... Ellipse myEllipse = new Ellipse(); 
+myEllipse.Width = 200; 
+myEllipse.Height = 100; 
+myEllipse.Fill = Brushes.Yellow; 
+myEllipse.Stroke = Brushes.Black; 
+myEllipse.StrokeThickness = 2; 
+...</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following image shows the rendered <Run FontWeight="Bold">Ellipse</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using Paths and Geometries
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Path</Run>
+ class enables you to draw curves and complex shapes. These curves and shapes are described using Geometry objects. To use a <Run FontWeight="Bold">Path</Run>
+, you create a <Run FontWeight="Bold">Geometry</Run>
+ and use it to set the <Run FontWeight="Bold">Path</Run>
+ object's Data property.
+    </Paragraph>
+
+    <Paragraph>There are a variety of <Run FontWeight="Bold">Geometry</Run>
+ objects to choose from. The LineGeometry, RectangleGeometry, and EllipseGeometry classes describe relatively simple shapes. To create more complex shapes or create curves, use a PathGeometry.
+    </Paragraph>
+
+    <Paragraph FontSize="18">PathGeometry and PathSegments
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">PathGeometry</Run>
+ objects are comprised of one or more PathFigure objects; 
+each <Run FontWeight="Bold">PathFigure</Run>
+ represents a different "figure" or shape. Each <Run FontWeight="Bold">PathFigure</Run>
+ is itself comprised of one or more PathSegment objects, each representing a connected portion of the figure or shape. Segment types include the following: LineSegment, BezierSegment, and ArcSegment.
+    </Paragraph>
+
+    <Paragraph>In the following example, a <Run FontWeight="Bold">Path</Run>
+ is used to draw a quadratic Bezier curve. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1"> 
+&lt;Path.Data> 
+&lt;PathGeometry> 
+&lt;PathGeometry.Figures> 
+&lt;PathFigureCollection> 
+&lt;PathFigure StartPoint="10,100"> 
+&lt;PathFigure.Segments> 
+&lt;PathSegmentCollection> 
+&lt;QuadraticBezierSegment Point1="200,200" Point2="300,100" /> 
+&lt;/PathSegmentCollection> 
+&lt;/PathFigure.Segments> 
+&lt;/PathFigure> 
+&lt;/PathFigureCollection> 
+&lt;/PathGeometry.Figures> 
+&lt;/PathGeometry> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following image shows the rendered shape. 
+    </Paragraph>
+
+    <Paragraph>For more information about <Run FontWeight="Bold">PathGeometry</Run>
+ and the other <Run FontWeight="Bold">Geometry</Run>
+ classes, see the <Hyperlink NavigateUri="9fba8934-98b7-4af6-82f6-f4ef887f963a.xaml">Geometry Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">XAML Abbreviated Syntax
+    </Paragraph>
+
+    <Paragraph>In Extensible Application Markup Language (XAML), you may also use a special abbreviated syntax to describe a <Run FontWeight="Bold">Path</Run>
+. In the following example, abbreviated syntax is used to draw a complex shape. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Data="M 100,200 C 100,25 400,350 400,175 H 280" Stroke="DarkGoldenRod" StrokeThickness="3"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following image shows the rendered <Run FontWeight="Bold">Path</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Data</Run>
+ attribute string begins with the "moveto" command, indicated by M, which establishes a start point for the path in the coordinate system of the <Run FontWeight="Bold">Canvas</Run>
+. <Run FontWeight="Bold">Path</Run>
+ data parameters are case-sensitive. The capital M indicates an absolute location for the new current point. A lowercase m would indicate relative coordinates. The first segment is a cubic <Run>Bezier curve</Run>
+ beginning at (100,200) and ending at (400,175), drawn using the two control points (100,25) and (400,350). This segment is indicated by the C command in the <Run FontWeight="Bold">Data</Run>
+ attribute string. Again, the capital C indicates an absolute path; 
+the lowercase c would indicate a relative path. 
+    </Paragraph>
+
+    <Paragraph>The second segment begins with an absolute horizontal "lineto" command H, which specifies a line drawn from the preceding subpath's endpoint (400,175) to a new endpoint (280,175). Because it is a horizontal "lineto" command, the value specified is an <Run FontStyle="italic">x</Run>
+-coordinate.
+    </Paragraph>
+
+    <Paragraph>For the complete path syntax, see the <Run FontWeight="Bold">Data</Run>
+ reference and <Hyperlink NavigateUri="49a4a8b7-e738-45be-8dac-b54a6d8f5b21.xaml">How to: Create a Shape by Using a PathGeometry</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Painting Shapes
+    </Paragraph>
+
+    <Paragraph>Brush objects are used to paint a shape's <Run FontWeight="Bold">Stroke</Run>
+ and <Run FontWeight="Bold">Fill</Run>
+. In the following example, the stroke and fill of an <Run FontWeight="Bold">Ellipse</Run>
+ are specified. Note that valid input for brush properties can be either a keyword or hexadecimal color value. For more information about available color keywords, see properties of the Colors class in the System.Windows.Media namespace.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas Background="LightGray"> 
+&lt;Ellipse Canvas.Top="50" Canvas.Left="50" Fill="#FFFFFF00" Height="75" Width="75" StrokeThickness="5" Stroke="#FF0000FF"/> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following image shows the rendered <Run FontWeight="Bold">Ellipse</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>Alternatively, you can use property element syntax to explicitly create a SolidColorBrush object to paint the shape with a solid color. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This polygon shape uses pre-defined color values for its Stroke and Fill properties. The SolidColorBrush's Opacity property affects the fill color in this case by making it slightly transparent (opacity of 0.4) so that it blends with any underlying color. --> 
+&lt;Polygon Points="300,200 400,125 400,275 300,200" Stroke="Purple" StrokeThickness="2"> 
+&lt;Polygon.Fill> 
+&lt;SolidColorBrush Color="Blue" Opacity="0.4"/> 
+&lt;/Polygon.Fill> 
+&lt;/Polygon></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the rendered shape. 
+    </Paragraph>
+
+    <Paragraph>You can also paint a shape's stroke or fill with gradients, images, patterns, and more. For more information, see the <Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Stretchable Shapes
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Line</Run>
+, <Run FontWeight="Bold">Path</Run>
+, <Run FontWeight="Bold">Polygon</Run>
+, <Run FontWeight="Bold">Polyline</Run>
+, and <Run FontWeight="Bold">Rectangle</Run>
+ classes all have a Stretch property. This property determines how a <Run FontWeight="Bold">Shape</Run>
+ object's contents (the shape to be drawn) is stretched to fill the <Run FontWeight="Bold">Shape</Run>
+ object's layout space. A <Run FontWeight="Bold">Shape</Run>
+ object's layout space is the amount of space the <Run FontWeight="Bold">Shape</Run>
+ is allocated by the layout system, because of either an explicit <Run FontWeight="Bold">Width</Run>
+ and <Run FontWeight="Bold">Height</Run>
+ setting or because of its HorizontalAlignment and VerticalAlignment settings. For additional information on layout in Windows Presentation Foundation, see <Hyperlink NavigateUri="3eecdced-3623-403a-a077-7595453a9221.xaml">The Layout System</Hyperlink>
+ overview.
+    </Paragraph>
+
+    <Paragraph>The Stretch property takes one of the following values:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>None: The <Run FontWeight="Bold">Shape</Run>
+ object's contents are not stretched. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Fill: The <Run FontWeight="Bold">Shape</Run>
+ object's contents are stretched to fill its layout space. Aspect ratio is not preserved. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Uniform: The <Run FontWeight="Bold">Shape</Run>
+ object's contents are stretched as much as possible to fill its layout space while preserving its original aspect ratio. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UniformToFill: The <Run FontWeight="Bold">Shape</Run>
+ object's contents are stretched to completely fill its layout space while preserving its original aspect ratio.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Note that, when a <Run FontWeight="Bold">Shape</Run>
+ object's contents are stretched, the <Run FontWeight="Bold">Shape</Run>
+ object's outline is painted after the stretching.
+    </Paragraph>
+
+    <Paragraph>In the following example, a <Run FontWeight="Bold">Polygon</Run>
+ is used to draw a very small triangle from (0,0) to (0,1) to (1,1). The <Run FontWeight="Bold">Polygon</Run>
+ object's <Run FontWeight="Bold">Width</Run>
+ and <Run FontWeight="Bold">Height</Run>
+ are set to 100, and its stretch property is set to Fill. As a result, the <Run FontWeight="Bold">Polygon</Run>
+ object's contents (the triangle) are stretched to fill the larger space.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;Polygon Points="0,0 0,1 1,1" Fill="Blue" Width="100" Height="100" Stretch="Fill" Stroke="Black" StrokeThickness="2" /> ...</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... PointCollection myPointCollection = new PointCollection(); 
+myPointCollection.Add(new Point(0,0)); 
+myPointCollection.Add(new Point(0,1)); 
+myPointCollection.Add(new Point(1,1)); 
+Polygon myPolygon = new Polygon(); 
+myPolygon.Points = myPointCollection; 
+myPolygon.Fill = Brushes.Blue; 
+myPolygon.Width = 100; 
+myPolygon.Height = 100; 
+myPolygon.Stretch = Stretch.Fill; 
+myPolygon.Stroke = Brushes.Black; 
+myPolygon.StrokeThickness = 2; 
+...</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Transforming Shapes
+    </Paragraph>
+
+    <Paragraph>The Transform class provides the means to transform shapes in a two-dimensional plane. The different types of transformation include rotation (RotateTransform), scale (ScaleTransform), skew (SkewTransform), and translation (TranslateTransform). 
+    </Paragraph>
+
+    <Paragraph>A common transform to apply to a shape is a rotation. To rotate a shape, create a <Run FontWeight="Bold">RotateTransform</Run>
+ and specify its Angle. An <Run FontWeight="Bold">Angle</Run>
+ of 45 rotates the element 45 degrees clockwise; 
+an angle of 90 rotates the element 90 degrees clockwise; 
+and so on. Set the CenterX and CenterY properties if you want to control the point about which the element is rotated. These property values are expressed in the coordinate space of the element being transformed. <Run FontWeight="Bold">CenterX</Run>
+ and <Run FontWeight="Bold">CenterY</Run>
+ have default values of zero. Finally, apply the <Run FontWeight="Bold">RotateTransform</Run>
+ to the element. If you don't want the transform to affect layout, set the shape's RenderTransform property.
+    </Paragraph>
+
+    <Paragraph>In the following example, a <Run FontWeight="Bold">RotateTransform</Run>
+ is used to rotate a shape 45 degrees about the shape's top left corner (0,0).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Rotates the Polyline 45 degrees about the point (0,0). --> 
+&lt;Polyline Points="25,25 0,50 25,75 50,50 25,25 25,0" Stroke="Blue" StrokeThickness="10" Canvas.Left="75" Canvas.Top="50"> 
+&lt;Polyline.RenderTransform> 
+&lt;RotateTransform CenterX="0" CenterY="0" Angle="45" /> 
+&lt;/Polyline.RenderTransform> 
+&lt;/Polyline> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In the next example, another shape is rotated 45 degrees, but this time it's rotated about the point (25,50).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Rotates the Polyline 45 degrees about its center. --> 
+&lt;Polyline Points="25,25 0,50 25,75 50,50 25,25 25,0" Stroke="Blue" StrokeThickness="10" Canvas.Left="75" Canvas.Top="50" RenderTransformOrigin="0.5,0.5"> 
+&lt;Polyline.RenderTransform> 
+&lt;RotateTransform Angle="45" /> 
+&lt;/Polyline.RenderTransform> 
+&lt;/Polyline> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the results of applying the two transforms. 
+    </Paragraph>
+
+    <Paragraph>In the previous examples, a single transform was applied to each shape object. To apply multiple transforms to a shape (or any other UI element), use a TransformGroup.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9fba8934-98b7-4af6-82f6-f4ef887f963a.xaml">Geometry Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Shapes and Basic Drawing in WPF Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

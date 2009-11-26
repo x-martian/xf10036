@@ -1,0 +1,218 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_acaa2a0a_6137_4efd_9cd1_75ece222e390"
+  Tag     ="Animate a Popup"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate a Popup</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows two ways to animate a Popup control.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example sets the PopupAnimation property to a value of Slide, which causes the <Run FontWeight="Bold">Popup</Run>
+ to "slide-in" when it appears. 
+    </Paragraph>
+
+    <Paragraph>In order to rotate the <Run FontWeight="Bold">Popup</Run>
+, the <Run FontWeight="Bold">Popup</Run>
+ content references a RotateTransform. This example specifies the transform by setting the RenderTransform property on the <Run FontWeight="Bold">Popup</Run>
+ child element. 
+    </Paragraph>
+
+    <Paragraph>For the transform to work correctly, the example must set the AllowsTransparency property to <Run FontWeight="Bold">true</Run>
+. In addition, the Margin on the Canvas content must specify enough space for the <Run FontWeight="Bold">Popup</Run>
+ to rotate.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Popup IsOpen="{Binding ElementName=myCheckBox,Path=IsChecked}" PlacementTarget="{Binding ElementName=myCheckBox}" AllowsTransparency="True" PopupAnimation="Slide" HorizontalOffset="50" VerticalOffset="50" > 
+&lt;!--The Margin set on the Canvas provides the additional area around the Popup so that the Popup is visible when it rotates.--> 
+&lt;Canvas Width="100" Height="100" Background="DarkBlue" Margin="150"> 
+&lt;Canvas.RenderTransform> 
+&lt;RotateTransform x:Name="theTransform" /> 
+&lt;/Canvas.RenderTransform> 
+&lt;TextBlock TextWrapping="Wrap" Foreground="White"> Rotating Popup 
+&lt;/TextBlock> 
+&lt;/Canvas> 
+&lt;/Popup> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The previous example sets the PlacementTarget to a CheckBox that is part of a BulletDecorator. The <Run FontWeight="Bold">Popup</Run>
+ appears when you select the <Run FontWeight="Bold">CheckBox</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The following example defines the <Run FontWeight="Bold">BulletDecorator</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;BulletDecorator Margin="20,20,0,0"> 
+&lt;BulletDecorator.Bullet> 
+&lt;CheckBox Name="myCheckBox"/> 
+&lt;/BulletDecorator.Bullet> 
+&lt;TextBlock>Select CheckBox to see Popup
+&lt;/TextBlock> 
+&lt;/BulletDecorator> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how a Click event, which occurs when a Button is clicked, triggers the Storyboard that starts the animation.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button HorizontalAlignment="Left" Width="200" Margin="20,10,0,0"> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="theTransform" Storyboard.TargetProperty="(RotateTransform.Angle)" From="0" To="360" Duration="0:0:5" AutoReverse="True"/> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> Click to see the Popup animate 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Animated Popup Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>RenderTransform
+      <LineBreak/>BulletDecorator
+      <LineBreak/>RotateTransform
+      <LineBreak/>Storyboard
+      <LineBreak/>Popup
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="774f53ca-bff8-470e-9ce9-3928b4cf3d4c.xaml">Popup Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Popup Samples
+      <LineBreak/><Hyperlink NavigateUri="9488a245-0168-4650-b9ab-d075a108cc8f.xaml">Popup How-to Topics</Hyperlink>
+
+      <LineBreak/>Event Triggers Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate a Popup to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

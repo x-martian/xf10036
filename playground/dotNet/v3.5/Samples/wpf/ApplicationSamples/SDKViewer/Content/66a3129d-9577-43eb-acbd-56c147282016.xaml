@@ -1,0 +1,454 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_66a3129d_9577_43eb_acbd_56c147282016"
+  Tag     ="Collecting Ink"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Collecting Ink</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Hyperlink NavigateUri="f667bd15-2134-41e9-b4af-5ced6fafab5d.xaml">Windows Presentation Foundation</Hyperlink>
+ platform collects digital ink as a core part of its functionality. This topic discusses methods for collection of ink in Windows Presentation Foundation (WPF).
+    </Paragraph>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To use the following examples, you must first install Microsoft Visual Studio 2005 and the Windows SDK. You should also understand how to write applications for the WPF. For more information about getting started with WPF, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using the InkCanvas Element
+    </Paragraph>
+
+    <Paragraph>The InkCanvas element provides the easiest way to collect ink in WPF. The <Run FontWeight="Bold">InkCanvas</Run>
+ element is similar to the InkOverlay object from the Tablet PC SDK 1.7 and earlier versions.
+    </Paragraph>
+
+    <Paragraph>Use an <Run FontWeight="Bold">InkCanvas</Run>
+ element to receive and display ink input. You commonly input ink through the use of a stylus, which interacts with a digitizer to produce ink strokes. In addition, a mouse can be used in place of a stylus. The created strokes are represented as Stroke objects, and they can be manipulated both programmatically and by user input. The <Run FontWeight="Bold">InkCanvas</Run>
+ enables users to select, modify, or delete an existing <Run FontWeight="Bold">Stroke</Run>
+.
+    </Paragraph>
+
+    <Paragraph>By using XAML, you can set up ink collection as easily as adding an <Run>InkCanvas</Run>
+ element to your tree. The following example adds an <Run FontWeight="Bold">InkCanvas</Run>
+ to a default WPF project created in Microsoft Visual Studio 2005.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Grid> 
+&lt;InkCanvas/> 
+&lt;/Grid> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run>InkCanvas</Run>
+ element can also contain child elements, making it possible to add ink annotation capabilities to almost any type of XAML element. For example, to add inking capabilities to a text element, simply make it a child of an <Run FontWeight="Bold">InkCanvas</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;InkCanvas> 
+&lt;TextBlock>Show text here.
+&lt;/TextBlock> 
+&lt;/InkCanvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Adding support for marking up an image with ink is just as easy.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;InkCanvas> 
+&lt;Image Source="myPicture.jpg"/> 
+&lt;/InkCanvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">InkCollection Modes
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">InkCanvas</Run>
+ provides support for various input modes through its EditingMode property.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Manipulating Ink
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">InkCanvas</Run>
+ provides support for many ink editing operations. For example, <Run FontWeight="Bold">InkCanvas</Run>
+ supports back-of-pen erase with no additional code needed to add the functionality to the element.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Selection
+    </Paragraph>
+
+    <Paragraph>Setting selection mode is as simple as setting the InkCanvasEditingMode property to <Run FontWeight="Bold">Select</Run>
+. The following code sets the editing mode based on the value of a CheckBox:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Set the selection mode based on a checkbox if ((bool)cbSelectionMode.IsChecked) { theInkCanvas.EditingMode = InkCanvasEditingMode.Select; 
+} else { theInkCanvas.EditingMode = InkCanvasEditingMode.Ink; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' Set the selection mode based on a checkbox If CBool(cbSelectionMode.IsChecked) Then theInkCanvas.EditingMode = InkCanvasEditingMode.Select Else theInkCanvas.EditingMode = InkCanvasEditingMode.Ink End If </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">DrawingAttributes
+    </Paragraph>
+
+    <Paragraph>Use the DrawingAttributes property to change the appearance of ink strokes. For instance, the Color member of DrawingAttributes sets the color of the rendered <Run FontWeight="Bold">Stroke</Run>
+. The following example changes the color of the selected strokes to red.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Get the selected strokes from the InkCanvas StrokeCollection selection = theInkCanvas.GetSelectedStrokes(); 
+// Check to see if any strokes are actually selected if (selection.Count > 0) { // Change the color of each stroke in the collection to red foreach (System.Windows.Ink.Stroke stroke in selection) { stroke.DrawingAttributes.Color = System.Windows.Media.Colors.Red; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' Get the selected strokes from the InkCanvas Dim selection As StrokeCollection = theInkCanvas.GetSelectedStrokes() ' Check to see if any strokes are actually selected If selection.Count > 0 Then ' Change the color of each stroke in the collection to red Dim stroke As System.Windows.Ink.Stroke For Each stroke In selection stroke.DrawingAttributes.Color = System.Windows.Media.Colors.Red Next stroke End If </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">DefaultDrawingAttributes
+    </Paragraph>
+
+    <Paragraph>The DefaultDrawingAttributes property provides access to properties such as the height, width, and color of the strokes to be created in an <Run FontWeight="Bold">InkCanvas</Run>
+. Once you change the <Run FontWeight="Bold">DefaultDrawingAttributes</Run>
+, all future strokes entered into the <Run FontWeight="Bold">InkCanvas</Run>
+ are rendered with the new property values.
+    </Paragraph>
+
+    <Paragraph>In addition to modifying the <Run FontWeight="Bold">DefaultDrawingAttributes</Run>
+ in the code-behind file, you can use XAML syntax for specifying <Run FontWeight="Bold">DefaultDrawingAttributes</Run>
+ properties. The following XAML code demonstrates how to set the <Run FontWeight="Bold">Color</Run>
+ property. To use this code, create a new WPF project called "HelloInkCanvas" in Visual Studio 2005. Replace the code in the Window1.xaml file with the following code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="HelloInkCanvas.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Ink="clr-namespace:System.Windows.Ink;assembly=PresentationCore" Title="Hello, InkCanvas!" Height="300" Width="300" > 
+&lt;Grid> 
+&lt;InkCanvas Name="inkCanvas1" Background="Ivory"> 
+&lt;InkCanvas.DefaultDrawingAttributes> 
+&lt;Ink:DrawingAttributes xmlns:ink="system-windows-ink" Color="Red" Width="5" /> 
+&lt;/InkCanvas.DefaultDrawingAttributes> 
+&lt;/InkCanvas> 
+&lt;!-- This stack panel of buttons is a sibling to InkCanvas (not a child) but overlapping it, higher in z-order, so that ink is collected and rendered behind --> 
+&lt;StackPanel Name="buttonBar" VerticalAlignment="Top" Height="26" Orientation="Horizontal" Margin="5"> 
+&lt;Button Click="Ink">Ink
+&lt;/Button> 
+&lt;Button Click="Highlight">Highlight
+&lt;/Button> 
+&lt;Button Click="EraseStroke">EraseStroke
+&lt;/Button> 
+&lt;Button Click="Select">Select
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Grid> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Next, add the following button event handlers to the code behind file, inside the Window1 class.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Set the EditingMode to ink input. private void Ink(object sender, RoutedEventArgs e) { inkCanvas1.EditingMode = InkCanvasEditingMode.Ink; 
+// Set the DefaultDrawingAttributes for a red pen. inkCanvas1.DefaultDrawingAttributes.Color = Colors.Red; 
+inkCanvas1.DefaultDrawingAttributes.IsHighlighter = false; 
+inkCanvas1.DefaultDrawingAttributes.Height = 2; 
+} // Set the EditingMode to highlighter input. private void Highlight(object sender, RoutedEventArgs e) { inkCanvas1.EditingMode = InkCanvasEditingMode.Ink; 
+// Set the DefaultDrawingAttributes for a highlighter pen. inkCanvas1.DefaultDrawingAttributes.Color = Colors.Yellow; 
+inkCanvas1.DefaultDrawingAttributes.IsHighlighter = true; 
+inkCanvas1.DefaultDrawingAttributes.Height = 25; 
+} // Set the EditingMode to erase by stroke. private void EraseStroke(object sender, RoutedEventArgs e) { inkCanvas1.EditingMode = InkCanvasEditingMode.EraseByStroke; 
+} // Set the EditingMode to selection. private void Select(object sender, RoutedEventArgs e) { inkCanvas1.EditingMode = InkCanvasEditingMode.Select; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' Set the EditingMode to ink input. Private Sub Ink(ByVal sender As Object, ByVal e As RoutedEventArgs) inkCanvas1.EditingMode = InkCanvasEditingMode.Ink ' Set the DefaultDrawingAttributes for a red pen. inkCanvas1.DefaultDrawingAttributes.Color = Colors.Red inkCanvas1.DefaultDrawingAttributes.IsHighlighter = False inkCanvas1.DefaultDrawingAttributes.Height = 2 End Sub 'Ink ' Set the EditingMode to highlighter input. Private Sub Highlight(ByVal sender As Object, ByVal e As RoutedEventArgs) inkCanvas1.EditingMode = InkCanvasEditingMode.Ink ' Set the DefaultDrawingAttributes for a highlighter pen. inkCanvas1.DefaultDrawingAttributes.Color = Colors.Yellow inkCanvas1.DefaultDrawingAttributes.IsHighlighter = True inkCanvas1.DefaultDrawingAttributes.Height = 25 End Sub 'Highlight ' Set the EditingMode to erase by stroke. Private Sub EraseStroke(ByVal sender As Object, ByVal e As RoutedEventArgs) inkCanvas1.EditingMode = InkCanvasEditingMode.EraseByStroke End Sub 'EraseStroke ' Set the EditingMode to selection. Private Sub [Select](ByVal sender As Object, ByVal e As RoutedEventArgs) inkCanvas1.EditingMode = InkCanvasEditingMode.Select End Sub 'Select </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>After copying this code, press <Run FontWeight="Bold">F5</Run>
+ in Microsoft Visual Studio 2005 to run the program in the debugger.
+    </Paragraph>
+
+    <Paragraph>Notice how the StackPanel places the buttons on top of the <Run FontWeight="Bold">InkCanvas</Run>
+. If you try to ink over the top of the buttons, the <Run FontWeight="Bold">InkCanvas</Run>
+ collects and renders the ink behind the buttons. This is because the buttons are siblings of the <Run FontWeight="Bold">InkCanvas</Run>
+ as opposed to children. Also, the buttons are higher in the z-order, so the ink is rendered behind them.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>DrawingAttributes
+      <LineBreak/>DefaultDrawingAttributes
+      <LineBreak/>System.Windows.Ink
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Collecting Ink to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

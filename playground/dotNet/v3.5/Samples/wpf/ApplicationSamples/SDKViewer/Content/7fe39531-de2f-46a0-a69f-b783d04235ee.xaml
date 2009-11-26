@@ -1,0 +1,118 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_7fe39531_de2f_46a0_a69f_b783d04235ee"
+  Tag     ="Remove a Storyboard"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Remove a Storyboard</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to remove a Storyboard to stop it from continuing when the user navigates away from the page containing the <Run FontWeight="Bold">Storyboard</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_7fe39531_de2f_46a0_a69f_b783d04235ee_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="RootPage"> 
+&lt;StackPanel> 
+&lt;!-- The MediaElement control plays the sound. --> 
+&lt;MediaElement Name="myMediaElement" /> 
+&lt;Button Name="BeginButton">Begin
+&lt;/Button> 
+&lt;StackPanel.Triggers> 
+&lt;!-- This trigger causes the Storyboard to start (the music start) when you click the "BeginButton" button. --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="BeginButton"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard Name="myBeginStoryboard"> 
+&lt;Storyboard> 
+&lt;MediaTimeline Source="C:\WINDOWS\Media\town.mid" Storyboard.TargetName="myMediaElement" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;!-- When this page unloads, like when you navigate away from the page, this trigger causes the Storyboard to be removed and the clock to stop. If you come back to this page and click the button to start the Storyboard, the music starts from the beginning. Alternatively, if you don't unload the Storyboard when you leave the page, the Storyboard does not stop while you're gone and when you navigate back to the page you hear the music continuing as though you had never left. --> 
+&lt;EventTrigger RoutedEvent="Page.Unloaded" > 
+&lt;EventTrigger.Actions> 
+&lt;RemoveStoryboard BeginStoryboardName="myBeginStoryboard" /> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;/StackPanel.Triggers> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Remove a Storyboard to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

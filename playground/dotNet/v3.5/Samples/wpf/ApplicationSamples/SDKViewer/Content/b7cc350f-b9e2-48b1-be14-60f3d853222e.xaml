@@ -1,0 +1,133 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b7cc350f_b9e2_48b1_be14_60f3d853222e"
+  Tag     ="WPF Interoperation: ''Airspace'' and Window Regions Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>WPF Interoperation: ''Airspace'' and Window Regions Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>"Airspace" is a conceptual way of thinking about how the two halves of an interoperation application share the rendering areas within a common top-level window. This topic explains how the "airspace" concept might influence the presentation design as well as the input considerations for your WPF interoperation application.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Airspace
+    </Paragraph>
+
+    <Paragraph>Within a top-level window, you can conceptualize that each HWND that comprises one of the technologies of an interoperation application has its own "airspace.". Each pixel within the window belongs to exactly one HWND, which constitutes the airspace of that HWND. (Strictly speaking, there will be more than one WPF airspace if there is more than one WPF HWND, but for purposes of explaining the concept, presume that there is only one in the examples given in this topic). The airspace concept implies that all layers or other windows that attempt to render above that pixel during application lifetime must be part of the same interoperation technology. Attempting to render WPF pixels over Win32 leads to undesirable results, and is disallowed as much as possible through the interoperation APIs.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Airspace by Example
+    </Paragraph>
+
+    <Paragraph>The first example illustrates an application that mixes Win32, DirectX, and WPF. Each technology uses its own separate, non-overlapping set of pixels, and there are no airspace issues.
+    </Paragraph>
+
+    <Paragraph>But suppose you start from that application and create an animation that is controlled by the mouse pointer position and can thus attempt to render over any of these three regions. This would eventually violate airspace. No matter which technology was responsible for the animation itself, that technology would violate airspace of the two others. This is illustrated in the following picture, where the green circle is attempting to move around the window:
+    </Paragraph>
+
+    <Paragraph>Another violation of airspace is if you try to use transparency/alpha blending between different technologies. In the picture below, the WPF box is violating Win32 and DirectX airspace. Because pixels in that WPF box are semi-transparent, they would have to be owned jointly by both DirectX and WPF, which is not possible. So this is another violation of airspace and cannot be built:
+    </Paragraph>
+
+    <Paragraph>The previous three examples used rectangular regions, but the airspace is not necessarily rectangular. It can be a rectangle with a hole (for example, the Win32 airspace here is everything except the WPF and DirectX airspace):
+    </Paragraph>
+
+    <Paragraph>Airspaces can also be completely nonrectangular, or any shape describable by a Win32 HRGN (region):
+    </Paragraph>
+
+    <Paragraph FontSize="22">Transparency and Top-Level Windows
+    </Paragraph>
+
+    <Paragraph>The window manager process (in both Windows Vista and Microsoft Windows XP) only really processes Win32 HWNDs, therefore every WPF Window is an HWND. The <Run FontWeight="Bold">Window</Run>
+ HWND must abide by the general rules for any HWND. Within that HWND, WPF code can do whatever the overall WPF APIs support. But for interactions with other HWNDs on the desktop, WPF must abide by Win32 processing and rendering rules. WPF supports non-rectangular windows by using Win32 APIs -- HRGNs for non-rectangular windows, and layered windows for a per-pixel alpha.
+    </Paragraph>
+
+    <Paragraph>Constant alpha and color keys are not supported. Win32 layered window capabilities vary by platform.
+    </Paragraph>
+
+    <Paragraph>Layered windows can make the entire window translucent (semi-transparent) by specifying an alpha value to apply to every pixel in the window. (Win32 in fact supports per-pixel alpha, but this is very difficult to use in practical programs because in this mode you would need to draw any child HWND yourself, including dialogs and dropdowns).
+    </Paragraph>
+
+    <Paragraph>WPF supports HRGNs, however, there are no managed APIs for this functionality. You can use <Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/ms235282.aspx">PInvoke</Hyperlink>
+ and HwndSource to call the relevant Win32 APIs.
+    </Paragraph>
+
+    <Paragraph>WPF layered windows have different capabilities on different operating systems (this is because WPF uses DirectX to render, and layered windows were primarily designed for GDI rendering, not DirectX rendering):
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>WPF supports hardware accelerated layered windows on Windows Vista. Hardware accelerated layered windows on Microsoft Windows XP require support from Microsoft DirectX, so the capabilities will depend on the version of Microsoft DirectX on that machine.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>WPF does not support transparency color keys, because WPF cannot guarantee to render the exact color you requested, particularly when rendering is hardware-accelerated.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If running on Microsoft Windows XP, layered windows on top of DirectX surfaces flicker when the DirectX application renders. (The actual rendering sequence is that Microsoft Windows Graphics Device Interface (GDI) hides the layered window, then DirectX draws, and then Microsoft Windows Graphics Device Interface (GDI) puts the layered window back). Non-WPF layered windows also have this limitation.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="555e55a7-0851-4ec8-b1c6-0acba7e9b648.xaml">Tutorial: Create a Win32 Application Hosting WPF Content</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3cc8644a-34f3-4082-9ddc-77623e4df2d8.xaml">Tutorial: Create a WPF Application Hosting Win32 Content</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0ffbde0d-701d-45a3-a6fa-dd71f4d9772e.xaml">WPF and Win32 Interoperation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about WPF Interoperation: ''Airspace'' and Window Regions Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

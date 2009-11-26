@@ -1,0 +1,130 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d58b740f_5192_4a3e_af59_7aa162e6ca15"
+  Tag     ="Recognize Application Gestures"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How To: Recognize Application Gestures</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example demonstrates how to erase ink when a user makes a ScratchOut gesture on an InkCanvas. This example assumes an <Run FontWeight="Bold">InkCanvas</Run>
+, called <Run>inkCanvas1</Run>
+, is declared in the XAML file.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Ink; 
+using System.Collections.ObjectModel; 
+public partial class Window1 : Window { public Window1() { InitializeComponent(); 
+if (inkCanvas1.IsGestureRecognizerAvailable) { inkCanvas1.EditingMode = InkCanvasEditingMode.InkAndGesture; 
+inkCanvas1.Gesture += new InkCanvasGestureEventHandler(inkCanvas1_Gesture); 
+inkCanvas1.SetEnabledGestures( new ApplicationGesture[] { ApplicationGesture.ScratchOut }); 
+} } void inkCanvas1_Gesture(object sender, InkCanvasGestureEventArgs e) { ReadOnlyCollection
+&lt;GestureRecognitionResult> gestureResults = e.GetGestureRecognitionResults(); 
+// Check the first recognition result for a gesture. if ((gestureResults[0].RecognitionConfidence == RecognitionConfidence.Strong) &amp;&amp; 
+(gestureResults[0].ApplicationGesture == ApplicationGesture.ScratchOut)) { StrokeCollection hitStrokes = inkCanvas1.Strokes.HitTest( e.Strokes.GetBounds(), 10); 
+if (hitStrokes.Count > 0) { inkCanvas1.Strokes.Remove(hitStrokes); 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System Imports System.Windows Imports System.Windows.Controls Imports System.Windows.Ink Imports System.Collections.ObjectModel Class Window1 Inherits Window Public Sub New() InitializeComponent() If inkCanvas1.IsGestureRecognizerAvailable Then inkCanvas1.EditingMode = InkCanvasEditingMode.InkAndGesture AddHandler inkCanvas1.Gesture, AddressOf inkCanvas1_Gesture inkCanvas1.SetEnabledGestures(New ApplicationGesture() {ApplicationGesture.ScratchOut}) End If End Sub 'New Sub inkCanvas1_Gesture(ByVal sender As Object, ByVal e As InkCanvasGestureEventArgs) Dim gestureResults As ReadOnlyCollection(Of GestureRecognitionResult) = _ e.GetGestureRecognitionResults() ' Check the first recognition result for a gesture. If gestureResults(0).RecognitionConfidence = _ RecognitionConfidence.Strong AndAlso _ gestureResults(0).ApplicationGesture = _ ApplicationGesture.ScratchOut Then Dim hitStrokes As StrokeCollection = _ inkCanvas1.Strokes.HitTest(e.Strokes.GetBounds(), 10) If hitStrokes.Count > 0 Then inkCanvas1.Strokes.Remove(hitStrokes) End If End If End Sub 'inkCanvas1_Gesture End Class 'Window1 </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ApplicationGesture
+      <LineBreak/>InkCanvas
+      <LineBreak/>Gesture
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How To: Recognize Application Gestures to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

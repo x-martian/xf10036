@@ -1,0 +1,228 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_36a5b9fe_a2fd_4ea0_86cd_e007386af556"
+  Tag     ="Recieve Notification When a Timeline Completes"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Recieve Notification When a Timeline Completes</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Completed event notifies you when a Timeline completes. A timeline is considered to have completed after it has reached the end of its active period and will no longer play unless interactively restarted. Note that "completed" is not the same as "stopped playing": stopping a timeline does not trigger the <Run FontWeight="Bold">Completed</Run>
+ event (but skipping to the timeline's fill period does).
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In the following example, two Storyboard objects are used to create an animation transition between two pictures, stored using ImageSource objects and displayed using an Image control. One storyboard shrinks the image control until it disappears. After it completes, the old <Run FontWeight="Bold">ImageSource</Run>
+ is swapped with the other <Run FontWeight="Bold">ImageSource</Run>
+, and a second storyboard that expands the image control until it is full-sized again.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- TimelineCompletedExample.xaml This example creates an animated transition between two images. When the user clicks the Start Transition button, a storyboard shrinks an image until it disappears. The Completed event is used to notify the class when this storyboard has completed. The code behind file handles this event by swapping the image and making it visible again. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="SDKSample.TimelineCompletedExample" WindowTitle="Timeline Completed Example" Loaded="exampleLoaded"> 
+&lt;Page.Resources> 
+&lt;!-- A simple picture of a rectangle. --> 
+&lt;DrawingImage x:Key="RectangleDrawingImage"> 
+&lt;DrawingImage.Drawing> 
+&lt;DrawingGroup> 
+&lt;GeometryDrawing Brush="White"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;RectangleGeometry Rect="0,0,100,100" /> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;/GeometryDrawing> 
+&lt;GeometryDrawing Brush="Orange"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;RectangleGeometry Rect="25,25,50,50" /> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingGroup> 
+&lt;/DrawingImage.Drawing> 
+&lt;/DrawingImage> 
+&lt;!-- A simple picture of a cirlce. --> 
+&lt;DrawingImage x:Key="CircleDrawingImage"> 
+&lt;DrawingImage.Drawing> 
+&lt;DrawingGroup> 
+&lt;GeometryDrawing Brush="White"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;RectangleGeometry Rect="0,0,100,100" /> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;/GeometryDrawing> 
+&lt;GeometryDrawing> 
+&lt;GeometryDrawing.Geometry> 
+&lt;EllipseGeometry Center="50,50" RadiusX="25" RadiusY="25" /> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Brush> 
+&lt;RadialGradientBrush GradientOrigin="0.75,0.25" Center="0.75,0.25"> 
+&lt;GradientStop Offset="0.0" Color="White" /> 
+&lt;GradientStop Offset="1.0" Color="LimeGreen" /> 
+&lt;/RadialGradientBrush> 
+&lt;/GeometryDrawing.Brush> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingGroup> 
+&lt;/DrawingImage.Drawing> 
+&lt;/DrawingImage> 
+&lt;!-- Define the storyboard that enlarges the image. This storyboard is applied using code when ZoomOutStoryboard completes. --> 
+&lt;Storyboard x:Key="ZoomInStoryboardResource"> 
+&lt;DoubleAnimation Storyboard.TargetName="AnimatedImageScaleTranform" Storyboard.TargetProperty="ScaleX" Duration="0:0:5" To="1" /> 
+&lt;DoubleAnimation Storyboard.TargetName="AnimatedImageScaleTranform" Storyboard.TargetProperty="ScaleY" Duration="0:0:5" To="1" /> 
+&lt;/Storyboard> 
+&lt;/Page.Resources> 
+&lt;StackPanel Margin="20" > 
+&lt;Border BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"> 
+&lt;!-- Displays the current ImageSource. --> 
+&lt;Image Name="AnimatedImage" Width="200" Height="200" RenderTransformOrigin="0.5,0.5"> 
+&lt;Image.RenderTransform> 
+&lt;ScaleTransform x:Name="AnimatedImageScaleTranform" ScaleX="1" ScaleY="1" /> 
+&lt;/Image.RenderTransform> 
+&lt;/Image> 
+&lt;/Border> 
+&lt;!-- This StackPanel contains buttons that control the storyboard. --> 
+&lt;StackPanel Orientation="Horizontal" Margin="0,30,0,0"> 
+&lt;Button Name="BeginButton">Start Transition
+&lt;/Button> 
+&lt;Button Name="SkipToFillButton">Skip To Fill
+&lt;/Button> 
+&lt;Button Name="StopButton">Stop
+&lt;/Button> 
+&lt;StackPanel.Triggers> 
+&lt;!-- Begin the storyboard that shrinks the image. After the storyboard completes, --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="BeginButton"> 
+&lt;BeginStoryboard Name="ZoomOutBeginStoryboard"> 
+&lt;Storyboard x:Name="ZoomOutStoryboard" Completed="zoomOutStoryboardCompleted" FillBehavior="Stop"> 
+&lt;DoubleAnimation Storyboard.TargetName="AnimatedImageScaleTranform" Storyboard.TargetProperty="ScaleX" Duration="0:0:5" To="0" FillBehavior="Stop" /> 
+&lt;DoubleAnimation Storyboard.TargetName="AnimatedImageScaleTranform" Storyboard.TargetProperty="ScaleY" Duration="0:0:5" To="0" FillBehavior="Stop" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;!-- Advances ZoomOutStoryboard to its fill period. This action triggers the Completed event. --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="SkipToFillButton"> 
+&lt;SkipStoryboardToFill BeginStoryboardName="ZoomOutBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;!-- Stops the storyboard. This action does not trigger the completed event. --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="StopButton"> 
+&lt;StopStoryboard BeginStoryboardName="ZoomOutBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;/StackPanel.Triggers> 
+&lt;/StackPanel> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// TimelineCompletedExample.xaml.cs // Handles the ZoomOutStoryboard's Completed event. // See the TimelienCompletedExample.xaml file // for the markup that creates the images and storyboards. using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Navigation; 
+namespace SDKSample { public partial class TimelineCompletedExample : Page { private Storyboard zoomInStoryboard; 
+private ImageSource currentImageSource; 
+private ImageSource nextImageSource; 
+public TimelineCompletedExample() { InitializeComponent(); 
+} private void exampleLoaded(object sender, RoutedEventArgs e) { // Cache the zoom-out storyboard resource. zoomInStoryboard = (Storyboard) this.Resources["ZoomInStoryboardResource"]; 
+// Cache the ImageSource resources. currentImageSource = (ImageSource) this.Resources["RectangleDrawingImage"]; 
+nextImageSource = (ImageSource) this.Resources["CircleDrawingImage"]; 
+// Display the current image source. AnimatedImage.Source = currentImageSource; 
+} // Handles the zoom-out storyboard's completed event. private void zoomOutStoryboardCompleted(object sender, EventArgs e) { AnimatedImage.Source = nextImageSource; 
+nextImageSource = currentImageSource; 
+currentImageSource = AnimatedImage.Source; 
+zoomInStoryboard.Begin(AnimatedImage, HandoffBehavior.SnapshotAndReplace); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information about timing events, see the <Hyperlink NavigateUri="597e3280-0867-4359-a97b-5b2f4149e350.xaml">Timing Events Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Completed
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Recieve Notification When a Timeline Completes to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,189 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_2ad124d2_2406_4157_aaf2_64e067298f01"
+  Tag     ="Create an Expander with a ScrollViewer"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create an Expander with a ScrollViewer</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create an Expander control that contains complex content, such as an image and text. The example also encloses the content of the <Run FontWeight="Bold">Expander</Run>
+ in a ScrollViewer control.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create an <Run FontWeight="Bold">Expander</Run>
+. The example uses a BulletDecorator control, which contains an image and text, in order to define the Header. A <Run FontWeight="Bold">ScrollViewer</Run>
+ control provides a method for scrolling the expanded content. 
+    </Paragraph>
+
+    <Paragraph>Note that the example sets the Height property on the <Run FontWeight="Bold">ScrollViewer</Run>
+ instead of on the content. If the <Run FontWeight="Bold">Height</Run>
+ is set on the content, the <Run FontWeight="Bold">ScrollViewer</Run>
+ does not work correctly because it does not know about the size limitation. The Width property is set on the <Run FontWeight="Bold">Expander</Run>
+ control and this setting applies to the <Run FontWeight="Bold">Header</Run>
+ and the expanded content.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Expander Width="200" HorizontalContentAlignment="Stretch"> 
+&lt;Expander.Header> 
+&lt;BulletDecorator> 
+&lt;BulletDecorator.Bullet> 
+&lt;Image Width="10" Source="images\icon.jpg"/> 
+&lt;/BulletDecorator.Bullet> 
+&lt;TextBlock Margin="20,0,0,0">My Expander
+&lt;/TextBlock> 
+&lt;/BulletDecorator> 
+&lt;/Expander.Header> 
+&lt;Expander.Content> 
+&lt;ScrollViewer Height="50"> 
+&lt;TextBlock TextWrapping="Wrap"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+&lt;/TextBlock> 
+&lt;/ScrollViewer> 
+&lt;/Expander.Content> 
+&lt;/Expander> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//Create Expander object Expander exp = new Expander(); 
+//Create Bullet Panel for Expander Header BulletDecorator bp = new BulletDecorator(); 
+Image i = new Image(); 
+BitmapImage bi= new BitmapImage(); 
+bi.BeginInit(); 
+bi.UriSource = new Uri(@"pack://application:,,/images/icon.jpg"); 
+bi.EndInit(); 
+i.Source = bi; 
+i.Width = 10; 
+bp.Bullet = i; 
+TextBlock tb = new TextBlock(); 
+tb.Text = "My Expander"; 
+tb.Margin = new Thickness(20,0,0,0); 
+bp.Child = tb; 
+exp.Header = bp; 
+//Create TextBlock with ScrollViewer for Expander Content StackPanel spScroll = new StackPanel(); 
+TextBlock tbc = new TextBlock(); 
+tbc.Text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit," + "sed do eiusmod tempor incididunt ut labore et dolore magna" + "aliqua. Ut enim ad minim veniam, quis nostrud exercitation" + "ullamco laboris nisi ut aliquip ex ea commodo consequat." + "Duis aute irure dolor in reprehenderit in voluptate velit" + "esse cillum dolore eu fugiat nulla pariatur. Excepteur sint" + "occaecat cupidatat non proident, sunt in culpa qui officia" + "deserunt mollit anim id est laborum."; 
+tbc.TextWrapping = TextWrapping.Wrap; 
+spScroll.Children.Add(tbc); 
+ScrollViewer scr = new ScrollViewer(); 
+scr.Content = spScroll; 
+scr.Height = 50; 
+exp.Content = scr; 
+exp.Width=200; 
+exp.HorizontalContentAlignment= HorizontalAlignment.Stretch; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Expander with a ScrollViewer Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Expander
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="877bf425-0e54-49ec-8fd2-13a211377abb.xaml">Expander Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Expander Samples
+      <LineBreak/><Hyperlink NavigateUri="c31e85e3-963f-4693-b463-a29adc433fcd.xaml">Expander How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create an Expander with a ScrollViewer to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

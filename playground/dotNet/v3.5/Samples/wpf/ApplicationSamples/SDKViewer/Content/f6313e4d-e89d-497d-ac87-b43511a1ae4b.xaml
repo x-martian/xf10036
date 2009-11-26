@@ -1,0 +1,270 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f6313e4d_e89d_497d_ac87_b43511a1ae4b"
+  Tag     ="TypeConverters and XAML"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>TypeConverters and XAML</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The TypeConverter class serves a particular purpose as part of the implementation for a managed class that can be used as a property value in Extensible Application Markup Language (XAML) attribute usage. If you write a custom class, and you want instances of your class to be usable as Extensible Application Markup Language (XAML) settable attribute, you might need to apply a TypeConverterAttribute to your class, write a custom <Run FontWeight="Bold">TypeConverter</Run>
+ class, or both.
+    </Paragraph>
+
+    <Paragraph FontSize="22">XAML and String Values
+    </Paragraph>
+
+    <Paragraph>When you set an attribute value in XAML, the initial type of that value is String. Even other primitives such as Double are initially strings to a XAML loader, although the conversion between primitive values and named values of an enumeration is relatively straightforward.
+    </Paragraph>
+
+    <Paragraph>A XAML loader needs two pieces of information in order to process an attribute value. The first piece of information is the value type of the property that is being set. Any string value that is loaded in XAML must ultimately be converted or resolved to a value of that type. If the value is a primitive, a direct conversion of the string is attempted. If the value is an enumeration, the string is used to check for a name match in that enumeration. If there is a name match, the value associated with the name is returned.
+    </Paragraph>
+
+    <Paragraph>Another special case is a markup extension. Markup extension usages must be processed by a XAML loader prior to checking for property type and other considerations. The purpose of a markup extension is to process a string and return an object. If the object returned is a type match for the property, the markup extension supplies a value for a property in a manner that avoids any type conversion taking place outside of the markup extension implementation code. For more information on markup extensions, see <Hyperlink NavigateUri="618dc745-8b14-4886-833f-486d2254bb78.xaml">Markup Extensions and XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">TypeConverter
+    </Paragraph>
+
+    <Paragraph>If the value is not a primitive type or enum, and there is no markup extension usage, then there must be some means of converting a <Run FontWeight="Bold">String</Run>
+ to the appropriate value type. This is the role of the <Run FontWeight="Bold">TypeConverter</Run>
+ implementation. <Run FontWeight="Bold">TypeConverter</Run>
+ defines four members that are relevant for converting to and from strings for XAML purposes:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>CanConvertTo 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>CanConvertFrom 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ConvertTo 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ConvertFrom 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Of these, the most important method is <Run FontWeight="Bold">ConvertFrom</Run>
+. This method converts a string to the required object type.
+    </Paragraph>
+
+    <Paragraph>The next most important method is <Run FontWeight="Bold">ConvertTo</Run>
+. If a WPF application is serialized, <Run FontWeight="Bold">ConvertTo</Run>
+ is responsible for producing a markup representation of the value. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">CanConvertTo</Run>
+ and <Run FontWeight="Bold">CanConvertFrom</Run>
+ are support methods that are used when some service queries the capabilities of a <Run FontWeight="Bold">TypeConverter</Run>
+ implementation. You rarely call these methods directly, but if you are writing your own <Run FontWeight="Bold">TypeConverter</Run>
+ implementation, you must implement these methods and have them return <Run FontWeight="Bold">true</Run>
+ for certain cases, because a XAML loader might query these methods.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Implementing a Type Converter
+    </Paragraph>
+
+    <Paragraph FontSize="18">Implementing ConvertFrom
+    </Paragraph>
+
+    <Paragraph>To be usable as a <Run FontWeight="Bold">TypeConverter</Run>
+ implementation that supports XAML, the <Run FontWeight="Bold">ConvertFrom</Run>
+ method for that converter must accept a string as the <Run>value</Run>
+ parameter. If the string was in valid format, <Run FontWeight="Bold">TypeConverter</Run>
+ implementation, then the returned object must castable to the type expected by the property. Otherwise, the <Run FontWeight="Bold">ConvertFrom</Run>
+ implementation must return <Run FontWeight="Bold">null</Run>
+.
+    </Paragraph>
+
+    <Paragraph>Each <Run FontWeight="Bold">TypeConverter</Run>
+ implementation can have its own interpretation of what constitutes a valid string for a conversion, and can also use or ignore the type description or culture contexts passed as parameters. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Do not use the curly brace characters, particularly <Run FontWeight="Bold">{</Run>
+, as a possible element of your string format. These characters are reserved as the entry and exit for a markup extension sequence.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Implementing ConvertTo
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ConvertTo</Run>
+ is for serialization support. Serialization support for your custom type is not an absolute requirement. However, if you are implementing a control, or using serialization of as part of the features or design of your class, you will need to implement <Run FontWeight="Bold">ConvertTo</Run>
+.
+    </Paragraph>
+
+    <Paragraph>To be usable as a <Run FontWeight="Bold">TypeConverter</Run>
+ implementation that supports XAML, the <Run FontWeight="Bold">ConvertTo</Run>
+ method for that converter must accept an instance of the type being supported as the <Run>value</Run>
+ parameter. When the <Run>destinationType</Run>
+ parameter is type <Run FontWeight="Bold">String</Run>
+, then the returned object must castable to <Run FontWeight="Bold">String</Run>
+. The returned string must represent a serialized value of <Run>value</Run>
+. Ideally, the serialization format you choose should be capable of generating the same value if that string were passed to the <Run FontWeight="Bold">ConvertFrom</Run>
+ implementation of the same converter, without significant loss of information.
+    </Paragraph>
+
+    <Paragraph>If the value cannot be serialized, or the converter does not support serialization, the <Run FontWeight="Bold">ConvertTo</Run>
+ implementation must return <Run FontWeight="Bold">null</Run>
+, and is permitted to raise an exception in this case.
+    </Paragraph>
+
+    <Paragraph>If <Run>destinationType</Run>
+ parameter is not of type <Run FontWeight="Bold">String</Run>
+, you can choose your own converter handling. Typically you would revert to base implementation handling.
+    </Paragraph>
+
+    <Paragraph>Each <Run FontWeight="Bold">TypeConverter</Run>
+ implementation can have its own interpretation of what constitutes a valid string for a conversion, and can also use or ignore the type description or culture contexts passed as parameters. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Do not use the curly brace characters, particularly <Run FontWeight="Bold">{</Run>
+, as a possible element of your string format. These characters are reserved as the entry and exit for a markup extension sequence.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Implementing CanConvertTo
+    </Paragraph>
+
+    <Paragraph>Your <Run FontWeight="Bold">CanConvertTo</Run>
+ implementation should return <Run FontWeight="Bold">true</Run>
+ for <Run>destinationType</Run>
+ of type <Run FontWeight="Bold">String</Run>
+., and otherwise revert to the base implementation.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Implementing CanConvertTo
+    </Paragraph>
+
+    <Paragraph>Your <Run FontWeight="Bold">CanConvertFrom</Run>
+ implementation should return <Run FontWeight="Bold">true</Run>
+ for <Run>sourceType</Run>
+ of type <Run FontWeight="Bold">String</Run>
+., and otherwise revert to the base implementation.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Applying the TypeConverterAttribute
+    </Paragraph>
+
+    <Paragraph>In order for your custom type converter to be used as the acting type converter for a custom class, you must apply the .NET Framework attribute <Run FontWeight="Bold">TypeConverterAttribute</Run>
+ to your class definition. The ConverterTypeName that you specify through the attribute must be the type of your custom type converter. With this attribute applied, when a XAML loader processes values where the property type uses your custom class type, the XAML loader can process input strings and return object instances.
+    </Paragraph>
+
+    <Paragraph>You can also provide a type converter on a per-property basis. Instead of applying a .NET Framework attribute <Run FontWeight="Bold">TypeConverterAttribute</Run>
+ to the class definition, apply it to a property definition (the main definition, not the get/set implementations within it). The type of the property must match the type that is processed by your custom type converter. With this attribute applied, when a XAML loader processes values of that property, the XAML loader can process input strings and return object instances. The per-property type converter technique is particularly useful if you choose to use a property type from Microsoft .NET Framework or from some other library where you cannot control the class definition and apply a <Run FontWeight="Bold">TypeConverterAttribute</Run>
+ there. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>TypeConverter
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="618dc745-8b14-4886-833f-486d2254bb78.xaml">Markup Extensions and XAML</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="67cce290-ca26-4c41-a797-b68aabc45479.xaml">XAML Syntax Terminology</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about TypeConverters and XAML to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

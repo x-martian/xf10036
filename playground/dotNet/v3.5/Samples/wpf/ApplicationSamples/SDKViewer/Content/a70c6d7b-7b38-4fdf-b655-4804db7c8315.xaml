@@ -1,0 +1,204 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a70c6d7b_7b38_4fdf_b655_4804db7c8315"
+  Tag     ="Bind to an ADO.NET Data Source"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Bind to an ADO.NET Data Source</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to bind a Windows Presentation Foundation (WPF) ListBox control to an ADO.NET <Run FontWeight="Bold">DataSet</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In this example, an <Run FontWeight="Bold">OleDbConnection</Run>
+ object is used to connect to the data source which is an <Run FontWeight="Bold">Access MDB</Run>
+ file that is specified in the connection string. After the connection is established, an <Run FontWeight="Bold">OleDbDataAdpater</Run>
+ object is created. The <Run FontWeight="Bold">OleDbDataAdpater</Run>
+ object executes a select Structured Query Language (SQL) statement to retrieve the recordset from the database. The results from the SQL command are stored in a <Run FontWeight="Bold">DataTable</Run>
+ of the <Run FontWeight="Bold">DataSet</Run>
+ by calling the <Run FontWeight="Bold">Fill</Run>
+ method of the <Run FontWeight="Bold">OleDbDataAdapter</Run>
+. The <Run FontWeight="Bold">DataTable</Run>
+ in this example is named <Run>BookTable</Run>
+. The example then sets the DataContext property of the List to the <Run FontWeight="Bold">DataSet</Run>
+ object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DataSet myDataSet; 
+private void OnInit(object sender, EventArgs e) { string mdbFile = Path.Combine(AppDataPath, "BookData.mdb"); 
+string connString = string.Format( "Provider=Microsoft.Jet.OLEDB.4.0; 
+Data Source={0}", mdbFile); 
+OleDbConnection conn = new OleDbConnection(connString); 
+OleDbDataAdapter adapter = new OleDbDataAdapter("SELECT * FROM BookTable;", conn); 
+myDataSet = new DataSet(); 
+adapter.Fill(myDataSet, "BookTable"); 
+// myListBox is a ListBox control. // Set the DataContext of the ListBox to myDataSet myListBox.DataContext = myDataSet; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>We can then bind the ItemsSource property of the <Run FontWeight="Bold">ListBox</Run>
+ to <Run>BookTable</Run>
+ of the <Run FontWeight="Bold">DataSet</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox Name="myListBox" Height="200" ItemsSource="{Binding Path=BookTable}" ItemTemplate ="{StaticResource BookItemTemplate}"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run>BookItemTemplate</Run>
+ is the DataTemplate that defines how the data appears:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel.Resources> 
+&lt;c:IntColorConverter x:Key="MyConverter"/> 
+&lt;DataTemplate x:Key="BookItemTemplate"> 
+&lt;Grid> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="250" /> 
+&lt;ColumnDefinition Width="100" /> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;TextBlock Text="{Binding Path=Title}" Grid.Column="0" FontWeight="Bold" /> 
+&lt;TextBlock Text="{Binding Path=ISBN}" Grid.Column="1" /> 
+&lt;TextBlock Grid.Column="2" Text="{Binding Path=NumPages}" Background="{Binding Path=NumPages, Converter={StaticResource MyConverter}}"/> 
+&lt;/Grid> 
+&lt;/DataTemplate> 
+&lt;/StackPanel.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run>IntColorConverter</Run>
+ converts an <Run FontWeight="Bold">int</Run>
+ to a color. With the use of this converter, the Background color of the third TextBlock appears green if the value of <Run>NumPages</Run>
+ is less than 350 and red otherwise. The implementation of the converter is not shown here. For the complete sample, see Binding with Data in an ADO DataSet Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>BindingListCollectionView
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Bind to an ADO.NET Data Source to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

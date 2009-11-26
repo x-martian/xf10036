@@ -1,0 +1,613 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_69eebd8b_39ed_40e7_93cc_4457c4caf746"
+  Tag     ="UI Automation Events Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation Events Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Microsoft UI Automation event notification is a key feature for assistive technologies such as screen readers and screen magnifiers. These <Run>UI Automation clients</Run>
+ track events that are raised by <Run>UI Automation providers</Run>
+ when something happens in the UI and use the information to notify end users.
+    </Paragraph>
+
+    <Paragraph>Efficiency is improved by allowing provider applications to raise events selectively, depending on whether any clients are subscribed to those events, or not at all, if no clients are listening for any events.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Types_of_Events">Types of Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="UI_Automation_Event_Identifiers">UI Automation Event Identifiers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="UI_Automation_Event_Arguments">UI Automation Event Arguments</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Types of Events
+    </Paragraph>
+
+    <Paragraph>UI Automation events fall into the following categories.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Event 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property change
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Raised when a property on an UI Automation element or control pattern changes. For example, if a client needs to monitor an application's check box control, it can register to listen for a property change event on the ToggleState property. When the check box control is checked or unchecked, the provider raises the event and the client can act as necessary.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Element action
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Raised when a change in the UI results from end user or programmatic activity; 
+for example, when a button is clicked or invoked through InvokePattern.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Structure change
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Raised when the structure of the UI Automation tree changes. The structure changes when new UI items become visible, hidden, or removed on the desktop.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Global desktop change
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Raised when actions of global interest to the client occur, such as when the focus shifts from one element to another, or when a window closes.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Some events do not necessarily mean that the state of the UI has changed. For example, if the user tabs to a text entry field and then clicks a button to update the field, a <Run FontWeight="Bold">TextChangedEvent</Run>
+ is raised even if the user did not actually change the text. When processing an event, it may be necessary for a client application to check whether anything has actually changed before taking action.
+    </Paragraph>
+
+    <Paragraph>The following events may be raised even when the state of the UI has not changed.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">AutomationPropertyChangedEvent</Run>
+ (depending on the property that has changed)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ElementSelectedEvent</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">InvalidatedEvent</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">TextChangedEvent</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">UI Automation Event Identifiers
+    </Paragraph>
+
+    <Paragraph>Microsoft UI Automation events are identified by AutomationEvent objects. The Id property contains a value that uniquely identifies the kind of event.
+    </Paragraph>
+
+    <Paragraph>The possible values for <Run FontWeight="Bold">Id</Run>
+ are given in the following table, along with the type used for event arguments. Note that the identifiers used by clients and providers are identically named fields from different classes.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Client Identifier 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Provider identifier 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Event Arguments Type 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>System.Windows.Automation.AutomationElement.AsyncContentLoadedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>System.Windows.Automation.AutomationElementIdentifiers.AsyncContentLoadedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AsyncContentLoadedEventArgs 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>System.Windows.Automation.SelectionItemPattern.ElementAddedToSelectionEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.SelectionItemPattern.ElementRemovedFromSelectionEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.SelectionItemPattern.ElementSelectedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.SelectionPattern.InvalidatedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.InvokePattern.InvokedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElement.LayoutInvalidatedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElement.MenuClosedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElement.MenuOpenedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.TextPattern.TextChangedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.TextPattern.TextSelectionChangedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElement.ToolTipClosedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElement.ToolTipOpenedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.WindowPattern.WindowOpenedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>System.Windows.Automation.SelectionItemPatternIdentifiers.ElementAddedToSelectionEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.SelectionItemPatternIdentifiers.ElementRemovedFromSelectionEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.SelectionItemPatternIdentifiers.ElementSelectedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.SelectionPatternIdentifiers.InvalidatedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.InvokePatternIdentifiers.InvokedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElementIdentifiers.LayoutInvalidatedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElementIdentifiers.MenuClosedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElementIdentifiers.MenuOpenedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.TextPatternIdentifiers.TextChangedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.TextPatternIdentifiers.TextSelectionChangedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElementIdentifiers.ToolTipClosedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.AutomationElementIdentifiers.ToolTipOpenedEvent 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.WindowPatternIdentifiers.WindowOpenedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationEventArgs 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>System.Windows.Automation.AutomationElement.AutomationFocusChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>System.Windows.Automation.AutomationElementIdentifiers.AutomationFocusChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationFocusChangedEventArgs 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>System.Windows.Automation.AutomationElement.AutomationPropertyChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>System.Windows.Automation.AutomationElementIdentifiers.AutomationPropertyChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationPropertyChangedEventArgs 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>System.Windows.Automation.AutomationElement.StructureChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>System.Windows.Automation.AutomationElementIdentifiers.StructureChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>StructureChangedEventArgs 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>System.Windows.Automation.WindowPattern.WindowClosedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>System.Windows.Automation.WindowPatternIdentifiers.WindowClosedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WindowClosedEventArgs 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">UI Automation Event Arguments
+    </Paragraph>
+
+    <Paragraph>The following classes encapsulate event arguments.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Class 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AsyncContentLoadedEventArgs</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains information about the asynchronous loading of content, including the percentage of loading completed.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AutomationEventArgs</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains information about a simple event that requires no extra data.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AutomationFocusChangedEventArgs</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains information about a change in input focus from one element to another. Events of this type are raised by the UI Automation system, not by providers.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AutomationPropertyChangedEventArgs</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains information about a change in a property value of an element or control pattern.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">StructureChangedEventArgs</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains information about a change in the UI Automation tree.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">WindowClosedEventArgs</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains information about a window closing.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>All the event argument classes contain an EventId member. This identifier is encapsulated in an <Run FontWeight="Bold">AutomationEvent</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">AutomationEvent</Run>
+ objects used to identify events are obtained by providers from fields in AutomationElementIdentifiers and control pattern identifier classes such as DockPatternIdentifiers. The equivalent fields are obtained by client applications from fields in AutomationElement and control pattern classes such as DockPattern.
+    </Paragraph>
+
+    <Paragraph>For a list of event identifiers, see <Hyperlink NavigateUri="b909e388-3f24-4997-b6d4-bd9c35c2dc27.xaml">UI Automation Events for Clients</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b688effa-b3e8-4b05-944d-05ed89a245aa.xaml">Subscribe to UI Automation Events</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b909e388-3f24-4997-b6d4-bd9c35c2dc27.xaml">UI Automation Events for Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6acc6d08-bd67-4e2e-915c-9c1d34eb86fe.xaml">Server-Side UI Automation Provider Implementation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation Events Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

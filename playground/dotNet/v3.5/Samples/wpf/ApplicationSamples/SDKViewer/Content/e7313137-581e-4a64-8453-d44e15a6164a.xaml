@@ -1,0 +1,398 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e7313137_581e_4a64_8453_d44e15a6164a"
+  Tag     ="XAML and Custom Classes"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML and Custom Classes</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Extensible Application Markup Language (XAML) supports the ability to define a custom class or structure in any common language runtime (CLR) language, and then access that class using XAML markup, including by using a mixture of Windows Presentation Foundation (WPF)-defined XAML and your custom class' XAML tags within the same markup file. This topic discusses the requirements that a custom class must satisfy to be usable as a XAML element.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Custom_Classes_in_Applications_vs__in_Assemblies">Custom Classes in Applications or Assemblies</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Requirements_for_a_Custom_Class_as_a_XAML_Element">Requirements for a Custom Class as a XAML Element</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Requirements_for_Properties_of_a_Custom_Class_as_XAML">Requirements for Properties of a Custom Class as XAML Attributes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Requirements_for_Events_of_a_Custom_Class_as_XAML">Requirements for XAML Event Handler Attribute Syntax on Events of a Custom Class</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Collection_Properties">Writing Collection Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="XAMLCONtent">Declaring XAML Content Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Serializing">Serializing XAML</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Custom Classes in Applications or Assemblies
+    </Paragraph>
+
+    <Paragraph>Custom classes that are used in XAML can be defined in two distinct ways: within the code-behind or other code that produces the primary Windows Presentation Foundation (WPF) application, or as a class in a separate assembly, such as an executable or DLL used as a class library. Each of these approaches has particular advantages and disadvantages.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The advantage of creating a class library is that any such custom classes can be shared across many different possible applications. A separate library also makes versioning issues of applications easier to control, and simplifies creating a class that you intend to use as a root element on a XAML page.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The advantage of defining the custom classes in the application is that this technique is relatively lightweight and minimizes the deployment and testing issues encountered when you introduce separate assemblies beyond the main executable.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Whether defined in the same or different assembly, custom classes need to be mapped between CLR namespace and XML namespace in order to be used in XAML as elements. See <Hyperlink NavigateUri="5c0854e3-7470-435d-9fe2-93eec9d3634e.xaml">XAML Namespaces and Namespace Mapping</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Requirements for a Custom Class as a XAML Element
+    </Paragraph>
+
+    <Paragraph>In order to be able to be instantiated as an object element, your class must meet the following requirements:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Your custom class must support a default (parameterless) public constructor. (Structures implicitly support such a constructor).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Your custom class must not be a nested class (nested classes and the "dot" in their syntax interfere with other WPF features such as attached properties).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In addition to enabling object element syntax, you also enable property element syntax for all the properties that take that object as their value type. This is because the object can now be instantiated as an object element, and can fill the property element of that property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Requirements for Properties of a Custom Class as XAML Attributes
+    </Paragraph>
+
+    <Paragraph>Properties must reference a by-value type (such as a primitive), or use a class for type that has either a default constructor or a dedicated type converter at the class level.
+    </Paragraph>
+
+    <Paragraph>Alternatively, the property may reference an abstract class type, or an interface. For abstract classes or interfaces, the expectation at runtime is that the property value must be filled with practical class instances that implement the interface, or class instances that subclass the abstract class.
+    </Paragraph>
+
+    <Paragraph>Properties may be declared on an abstract class, but can only be set on practical classes that derive from the abstract class, because creating the object element for the class at all requires a valid default constructor and a practical class.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Type-converter Enabled Attribute Syntax
+    </Paragraph>
+
+    <Paragraph>If you provide a dedicated, attributed type converter at the class level, the type conversion enables attribute syntax for any property that needs to instantiate that type. A type converter does not enable object element usage of the type; 
+only the presence of a default constructor on the type enables object element usage. Therefore, properties that are type-converter enabled are generally speaking not usable in property syntax, unless the type itself also supports object element syntax. The exception to this is that you can specify a property element syntax, but have the property element contain a string. That usage is really essentially equivalent to an attribute syntax usage, and such a usage is not common unless there is a need for more robust whitespace handling of the attribute value. For example, the following is a property element usage that takes a string, and the attribute usage equivalent:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button>Hallo! 
+&lt;Button.Language> de-DE 
+&lt;/Button.Language> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Language="de-DE">Hallo!
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Examples of properties where attribute syntax is allowed but property element syntax that contains an object element is disallowed through XAML are various properties that take the Cursor type. The <Run FontWeight="Bold">Cursor</Run>
+ class has a dedicated type converter CursorConverter, but does not expose a default constructor, so the Cursor property can only be set through attribute syntax even though the actual <Run FontWeight="Bold">Cursor</Run>
+ type is a reference type.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Per-Property Type Converters
+    </Paragraph>
+
+    <Paragraph>Alternatively, the property itself may declare a type converter at the property level. This enables a "mini language" that instantiaties the type of the property inline, by processing incoming string values of the attribute as input for a ConvertFrom operation based on the appropriate type. Typically this is done to provide a convenience accessor, and not as the sole means to enable setting a property in XAML. However, it is also possible to use type converters for attributes where you want to use existing CLR types that do not supply either a default constructor or an attributed type converter. An example from within the WPF   is certain properties that take the CultureInfo type. In this case, WPF used the existing Microsoft .NET Framework version 3.0 <Run FontWeight="Bold">CultureInfo</Run>
+ type to better address compatibility and migration scenarios, but that type did not support the necessary constructors or type-level type conversion to be usable as a XAML property value directly.
+    </Paragraph>
+
+    <Paragraph>Whenever you expose a property that has a XAML usage, particularly if you are a control author, you should strongly consider backing that property with a <Run>dependency property</Run>
+. A dependency property will expose property system features for your property that users will come to expect for a XAML accessible property. This includes features such as property value inheritance, data binding, and style support. For more information, see <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Writing and Attributing a Type Converter
+    </Paragraph>
+
+    <Paragraph>You frequently will need to write a custom TypeConverter derived class to provide type conversion for your property type. For instructions on how to derive from and create a type converter that can support XAML usages, and how to apply the TypeConverterAttribute, see <Hyperlink NavigateUri="f6313e4d-e89d-497d-ac87-b43511a1ae4b.xaml">TypeConverters and XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Requirements for XAML Event Handler Attribute Syntax on Events of a Custom Class
+    </Paragraph>
+
+    <Paragraph>To be usable as a CLR event, the event must be exposed as a public event on a class that supports a default constructor, or on an abstract class where the event can be accessed on derived classes. In order to be used conveniently as a <Run>routed event</Run>
+, your CLR event should implement explicit <Run FontWeight="Bold">add</Run>
+ and <Run FontWeight="Bold">remove</Run>
+ methods, which add and remove handlers for the CLR event signature and forward those handlers to the AddHandler and RemoveHandler methods. These methods add or remove the handlers to the routed event handler store on the instance that the event is attached to.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>It is possible to register handlers directly for routed events using <Run FontWeight="Bold">AddHandler</Run>
+, and to deliberately not define a CLR event that exposes the routed event. This is not generally recommended because the event will not enable XAML attribute syntax for attaching handlers, and your resulting class will offer a less transparent XAML view of the class object model.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Writing Collection Properties
+    </Paragraph>
+
+    <Paragraph>Properties that take a collection type have a XAML syntax that enables you to specify objects that are added to the collection. This syntax has two notable features.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The object that is the collection object does not need to be specified in object element syntax. The presence of that collection type is implicit whenever you specify a property in XAML that takes a collection type.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Child elements of the collection property are processed to become members of the collection. Ordinarily, the code access to the members of a collection is performed through collection methods such as Add, or through a collection indexer property. But XAML syntax does not support methods or indexers. Collections are obviously a very common requirement for building a tree of elements, and you need some way to populate these collections in declarative XAML. Therefore, child elements of a collection property are processed by adding them to the collection that is the collection property type value.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The WPF XAML loader uses the following definition for what constitutes a collection property. The property type of the property must implement one of the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Implements IList, or the generic equivalent (IList).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implements IDictionary, or the generic equivalent (IDictionary).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Derives from Array (for more information about arrays in XAML, see <Hyperlink NavigateUri="c5358e14-d24c-44c7-b5eb-6062a4fd981c.xaml">x:Array Markup Extension</Hyperlink>
+.)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implements IAddChild (an interface defined by WPF).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The first three of these each contract an Add method, which is used by the XAML loader to add items to the underlying collection. <Run FontWeight="Bold">IAddChild</Run>
+ contracts the member AddChild, which has similar functionality.
+    </Paragraph>
+
+    <Paragraph>When you declare a property that takes a collection, be cautious about how that property value is initialized in new instances of the type. If you are not implementing the property as a dependency property, then having the property use a backing field that calls the collection type constructor is adequate. If your property is a dependency property, then you may need to initialize the collection property as part of the default type constructor. This is because dependency property take their default value from metadata, and you do not want the initial value of a collection property to be a static, shared collection (there should be a collection instance per each containing type instance). For more information, see <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>You can implement a custom collection type for your collection property. Because of implicit collection property treatment, the custom collection type does not need to provide a default constructor in order to be used in XAML implicitly. However, you can optionally provide a default constructor for the collection type. This can be a worthwhile practice, because unless you do provide a default constructor, you cannot explicitly declare the collection as an object element. Some markup authors might prefer to see the explicit collection as a matter of markup style. Also, a default constructor can simplify the initialization requirements when you create new objects that use your collection type as a property value.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Declaring XAML Content Properties
+    </Paragraph>
+
+    <Paragraph>The XAML language defines the concept of a XAML content property. Each class that is usable in object syntax can have exactly one XAML content property. To declare a property to be the XAML content property for your class, apply the ContentPropertyAttribute as part of the class definition. Specify the name of the intended XAML content property as the Name in the attribute.
+    </Paragraph>
+
+    <Paragraph>You can specify a collection property to be the XAML content property. This results in a usage for that property whereby the object element can have one or more child elements, without any intervening collection object elements or property element tags. These elements are then treated as the value for the XAML content property and added to the backing collection instance.
+    </Paragraph>
+
+    <Paragraph>Some existing WPF XAML content properties use the property type of Object. This enables a XAML content property that can take primitive values such as a String as well as taking a single reference object value. If you follow this model, your type is responsible for type determination as well as the handling of possible types. The typical reason for an <Run FontWeight="Bold">Object</Run>
+ type model is to support both a simple means of adding object content as a string (which receives a default presentation treatment), or an advanced means of adding object content that specifies a non-default presentation.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Serializing XAML
+    </Paragraph>
+
+    <Paragraph>For certain scenarios, such as if you are a control author, you may also want to assure that any object representation that can be instantiated in XAML can also be serialized back to equivalent XAML. Serialization requirements are not described in this topic. See <Hyperlink NavigateUri="3d864748-cff0-4e63-9b23-d8e5a635b28f.xaml">Control Authoring Overview</Hyperlink>
+ and <Hyperlink NavigateUri="8f57e879-180b-421f-b3d0-ac007ff2ce80.xaml">Element Tree and Serialization</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3d864748-cff0-4e63-9b23-d8e5a635b28f.xaml">Control Authoring Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="2c997092-72c6-4767-bc84-74267f4eee72.xaml">Base Elements Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about XAML and Custom Classes to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

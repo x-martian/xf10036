@@ -1,0 +1,445 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_989e12b0_260e_4570_95c6_489284003ce2"
+  Tag     ="ListView Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>ListView Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The ListView control provides the infrastructure to display a set of data items in different layouts or views. For example, a user may want to display data items in a table and also to sort its columns. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="WhatisaListView">What Is a ListView?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="DefiningaListViewView">Defining a View Mode for a ListView</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="BindingDatatoaListView">Binding Data to a ListView</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="StylingaListView">Styling a ListView That Implements a GridView</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="UsingtheSameViewMoreThanOnce">Sharing the Same View Mode</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="CreatingaCustomView">Creating a Custom View Mode</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What Is a ListView?
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ListView</Run>
+ control is an ItemsControl that is derived from ListBox. Typically, its items are members of a data collection and are represented as ListViewItem objects. A <Run FontWeight="Bold">ListViewItem</Run>
+ is a ContentControl and can contain only a single child element. However, that child element can be any visual element. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Defining a View Mode for a ListView
+    </Paragraph>
+
+    <Paragraph>To specify a view mode for the content of a <Run FontWeight="Bold">ListView</Run>
+ control, you set the View property. One view mode that Windows Presentation Foundation (WPF) provides is GridView, which displays a collection of data items in a table that has customizable columns.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define a <Run FontWeight="Bold">GridView</Run>
+ for a <Run FontWeight="Bold">ListView</Run>
+ control that displays employee information. For the complete sample, see ListView That Uses a GridView Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView ItemsSource="{Binding Source= {StaticResource EmployeeInfoDataSource}}"> 
+&lt;ListView.View> 
+&lt;GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information"> 
+&lt;GridViewColumn DisplayMemberBinding= "{Binding Path=FirstName}" Header="First Name" Width="100"/> 
+&lt;GridViewColumn DisplayMemberBinding= "{Binding Path=LastName}" Header="Last Name" Width="100"/> 
+&lt;GridViewColumn DisplayMemberBinding= "{Binding Path=EmployeeNumber}" Header="Employee No." Width="100"/> 
+&lt;/GridView> 
+&lt;/ListView.View> 
+&lt;/ListView> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows how the data appears for the previous example.
+    </Paragraph>
+
+    <Paragraph>You can create a custom view mode by defining a class that inherits from the ViewBase class. The <Run FontWeight="Bold">ViewBase</Run>
+ class provides the infrastructure that you need to create a custom view. For more information about how to create a custom view, see <Hyperlink NavigateUri="71077349-eeb9-4344-ab29-b5df96df3314.xaml">How to: Create a Custom View Mode for a ListView</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Binding Data to a ListView
+    </Paragraph>
+
+    <Paragraph>Use the Items and ItemsSource properties to specify items for a <Run FontWeight="Bold">ListView</Run>
+ control. The following example sets the <Run FontWeight="Bold">ItemsSource</Run>
+ property to a data collection that is called <Run>EmployeeInfoDataSource</Run>
+. For the complete sample, see ListView That Uses a GridView Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView ItemsSource="{Binding Source= {StaticResource EmployeeInfoDataSource}}"> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In a <Run FontWeight="Bold">GridView</Run>
+, GridViewColumn objects bind to specified data fields. The following example binds a <Run FontWeight="Bold">GridViewColumn</Run>
+ object to a data field by specifying a Binding for the DisplayMemberBinding property. For the complete sample, see ListView That Uses a GridView Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;GridViewColumn DisplayMemberBinding= "{Binding Path=FirstName}" Header="First Name" Width="100"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>GridViewColumn gvc1 = new GridViewColumn(); 
+gvc1.DisplayMemberBinding = new Binding("FirstName"); 
+gvc1.Header = "FirstName"; 
+gvc1.Width = 100; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can also specify a <Run FontWeight="Bold">Binding</Run>
+ as part of a DataTemplate definition that you use to style the cells in a column. In the following example, the <Run FontWeight="Bold">DataTemplate</Run>
+ that is identified with a ResourceKey sets the <Run FontWeight="Bold">Binding</Run>
+ for a <Run FontWeight="Bold">GridViewColumn</Run>
+. Note that this example does not define the <Run FontWeight="Bold">DisplayMemberBinding</Run>
+ because doing so overrides the binding that is specified by <Run FontWeight="Bold">DataTemplate</Run>
+. For the complete sample, see ListView That Uses a GridView with Templates Sample. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DataTemplate x:Key="myCellTemplateMonth"> 
+&lt;DockPanel> 
+&lt;TextBlock Foreground="DarkBlue" HorizontalAlignment="Center"> 
+&lt;TextBlock.Text> 
+&lt;Binding Path="Month"/> 
+&lt;/TextBlock.Text> 
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;/DataTemplate> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;GridViewColumn Header="Month" Width="80" HeaderContainerStyle="{StaticResource myHeaderStyle}" HeaderTemplate="{StaticResource myHeaderTemplate}" DisplayMemberBinding="{Binding Path=Month}"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Styling a ListView That Implements a GridView
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ListView</Run>
+ control contains <Run FontWeight="Bold">ListViewItem</Run>
+ objects, which represent the data items that are displayed. You can use the following properties to define the content and style of data items:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>On the <Run FontWeight="Bold">ListView</Run>
+ control, use the ItemTemplate, ItemTemplateSelector, and ItemContainerStyle properties.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>On the <Run FontWeight="Bold">ListViewItem</Run>
+ control, use the ContentTemplate and ContentTemplateSelector properties.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>To avoid alignment issues between cells in a <Run FontWeight="Bold">GridView</Run>
+, do not use the <Run FontWeight="Bold">ItemContainerStyle</Run>
+ to set properties or add content that affects the width of an item in a <Run FontWeight="Bold">ListView</Run>
+. For example, an alignment issue can occur when you set the Margin property in the <Run FontWeight="Bold">ItemContainerStyle</Run>
+. To specify properties or define content that affects the width of items in a <Run FontWeight="Bold">GridView</Run>
+, use the properties of the <Run FontWeight="Bold">GridView</Run>
+ class and its related classes, such as <Run FontWeight="Bold">GridViewColumn</Run>
+.
+    </Paragraph>
+
+    <Paragraph>For more information about how to use <Run FontWeight="Bold">GridView</Run>
+ and its supporting classes, see <Hyperlink NavigateUri="b2d02267-32b3-40ce-8e9f-06972d8749d9.xaml">GridView Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>If you define an <Run FontWeight="Bold">ItemContainerStyle</Run>
+ for a <Run FontWeight="Bold">ListView</Run>
+ control and also define an <Run FontWeight="Bold">ItemTemplate</Run>
+, you must include a ContentPresenter in the style in order for the <Run FontWeight="Bold">ItemTemplate</Run>
+ to work correctly.
+    </Paragraph>
+
+    <Paragraph>Do not use the HorizontalContentAlignment and VerticalContentAlignment properties for <Run FontWeight="Bold">ListView</Run>
+ content that is displayed by using a <Run FontWeight="Bold">GridView</Run>
+. To specify the alignment of content in a column of a <Run FontWeight="Bold">GridView</Run>
+, define a CellTemplate.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Sharing the Same View Mode
+    </Paragraph>
+
+    <Paragraph>Two <Run FontWeight="Bold">ListView</Run>
+ controls cannot share the same view mode at the same time. If you try to use the same view mode with more than one <Run FontWeight="Bold">ListView</Run>
+ control, an exception occurs. 
+    </Paragraph>
+
+    <Paragraph>To specify a view mode that can be simultaneously used by more than one <Run FontWeight="Bold">ListView</Run>
+, use templates or styles. For an example of how to define views as Resources, see ListView with Multiple Views Sample. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating a Custom View Mode
+    </Paragraph>
+
+    <Paragraph>Customized views like <Run FontWeight="Bold">GridView</Run>
+ are derived from the <Run FontWeight="Bold">ViewBase</Run>
+ abstract class, which provides the tools to display data items that are represented as <Run FontWeight="Bold">ListViewItem</Run>
+ objects. 
+    </Paragraph>
+
+    <Paragraph>For an example of a custom view mode, see ListView with Multiple Views.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>GridView
+      <LineBreak/>ListView
+      <LineBreak/>ListViewItem
+      <LineBreak/>Binding
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b2d02267-32b3-40ce-8e9f-06972d8749d9.xaml">GridView Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="aafce40c-9bfe-45ec-86a3-599616a11276.xaml">ListView How-to Topics</Hyperlink>
+
+      <LineBreak/>GridView How-to Topics
+      <LineBreak/>ListView Samples
+      <LineBreak/>Data Binding Overviews
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about ListView Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

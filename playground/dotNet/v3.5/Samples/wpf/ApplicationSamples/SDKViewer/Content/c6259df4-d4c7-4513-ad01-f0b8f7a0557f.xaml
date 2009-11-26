@@ -1,0 +1,168 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c6259df4_d4c7_4513_ad01_f0b8f7a0557f"
+  Tag     ="Create a TabControl That Has ContextMenus"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a TabControl That Has ContextMenus</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic discusses how to create a TabControl and attach a ContextMenu to each TabItem. When a user clicks on an item in the <Run FontWeight="Bold">ContextMenu</Run>
+ the <Run FontWeight="Bold">TabItem</Run>
+ must handle the Click event. The handler can be added to the <Run FontWeight="Bold">ContextMenu</Run>
+ items but you must know what the target of the <Run FontWeight="Bold">ContextMenu</Run>
+ item is for the appropriate action to be taken. 
+    </Paragraph>
+
+    <Paragraph>The following example shows how to do this. The first example creates a <Run FontWeight="Bold">TabItem</Run>
+ and attaches a <Run FontWeight="Bold">ContextMenu</Run>
+ to the <Run FontWeight="Bold">TabItem</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TabItem Name="backgroundcolor" Header="Choose a Background Color"> 
+&lt;TabItem.ContextMenu> 
+&lt;ContextMenu MenuItem.Click="MyMenuHandler"> 
+&lt;MenuItem Header="Red" Name="red"/> 
+&lt;MenuItem Header="Blue" Name="blue"/> 
+&lt;MenuItem Header="Yellow" Name="yellow"/> 
+&lt;/ContextMenu> 
+&lt;/TabItem.ContextMenu> 
+&lt;TabItem.Content>Some content about background colors.
+&lt;/TabItem.Content> 
+&lt;/TabItem> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The second example shows how to make a handler to handle the click event calls.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void MyMenuHandler(object sender, RoutedEventArgs e) { ContextMenu cm = (ContextMenu)sender; 
+target = cm.PlacementTarget; 
+if(e.Source==red) { backgroundcolor.Background = Brushes.Red; 
+backgroundcolor.Header = "Background red"; 
+} else if(e.Source==blue) { backgroundcolor.Background = Brushes.LightBlue; 
+backgroundcolor.Header = "Background blue"; 
+} else if(e.Source==yellow) { backgroundcolor.Background = Brushes.Yellow; 
+backgroundcolor.Header = "Background yellow"; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Notice that to find the target of the <Run FontWeight="Bold">ContextMenu</Run>
+ you can use the code in the previous example or the following.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>ContextMenu cm = (ContextMenu)ContextMenu.ItemsControlFromItemContainer ((MenuItem)e.OriginalSource); 
+UIElement placementTarget = cm.PlacementTarget; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see TabControl with ContextMenu Sample
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a TabControl That Has ContextMenus to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

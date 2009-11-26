@@ -1,0 +1,151 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_85a4d1a7_4753_4f4a_b26d_14fa10c1ddb5"
+  Tag     ="Define a GroupBox Template"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Define a GroupBox Template</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create a template for a GroupBox control. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example defines a <Run FontWeight="Bold">GroupBox</Run>
+ control template by using a Grid control for layout. The template uses a BorderGapMaskConverter to define the border of the <Run FontWeight="Bold">GroupBox</Run>
+ so that the border does not obscure the Header content.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!--================================================================= GroupBox Template Example ==================================================================--> 
+&lt;BorderGapMaskConverter x:Key="BorderGapMaskConverter"/> 
+&lt;Style x:Key="{x:Type GroupBox}" TargetType="{x:Type GroupBox}"> 
+&lt;Setter Property="BorderBrush" Value="Gray"/> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;Setter Property="BorderThickness" Value="1"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type GroupBox}"> 
+&lt;Grid> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="4"/> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;ColumnDefinition Width="4"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="*"/> 
+&lt;RowDefinition Height="4"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Border CornerRadius="4" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Transparent" Background="{TemplateBinding Background}"/> 
+&lt;!-- ContentPresenter for the header --> 
+&lt;Border x:Name="Header" Padding="6,0,6,0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"> 
+&lt;ContentPresenter ContentSource="Header" RecognizesAccessKey="True" /> 
+&lt;/Border> 
+&lt;!-- Primary content for GroupBox --> 
+&lt;ContentPresenter Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}"/> 
+&lt;Border CornerRadius="0" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="4" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"> 
+&lt;Border.OpacityMask> 
+&lt;MultiBinding Converter= "{StaticResource BorderGapMaskConverter}" ConverterParameter="6"> 
+&lt;Binding ElementName="Header" Path="ActualWidth"/> 
+&lt;Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/> 
+&lt;Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/> 
+&lt;/MultiBinding> 
+&lt;/Border.OpacityMask> 
+&lt;/Border> 
+&lt;/Grid> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>GroupBox
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="63bd334e-4067-46cd-953f-1da2fbbcc0b6.xaml">GroupBox Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="7692e155-a4c6-428c-b7e0-64b3740daca7.xaml">GroupBox How-to Topics</Hyperlink>
+
+      <LineBreak/>GroupBox Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Define a GroupBox Template to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,1714 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_9c6a2009_9b86_4e40_8605_0a2664dc3973"
+  Tag     ="Alignment, Margins, and Padding Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Alignment, Margins, and Padding Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The FrameworkElement class exposes several properties that are used to precisely position child elements. This topic discusses four of the most important properties: HorizontalAlignment, Margin, Padding, and VerticalAlignment. The effects of these properties are important to understand, because they provide the basis for controlling the position of elements in Windows Presentation Foundation (WPF) applications.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wcpsdk_layout_amp_introduction">Introduction to Element Positioning</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wcpsdk_layout_amp_alignment_properties">Understanding Alignment Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wcpsdk_layout_amp_margin_properties">Understanding Margin Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wcpsdk_layout_amp_padding_properties">Understanding the Padding Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wcpsdk_layout_amp_summary">Using Alignment, Margins, and Padding in an Application</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wcpsdk_layout_amp_alignment_whatsnext">What's Next</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Introduction to Element Positioning
+    </Paragraph>
+
+    <Paragraph>There are numerous ways to position elements using WPF. However, achieving ideal layout goes beyond simply choosing the right Panel element. Fine control of positioning requires an understanding of the <Run FontWeight="Bold">HorizontalAlignment</Run>
+, <Run FontWeight="Bold">Margin</Run>
+, <Run FontWeight="Bold">Padding</Run>
+, and <Run FontWeight="Bold">VerticalAlignment</Run>
+ properties.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows a layout scenario that utilizes several positioning properties.
+    </Paragraph>
+
+    <Paragraph>At first glance, the Button elements in this illustration may appear to be placed randomly. However, their positions are actually precisely controlled by using a combination of margins, alignments, and padding.
+    </Paragraph>
+
+    <Paragraph>The following example describes how to create the layout in the preceding illustration. A Border element encapsulates a parent StackPanel, with a <Run FontWeight="Bold">Padding</Run>
+ value of 15 <Run>device independent pixels</Run>
+. This accounts for the narrow LightBlue band that surrounds the child <Run FontWeight="Bold">StackPanel</Run>
+. Child elements of the <Run FontWeight="Bold">StackPanel</Run>
+ are used to illustrate each of the various positioning properties that are detailed in this topic. Three <Run FontWeight="Bold">Button</Run>
+ elements are used to demonstrate both the <Run FontWeight="Bold">Margin</Run>
+ and <Run FontWeight="Bold">HorizontalAlignment</Run>
+ properties.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the application's main Window. mainWindow = new Window (); 
+mainWindow.Title = "Margins, Padding and Alignment Sample"; 
+// Add a Border myBorder = new Border(); 
+myBorder.Background = Brushes.LightBlue; 
+myBorder.BorderBrush = Brushes.Black; 
+myBorder.Padding = new Thickness(15); 
+myBorder.BorderThickness = new Thickness(2); 
+myStackPanel = new StackPanel(); 
+myStackPanel.Background = Brushes.White; 
+myStackPanel.HorizontalAlignment = HorizontalAlignment.Center; 
+myStackPanel.VerticalAlignment = VerticalAlignment.Top; 
+TextBlock myTextBlock = new TextBlock(); 
+myTextBlock.Margin = new Thickness(5, 0, 5, 0); 
+myTextBlock.FontSize = 18; 
+myTextBlock.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock.Text = "Alignment, Margin and Padding Sample"; 
+Button myButton1 = new Button(); 
+myButton1.HorizontalAlignment = HorizontalAlignment.Left; 
+myButton1.Margin = new Thickness(20); 
+myButton1.Content = "Button 1"; 
+Button myButton2 = new Button(); 
+myButton2.HorizontalAlignment = HorizontalAlignment.Right; 
+myButton2.Margin = new Thickness(10); 
+myButton2.Content = "Button 2"; 
+Button myButton3 = new Button(); 
+myButton3.HorizontalAlignment = HorizontalAlignment.Stretch; 
+myButton3.Margin = new Thickness(0); 
+myButton3.Content = "Button 3"; 
+// Add child elements to the parent StackPanel. myStackPanel.Children.Add(myTextBlock); 
+myStackPanel.Children.Add(myButton1); 
+myStackPanel.Children.Add(myButton2); 
+myStackPanel.Children.Add(myButton3); 
+// Add the StackPanel as the lone Child of the Border. myBorder.Child = myStackPanel; 
+// Add the Border as the Content of the Parent Window Object. mainWindow.Content = myBorder; 
+mainWindow.Show (); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>WindowTitle = "Margins, Padding and Alignment Sample" 'Add a Border. Dim myBorder As New Border() myBorder.Background = Brushes.LightBlue myBorder.BorderBrush = Brushes.Black myBorder.Padding = New Thickness(15) myBorder.BorderThickness = New Thickness(2) Dim myStackPanel As New StackPanel() myStackPanel.Background = Brushes.White myStackPanel.HorizontalAlignment = Windows.HorizontalAlignment.Center myStackPanel.VerticalAlignment = Windows.VerticalAlignment.Top Dim myTextBlock As New TextBlock() myTextBlock.Margin = New Thickness(5, 0, 5, 0) myTextBlock.FontSize = 18 myTextBlock.HorizontalAlignment = Windows.HorizontalAlignment.Center myTextBlock.Text = "Alignment, Margin and Padding Sample" Dim myButton1 As New Button() myButton1.HorizontalAlignment = Windows.HorizontalAlignment.Left myButton1.Margin = New Thickness(20) myButton1.Content = "Button 1" Dim myButton2 As New Button() myButton2.HorizontalAlignment = Windows.HorizontalAlignment.Right myButton2.Margin = New Thickness(10) myButton2.Content = "Button 2" Dim myButton3 As New Button() myButton3.HorizontalAlignment = Windows.HorizontalAlignment.Stretch myButton3.Margin = New Thickness(0) myButton3.Content = "Button 3" 'Add child elements to the parent StackPanel. myStackPanel.Children.Add(myTextBlock) myStackPanel.Children.Add(myButton1) myStackPanel.Children.Add(myButton2) myStackPanel.Children.Add(myButton3) 'Add the StackPanel as the lone Child of the Border. myBorder.Child = myStackPanel ' Add the Canvas as the lone Child of the Border myBorder.Child = myStackPanel Me.Content = myBorder </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_9c6a2009_9b86_4e40_8605_0a2664dc3973_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="Margins, Padding and Alignment Sample"> 
+&lt;Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" Padding="15"> 
+&lt;StackPanel Background="White" HorizontalAlignment="Center" VerticalAlignment="Top"> 
+&lt;TextBlock Margin="5,0,5,0" FontSize="18" HorizontalAlignment="Center">Alignment, Margin and Padding Sample
+&lt;/TextBlock> 
+&lt;Button HorizontalAlignment="Left" Margin="20">Button 1
+&lt;/Button> 
+&lt;Button HorizontalAlignment="Right" Margin="10">Button 2
+&lt;/Button> 
+&lt;Button HorizontalAlignment="Stretch" Margin="0">Button 3
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Border> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following diagram provides a close-up view of the various positioning properties that are used in the preceding sample. Subsequent sections in this topic describe in greater detail how to use each positioning property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Understanding Alignment Properties
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">HorizontalAlignment</Run>
+ and <Run FontWeight="Bold">VerticalAlignment</Run>
+ properties describe how a child element should be positioned within a parent element's allocated layout space. By using these properties together, you can position child elements precisely. For example, child elements of a DockPanel can specify four different horizontal alignments: Left, Right, or Center, or to Stretch to fill available space. Similar values are available for vertical positioning.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Explicitly-set Height and Width properties on an element take precedence over the <Run FontWeight="Bold">Stretch</Run>
+ property value. Attempting to set <Run FontWeight="Bold">Height</Run>
+, <Run FontWeight="Bold">Width</Run>
+, and a <Run FontWeight="Bold">HorizontalAlignment</Run>
+ value of <Run>Stretch</Run>
+ results in the <Run>Stretch</Run>
+ request being ignored. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">HorizontalAlignment Property
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">HorizontalAlignment</Run>
+ property declares the horizontal alignment characteristics to apply to child elements. The following table shows each of the possible values of the <Run FontWeight="Bold">HorizontalAlignment</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Member 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Left</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Child elements are aligned to the left of the parent element's allocated layout space.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Center</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Child elements are aligned to the center of the parent element's allocated layout space.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Right</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Child elements are aligned to the right of the parent element's allocated layout space.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Stretch</Run>
+ (Default)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Child elements are stretched to fill the parent element's allocated layout space. Explicit <Run FontWeight="Bold">Width</Run>
+ and <Run FontWeight="Bold">Height</Run>
+ values take precedence.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to apply the <Run FontWeight="Bold">HorizontalAlignment</Run>
+ property to <Run FontWeight="Bold">Button</Run>
+ elements. Each attribute value is shown, to better illustrate the various rendering behaviors.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Button myButton1 = new Button(); 
+myButton1.HorizontalAlignment = HorizontalAlignment.Left; 
+myButton1.Content = "Button 1 (Left)"; 
+Button myButton2 = new Button(); 
+myButton2.HorizontalAlignment = HorizontalAlignment.Right; 
+myButton2.Content = "Button 2 (Right)"; 
+Button myButton3 = new Button(); 
+myButton3.HorizontalAlignment = HorizontalAlignment.Center; 
+myButton3.Content = "Button 3 (Center)"; 
+Button myButton4 = new Button(); 
+myButton4.HorizontalAlignment = HorizontalAlignment.Stretch; 
+myButton4.Content = "Button 4 (Stretch)"; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Dim myButton1 As New Button() myButton1.HorizontalAlignment = Windows.HorizontalAlignment.Left myButton1.Margin = New Thickness(20) myButton1.Content = "Button 1" Dim myButton2 As New Button() myButton2.HorizontalAlignment = Windows.HorizontalAlignment.Right myButton2.Margin = New Thickness(10) myButton2.Content = "Button 2" Dim myButton3 As New Button() myButton3.HorizontalAlignment = Windows.HorizontalAlignment.Center myButton3.Margin = New Thickness(0) myButton3.Content = "Button 3" Dim myButton4 As New Button() myButton4.HorizontalAlignment = Windows.HorizontalAlignment.Stretch myButton4.Content = "Button 4 (Stretch)" </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_9c6a2009_9b86_4e40_8605_0a2664dc3973_1">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="HorizontalAlignment Sample"> 
+&lt;Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" Padding="15"> 
+&lt;StackPanel Background="White" HorizontalAlignment="Center" VerticalAlignment="Top"> 
+&lt;TextBlock Margin="5,0,5,0" FontSize="18" HorizontalAlignment="Center">HorizontalAlignment Sample
+&lt;/TextBlock> 
+&lt;Button HorizontalAlignment="Left">Button 1 (Left)
+&lt;/Button> 
+&lt;Button HorizontalAlignment="Right">Button 2 (Right)
+&lt;/Button> 
+&lt;Button HorizontalAlignment="Center">Button 3 (Center)
+&lt;/Button> 
+&lt;Button HorizontalAlignment="Stretch">Button 4 (Stretch)
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Border> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The preceding code yields a layout similar to the following image. The positioning effects of each <Run FontWeight="Bold">HorizontalAlignment</Run>
+ value are visible in the illustration.
+    </Paragraph>
+
+    <Paragraph FontSize="18">VerticalAlignment Property
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">VerticalAlignment</Run>
+ property describes the vertical alignment characteristics to apply to child elements. The following table shows each of the possible values for the <Run FontWeight="Bold">VerticalAlignment</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Member 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Top 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Child elements are aligned to the top of the parent element's allocated layout space.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Center 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Child elements are aligned to the center of the parent element's allocated layout space.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Bottom 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Child elements are aligned to the bottom of the parent element's allocated layout space.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Stretch (Default)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Child elements are stretched to fill the parent element's allocated layout space. Explicit <Run FontWeight="Bold">Width</Run>
+ and <Run FontWeight="Bold">Height</Run>
+ values take precedence.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to apply the <Run FontWeight="Bold">VerticalAlignment</Run>
+ property to <Run FontWeight="Bold">Button</Run>
+ elements. Each attribute value is shown, to better illustrate the various rendering behaviors. For purposes of this sample, a Grid element with visible gridlines is used as the parent, to better illustrate the layout behavior of each property value.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>TextBlock myTextBlock = new TextBlock(); 
+myTextBlock.FontSize = 18; 
+myTextBlock.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock.Text = "VerticalAlignment Sample"; 
+Grid.SetRow(myTextBlock, 0); 
+Button myButton1 = new Button(); 
+myButton1.VerticalAlignment = VerticalAlignment.Top; 
+myButton1.Content = "Button 1 (Top)"; 
+Grid.SetRow(myButton1, 1); 
+Button myButton2 = new Button(); 
+myButton2.VerticalAlignment = VerticalAlignment.Bottom; 
+myButton2.Content = "Button 2 (Bottom)"; 
+Grid.SetRow(myButton2, 2); 
+Button myButton3 = new Button(); 
+myButton3.VerticalAlignment = VerticalAlignment.Center; 
+myButton3.Content = "Button 3 (Center)"; 
+Grid.SetRow(myButton3, 3); 
+Button myButton4 = new Button(); 
+myButton4.VerticalAlignment = VerticalAlignment.Stretch; 
+myButton4.Content = "Button 4 (Stretch)"; 
+Grid.SetRow(myButton4, 4); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Dim myTextBlock As New TextBlock() myTextBlock.FontSize = 18 myTextBlock.HorizontalAlignment = Windows.HorizontalAlignment.Center myTextBlock.Text = "VerticalAlignment Sample" Grid.SetRow(myTextBlock, 0) Dim myButton1 As New Button() myButton1.VerticalAlignment = Windows.VerticalAlignment.Top myButton1.Content = "Button 1 (Top)" Grid.SetRow(myButton1, 1) Dim myButton2 As New Button() myButton2.VerticalAlignment = Windows.VerticalAlignment.Bottom myButton2.Content = "Button 2 (Bottom)" Grid.SetRow(myButton2, 2) Dim myButton3 As New Button() myButton3.VerticalAlignment = Windows.VerticalAlignment.Center myButton3.Content = "Button 3 (Center)" Grid.SetRow(myButton3, 3) Dim myButton4 As New Button() myButton4.VerticalAlignment = Windows.VerticalAlignment.Stretch myButton4.Content = "Button 4 (Stretch)" Grid.SetRow(myButton4, 4) </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_9c6a2009_9b86_4e40_8605_0a2664dc3973_2">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="VerticalAlignment Sample"> 
+&lt;Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" Padding="15"> 
+&lt;Grid Background="White" ShowGridLines="True"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="25"/> 
+&lt;RowDefinition Height="50"/> 
+&lt;RowDefinition Height="50"/> 
+&lt;RowDefinition Height="50"/> 
+&lt;RowDefinition Height="50"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;TextBlock Grid.Row="0" Grid.Column="0" FontSize="18" HorizontalAlignment="Center">VerticalAlignment Sample
+&lt;/TextBlock> 
+&lt;Button Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">Button 1 (Top)
+&lt;/Button> 
+&lt;Button Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom">Button 2 (Bottom)
+&lt;/Button> 
+&lt;Button Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Button 3 (Center)
+&lt;/Button> 
+&lt;Button Grid.Row="4" Grid.Column="0" VerticalAlignment="Stretch">Button 4 (Stretch)
+&lt;/Button> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The preceding code yields a layout similar to the following image. The positioning effects of each <Run FontWeight="Bold">VerticalAlignment</Run>
+ value are visible in the illustration.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Understanding Margin Properties
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Margin</Run>
+ property describes the distance between an element and its child or peers. <Run FontWeight="Bold">Margin</Run>
+ values can be uniform, by using syntax like <Run>Margin="20"</Run>
+. With this syntax, a uniform <Run FontWeight="Bold">Margin</Run>
+ of 20 device independent pixels would be applied to the element. <Run FontWeight="Bold">Margin</Run>
+ values can also take the form of four distinct values, each value describing a distinct margin to apply to the left, top, right, and bottom (in that order), like <Run>Margin="0,10,5,25"</Run>
+. Proper use of the <Run FontWeight="Bold">Margin</Run>
+ property enables very fine control of an element's rendering position and the rendering position of its neighbor elements and children.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>A non-zero margin applies space outside the element's ActualWidth and ActualHeight.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to apply uniform margins around a group of <Run FontWeight="Bold">Button</Run>
+ elements. The Buttons are spaced evenly with a ten-pixel margin buffer in each direction.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Button^ myButton7 = gcnew Button(); 
+myButton7->Margin = Thickness(10); 
+myButton7->Content = "Button 7"; 
+Button^ myButton8 = gcnew Button(); 
+myButton8->Margin = Thickness(10); 
+myButton8->Content = "Button 8"; 
+Button^ myButton9 = gcnew Button(); 
+myButton9->Margin = Thickness(10); 
+myButton9->Content = "Button 9"; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Button myButton7 = new Button(); 
+myButton7.Margin = new Thickness(10); 
+myButton7.Content = "Button 7"; 
+Button myButton8 = new Button(); 
+myButton8.Margin = new Thickness(10); 
+myButton8.Content = "Button 8"; 
+Button myButton9 = new Button(); 
+myButton9.Margin = new Thickness(10); 
+myButton9.Content = "Button 9"; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Dim myButton7 As New Button myButton7.Margin = New Thickness(10) myButton7.Content = "Button 7" Dim myButton8 As New Button myButton8.Margin = New Thickness(10) myButton8.Content = "Button 8" Dim myButton9 As New Button myButton9.Margin = New Thickness(10) myButton9.Content = "Button 9" </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Margin="10">Button 7
+&lt;/Button> 
+&lt;Button Margin="10">Button 8
+&lt;/Button> 
+&lt;Button Margin="10">Button 9
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In many instances, a uniform margin is not appropriate. In these cases, non-uniform spacing can be applied. The following example shows how to apply non-uniform margin spacing to child elements. Margins are described in this order: left, top, right, bottom.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Button^ myButton1 = gcnew Button(); 
+myButton1->Margin = Thickness(0, 10, 0, 10); 
+myButton1->Content = "Button 1"; 
+Button^ myButton2 = gcnew Button(); 
+myButton2->Margin = Thickness(0, 10, 0, 10); 
+myButton2->Content = "Button 2"; 
+Button^ myButton3 = gcnew Button(); 
+myButton3->Margin = Thickness(0, 10, 0, 10); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Button myButton1 = new Button(); 
+myButton1.Margin = new Thickness(0, 10, 0, 10); 
+myButton1.Content = "Button 1"; 
+Button myButton2 = new Button(); 
+myButton2.Margin = new Thickness(0, 10, 0, 10); 
+myButton2.Content = "Button 2"; 
+Button myButton3 = new Button(); 
+myButton3.Margin = new Thickness(0, 10, 0, 10); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Dim myButton1 As New Button myButton1.Margin = New Thickness(0, 10, 0, 10) myButton1.Content = "Button 1" Dim myButton2 As New Button myButton2.Margin = New Thickness(0, 10, 0, 10) myButton2.Content = "Button 2" Dim myButton3 As New Button myButton3.Margin = New Thickness(0, 10, 0, 10) </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Margin="0,10,0,10">Button 1
+&lt;/Button> 
+&lt;Button Margin="0,10,0,10">Button 2
+&lt;/Button> 
+&lt;Button Margin="0,10,0,10">Button 3
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Understanding the Padding Property
+    </Paragraph>
+
+    <Paragraph>Padding is similar to <Run FontWeight="Bold">Margin</Run>
+ in most respects. The Padding property is exposed on only on a few classes, primarily as a convenience: Block, <Run FontWeight="Bold">Border</Run>
+, Control, and TextBlock are samples of classes that expose a Padding property. The <Run FontWeight="Bold">Padding</Run>
+ property enlarges the effective size of a child element by the specified Thickness value.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to apply <Run FontWeight="Bold">Padding</Run>
+ to a parent <Run FontWeight="Bold">Border</Run>
+ element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myBorder = gcnew Border(); 
+myBorder->Background = Brushes::LightBlue; 
+myBorder->BorderBrush = Brushes::Black; 
+myBorder->BorderThickness = Thickness(2); 
+myBorder->CornerRadius = CornerRadius(45); 
+myBorder->Padding = Thickness(25); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myBorder = new Border(); 
+myBorder.Background = Brushes.LightBlue; 
+myBorder.BorderBrush = Brushes.Black; 
+myBorder.BorderThickness = new Thickness(2); 
+myBorder.CornerRadius = new CornerRadius(45); 
+myBorder.Padding = new Thickness(25); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Dim myBorder As New Border myBorder.Background = Brushes.LightBlue myBorder.BorderBrush = Brushes.Black myBorder.BorderThickness = New Thickness(2) myBorder.CornerRadius = New CornerRadius(45) myBorder.Padding = New Thickness(25) </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" CornerRadius="45" Padding="25"> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using Alignment, Margins, and Padding in an Application
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">HorizontalAlignment</Run>
+, <Run FontWeight="Bold">Margin</Run>
+, <Run FontWeight="Bold">Padding</Run>
+, and <Run FontWeight="Bold">VerticalAlignment</Run>
+ provide the positioning control necessary to create a complex user interface (UI). You can use the effects of each property to change child-element positioning, enabling flexibility in creating dynamic applications and user experiences.
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates each of the concepts that are detailed in this topic. Building on the infrastructure found in the first sample in this topic, this example adds a <Run FontWeight="Bold">Grid</Run>
+ element as a child of the <Run FontWeight="Bold">Border</Run>
+ in the first sample. <Run FontWeight="Bold">Padding</Run>
+ is applied to the parent <Run FontWeight="Bold">Border</Run>
+ element. The <Run FontWeight="Bold">Grid</Run>
+ is used to partition space between three child <Run FontWeight="Bold">StackPanel</Run>
+ elements. <Run FontWeight="Bold">Button</Run>
+ elements are again used to show the various effects of <Run FontWeight="Bold">Margin</Run>
+ and <Run FontWeight="Bold">HorizontalAlignment</Run>
+. <Run FontWeight="Bold">TextBlock</Run>
+ elements are added to each ColumnDefinition to better define the various properties applied to the <Run FontWeight="Bold">Button</Run>
+ elements in each column. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>mainWindow = gcnew Window(); 
+myBorder = gcnew Border(); 
+myBorder->Background = Brushes::LightBlue; 
+myBorder->BorderBrush = Brushes::Black; 
+myBorder->BorderThickness = Thickness(2); 
+myBorder->CornerRadius = CornerRadius(45); 
+myBorder->Padding = Thickness(25); 
+// Define the Grid. myGrid = gcnew Grid(); 
+myGrid->Background = Brushes::White; 
+myGrid->ShowGridLines = true; 
+// Define the Columns. ColumnDefinition^ myColDef1 = gcnew ColumnDefinition(); 
+myColDef1->Width = GridLength(1, GridUnitType::Auto); 
+ColumnDefinition^ myColDef2 = gcnew ColumnDefinition(); 
+myColDef2->Width = GridLength(1, GridUnitType::Star); 
+ColumnDefinition^ myColDef3 = gcnew ColumnDefinition(); 
+myColDef3->Width = GridLength(1, GridUnitType::Auto); 
+// Add the ColumnDefinitions to the Grid. myGrid->ColumnDefinitions->Add(myColDef1); 
+myGrid->ColumnDefinitions->Add(myColDef2); 
+myGrid->ColumnDefinitions->Add(myColDef3); 
+// Add the first child StackPanel. StackPanel^ myStackPanel = gcnew StackPanel(); 
+myStackPanel->HorizontalAlignment = HorizontalAlignment::Left; 
+myStackPanel->VerticalAlignment = VerticalAlignment::Top; 
+Grid::SetColumn(myStackPanel, 0); 
+Grid::SetRow(myStackPanel, 0); 
+TextBlock^ myTextBlock1 = gcnew TextBlock(); 
+myTextBlock1->FontSize = 18; 
+myTextBlock1->HorizontalAlignment = HorizontalAlignment::Center; 
+myTextBlock1->Margin = Thickness(0, 0, 0, 15); 
+myTextBlock1->Text = "StackPanel 1"; 
+Button^ myButton1 = gcnew Button(); 
+myButton1->Margin = Thickness(0, 10, 0, 10); 
+myButton1->Content = "Button 1"; 
+Button^ myButton2 = gcnew Button(); 
+myButton2->Margin = Thickness(0, 10, 0, 10); 
+myButton2->Content = "Button 2"; 
+Button^ myButton3 = gcnew Button(); 
+myButton3->Margin = Thickness(0, 10, 0, 10); 
+TextBlock^ myTextBlock2 = gcnew TextBlock(); 
+myTextBlock2->Text = "ColumnDefinition.Width = \"Auto\""; 
+TextBlock^ myTextBlock3 = gcnew TextBlock(); 
+myTextBlock3->Text = "StackPanel.HorizontalAlignment = \"Left\""; 
+TextBlock^ myTextBlock4 = gcnew TextBlock(); 
+myTextBlock4->Text = "StackPanel.VerticalAlignment = \"Top\""; 
+TextBlock^ myTextBlock5 = gcnew TextBlock(); 
+myTextBlock5->Text = "StackPanel.Orientation = \"Vertical\""; 
+TextBlock^ myTextBlock6 = gcnew TextBlock(); 
+myTextBlock6->Text = "Button.Margin = \"1,10,0,10\""; 
+myStackPanel->Children->Add(myTextBlock1); 
+myStackPanel->Children->Add(myButton1); 
+myStackPanel->Children->Add(myButton2); 
+myStackPanel->Children->Add(myButton3); 
+myStackPanel->Children->Add(myTextBlock2); 
+myStackPanel->Children->Add(myTextBlock3); 
+myStackPanel->Children->Add(myTextBlock4); 
+myStackPanel->Children->Add(myTextBlock5); 
+myStackPanel->Children->Add(myTextBlock6); 
+// Add the second child StackPanel. StackPanel^ myStackPanel2 = gcnew StackPanel(); 
+myStackPanel2->HorizontalAlignment = HorizontalAlignment::Stretch; 
+myStackPanel2->VerticalAlignment = VerticalAlignment::Top; 
+myStackPanel2->Orientation = Orientation::Vertical; 
+Grid::SetColumn(myStackPanel2, 1); 
+Grid::SetRow(myStackPanel2, 0); 
+TextBlock^ myTextBlock7 = gcnew TextBlock(); 
+myTextBlock7->FontSize = 18; 
+myTextBlock7->HorizontalAlignment = HorizontalAlignment::Center; 
+myTextBlock7->Margin = Thickness(0, 0, 0, 15); 
+myTextBlock7->Text = "StackPanel 2"; 
+Button^ myButton4 = gcnew Button(); 
+myButton4->Margin = Thickness(10, 0, 10, 0); 
+myButton4->Content = "Button 4"; 
+Button^ myButton5 = gcnew Button(); 
+myButton5->Margin = Thickness(10, 0, 10, 0); 
+myButton5->Content = "Button 5"; 
+Button^ myButton6 = gcnew Button(); 
+myButton6->Margin = Thickness(10, 0, 10, 0); 
+myButton6->Content = "Button 6"; 
+TextBlock^ myTextBlock8 = gcnew TextBlock(); 
+myTextBlock8->HorizontalAlignment = HorizontalAlignment::Center; 
+myTextBlock8->Text = "ColumnDefinition.Width = \"*\""; 
+TextBlock^ myTextBlock9 = gcnew TextBlock(); 
+myTextBlock9->HorizontalAlignment = HorizontalAlignment::Center; 
+myTextBlock9->Text = "StackPanel.HorizontalAlignment = \"Stretch\""; 
+TextBlock^ myTextBlock10 = gcnew TextBlock(); 
+myTextBlock10->HorizontalAlignment = HorizontalAlignment::Center; 
+myTextBlock10->Text = "StackPanel.VerticalAlignment = \"Top\""; 
+TextBlock^ myTextBlock11 = gcnew TextBlock(); 
+myTextBlock11->HorizontalAlignment = HorizontalAlignment::Center; 
+myTextBlock11->Text = "StackPanel.Orientation = \"Horizontal\""; 
+TextBlock^ myTextBlock12 = gcnew TextBlock(); 
+myTextBlock12->HorizontalAlignment = HorizontalAlignment::Center; 
+myTextBlock12->Text = "Button.Margin = \"10,0,10,0\""; 
+myStackPanel2->Children->Add(myTextBlock7); 
+myStackPanel2->Children->Add(myButton4); 
+myStackPanel2->Children->Add(myButton5); 
+myStackPanel2->Children->Add(myButton6); 
+myStackPanel2->Children->Add(myTextBlock8); 
+myStackPanel2->Children->Add(myTextBlock9); 
+myStackPanel2->Children->Add(myTextBlock10); 
+myStackPanel2->Children->Add(myTextBlock11); 
+myStackPanel2->Children->Add(myTextBlock12); 
+// Add the final child StackPanel. StackPanel^ myStackPanel3 = gcnew StackPanel(); 
+myStackPanel3->HorizontalAlignment = HorizontalAlignment::Left; 
+myStackPanel3->VerticalAlignment = VerticalAlignment::Top; 
+Grid::SetColumn(myStackPanel3, 2); 
+Grid::SetRow(myStackPanel3, 0); 
+TextBlock^ myTextBlock13 = gcnew TextBlock(); 
+myTextBlock13->FontSize = 18; 
+myTextBlock13->HorizontalAlignment = HorizontalAlignment::Center; 
+myTextBlock13->Margin = Thickness(0, 0, 0, 15); 
+myTextBlock13->Text = "StackPanel 3"; 
+Button^ myButton7 = gcnew Button(); 
+myButton7->Margin = Thickness(10); 
+myButton7->Content = "Button 7"; 
+Button^ myButton8 = gcnew Button(); 
+myButton8->Margin = Thickness(10); 
+myButton8->Content = "Button 8"; 
+Button^ myButton9 = gcnew Button(); 
+myButton9->Margin = Thickness(10); 
+myButton9->Content = "Button 9"; 
+TextBlock^ myTextBlock14 = gcnew TextBlock(); 
+myTextBlock14->Text = "ColumnDefinition.Width = \"Auto\""; 
+TextBlock^ myTextBlock15 = gcnew TextBlock(); 
+myTextBlock15->Text = "StackPanel.HorizontalAlignment = \"Left\""; 
+TextBlock^ myTextBlock16 = gcnew TextBlock(); 
+myTextBlock16->Text = "StackPanel.VerticalAlignment = \"Top\""; 
+TextBlock^ myTextBlock17 = gcnew TextBlock(); 
+myTextBlock17->Text = "StackPanel.Orientation = \"Vertical\""; 
+TextBlock^ myTextBlock18 = gcnew TextBlock(); 
+myTextBlock18->Text = "Button.Margin = \"10\""; 
+myStackPanel3->Children->Add(myTextBlock13); 
+myStackPanel3->Children->Add(myButton7); 
+myStackPanel3->Children->Add(myButton8); 
+myStackPanel3->Children->Add(myButton9); 
+myStackPanel3->Children->Add(myTextBlock14); 
+myStackPanel3->Children->Add(myTextBlock15); 
+myStackPanel3->Children->Add(myTextBlock16); 
+myStackPanel3->Children->Add(myTextBlock17); 
+myStackPanel3->Children->Add(myTextBlock18); 
+// Add child content to the parent Grid. myGrid->Children->Add(myStackPanel); 
+myGrid->Children->Add(myStackPanel2); 
+myGrid->Children->Add(myStackPanel3); 
+// Add the Grid as the lone child of the Border. myBorder->Child = myGrid; 
+// Add the Border to the Window as Content and show the Window. mainWindow->Content = myBorder; 
+mainWindow->Title = "Margin, Padding, and Alignment Sample"; 
+mainWindow->Show(); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>mainWindow = new Window(); 
+myBorder = new Border(); 
+myBorder.Background = Brushes.LightBlue; 
+myBorder.BorderBrush = Brushes.Black; 
+myBorder.BorderThickness = new Thickness(2); 
+myBorder.CornerRadius = new CornerRadius(45); 
+myBorder.Padding = new Thickness(25); 
+// Define the Grid. myGrid = new Grid(); 
+myGrid.Background = Brushes.White; 
+myGrid.ShowGridLines = true; 
+// Define the Columns. ColumnDefinition myColDef1 = new ColumnDefinition(); 
+myColDef1.Width = new GridLength(1, GridUnitType.Auto); 
+ColumnDefinition myColDef2 = new ColumnDefinition(); 
+myColDef2.Width = new GridLength(1, GridUnitType.Star); 
+ColumnDefinition myColDef3 = new ColumnDefinition(); 
+myColDef3.Width = new GridLength(1, GridUnitType.Auto); 
+// Add the ColumnDefinitions to the Grid. myGrid.ColumnDefinitions.Add(myColDef1); 
+myGrid.ColumnDefinitions.Add(myColDef2); 
+myGrid.ColumnDefinitions.Add(myColDef3); 
+// Add the first child StackPanel. StackPanel myStackPanel = new StackPanel(); 
+myStackPanel.HorizontalAlignment = HorizontalAlignment.Left; 
+myStackPanel.VerticalAlignment = VerticalAlignment.Top; 
+Grid.SetColumn(myStackPanel, 0); 
+Grid.SetRow(myStackPanel, 0); 
+TextBlock myTextBlock1 = new TextBlock(); 
+myTextBlock1.FontSize = 18; 
+myTextBlock1.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock1.Margin = new Thickness(0, 0, 0, 15); 
+myTextBlock1.Text = "StackPanel 1"; 
+Button myButton1 = new Button(); 
+myButton1.Margin = new Thickness(0, 10, 0, 10); 
+myButton1.Content = "Button 1"; 
+Button myButton2 = new Button(); 
+myButton2.Margin = new Thickness(0, 10, 0, 10); 
+myButton2.Content = "Button 2"; 
+Button myButton3 = new Button(); 
+myButton3.Margin = new Thickness(0, 10, 0, 10); 
+TextBlock myTextBlock2 = new TextBlock(); 
+myTextBlock2.Text = @"ColumnDefinition.Width = ""Auto"""; 
+TextBlock myTextBlock3 = new TextBlock(); 
+myTextBlock3.Text = @"StackPanel.HorizontalAlignment = ""Left"""; 
+TextBlock myTextBlock4 = new TextBlock(); 
+myTextBlock4.Text = @"StackPanel.VerticalAlignment = ""Top"""; 
+TextBlock myTextBlock5 = new TextBlock(); 
+myTextBlock5.Text = @"StackPanel.Orientation = ""Vertical"""; 
+TextBlock myTextBlock6 = new TextBlock(); 
+myTextBlock6.Text = @"Button.Margin = ""1,10,0,10"""; 
+myStackPanel.Children.Add(myTextBlock1); 
+myStackPanel.Children.Add(myButton1); 
+myStackPanel.Children.Add(myButton2); 
+myStackPanel.Children.Add(myButton3); 
+myStackPanel.Children.Add(myTextBlock2); 
+myStackPanel.Children.Add(myTextBlock3); 
+myStackPanel.Children.Add(myTextBlock4); 
+myStackPanel.Children.Add(myTextBlock5); 
+myStackPanel.Children.Add(myTextBlock6); 
+// Add the second child StackPanel. StackPanel myStackPanel2 = new StackPanel(); 
+myStackPanel2.HorizontalAlignment = HorizontalAlignment.Stretch; 
+myStackPanel2.VerticalAlignment = VerticalAlignment.Top; 
+myStackPanel2.Orientation = Orientation.Vertical; 
+Grid.SetColumn(myStackPanel2, 1); 
+Grid.SetRow(myStackPanel2, 0); 
+TextBlock myTextBlock7 = new TextBlock(); 
+myTextBlock7.FontSize = 18; 
+myTextBlock7.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock7.Margin = new Thickness(0, 0, 0, 15); 
+myTextBlock7.Text = "StackPanel 2"; 
+Button myButton4 = new Button(); 
+myButton4.Margin = new Thickness(10, 0, 10, 0); 
+myButton4.Content = "Button 4"; 
+Button myButton5 = new Button(); 
+myButton5.Margin = new Thickness(10, 0, 10, 0); 
+myButton5.Content = "Button 5"; 
+Button myButton6 = new Button(); 
+myButton6.Margin = new Thickness(10, 0, 10, 0); 
+myButton6.Content = "Button 6"; 
+TextBlock myTextBlock8 = new TextBlock(); 
+myTextBlock8.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock8.Text = @"ColumnDefinition.Width = ""*"""; 
+TextBlock myTextBlock9 = new TextBlock(); 
+myTextBlock9.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock9.Text = @"StackPanel.HorizontalAlignment = ""Stretch"""; 
+TextBlock myTextBlock10 = new TextBlock(); 
+myTextBlock10.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock10.Text = @"StackPanel.VerticalAlignment = ""Top"""; 
+TextBlock myTextBlock11 = new TextBlock(); 
+myTextBlock11.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock11.Text = @"StackPanel.Orientation = ""Horizontal"""; 
+TextBlock myTextBlock12 = new TextBlock(); 
+myTextBlock12.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock12.Text = @"Button.Margin = ""10,0,10,0"""; 
+myStackPanel2.Children.Add(myTextBlock7); 
+myStackPanel2.Children.Add(myButton4); 
+myStackPanel2.Children.Add(myButton5); 
+myStackPanel2.Children.Add(myButton6); 
+myStackPanel2.Children.Add(myTextBlock8); 
+myStackPanel2.Children.Add(myTextBlock9); 
+myStackPanel2.Children.Add(myTextBlock10); 
+myStackPanel2.Children.Add(myTextBlock11); 
+myStackPanel2.Children.Add(myTextBlock12); 
+// Add the final child StackPanel. StackPanel myStackPanel3 = new StackPanel(); 
+myStackPanel3.HorizontalAlignment = HorizontalAlignment.Left; 
+myStackPanel3.VerticalAlignment = VerticalAlignment.Top; 
+Grid.SetColumn(myStackPanel3, 2); 
+Grid.SetRow(myStackPanel3, 0); 
+TextBlock myTextBlock13 = new TextBlock(); 
+myTextBlock13.FontSize = 18; 
+myTextBlock13.HorizontalAlignment = HorizontalAlignment.Center; 
+myTextBlock13.Margin = new Thickness(0, 0, 0, 15); 
+myTextBlock13.Text = "StackPanel 3"; 
+Button myButton7 = new Button(); 
+myButton7.Margin = new Thickness(10); 
+myButton7.Content = "Button 7"; 
+Button myButton8 = new Button(); 
+myButton8.Margin = new Thickness(10); 
+myButton8.Content = "Button 8"; 
+Button myButton9 = new Button(); 
+myButton9.Margin = new Thickness(10); 
+myButton9.Content = "Button 9"; 
+TextBlock myTextBlock14 = new TextBlock(); 
+myTextBlock14.Text = @"ColumnDefinition.Width = ""Auto"""; 
+TextBlock myTextBlock15 = new TextBlock(); 
+myTextBlock15.Text = @"StackPanel.HorizontalAlignment = ""Left"""; 
+TextBlock myTextBlock16 = new TextBlock(); 
+myTextBlock16.Text = @"StackPanel.VerticalAlignment = ""Top"""; 
+TextBlock myTextBlock17 = new TextBlock(); 
+myTextBlock17.Text = @"StackPanel.Orientation = ""Vertical"""; 
+TextBlock myTextBlock18 = new TextBlock(); 
+myTextBlock18.Text = @"Button.Margin = ""10"""; 
+myStackPanel3.Children.Add(myTextBlock13); 
+myStackPanel3.Children.Add(myButton7); 
+myStackPanel3.Children.Add(myButton8); 
+myStackPanel3.Children.Add(myButton9); 
+myStackPanel3.Children.Add(myTextBlock14); 
+myStackPanel3.Children.Add(myTextBlock15); 
+myStackPanel3.Children.Add(myTextBlock16); 
+myStackPanel3.Children.Add(myTextBlock17); 
+myStackPanel3.Children.Add(myTextBlock18); 
+// Add child content to the parent Grid. myGrid.Children.Add(myStackPanel); 
+myGrid.Children.Add(myStackPanel2); 
+myGrid.Children.Add(myStackPanel3); 
+// Add the Grid as the lone child of the Border. myBorder.Child = myGrid; 
+// Add the Border to the Window as Content and show the Window. mainWindow.Content = myBorder; 
+mainWindow.Title = "Margin, Padding, and Alignment Sample"; 
+mainWindow.Show(); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Dim myBorder As New Border myBorder.Background = Brushes.LightBlue myBorder.BorderBrush = Brushes.Black myBorder.BorderThickness = New Thickness(2) myBorder.CornerRadius = New CornerRadius(45) myBorder.Padding = New Thickness(25) 'Define the Grid. Dim myGrid As New Grid myGrid.Background = Brushes.White myGrid.ShowGridLines = True 'Define the Columns. Dim myColDef1 As New ColumnDefinition myColDef1.Width = New GridLength(1, GridUnitType.Auto) Dim myColDef2 As New ColumnDefinition myColDef2.Width = New GridLength(1, GridUnitType.Star) Dim myColDef3 As New ColumnDefinition myColDef3.Width = New GridLength(1, GridUnitType.Auto) 'Add the ColumnDefinitions to the Grid myGrid.ColumnDefinitions.Add(myColDef1) myGrid.ColumnDefinitions.Add(myColDef2) myGrid.ColumnDefinitions.Add(myColDef3) 'Add the first child StackPanel. Dim myStackPanel As New StackPanel myStackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Left myStackPanel.VerticalAlignment = System.Windows.VerticalAlignment.Top Grid.SetColumn(myStackPanel, 0) Grid.SetRow(myStackPanel, 0) Dim myTextBlock1 As New TextBlock myTextBlock1.FontSize = 18 myTextBlock1.HorizontalAlignment = System.Windows.HorizontalAlignment.Center myTextBlock1.Margin = New Thickness(0, 0, 0, 15) myTextBlock1.Text = "StackPanel 1" Dim myButton1 As New Button myButton1.Margin = New Thickness(0, 10, 0, 10) myButton1.Content = "Button 1" Dim myButton2 As New Button myButton2.Margin = New Thickness(0, 10, 0, 10) myButton2.Content = "Button 2" Dim myButton3 As New Button myButton3.Margin = New Thickness(0, 10, 0, 10) Dim myTextBlock2 As New TextBlock myTextBlock2.Text = "ColumnDefinition.Width = ""Auto""" Dim myTextBlock3 As New TextBlock myTextBlock3.Text = "StackPanel.HorizontalAlignment = ""Left""" Dim myTextBlock4 As New TextBlock myTextBlock4.Text = "StackPanel.VerticalAlignment = ""Top""" Dim myTextBlock5 As New TextBlock myTextBlock5.Text = "StackPanel.Orientation = ""Vertical""" Dim myTextBlock6 As New TextBlock myTextBlock6.Text = "Button.Margin = ""1,10,0,10""" myStackPanel.Children.Add(myTextBlock1) myStackPanel.Children.Add(myButton1) myStackPanel.Children.Add(myButton2) myStackPanel.Children.Add(myButton3) myStackPanel.Children.Add(myTextBlock2) myStackPanel.Children.Add(myTextBlock3) myStackPanel.Children.Add(myTextBlock4) myStackPanel.Children.Add(myTextBlock5) myStackPanel.Children.Add(myTextBlock6) 'Add the second child StackPanel. Dim myStackPanel2 As New StackPanel myStackPanel2.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch myStackPanel2.VerticalAlignment = System.Windows.VerticalAlignment.Top myStackPanel2.Orientation = Orientation.Vertical Grid.SetColumn(myStackPanel2, 1) Grid.SetRow(myStackPanel2, 0) Dim myTextBlock7 As New TextBlock myTextBlock7.FontSize = 18 myTextBlock7.HorizontalAlignment = System.Windows.HorizontalAlignment.Center myTextBlock7.Margin = New Thickness(0, 0, 0, 15) myTextBlock7.Text = "StackPanel 2" Dim myButton4 As New Button myButton4.Margin = New Thickness(10, 0, 10, 0) myButton4.Content = "Button 4" Dim myButton5 As New Button myButton5.Margin = New Thickness(10, 0, 10, 0) myButton5.Content = "Button 5" Dim myButton6 As New Button myButton6.Margin = New Thickness(10, 0, 10, 0) myButton6.Content = "Button 6" Dim myTextBlock8 As New TextBlock myTextBlock8.HorizontalAlignment = System.Windows.HorizontalAlignment.Center myTextBlock8.Text = "ColumnDefinition.Width = ""*""" Dim myTextBlock9 As New TextBlock myTextBlock9.HorizontalAlignment = System.Windows.HorizontalAlignment.Center myTextBlock9.Text = "StackPanel.HorizontalAlignment = ""Stretch""" Dim myTextBlock10 As New TextBlock myTextBlock10.HorizontalAlignment = System.Windows.HorizontalAlignment.Center myTextBlock10.Text = "StackPanel.VerticalAlignment = ""Top""" Dim myTextBlock11 As New TextBlock myTextBlock11.HorizontalAlignment = System.Windows.HorizontalAlignment.Center myTextBlock11.Text = "StackPanel.Orientation = ""Horizontal""" Dim myTextBlock12 As New TextBlock myTextBlock12.HorizontalAlignment = System.Windows.HorizontalAlignment.Center myTextBlock12.Text = "Button.Margin = ""10,0,10,0""" myStackPanel2.Children.Add(myTextBlock7) myStackPanel2.Children.Add(myButton4) myStackPanel2.Children.Add(myButton5) myStackPanel2.Children.Add(myButton6) myStackPanel2.Children.Add(myTextBlock8) myStackPanel2.Children.Add(myTextBlock9) myStackPanel2.Children.Add(myTextBlock10) myStackPanel2.Children.Add(myTextBlock11) myStackPanel2.Children.Add(myTextBlock12) 'Add the final child StackPanel. Dim myStackPanel3 As New StackPanel myStackPanel3.HorizontalAlignment = System.Windows.HorizontalAlignment.Left myStackPanel3.VerticalAlignment = System.Windows.VerticalAlignment.Top Grid.SetColumn(myStackPanel3, 2) Grid.SetRow(myStackPanel3, 0) Dim myTextBlock13 As New TextBlock myTextBlock13.FontSize = 18 myTextBlock13.HorizontalAlignment = System.Windows.HorizontalAlignment.Center myTextBlock13.Margin = New Thickness(0, 0, 0, 15) myTextBlock13.Text = "StackPanel 3" Dim myButton7 As New Button myButton7.Margin = New Thickness(10) myButton7.Content = "Button 7" Dim myButton8 As New Button myButton8.Margin = New Thickness(10) myButton8.Content = "Button 8" Dim myButton9 As New Button myButton9.Margin = New Thickness(10) myButton9.Content = "Button 9" Dim myTextBlock14 As New TextBlock myTextBlock14.Text = "ColumnDefinition.Width = ""Auto""" Dim myTextBlock15 As New TextBlock myTextBlock15.Text = "StackPanel.HorizontalAlignment = ""Left""" Dim myTextBlock16 As New TextBlock myTextBlock16.Text = "StackPanel.VerticalAlignment = ""Top""" Dim myTextBlock17 As New TextBlock myTextBlock17.Text = "StackPanel.Orientation = ""Vertical""" Dim myTextBlock18 As New TextBlock myTextBlock18.Text = "Button.Margin = ""10""" myStackPanel3.Children.Add(myTextBlock13) myStackPanel3.Children.Add(myButton7) myStackPanel3.Children.Add(myButton8) myStackPanel3.Children.Add(myButton9) myStackPanel3.Children.Add(myTextBlock14) myStackPanel3.Children.Add(myTextBlock15) myStackPanel3.Children.Add(myTextBlock16) myStackPanel3.Children.Add(myTextBlock17) myStackPanel3.Children.Add(myTextBlock18) 'Add child content to the parent Grid. myGrid.Children.Add(myStackPanel) myGrid.Children.Add(myStackPanel2) myGrid.Children.Add(myStackPanel3) 'Add the Grid as the lone child of the Border. myBorder.Child = myGrid </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_9c6a2009_9b86_4e40_8605_0a2664dc3973_6">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="Margins, Padding and Alignment Sample"> 
+&lt;Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" CornerRadius="45" Padding="25"> 
+&lt;Grid Background="White" ShowGridLines="True"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Name="StackPanel1" VerticalAlignment="Top"> 
+&lt;TextBlock FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,15">StackPanel1
+&lt;/TextBlock> 
+&lt;Button Margin="0,10,0,10">Button 1
+&lt;/Button> 
+&lt;Button Margin="0,10,0,10">Button 2
+&lt;/Button> 
+&lt;Button Margin="0,10,0,10">Button 3
+&lt;/Button> 
+&lt;TextBlock>ColumnDefinition.Width="Auto"
+&lt;/TextBlock> 
+&lt;TextBlock>StackPanel.HorizontalAlignment="Left"
+&lt;/TextBlock> 
+&lt;TextBlock>StackPanel.VerticalAlignment="Top"
+&lt;/TextBlock> 
+&lt;TextBlock>StackPanel.Orientation="Vertical"
+&lt;/TextBlock> 
+&lt;TextBlock>Button.Margin="0,10,0,10"
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Name="StackPanel2" VerticalAlignment="Top" Orientation="Vertical"> 
+&lt;TextBlock FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,15">StackPanel2
+&lt;/TextBlock> 
+&lt;Button Margin="10,0,10,0">Button 4
+&lt;/Button> 
+&lt;Button Margin="10,0,10,0">Button 5
+&lt;/Button> 
+&lt;Button Margin="10,0,10,0">Button 6
+&lt;/Button> 
+&lt;TextBlock HorizontalAlignment="Center">ColumnDefinition.Width="*"
+&lt;/TextBlock> 
+&lt;TextBlock HorizontalAlignment="Center">StackPanel.HorizontalAlignment="Stretch"
+&lt;/TextBlock> 
+&lt;TextBlock HorizontalAlignment="Center">StackPanel.VerticalAlignment="Top"
+&lt;/TextBlock> 
+&lt;TextBlock HorizontalAlignment="Center">StackPanel.Orientation="Horizontal"
+&lt;/TextBlock> 
+&lt;TextBlock HorizontalAlignment="Center">Button.Margin="10,0,10,0"
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;StackPanel Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Name="StackPanel3" VerticalAlignment="Top"> 
+&lt;TextBlock FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,15">StackPanel3
+&lt;/TextBlock> 
+&lt;Button Margin="10">Button 7
+&lt;/Button> 
+&lt;Button Margin="10">Button 8
+&lt;/Button> 
+&lt;Button Margin="10">Button 9
+&lt;/Button> 
+&lt;TextBlock>ColumnDefinition.Width="Auto"
+&lt;/TextBlock> 
+&lt;TextBlock>StackPanel.HorizontalAlignment="Left"
+&lt;/TextBlock> 
+&lt;TextBlock>StackPanel.VerticalAlignment="Top"
+&lt;/TextBlock> 
+&lt;TextBlock>StackPanel.Orientation="Vertical"
+&lt;/TextBlock> 
+&lt;TextBlock>Button.Margin="10"
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When compiled, the preceding application yields a UI that looks like the following illustration. The effects of the various property values are evident in the spacing between elements, and significant property values for elements in each column are shown within TextBlocks.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What's Next
+    </Paragraph>
+
+    <Paragraph>Positioning properties defined by the <Run FontWeight="Bold">FrameworkElement</Run>
+ class enable fine control of element placement within WPF applications. You now have several techniques you can use to better position elements using WPF.
+    </Paragraph>
+
+    <Paragraph>Additional resources are available that explain WPF layout in greater detail. The <Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+ topic contains more detail about the various <Run FontWeight="Bold">Panel</Run>
+ elements. The topic Integrate Data, Layout, and Components in a Simple Application introduces advanced techniques that use layout elements to position components and bind their actions to data sources.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>FrameworkElement
+      <LineBreak/>HorizontalAlignment
+      <LineBreak/>VerticalAlignment
+      <LineBreak/>Margin
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3eecdced-3623-403a-a077-7595453a9221.xaml">The Layout System</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation Layout Gallery
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Alignment, Margins, and Padding Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

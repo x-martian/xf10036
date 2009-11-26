@@ -1,0 +1,150 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_15b7b06c_9112_4ee5_b30a_65d10c5c5df6"
+  Tag     ="Add Class Handling for a Routed Event"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Add Class Handling for a Routed Event</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Routed events can be handled either by class handlers or instance handlers on any given node in the route. Class handlers are invoked first, and can be used by class implementations to suppress events from instance handling or introduce other event specific behaviors on events that are owned by base classes. This example illustrates two closely related techniques for implementing class handlers.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>This example uses a custom class based on the Canvas panel. The basic premise of the application is that the custom class introduces behaviors on its child elements, including intercepting any left mouse button clicks and marking them handled, before the child element class or any instance handlers on it will be invoked.
+    </Paragraph>
+
+    <Paragraph>The UIElement class exposes a virtual method that enables class handling on the PreviewMouseLeftButtonDown event, by simply overriding the event. This is the simplest way to implement class handling if such a virtual method is available somewhere in your class' hierarchy. The following code shows the OnPreviewMouseLeftButtonDown implementation in the "MyEditContainer" that is derived from <Run FontWeight="Bold">Canvas</Run>
+. The implementation marks the event as handled in the arguments, and then adds some code to give the source element a basic visible change.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override void OnPreviewMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e) { e.Handled = true; 
+//suppress the click event and other leftmousebuttondown responders MyEditContainer ec = (MyEditContainer)e.Source; 
+if (ec.EditState) { ec.EditState = false; 
+} else { ec.EditState = true; 
+} base.OnPreviewMouseRightButtonDown(e); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If no virtual is available on base classes or for that particular method, class handling can be added directly using a utility method of the EventManager class, RegisterClassHandler. This method should only be called within the static initialization of classes that are adding class handling. This example adds another handler for <Run FontWeight="Bold">PreviewMouseLeftButtonDown</Run>
+ , and in this case the registered class is the custom class. In contrast, when using the virtuals, the registered class is really the <Run FontWeight="Bold">UIElement</Run>
+ base class. In cases where base classes and subclass each register class handling, the subclass handlers are invoked first. The behavior in an application would be that first this handler would show its message box and then the visual change in the virtual method's handler would be shown.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>static MyEditContainer() { EventManager.RegisterClassHandler(typeof(MyEditContainer), PreviewMouseRightButtonDownEvent, new RoutedEventHandler(LocalOnMouseRightButtonDown)); 
+} internal static void LocalOnMouseRightButtonDown(object sender, RoutedEventArgs e) { MessageBox.Show("this is invoked before the On* class handler on UIElement"); 
+//e.Handled = true; 
+//uncommenting this would cause ONLY the subclass' class handler to respond } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="157787b4-f469-4047-8777-5b034145f32e.xaml">How to: Handle a Routed Event</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>EventManager
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="5e745508-4861-4b48-b5f6-5fc7ce5289d2.xaml">Marking Routed Events as Handled, and Class Handling</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Add Class Handling for a Routed Event to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

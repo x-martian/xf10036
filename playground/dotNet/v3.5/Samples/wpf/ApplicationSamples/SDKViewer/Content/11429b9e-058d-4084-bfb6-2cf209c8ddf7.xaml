@@ -1,0 +1,180 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_11429b9e_058d_4084_bfb6_2cf209c8ddf7"
+  Tag     ="Implement the Master-Detail Scenario"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Implement the Master-Detail Scenario</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to implement the master-detail scenario.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In this example, <Run>LeagueList</Run>
+ is a collection of <Run>Leagues</Run>
+. Each <Run>League</Run>
+ has a <Run>Name</Run>
+ and a collection of <Run>Divisions</Run>
+, and each <Run>Division</Run>
+ has a name and a collection of <Run>Teams</Run>
+. Each <Run>Team</Run>
+ has a team name.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:src="clr-namespace:SDKSample" Width="400" Height="180" Title="Master-Detail Binding" Background="Silver"> 
+&lt;Window.Resources> 
+&lt;ObjectDataProvider x:Key="MyList" ObjectType="{x:Type src:LeagueList}" /> <Run>... </Run>
+ 
+&lt;DockPanel DataContext="{Binding Source={StaticResource MyList}}"> 
+&lt;StackPanel> 
+&lt;Label>My Soccer Leagues
+&lt;/Label> 
+&lt;ListBox ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="true"/> 
+&lt;/StackPanel> 
+&lt;StackPanel> 
+&lt;Label Content="{Binding Path=Name}"/> 
+&lt;ListBox ItemsSource="{Binding Path=Divisions}" IsSynchronizedWithCurrentItem="true"/> 
+&lt;/StackPanel> 
+&lt;StackPanel> 
+&lt;Label Content="{Binding Path=Divisions/Name}"/> 
+&lt;ListBox ItemsSource="{Binding Path=Divisions/Teams}"/> 
+&lt;/StackPanel> 
+&lt;/DockPanel> 
+&lt;/Window> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following is a screenshot of the example. The <Run>Divisions</Run>
+ ListBox automatically tracks selections in the <Run>Leagues</Run>
+<Run FontWeight="Bold">ListBox</Run>
+ and display the corresponding data. The <Run>Teams</Run>
+<Run FontWeight="Bold">ListBox</Run>
+ tracks selections in the other two <Run FontWeight="Bold">ListBox</Run>
+ controls.
+    </Paragraph>
+
+    <Paragraph>The two things to notice in this example are:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>The three <Run FontWeight="Bold">ListBox</Run>
+ controls bind to the same source. You set the Path property of the binding to specify which level of data you want the <Run FontWeight="Bold">ListBox</Run>
+ to display.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You must set the IsSynchronizedWithCurrentItem property to <Run FontWeight="Bold">true</Run>
+ on the <Run FontWeight="Bold">ListBox</Run>
+ controls of which the selection you are tracking. Setting this property ensures that the selected item is always set as the CurrentItem.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For the complete sample, see Master-Detail Scenario Using ObjectDataProvider Sample. The technique is slightly different when you are using XML data. For an example, see <Hyperlink NavigateUri="eb8dbdd8-5871-42bb-a16b-04e655fea677.xaml">How to: Implement the Master-Detail Scenario with XML Data</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="952a7d76-dd29-49e5-86f5-32c4530e70eb.xaml">How to: Bind to a Collection and Display Information Based on Selection</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>HierarchicalDataTemplate
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0f4d9f8c-0230-4013-bd7b-e8e7fed01b4a.xaml">Data Templating Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Implement the Master-Detail Scenario to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

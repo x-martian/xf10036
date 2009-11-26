@@ -1,0 +1,127 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_9fe2f01b_f7d8_49a8_a185_d4472b9976c0"
+  Tag     ="Raise Events from a UI Automation Provider"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Raise Events from a UI Automation Provider</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic contains example code that shows how to raise an event from a <Run>UI Automation provider</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In the following example, a UI Automation event is raised in the implementation of a custom button control. The implementation enables a <Run>UI Automation client</Run>
+ application to simulate a button click.
+    </Paragraph>
+
+    <Paragraph>To avoid unnecessary processing, the example checks ClientsAreListening to see whether events should be raised.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Responds to a button click, regardless of whether it was caused by a mouse or /// keyboard click or by InvokePattern.Invoke. /// 
+&lt;/summary> private void OnCustomButtonClicked() { // TODO Perform program actions invoked by the control. // Raise an event. if (AutomationInteropProvider.ClientsAreListening) { AutomationEventArgs args = new AutomationEventArgs(InvokePatternIdentifiers.InvokedEvent); 
+AutomationInteropProvider.RaiseAutomationEvent(InvokePatternIdentifiers.InvokedEvent, this, args); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Responds to a button click, regardless of whether it was caused by a ''' mouse or keyboard click or by InvokePattern.Invoke. ''' 
+&lt;/summary> Private Sub OnCustomButtonClicked() '' TODO Perform program actions invoked by the control. '' Raise an event. If AutomationInteropProvider.ClientsAreListening Then Dim args As AutomationEventArgs = _ New AutomationEventArgs(InvokePatternIdentifiers.InvokedEvent) AutomationInteropProvider.RaiseAutomationEvent( _ InvokePatternIdentifiers.InvokedEvent, Me, args) End If End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="859557b8-51e1-4d15-92e8-318d2dcdb2f7.xaml">UI Automation Providers Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Raise Events from a UI Automation Provider to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

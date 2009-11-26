@@ -1,0 +1,361 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_449c3068_a5d6_4f66_84c6_1bcc7dd4d209"
+  Tag     ="Implementing the UI Automation Selection Control Pattern"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Implementing the UI Automation Selection Control Pattern</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces the SelectionPattern <Run>control pattern</Run>
+. It contains guidelines and conventions for implementing the ISelectionProvider interface and includes information about <Run FontWeight="Bold">SelectionPattern</Run>
+ events and properties. Links to additional references are listed at the end of the topic.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">SelectionPattern</Run>
+ control pattern is used to support controls that act as containers for a collection of selectable child items. The children of this element must implement ISelectionItemProvider. For examples of controls that implement this control pattern, see <Hyperlink NavigateUri="8b81645b-8be3-4e26-9c98-4fb0fceca06b.xaml">Control Pattern Mapping for UI Automation Clients</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Implementation_Guidelines_and_Conventions">Implementation Guidelines and Conventions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Required_Members_for_ISelectionProvider">Required Members for ISelectionProvider</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Exceptions">Exceptions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Implementation Guidelines and Conventions
+    </Paragraph>
+
+    <Paragraph>When implementing the Selection control pattern, note the following guidelines and conventions:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Controls that implement <Run FontWeight="Bold">ISelectionProvider</Run>
+ allow either single or multiple child items to be selected. For example, list box, list view, and tree view support multiple selections whereas combo box, slider, and radio button group support single selection.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Controls that have a minimum, maximum, and continuous range, such as the <Run FontWeight="Bold">Volume</Run>
+ slider control, should implement IRangeValueProvider instead of <Run FontWeight="Bold">ISelectionProvider</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Single-selection controls that manage child controls that implement IRawElementProviderFragmentRoot, such as the <Run FontWeight="Bold">Screen Resolution</Run>
+ slider in the <Run FontWeight="Bold">Display Properties</Run>
+ dialog box or the <Run FontWeight="Bold">Color Picker</Run>
+ selection control from Microsoft Word (illustrated below), should implement ISelectionProvider; 
+their children should implement both IRawElementProviderFragment and <Run FontWeight="Bold">ISelectionItemProvider</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontWeight="Bold">Example of Color Swatch String Mapping</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Menus do not support <Run FontWeight="Bold">SelectionPattern</Run>
+. If you are working with menu items that include both graphics and text (such as the <Run FontWeight="Bold">Preview Pane</Run>
+ items in the <Run FontWeight="Bold">View</Run>
+ menu in Microsoft Outlook) and need to convey state, you should implement IToggleProvider.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Required Members for ISelectionProvider
+    </Paragraph>
+
+    <Paragraph>The following properties, methods, and events are required for the ISelectionProvider interface.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Required members 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>CanSelectMultiple 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Should support property changed events using AddAutomationPropertyChangedEventHandler and RemoveAutomationPropertyChangedEventHandler.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsSelectionRequired 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Should support property changed events using <Run FontWeight="Bold">AddAutomationPropertyChangedEventHandler</Run>
+ and <Run FontWeight="Bold">RemoveAutomationPropertyChangedEventHandler</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>GetSelection 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Method
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>InvalidatedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Event
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Raised when a selection in a container has changed significantly and requires sending more addition and removal events than the InvalidateLimit constant permits.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>The <Run FontWeight="Bold">IsSelectionRequired</Run>
+ and <Run FontWeight="Bold">CanSelectMultiple</Run>
+ properties can be dynamic. For example, the initial state of a control might not have any items selected by default, indicating that <Run FontWeight="Bold">IsSelectionRequired</Run>
+ is <Run FontWeight="Bold">false</Run>
+. However, after an item is selected, the control must always have at least one item selected. Similarly, in rare cases, a control might allow multiple items to be selected on initialization, but subsequently allow only single selections to be made.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Exceptions
+    </Paragraph>
+
+    <Paragraph>Providers must throw the following exceptions.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Exception Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Condition 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ElementNotEnabledException 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>If the control is not enabled.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>InvalidOperationException 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>If the control is hidden.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0d635c35-ffa8-4dc8-bbc9-12fcd5445776.xaml">Support Control Patterns in a UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ec722dff-6009-4279-b86a-e18d3fa94ebf.xaml">Use Caching in UI Automation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="571561d8-5f49-43a9-a054-87735194e013.xaml">UI Automation Control Patterns for Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="76b0949a-5b23-4cfc-84cc-154f713e2e12.xaml">Implementing the UI Automation SelectionItem Control Pattern</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Implementing the UI Automation Selection Control Pattern to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

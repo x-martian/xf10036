@@ -1,0 +1,1465 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Combining Geometries Title" x:Class="CombiningGeometries.Page1" Loaded="OnLoaded">
+    <Page.Resources>
+        <Style x:Key="itemHeaderStyler">
+            <Setter Property="ListBoxItem.Margin" Value="0,2,0,5" />
+            <Setter Property="ListBoxItem.Padding" Value="2" />
+            <Setter Property="ListBoxItem.FontFamily" Value="Verdana" />
+            <Setter Property="ListBoxItem.FontWeight" Value="Bold" />
+            <Setter Property="ListBoxItem.FontSize" Value="12" />
+        </Style>
+        <Style x:Key="imageStyler">
+            <Setter Property="TextBlock.Margin" Value="15" />
+        </Style>
+        <Style x:Key="HeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="20" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="TabStyle">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TabStyle2">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TabItem.Foreground" Value="Black" />
+        </Style>
+        <Style x:Key="SubHeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="16" />
+            <Setter Property="TextBlock.Foreground" Value="DarkSlateBlue" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="DisStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="8" />
+            <Setter Property="TextBlock.Foreground" Value="Gray" />
+            <Setter Property="TextBlock.Margin" Value="5,0,5,0" />
+        </Style>
+        <Style x:Key="mainContentStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="5,10,5,10" />
+        </Style>
+        <Style x:Key="tocStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.Margin" Value="0" />
+        </Style>
+        <Style x:Key="CodeSnippetParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Courier New" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10,0,10,0" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="noteParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="TCStyle">
+            <Setter Property="TabControl.Margin" Value="10" />
+        </Style>
+    </Page.Resources>
+    <TabControl MinHeight="500" MaxHeight="700" MinWidth="400" Style="{StaticResource TCStyle}">
+        <TabItem Style="{StaticResource TabStyle}" Header="Combining Geometries Sample" IsSelected="true">
+            <StackPanel>
+                <TextBlock Style="{StaticResource HeaderStyle}">Combining Geometries Sample</TextBlock>
+                <TextBlock Style="{StaticResource mainContentStyle}">This example demonstrates different methods of combining geometries into more complex shapes.</TextBlock>
+                <TextBlock Style="{StaticResource mainContentStyle}">The preview window renders code from the XAML tab. The C#+Markup and VB+markup code is provided for reference purposes.</TextBlock>
+            </StackPanel>
+        </TabItem>
+        <TabItem Name="xaml" Style="{StaticResource TabStyle}" Header="XAML">
+            <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                <TextBlock Name="xamlCheck">
+                    <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+&lt;!--
+  CombiningGeometriesExample.xaml
+  
+  This example shows how to creating composite geometries using the GeometryGroup
+  class and how to combine geometries using the CombinedGeometry class.
+
+--&gt;
+
+&lt;Canvas&gt;
+  &lt;Canvas.Resources&gt;
+    &lt;Style TargetType="{x:Type Border}"&gt;
+    &lt;Setter Property="Border.HorizontalAlignment" Value="Left" /&gt;
+    &lt;/Style&gt;
+    &lt;Style x:Key="MyHeadingParagraphStyle" TargetType="{x:Type Paragraph}"&gt;
+      &lt;Setter Property="Paragraph.FontFamily" Value="Palatino Linotype" /&gt;
+      &lt;Setter Property="Paragraph.FontWeight" Value="Bold" /&gt;
+      &lt;Setter Property="Paragraph.Margin" Value="0,10,0,5" /&gt;
+    &lt;/Style&gt;   
+    &lt;Style x:Key="MyCodeParagraphStyle" TargetType="{x:Type Paragraph}"&gt;
+      &lt;Setter Property="Paragraph.FontFamily" Value="Courier New" /&gt;
+      &lt;Setter Property="Paragraph.Background" Value="#33CCCCCC" /&gt;
+      &lt;Setter Property="Paragraph.BorderBrush" Value="#CCCCCC" /&gt;
+      &lt;Setter Property="Paragraph.BorderThickness" Value="1.0" /&gt;
+      &lt;Setter Property="Paragraph.Padding" Value="5" /&gt;
+    &lt;/Style&gt;
+    &lt;DrawingBrush x:Key="MyGridBrushResource" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile"&gt;
+      &lt;DrawingBrush.Drawing&gt;
+        &lt;DrawingGroup&gt;
+          &lt;DrawingGroup.Children&gt;
+            &lt;GeometryDrawing Brush="White"&gt;
+              &lt;GeometryDrawing.Geometry&gt;
+                &lt;RectangleGeometry Rect="0,0,1,1" /&gt;
+              &lt;/GeometryDrawing.Geometry&gt;
+            &lt;/GeometryDrawing&gt;
+            &lt;GeometryDrawing Geometry="M0,0 L1,0 1,0.1, 0,0.1Z" Brush="#CCCCFF" /&gt;
+            &lt;GeometryDrawing Geometry="M0,0 L0,1 0.1,1, 0.1,0Z" Brush="#CCCCFF" /&gt;
+          &lt;/DrawingGroup.Children&gt;
+        &lt;/DrawingGroup&gt;
+      &lt;/DrawingBrush.Drawing&gt;
+    &lt;/DrawingBrush&gt;
+  &lt;/Canvas.Resources&gt;
+
+  &lt;StackPanel Orientation="Vertical" Background="White" Margin="5"&gt;
+    
+    &lt;Border Background="#CCCCFF" HorizontalAlignment="Stretch"&gt;
+      &lt;TextBlock Margin="10"&gt;
+        &lt;Paragraph&gt;Creating Composite and Combined Geometries&lt;/Paragraph&gt;
+      &lt;/TextBlock&gt;
+    &lt;/Border&gt;
+    
+    &lt;TextFlow Margin="0,0,0,5" HorizontalAlignment="Stretch"&gt;
+      &lt;Paragraph Style="{StaticResource MyHeadingParagraphStyle}"&gt;Composite Geometries&lt;/Paragraph&gt;
+      &lt;Paragraph&gt;You can create composite shapes from multiple geometries using a GeometryGroup.
+        The following example creates a composite shape from a line, an ellipse, and a rectangle. 
+        The GeometryGroup in this example has a FillRule of EvenOdd.&lt;/Paragraph&gt;
+      &lt;Paragraph Style="{StaticResource MyCodeParagraphStyle}" xml:space="preserve"&gt;&lt;![CDATA[
+        &lt;GeometryGroup FillRule="EvenOdd"&gt;
+        &lt;LineGeometry StartPoint="10,10" EndPoint="50,30" /&gt;
+        &lt;EllipseGeometry Center="40,70" 
+            RadiusX="30" RadiusY="30" /&gt;
+        &lt;RectangleGeometry Rect="30,55 100 30" /&gt;
+      &lt;/GeometryGroup&gt;]]&gt;&lt;/Paragraph&gt;
+    &lt;/TextFlow&gt;
+    
+    &lt;Border Height="150" Width="250" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}"&gt;
+      
+      &lt;!-- Displays the geometry. --&gt;
+      &lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"&gt;
+        &lt;Path.Data&gt;
+        
+          &lt;!-- Creates a composite shape from three geometries. --&gt;
+          &lt;GeometryGroup FillRule="EvenOdd"&gt;
+            &lt;LineGeometry StartPoint="10,10" EndPoint="50,30" /&gt;
+            &lt;EllipseGeometry Center="40,70" RadiusX="30" RadiusY="30" /&gt;              
+            &lt;RectangleGeometry Rect="30,55 100 30" /&gt;
+          &lt;/GeometryGroup&gt;
+        &lt;/Path.Data&gt;
+      &lt;/Path&gt;
+    &lt;/Border&gt;   
+        
+    &lt;TextFlow Margin="0,10,0,5"&gt;
+      &lt;Paragraph&gt;The following code is identical to the previous example, except that
+        the GeometryGroup's FillRule is set to Nonzero instead of EvenOdd.
+      &lt;/Paragraph&gt;
+      &lt;Paragraph Style="{StaticResource MyCodeParagraphStyle}" xml:space="preserve"&gt;&lt;![CDATA[
+        &lt;GeometryGroup FillRule="Nonzero"&gt;
+        &lt;LineGeometry StartPoint="10,10" EndPoint="50,30" /&gt;
+        &lt;EllipseGeometry Center="40,70" 
+            RadiusX="30" RadiusY="30" /&gt;
+        &lt;RectangleGeometry Rect="30,55 100 30" /&gt;
+      &lt;/GeometryGroup&gt;]]&gt;       
+      &lt;/Paragraph&gt;
+    &lt;/TextFlow&gt;
+    &lt;Border Height="150" Width="250" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}"&gt;
+      
+      &lt;!-- Displays the geometry. --&gt;
+      &lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"&gt;
+        &lt;Path.Data&gt;
+          
+          &lt;!-- Creates a composite shape from three geometries.
+               This GeometryGroup has a FillRule of NonZero. --&gt;
+          &lt;GeometryGroup FillRule="Nonzero"&gt;
+            &lt;LineGeometry StartPoint="10,10" EndPoint="50,30" /&gt;
+            &lt;EllipseGeometry Center="40,70" RadiusX="30" RadiusY="30" /&gt;              
+            &lt;RectangleGeometry Rect="30,55 100 30" /&gt;
+          &lt;/GeometryGroup&gt;
+        &lt;/Path.Data&gt;
+      &lt;/Path&gt;
+    &lt;/Border&gt;           
+      
+    &lt;TextFlow Grid.Column="0" Grid.Row="0" Margin="0,0,0,5"&gt;
+      &lt;Paragraph Style="{StaticResource MyHeadingParagraphStyle}"&gt;Combining Geometries&lt;/Paragraph&gt;
+      &lt;Paragraph&gt;In addition to creating composite geomtries using the GeometryGroup class, you can
+        use the CombinedGeometry class to combine two geometries.&lt;/Paragraph&gt;
+      &lt;Paragraph Margin="0,5,0,0"&gt;The geometries, before combining:&lt;/Paragraph&gt;
+    &lt;/TextFlow&gt;
+    &lt;Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}"
+      Grid.Column="0" Grid.Row="1"&gt;
+      &lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"&gt;
+        &lt;Path.Data&gt;
+          &lt;GeometryGroup FillRule="NonZero"&gt;
+            &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" /&gt;
+            &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" /&gt;
+          &lt;/GeometryGroup&gt;
+        &lt;/Path.Data&gt;
+      &lt;/Path&gt;
+    &lt;/Border&gt; 
+        
+    &lt;TextBlock Margin="0,10,0,5"&gt;The geometries, after combining with the specified mode:&lt;/TextBlock&gt;
+    
+    &lt;!-- Shows the two geometries combined using each of the different
+         combine modes. --&gt;
+    &lt;Grid HorizontalAlignment="Left"&gt;
+      &lt;ColumnDefinition Width="Auto" /&gt;
+      &lt;ColumnDefinition Width="10" /&gt;
+      &lt;ColumnDefinition Width="Auto" /&gt;
+      &lt;RowDefinition Height="Auto" /&gt;
+      &lt;RowDefinition Height="Auto" /&gt;
+      &lt;RowDefinition Height="10" /&gt;
+      &lt;RowDefinition Height="Auto" /&gt;
+      &lt;RowDefinition Height="Auto" /&gt;
+
+      &lt;TextBlock Grid.Column="0" Grid.Row="0"&gt;Exclude&lt;/TextBlock&gt;
+      &lt;Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}"
+        Grid.Column="0" Grid.Row="1"&gt;
+        &lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"&gt;
+          &lt;Path.Data&gt;
+            
+            &lt;!-- Combines two geometries using the exclude combine mode. --&gt;
+            &lt;CombinedGeometry GeometryCombineMode="Exclude"&gt;
+              &lt;CombinedGeometry.Geometry1&gt;
+                &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" /&gt;
+              &lt;/CombinedGeometry.Geometry1&gt;
+              &lt;CombinedGeometry.Geometry2&gt;
+                &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" /&gt;
+              &lt;/CombinedGeometry.Geometry2&gt;
+            &lt;/CombinedGeometry&gt;
+          &lt;/Path.Data&gt;
+        &lt;/Path&gt;
+      &lt;/Border&gt;       
+        
+      &lt;TextBlock Grid.Column="2" Grid.Row="0"&gt;Intersect&lt;/TextBlock&gt;
+      &lt;Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}"
+        Grid.Column="2" Grid.Row="1"&gt;
+        &lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"&gt;
+          &lt;Path.Data&gt;
+            
+            &lt;!-- Combines two geometries using the intersect combine mode. --&gt;
+            &lt;CombinedGeometry GeometryCombineMode="Intersect"&gt;
+              &lt;CombinedGeometry.Geometry1&gt;
+                &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" /&gt;
+              &lt;/CombinedGeometry.Geometry1&gt;
+              &lt;CombinedGeometry.Geometry2&gt;
+                &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" /&gt;
+              &lt;/CombinedGeometry.Geometry2&gt;
+            &lt;/CombinedGeometry&gt;
+          &lt;/Path.Data&gt;
+        &lt;/Path&gt;
+      &lt;/Border&gt;   
+        
+      &lt;TextBlock Grid.Column="0" Grid.Row="3"&gt;Union&lt;/TextBlock&gt;
+      &lt;Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}"
+        Grid.Column="0" Grid.Row="4"&gt;
+        &lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"&gt;
+          &lt;Path.Data&gt;
+            
+            &lt;!-- Combines two geometries using the union combine mode. --&gt;
+            &lt;CombinedGeometry GeometryCombineMode="Union"&gt;
+              &lt;CombinedGeometry.Geometry1&gt;
+                &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" /&gt;
+              &lt;/CombinedGeometry.Geometry1&gt;
+              &lt;CombinedGeometry.Geometry2&gt;
+                &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" /&gt;
+              &lt;/CombinedGeometry.Geometry2&gt;
+            &lt;/CombinedGeometry&gt;
+          &lt;/Path.Data&gt;
+        &lt;/Path&gt;
+      &lt;/Border&gt;   
+        
+      &lt;TextBlock Grid.Column="2" Grid.Row="3"&gt;Xor&lt;/TextBlock&gt;
+      &lt;Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}"
+        Grid.Column="2" Grid.Row="4"&gt;
+        &lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"&gt;
+          &lt;Path.Data&gt;
+            
+            &lt;!-- Combines two geometries using the XOR combine mode. --&gt;
+            &lt;CombinedGeometry GeometryCombineMode="Xor"&gt;
+              &lt;CombinedGeometry.Geometry1&gt;
+                &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" /&gt;
+              &lt;/CombinedGeometry.Geometry1&gt;
+              &lt;CombinedGeometry.Geometry2&gt;
+                &lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" /&gt;
+              &lt;/CombinedGeometry.Geometry2&gt;
+            &lt;/CombinedGeometry&gt;
+          &lt;/Path.Data&gt;
+        &lt;/Path&gt;
+      &lt;/Border&gt;   
+    &lt;/Grid&gt;
+  &lt;/StackPanel&gt;
+&lt;/Canvas&gt;
+            
+            
+            </TextBox>
+                </TextBlock>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Name="xamlcsharp" Style="{StaticResource TabStyle}" Header="XAML + C#">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xcsharpCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+&lt;!--
+  CombiningGeometriesExample.xaml
+  
+  This example shows how to creating composite geometries using the GeometryGroup
+  class and how to combine geometries using the CombinedGeometry class.
+
+--&gt;
+
+&lt;Page 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+  x:Class="Microsoft.Samples.Graphics.Geometries.CombiningGeometriesExample" 
+  Title="Combining Geometries"&gt;
+  &lt;Page.Resources&gt;
+    &lt;Style TargetType="{x:Type Border}"&gt;
+    &lt;Setter Property="Border.HorizontalAlignment" Value="Left" /&gt;
+    &lt;/Style&gt;
+    &lt;Style x:Key="MyHeadingParagraphStyle" TargetType="{x:Type Paragraph}"&gt;
+      &lt;Setter Property="Paragraph.FontFamily" Value="Palatino Linotype" /&gt;
+      &lt;Setter Property="Paragraph.FontWeight" Value="Bold" /&gt;
+      &lt;Setter Property="Paragraph.Margin" Value="0,10,0,5" /&gt;
+    &lt;/Style&gt;   
+    &lt;Style x:Key="MyCodeParagraphStyle" TargetType="{x:Type Paragraph}"&gt;
+      &lt;Setter Property="Paragraph.FontFamily" Value="Courier New" /&gt;
+      &lt;Setter Property="Paragraph.Background" Value="#33CCCCCC" /&gt;
+      &lt;Setter Property="Paragraph.BorderBrush" Value="#CCCCCC" /&gt;
+      &lt;Setter Property="Paragraph.BorderThickness" Value="1.0" /&gt;
+      &lt;Setter Property="Paragraph.Padding" Value="5" /&gt;
+    &lt;/Style&gt;
+    &lt;DrawingBrush x:Key="MyGridBrushResource" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile"&gt;
+      &lt;DrawingBrush.Drawing&gt;
+        &lt;DrawingGroup&gt;
+          &lt;DrawingGroup.Children&gt;
+            &lt;GeometryDrawing Brush="White"&gt;
+              &lt;GeometryDrawing.Geometry&gt;
+                &lt;RectangleGeometry Rect="0,0,1,1" /&gt;
+              &lt;/GeometryDrawing.Geometry&gt;
+            &lt;/GeometryDrawing&gt;
+            &lt;GeometryDrawing Geometry="M0,0 L1,0 1,0.1, 0,0.1Z" Brush="#CCCCFF" /&gt;
+            &lt;GeometryDrawing Geometry="M0,0 L0,1 0.1,1, 0.1,0Z" Brush="#CCCCFF" /&gt;
+          &lt;/DrawingGroup.Children&gt;
+        &lt;/DrawingGroup&gt;
+      &lt;/DrawingBrush.Drawing&gt;
+    &lt;/DrawingBrush&gt;
+  &lt;/Canvas.Resources&gt;
+    
+  &lt;/Page.Resources&gt;
+
+&lt;/Page&gt;
+                
+                
+              </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="C#">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Windows.Data;
+using System.Windows.Media;
+
+namespace Microsoft.Samples.Graphics.Geometries
+{
+    public partial class CombiningGeometriesExample : Page
+    {      
+       public CombiningGeometriesExample()
+       {
+         CreateGui();
+  
+       }
+
+      private void CreateGui()
+      {
+        BrushConverter myBrushConverter = new BrushConverter();
+
+        StackPanel myStackPanel = new StackPanel();
+        myStackPanel.Orientation = Orientation.Vertical;
+        myStackPanel.Background = Brushes.White;
+        myStackPanel.Margin = new Thickness(5);
+
+        this.Child = myStackPanel;
+
+        Border titleBorder = new Border();
+        titleBorder.Background = (Brush)myBrushConverter.ConvertFromString("#CCCCFF");
+        titleBorder.HorizontalAlignment = HorizontalAlignment.Stretch;
+        TextBlock titleTextBlock = new TextBlock();
+        titleTextBlock.Margin = new Thickness(10);
+        Paragraph titleParagraph = new Paragraph();
+        titleParagraph.Text = "Creating Composite and Combined Geometries";
+
+        ((System.Windows.Markup.IAddChild)titleTextBlock).AddChild(titleParagraph);
+        titleBorder.Child = titleTextBlock;
+        myStackPanel.Children.Add(titleBorder);
+
+        FlowDocumentScrollViewer codeExplanationTextFlow = new FlowDocumentScrollViewer();
+        codeExplanationTextFlow.Document = new FlowDocument();
+        codeExplanationTextFlow.Margin = new Thickness(0, 0, 0, 5);
+        codeExplanationTextFlow.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+        myStackPanel.Children.Add(codeExplanationTextFlow);
+
+        Paragraph compositGeoParagraph = new Paragraph();
+        compositGeoParagraph.Style = (Style)Application.Current.Resources["MyHeadingParagraphStyle"];
+        
+        compositGeoParagraph.Text = "Composite Geometries";
+        ((System.Windows.Markup.IAddChild)codeExplanationTextFlow).AddChild(compositGeoParagraph);
+
+        Paragraph compositGeoExplanationParagraph = new Paragraph();
+        compositGeoExplanationParagraph.Text = "You can create composite shapes from multiple geometries using a GeometryGroup. " +
+        "The following example creates a composite shape from a line, an ellipse, and a rectangle. " +
+        "The GeometryGroup in this example has a FillRule of EvenOdd.";
+
+        ((System.Windows.Markup.IAddChild)codeExplanationTextFlow.Document).AddChild(compositGeoExplanationParagraph);
+
+        Paragraph compositExampleParagraph = new Paragraph();
+        compositExampleParagraph.Style = (Style)Application.Current.Resources["MyCodeParagraphStyle"];
+        
+        compositExampleParagraph.Text = ("evenOddGeometryGroup.FillRule = FillRule.EvenOdd;\n"+
+                     "evenOddGeometryGroup.Children.Add(new LineGeometry(new Point(10, 10), new Point(50, 30)));\n"+
+                     "evenOddGeometryGroup.Children.Add(new EllipseGeometry(new Point(40,70),30,30));\n"+
+                     "evenOddGeometryGroup.Children.Add(new RectangleGeometry(new Rect(30,55,100,30)));");
+
+        ((System.Windows.Markup.IAddChild)codeExplanationTextFlow).AddChild(compositExampleParagraph);
+
+        Border geoDisplayBorder = new Border();
+        geoDisplayBorder.Height = 150;
+        geoDisplayBorder.Width = 250;
+        geoDisplayBorder.BorderBrush = Brushes.Black;
+        geoDisplayBorder.BorderThickness = new Thickness(1);
+        geoDisplayBorder.Background = (Brush)Application.Current.Resources["MyGridBrushResource"]; 
+
+        myStackPanel.Children.Add(geoDisplayBorder);
+
+        Path geoDisplayPath = new Path();
+        geoDisplayPath.Stroke = Brushes.Black;
+        geoDisplayPath.StrokeThickness = 1;
+        geoDisplayPath.Fill = (Brush)myBrushConverter.ConvertFromString("#CCCCFF");
+
+        geoDisplayBorder.Child =  geoDisplayPath;
+
+        //Creates a composite shape from three geometries.
+        GeometryGroup evenOddGeometryGroup = new GeometryGroup();
+        evenOddGeometryGroup.FillRule = FillRule.EvenOdd;
+
+        evenOddGeometryGroup.Children.Add(new LineGeometry(new Point(10, 10), new Point(50, 30)));
+        evenOddGeometryGroup.Children.Add(new EllipseGeometry(new Point(40,70),30,30));
+        evenOddGeometryGroup.Children.Add(new RectangleGeometry(new Rect(30,55,100,30)));
+
+        geoDisplayPath.Data = evenOddGeometryGroup;
+
+        FlowDocumentScrollViewer codeExplanation2TextFlow = new FlowDocumentScrollViewer();
+        codeExplanation2TextFlow.Document = new FlowDocument();
+        codeExplanation2TextFlow.Margin = new Thickness(0, 10, 0, 5);
+        myStackPanel.Children.Add(codeExplanation2TextFlow);
+
+        Paragraph codeExplanation2Paragraph = new Paragraph();
+        codeExplanation2Paragraph.Text = "The following code is identical to the previous example, except that " +
+          "the GeometryGroup's FillRule is set to Nonzero instead of EvenOdd.";
+
+        ((System.Windows.Markup.IAddChild)codeExplanation2TextFlow.Document).AddChild(codeExplanation2Paragraph);
+        
+        Paragraph compositExampleParagraph2 = new Paragraph();
+        compositExampleParagraph2.Style = (Style)Application.Current.Resources["MyCodeParagraphStyle"];
+
+        compositExampleParagraph2.Text = ("compositShapeGeoGroup.FillRule = FillRule.Nonzero;\n"+
+                      "compositShapeGeoGroup.Children.Add(new LineGeometry(new Point(10,10),new Point(50,30)));\n"+
+                      "compositShapeGeoGroup.Children.Add(new EllipseGeometry(new Point(40,70),30,30));\n"+
+                      "compositShapeGeoGroup.Children.Add(new RectangleGeometry(new Rect(60,55,100,30)));\n");
+
+        ((System.Windows.Markup.IAddChild)codeExplanation2TextFlow).AddChild(compositExampleParagraph2);
+
+        //This GeometryGroup has a FillRule of NonZero. 
+        Border geoDisplayBorder2 = new Border();
+        geoDisplayBorder2.Height = 150;
+        geoDisplayBorder2.Width = 250;
+        geoDisplayBorder2.BorderBrush = Brushes.Black;
+        geoDisplayBorder2.BorderThickness = new Thickness(1);
+        geoDisplayBorder2.Background = (Brush)Application.Current.Resources["MyGridBrushResource"];
+
+        myStackPanel.Children.Add(geoDisplayBorder2);
+
+        Path geoDisplayPath2 = new Path();
+        geoDisplayPath2.Stroke = Brushes.Black;
+        geoDisplayPath2.StrokeThickness = 1;
+        geoDisplayPath2.Fill = (Brush)myBrushConverter.ConvertFromString("#CCCCFF");
+
+        geoDisplayBorder2.Child = geoDisplayPath2;
+
+
+
+
+
+
+
+        GeometryGroup compositShapeGeoGroup = new GeometryGroup();
+        compositShapeGeoGroup.FillRule = FillRule.Nonzero;
+
+        compositShapeGeoGroup.Children.Add(new LineGeometry(new Point(10,10),new Point(50,30)));
+        compositShapeGeoGroup.Children.Add(new EllipseGeometry(new Point(40,70),30,30));
+        compositShapeGeoGroup.Children.Add(new RectangleGeometry(new Rect(60,55,100,30)));
+
+        geoDisplayPath2.Data = compositShapeGeoGroup;
+
+
+        FlowDocumentScrollViewer CombiningGeometriesTextFlow = new FlowDocumentScrollViewer();
+        CombiningGeometriesTextFlow.Margin = new Thickness(0, 0, 0, 5);
+        Grid.SetRow(CombiningGeometriesTextFlow, 0);
+        Grid.SetColumn(CombiningGeometriesTextFlow, 0);
+
+        myStackPanel.Children.Add(CombiningGeometriesTextFlow);
+
+        Paragraph CombiningGeometriesTitleParagraph = new Paragraph();
+        CombiningGeometriesTitleParagraph.Style = (Style)Application.Current.Resources["MyHeadingParagraphStyle"];
+        CombiningGeometriesTitleParagraph.Text = "Combining Geometries";
+
+        ((System.Windows.Markup.IAddChild)CombiningGeometriesTextFlow.Document).AddChild(CombiningGeometriesTitleParagraph);
+
+        Paragraph CombiningGeometriesExplanationParagraph = new Paragraph();
+        CombiningGeometriesExplanationParagraph.Text = "In addition to creating composite "+
+          "geomtries using the GeometryGroup class, you can use the CombinedGeometry class "+
+          "to combine two geometries.";
+
+        ((System.Windows.Markup.IAddChild)CombiningGeometriesTextFlow).AddChild(CombiningGeometriesExplanationParagraph);
+
+        Paragraph CombiningGeometriesBeforeParagraph = new Paragraph();
+        CombiningGeometriesBeforeParagraph.Margin = new Thickness(0, 5, 0, 0);
+        CombiningGeometriesBeforeParagraph.Text = "The geometries, before combining:";
+
+        ((System.Windows.Markup.IAddChild)CombiningGeometriesTextFlow).AddChild(CombiningGeometriesBeforeParagraph);
+
+        Border beforeDisplayBorder = new Border();
+        beforeDisplayBorder.Height = 150;
+        beforeDisplayBorder.Width = 200;
+        beforeDisplayBorder.BorderBrush = Brushes.Black;
+        beforeDisplayBorder.BorderThickness = new Thickness(1);
+        beforeDisplayBorder.Background = (Brush)Application.Current.Resources["MyGridBrushResource"];
+        Grid.SetRow(beforeDisplayBorder, 1);
+        Grid.SetColumn(beforeDisplayBorder, 0);
+
+        myStackPanel.Children.Add(beforeDisplayBorder);
+
+        Path beforeDisplayPath = new Path();
+        beforeDisplayPath.Stroke = Brushes.Black;
+        beforeDisplayPath.StrokeThickness = 1;
+        beforeDisplayPath.Fill = (Brush)myBrushConverter.ConvertFromString("#CCCCFF");
+
+        beforeDisplayBorder.Child = beforeDisplayPath;
+
+        GeometryGroup beforeDisplayGeometryGroup = new GeometryGroup();
+        beforeDisplayGeometryGroup.FillRule = FillRule.Nonzero;
+
+        beforeDisplayPath.Data = beforeDisplayGeometryGroup;
+
+        EllipseGeometry beforeDisplayEllipseGeometry1 = new EllipseGeometry();
+        beforeDisplayEllipseGeometry1.RadiusX = 50;
+        beforeDisplayEllipseGeometry1.RadiusY = 50;
+        beforeDisplayEllipseGeometry1.Center = new Point(75,75);
+
+        beforeDisplayGeometryGroup.Children.Add(beforeDisplayEllipseGeometry1);
+
+        EllipseGeometry beforeDisplayEllipseGeometry2 = new EllipseGeometry();
+        beforeDisplayEllipseGeometry2.RadiusX = 50;
+        beforeDisplayEllipseGeometry2.RadiusY = 50;
+        beforeDisplayEllipseGeometry2.Center = new Point(125,75);
+   
+        beforeDisplayGeometryGroup.Children.Add(beforeDisplayEllipseGeometry2);
+
+        beforeDisplayPath.Data = beforeDisplayGeometryGroup;
+
+
+
+        TextBlock CombiningGeometriesTextBlock = new TextBlock();
+        CombiningGeometriesTextBlock.Margin = new Thickness(0, 10, 0, 5);
+        CombiningGeometriesTextBlock.Text = "The geometries, after combining with the specified mode:";
+
+        myStackPanel.Children.Add(CombiningGeometriesTextBlock);
+
+
+        //Shows the two geometries combined using each of the different
+        //combine modes.
+        
+        Grid myDisplayGrid = new Grid();
+        myStackPanel.Children.Add(myDisplayGrid);
+        myDisplayGrid.HorizontalAlignment = HorizontalAlignment.Left;
+
+        ColumnDefinition myColumnDefinition1 = new ColumnDefinition();
+        myColumnDefinition1.Width = new System.Windows.GridLength(1, GridUnitType.Auto); 
+        
+        myDisplayGrid.ColumnDefinitions.Add(myColumnDefinition1);
+
+        ColumnDefinition myColumnDefinition2 = new ColumnDefinition();
+        myColumnDefinition2.Width = new System.Windows.GridLength(10);
+        myDisplayGrid.ColumnDefinitions.Add(myColumnDefinition2);
+
+        ColumnDefinition myColumnDefinition3 = new ColumnDefinition();
+        myColumnDefinition3.Width = new System.Windows.GridLength(1, GridUnitType.Auto);
+        myDisplayGrid.ColumnDefinitions.Add(myColumnDefinition3);
+
+        RowDefinition myRowDefinition1 = new RowDefinition();
+        myRowDefinition1.Height = new System.Windows.GridLength(1, GridUnitType.Auto);
+        myDisplayGrid.RowDefinitions.Add(myRowDefinition1);
+
+        RowDefinition myRowDefinition2 = new RowDefinition();
+        myRowDefinition2.Height = new System.Windows.GridLength(1, GridUnitType.Auto);
+        myDisplayGrid.RowDefinitions.Add(myRowDefinition2);
+
+        RowDefinition myRowDefinition3 = new RowDefinition();
+        myRowDefinition3.Height = new System.Windows.GridLength(10);
+        myDisplayGrid.RowDefinitions.Add(myRowDefinition3);
+
+        RowDefinition myRowDefinition4 = new RowDefinition();
+        myRowDefinition4.Height = new System.Windows.GridLength(1, GridUnitType.Auto);
+        myDisplayGrid.RowDefinitions.Add(myRowDefinition4);
+
+        RowDefinition myRowDefinition5 = new RowDefinition();
+        myRowDefinition5.Height = new System.Windows.GridLength(1, GridUnitType.Auto);
+        myDisplayGrid.RowDefinitions.Add(myRowDefinition5);
+
+
+
+
+
+        TextBlock excludeTextBlock = new TextBlock();
+        excludeTextBlock.Text = "Exclude";
+        Grid.SetRow(excludeTextBlock, 0);
+        Grid.SetColumn(excludeTextBlock, 0);
+        myDisplayGrid.Children.Add(excludeTextBlock);
+
+
+        Border combineModeBorder = new Border();
+        combineModeBorder.Height = 150;
+        combineModeBorder.Width = 200;
+        combineModeBorder.BorderBrush = Brushes.Black;
+        combineModeBorder.BorderThickness = new Thickness(1);
+        combineModeBorder.Background = (Brush)Application.Current.Resources["MyGridBrushResource"];
+        Grid.SetRow(combineModeBorder, 1);
+        Grid.SetColumn(combineModeBorder, 0);
+        myDisplayGrid.Children.Add(combineModeBorder);
+
+        Path combineModeBorderPath = new Path();
+        combineModeBorderPath.Stroke = Brushes.Black;
+        combineModeBorderPath.StrokeThickness = 1;
+        combineModeBorderPath.Fill = (Brush)myBrushConverter.ConvertFromString("#CCCCFF");
+        combineModeBorder.Child = combineModeBorderPath;
+
+
+        //Combines two geometries using the exclude combine mode.
+        CombinedGeometry myExcludeCombinedGeometry = new CombinedGeometry();
+        myExcludeCombinedGeometry.GeometryCombineMode = GeometryCombineMode.Exclude;
+        myExcludeCombinedGeometry.Geometry1 = new EllipseGeometry(new Point(75,75),50,50);
+        myExcludeCombinedGeometry.Geometry2 = new EllipseGeometry(new Point(125,75),50,50);
+
+        combineModeBorderPath.Data = myExcludeCombinedGeometry;
+
+
+        TextBlock intersectTextBlock = new TextBlock();
+        
+        intersectTextBlock.Text = "Intersect";
+        Grid.SetRow(intersectTextBlock, 0);
+        Grid.SetColumn(intersectTextBlock, 2);
+
+        myDisplayGrid.Children.Add(intersectTextBlock);
+
+        Border intersectDisplayBorder = new Border();
+        intersectDisplayBorder.Height = 150;
+        intersectDisplayBorder.Width = 200;
+        intersectDisplayBorder.BorderBrush = Brushes.Black;
+        intersectDisplayBorder.BorderThickness = new Thickness(1);
+        intersectDisplayBorder.Background = (Brush)Application.Current.Resources["MyGridBrushResource"];
+        Grid.SetRow(intersectDisplayBorder, 1);
+        Grid.SetColumn(intersectDisplayBorder, 2);
+        myDisplayGrid.Children.Add(intersectDisplayBorder);
+
+        Path intersectDisplayPath = new Path();
+        intersectDisplayPath.Stroke = Brushes.Black;
+        intersectDisplayPath.StrokeThickness = 1;
+        intersectDisplayPath.Fill = (Brush)myBrushConverter.ConvertFromString("#CCCCFF");
+        intersectDisplayBorder.Child =  intersectDisplayPath;
+
+        // Combines two geometries using the intersect combine mode.
+        CombinedGeometry myIntersectCombinedGeometry = new CombinedGeometry();
+        myIntersectCombinedGeometry.GeometryCombineMode = GeometryCombineMode.Intersect;
+        myIntersectCombinedGeometry.Geometry1 = new EllipseGeometry(new Point(75,75),50,50);
+        myIntersectCombinedGeometry.Geometry2 = new EllipseGeometry(new Point(125,75),50,50);
+
+        intersectDisplayPath.Data = myIntersectCombinedGeometry;
+
+        TextBlock unionTextBlock = new TextBlock();
+         
+        unionTextBlock.Text = "Union";
+        Grid.SetRow(unionTextBlock, 3);
+        Grid.SetColumn(unionTextBlock, 0);
+
+        myDisplayGrid.Children.Add(unionTextBlock);
+
+        Border unionCombineDisplayBorder = new Border();
+        unionCombineDisplayBorder.Height = 150;
+        unionCombineDisplayBorder.Width = 200;
+        unionCombineDisplayBorder.BorderBrush = Brushes.Black;
+        unionCombineDisplayBorder.BorderThickness = new Thickness(1);
+        unionCombineDisplayBorder.Background = (Brush)Application.Current.Resources["MyGridBrushResource"];
+        Grid.SetRow(unionCombineDisplayBorder, 4);
+        Grid.SetColumn(unionCombineDisplayBorder, 0);
+        myDisplayGrid.Children.Add(unionCombineDisplayBorder);
+
+        Path unionCombineDisplayPath = new Path();
+        unionCombineDisplayPath.Stroke = Brushes.Black;
+        unionCombineDisplayPath.StrokeThickness = 1;
+        unionCombineDisplayPath.Fill = (Brush)myBrushConverter.ConvertFromString("#CCCCFF");
+        unionCombineDisplayBorder.Child = unionCombineDisplayPath;
+
+        // Combines two geometries using the union combine mode.
+        CombinedGeometry unionCombineCombinedGeometry = new CombinedGeometry();
+        unionCombineCombinedGeometry.GeometryCombineMode = GeometryCombineMode.Union;
+        unionCombineCombinedGeometry.Geometry1 =  new EllipseGeometry(new Point(75,75),50,50);
+        unionCombineCombinedGeometry.Geometry2 =  new EllipseGeometry(new Point(125,75),50,50);
+
+        unionCombineDisplayPath.Data = unionCombineCombinedGeometry;
+
+
+        TextBlock xorTextBlock = new TextBlock();
+        xorTextBlock.Text = "Xor";
+        Grid.SetRow(xorTextBlock, 3);
+        Grid.SetColumn(xorTextBlock, 2);
+        myDisplayGrid.Children.Add(xorTextBlock);
+
+        Border xorDisplayBorder = new Border();
+        xorDisplayBorder.Height = 150;
+        xorDisplayBorder.Width = 200;
+        xorDisplayBorder.BorderBrush = Brushes.Black;
+        xorDisplayBorder.BorderThickness = new Thickness(1);
+        xorDisplayBorder.Background = (Brush)Application.Current.Resources["MyGridBrushResource"];
+        Grid.SetRow(xorDisplayBorder, 4);
+        Grid.SetColumn(xorDisplayBorder, 2);
+        myDisplayGrid.Children.Add(xorDisplayBorder);
+
+        Path xorDisplayPath = new Path();
+        xorDisplayPath.Stroke = Brushes.Black;
+        xorDisplayPath.StrokeThickness = 1;
+        xorDisplayPath.Fill = (Brush)myBrushConverter.ConvertFromString("#CCCCFF");
+        xorDisplayBorder.Child = xorDisplayPath;
+        // Combines two geometries using the XOR combine mode.
+        CombinedGeometry xorCombinedGeometry = new CombinedGeometry();
+        xorCombinedGeometry.GeometryCombineMode = GeometryCombineMode.Xor;
+        xorCombinedGeometry.Geometry1 = new EllipseGeometry(new Point(75,75),50,50);
+        xorCombinedGeometry.Geometry2 = new EllipseGeometry(new Point(125,75),50,50);
+
+        xorDisplayPath.Data = xorCombinedGeometry;
+
+
+
+      }
+    }
+}                
+                
+                
+              </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="xamlvb" Style="{StaticResource TabStyle}" Header="XAML + Visual Basic.NET">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xvbCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+&lt;!--
+  CombiningGeometriesExample.xaml
+  
+  This example shows how to creating composite geometries using the GeometryGroup
+  class and how to combine geometries using the CombinedGeometry class.
+
+--&gt;
+
+&lt;Page 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+  x:Class="Microsoft.Samples.Graphics.Geometries.CombiningGeometriesExample" 
+  Title="Combining Geometries"&gt;
+  &lt;Page.Resources&gt;
+    &lt;Style TargetType="{x:Type Border}"&gt;
+    &lt;Setter Property="Border.HorizontalAlignment" Value="Left" /&gt;
+    &lt;/Style&gt;
+    &lt;Style x:Key="MyHeadingParagraphStyle" TargetType="{x:Type Paragraph}"&gt;
+      &lt;Setter Property="Paragraph.FontFamily" Value="Palatino Linotype" /&gt;
+      &lt;Setter Property="Paragraph.FontWeight" Value="Bold" /&gt;
+      &lt;Setter Property="Paragraph.Margin" Value="0,10,0,5" /&gt;
+    &lt;/Style&gt;   
+    &lt;Style x:Key="MyCodeParagraphStyle" TargetType="{x:Type Paragraph}"&gt;
+      &lt;Setter Property="Paragraph.FontFamily" Value="Courier New" /&gt;
+      &lt;Setter Property="Paragraph.Background" Value="#33CCCCCC" /&gt;
+      &lt;Setter Property="Paragraph.BorderBrush" Value="#CCCCCC" /&gt;
+      &lt;Setter Property="Paragraph.BorderThickness" Value="1.0" /&gt;
+      &lt;Setter Property="Paragraph.Padding" Value="5" /&gt;
+    &lt;/Style&gt;
+    &lt;DrawingBrush x:Key="MyGridBrushResource" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile"&gt;
+      &lt;DrawingBrush.Drawing&gt;
+        &lt;DrawingGroup&gt;
+          &lt;DrawingGroup.Children&gt;
+            &lt;GeometryDrawing Brush="White"&gt;
+              &lt;GeometryDrawing.Geometry&gt;
+                &lt;RectangleGeometry Rect="0,0,1,1" /&gt;
+              &lt;/GeometryDrawing.Geometry&gt;
+            &lt;/GeometryDrawing&gt;
+            &lt;GeometryDrawing Geometry="M0,0 L1,0 1,0.1, 0,0.1Z" Brush="#CCCCFF" /&gt;
+            &lt;GeometryDrawing Geometry="M0,0 L0,1 0.1,1, 0.1,0Z" Brush="#CCCCFF" /&gt;
+          &lt;/DrawingGroup.Children&gt;
+        &lt;/DrawingGroup&gt;
+      &lt;/DrawingBrush.Drawing&gt;
+    &lt;/DrawingBrush&gt;
+  &lt;/Canvas.Resources&gt;
+    
+  &lt;/Page.Resources&gt;
+
+&lt;/Page&gt;                
+                
+              </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="VB.NET">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+Imports System
+Imports System.Windows
+Imports System.Windows.Controls
+Imports System.Windows.Documents
+Imports System.Windows.Navigation
+Imports System.Windows.Shapes
+Imports System.Data
+Imports System.Windows.Media
+Imports Microsoft.VisualBasic.ControlChars
+
+Namespace Microsoft.Samples.Graphics.Geometries
+  Partial Public Class CombiningGeometriesExample
+    Inherits Page
+
+    Public Sub New()
+      CreateGui()
+
+    End Sub
+
+    Private Sub CreateGui()
+      Dim myBrushConverter As New BrushConverter()
+
+      Dim myStackPanel As New StackPanel
+      myStackPanel.Orientation = Orientation.Vertical
+      myStackPanel.Background = Brushes.White
+      myStackPanel.Margin = New Thickness(5)
+
+      Me.Child = myStackPanel
+
+      Dim titleBorder As New Border
+
+      titleBorder.Background = CType(myBrushConverter.ConvertFromString("#CCCCFF"), Brush)
+      titleBorder.HorizontalAlignment = HorizontalAlignment.Stretch
+      Dim titleTextBlock As New TextBlock()
+      titleTextBlock.Margin = New Thickness(10)
+      Dim titleParagraph As New Paragraph()
+      titleParagraph.Text = "Creating Composite and Combined Geometries"
+
+      CType(titleTextBlock, System.Windows.Markup.IAddChild).AddChild(titleParagraph)
+      titleBorder.Child = titleTextBlock
+      myStackPanel.Children.Add(titleBorder)
+
+      Dim codeExplanationTextFlow As New FlowDocumentScrollViewer()
+      codeExplanationTextFlow.Document = New FlowDocument();
+      codeExplanationTextFlow.Margin = New Thickness(0, 0, 0, 5)
+      codeExplanationTextFlow.HorizontalAlignment = HorizontalAlignment.Stretch
+
+      myStackPanel.Children.Add(codeExplanationTextFlow)
+
+      Dim compositGeoParagraph As New Paragraph()
+      compositGeoParagraph.Style = CType(Application.Current.Resources("MyHeadingParagraphStyle"), Style)
+
+      compositGeoParagraph.Text = "Composite Geometries"
+      CType(codeExplanationTextFlow.Document, System.Windows.Markup.IAddChild).AddChild(compositGeoParagraph)
+
+      Dim compositGeoExplanationParagraph As New Paragraph()
+      compositGeoExplanationParagraph.Text = "You can create composite shapes from multiple geometries using a GeometryGroup. " + _
+      "The following example creates a composite shape from a line, an ellipse, and a rectangle. " + _
+      "The GeometryGroup in this example has a FillRule of EvenOdd."
+
+      CType(codeExplanationTextFlow, System.Windows.Markup.IAddChild).AddChild(compositGeoExplanationParagraph)
+
+      Dim compositExampleParagraph As New Paragraph()
+      compositExampleParagraph.Style = CType(Application.Current.Resources("MyCodeParagraphStyle"), Style)
+
+      compositExampleParagraph.Text = ("evenOddGeometryGroup.FillRule = FillRule.EvenOdd" &amp; NewLine &amp; _
+              "evenOddGeometryGroup.Children.Add(new LineGeometry(new Point(10, 10), new Point(50, 30)))" &amp; NewLine &amp; _
+              "evenOddGeometryGroup.Children.Add(new EllipseGeometry(new Point(40,70),30,30))" &amp; NewLine &amp; _
+              "evenOddGeometryGroup.Children.Add(new RectangleGeometry(new Rect(30,55,100,30)))")
+
+
+      CType(codeExplanationTextFlow, System.Windows.Markup.IAddChild).AddChild(compositExampleParagraph)
+
+      Dim geoDisplayBorder As New Border()
+      geoDisplayBorder.Height = 150
+      geoDisplayBorder.Width = 250
+      geoDisplayBorder.BorderBrush = Brushes.Black
+      geoDisplayBorder.BorderThickness = New Thickness(1)
+      geoDisplayBorder.Background = CType(Application.Current.Resources("MyGridBrushResource"), Brush)
+
+      myStackPanel.Children.Add(geoDisplayBorder)
+
+      Dim geoDisplayPath As New Path()
+      geoDisplayPath.Stroke = Brushes.Black
+      geoDisplayPath.StrokeThickness = 1
+      geoDisplayPath.Fill = CType(myBrushConverter.ConvertFromString("#CCCCFF"), Brush)
+
+      geoDisplayBorder.Child = geoDisplayPath
+
+      'Creates a composite shape from three geometries.
+      Dim evenOddGeometryGroup As New GeometryGroup()
+      evenOddGeometryGroup.FillRule = FillRule.EvenOdd
+
+      evenOddGeometryGroup.Children.Add(New LineGeometry(New Windows.Point(10, 10), New Windows.Point(50, 30)))
+      evenOddGeometryGroup.Children.Add(New EllipseGeometry(New Windows.Point(40, 70), 30, 30))
+      evenOddGeometryGroup.Children.Add(New RectangleGeometry(New Rect(30, 55, 100, 30)))
+
+      geoDisplayPath.Data = evenOddGeometryGroup
+
+      Dim codeExplanation2TextFlow As New FlowDocumentScrollViewer()
+      codeExplanation2TextFlow.Document = New FlowDocumentScrollViewer();
+      codeExplanation2TextFlow.Margin = New Thickness(0, 10, 0, 5)
+      myStackPanel.Children.Add(codeExplanation2TextFlow)
+
+      Dim codeExplanation2Paragraph As New Paragraph()
+      codeExplanation2Paragraph.Text = "The following code is identical to the previous example, except that " + _
+        "the GeometryGroup's FillRule is set to Nonzero instead of EvenOdd."
+
+      CType(codeExplanation2TextFlow.Document, System.Windows.Markup.IAddChild).AddChild(codeExplanation2Paragraph)
+
+      Dim compositExampleParagraph2 As New Paragraph()
+      compositExampleParagraph2.Style = CType(Application.Current.Resources("MyCodeParagraphStyle"), Style)
+
+      compositExampleParagraph2.Text = ("compositShapeGeoGroup.FillRule = FillRule.Nonzero" &amp; NewLine &amp; _
+                    "compositShapeGeoGroup.Children.Add(new LineGeometry(new Point(10,10),new Point(50,30)))" &amp; NewLine &amp; _
+                    "compositShapeGeoGroup.Children.Add(new EllipseGeometry(new Point(40,70),30,30))" &amp; NewLine &amp; _
+                    "compositShapeGeoGroup.Children.Add(new RectangleGeometry(new Rect(60,55,100,30)))") &amp; NewLine
+
+      CType(codeExplanation2TextFlow, System.Windows.Markup.IAddChild).AddChild(compositExampleParagraph2)
+
+      'This GeometryGroup has a FillRule of NonZero. 
+      Dim geoDisplayBorder2 As New Border()
+      geoDisplayBorder2.Height = 150
+      geoDisplayBorder2.Width = 250
+      geoDisplayBorder2.BorderBrush = Brushes.Black
+      geoDisplayBorder2.BorderThickness = New Thickness(1)
+      geoDisplayBorder2.Background = CType(Application.Current.Resources("MyGridBrushResource"), Brush)
+
+      myStackPanel.Children.Add(geoDisplayBorder2)
+
+      Dim geoDisplayPath2 As New Path()
+      geoDisplayPath2.Stroke = Brushes.Black
+      geoDisplayPath2.StrokeThickness = 1
+      geoDisplayPath2.Fill = CType(myBrushConverter.ConvertFromString("#CCCCFF"), Brush)
+
+      geoDisplayBorder2.Child = geoDisplayPath2
+
+      Dim compositShapeGeoGroup As New GeometryGroup()
+      compositShapeGeoGroup.FillRule = FillRule.Nonzero
+
+      compositShapeGeoGroup.Children.Add(New LineGeometry(New Windows.Point(10, 10), New Windows.Point(50, 30)))
+      compositShapeGeoGroup.Children.Add(New EllipseGeometry(New Windows.Point(40, 70), 30, 30))
+      compositShapeGeoGroup.Children.Add(New RectangleGeometry(New Rect(60, 55, 100, 30)))
+
+      geoDisplayPath2.Data = compositShapeGeoGroup
+
+      Dim CombiningGeometriesTextFlow As New FlowDocumentScrollViewer()
+      CombiningGeometriesTextFlow.Document = New FlowDocumentScrollViewer();
+      CombiningGeometriesTextFlow.Margin = New Thickness(0, 0, 0, 5)
+      Grid.SetRow(CombiningGeometriesTextFlow, 0)
+      Grid.SetColumn(CombiningGeometriesTextFlow, 0)
+
+      myStackPanel.Children.Add(CombiningGeometriesTextFlow)
+
+      Dim CombiningGeometriesTitleParagraph As New Paragraph()
+      CombiningGeometriesTitleParagraph.Style = CType(Application.Current.Resources("MyHeadingParagraphStyle"), Style)
+      CombiningGeometriesTitleParagraph.Text = "Combining Geometries"
+
+      CType(CombiningGeometriesTextFlow.Document, System.Windows.Markup.IAddChild).AddChild(CombiningGeometriesTitleParagraph)
+
+      Dim CombiningGeometriesExplanationParagraph As New Paragraph()
+      CombiningGeometriesExplanationParagraph.Text = "In addition to creating composite " &amp; NewLine &amp; _
+        "geomtries using the GeometryGroup class, you can use the CombinedGeometry class " &amp; NewLine &amp; _
+        "to combine two geometries."
+
+      CType(CombiningGeometriesTextFlow, System.Windows.Markup.IAddChild).AddChild(CombiningGeometriesExplanationParagraph)
+
+      Dim CombiningGeometriesBeforeParagraph As New Paragraph()
+      CombiningGeometriesBeforeParagraph.Margin = New Thickness(0, 5, 0, 0)
+      CombiningGeometriesBeforeParagraph.Text = "The geometries, before combining:"
+
+      CType(CombiningGeometriesTextFlow, System.Windows.Markup.IAddChild).AddChild(CombiningGeometriesBeforeParagraph)
+
+      Dim beforeDisplayBorder As New Border()
+      beforeDisplayBorder.Height = 150
+      beforeDisplayBorder.Width = 200
+      beforeDisplayBorder.BorderBrush = Brushes.Black
+      beforeDisplayBorder.BorderThickness = New Thickness(1)
+      beforeDisplayBorder.Background = CType(Application.Current.Resources("MyGridBrushResource"), Brush)
+      Grid.SetRow(beforeDisplayBorder, 1)
+      Grid.SetColumn(beforeDisplayBorder, 0)
+
+      myStackPanel.Children.Add(beforeDisplayBorder)
+
+      Dim beforeDisplayPath As New Path()
+      beforeDisplayPath.Stroke = Brushes.Black
+      beforeDisplayPath.StrokeThickness = 1
+      beforeDisplayPath.Fill = CType(myBrushConverter.ConvertFromString("#CCCCFF"), Brush)
+
+      beforeDisplayBorder.Child = beforeDisplayPath
+
+      Dim beforeDisplayGeometryGroup As New GeometryGroup()
+      beforeDisplayGeometryGroup.FillRule = FillRule.Nonzero
+
+      beforeDisplayPath.Data = beforeDisplayGeometryGroup
+
+      Dim beforeDisplayEllipseGeometry1 As New EllipseGeometry()
+      beforeDisplayEllipseGeometry1.RadiusX = 50
+      beforeDisplayEllipseGeometry1.RadiusY = 50
+      beforeDisplayEllipseGeometry1.Center = New Windows.Point(75, 75)
+
+      beforeDisplayGeometryGroup.Children.Add(beforeDisplayEllipseGeometry1)
+
+      Dim beforeDisplayEllipseGeometry2 As New EllipseGeometry()
+      beforeDisplayEllipseGeometry2.RadiusX = 50
+      beforeDisplayEllipseGeometry2.RadiusY = 50
+      beforeDisplayEllipseGeometry2.Center = New Windows.Point(125, 75)
+
+      beforeDisplayGeometryGroup.Children.Add(beforeDisplayEllipseGeometry2)
+
+      beforeDisplayPath.Data = beforeDisplayGeometryGroup
+
+      Dim CombiningGeometriesTextBlock As New TextBlock()
+      CombiningGeometriesTextBlock.Margin = New Thickness(0, 10, 0, 5)
+      CombiningGeometriesTextBlock.Text = "The geometries, after combining with the specified mode:"
+
+      myStackPanel.Children.Add(CombiningGeometriesTextBlock)
+
+      'Shows the two geometries combined using each of the different
+      'combine modes.
+      Dim myDisplayGrid As New Grid()
+      myStackPanel.Children.Add(myDisplayGrid)
+      myDisplayGrid.HorizontalAlignment = HorizontalAlignment.Left
+
+      Dim myColumnDefinition1 As New ColumnDefinition()
+      myColumnDefinition1.Width = New System.Windows.GridLength(1, GridUnitType.Auto)
+
+      myDisplayGrid.ColumnDefinitions.Add(myColumnDefinition1)
+
+      Dim myColumnDefinition2 As New ColumnDefinition()
+      myColumnDefinition2.Width = New System.Windows.GridLength(10)
+      myDisplayGrid.ColumnDefinitions.Add(myColumnDefinition2)
+
+      Dim myColumnDefinition3 As New ColumnDefinition()
+      myColumnDefinition3.Width = New System.Windows.GridLength(1, GridUnitType.Auto)
+      myDisplayGrid.ColumnDefinitions.Add(myColumnDefinition3)
+
+      Dim myRowDefinition1 As New RowDefinition()
+      myRowDefinition1.Height = New System.Windows.GridLength(1, GridUnitType.Auto)
+      myDisplayGrid.RowDefinitions.Add(myRowDefinition1)
+
+      Dim myRowDefinition2 As New RowDefinition()
+      myRowDefinition2.Height = New System.Windows.GridLength(1, GridUnitType.Auto)
+      myDisplayGrid.RowDefinitions.Add(myRowDefinition2)
+
+      Dim myRowDefinition3 As New RowDefinition()
+      myRowDefinition3.Height = New System.Windows.GridLength(1, GridUnitType.Auto)
+      myDisplayGrid.RowDefinitions.Add(myRowDefinition3)
+
+      Dim myRowDefinition4 As New RowDefinition()
+      myRowDefinition4.Height = New System.Windows.GridLength(1, GridUnitType.Auto)
+      myDisplayGrid.RowDefinitions.Add(myRowDefinition4)
+
+      Dim myRowDefinition5 As New RowDefinition()
+      myRowDefinition5.Height = New System.Windows.GridLength(1, GridUnitType.Auto)
+      myDisplayGrid.RowDefinitions.Add(myRowDefinition5)
+
+      Dim excludeTextBlock As New TextBlock()
+      excludeTextBlock.Text = "Exclude"
+      Grid.SetRow(excludeTextBlock, 0)
+      Grid.SetColumn(excludeTextBlock, 0)
+      myDisplayGrid.Children.Add(excludeTextBlock)
+
+      Dim combineModeBorder As New Border()
+      combineModeBorder.Height = 150
+      combineModeBorder.Width = 200
+      combineModeBorder.BorderBrush = Brushes.Black
+      combineModeBorder.BorderThickness = New Thickness(1)
+      combineModeBorder.Background = CType(Application.Current.Resources("MyGridBrushResource"), Brush)
+      Grid.SetRow(combineModeBorder, 1)
+      Grid.SetColumn(combineModeBorder, 0)
+      myDisplayGrid.Children.Add(combineModeBorder)
+
+      Dim combineModeBorderPath As New Path()
+      combineModeBorderPath.Stroke = Brushes.Black
+      combineModeBorderPath.StrokeThickness = 1
+      combineModeBorderPath.Fill = CType(myBrushConverter.ConvertFromString("#CCCCFF"), Brush)
+      combineModeBorder.Child = combineModeBorderPath
+
+      'Combines two geometries using the exclude combine mode.
+      Dim myExcludeCombinedGeometry As New CombinedGeometry()
+      myExcludeCombinedGeometry.GeometryCombineMode = GeometryCombineMode.Exclude
+      myExcludeCombinedGeometry.Geometry1 = New EllipseGeometry(New Windows.Point(75, 75), 50, 50)
+      myExcludeCombinedGeometry.Geometry2 = New EllipseGeometry(New Windows.Point(125, 75), 50, 50)
+
+      combineModeBorderPath.Data = myExcludeCombinedGeometry
+
+      Dim intersectTextBlock As New TextBlock()
+
+      intersectTextBlock.Text = "Intersect"
+      Grid.SetRow(intersectTextBlock, 0)
+      Grid.SetColumn(intersectTextBlock, 2)
+
+      myDisplayGrid.Children.Add(intersectTextBlock)
+
+      Dim intersectDisplayBorder As New Border()
+      intersectDisplayBorder.Height = 150
+      intersectDisplayBorder.Width = 200
+      intersectDisplayBorder.BorderBrush = Brushes.Black
+      intersectDisplayBorder.BorderThickness = New Thickness(1)
+      intersectDisplayBorder.Background = CType(Application.Current.Resources("MyGridBrushResource"), Brush)
+      Grid.SetRow(intersectDisplayBorder, 1)
+      Grid.SetColumn(intersectDisplayBorder, 2)
+      myDisplayGrid.Children.Add(intersectDisplayBorder)
+
+      Dim intersectDisplayPath As New Path()
+      intersectDisplayPath.Stroke = Brushes.Black
+      intersectDisplayPath.StrokeThickness = 1
+      intersectDisplayPath.Fill = CType(myBrushConverter.ConvertFromString("#CCCCFF"), Brush)
+      intersectDisplayBorder.Child = intersectDisplayPath
+
+      ' Combines two geometries using the intersect combine mode.
+      Dim myIntersectCombinedGeometry As New CombinedGeometry()
+      myIntersectCombinedGeometry.GeometryCombineMode = GeometryCombineMode.Intersect
+      myIntersectCombinedGeometry.Geometry1 = New EllipseGeometry(New Windows.Point(75, 75), 50, 50)
+      myIntersectCombinedGeometry.Geometry2 = New EllipseGeometry(New Windows.Point(125, 75), 50, 50)
+
+      intersectDisplayPath.Data = myIntersectCombinedGeometry
+
+      Dim unionTextBlock As New TextBlock()
+
+      unionTextBlock.Text = "Union"
+      Grid.SetRow(unionTextBlock, 3)
+      Grid.SetColumn(unionTextBlock, 0)
+
+      myDisplayGrid.Children.Add(unionTextBlock)
+
+      Dim unionCombineDisplayBorder As New Border()
+      unionCombineDisplayBorder.Height = 150
+      unionCombineDisplayBorder.Width = 200
+      unionCombineDisplayBorder.BorderBrush = Brushes.Black
+      unionCombineDisplayBorder.BorderThickness = New Thickness(1)
+      unionCombineDisplayBorder.Background = CType(Application.Current.Resources("MyGridBrushResource"), Brush)
+      Grid.SetRow(unionCombineDisplayBorder, 4)
+      Grid.SetColumn(unionCombineDisplayBorder, 0)
+      myDisplayGrid.Children.Add(unionCombineDisplayBorder)
+
+      Dim unionCombineDisplayPath As New Path()
+      unionCombineDisplayPath.Stroke = Brushes.Black
+      unionCombineDisplayPath.StrokeThickness = 1
+      unionCombineDisplayPath.Fill = CType(myBrushConverter.ConvertFromString("#CCCCFF"), Brush)
+      unionCombineDisplayBorder.Child = unionCombineDisplayPath
+
+      ' Combines two geometries using the union combine mode.
+      Dim unionCombineCombinedGeometry As New CombinedGeometry()
+      unionCombineCombinedGeometry.GeometryCombineMode = GeometryCombineMode.Union
+      unionCombineCombinedGeometry.Geometry1 = New EllipseGeometry(New Windows.Point(75, 75), 50, 50)
+      unionCombineCombinedGeometry.Geometry2 = New EllipseGeometry(New Windows.Point(125, 75), 50, 50)
+
+      unionCombineDisplayPath.Data = unionCombineCombinedGeometry
+
+      Dim xorTextBlock As New TextBlock()
+      xorTextBlock.Text = "Xor"
+      Grid.SetRow(xorTextBlock, 3)
+      Grid.SetColumn(xorTextBlock, 2)
+      myDisplayGrid.Children.Add(xorTextBlock)
+
+      Dim xorDisplayBorder As New Border()
+      xorDisplayBorder.Height = 150
+      xorDisplayBorder.Width = 200
+      xorDisplayBorder.BorderBrush = Brushes.Black
+      xorDisplayBorder.BorderThickness = New Thickness(1)
+      xorDisplayBorder.Background = CType(Application.Current.Resources("MyGridBrushResource"), Brush)
+      Grid.SetRow(xorDisplayBorder, 4)
+      Grid.SetColumn(xorDisplayBorder, 2)
+      myDisplayGrid.Children.Add(xorDisplayBorder)
+
+      Dim xorDisplayPath As New Path()
+      xorDisplayPath.Stroke = Brushes.Black
+      xorDisplayPath.StrokeThickness = 1
+      xorDisplayPath.Fill = CType(myBrushConverter.ConvertFromString("#CCCCFF"), Brush)
+      xorDisplayBorder.Child = xorDisplayPath
+      ' Combines two geometries using the XOR combine mode.
+      Dim xorCombinedGeometry As New CombinedGeometry()
+      xorCombinedGeometry.GeometryCombineMode = GeometryCombineMode.Xor
+      xorCombinedGeometry.Geometry1 = New EllipseGeometry(New Windows.Point(75, 75), 50, 50)
+      xorCombinedGeometry.Geometry2 = New EllipseGeometry(New Windows.Point(125, 75), 50, 50)
+
+      xorDisplayPath.Data = xorCombinedGeometry
+
+
+    End Sub
+  End Class
+
+
+End Namespace        
+        
+        
+      </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="csharp" Style="{StaticResource TabStyle}" Header="C#">
+        </TabItem>
+        <TabItem Name="vb" Style="{StaticResource TabStyle}" Header="Visual Basic.NET">
+        </TabItem>
+        <TabItem Name="managedcpp" Style="{StaticResource TabStyle}" Header="Managed C++">
+        </TabItem>
+        <TabItem Style="{StaticResource TabStyle}" Header="Preview Sample">
+            <ScrollViewer>
+                <!--
+  CombiningGeometriesExample.xaml
+  
+  This example shows how to creating composite geometries using the GeometryGroup
+  class and how to combine geometries using the CombinedGeometry class.
+
+-->
+                <Canvas Height="1300">
+                    <Canvas.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="Border.HorizontalAlignment" Value="Left" />
+                        </Style>
+                        <Style x:Key="MyHeadingParagraphStyle" TargetType="{x:Type Paragraph}">
+                            <Setter Property="Paragraph.FontFamily" Value="Palatino Linotype" />
+                            <Setter Property="Paragraph.FontWeight" Value="Bold" />
+                            <Setter Property="Paragraph.Margin" Value="0,10,0,5" />
+                        </Style>
+                        <Style x:Key="MyCodeParagraphStyle" TargetType="{x:Type Paragraph}">
+                            <Setter Property="Paragraph.FontFamily" Value="Courier New" />
+                            <Setter Property="Paragraph.Background" Value="#33CCCCCC" />
+                            <Setter Property="Paragraph.BorderBrush" Value="#CCCCCC" />
+                            <Setter Property="Paragraph.BorderThickness" Value="1.0" />
+                            <Setter Property="Paragraph.Padding" Value="5" />
+                        </Style>
+                        <DrawingBrush x:Key="MyGridBrushResource" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile">
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <DrawingGroup.Children>
+                                        <GeometryDrawing Brush="White">
+                                            <GeometryDrawing.Geometry>
+                                                <RectangleGeometry Rect="0,0,1,1" />
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Geometry="M0,0 L1,0 1,0.1, 0,0.1Z" Brush="#CCCCFF" />
+                                        <GeometryDrawing Geometry="M0,0 L0,1 0.1,1, 0.1,0Z" Brush="#CCCCFF" />
+                                    </DrawingGroup.Children>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Canvas.Resources>
+                    <StackPanel Orientation="Vertical" Background="White" Margin="5">
+                        <Border Background="#CCCCFF" HorizontalAlignment="Stretch">
+                            <FlowDocumentScrollViewer Margin="10"><FlowDocument>
+                                <Paragraph>Creating Composite and Combined Geometries</Paragraph>
+                            </FlowDocument></FlowDocumentScrollViewer>
+                        </Border>
+                        <FlowDocumentScrollViewer Margin="0,0,0,5" HorizontalAlignment="Stretch"><FlowDocument>
+                            <Paragraph Style="{StaticResource MyHeadingParagraphStyle}">Composite Geometries</Paragraph>
+                            <Paragraph>You can create composite shapes from multiple geometries using a GeometryGroup.
+        The following example creates a composite shape from a line, an ellipse, and a rectangle. 
+        The GeometryGroup in this example has a FillRule of EvenOdd.</Paragraph>
+                            <Paragraph Style="{StaticResource MyCodeParagraphStyle}" xml:space="preserve"><![CDATA[
+<GeometryGroup FillRule="EvenOdd">
+  <LineGeometry StartPoint="10,10" EndPoint="50,30" />
+  <EllipseGeometry Center="40,70" 
+    RadiusX="30" RadiusY="30" />
+  <RectangleGeometry Rect="30,55 100 30" />
+</GeometryGroup>]]></Paragraph>
+                        </FlowDocument></FlowDocumentScrollViewer>
+                        <Border Height="150" Width="250" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}">
+                            <!-- Displays the geometry. -->
+                            <Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF">
+                                <Path.Data>
+                                    <!-- Creates a composite shape from three geometries. -->
+                                    <GeometryGroup FillRule="EvenOdd">
+                                        <LineGeometry StartPoint="10,10" EndPoint="50,30" />
+                                        <EllipseGeometry Center="40,70" RadiusX="30" RadiusY="30" />
+                                        <RectangleGeometry Rect="30,55 100 30" />
+                                    </GeometryGroup>
+                                </Path.Data>
+                            </Path>
+                        </Border>
+                        <FlowDocumentScrollViewer Margin="0,10,0,5"><FlowDocument>
+                            <Paragraph>The following code is identical to the previous example, except that
+        the GeometryGroup's FillRule is set to Nonzero instead of EvenOdd.
+      </Paragraph>
+                            <Paragraph Style="{StaticResource MyCodeParagraphStyle}" xml:space="preserve"><![CDATA[
+<GeometryGroup FillRule="Nonzero">
+  <LineGeometry StartPoint="10,10" EndPoint="50,30" />
+  <EllipseGeometry Center="40,70" 
+    RadiusX="30" RadiusY="30" />
+  <RectangleGeometry Rect="30,55 100 30" />
+</GeometryGroup>]]>       
+      </Paragraph>
+                        </FlowDocument></FlowDocumentScrollViewer>
+                        <Border Height="150" Width="250" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}">
+                            <!-- Displays the geometry. -->
+                            <Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF">
+                                <Path.Data>
+                                    <!-- Creates a composite shape from three geometries.
+               This GeometryGroup has a FillRule of NonZero. -->
+                                    <GeometryGroup FillRule="Nonzero">
+                                        <LineGeometry StartPoint="10,10" EndPoint="50,30" />
+                                        <EllipseGeometry Center="40,70" RadiusX="30" RadiusY="30" />
+                                        <RectangleGeometry Rect="30,55 100 30" />
+                                    </GeometryGroup>
+                                </Path.Data>
+                            </Path>
+                        </Border>
+                        <FlowDocumentScrollViewer Grid.Column="0" Grid.Row="0" Margin="0,0,0,5"><FlowDocument>
+                            <Paragraph Style="{StaticResource MyHeadingParagraphStyle}">Combining Geometries</Paragraph>
+                            <Paragraph>In addition to creating composite geomtries using the GeometryGroup class, you can
+        use the CombinedGeometry class to combine two geometries.</Paragraph>
+                            <Paragraph Margin="0,5,0,0">The geometries, before combining:</Paragraph>
+                        </FlowDocument></FlowDocumentScrollViewer>
+                        <Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}" Grid.Column="0" Grid.Row="1">
+                            <Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF">
+                                <Path.Data>
+                                    <GeometryGroup FillRule="NonZero">
+                                        <EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" />
+                                        <EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" />
+                                    </GeometryGroup>
+                                </Path.Data>
+                            </Path>
+                        </Border>
+                        <TextBlock Margin="0,10,0,5">The geometries, after combining with the specified mode:</TextBlock>
+                        <!-- Shows the two geometries combined using each of the different
+         combine modes. -->
+                        <Grid HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0">Exclude</TextBlock>
+                            <Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}" Grid.Column="0" Grid.Row="1">
+                                <Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF">
+                                    <Path.Data>
+                                        <!-- Combines two geometries using the exclude combine mode. -->
+                                        <CombinedGeometry GeometryCombineMode="Exclude">
+                                            <CombinedGeometry.Geometry1>
+                                                <EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" />
+                                            </CombinedGeometry.Geometry1>
+                                            <CombinedGeometry.Geometry2>
+                                                <EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" />
+                                            </CombinedGeometry.Geometry2>
+                                        </CombinedGeometry>
+                                    </Path.Data>
+                                </Path>
+                            </Border>
+                            <TextBlock Grid.Column="2" Grid.Row="0">Intersect</TextBlock>
+                            <Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}" Grid.Column="2" Grid.Row="1">
+                                <Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF">
+                                    <Path.Data>
+                                        <!-- Combines two geometries using the intersect combine mode. -->
+                                        <CombinedGeometry GeometryCombineMode="Intersect">
+                                            <CombinedGeometry.Geometry1>
+                                                <EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" />
+                                            </CombinedGeometry.Geometry1>
+                                            <CombinedGeometry.Geometry2>
+                                                <EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" />
+                                            </CombinedGeometry.Geometry2>
+                                        </CombinedGeometry>
+                                    </Path.Data>
+                                </Path>
+                            </Border>
+                            <TextBlock Grid.Column="0" Grid.Row="3">Union</TextBlock>
+                            <Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}" Grid.Column="0" Grid.Row="4">
+                                <Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF">
+                                    <Path.Data>
+                                        <!-- Combines two geometries using the union combine mode. -->
+                                        <CombinedGeometry GeometryCombineMode="Union">
+                                            <CombinedGeometry.Geometry1>
+                                                <EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" />
+                                            </CombinedGeometry.Geometry1>
+                                            <CombinedGeometry.Geometry2>
+                                                <EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" />
+                                            </CombinedGeometry.Geometry2>
+                                        </CombinedGeometry>
+                                    </Path.Data>
+                                </Path>
+                            </Border>
+                            <TextBlock Grid.Column="2" Grid.Row="3">Xor</TextBlock>
+                            <Border Height="150" Width="200" BorderBrush="Black" BorderThickness="1" Background="{StaticResource MyGridBrushResource}" Grid.Column="2" Grid.Row="4">
+                                <Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF">
+                                    <Path.Data>
+                                        <!-- Combines two geometries using the XOR combine mode. -->
+                                        <CombinedGeometry GeometryCombineMode="Xor">
+                                            <CombinedGeometry.Geometry1>
+                                                <EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" />
+                                            </CombinedGeometry.Geometry1>
+                                            <CombinedGeometry.Geometry2>
+                                                <EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" />
+                                            </CombinedGeometry.Geometry2>
+                                        </CombinedGeometry>
+                                    </Path.Data>
+                                </Path>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Canvas>
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
+</Page>

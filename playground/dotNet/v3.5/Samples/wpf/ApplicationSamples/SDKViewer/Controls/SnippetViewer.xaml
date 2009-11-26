@@ -1,0 +1,97 @@
+﻿<!--
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//
+// Copyright (C) Microsoft Corporation, 2005.  All rights reserved.
+//
+// File: SdkPrintDialog.xaml
+//
+// Description: SnippetViewer, a control to display and render xaml examples.
+//              This is is the control embedded in the document (TabControl 
+//              with xaml / preview tab and edit button)
+//
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+<ContentControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="Microsoft.Windows.SdkViewer.Controls.SnippetViewer"
+    Cursor="Arrow">
+    <ContentControl.Resources>
+        <DrawingBrush x:Key="CheckerBoardBrush" Viewport="0,0,20,20" ViewportUnits="Absolute" TileMode="Tile" ViewboxUnits="Absolute" Viewbox="0,0,1,1">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#eee">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,0,1,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#fff">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect=".5,0,.5,.5" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#fff">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,.5,.5,.5" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+    </ContentControl.Resources>
+
+    <!-- Define the Grid that host the whole control -->
+    <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+        <!-- Host nested control in a StackPanel so it will be nicely displayed -->
+        <StackPanel Grid.Column="0" Grid.Row="0" Margin="10,10,10,10" Orientation="Vertical">
+
+            <!-- Placeholder for the description. Note : some code might have any description, in which case this control should be hidden-->
+            <TextBlock FontStyle="Italic" TextWrapping="Wrap" xml:space="default" />
+
+            <!-- TabControl that wil host the code and the rendering in separated tabs -->
+            <TabControl Grid.Row="1" TabStripPlacement="Bottom" Height="200" BorderBrush="#E4E4E4">
+                <TabItem Header="XAML">
+                    <TextBox Name="StaticCodeTextBox"
+                        Width="Auto"
+                        Height="Auto"
+                        Margin="5"
+                        VerticalScrollBarVisibility="Visible"
+                        HorizontalScrollBarVisibility="Auto"
+                        FontFamily="Lucida Console"
+                        FontSize="12"
+                        TextWrapping="Wrap"
+                        IsReadOnly="True"
+                        xml:space="preserve" />
+                </TabItem>
+                <TabItem Header="Preview">
+                    <Frame Name="StaticRenderFrame"
+                         Width="Auto"
+                         Height="Auto"
+                         Background="{StaticResource CheckerBoardBrush}" />
+                </TabItem>
+            </TabControl>
+
+            <Button
+                Content="_Edit"
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Cursor="Arrow"
+                Name="ModifyXamlButton"
+                Click="OnClick_ModifyXaml">
+
+                  
+            </Button>
+                
+        </StackPanel>
+    </Grid>
+</ContentControl>

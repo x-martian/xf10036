@@ -1,0 +1,131 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_933981f1_0d35_4363_9dff_67f02aa8d93e"
+  Tag     ="Get the Non-Animated Value of an Animated Property"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Get the Non-Animated Value of an Animated Property</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To get the non-animated value of an object's animated property, you use the object's GetAnimationBaseValue method. UIElement, Animatable, and ContentElement each have their own implementation.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In the following example, the non-animated values of animated properties are retrieved and displayed.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/* This sample shows how to use the Animatable.GetAnimationBaseValue and UIElement.GetAnimationBaseValue methods to get the non-animated value of an animated Animatable or UIElement. */ using System; 
+using System.Windows; 
+using System.Windows.Navigation; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+using System.Windows.Controls; 
+using System.Windows.Input; 
+namespace Microsoft.Samples.Animation.TimingBehaviors { public class GetAnimationBaseValueExample : Page { private RotateTransform animatedRotateTransform; 
+public GetAnimationBaseValueExample() { WindowTitle = "GetAnimationBaseValue Example"; 
+StackPanel myPanel = new StackPanel(); 
+myPanel.Margin = new Thickness(20.0); 
+// Create a button. Button animatedButton = new Button(); 
+animatedButton.Content = "Click Me"; 
+animatedButton.Width = 100; 
+animatedButton.Margin = new Thickness(100); 
+// Create and animate a RotateTransform and // apply it to the button's RenderTransform // property. animatedRotateTransform = new RotateTransform(); 
+animatedRotateTransform.Angle = 45; 
+DoubleAnimation angleAnimation = new DoubleAnimation(0,360, TimeSpan.FromSeconds(5)); 
+angleAnimation.RepeatBehavior = RepeatBehavior.Forever; 
+animatedRotateTransform.BeginAnimation( RotateTransform.AngleProperty, angleAnimation); 
+animatedButton.RenderTransform = animatedRotateTransform; 
+animatedButton.RenderTransformOrigin = new Point(0.5,0.5); 
+// Animate the button's width. DoubleAnimation widthAnimation = new DoubleAnimation(120, 300, TimeSpan.FromSeconds(5)); 
+widthAnimation.RepeatBehavior = RepeatBehavior.Forever; 
+widthAnimation.AutoReverse = true; 
+animatedButton.BeginAnimation(Button.WidthProperty, widthAnimation); 
+// Handle button clicks. animatedButton.Click += new RoutedEventHandler(animatedButton_Clicked); 
+// Add the button to the panel. myPanel.Children.Add(animatedButton); 
+this.Content = myPanel; 
+} // Display the base value for Button.Width and RotateTransform.Angle. private void animatedButton_Clicked(object sender, RoutedEventArgs e) { Button animatedButton = (Button)sender; 
+MessageBox.Show("Button width base value: " + animatedButton.GetAnimationBaseValue(Button.WidthProperty) + "\nRotateTransform base value: " + animatedRotateTransform.GetAnimationBaseValue(RotateTransform.AngleProperty)); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>GetAnimationBaseValue
+      <LineBreak/>GetAnimationBaseValue
+      <LineBreak/>GetAnimationBaseValue
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Get the Non-Animated Value of an Animated Property to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

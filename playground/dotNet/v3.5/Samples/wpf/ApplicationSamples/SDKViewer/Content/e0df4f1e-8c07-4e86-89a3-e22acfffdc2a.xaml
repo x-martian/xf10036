@@ -1,0 +1,188 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e0df4f1e_8c07_4e86_89a3_e22acfffdc2a"
+  Tag     ="Create a Custom Panel Element"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Custom Panel Element</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>This example shows how to override the default layout behavior of the Panel element and create custom layout elements that are derived from <Run FontWeight="Bold">Panel</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The example defines a simple custom <Run FontWeight="Bold">Panel</Run>
+ element called <Run>PlotPanel</Run>
+, which positions child elements according to two hard-coded x- and y-coordinates. In this example, <Run>x</Run>
+ and <Run>y</Run>
+ are both set to <Run>50</Run>
+; 
+therefore, all child elements are positioned at that location on the x and y axes.
+    </Paragraph>
+
+    <Paragraph>To implement custom <Run FontWeight="Bold">Panel</Run>
+ behaviors, the example uses the MeasureOverride and ArrangeOverride methods. Each method returns the Size data that is necessary to position and render child elements. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public: ref class PlotPanel : Panel { public: PlotPanel () {}; 
+protected: // Override the default Measure method of Panel virtual Size MeasureOverride (Size availableSize) override { Size childSize = availableSize; 
+for each (UIElement^ child in InternalChildren) { child->Measure(childSize); 
+} return availableSize; 
+}; 
+protected: virtual System::Windows::Size ArrangeOverride (Size finalSize) override { for each (UIElement^ child in InternalChildren) { double x = 50; 
+double y = 50; 
+child->Arrange(Rect(Point(x, y), child->DesiredSize)); 
+} return finalSize; 
+}; 
+}; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class PlotPanel : Panel { // Default public constructor public PlotPanel() : base() { } // Override the default Measure method of Panel protected override Size MeasureOverride(Size availableSize) { Size childSize = availableSize; 
+foreach (UIElement child in InternalChildren) { child.Measure(childSize); 
+} return availableSize; 
+} protected override Size ArrangeOverride(Size finalSize) { foreach (UIElement child in InternalChildren) { double x = 50; 
+double y = 50; 
+child.Arrange(new Rect(new Point(x, y), child.DesiredSize)); 
+} return finalSize; 
+// Returns the final Arranged size } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Class PlotPanel Inherits Panel 'Override the default Measure method of Panel. Protected Overrides Function MeasureOverride(ByVal availableSize As System.Windows.Size) As System.Windows.Size Dim childSize As Size = CType(availableSize, Size) For Each child As UIElement In InternalChildren child.Measure(childSize) Next Return MyBase.MeasureOverride(availableSize) End Function Protected Overrides Function ArrangeOverride(ByVal finalSize As System.Windows.Size) As System.Windows.Size For Each child As UIElement In InternalChildren Dim x As Double = 50 Dim y As Double = 50 child.Arrange(New Rect(New System.Windows.Point(x, y), child.DesiredSize)) Next Return MyBase.ArrangeOverride(finalSize) End Function End Class </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Create a Simple Custom Panel Behavior Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Panel
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Create a Custom Content-Wrapping Panel Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Custom Panel Element to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

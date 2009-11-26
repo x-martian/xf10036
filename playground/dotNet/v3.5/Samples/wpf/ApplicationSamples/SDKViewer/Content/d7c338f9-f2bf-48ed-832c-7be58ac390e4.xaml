@@ -1,0 +1,116 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d7c338f9_f2bf_48ed_832c_7be58ac390e4"
+  Tag     ="Property Value Inheritance"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Property Value Inheritance</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Property value inheritance is a feature of the Windows Presentation Foundation (WPF) property system. Property value inheritance enables descendant elements in the logical tree of elements to obtain the value of a particular property via inheriting that value as it was set anywhere in any of its recursive parent elements. Property value inheritance is not the default property system behavior; 
+a property must be established with a particular metadata setting in order to cause that property to participate in property value inheritance.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Property_Value_Inheritance_is_Containment_Inheritance">Property Value Inheritance is Containment Inheritance</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Practical_Applications_of_Property_Value_Inheritance">Practical Applications of Property Value Inheritance</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Making_a_Custom_Property_Inheritable">Making a Custom Property Inheritable</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Property Value Inheritance is Containment Inheritance
+    </Paragraph>
+
+    <Paragraph>"Inheritance" as a term here is not quite the same concept as how inheritance works in general object oriented programming, where subclasses inherit member definitions from their base classes. That meaning of inheritance is also active in Windows Presentation Foundation (WPF): properties defined in various base classes are exposed as attributes for subclassed XAML elements, and exposed as members for programmatic access. Property value inheritance is particularly about how property values can inherit from one object to another on basis of their parent-child relationships within a logical tree of elements. That logical tree of elements is most directly visible when nesting various elements inside other elements when creating applications in XAML markup. Logical trees can also be created programmatically by adding objects to designated collections of other objects, and property value inheritance works the same way in the finished logical tree at run time.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Practical Applications of Property Value Inheritance
+    </Paragraph>
+
+    <Paragraph>The Windows Presentation Foundation (WPF) APIs include several properties that have property inheritance enabled. Typically, the scenario for these is that they involve a property where it is appropriate that the property be set only once per page, but where that property is also a member of one of the base element classes and thus would also exist on most of the child elements. For example, the FlowDirection property controls which direction flowed content should be presented and arranged on the page. Normally you want this to be handled consistently throughout an element's child elements, and if it were for some reason reset in some level of the logical tree it should probably be reset throughout. By making this property inherit, the value need only be set or reset once at the level in the logical tree that encompasses the presentation needs of each page in the application, and even the initial default value will inherit in this way. Yet the inheritance model still allows individual elements to have the value reset for the rare cases where having a mix of flow directions was intended.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Making a Custom Property Inheritable
+    </Paragraph>
+
+    <Paragraph>By changing a custom property's metadata, you can also make your own custom properties inheritable. Note however that designating a property as inheritable does have some performance considerations. In cases where that property does not have an established local value, or a value obtained through styles, templates, or data binding, an inheritable property will provide its assigned property values to all child elements in the logical tree.
+    </Paragraph>
+
+    <Paragraph>To make a property participate in value inheritance, create a custom dependency property, as described in the <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+ topic. Register the property with metadata (FrameworkPropertyMetadata) and specify the "Inherits" option in the options settings within that metadata. Also make sure that the property has an established default value.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Property Value Inheritance to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

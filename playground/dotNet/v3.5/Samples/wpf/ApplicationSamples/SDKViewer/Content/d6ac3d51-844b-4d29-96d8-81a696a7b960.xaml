@@ -1,0 +1,294 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d6ac3d51_844b_4d29_96d8_81a696a7b960"
+  Tag     ="Build a Standard UI Dialog Box by Using Grid"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Build a Standard UI Dialog Box by Using Grid</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create a standard user interface (UI) dialog box by using the Grid element.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates a dialog box like the <Run FontWeight="Bold">Run</Run>
+ dialog box in the Windows operating system.
+    </Paragraph>
+
+    <Paragraph>The example creates a <Run FontWeight="Bold">Grid</Run>
+ and uses the ColumnDefinition and RowDefinition classes to define five columns and four rows. 
+    </Paragraph>
+
+    <Paragraph>The example then adds and positions an Image, <Run>RunIcon.png</Run>
+, to represent the image that is found in the dialog box. The image is placed in the first column and row of the <Run FontWeight="Bold">Grid</Run>
+ (the upper-left corner). 
+    </Paragraph>
+
+    <Paragraph>Next, the example adds a TextBlock element to the first column, which spans the remaining columns of the first row. It adds another <Run FontWeight="Bold">TextBlock</Run>
+ element to the second row in the first column, to represent the <Run FontWeight="Bold">Open</Run>
+ text box. A <Run FontWeight="Bold">TextBlock</Run>
+ follows, which represents the data entry area. 
+    </Paragraph>
+
+    <Paragraph>Finally, the example adds three Buttons to the final row, which represent the <Run FontWeight="Bold">OK</Run>
+, <Run FontWeight="Bold">Cancel</Run>
+, and <Run FontWeight="Bold">Browse</Run>
+ events.
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the Grid. grid1 = new Grid (); 
+grid1.Background = Brushes.Gainsboro; 
+grid1.HorizontalAlignment = HorizontalAlignment.Left; 
+grid1.VerticalAlignment = VerticalAlignment.Top; 
+grid1.ShowGridLines = true; 
+grid1.Width = 425; 
+grid1.Height = 165; 
+// Define the Columns. colDef1 = new ColumnDefinition(); 
+colDef1.Width = new GridLength(1, GridUnitType.Auto); 
+colDef2 = new ColumnDefinition(); 
+colDef2.Width = new GridLength(1, GridUnitType.Star); 
+colDef3 = new ColumnDefinition(); 
+colDef3.Width = new GridLength(1, GridUnitType.Star); 
+colDef4 = new ColumnDefinition(); 
+colDef4.Width = new GridLength(1, GridUnitType.Star); 
+colDef5 = new ColumnDefinition(); 
+colDef5.Width = new GridLength(1, GridUnitType.Star); 
+grid1.ColumnDefinitions.Add(colDef1); 
+grid1.ColumnDefinitions.Add(colDef2); 
+grid1.ColumnDefinitions.Add(colDef3); 
+grid1.ColumnDefinitions.Add(colDef4); 
+grid1.ColumnDefinitions.Add(colDef5); 
+// Define the Rows. rowDef1 = new RowDefinition(); 
+rowDef1.Height = new GridLength(1, GridUnitType.Auto); 
+rowDef2 = new RowDefinition(); 
+rowDef2.Height = new GridLength(1, GridUnitType.Auto); 
+rowDef3 = new RowDefinition(); 
+rowDef3.Height = new GridLength(1, GridUnitType.Star); 
+rowDef4 = new RowDefinition(); 
+rowDef4.Height = new GridLength(1, GridUnitType.Auto); 
+grid1.RowDefinitions.Add(rowDef1); 
+grid1.RowDefinitions.Add(rowDef2); 
+grid1.RowDefinitions.Add(rowDef3); 
+grid1.RowDefinitions.Add(rowDef4); 
+// Add the Image. img1 = new Image(); 
+img1.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri("runicon.png", UriKind.Relative)); 
+Grid.SetRow(img1, 0); 
+Grid.SetColumn(img1, 0); 
+// Add the main application dialog. txt1 = new TextBlock(); 
+txt1.Text = "Type the name of a program, folder, document, or Internet resource, and Windows will open it for you."; 
+txt1.TextWrapping = TextWrapping.Wrap; 
+Grid.SetColumnSpan(txt1, 4); 
+Grid.SetRow(txt1, 0); 
+Grid.SetColumn(txt1, 1); 
+// Add the second text cell to the Grid. txt2 = new TextBlock(); 
+txt2.Text = "Open:"; 
+Grid.SetRow(txt2, 1); 
+Grid.SetColumn(txt2, 0); 
+// Add the TextBox control. tb1 = new TextBox(); 
+Grid.SetRow(tb1, 1); 
+Grid.SetColumn(tb1, 1); 
+Grid.SetColumnSpan(tb1, 5); 
+// Add the buttons. button1 = new Button(); 
+button2 = new Button(); 
+button3 = new Button(); 
+button1.Content = "OK"; 
+button2.Content = "Cancel"; 
+button3.Content = "Browse ..."; 
+Grid.SetRow(button1, 3); 
+Grid.SetColumn(button1, 2); 
+button1.Margin = new Thickness(10, 0, 10, 15); 
+button2.Margin = new Thickness(10, 0, 10, 15); 
+button3.Margin = new Thickness(10, 0, 10, 15); 
+Grid.SetRow(button2, 3); 
+Grid.SetColumn(button2, 3); 
+Grid.SetRow(button3, 3); 
+Grid.SetColumn(button3, 4); 
+grid1.Children.Add(img1); 
+grid1.Children.Add(txt1); 
+grid1.Children.Add(txt2); 
+grid1.Children.Add(tb1); 
+grid1.Children.Add(button1); 
+grid1.Children.Add(button2); 
+grid1.Children.Add(button3); 
+mainWindow.Content = grid1; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>'Create a Grid as the root Panel element. Dim myGrid As New Grid() myGrid.Height = 165 myGrid.Width = 425 myGrid.Background = Brushes.Gainsboro myGrid.ShowGridLines = True myGrid.HorizontalAlignment = Windows.HorizontalAlignment.Left myGrid.VerticalAlignment = Windows.VerticalAlignment.Top ' Define and Add the Rows and Columns. Dim colDef1 As New ColumnDefinition colDef1.Width = New GridLength(1, GridUnitType.Auto) Dim colDef2 As New ColumnDefinition colDef2.Width = New GridLength(1, GridUnitType.Star) Dim colDef3 As New ColumnDefinition colDef3.Width = New GridLength(1, GridUnitType.Star) Dim colDef4 As New ColumnDefinition colDef4.Width = New GridLength(1, GridUnitType.Star) Dim colDef5 As New ColumnDefinition colDef5.Width = New GridLength(1, GridUnitType.Star) myGrid.ColumnDefinitions.Add(colDef1) myGrid.ColumnDefinitions.Add(colDef2) myGrid.ColumnDefinitions.Add(colDef3) myGrid.ColumnDefinitions.Add(colDef4) myGrid.ColumnDefinitions.Add(colDef5) Dim rowDef1 As New RowDefinition rowDef1.Height = New GridLength(1, GridUnitType.Auto) Dim rowDef2 As New RowDefinition rowDef2.Height = New GridLength(1, GridUnitType.Auto) Dim rowDef3 As New Controls.RowDefinition rowDef3.Height = New GridLength(1, GridUnitType.Star) Dim rowDef4 As New RowDefinition rowDef4.Height = New GridLength(1, GridUnitType.Auto) myGrid.RowDefinitions.Add(rowDef1) myGrid.RowDefinitions.Add(rowDef2) myGrid.RowDefinitions.Add(rowDef3) myGrid.RowDefinitions.Add(rowDef4) ' Add the Image. Dim img1 As New Image img1.Source = New System.Windows.Media.Imaging.BitmapImage(New Uri("runicon.png", UriKind.Relative)) Grid.SetRow(img1, 0) Grid.SetColumn(img1, 0) myGrid.Children.Add(img1) ' Add the main application dialog. Dim txt1 As New TextBlock txt1.Text = "Type the name of a program, document, or Internet resource, and Windows will open it for you." txt1.TextWrapping = TextWrapping.Wrap Grid.SetColumnSpan(txt1, 4) Grid.SetRow(txt1, 0) Grid.SetColumn(txt1, 1) myGrid.Children.Add(txt1) ' Add the second TextBlock Cell to the Grid. Dim txt2 As New TextBlock txt2.Text = "Open:" Grid.SetRow(txt2, 1) Grid.SetColumn(txt2, 0) myGrid.Children.Add(txt2) ' Add the TextBox control. Dim tb1 As New TextBox Grid.SetRow(tb1, 1) Grid.SetColumn(tb1, 1) Grid.SetColumnSpan(tb1, 5) myGrid.Children.Add(tb1) ' Add the Button controls. Dim button1 As New Button Dim button2 As New Button Dim button3 As New Button button1.Content = "OK" button1.Margin = New Thickness(10, 0, 10, 15) button2.Content = "Cancel" button2.Margin = New Thickness(10, 0, 10, 15) button3.Content = "Browse ..." button3.Margin = New Thickness(10, 0, 10, 15) Grid.SetRow(button1, 3) Grid.SetColumn(button1, 2) Grid.SetRow(button2, 3) Grid.SetColumn(button2, 3) Grid.SetRow(button3, 3) Grid.SetColumn(button3, 4) myGrid.Children.Add(button1) myGrid.Children.Add(button2) myGrid.Children.Add(button3) Me.Content = myGrid </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_d6ac3d51_844b_4d29_96d8_81a696a7b960_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="Grid Run Dialog Sample" WindowWidth="425" WindowHeight="225"> 
+&lt;Grid Background="#DCDCDC" Width="425" Height="165" HorizontalAlignment="Left" VerticalAlignment="Top" ShowGridLines="True"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="Auto" /> 
+&lt;ColumnDefinition Width="*" /> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition Height="*" /> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;/Grid.RowDefinitions> 
+&lt;Image Grid.Column="0" Grid.Row="0" Source="RunIcon.png" /> 
+&lt;TextBlock Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" TextWrapping="Wrap"> Type the name of a program, folder, document, or Internet resource, and Windows will open it for you. 
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="0" Grid.Row="1">Open:
+&lt;/TextBlock> 
+&lt;TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" /> 
+&lt;Button Margin="10, 0, 10, 15" Grid.Row="3" Grid.Column="2">OK
+&lt;/Button> 
+&lt;Button Margin="10, 0, 10, 15" Grid.Row="3" Grid.Column="3">Cancel
+&lt;/Button> 
+&lt;Button Margin="10, 0, 10, 15" Grid.Row="3" Grid.Column="4">Browse ...
+&lt;/Button> 
+&lt;/Grid> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Standard UI Dialog Box Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Grid
+      <LineBreak/>GridUnitType
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Standard UI Dialog Box Sample
+      <LineBreak/><Hyperlink NavigateUri="90e07c2d-237f-47b4-a632-771570b77fd0.xaml">Grid How-to Topics</Hyperlink>
+
+      <LineBreak/>Grid Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Build a Standard UI Dialog Box by Using Grid to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

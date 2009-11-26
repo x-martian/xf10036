@@ -1,0 +1,232 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1bca90ef_9832_4128_8ed6_62908e7ec146"
+  Tag     ="Animate an Object Along a Path (Matrix Animation with Offset Accumulation)"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate an Object Along a Path (Matrix Animation with Offset Accumulation)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the MatrixAnimationUsingPath class to animate an object along a path and have that animation accumulate its offset values as it repeats.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses the <Run FontWeight="Bold">MatrixAnimationUsingPath</Run>
+ object to animate the Matrix property of a MatrixTransform applied to a button. As a result, a button moves along a curved path. 
+    </Paragraph>
+
+    <Paragraph>In addition, the example sets the IsOffsetCumulative property to <Run FontWeight="Bold">true</Run>
+, which causes the offset of the animated matrix to accumulate as the animation repeats. Because the offset accumulates, the button moves farther across the screen when the animation repeats, rather than resetting to the starting position. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_1bca90ef_9832_4128_8ed6_62908e7ec146_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Margin="20" xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="PresentationOptions"> 
+&lt;Canvas Width="400" Height="400"> 
+&lt;!-- The Button that is animated across the screen by animating the MatrixTransform applied to the button. --> 
+&lt;Button MinWidth="100" Content="A Button"> 
+&lt;Button.RenderTransform> 
+&lt;MatrixTransform x:Name="myMatrixTransform"> 
+&lt;MatrixTransform.Matrix > 
+&lt;Matrix /> 
+&lt;/MatrixTransform.Matrix> 
+&lt;/MatrixTransform> 
+&lt;/Button.RenderTransform> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard Name="Foo"> 
+&lt;Storyboard> 
+&lt;MatrixAnimationUsingPath Storyboard.TargetName="myMatrixTransform" Storyboard.TargetProperty="Matrix" IsOffsetCumulative="True" Duration="0:0:5" RepeatBehavior="2x"> 
+&lt;MatrixAnimationUsingPath.PathGeometry> 
+&lt;PathGeometry Figures="M 10,100 C 35,0 135,0 160,100 180,190 285,200 310,100" PresentationOptions:Freeze="True" /> 
+&lt;/MatrixAnimationUsingPath.PathGeometry> 
+&lt;/MatrixAnimationUsingPath> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;/Canvas> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Navigation; 
+using System.Windows.Shapes; 
+namespace SDKSample { /// 
+&lt;summary> /// Shows how to use the MatrixAnimationUsingPath.IsOffsetCumulative /// property to make a MatrixAnimatioinUsingPath accumulate /// its values when it repeats. /// 
+&lt;/summary> public class MatrixAnimationUsingPathExampleOffsetCumulative : Page { public MatrixAnimationUsingPathExampleOffsetCumulative() { this.Margin = new Thickness(20); 
+// Create a NameScope for the page so that // we can use Storyboards. NameScope.SetNameScope(this, new NameScope()); 
+// Create a button. Button aButton = new Button(); 
+aButton.MinWidth = 100; 
+aButton.Content = "A Button"; 
+// Create a MatrixTransform. This transform // will be used to move the button. MatrixTransform buttonMatrixTransform = new MatrixTransform(); 
+aButton.RenderTransform = buttonMatrixTransform; 
+// Register the transform's name with the page // so that it can be targeted by a Storyboard. this.RegisterName("ButtonMatrixTransform", buttonMatrixTransform); 
+// Create a Canvas to contain the button // and add it to the page. // Although this example uses a Canvas, // any type of panel will work. Canvas mainPanel = new Canvas(); 
+mainPanel.Width = 400; 
+mainPanel.Height = 400; 
+mainPanel.Children.Add(aButton); 
+this.Content = mainPanel; 
+// Create the animation path. PathGeometry animationPath = new PathGeometry(); 
+PathFigure pFigure = new PathFigure(); 
+pFigure.StartPoint = new Point(10, 100); 
+PolyBezierSegment pBezierSegment = new PolyBezierSegment(); 
+pBezierSegment.Points.Add(new Point(35, 0)); 
+pBezierSegment.Points.Add(new Point(135, 0)); 
+pBezierSegment.Points.Add(new Point(160, 100)); 
+pBezierSegment.Points.Add(new Point(180, 190)); 
+pBezierSegment.Points.Add(new Point(285, 200)); 
+pBezierSegment.Points.Add(new Point(310, 100)); 
+pFigure.Segments.Add(pBezierSegment); 
+animationPath.Figures.Add(pFigure); 
+// Freeze the PathGeometry for performance benefits. animationPath.Freeze(); 
+// Create a MatrixAnimationUsingPath to move the // button along the path by animating // its MatrixTransform. MatrixAnimationUsingPath matrixAnimation = new MatrixAnimationUsingPath(); 
+matrixAnimation.PathGeometry = animationPath; 
+// Set IsOffsetCumulative to true so that the animation // values accumulate when its repeats. matrixAnimation.IsOffsetCumulative = true; 
+matrixAnimation.Duration = TimeSpan.FromSeconds(5); 
+matrixAnimation.RepeatBehavior = new RepeatBehavior(2); 
+// Set the animation to target the Matrix property // of the MatrixTransform named "ButtonMatrixTransform". Storyboard.SetTargetName(matrixAnimation, "ButtonMatrixTransform"); 
+Storyboard.SetTargetProperty(matrixAnimation, new PropertyPath(MatrixTransform.MatrixProperty)); 
+// Create a Storyboard to contain and apply the animation. Storyboard pathAnimationStoryboard = new Storyboard(); 
+pathAnimationStoryboard.Children.Add(matrixAnimation); 
+// Start the animation when the button is clicked. aButton.Click += delegate(object sender, RoutedEventArgs e) { // Start the storyboard. pathAnimationStoryboard.Begin(this); 
+}; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that, although the <Run FontWeight="Bold">IsOffsetCumulative</Run>
+ property causes offset values to accumulate over repetitions, it doesn't cause rotation values to accumulate. To make rotation values accumulate, set the animation's DoesRotateWithTangent and IsAngleCumulative properties to <Run FontWeight="Bold">true</Run>
+.
+    </Paragraph>
+
+    <Paragraph>For the complete sample, see Path Animation Sample. For an example showing how to animate a Matrix value along a path without offset accumulation, see <Hyperlink NavigateUri="7000e697-1414-468c-b915-cf66062fc49e.xaml">How to: Animate an Object Along a Path (Matrix Animation)</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="7000e697-1414-468c-b915-cf66062fc49e.xaml">How to: Animate an Object Along a Path (Matrix Animation)</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="877dc9aa-6bdc-4beb-8772-3efaec32c0f0.xaml">How to: Rotate an Object by Using a Geometric Path (Matrix Animation)</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1fa3f817-35bc-41a1-b366-f5a20b70da0c.xaml">How to: Animate an Object Along a Path (Point Animation)</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="5a3c4a99-f303-42ad-a52a-e4794bb1798e.xaml">How to: Animate an Object Along a Path (Double Animation)</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="cb31ca4d-f05a-4c6b-9a18-4b6faaf38d45.xaml">How to: Rotate an Object by Using a Geometric Path</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Path Animation Sample
+      <LineBreak/><Hyperlink NavigateUri="e9b71017-bac4-40d7-858b-326939442cb1.xaml">Path Animation How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate an Object Along a Path (Matrix Animation with Offset Accumulation) to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,219 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6bd4ff8f_ea6a_4084_ac58_e7a67446ce1c"
+  Tag     ="DocumentViewer ControlTemplate Example"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>DocumentViewer ControlTemplate Example</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Controls in Windows Presentation Foundation (WPF) have a ControlTemplate that contains the <Run>visual tree</Run>
+ of that control. You can change the structure and appearance of a control by modifying the <Run FontWeight="Bold">ControlTemplate</Run>
+ of that control. There is no way to replace only part of the visual tree of a control; 
+to change the visual tree of a control you must set the Template property of the control to its new and complete <Run FontWeight="Bold">ControlTemplate</Run>
+.
+    </Paragraph>
+
+    <Paragraph>This topic shows the <Run FontWeight="Bold">ControlTemplate</Run>
+ of the WPF DocumentViewer control.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="example">DocumentViewer ControlTemplate Example</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To run the examples in this topic, you should understand how to write WPF applications. For more information, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+. You should also understand how styles are used in WPF. For more information, see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">DocumentViewer ControlTemplate Example
+    </Paragraph>
+
+    <Paragraph>While this example contains all of the elements that are defined in the <Run FontWeight="Bold">ControlTemplate</Run>
+ of a <Run FontWeight="Bold">DocumentViewer</Run>
+ by default, the specific values should be thought of as examples.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="{x:Type DocumentViewer}" TargetType="{x:Type DocumentViewer}"> 
+&lt;Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/> 
+&lt;Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/> 
+&lt;Setter Property="FocusVisualStyle" Value="{x:Null}"/> 
+&lt;Setter Property="ContextMenu" Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type ui:PresentationUIStyleResources}, ResourceId=PUIDocumentViewerContextMenu}}"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type DocumentViewer}"> 
+&lt;Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Focusable="False"> 
+&lt;Grid Background="{StaticResource LightBrush}" KeyboardNavigation.TabNavigation="Local"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="*"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;ToolBar ToolBarTray.IsLocked="True" KeyboardNavigation.TabNavigation="Continue"> 
+&lt;Button Command="ApplicationCommands.Print" CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" Content="Print"/> 
+&lt;Button Command="ApplicationCommands.Copy" CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" Content="Copy"/> 
+&lt;Separator /> 
+&lt;Button Command="NavigationCommands.IncreaseZoom" CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" Content="Zoom In"/> 
+&lt;Button Command="NavigationCommands.DecreaseZoom" CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" Content="Zoom Out"/> 
+&lt;Separator /> 
+&lt;Button Command="NavigationCommands.Zoom" CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="100.0" Content="Actual Size" /> 
+&lt;Button Command="DocumentViewer.FitToWidthCommand" CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" Content="Fit to Width" /> 
+&lt;Button Command="DocumentViewer.FitToMaxPagesAcrossCommand" CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="1" Content="Whole Page"/> 
+&lt;Button Command="DocumentViewer.FitToMaxPagesAcrossCommand" CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="2" Content="Two Pages"/> 
+&lt;/ToolBar> 
+&lt;ScrollViewer Grid.Row="1" CanContentScroll="true" HorizontalScrollBarVisibility="Auto" x:Name="PART_ContentHost" IsTabStop="true"/> 
+&lt;ContentControl Grid.Row="2" x:Name="PART_FindToolBarHost"/> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The above example uses the following resource:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Styling with ControlTemplates Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c52dde45-a311-4531-af4c-853371c4d5f4.xaml">Guidelines for Designing Stylable Controls</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c19049bb-5ceb-492d-afd2-751dca0ed8e3.xaml">ControlTemplate Examples</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about DocumentViewer ControlTemplate Example to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,337 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c6e8c2cb_9ba2_4e75_a0d5_180ec9639433"
+  Tag     ="Configure a Web Server to Deploy WPF Applications"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Configure a Web Server to Deploy WPF Applications</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can deploy a Windows Presentation Foundation (WPF) application from most Web servers. To deploy WPF applications with Microsoft Internet Information Services (IIS), you must be running version 5 or later. The server does not need to be capable of running the applications locally. However, you need to modify the server configuration to include several new Multipurpose Internet Mail Extensions (MIME) types. This topic describes how to configure a Web server to deploy WPF applications.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="content_expiration">Adjust the Content Expiration Setting</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="register_mime_types">Register MIME Types and File Extensions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>You can check the <Run FontStyle="italic">UserAgent</Run>
+ string in the registry to determine whether a system has .NET Framework 3.0 installed. See <Hyperlink NavigateUri="7f71d652-1749-4379-945a-aa2e3994cb43.xaml">How to: Detect Whether the Windows Presentation Foundation is Present</Hyperlink>
+ for details and a script that examines the <Run FontStyle="italic">UserAgent</Run>
+ string to determine whether .NET Framework 3.0 is installed on a system.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Adjust the Content Expiration Setting
+    </Paragraph>
+
+    <Paragraph>You should adjust the content expiration setting to 1 minute. The following procedure outlines how to do this with IIS.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Click the <Run FontWeight="Bold">Start</Run>
+ menu, point to <Run FontWeight="Bold">Administrative Tools</Run>
+, and click <Run FontWeight="Bold">Internet Information Services (IIS) Manager</Run>
+. You can also launch this application from the command line with "%SystemRoot%\system32\inetsrv\iis.msc".
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Expand the IIS tree until you find the <Run FontWeight="Bold">Default Web site</Run>
+ node.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Right-click <Run FontWeight="Bold">Default Web site</Run>
+ and select <Run FontWeight="Bold">Properties</Run>
+ from the context menu.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Select the <Run FontWeight="Bold">HTTP Headers</Run>
+ tab and click "Enable Content Expiration".
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Set the content to expire after 1 minute.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Register MIME Types and File Extensions
+    </Paragraph>
+
+    <Paragraph>You must register several MIME types and file extensions so that the browser on the client's system can load the correct handler. You need to add the following types:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Extension 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>MIME Type 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>.manifest
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>application/manifest
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>.xaml
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>application/xaml+xml
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>.application
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>application/x-ms-application
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>.xbap
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>application/x-ms-xbap
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>.deploy
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>application/octet-stream
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>.xps
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>application/vnd.ms-xpsdocument
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>You do not need to register MIME types or file extensions on client systems. They are registered automatically when you install Microsoft .NET Framework version 3.0.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following Microsoft Visual Basic Scripting Edition (VBScript) sample automatically adds the necessary MIME types to IIS. To use the script, copy the code to a .vbs file on your server. Then, run the script by running the file from the command line or double-clicking the file in Microsoft Windows Explorer.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>'This script adds the necessary Windows Presentation Foundation MIME types to an IIS Server. 'To use this script, just double-click or execute it from a command line. 'Running this script multiple times results in multiple entries in the IIS MimeMap. Dim MimeMapObj, MimeMapArray, MimeTypesToAddArray, WshShell, oExec Const ADS_PROPERTY_UPDATE = 2 'Set the MIME types to be added MimeTypesToAddArray = Array(".manifest", "application/manifest", ".xaml", "application/xaml+xml", ".application", "application/x-ms-application", ".deploy", "application/octet-stream", ".xbap", "application/x-ms-xbap", ".xps", "application/vnd.ms-xpsdocument") 'Get the mimemap object Set MimeMapObj = GetObject("IIS://LocalHost/MimeMap") 'Call AddMimeType for every pair of extension/MIME type For counter = 0 to UBound(MimeTypesToAddArray) Step 2 AddMimeType MimeTypesToAddArray(counter), MimeTypesToAddArray(counter+1) Next 'Create a Shell object Set WshShell = CreateObject("WScript.Shell") 'Stop and Start the IIS Service Set oExec = WshShell.Exec("net stop w3svc") Do While oExec.Status = 0 WScript.Sleep 100 Loop Set oExec = WshShell.Exec("net start w3svc") Do While oExec.Status = 0 WScript.Sleep 100 Loop Set oExec = Nothing 'Report status to user WScript.Echo "Windows Presentation Foundation MIME types have been registered." 'AddMimeType Sub Sub AddMimeType (Ext, MType) 'Get the mappings from the MimeMap property. MimeMapArray = MimeMapObj.GetEx("MimeMap") ' Add a new mapping. i = UBound(MimeMapArray) + 1 Redim Preserve MimeMapArray(i) Set MimeMapArray(i) = CreateObject("MimeMap") MimeMapArray(i).Extension = Ext MimeMapArray(i).MimeType = MType MimeMapObj.PutEx ADS_PROPERTY_UPDATE, "MimeMap", MimeMapArray MimeMapObj.SetInfo End Sub</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Running this script multiple times creates multiple entries in the IIS MimeMap.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Configure a Web Server to Deploy WPF Applications to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

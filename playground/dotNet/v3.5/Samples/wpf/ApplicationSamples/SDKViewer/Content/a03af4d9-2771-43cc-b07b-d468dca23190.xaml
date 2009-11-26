@@ -1,0 +1,110 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a03af4d9_2771_43cc_b07b_d468dca23190"
+  Tag     ="Register a Client-Side Provider Assembly"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Register a Client-Side Provider Assembly</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic shows how to register a DLL that contains client-side <Run>UI Automation provider</Run>
+s.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows how to register an assembly that contains a provider for a console window.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows.Automation; 
+using System.Reflection; 
+using System.Runtime.InteropServices; 
+// for DllImport using System.IO; 
+namespace CSClient { class CSClientProgram { [DllImport("kernel32.dll")] static extern IntPtr GetConsoleWindow(); 
+static void Main(string[] args) { // TODO Change the path to the appropriate one for your CSProviderDLL. string fileloc = @"C:\SampleDependencies\CSProviderDLL.dll"; 
+Assembly a = null; 
+try { a = Assembly.LoadFile(fileloc); 
+} catch (FileNotFoundException e1) { Console.WriteLine(e1.Message); 
+} if (a != null) { try { ClientSettings.RegisterClientSideProviderAssembly(a.GetName()); 
+} catch (ProxyAssemblyNotLoadedException e) { Console.WriteLine(e.Message); 
+} IntPtr hwnd = GetConsoleWindow(); 
+// Get an AutomationElement that represents the window. AutomationElement elementWindow = AutomationElement.FromHandle(hwnd); 
+Console.WriteLine("Found UI Automation client-side provider for:"); 
+// The name property is furnished by the client-side provider. Console.WriteLine(elementWindow.Current.Name); 
+Console.WriteLine(); 
+} Console.WriteLine("Press any key to exit."); 
+Console.ReadLine(); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d91edaf2-be28-41ec-a508-af421cb43c3d.xaml">Create a Client-Side UI Automation Provider</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Register a Client-Side Provider Assembly to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

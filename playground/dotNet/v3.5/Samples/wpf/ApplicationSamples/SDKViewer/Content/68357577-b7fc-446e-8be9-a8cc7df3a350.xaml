@@ -1,0 +1,224 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_68357577_b7fc_446e_8be9_a8cc7df3a350"
+  Tag     ="Apply a Drawing to a 3-D Model"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Apply a Drawing to a 3-D Model</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use a DrawingBrush as the Material applied to a 3-D model.
+    </Paragraph>
+
+    <Paragraph>The following code defines a DrawingGroup as the content of a DrawingBrush. The DrawingBrush is set as the Brush property of the DiffuseMaterial applied to a 3-D plane.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Note:</Run>
+ It is often desirable to define complex objects and values like the drawing below as resources which can be reused and simplify your code. See <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+ for more information. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- The material specifies the material applied to the 3D object. In this sample a tiled drawing covers the surface of the 3D object.--> 
+&lt;GeometryModel3D.Material> 
+&lt;DiffuseMaterial> 
+&lt;DiffuseMaterial.Brush> 
+&lt;DrawingBrush Viewport="0,0,0.1,0.1" TileMode="Tile"> 
+&lt;DrawingBrush.Drawing> 
+&lt;DrawingGroup> 
+&lt;DrawingGroup.Children> 
+&lt;GeometryDrawing Geometry="M0,0.1 L0.1,0 1,0.9, 0.9,1z" Brush="Gray" /> 
+&lt;GeometryDrawing Geometry="M0.9,0 L1,0.1 0.1,1 0,0.9z" Brush="Gray" /> 
+&lt;GeometryDrawing Geometry="M0.25,0.25 L0.5,0.125 0.75,0.25 0.5,0.5z" Brush="#FFFF00" /> 
+&lt;GeometryDrawing Geometry="M0.25,0.75 L0.5,0.875 0.75,0.75 0.5,0.5z" Brush="Black" /> 
+&lt;GeometryDrawing Geometry="M0.25,0.75 L0.125,0.5 0.25,0.25 0.5,0.5z" Brush="#FF0000" /> 
+&lt;GeometryDrawing Geometry="M0.75,0.25 L0.875,0.5 0.75,0.75 0.5,0.5z" Brush="MediumBlue" /> 
+&lt;/DrawingGroup.Children> 
+&lt;/DrawingGroup> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/DiffuseMaterial.Brush> 
+&lt;/DiffuseMaterial> 
+&lt;/GeometryModel3D.Material> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following code shows the entire sample. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_68357577_b7fc_446e_8be9_a8cc7df3a350_1">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;DockPanel> 
+&lt;Viewbox> 
+&lt;Canvas Width="321" Height="201"> 
+&lt;!-- The Viewport3D provides a rendering surface for 3-D visual content. --> 
+&lt;Viewport3D ClipToBounds="True" Width="150" Height="150" Canvas.Left="0" Canvas.Top="10"> 
+&lt;!-- Defines the camera used to view the 3D object. --> 
+&lt;Viewport3D.Camera> 
+&lt;PerspectiveCamera Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" /> 
+&lt;/Viewport3D.Camera> 
+&lt;!-- The ModelVisual3D children contain the 3D models --> 
+&lt;Viewport3D.Children> 
+&lt;!-- This ModelVisual3D defines the light cast in the scene. Without light, the 3D object cannot be seen. Also, the direction of the lights affect shadowing. If desired, you can create multiple lights with different colors that shine from different directions. --> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" /> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;GeometryModel3D> 
+&lt;!-- The geometry specifes the shape of the 3D plane. In this sample, a flat sheet is created. --> 
+&lt;GeometryModel3D.Geometry> 
+&lt;MeshGeometry3D TriangleIndices="0,1,2 3,4,5 " Normals="0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 " TextureCoordinates="0,0 1,0 1,1 1,1 0,1 0,0 " Positions="-0.5,-0.5,0.5 0.5,-0.5,0.5 0.5,0.5,0.5 0.5,0.5,0.5 -0.5,0.5,0.5 -0.5,-0.5,0.5 " /> 
+&lt;/GeometryModel3D.Geometry> 
+&lt;!-- The material specifies the material applied to the 3D object. In this sample a tiled drawing covers the surface of the 3D object.--> 
+&lt;GeometryModel3D.Material> 
+&lt;DiffuseMaterial> 
+&lt;DiffuseMaterial.Brush> 
+&lt;DrawingBrush Viewport="0,0,0.1,0.1" TileMode="Tile"> 
+&lt;DrawingBrush.Drawing> 
+&lt;DrawingGroup> 
+&lt;DrawingGroup.Children> 
+&lt;GeometryDrawing Geometry="M0,0.1 L0.1,0 1,0.9, 0.9,1z" Brush="Gray" /> 
+&lt;GeometryDrawing Geometry="M0.9,0 L1,0.1 0.1,1 0,0.9z" Brush="Gray" /> 
+&lt;GeometryDrawing Geometry="M0.25,0.25 L0.5,0.125 0.75,0.25 0.5,0.5z" Brush="#FFFF00" /> 
+&lt;GeometryDrawing Geometry="M0.25,0.75 L0.5,0.875 0.75,0.75 0.5,0.5z" Brush="Black" /> 
+&lt;GeometryDrawing Geometry="M0.25,0.75 L0.125,0.5 0.25,0.25 0.5,0.5z" Brush="#FF0000" /> 
+&lt;GeometryDrawing Geometry="M0.75,0.25 L0.875,0.5 0.75,0.75 0.5,0.5z" Brush="MediumBlue" /> 
+&lt;/DrawingGroup.Children> 
+&lt;/DrawingGroup> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/DiffuseMaterial.Brush> 
+&lt;/DiffuseMaterial> 
+&lt;/GeometryModel3D.Material> 
+&lt;!-- Apply a transform to the object. In this sample, a rotation transform is applied, rendering the 3D object rotated. --> 
+&lt;GeometryModel3D.Transform> 
+&lt;RotateTransform3D> 
+&lt;RotateTransform3D.Rotation> 
+&lt;AxisAngleRotation3D Axis="0,3,0" Angle="40" /> 
+&lt;/RotateTransform3D.Rotation> 
+&lt;/RotateTransform3D> 
+&lt;/GeometryModel3D.Transform> 
+&lt;/GeometryModel3D> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;/Viewport3D.Children> 
+&lt;/Viewport3D> 
+&lt;/Canvas> 
+&lt;/Viewbox> 
+&lt;/DockPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="adb4a598-71a2-4dd5-b677-ea3fc11b78b2.xaml">How to: Create a 3-D Scene</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="67f31ed4-e36b-4b02-9889-dcce245d7afc.xaml">3-D Graphics Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Apply a Drawing to a 3-D Model to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

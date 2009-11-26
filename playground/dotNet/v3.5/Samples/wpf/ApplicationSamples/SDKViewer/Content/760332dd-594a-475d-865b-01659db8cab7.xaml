@@ -1,0 +1,405 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_760332dd_594a_475d_865b_01659db8cab7"
+  Tag     ="Getting Started with Ink"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Getting Started with Ink</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Incorporating digital ink into your applications is easier than ever. Ink has evolved from being a corollary to the COM and Windows Forms method of programming to achieving full integration into the WPF. You do not need to install separate SDKs or runtime libraries.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To use the following examples, you must first install Microsoft Visual Studio 2005 and the Windows SDK. You should also understand how to write applications for the WPF. For more information about getting started with the WPF, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Quick Start
+    </Paragraph>
+
+    <Paragraph>This section helps you write a simple WPF application that collects ink.
+    </Paragraph>
+
+    <Paragraph>If you haven't already done so, install Microsoft Visual Studio 2005 and the Windows Software Development Kit (SDK). WPF applications usually must be compiled before you can view them, even if they consist entirely of Extensible Application Markup Language (XAML). However, the Windows Software Development Kit (SDK) includes an application, XamlPad, designed to speed up the process of implementing a XAML-based UI. You can use that application to view and tinker with the first few samples in this document. The process of creating compiled applications from XAML is covered later in this document.
+    </Paragraph>
+
+    <Paragraph>To launch XAMLPad, click the <Run FontWeight="Bold">Start</Run>
+ menu, point to <Run FontWeight="Bold">All Programs</Run>
+, point to <Run FontWeight="Bold">Microsoft Winndows SDK</Run>
+, point to <Run FontWeight="Bold">Tools</Run>
+, and click <Run FontWeight="Bold">XAMLPad</Run>
+. In the rendering pane, XAMLPad renders the XAML code written in the code pane. You can edit the XAML code, and the changes immediately appear in the rendering pane.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Got Ink?
+    </Paragraph>
+
+    <Paragraph>To start your first WPF application that supports ink:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Open Microsoft Visual Studio 2005
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a new <Run FontWeight="Bold">Windows Application (WPF)</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Type <Run>
+&lt;InkCanvas/></Run>
+ between the <Run>
+&lt;Grid></Run>
+ tags
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press <Run FontWeight="Bold">F5</Run>
+ to launch your application in the debugger
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using a stylus or mouse, write <Run FontWeight="Bold">hello world</Run>
+ in the window
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>You've written the ink equivalent of a "hello world" application with only 12 keystrokes!
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Spice Up Your Application
+    </Paragraph>
+
+    <Paragraph>Let’s take advantage of some features of the WPF. Replace everything between the opening 
+&lt;Window> and closing 
+&lt;/Window> tags with the following markup to get a gradient brush background on your inking surface.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page> 
+&lt;InkCanvas Name="myInkCanvas"> 
+&lt;InkCanvas.Background> 
+&lt;LinearGradientBrush> 
+&lt;GradientStop Color="Yellow" Offset="0.0" /> 
+&lt;GradientStop Color="Blue" Offset="0.5" /> 
+&lt;GradientStop Color="Green" Offset="1.0" /> 
+&lt;/LinearGradientBrush> 
+&lt;/InkCanvas.Background> 
+&lt;/InkCanvas> ... 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Using Animation
+    </Paragraph>
+
+    <Paragraph>For fun, let's animate the colors of the gradient brush. Add the following XAML after the closing <Run>
+&lt;/InkCanvas></Run>
+ tag but before the closing <Run>
+&lt;/Page></Run>
+ tag.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page.Triggers> 
+&lt;EventTrigger RoutedEvent="Page.Loaded"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard RepeatBehavior="Forever" AutoReverse="True"> 
+&lt;ColorAnimation Storyboard.TargetName="myInkCanvas" Storyboard.TargetProperty= "(InkCanvas.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" From="Yellow" To="Blue" Duration="0:0:5"/> 
+&lt;ColorAnimation Storyboard.TargetName="myInkCanvas" Storyboard.TargetProperty= "(InkCanvas.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" From="Blue" To="Red" Duration="0:0:5"/> 
+&lt;ColorAnimation Storyboard.TargetName="myInkCanvas" Storyboard.TargetProperty= "(InkCanvas.Background).(LinearGradientBrush.GradientStops)[2].(GradientStop.Color)" From="Green" To="Blue" Duration="0:0:5"/> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;/Page.Triggers> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Adding Some Code Behind the XAML
+    </Paragraph>
+
+    <Paragraph>While XAML makes it very easy to design the user interface, any real-world application needs to add code to handle events. Here is a simple example that zooms in on the ink in response to a right-click from a mouse:
+    </Paragraph>
+
+    <Paragraph>Set the <Run>MouseRightButtonUp</Run>
+ handler in your XAML:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;InkCanvas Name="myInkCanvas" MouseRightButtonUp="RightMouseUpHandler"> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In Visual Studio’s Solution Explorer, expand Windows1.xaml and open the code-behind file, Window1.xaml.cs or Window1.xaml.vb if you are using Visual Basic. Add the following event handler code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void RightMouseUpHandler(object sender, System.Windows.Input.MouseButtonEventArgs e) { Matrix m = new Matrix(); 
+m.Scale(1.1d, 1.1d); 
+((InkCanvas)sender).Strokes.Transform(m, true); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub RightMouseUpHandler(ByVal sender As Object, _ ByVal e As System.Windows.Input.MouseButtonEventArgs) Dim m As New Matrix() m.Scale(1.1, 1.1) CType(sender, InkCanvas).Strokes.Transform(m, True) End Sub 'RightMouseUpHandler </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Now, run your application. Add some ink and then right-click with the mouse or perform a press-and-hold equivalent with a stylus.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Using Procedural Code Instead of XAML
+    </Paragraph>
+
+    <Paragraph>You can access all WPF features from procedural code. Here is a "Hello Ink World" application for WPF that doesn’t use any XAML at all. Paste the code below into an empty Console Application in Visual Studio. Add references to the PresentationCore, PresentationFramework, and WindowsBase assemblies, and build the application by pressing <Run FontWeight="Bold">F5</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+class Program : Application { Window win; 
+InkCanvas ic; 
+protected override void OnStartup(StartupEventArgs args) { base.OnStartup(args); 
+win = new Window(); 
+ic = new InkCanvas(); 
+win.Content = ic; 
+win.Show(); 
+} [STAThread] static void Main(string[] args) { new Program().Run(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System Imports System.Windows Imports System.Windows.Controls Class Program Inherits Application Private win As Window Private ic As InkCanvas Protected Overrides Sub OnStartup(ByVal args As StartupEventArgs) MyBase.OnStartup(args) win = New Window() ic = New InkCanvas() win.Content = ic win.Show() End Sub 'OnStartup End Class 'Program Module Module1 Sub Main() Dim prog As New Program() prog.Run() End Sub End Module </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="66a3129d-9577-43eb-acbd-56c147282016.xaml">Collecting Ink</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="f4e8576d-e731-4bac-9818-22e2ae636636.xaml">Handwriting Recognition</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="a3f6d16b-d682-4680-9965-907332b4d2b8.xaml">Storing Ink</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d0d6df69-daf9-4cf3-b7f9-ffee588037a3.xaml">Digital Ink</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Getting Started with Ink to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

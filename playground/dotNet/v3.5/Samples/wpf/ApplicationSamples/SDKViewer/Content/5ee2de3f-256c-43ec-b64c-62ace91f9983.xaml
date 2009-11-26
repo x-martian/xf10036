@@ -1,0 +1,221 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5ee2de3f_256c_43ec_b64c_62ace91f9983"
+  Tag     ="Invoke a Control Using UI Automation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Invoke a Control Using UI Automation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic demonstrates how to perform the following tasks: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Find a control that matches specific property conditions.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create an <Run>Automation Element</Run>
+ from that control.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Obtain an InvokePattern object from the UI Automation element (if supported).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use the InvokePattern to invoke the control.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>This example uses the TryGetCurrentPattern method of the AutomationElement class to generate an InvokePattern object and invoke a <Run>control</Run>
+ by using the Invoke method.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>'''-------------------------------------------------------------------- ''' 
+&lt;summary> '''Find the automation element of interest. ''' 
+&lt;/summary> ''' 
+&lt;param name="ae">The root element.
+&lt;/param> ''' 
+&lt;param name="propertyCondition">First property condition.
+&lt;/param> ''' 
+&lt;param name="propertyCondition_2">Second property condition.
+&lt;/param> ''' 
+&lt;param name="propertyCondition_3">Third property condition.
+&lt;/param> '''-------------------------------------------------------------------- Private Function FindAutomationElement( _ ByVal ae As AutomationElement, _ ByVal propertyCondition As PropertyCondition, _ ByVal propertyCondition_2 As PropertyCondition, _ ByVal propertyCondition_3 As PropertyCondition) As AutomationElement Output("Looking for a control with the following properties." + vbCrLf + _ propertyCondition.Property.ProgrammaticName.ToString() + _ " property of '" + propertyCondition.Value.ToString() + vbCrLf + _ propertyCondition_2.Property.ProgrammaticName.ToString() + _ " property of '" + propertyCondition_2.Value.ToString() + vbCrLf + _ propertyCondition_3.Property.ProgrammaticName.ToString() + _ " property of '" + propertyCondition_3.Value.ToString() + vbCrLf) ' Set up the search to match all conditions. Dim searchCondition As AndCondition = New AndCondition( _ propertyCondition, propertyCondition_2, propertyCondition_3) ' Find all descendants from the root object that match the specified conditions. ' Alternatively, use the FindFirst method to return only the first object matching the condition. Dim elementCollection As AutomationElementCollection = ae.FindAll(TreeScope.Descendants, searchCondition) ' Check the element returned If (elementCollection.Count 
+&lt;= 0) Then ' Didn't find it Output("Couldn't find the control." + vbCrLf) Return (Nothing) End If If (elementCollection.Count > 1) Then ' Multiple objects Output("Found multiple controls matching criteria." + vbCrLf) Return (Nothing) End If Output("Found control." + vbCrLf) Return elementCollection(0) End Function ... '''-------------------------------------------------------------------- ''' 
+&lt;summary> '''Obtains the requested control pattern. ''' 
+&lt;/summary> ''' 
+&lt;param name="ae">The element from which to obtain the control pattern.
+&lt;/param> ''' 
+&lt;param name="ap">The control pattern of interest.
+&lt;/param> '''-------------------------------------------------------------------- Private Function GetControlPattern(ByVal ae As AutomationElement, ByVal ap As AutomationPattern) As Object Dim patternObject As Object = Nothing If (False = ae.TryGetCurrentPattern(ap, patternObject)) Then Output("Object does not support the " &amp; 
+ap.ProgrammaticName.ToString() &amp; 
+" Pattern." + vbCrLf) Return Nothing End If Output("Object supports the " &amp; 
+ap.ProgrammaticName.ToString() &amp; 
+" Pattern." + vbCrLf) Return patternObject End Function ... '''-------------------------------------------------------------------- ''' 
+&lt;summary> '''Register for events of interest. ''' 
+&lt;/summary> ''' 
+&lt;param name="ae">The element on which to listen.
+&lt;/param> ''' 
+&lt;param name="o">The control pattern object.
+&lt;/param> ''' 
+&lt;param name="ap">The control pattern associated with the event.
+&lt;/param> ''' 
+&lt;param name="ts">The tree scope of interest.
+&lt;/param> '''-------------------------------------------------------------------- Private Sub RegisterForEvents(ByVal ae As AutomationElement, ByVal o As Object, ByVal ap As AutomationPattern, ByVal ts As TreeScope) If (ap.Id = InvokePattern.Pattern.Id) Then ' The InvokePattern allows you to programmatically invoke a button. ' It also exposes an event to let you know when the button has been invoked. ' ' In order to intercept the event when the button is invoked, you can ' define a method as an AutomationEventHandler delegate. invokeHandler = AddressOf OnInvoke ' Use AddAutomationEventHandler() to add an event handler. Output("Start listening for invoke events on the control.") Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, ae, ts, invokeHandler) End If End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>///-------------------------------------------------------------------- /// 
+&lt;summary> /// Find the automation element of interest. /// 
+&lt;/summary> /// 
+&lt;param name="ae">The root element.
+&lt;/param> /// 
+&lt;param name="propertyCondition1">First property condition.
+&lt;/param> /// 
+&lt;param name="propertyCondition2">Second property condition.
+&lt;/param> /// 
+&lt;param name="propertyCondition3">Third property condition.
+&lt;/param> ///-------------------------------------------------------------------- private AutomationElement FindAutomationElement( AutomationElement ae, PropertyCondition propertyCondition1, PropertyCondition propertyCondition2, PropertyCondition propertyCondition3) { Output("Looking for a control with the following properties.\n" + propertyCondition1.Property.ProgrammaticName.ToString() + " property of '" + propertyCondition1.Value.ToString() + "'\n" + propertyCondition2.Property.ProgrammaticName.ToString() + " property of '" + propertyCondition2.Value.ToString() + "'\n" + propertyCondition3.Property.ProgrammaticName.ToString() + " property of '" + propertyCondition3.Value.ToString() + "'\n"); 
+// Set up the search to match all conditions. AndCondition searchCondition = new AndCondition( propertyCondition1, propertyCondition2, propertyCondition3); 
+// Find all descendants from the root object // that match the specified conditions. // Alternatively, use the FindFirst method to return only // the first object matching the condition. AutomationElementCollection elementCollection = ae.FindAll(TreeScope.Descendants, searchCondition); 
+// Check the element returned if (elementCollection.Count 
+&lt;= 0) { // Didn't find it Output("Couldn't find the control.\n"); 
+return (null); 
+} if (elementCollection.Count > 1) { // Multiple objects Output("Found multiple controls matching criteria.\n"); 
+return (null); 
+} Output("Found control.\n"); 
+return elementCollection[0]; 
+} ... ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Obtains the requested control pattern. /// 
+&lt;/summary> /// 
+&lt;param name="ae"> /// The element from which to obtain the control pattern. /// 
+&lt;/param> /// 
+&lt;param name="apPattern">The control pattern of interest.
+&lt;/param> /// 
+&lt;returns>A control pattern object.
+&lt;/returns> ///-------------------------------------------------------------------- private Object GetControlPattern( AutomationElement ae, AutomationPattern ap) { Object patternObject = null; 
+if (false == ae.TryGetCurrentPattern(ap, out patternObject)) { Output("Control does not support the " + ap.ProgrammaticName.ToString() + " Pattern\n"); 
+return null; 
+} Output("Control supports the " + ap.ProgrammaticName.ToString() + " Pattern.\n"); 
+return patternObject; 
+} ... ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Register for events of interest. /// 
+&lt;/summary> /// 
+&lt;param name="automationEvent">The event of interest.
+&lt;/param> /// 
+&lt;param name="targetControl">The element to listen on.
+&lt;/param> /// 
+&lt;param name="treeScope">The scope of the event.
+&lt;/param> /// 
+&lt;remarks> /// In order to intercept and handle an event notification /// you can define a method as an AutomationEventHandler delegate. /// 
+&lt;/remarks> ///-------------------------------------------------------------------- private void RegisterForEvents(AutomationEvent automationEvent, AutomationElement targetControl, TreeScope treeScope) { if (automationEvent.Id == AutomationElement.MenuOpenedEvent.Id) { Automation.AddAutomationEventHandler(automationEvent, targetControl, treeScope, OnProgrammaticMenuEvent); 
+} if (automationEvent.Id == AutomationElement.MenuClosedEvent.Id) { Automation.AddAutomationEventHandler(automationEvent, targetControl, treeScope, OnProgrammaticMenuEvent); 
+} if (automationEvent.Id == InvokePattern.InvokedEvent.Id) { // The InvokePattern allows you to // programmatically invoke a control. // It also exposes an event to let you know // when the control has been invoked. Automation.AddAutomationEventHandler(automationEvent, targetControl, treeScope, OnInvoke); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>InvokePattern and ExpandCollapsePattern Menu Item Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Invoke a Control Using UI Automation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

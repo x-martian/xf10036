@@ -1,0 +1,202 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_cc9cc377_7544_4fd0_b65b_117b90bb0b23"
+  Tag     ="Whitespace Processing in XAML"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Whitespace Processing in XAML</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Extensible Application Markup Language (XAML) has language rules that state how significant whitespace must be processed by a Extensible Application Markup Language (XAML) reader implementation. This topic documents these language rules, as well as additional whitespace handling defined by the Windows Presentation Foundation (WPF) implementatation of the XAML reader, and the XAML writer for serialization.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Whitespace Processing
+    </Paragraph>
+
+    <Paragraph FontSize="18">Whitespace Definition
+    </Paragraph>
+
+    <Paragraph>Consistent with XML, whitespace characters in XAML are space, linefeed, and tab. These correspond to the Unicode values 0020, 000A, and 0009 respectively.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Whitespace Normalization
+    </Paragraph>
+
+    <Paragraph>By default the following whitespace normalization occurs when a XAML reader processes a XAML file:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Linefeed characters between East Asian characters are removed. See East Asian Characters section further down in this topic for a definition of "East Asian characters".
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>All whitespace characters (space, linefeed, tab) are converted into spaces.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>All consecutive spaces are deleted and replaced by one space. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A space immediately following the start tag is deleted. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A space immediately before the end tag is deleted.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>"Default" corresponds to the state denoted by the default value of the <Hyperlink NavigateUri="5e1814f0-5b30-43d5-8c88-dede335a89d7.xaml">xml:space Attribute</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Whitespace in Inner Text, and String Primitives
+    </Paragraph>
+
+    <Paragraph>The above normalization rules apply to inner text found within XAML elements. After normalization, a XAML reader will convert any inner text into an appropriate type as follows:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>If the type of the property is not a collection, but is not directly an Object type, the XAML reader attempts to convert to that type using its type converter. A failed conversion here will result in a compile time error.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the type of the property is a collection, and the inner text is contiguous (no intervening element tags), the inner text is parsed as a single String. If the collection type cannot accept <Run FontWeight="Bold">String</Run>
+, this also results in a compile time error.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the type of the property is <Run FontWeight="Bold">Object</Run>
+, then the inner text is parsed as a single <Run FontWeight="Bold">String</Run>
+. If there are intervening element tags, this results in a compile time error, because the <Run FontWeight="Bold">Object</Run>
+ type implies a single object (<Run FontWeight="Bold">String</Run>
+ or otherwise).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the type of the property is a collection, and the inner text is not contiguous, then the first substring is converted into a <Run FontWeight="Bold">String</Run>
+ and added as a collection item, the intervening element is added as a collection item, and finally the trailing substring (if any) is added to the collection as a third <Run FontWeight="Bold">String</Run>
+ item.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Whitespace and Text Content Models
+    </Paragraph>
+
+    <Paragraph>In practice, preserving whitespace is only of concern for a subset of all possible content models. That subset is composed of content models that can take a singleton <Run FontWeight="Bold">String</Run>
+ type in some form, a dedicated <Run FontWeight="Bold">String</Run>
+ collection, or a mixture of <Run FontWeight="Bold">String</Run>
+ and other types in an IList or ICollection collection.
+    </Paragraph>
+
+    <Paragraph>Even for content models that can take strings, the default behavior within these content models is that any whitespace that remains is not treated as significant. For instance, ListBox takes an <Run FontWeight="Bold">IList</Run>
+, but the whitespace (such as linefeeds between each ListBoxItem) is not preserved and not rendered, and in fact attempting to use linefeeds as separators between strings for <Run FontWeight="Bold">ListBoxItem</Run>
+ items does not work at all; 
+the strings separated by the linefeeds are treated as one string and one item.
+    </Paragraph>
+
+    <Paragraph>Those collections that do treat whitespace as significant are typically part of the flow document model. The primary collection that supports whitespace preservation behavior is <Run FontWeight="Bold">InlineCollection</Run>
+ (see <Hyperlink NavigateUri="4e03f058-8377-4438-a36e-e186c8fc494b.xaml">Flow Collection Elements</Hyperlink>
+). This collection class is declared with the WhitespaceSignificantCollectionAttribute; 
+when this attribute is found, the XAML reader will treat whitespace within the collection as significant. The combination of xml:space="preserve" and whitespace within a <Run FontWeight="Bold">WhitespaceSignificantCollectionAttribute</Run>
+ denoted collection is that ALL whitespace is preserved and rendered. The combination of xml:space="default" and whitespace within a <Run FontWeight="Bold">WhitespaceSignificantCollectionAttribute</Run>
+ will result in the initial whitespace normalization described earlier, which will leave one whitespace in certain positions, and those whitespaces are preserved and rendered. Which behavior is desirable is up to you, and you should use xml:space selectively to enable the behavior that you want.
+    </Paragraph>
+
+    <Paragraph>Also, certain inline elements that connote a linebreak in a flow document model should deliberately not introduce an extra space even in a whitespace significant collection. For instance, the LineBreak element has the same purpose as the 
+&lt;BR/> tag in HTML, and for readability in markup typically a <Run FontWeight="Bold">LineBreak</Run>
+ is separated from any subsequent text by an authored linefeed. That linefeed should not become a leading space in the subsequent line. This behavior on an element is specifically enabled by the presence of the TrimSurroundingWhitespaceAttribute in the class definition for the <Run FontWeight="Bold">LineBreak</Run>
+ element.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Preserving Whitespace
+    </Paragraph>
+
+    <Paragraph>There are several techniques for preserving whitespace in the source XAML for eventual presentation that are not affected by XAML reader whitespace normalization.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">xml:space="preserve"</Run>
+ : Specify this attribute at the level of the element where whitespace preservation is desired. Note that this will preserve all whitespace, including the spaces that might be added by code editing applications to "pretty-print" align elements as a visually intuitive nesting, but whether those spaces render is again a matter of the content model for the containing element. Specifying xml:space="preserve" at the root level is not recommended, because the majority of object models do not consider whitespace as significant one way or another. It is a better practice to only set the attribute specifically at the level of elements that render whitespace within strings, or are whitespace significant collections.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Entities and non breaking spaces </Run>
+: XAML supports placing any Unicode entity within a text object model. You can use dedicated entities such as non breaking space, or rich text controls that support non breaking space characters. You should be cautious if you are using entities to simulate layout characteristics such as indention, because the runtime output of the entities will vary based on a greater number of factors than would the general layout facilities, such as proper use of panels and margins. For instance, entities are mapped to fonts. and can change size in response to user font selection.
+    </Paragraph>
+
+    <Paragraph FontSize="18">East Asian Characters
+    </Paragraph>
+
+    <Paragraph>"East Asian characters" is defined as a set of Unicode character ranges U+20000 to U+2FFFD and U+30000 to U+3FFFD. For more information, see <Hyperlink NavigateUri="http://www.unicode.org/">http://www.unicode.org</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="4e03f058-8377-4438-a36e-e186c8fc494b.xaml">Flow Collection Elements</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Whitespace Processing in XAML to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

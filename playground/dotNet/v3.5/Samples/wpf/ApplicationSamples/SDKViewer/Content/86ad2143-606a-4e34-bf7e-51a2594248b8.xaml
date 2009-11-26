@@ -1,0 +1,2035 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_86ad2143_606a_4e34_bf7e_51a2594248b8"
+  Tag     ="Navigation Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Navigation Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>
+&lt;TODO>
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="CreatingAXAMLPage">Creating a XAML Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="ConfiguringAXAMLPage">Configuring a XAML Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="NavigatingBetweenXAMLPages">Navigating Between XAML Pages</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="FragmentNavigation">Fragment Navigation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="SubContentNavigationWithTheFrameClass">Sub-Content Navigation with the Frame Class</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="LooseXAMLApplications">Loose XAML Applications</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="XAMLBrowserApplications">XAML Browser Applications (XBAPS)</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="NavigationService">Navigation Service</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="NavigationHistory">Navigation History - The Journal</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="CustomContentStateNavigation">Custom Content State Navigation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Cookies">Structured Navigation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="NavigationInStandaloneApplications">Navigation in Standalone Applications</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Creating a XAML Page
+    </Paragraph>
+
+    <Paragraph>In WPF, the fundamental unit of browsable content is the page, which is an instance of the Page class. You can define an instance of the <Run FontWeight="Bold">Page</Run>
+ class using XAML, like the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_86ad2143_606a_4e34_bf7e_51a2594248b8_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A page that is defined in markup requires <Run FontWeight="Bold">Page</Run>
+ to be the root element, and requires the namespace declaration for WPF. You add WPF content to the page by setting the <Run FontWeight="Bold">Page.Content</Run>
+ property element with the appropriate content, like so:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_86ad2143_606a_4e34_bf7e_51a2594248b8_1">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"> 
+&lt;Page.Content> 
+&lt;!-- Page Content --> Hello, Page! 
+&lt;/Page.Content> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Page.Content</Run>
+ can only have contain one child element; 
+in this example, the content is a single string, "Hello, Page!." In practice, you will usually use a layout control like Grid as the child of your <Run FontWeight="Bold">Page.Content</Run>
+ property element. As a short cut, however, you don't have to use <Run FontWeight="Bold">Page.Content</Run>
+ declaration because WPF considers the child element of a <Run FontWeight="Bold">Page</Run>
+ element to be the content. For example, the following is a valid alternative to the preceding example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_86ad2143_606a_4e34_bf7e_51a2594248b8_2">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"> 
+&lt;!-- Page Content --> Hello, Page! 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Which WPF features you use as page content is really only limited by security constraints (see <Hyperlink NavigateUri="ef2c0810-1dbf-4511-babd-1fab95b523b5.xaml">Windows Presentation Foundation Partial Trust Security</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph>Once a page is defined, you can view it by saving it as a file with the .xaml file extension, and double-clicking the file. This type of file is known as a loose XAML page and, when one is launched from the desktop, it is opened into Windows Internet Explorer by default, as shown in the following figure:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>You can also view ad-hoc XAML with <Run FontWeight="Bold">XamlPad</Run>
+, an application that is installed with the Windows Software Development Kit (SDK). See XAMLPad.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For users, the fundamental experience of browsing to a XAML page from Windows Internet Explorer is exactly the same as browsing to HTML, which includes being able to launch a page from:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A web site on the local machine, the intranet, or the Internet.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A Universal Naming Convention (UNC) file share.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Local disk.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>See <Hyperlink NavigateUri="12cadca0-b32c-4064-9a56-e6a306dcc76d.xaml">Deploying a Windows Presentation Foundation Application</Hyperlink>
+ for more information about publishing and launching XAML pages.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Furthermore, a XAML page can be added to Windows Internet Explorer favorites, or as the Windows Internet Explorer home page.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Configuring a XAML Page
+    </Paragraph>
+
+    <Paragraph>XAML pages are simply hosts for WPF content, whose appearance is determined by which XAML elements comprise the content and how they are configured. Likewise, a XAML page can also influence how it appears, with respect to its host. Specifically, a XAML page can specify the title, width, and height of the window that hosts it, by setting the <Run FontWeight="Bold">WindowTitle</Run>
+, <Run FontWeight="Bold">WindowWidth</Run>
+, and <Run FontWeight="Bold">WindowHeight</Run>
+ attributes, respectively:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_86ad2143_606a_4e34_bf7e_51a2594248b8_3">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="Hello, Page Title!" WindowWidth="250" WindowHeight="250"> 
+&lt;!-- Page Content --> Hello, Page! 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The result is shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>You can also give the page a title by setting its <Run FontWeight="Bold">Title</Run>
+ attribute, although the effect of doing so is only noticeable when navigating between XAML pages.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Navigating Between XAML Pages
+    </Paragraph>
+
+    <Paragraph>When an application comprises several pages, hyperlinks are the standard way to navigate between them. In WPF, a hyperlink is implemented as the Hyperlink class, which you can declare in markup like so:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Hyperlink NavigateUri="UriOfPageToNavigateTo.xaml">Navigate
+&lt;/Hyperlink> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">NavigateUri</Run>
+ attribute specifies the uniform resource identifier (URI) of page to navigate to, while the text content of the <Run FontWeight="Bold">Hyperlink</Run>
+ element is used as the link text that a user clicks to initiate the navigation.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>What constitutes a valid URI, and how URIs are used is discussed in <Hyperlink NavigateUri="43adb517-21a7-4df3-98e8-09e9cdf764c4.xaml">Pack URIs in Windows Presentation Foundation</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following figure shows how the hyperlink that is defined in the preceding example appears in the browser:
+    </Paragraph>
+
+    <Paragraph>As you would expect, clicking the link causes Windows Internet Explorer to navigate to the page that is identified by the <Run FontWeight="Bold">NavigateUri</Run>
+ property, and to add the previous page to navigation history, as shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>Clicking a hyperlink causes one page to navigate to another. However, there are situations where only a portion of a page needs to navigate to other content. For this, you can use Frame.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Fragment Navigation
+    </Paragraph>
+
+    <Paragraph>Not only can you browse to another page, but you can browse to a fragment of content on another page.
+    </Paragraph>
+
+    <Paragraph>In WPF, a fragment is a named element, which is an element that has its <Run FontWeight="Bold">Name</Run>
+ attribute set like the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Name="Fragment0">Fragment 10
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To navigate to it, you provide a URI that includes the value of the <Run FontWeight="Bold">Name</Run>
+ attribute, and conforms to the following format:
+    </Paragraph>
+
+    <Paragraph><Run FontStyle="italic">URI</Run>
+#<Span FontWeight="Bold"><Run FontStyle="italic">FragmentName</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph>The following shows a hyperlink that has a URI which is configured to navigate to a fragment:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_86ad2143_606a_4e34_bf7e_51a2594248b8_6">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="Page That Navigates To Fragment" > 
+&lt;Hyperlink NavigateUri="PageWithFragments.xaml#Fragment0">Navigate To Fragment
+&lt;/Hyperlink> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A full example of fragment navigation can be found at Fragment Navigation Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Sub-Content Navigation with the Frame Class
+    </Paragraph>
+
+    <Paragraph>When a page has browsable sub-content, you can inject a <Run FontWeight="Bold">Frame</Run>
+ into the page to host the sub-content. <Run FontWeight="Bold">Frame</Run>
+ provides support for hosting and navigating between pages independently of the content that hosts the <Run FontWeight="Bold">Frame</Run>
+. You add a frame by using the <Run FontWeight="Bold">Frame</Run>
+ element:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="FrameHostPage" WindowWidth="250" WindowHeight="250"> <Run>... </Run>
+ 
+&lt;Frame Source="FramePage1.xaml" /> <Run>... </Run>
+
+&lt;/Page> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As you can see, you set the <Run FontWeight="Bold">Source</Run>
+ attribute of the <Run FontWeight="Bold">Frame</Run>
+ element to specify an initial page for the <Run FontWeight="Bold">Frame</Run>
+ to navigate to (this is the equivalent of NavigateUri). The following figure shows the frame navigating between several pages:
+    </Paragraph>
+
+    <Paragraph>You'll notice that the navigation history entry name of each page is its path; 
+because the pages are hosted by a frame, rather than a window, <Run FontWeight="Bold">WindowTitle</Run>
+ is ineffective. Instead, you set the <Run FontWeight="Bold">Title</Run>
+ attribute of the <Run FontWeight="Bold">Page</Run>
+ element to customize the navigation history entry name in Windows Internet Explorer:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following figure shows the result:
+    </Paragraph>
+
+    <Paragraph>By default, the navigation history of a frame is recorded by Windows Internet Explorer for every page navigation, whether the page is hosted by Windows Internet Explorer, or hosted by a frame inside a page. Sometimes, this level of navigation is too fine-grained; 
+for example, consider the following figure:
+    </Paragraph>
+
+    <Paragraph>In this type of scenario, you may be interested in storing the navigations between the pages hosted by the browser in navigation history, while giving the pages that are hosted in the frame their own navigation history. In these cases, you can configure the frame to use its own navigation history by setting the <Run FontWeight="Bold">JournalOwnership</Run>
+ attribute (JournalOwnership) of the <Run FontWeight="Bold">Frame</Run>
+ to <Run FontWeight="Bold">OwnsJournal</Run>
+ (OwnsJournal):
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="FrameHostPage" WindowWidth="250" WindowHeight="250"> <Run>... </Run>
+ 
+&lt;Frame Source="FramePage1.xaml" JournalOwnership="OwnsJournal" /> <Run>... </Run>
+
+&lt;/Page> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following figure illustrates the effect of navigating within a frame that uses its own navigation history:
+    </Paragraph>
+
+    <Paragraph>Notice that the navigation UI in the frame shows that navigation has occurred, while the browser has not.
+    </Paragraph>
+
+    <Paragraph>If you want the frame to provide its own navigation history, but don't want to show the navigation UI, you can change the value of the <Run FontWeight="Bold">NavigationUIVisibility</Run>
+ (NavigationUIVisibility) attribute on the <Run FontWeight="Bold">Frame</Run>
+ element from the default value of <Run FontWeight="Bold">Automatic</Run>
+ (Automatic) to <Run FontWeight="Bold">Hidden</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="FrameHostPage" WindowWidth="250" WindowHeight="250"> <Run>... </Run>
+ 
+&lt;Frame Source="FramePage1.xaml" JournalOwnership="OwnsJournal" NavigationUIVisibility="Hidden" /> <Run>... </Run>
+
+&lt;/Page> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Loose XAML Applications
+    </Paragraph>
+
+    <Paragraph>Loose XAML applications are composed entirely of loose XAML pages. Essentially, these are the same as applications composed entirely of HTML pages, although offer richness of the WPF platform, including graphics, animation, media, documents, data binding, styling, and templating. However, because they are XAML-only, there are several considerations:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Each loose XAML page is treated as a separate application by WPF; 
+this means that the WPF infrastructure that allows Windows Internet Explorer to host a loose XAML page is loaded each time Windows Internet Explorer navigates to a loose XAML page.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>However, navigating from one page to another within a frame that is hosted by a page in Windows Internet Explorer is not considered navigation to a new application, since the WPF infrastructure is already running.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>They can use either WPF functionality, or custom functionality that is accessible from XAML.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>While being able to define event triggers (see NOTINBUILD: Styles Overviews), you can't handle any events that are raised by the types that compose the XAML.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You can't use code to customize behavior or implement custom business logic.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>It is not possible to use some of the application services provide by WPF, such as application lifetime management, shared state, and processing unhandled exceptions.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>It is not possible to use services provided by the Microsoft .NET Framework version 3.0 such as data persistence and web services.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>While these are not issues for all browser-hosted applications, they may be for your application, in which case you can turn to XBAPs.
+    </Paragraph>
+
+    <Paragraph FontSize="22">XAML Browser Applications (XBAPS)
+    </Paragraph>
+
+    <Paragraph>Unlike a loose XAML application, which consists entirely of loose XAML pages, an XBAP is a compiled .NET Framework 3.0 application that runs from within a browser-style host like Windows Internet Explorer or Microsoft Windows Media Center (WMC) (see <Hyperlink NavigateUri="5db2bf69-07e0-4842-b114-f004875e71bf.xaml">Windows Presentation Foundation Windows Media Center-Hosted Applications Overview</Hyperlink>
+). The following figure shows an XBAP application being hosted in Windows Internet Explorer 7:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>This figure is a screenshot of the <Run FontWeight="Bold">ExpenseIt</Run>
+ sample application that comes with the Windows Software Development Kit (SDK). See ExpenseIt Demo.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As you can see, an XBAP looks like any other type of browser-hosted application, which is a result of the special support for integration XBAPs have with Internet Explorer 7, which includes:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Pages that are navigated in the XBAP are added to the host browser's navigation UI.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>XBAP pages that are selected from the host browser's navigation UI are navigated to in the XBAP.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>An XBAP remains in navigation history when the host browser is navigated away from the XBAP.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>An XBAP typically contains of one or more compiled XAML pages, each of which can have code associated with them. This combination is also referred to as markup and code-behind and, while a page can be defined purely in markup or code-behind, the combination of both is the most likely, and is known as the page definition.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>As with loose XAML applications, XBAPs have several security considerations, which are discussed in <Hyperlink NavigateUri="ee1baea0-3611-4e36-9ad6-fcd5205376fb.xaml">Windows Presentation Foundation Security</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">The Page Definition
+    </Paragraph>
+
+    <Paragraph>As with Window, the appearance of a page is defined in markup while the behavior is defined in code-behind. The following shows the markup and code-behind definition for a home page:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows.Controls; 
+namespace SDKSample { public partial class HomePage : Page { public HomePage() { InitializeComponent(); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To enable a markup file and code-behind file to work together, the following is required:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>In markup, the <Run FontWeight="Bold">Page</Run>
+ element must include the <Run FontWeight="Bold">x:Class</Run>
+ attribute, which instructs MSBuild to create a partial class for the markup file when the project is built with the name specified by the <Run FontWeight="Bold">x:Class</Run>
+ attribute. This requires the addition of an XML namespace declaration for the XAML schema: <Run>xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In code-behind, the class must be a partial class with the same name that is specified by the <Run FontWeight="Bold">x:Class</Run>
+ attribute in markup, and needs to derive from <Run FontWeight="Bold">Page</Run>
+. This allows the code-behind file to be associated with the partial class that is generated for the markup file when it is built (see <Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In code-behind, the class must implement a constructor that calls the <Run FontWeight="Bold">InitializeComponent</Run>
+ method. <Run FontWeight="Bold">InitializeComponent</Run>
+ is implemented by the markup file's generated partial class to register events and set properties that are defined in markup.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>When you add a new window to your project using Microsoft Visual Studio, the window is defined using both markup and code-behind, and includes the necessary configuration to create the association between the markup and code-behind files as described here.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">The Application Definition
+    </Paragraph>
+
+    <Paragraph>Once you have one or more pages defined, you need to specify one as the page that is first shown when the XBAP is launched. For this reason, and to provide additional services to XBAPs, each XBAP must have an application definition. The following shows a basic application definition that comprises both markup and code-behind:
+    </Paragraph>
+
+    <Paragraph>[xaml]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Application x:Class="SDKSample.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" /></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+namespace SDKSample { public partial class App : Application {} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Additionally, the markup part of the application definition needs to be specified as an Microsoft build engine (MSBuild) <Run FontWeight="Bold">ApplicationDefinition</Run>
+ item. For a detailed discussion of application definitions, see <Hyperlink NavigateUri="32b1c054-5aca-423b-b4b5-ed8dc4dc637d.xaml">Application Management Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Configuring a Start Page
+    </Paragraph>
+
+    <Paragraph>The basic application definition for an XBAP is the same as the basic application definition for a standalone application. And, much of the behavior that is provided by an application definition is common to both types of applications too. For example, you set the StartupUri property to specify the initial UI to show. For XBAPs, the initial UI is a page, which can be declared in markup:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Application x:Class="SDKSample.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="HomePage.xaml" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Setting <Run FontWeight="Bold">StartupUri</Run>
+ results in the XBAP being launched in Internet Explorer and HomePage.xaml being automatically navigated to, as shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>On the surface, browsing to a page in an XBAP is the same as browsing to a loose XAML page. Under the surface, things are different: a page has a lifetime that you can work with from code-behind.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Page Lifetime
+    </Paragraph>
+
+    <Paragraph>The lifetime of a page is dictated by the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Whether a page is being browsed for the first time, or is being browsed using navigation history.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>How a page is configured for storage in navigation history.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The first time a page is browsed using a URI, WPF instantiates the page before navigating to it. When navigated to, the Loaded event is raised, while the Unloaded event is raised when the page is navigated away from. The following figure illustrates this:
+    </Paragraph>
+
+    <Paragraph>The same events fire when the page is subsequently browsed back to using navigation history, which is a side-effect of the default navigation history behavior that is employed by WPF. To avoid excessive memory consumption, WPF does not store page instances in navigation history. Instead, WPF stores page metadata that WPF uses to create a new instance of the page, rather than simply opening the previous instance. Essentially, each page is a new instance by default.
+    </Paragraph>
+
+    <Paragraph>Creating a new instance of a page each time it is navigated to poses problems for maintaining state across the two instances; 
+if a user enters data on a page the first time they browse to it, they will want to see that data the next time they browse to the page. WPF provides several levels of support for managing state, and an overview is provide later in this topic (see <Hyperlink TargetName="CustomContentStateNavigation">Custom Content State Navigation</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph>In general, you should prefer the default page behavior of not keeping pages alive, and use custom content state management support to retain only state across page navigations, as discussed later in this topic.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Navigation Lifetime
+    </Paragraph>
+
+    <Paragraph>When a page is navigated to, not only can you hook into the lifetime of the page, but you can also hook into the lifetime of a single navigation, to both monitor and manipulate it. For navigation, WPF exposes the following events from the Application class:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Navigating. Navigation to content has been initiated and can be canceled.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Navigated. Content being navigated to has been found and is being downloaded.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationProgress. Raised once for every 1024 bytes of content that have been downloaded.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationFailed. Navigation did not complete successfully.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationStopped. Navigation was stopped.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>LoadCompleted. Downloaded content has been loaded and parsed.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>FragmentNavigation. Navigation to fragment in downloaded content occurred.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>These are raised in the order that is illustrated by the following figure:
+    </Paragraph>
+
+    <Paragraph>The following figure shows when a page is instantiated, loaded, and unloaded with respect to the navigation lifetime events:
+    </Paragraph>
+
+    <Paragraph>For an XBAP, the best way to handle the navigation lifetime events is by handling those events using the application definition. However, Application is not actually the class that manages navigation in WPF applications. Instead, this duty is carried out by NavigationService.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Navigation Service
+    </Paragraph>
+
+    <Paragraph>When a hyperlink is clicked, WPF does the following:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Get the value of the <Run FontWeight="Bold">NavigateUri</Run>
+ attribute.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Locate the page that the URI refers to.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Load the page.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Display the page.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Locating and loading the page comprise the essential steps of navigation that, in WPF, is performed by the <Run FontWeight="Bold">NavigationService</Run>
+ class. The key members that are implemented by <Run FontWeight="Bold">NavigationService</Run>
+ fall into the following categories:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Navigation</Run>
+: Navigate, Refresh, StopLoading.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Navigation History</Run>
+: GoBack, GoForward, CanGoBack, CanGoForward, AddBackEntry, RemoveBackEntry.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Navigation Lifetime</Run>
+: Navigating, Navigated, NavigationProgress, NavigationFailed, NavigationStopped (raised when <Run FontWeight="Bold">StopLoading</Run>
+ is called), LoadCompleted, FragmentNavigation.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Navigation Details</Run>
+: Content, Source, CurrentSource.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>See <Run FontWeight="Bold">NavigationService</Run>
+ for complete detailed information on these members.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>So, when a hyperlink is clicked WPF calls <Run FontWeight="Bold">Navigate</Run>
+ to locate and load the page at the specified URI, raises the lifetime events as appropriate throughout the navigation, loads the page into the <Run FontWeight="Bold">Content</Run>
+ property, and updates <Run FontWeight="Bold">Source</Run>
+ and <Run FontWeight="Bold">CurrentSource</Run>
+. When you handle the <Run FontWeight="Bold">Application</Run>
+ navigation lifetime events, you are really handling the <Run FontWeight="Bold">NavigationService</Run>
+ lifetime events; 
+<Run FontWeight="Bold">Application</Run>
+ is simply a proxy for these events on behalf of <Run FontWeight="Bold">NavigationService</Run>
+. This serves to reinforce that <Run FontWeight="Bold">NavigationService</Run>
+ is the only class that actually does navigation in WPF.
+    </Paragraph>
+
+    <Paragraph>You don't really need to know about <Run FontWeight="Bold">NavigationService</Run>
+ if the navigation in your application is built declaratively using hyperlinks in XAML, since WPF will use the <Run FontWeight="Bold">NavigationService</Run>
+ on your behalf to navigation when a hyperlink is clicked.
+    </Paragraph>
+
+    <Paragraph>However, there are situations when you will need to use the <Run FontWeight="Bold">NavigationService</Run>
+, including the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>When you can't navigate to a page using a URI, such as when you need to instantiate a page using a non-default constructor.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When a page only knows where it will navigate to at run time.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In either of these situations, you'll need to write code to perform your navigation, which means you'll need to manually use the <Run FontWeight="Bold">NavigationService</Run>
+. This involves acquiring a reference to the <Run FontWeight="Bold">NavigationService</Run>
+ and calling Navigate, which is shown in the following code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="SDKSample.NSNavigationPage" WindowTitle="Navigation Service Navigation Page" > 
+&lt;Hyperlink Click="hyperlink_Click">Navigate to Page with Non-Default Constructor
+&lt;/Hyperlink> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Navigation; 
+namespace SDKSample { public partial class NSNavigationPage : Page { public NSNavigationPage() { InitializeComponent(); 
+} void hyperlink_Click(object sender, RoutedEventArgs e) { // Instantiate page to navigate to PageWithNonDefaultConstructor page = new PageWithNonDefaultConstructor(DateTime.Now); 
+// Get navigation service NavigationService ns = NavigationService.GetNavigationService(this); 
+ns.Navigate(page); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="SDKSample.PageWithNonDefaultConstructor" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="PageWithNonDefaultConstructor"> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows.Controls; 
+namespace SDKSample { public partial class PageWithNonDefaultConstructor : Page { public PageWithNonDefaultConstructor(DateTime dateTimeInstantiated) { InitializeComponent(); 
+this.Content = "Instantiated at " + dateTimeInstantiated.ToString(); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Here, the code uses the <Run FontWeight="Bold">static</Run>
+ GetNavigationService property to get a reference to the <Run FontWeight="Bold">NavigationService</Run>
+ (which, in this case, belongs to the XBAP from which the code is running in). Note also that the code uses an overload of the <Run FontWeight="Bold">Navigate</Run>
+ method that accepts an object rather than a URI; 
+after navigation, the <Run FontWeight="Bold">Content</Run>
+, <Run FontWeight="Bold">Source</Run>
+, and <Run FontWeight="Bold">CurrentSource</Run>
+ will reflect the page object that was navigated to.
+    </Paragraph>
+
+    <Paragraph>It is possible to navigate to content, whether by URI or an actual object, by setting <Run FontWeight="Bold">Source</Run>
+ and <Run FontWeight="Bold">Content</Run>
+, respectively. The following code shows how to use <Run FontWeight="Bold">Source</Run>
+ to do so:
+    </Paragraph>
+
+    <Paragraph>The next piece of code shows using <Run FontWeight="Bold">Content</Run>
+ to same effect:
+    </Paragraph>
+
+    <Paragraph>All code in an XBAP can use this technique, although <Run FontWeight="Bold">Page</Run>
+ implements helper NavigationService property as a shortcut:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Instantiate page to navigate to PageWithNonDefaultConstructor page = new PageWithNonDefaultConstructor(DateTime.Now); 
+// Get navigation service this.NavigationService.Navigate(page); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you navigate a page to itself, a navigation will not take place. But, you can force the current page to reload by calling <Run FontWeight="Bold">Refresh</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void refreshHyperlink_Click(object sender, RoutedEventArgs e) { // Reload the current page. this.NavigationService.Refresh(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Once a page is navigated to, whether on your behalf as the result of a hyperlink click or manually by you from code, content that is navigated away from goes into navigation history.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Navigation History - The Journal
+    </Paragraph>
+
+    <Paragraph>Recall from earlier that navigation between loose XAML pages is record by Internet Explorer in navigation history:
+    </Paragraph>
+
+    <Paragraph>For loose XAML pages, navigation history is managed by Internet Explorer, since Internet Explorer is doing the navigation. For XBAPs, though, Internet Explorer simply navigates to the XBAP - navigation within an XBAP is managed by instead, using a forward stack, a back stack, and supporting functionality that, collectively, is referred to as <Run FontStyle="italic">the journal</Run>
+.
+    </Paragraph>
+
+    <Paragraph>As with <Run FontWeight="Bold">NavigationService</Run>
+, if your navigation is specified declaratively in markup (a hyperlink, for example), you are unlikely to be concerned with navigation history. This is especially true because WPF integrates navigation history as managed by the journal with navigation history in Internet Explorer, such that navigation UI in Internet Explorer appears the same for page navigations in an XBAP as it does for navigation between loose XAML pages.
+    </Paragraph>
+
+    <Paragraph>If you'd like to extend the navigation in with additional support on your pages, you can still do so declaratively, using NavigationCommands, as shown in the following code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="SDKSample.NavigationCommandsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Navigation Commands Page"> 
+&lt;TextBlock> 
+&lt;Hyperlink Command="NavigationCommands.BrowseBack">Back
+&lt;/Hyperlink> 
+&lt;LineBreak /> 
+&lt;Hyperlink Command="NavigationCommands.BrowseForward">Forward
+&lt;/Hyperlink> 
+&lt;/TextBlock> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>However, if you need programmatic access to navigation history, <Run FontWeight="Bold">NavigationService</Run>
+ provides the following four members for browsing through navigation history:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">GoBack</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">GoForward</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">CanGoBack</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">CanGoForward</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontWeight="Bold">NavigationService</Run>
+ also implements two members that allow you to manipulate the contents of navigation history: <Run FontWeight="Bold">AddBackEntry</Run>
+ and <Run FontWeight="Bold">RemoveBackEntry</Run>
+. In general, you should be cautious when using either of these methods, particularly the latter, as you may disrupt the typical flow of navigation that a user would expect. However, one good reason to use them is to manage custom content state.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Custom Content State Navigation
+    </Paragraph>
+
+    <Paragraph>As discussed in <Hyperlink TargetName="PageLifetime">Page Lifetime</Hyperlink>
+, the default behavior when browsing to a page, whether the first time or not, is to instantiate a new instance of the page. The idea is to preserve memory, particularly when a non-trivial number of pages each with a non-trivial amount of content are browsed to: all pages and content are ultimately instances of WPF types.
+    </Paragraph>
+
+    <Paragraph>But, when a user enters data into one page, browses to another, than browses back to the original page, they expect to see the data they entered previously. Fortunately, WPF provides a mechanism for remembering page state across page navigations. Specifically, navigation history provides the infrastructure to associate one or more pieces of state with each item in navigation history.
+    </Paragraph>
+
+    <Paragraph>The following details the process of navigating to a new page:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>An entry for the current page is added to navigation history.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>State from the page is associated with the entry.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The new page is navigated to.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When the original page is browsed back to using navigation history, the following steps take place:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>The original page, as specified by the entry in back navigation history, is instantiated.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The page is refreshed with the state that was associated with the navigation history entry for the page.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The page is navigated back to.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>State is not automatically stored, however; 
+some additional work is required to associate state with a navigation history entry. Fortunately, WPF ameliorates the effort by adding this behavior to a variety of common controls, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>ComboBox 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ListBox 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>TabControl 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ListBoxItem 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>MenuItem 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>TabItem 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>TextBox 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ScrollBarVisibility 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ProgressBar 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Slider 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>CheckBox 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>RadioButton 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Expander 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Frame</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Consequently, if pages use these controls, data entered into those controls is automatically remembered, as shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>When you use custom types to encapsulate your page state, you'll need to use alternative methods for storing that state across page instances. WPF provides alternative mechanisms that you can use to do so.
+    </Paragraph>
+
+    <Paragraph>The first option is to force WPF to retain an instance of the page in navigation history by setting the <Run FontWeight="Bold">KeepAlive</Run>
+ attribute of a page to true, like so:
+    </Paragraph>
+
+    <Paragraph>While the main advantage is that state is remembered across navigations since the instance of the page is stored in navigation history, the page will load faster since it has already been constructed. However, the trade off is memory consumption, which could cause issues when an XBAP has a non-trivial number of pages to show, particularly if each page has a large amount of content to show, including documents and media.
+    </Paragraph>
+
+    <Paragraph>Instead, you can reduce the memory cost by not keeping your pages alive, and remembering only small pieces of state per-page using journalable dependency properties (see DependencyProperty). A journalable dependency property is a dependency property with the following metadata:
+    </Paragraph>
+
+    <Paragraph>Journal 
+    </Paragraph>
+
+    <Paragraph>The following code example illustrates how to declare a journalable dependency property 
+    </Paragraph>
+
+    <Paragraph>With the property declared, you get and set it as appropriate. For a complete example of both declaring and using a journalable dependency property to remember which control had the focus, see Remember Page State using a Dependency Property Sample.
+    </Paragraph>
+
+    <Paragraph>If the state that your page needs to remember across navigations comprises multiple pieces of data, you may find it easier to implement IProvideCustomContentState. See Remember Page State using IProvideCustomContentState.
+    </Paragraph>
+
+    <Paragraph>So far, the techniques for remember page state have been focused on associating a single piece of state with a single page, which is retained across page navigations. In some situations, though, you may find that you need to remember multiple pieces of state per page. This can happen when you have a page that navigates back to itself simply to show the last piece of state. Using <Run FontWeight="Bold">IProvideCustomContentState</Run>
+ and <Run FontWeight="Bold">AddBackEntry</Run>
+, you can design this type of page so that you can replay its previous states without actually navigating from the current instance of the page. See Custom Content State Navigation Sample for an example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Important: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>When you store information in custom content state, you cannot store any references to the instance of the page for which you are remembering state. This prevents WPF from releasing the page instance, and defeats the purpose of the default navigation history behavior. If you must do this, you might consider using KeepAlive instead.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Structured Navigation
+    </Paragraph>
+
+    <Paragraph>Throughout this topic, we've discussed page navigation using hyperlinks. In general, this is known as unstructured navigation, since this style of navigation does not provide an explicit control flow; 
+when you navigate from one page to another, there is no guarantee that you will navigate back to the original page. This can be an issue when you need to pass data from a called page back to the calling page, such as a window will do when it uses a dialog box.
+    </Paragraph>
+
+    <Paragraph>For this type of navigation, WPF provides the PageFunction class. You can find a complete overview of the <Run FontWeight="Bold">PageFunction</Run>
+ class in <Hyperlink NavigateUri="025d30ef-fec5-436d-ad7a-5d5483331c26.xaml">Structured Navigation Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Navigation in Standalone Applications
+    </Paragraph>
+
+    <Paragraph>Although pages, hyperlinks, and frames are naturally suited as browser-hosted applications, these elements are not only useful when hosted inside a browser. Modern operating systems and Windows applications often tend to leverage the experience of a large number of users with browser applications to incorporate browser-style navigation.
+    </Paragraph>
+
+    <Paragraph>Common examples of browser-style navigation that is not hosted by a browser include the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Word Thesaurus</Run>
+: Navigate back and forwards through word choices.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">File Explorer</Run>
+: Navigating back and forwards through selected files and folders.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Wizards</Run>
+: Doing a process using one or more atomic tasks that can be navigated back and forward between eg Windows Components Wizard to add/remove Windows installation items such as Internet Information Server (IIS).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The choice around whether to use browser-style navigation in standalone applications depends primarily on the user experience. Uses can benefit if they are primarily experienced with using browsers, or if the type of functionality is more naturally suited to navigation, such as ad-hoc browsing, document reading etc.
+    </Paragraph>
+
+    <Paragraph>There are two ways in which navigation can be incorporated into a standalone application: NavigationWindow and <Run FontWeight="Bold">Frame</Run>
+. Both of these are known as navigators.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Navigators
+    </Paragraph>
+
+    <Paragraph>A navigator is a class that can host and navigate content. <Run FontWeight="Bold">NavigationWindow</Run>
+ is a window that provides these navigation services, while <Run FontWeight="Bold">Frame</Run>
+ provides sub-content navigation in exactly the same way it did for loose XAML pages, which we saw earlier.
+    </Paragraph>
+
+    <Paragraph>To host and navigate content, both <Run FontWeight="Bold">NavigationWindow</Run>
+ and <Run FontWeight="Bold">Frame</Run>
+ use their own instance of the <Run FontWeight="Bold">NavigationService</Run>
+ for raw navigation, and both provide navigation history by using the journal. The basic construction of a navigation is shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>Essentially, this allows <Run FontWeight="Bold">NavigationWindow</Run>
+ and <Run FontWeight="Bold">Frame</Run>
+ to provide the same experience for pages as an XBAP does.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For all intents and purposes, and from the perspective of a page, the combination of Internet Explorer and XBAP can also be considered a navigator.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Besides using <Run FontWeight="Bold">NavigationService</Run>
+ and the journal, both classes implement the same members that <Run FontWeight="Bold">NavigationService</Run>
+ implements, which allows you to program navigation support directly against them. You may consider this if you need to provide a custom navigation UI for a <Run FontWeight="Bold">Frame</Run>
+ that is hosted in a Window.
+    </Paragraph>
+
+    <Paragraph>Furthermore, both types implement additional, navigation-related members, including <Run FontWeight="Bold">BackStack</Run>
+ (BackStack, BackStack) and <Run FontWeight="Bold">ForwardStack</Run>
+ (ForwardStack, ForwardStack), which allow you to enumerate the entries in back and forward navigation history, respectively.
+    </Paragraph>
+
+    <Paragraph>The following topics provide an overview of both <Run FontWeight="Bold">NavigationWindow</Run>
+ and <Run FontWeight="Bold">Frame</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">The NavigationWindow Class
+    </Paragraph>
+
+    <Paragraph>If your standalone application is wholly browser-style, or one of the application windows is wholly browser-style, you should use <Run FontWeight="Bold">NavigationWindow</Run>
+ to host it. One example might be to create a wizard, which is shown in Wizard Sample.
+    </Paragraph>
+
+    <Paragraph>The following shows a markup and code-behind definition of a <Run FontWeight="Bold">NavigationWindow</Run>
+:
+    </Paragraph>
+
+    <Paragraph>To navigate a <Run FontWeight="Bold">NavigationWindow</Run>
+ to a page, you simply set its Source property:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;NavigationWindow ... Source="HomePage.xaml" /></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This causes <Run FontWeight="Bold">NavigationWindow</Run>
+ to the specified content, as shown in the following figure.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>If your custom <Run FontWeight="Bold">NavigationWindow</Run>
+ doesn't require code-behind, consider setting <Run FontWeight="Bold">StartupUri</Run>
+ with the uniform resource identifier (URI) to the desired page. <Run FontWeight="Bold">Application</Run>
+ will instantiate <Run FontWeight="Bold">NavigationWindow</Run>
+ and set its source to the page that you specified. See <Hyperlink NavigateUri="32b1c054-5aca-423b-b4b5-ed8dc4dc637d.xaml">Application Management Overview</Hyperlink>
+ for more information.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As you can see from the preceding figure, <Run FontWeight="Bold">NavigationWindow</Run>
+ shows a navigation UI that allows users to navigate back and forward through navigation history. If you need to hide the navigation UI, you can set the ShowsNavigationUI property to <Run FontWeight="Bold">false</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;NavigationWindow ... ShowsNavigationUI="False" /></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>One reason you may want to do this is to allow your pages to provide a custom navigation UI. Alternatively, you can use the capabilities of WPF to completely restyle the <Run FontWeight="Bold">NavigationWindow</Run>
+ itself. See Custom NavigationWindow Chrome Sample for an example of how to do so.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Frame in Standalone Applications
+    </Paragraph>
+
+    <Paragraph>If your standalone application has windows that require sub-content, you can use <Run FontWeight="Bold">Frame</Run>
+ in the same way as you saw earlier for loose XAML pages.
+    </Paragraph>
+
+    <Paragraph>See Frame Navigation in a Window Sample provides an introduction into the use of <Run FontWeight="Bold">Frame</Run>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Navigation Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

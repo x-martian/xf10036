@@ -1,0 +1,1712 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_43adb517_21a7_4df3_98e8_09e9cdf764c4"
+  Tag     ="Pack URIs in WPF"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Pack URIs in Windows Presentation Foundation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To identify application data files (see <Hyperlink NavigateUri="7ad2943b-3961-41d3-8fc6-1582d43f5d99.xaml">Windows Presentation Foundation Application Data Files</Hyperlink>
+), WPF utilizes a well-known and extensible uniform resource identifier (URI)-based mechanism that is known as the <Run FontWeight="Bold">Pack URI Scheme</Run>
+. The extensibility of the Pack URI Scheme allows WPF to support a single and consistent method for identifying several types of application data files that can exist in a variety of locations.
+    </Paragraph>
+
+    <Paragraph FontSize="22">The Pack URI Scheme
+    </Paragraph>
+
+    <Paragraph>The <Hyperlink NavigateUri="http://www.microsoft.com/whdc/xps/xpspkg.mspx">Open Packaging Conventions</Hyperlink>
+ (OPC) specification describes a model for organizing and identifying content. The core of this model revolves around two logical entities: packages and parts. A <Run FontStyle="italic">package</Run>
+ is a container for one or more content <Run FontStyle="italic">parts</Run>
+, as illustrated by the following figure.
+    </Paragraph>
+
+    <Paragraph>To be able to identify these parts, the OPC leverages the extensibility of RFC 2396 to define the Pack URI Scheme. The scheme that is specified by a URI is defined by its prefix; 
+<Run FontWeight="Bold">http</Run>
+, <Run FontWeight="Bold">ftp</Run>
+, and <Run FontWeight="Bold">file</Run>
+ are well known examples. The Pack URI Scheme uses <Run FontWeight="Bold">pack</Run>
+ as its scheme, and contains two components: authority and path. The <Run FontStyle="italic">authority</Run>
+ specifies the type of package that a part is contained by, while the <Run FontStyle="italic">path</Run>
+ specifies the location of a part within a package. This concept is illustrated by the following figure:
+    </Paragraph>
+
+    <Paragraph>A URI that conforms to the Pack URI Scheme is known as a "pack URI", and has the following format:
+    </Paragraph>
+
+    <Paragraph>pack://<Run FontStyle="italic">
+&lt;authority>
+&lt;path></Run>
+
+    </Paragraph>
+
+    <Paragraph>The concept of packages and parts is analogous to applications and application data files, where an application (package) can include one or more application data files (parts), including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Resource files that are compiled into the local assembly.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Resource files that are compiled into a referenced assembly.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Resource files that are compiled into a referencing assembly.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Content files.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Site of origin files.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>To access these four types of application data files, WPF supports two authorities, application:/// and siteoforigin:///. The <Run FontStyle="italic">application:///</Run>
+ authority is used to identify application data files that are known at compile time, including both resource files and content files. The <Run FontStyle="italic">siteoforigin:///</Run>
+ authority is used to identify site of origin files.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The authority component of a pack URI is an embedded URI that points to a package and must conform to RFC 2396. Additionally, the "/" character must be replaced with the "," character, and reserved characters like "%" and "?" need to be escaped. See the OPC for details.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The scope of each authority is shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>The following topics explain how to construct pack URIs using these two authorities in conjunction with paths to identify resource files, content files, and site of origin files.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Resource File Pack URIs - Local Assembly
+    </Paragraph>
+
+    <Paragraph>The pack URI for a resource file that is compiled into the local assembly uses the following authority and path:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Authority</Run>
+: <Run FontWeight="Bold">application:///</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Path</Run>
+: The name of the resource file, including its path relative to the root of the local assembly project folder.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example shows the pack URI for a XAML resource file that is located in the root of the local assembly's project folder:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/ResourceFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the pack URI for a XAML resource file that is located in a subfolder of the local assembly's project folder:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/Subfolder/ResourceFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Resource File Pack URIs - Referenced Assembly
+    </Paragraph>
+
+    <Paragraph>The pack URI for a resource file that is compiled into a referenced assembly uses the following authority and path:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Authority</Run>
+: <Run FontWeight="Bold">application:///</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Path</Run>
+: The path for a resource file that is compiled into a referenced assembly conforms to the following format:
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontStyle="italic">
+&lt;ShortName>[;Version][;PublicKey]</Run>
+;component/<Run FontStyle="italic">
+&lt;Path></Run>
+
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">
+&lt;ShortName></Run>
+ is the short name for the referenced assembly.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">;Version</Run>
+ [optional] refers to the version of the referenced assembly that contains the resource file. This is used when two or more referenced assemblies with the same short name are loaded.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">;PublicKey</Run>
+ [optional] refers to the public key that was used to sign the referenced assembly. This is used when two or more referenced assemblies with the same short name are loaded.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">;component</Run>
+ specifies that the assembly being referred to is referenced from the local assembly.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">/
+&lt;Path></Run>
+ is the name of the resource file, including its path relative to the root of the referenced assembly's project folder.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example shows the pack URI for a XAML resource file that is located in the root of the referenced assembly's project folder:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/ReferencedAssembly;component/ResourceFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the pack URI for a XAML resource file that is located in a subfolder of the referenced assembly's project folder:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/ReferencedAssembly;component/Subfolder/ResourceFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the pack URI for a XAML resource file that is located in the root folder of a referenced, version-specific assembly's project folder:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/ReferencedAssembly;v1.0.0.1;component/ResourceFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Content File Pack URIs
+    </Paragraph>
+
+    <Paragraph>The pack URI for a content file uses the following authority and path:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Authority</Run>
+: <Run FontWeight="Bold">application:///</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Path</Run>
+: The name of the content file, including its path relative to the file system location of the application's main executable assembly.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example shows the pack URI for a XAML content file, located in the same folder as the executable assembly:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/ContentFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the pack URI for a XAML content file, located in a subfolder that is relative to the file system location of the application's main executable assembly:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/Subfolder/ContentFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Site of Origin File Pack URIs
+    </Paragraph>
+
+    <Paragraph>The pack URI for a site of origin file uses the following authority and path:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Authority</Run>
+: <Run FontWeight="Bold">siteoforigin:///</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Path</Run>
+: The name of the site of origin file, including its path relative to the location from which the executable assembly was launched.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example shows the pack URI for a XAML site of origin file, stored in the location from which the executable assembly is launched:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://siteoforigin:,,,/SiteOfOriginFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the pack URI for a XAML site of origin file, stored in subfolder of the location from which the executable assembly is launched:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://siteoforigin:,,,/Subfolder/SiteOfOriginFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Absolute vs Relative Pack URIs
+    </Paragraph>
+
+    <Paragraph>A fully-qualified pack URI includes the scheme, the authority, and the path, and is considered an absolute pack URI. As a simplification for developers, XAML elements typically allow you to set appropriate attributes with a relative pack URI, which includes only the path.
+    </Paragraph>
+
+    <Paragraph>For example, consider the following absolute pack URI for a resource file in the local assembly:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/ResourceFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The relative pack URI that refers to this resource file would be the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/ResourceFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Because site of origin files have no association with assemblies, they can only be referred to using pack URIs.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>By default, a relative pack URI reference is considered relative to the markup file or code file that contains the reference. If a leading backslash is used, however, the relative pack URI reference is then considered relative to the root of the application. For example, consider the following project structure:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>App.xaml Page2.xaml \SubPages Page1.xaml Page2.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If Page1.xaml wants to create a relative pack URI for the Page2.xaml file that is located in the SubPages folder, it can use the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Page2.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>However, if Page1.xaml wants to create a relative pack URI for the Page2.xaml file that is located in the root folder, it can use the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/Page2.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Pack URI Resolution
+    </Paragraph>
+
+    <Paragraph>The format of pack URIs makes it is possible for a pack URI to look the same for both a local resource file and a content file:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/ResourceOrContentFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The same is true for relative URIs:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/ResourceOrContentFile.xaml</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Due to these similarities, WPF needs a way to determine whether pack URIs like these refer to either a resource file or a content file. Since a pack URI doesn't include this type of information, WPF uses resolves a URI using the following heuristics:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Probe the assembly metadata for an AssemblyAssociatedContentFileAttribute that matches the pack URI.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the <Run FontWeight="Bold">AssemblyAssociatedContentFileAttribute</Run>
+ attribute is found, the path of the pack URI refers to a content file.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the <Run FontWeight="Bold">AssemblyAssociatedContentFileAttribute</Run>
+ attribute is not found, probe the set resource files that are compiled into the local assembly is enumerated.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If a resource file that matches the path of the pack URI is found, the path of the pack URI refers to a resource file.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the resource is not found, the internally created Uri is invalid.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Only absolute and relative pack URIs are included in resource resolution. Content files in referenced assemblies are not included because they are unsupported by WPF. Pack URIs for embedded files in referenced assemblies are unique because they include both the name of the referenced assembly and the <Run FontWeight="Bold">;component</Run>
+ suffix. Pack URIs for site of origin files are unique because they use the are the only pack URIs that use the <Run FontWeight="Bold">siteoforigin:///</Run>
+ authority.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>WPF resource resolution allows you to create pack URIs that are independent of the locations of application data files. Consequently, if you change the build type of the non-executable data file from <Run FontWeight="Bold">Resource</Run>
+ to <Run FontWeight="Bold">Content</Run>
+, for example, you don't have to change your pack URI.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Programming with Pack URIs
+    </Paragraph>
+
+    <Paragraph>Many WPF classes implement properties that require pack URIs, including StartupUri, Source, Source, NavigateUri, Icon, and Source.
+    </Paragraph>
+
+    <Paragraph>These properties can be set from both markup and code.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using Pack URIs in Markup
+    </Paragraph>
+
+    <Paragraph>Inmarkup, you specify a pack URI by setting the element of an attribute with the string value of the pack URI. For example:
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;element attribute="pack://application:,,,/File.xaml" /></Run>
+
+    </Paragraph>
+
+    <Paragraph>The following table illustrates the various absolute and relative pack URIs that you can specify using a string value in markup.
+    </Paragraph>
+
+    <Paragraph>Table SEQ Table \* ARABIC 1: Absolute and Relative Pack URIs in Markup
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Non-Executable Data File 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Absolute Pack URI 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Local Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"pack://application:,,,/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File in Subfolder - Local Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"pack://application:,,,/Subfolder/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"pack://application:,,,/ReferencedAssembly;component/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File in Subfolder - Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"pack://application:,,,/ReferencedAssembly;component/Subfolder/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Versioned Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"pack://application:,,,/ReferencedAssembly;v1.0.0.0;component/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Content File
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"pack://application:,,,/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Content File in Subfolder
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"pack://application:,,,/Subfolder/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Site of Origin File
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"pack://siteoforigin:,,,/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Site of Origin File in Subfolder
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"pack://siteoforigin:,,,/Subfolder/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Local Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File in Subfolder - Local Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"/Subfolder/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"/ReferencedAssembly;component/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File in Subfolder - Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"/ReferencedAssembly;component/Subfolder/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Content File
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Content File in Subfolder
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>"/Subfolder/File.xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Site of origin files can only be referenced using absolute pack URIs.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using Pack URIs in Code
+    </Paragraph>
+
+    <Paragraph>Incode, you specify a pack URI by instantiating <Run FontWeight="Bold">Uri</Run>
+ class and passing the pack URI as a parameter to the constructor. This is demonstrated in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Uri uri = new Uri("pack://application:,,,/File.xaml");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>By default, the <Run FontWeight="Bold">Uri</Run>
+ class considers URI references to be absolute. Consequently, an exception is raised when you attempt to use an instance of the <Run FontWeight="Bold">Uri</Run>
+ class that references a relative pack URI:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Uri uri = new Uri("/File.xaml");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Fortunately, one overload of the <Run FontWeight="Bold">Uri</Run>
+ class constructor accepts a parameter of type UriKind, which allows you to specify whether a pack URI is either absolute or relative:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>// Absolute URI (default) Uri absoluteUri = new Uri("pack://application:,,,/File.xaml", <Run FontWeight="Bold">UriKind.Absolute</Run>
+); 
+// Relative URI Uri relativeUri = new Uri("/File.xaml", <Run FontWeight="Bold">UriKind.Relative</Run>
+);</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You should specify only Absolute or Relative when you are certain that the provided pack URI is one or the other. In some situations, however, you may not know whether a pack URI is absolute or relative at compile time. For example, an application may accept a user-provided pack URI at run time, in which case the pack URI might be either absolute or relative. In this case, you use RelativeOrAbsolute instead:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>// Relative or Absolute URI TextBox userProvidedUriTextBox = new TextBox(); 
+Uri uri = new Uri(userProvidedUriTextBox.Text, <Run FontWeight="Bold">UriKind.RelativeOrAbsolute</Run>
+);</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following table illustrates the various absolute and relative pack URIs that you can specify using the <Run FontWeight="Bold">Uri</Run>
+ in code.
+    </Paragraph>
+
+    <Paragraph>Table SEQ Table \* ARABIC 2: Absolute and Relative Pack URIs in Code
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Non-Executable Data File 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Absolute Pack URI 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Local Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("pack://application:,,,/File.xaml", UriKind.Absolute");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File in Subfolder - Local Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("pack://application:,,,/Subfolder/File.xaml", UriKind.Absolute");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("pack://application:,,,/ReferencedAssembly;component/File.xaml", UriKind.Absolute");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File in Subfolder - Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("pack://application:,,,/ReferencedAssembly;component/Subfolder/File.xaml", UriKind.Absolute");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Versioned Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("pack://application:,,,/ReferencedAssembly;v1.0.0.0;component/File.xaml", UriKind.Absolute");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Content File
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("pack://application:,,,/File.xaml", UriKind.Absolute");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Content File in Subfolder
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("pack://application:,,,/Subfolder/File.xaml", UriKind.Absolute");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Site of Origin File
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("pack://siteoforigin:,,,/File.xaml", UriKind.Absolute");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Site of Origin File in Subfolder
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Absolute</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("pack://siteoforigin:,,,/Subfolder/File.xaml", UriKind.Absolute");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Local Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("/File.xaml", UriKind.Relative");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File in Subfolder - Local Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("/Subfolder/File.xaml", UriKind.Relative");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File - Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("/ReferencedAssembly;component/File.xaml", UriKind.Relative");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource File in Subfolder - Referenced Assembly
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("/ReferencedAssembly;component/Subfolder/File.xaml", UriKind.Relative");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Content File
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("/File.xaml", UriKind.Relative");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Content File in Subfolder
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Relative</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Uri uri = new Uri("/Subfolder/File.xaml", UriKind.Relative");</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Site of origin files can only be referenced using absolute pack URIs.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="7ad2943b-3961-41d3-8fc6-1582d43f5d99.xaml">Windows Presentation Foundation Application Data Files</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Pack URI Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Pack URIs in Windows Presentation Foundation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

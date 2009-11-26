@@ -1,0 +1,197 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3a7a86a8_75d5_4898_96b9_73da151e5e16"
+  Tag     ="WPF Browser-Hosted Applications Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Presentation Foundation Browser-Hosted Applications Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>XAML browser applications (XBAPs) are intended to combine the best features of Web applications and rich-client applications. As with a Web application, XAML browser applications (XBAPs) can be deployed from a server to a system with a single click. The application then runs in the browser without any interruptions beyond the time needed to download the application. However, unlike the relatively limited graphics and media capabilities of HTML-based applications, XAML browser applications (XBAPs) have access to the rich features of the Windows Presentation Foundation (WPF) runtime. See Blackjack Express Demo for an example of a simple but fully functional XAML browser application (XBAP).
+    </Paragraph>
+
+    <Paragraph>For the most part, developing a XAML browser application (XBAP) is a matter of standard WPF programming, and is very similar to installed applications. See Creating, Building, Deploying, and Launching WPF Applications for a general introduction. This topic discusses aspects of implementing, debugging, and deploying that are specific to XAML browser applications (XBAPs).
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="implement_the_app">Implementing a XAML Browser Application</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="deploy_the_app">Deploying a XAML Browser Application</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Implementing a XAML Browser Application
+    </Paragraph>
+
+    <Paragraph>The simplest way to start a new XAML browser application (XBAP) is with Microsoft Visual Studio 2005. See Creating, Building, Deploying, and Launching WPF Applications for instructions on how to enable Visual Studio 2005 to build WPF applications.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Open Visual Studio 2005 and launch the <Run FontWeight="Bold">New Project</Run>
+ dialog box.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Select the WPF project type with a XAML browser application (XBAP) template.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Assign a project name and click <Run FontWeight="Bold">OK</Run>
+ to create the new project.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This template creates a navigation application with an application definition, MyApp.xaml, and a single page, Page1.xaml. You can add to those as necessary. If you would prefer to use a command-line build and create your project file manually, see <Hyperlink NavigateUri="aef856e6-6777-4a2a-9cac-d397ce217c1e.xaml">How to: Create a Sample Project File for a Windows Presentation Foundation XAML Browser Application</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>XAML browser applications (XBAPs) need to work within the restrictions imposed by the Internet zone permission set. As a practical matter, this means that you must restrict your implementation to that subset of WPF elements that is valid with Internet zone permissions. You are also limited in how you can access system resources such as the file system and registry, and your application cannot use unmanaged code. See WPF Security Model Overview for a list of valid elements. This means that any XAML browser application (XBAP) can be recompiled as an installed application, because installed applications do not have these security restrictions. Installed applications can be recompiled as XAML browser applications (XBAPs) as well, but only if they are compatible with the Internet permission set. If you attempt to exceed these permissions, your application will typically throw a security exception. The requirements include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Only use the subset of WPF elements that is compatible with Internet zone permissions. See WPF Security Model Overview for a list of valid elements.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You cannot launch additional windows or dialog boxes. You can use Popup elements, but they must stay within the bounds of the window's border.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Obey Internet zone restrictions on accessing system resources such as the file system or registry.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You cannot use unmanaged code.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>You can run or debug the application from Visual Studio 2005 in exactly the same way as for an installed application. The main difference is that the application is launched in the browser instead of a stand-alone window. When you debug, your application is running in the Internet zone and will throw exceptions if you attempt to exceed those permissions.
+    </Paragraph>
+
+    <Paragraph>See <Hyperlink NavigateUri="aef856e6-6777-4a2a-9cac-d397ce217c1e.xaml">How to: Create a Sample Project File for a Windows Presentation Foundation XAML Browser Application</Hyperlink>
+ for details on how to build XAML browser applications (XBAPs) from the command line.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Deploying a XAML Browser Application
+    </Paragraph>
+
+    <Paragraph>When you build a XAML browser application (XBAP), the Microsoft build engine (MSBuild) typically produces three files.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>An executable file. This contains the compiled code and has a .exe extension.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>An application manifest. This contains metadata associated with the application and has a .manifest extension.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A deployment manifest. This file contains the information that ClickOnce uses to deploy the application and has an .XBAP extension.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>You deploy XAML browser applications (XBAPs) from a server with Microsoft Internet Information Services (IIS) version 5 or later. It is not necessary to have the WPF runtime on the server to deploy WPF applications from it. However, you do need to register the WPF  Multipurpose Internet Mail Extensions (MIME) types and file extensions. See <Hyperlink NavigateUri="c6e8c2cb-9ba2-4e75-a0d5-180ec9639433.xaml">How to: Configure a Web Server to Deploy WPF Applications</Hyperlink>
+ for details.
+    </Paragraph>
+
+    <Paragraph>To prepare your XAML browser application (XBAP) for deployment, simply copy the .exe and the associated manifests to your webserver. Create a link on an appropriate Web page that navigates to the applications deployment manifest. When the user clicks the link and navigates to the .XBAP file, ClickOnce automatically handles the mechanics of downloading and launching the application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The Visual Studio 2005 Publish Wizard does not support XAML browser applications (XBAPs).
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Browser-Hosted Applications Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

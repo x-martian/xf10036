@@ -1,0 +1,242 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d01ed009_b722_41bf_b82f_fe1a8cdc50dd"
+  Tag     ="Dependency Property Metadata"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Dependency Property Metadata</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Windows Presentation Foundation (WPF) property system includes a metadata reporting system that goes beyond what can be reported about a property through reflection or general common language runtime (CLR) characteristics. Metadata for a property can also be assigned uniquely for each owner of a property, and can be specifically overridden by discrete subclasses that inherit the property from a base class.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="dp_metadata_contents">How Dependency Property Metadata is Used</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="APIs">Metadata APIs</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="override_or_subclass">When to Override Metadata, When to Subclass</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="scenarios">Scenarios for Changing Existing Metadata</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you understand dependency properties from the perspective of a consumer of existing dependency properties on Windows Presentation Foundation (WPF) classes, and have read the <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+. In order to follow the examples in this topic, you should also understand XAML and know how to write WPF applications.
+    </Paragraph>
+
+    <Paragraph FontSize="22">How Dependency Property Metadata is Used
+    </Paragraph>
+
+    <Paragraph>Dependency property metadata exists as an object that can be queried after property registration to examine the property's characteristics. This metadata is also accessed frequently by the property system as it processes any given dependency property. The metadata object for a dependency property can contain the following types of information:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Default value for the property, if no other value can be determined for the property by local setting, style, inheritance, etc. See <Hyperlink NavigateUri="1fbada8e-4867-4ed1-8d97-62c07dad7ebc.xaml">Dependency Property Value Precedence</Hyperlink>
+ for a thorough discussion of how default values fall in the precedence used by the property system when assigning values for dependency properties.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>References to callback implementations that affect coercion or change-notification behaviors on a per-owner-type basis. Note that these callbacks are often defined with a nonpublic access level, so obtaining the actual references from metadata is generally not possible unless these references are within your allowed access scope.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the dependency property in question is considered to be a framework-level property, the metadata may contain a bitwise flag enumeration of framework-level dependency property characteristics, which report information and state for services such as the framework layout engine and property inheritance logic. See <Hyperlink NavigateUri="9962f380-b885-4b61-a62e-457397083fea.xaml">Framework Property Metadata</Hyperlink>
+ for more information on this aspect of dependency property metadata.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Metadata APIs
+    </Paragraph>
+
+    <Paragraph>The type that commutes most of the metadata information used by the property system is the PropertyMetadata class. Metadata instances are optionally specified when dependency properties are registered, and can be specified again for additional types that either add themselves as owners or override metadata they inherit as subclasses. That registered metadata is returned as <Run FontWeight="Bold">PropertyMetadata</Run>
+ when you call the various GetMetadata overloads for dependency properties on a DependencyObject instance.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">PropertyMetadata</Run>
+ class is subclassed to provide more specific metadata for various levels. UIPropertyMetadata adds animation reporting, and FrameworkPropertyMetadata provides the framework flags mentioned in the previous section. When dependency properties are registered they can be registered with these <Run FontWeight="Bold">PropertyMetadata</Run>
+ derivatives, and when the metadata is examined, the base <Run FontWeight="Bold">PropertyMetadata</Run>
+ type can potentially be cast to the derivatives to get at the more specific information properties.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The property characteristics that can be specified in <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+ particularly are sometimes referred to in this documentation as "flags". When you create new metadata instances for use in property registrations or metadata overrides, you actually specify these values using the flagwise enumeration FrameworkPropertyMetadataOptions and then you supply possibly concatenated values of the enumeration to the <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+ constructor. However, once constructed, these option characteristics are exposed on <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+ as a series of Boolean properties that allow you to check each conditional, rather than exposing the options as the concatenated value of the constructor parameter, and requiring you to apply a mask to get the information you are interested in. The constructor uses the concatenated <Run FontWeight="Bold">FrameworkPropertyMetadataOptions</Run>
+ in order to keep the length of the constructor signature reasonable, whereas the actual constructed metadata exposes the discrete properties to make querying more intuitive.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">When to Override Metadata, When to Subclass
+    </Paragraph>
+
+    <Paragraph>The WPF property system has established capabilities for changing some characteristics of dependency properties without requiring them to be entirely re-implemented. This is accomplished by constructing a different instance of property metadata for the property as it exists on a particular type. Note that most existing dependency properties are not virtual, so strictly speaking "re-implementing" them on inherited classes could only be accomplished by shadowing the existing member.
+    </Paragraph>
+
+    <Paragraph>If the scenario you are trying to enable for a property on a type cannot be accomplished by modifying characteristics of existing dependency properties, it may then be necessary to create a subclass, and then declare a custom dependency property on your class. A custom dependency property behaves identically to dependency properties defined as WPF APIs. See <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+ for more details about custom dependency properties.
+    </Paragraph>
+
+    <Paragraph>One notable feature of a dependency property that you cannot override is its type. If you are inheriting a dependency property that seems to have the approximate behavior you require but you require a different type for it, you will have to implement a custom property and perhaps link the properties through type conversion on your class.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Scenarios for Changing Existing Metadata
+    </Paragraph>
+
+    <Paragraph>If working with metadata of an existing dependency property, one common scenario for changing dependency property metadata is to change the default value. Changing or adding property system callbacks is a more advanced scenario. You might want to do this if your implementation of a subclass has different interrelationships between properties. One of the conditionals of having a programming model that supports both procedural and declarative usage is that properties must enable being set in any order, and thus any dependent properties need to be set just-in-time and cannot rely on knowing a setting order such as might be found in a constructor. For more information on this aspect of the property system, see <Hyperlink NavigateUri="48db5fb2-da7f-49a6-8e81-3540e7b25825.xaml">Dependency Property Callbacks and Validation</Hyperlink>
+. Note that validation callbacks supplied when registering dependency properties are NOT part of the metadata, and therefore cannot be changed by overriding the metadata.
+    </Paragraph>
+
+    <Paragraph>In some cases you may also wish to alter the framework property characteristics on existing properties. These communicate certain known conditionals about framework-level properties to other framework-level processes such as the layout engine. Setting these flags is generally done only when registering a new property, but it is also possible to change the framework property metadata as part of a OverrideMetadata or AddOwner call. For the specific values, see <Hyperlink NavigateUri="9962f380-b885-4b61-a62e-457397083fea.xaml">Framework Property Metadata</Hyperlink>
+. For more information that is pertinent to how these flags should be set for a newly registered dependency property, see <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Overriding Default Metadata
+    </Paragraph>
+
+    <Paragraph>The purpose of overriding metadata is primarily so that you have the opportunity to change the various metadata-derived behaviors that are applied to the property as it exists on your type. The reasons for this are explained in more detail in the <Hyperlink TargetName="dp_metadata_contents">Metadata</Hyperlink>
+ section. For more information including some code examples, see <Hyperlink NavigateUri="f90f026e-60d8-428a-933d-edf0dba4441f.xaml">How to: Override Metadata for a Dependency Property</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Default metadata can be supplied for a property during the registration call. However, in many cases, you may want to provide type-specific metadata for your class when it inherits that property. You can do this by calling the <Run FontWeight="Bold">OverrideMetadata</Run>
+ method. For an example from the WPF APIs, the FrameworkElement class is the type that first registers the Focusable property, but the Control class overrides that property's metadata to provide its own initial default value, changing it from <Run FontWeight="Bold">false</Run>
+ to <Run FontWeight="Bold">true</Run>
+, otherwise re-using the original implementation. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Adding a Class as an Owner of an Existing Dependency Property
+    </Paragraph>
+
+    <Paragraph>A class can add itself as an owner of a property that has already been registered, by using the <Run FontWeight="Bold">AddOwner</Run>
+ method. This enables the class to use a property that was originally registered for a different type. The adding class is typically not an ancestor of the type that first registered that property as owner. Effectively, this allows your class and its subclasses to "inherit" a <Run>dependency property</Run>
+ implementation without the original owner class and adding class being in the same true class hierarchy. In addition, the adding class (and all subclasses as well) can then provide type-specific metadata for the original dependency property.
+    </Paragraph>
+
+    <Paragraph>As well as adding itself as owner through the property system utility methods, the adding class should declare additional public members on itself in order to make the dependency property a full participant in the property system with exposure to both procedural code and markup. The first such member is a dependency property identifier field. This field should be a public static readonly field of type DependencyProperty, which is assigned to the return value of the <Run FontWeight="Bold">AddOwner</Run>
+ call. The second member to define is the common language runtime (CLR) "wrapper" property that is used by the XAML parser to access the property on your type if you are attempting to set it in markup. The wrapper also makes it much more convenient to manipulate your property in procedural code (you avoid needing to make calls to SetValue each time, making that call only once in the wrapper itself). This wrapper is typically implemented identically to how it would be implemented if you were registering a new dependency property (see <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+). 
+    </Paragraph>
+
+    <Paragraph>See <Hyperlink NavigateUri="edcce050-0576-4edb-a31a-3f909637b452.xaml">How to: Add an Owner Type for a Dependency Property</Hyperlink>
+ for example code and more information.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9962f380-b885-4b61-a62e-457397083fea.xaml">Framework Property Metadata</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Dependency Property Metadata to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

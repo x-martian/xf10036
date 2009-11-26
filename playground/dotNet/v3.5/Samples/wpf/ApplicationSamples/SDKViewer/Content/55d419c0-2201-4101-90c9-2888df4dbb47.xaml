@@ -1,0 +1,138 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_55d419c0_2201_4101_90c9_2888df4dbb47"
+  Tag     ="Expose a Server-side UI Automation Provider"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Expose a Server-side UI Automation Provider</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic contains example code that shows how to expose a server-side <Run>UI Automation provider</Run>
+ that is hosted in a System.Windows.Forms.Control window. 
+    </Paragraph>
+
+    <Paragraph>The example overrides the window procedure to trap WM_GETOBJECT, which is the message sent by the UI Automation core service when a client application requests information about the window.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Handles WM_GETOBJECT message; 
+others are passed to base handler. /// 
+&lt;/summary> /// 
+&lt;param name="m">Windows message.
+&lt;/param> /// 
+&lt;remarks> /// This method enables UI Automation to find the control. /// In this example, the implementation of IRawElementProvider is in the same class /// as this method. /// 
+&lt;/remarks> protected override void WndProc(ref Message m) { const int WM_GETOBJECT = 0x003D; 
+if ((m.Msg == WM_GETOBJECT) &amp;&amp; 
+(m.LParam.ToInt32() == AutomationInteropProvider.RootObjectId)) { m.Result = AutomationInteropProvider.ReturnRawElementProvider( this.Handle, m.WParam, m.LParam, (IRawElementProviderSimple)this); 
+return; 
+} base.WndProc(ref m); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Handles WM_GETOBJECT message; 
+others are passed to base handler. ''' 
+&lt;/summary> ''' 
+&lt;param name="m">Windows message.
+&lt;/param> ''' 
+&lt;remarks> ''' This method enables UI Automation to find the control. ''' In this example, the implementation of IRawElementProvider is in the same class ''' as this method. ''' 
+&lt;/remarks> Protected Overrides Sub WndProc(ByRef m As Message) Const WM_GETOBJECT As Integer = &amp;H3D If m.Msg = WM_GETOBJECT AndAlso m.LParam.ToInt32() = AutomationInteropProvider.RootObjectId Then m.Result = AutomationInteropProvider.ReturnRawElementProvider(Me.Handle, m.WParam, m.LParam, DirectCast(Me, IRawElementProviderSimple)) Return End If MyBase.WndProc(m) End Sub 'WndProc </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="859557b8-51e1-4d15-92e8-318d2dcdb2f7.xaml">UI Automation Providers Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6acc6d08-bd67-4e2e-915c-9c1d34eb86fe.xaml">Server-Side UI Automation Provider Implementation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Expose a Server-side UI Automation Provider to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

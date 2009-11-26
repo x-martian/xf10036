@@ -1,0 +1,168 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_500853f6_1861_4948_b494_2c37a958dee8"
+  Tag     ="Read a Journal File"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Read a Journal File</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Microsoft Windows Journal Note Reader component provides programmatic read access to files in the Journal format. Journal files have the .jnt file extension. This simple component takes a stream containing a .jnt file and returns a stream containing the file’s content in XML format. The XML returned by the component conforms to the Journal Note Reader schema. This schema is documented in Journal Reader Schema Reference.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example reads a .jnt file and adds each page in the file to an InkCanvas. This example assumes that there is a TabControl called <Run>pagePanel</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports System Imports System.Windows Imports System.Windows.Controls Imports System.Windows.Media Imports System.IO Imports System.Windows.Ink Imports System.Xml <Run>... </Run>
+ Private Sub LoadInk() ' Load a Journal file. Dim openJnt As New Microsoft.Win32.OpenFileDialog() openJnt.Multiselect = False openJnt.Filter = "Journal Files(*.jnt) | *.jnt" openJnt.ShowDialog() If openJnt.FileName = "" Then Return End If Me.Title = openJnt.FileName 'Read in the journal file and load its XML. Dim jntFile As Stream = openJnt.OpenFile() Dim jntXml As Stream = _ Microsoft.Ink.JournalReader.ReadFromStream(jntFile) ' Get the xml from the JournalReader. Dim jntDoc As New XmlDocument() jntDoc.Load(jntXml) 'Get all JournalPage nodes in the xml. nsmgr = New XmlNamespaceManager(jntDoc.NameTable) nsmgr.AddNamespace("jnt", _ "urn:schemas-microsoft-com:tabletpc:journalreader") Dim pages As XmlNodeList = _ jntDoc.DocumentElement.SelectNodes(".//jnt:JournalPage", nsmgr) Dim pageCounter As Integer For pageCounter = 0 To pages.Count - 1 Dim page As XmlNode = pages(pageCounter) ' Create an InkCanvas to hold the ink. Dim pageCanvas As New InkCanvas() ' Create a tab item for each page and name ' it according to its page number. Dim tabPage As New TabItem() tabPage.Header = "Page " &amp; 
+(pageCounter + 1) ' Add the InkCanvas to the TabItem. tabPage.Content = pageCanvas ' Find all the InkWord and Drawings nodes and add the ' ink to the InkCanvas. Dim inkWords As XmlNodeList = _ page.SelectNodes(".//jnt:InkWord | .//jnt:Drawing", nsmgr) AddInkToCanvas(pageCanvas, inkWords) ' Add the TabItem representing the current Journal ' page to the TabControl. pagePanel.Items.Add(tabPage) Next pageCounter 'Close the streams. jntXml.Close() jntFile.Close() End Sub 'LoadInk Private Sub AddInkToCanvas(ByVal pageCanvas As InkCanvas, _ ByVal xmlNodes As XmlNodeList) Const cmPerInch As Double = 2.54 ' The value to multiply to get ' device independant pixels. Const WPFRatio As Double = 96.0 / 2540.0 Dim node As XmlNode For Each node In xmlNodes Dim scalarMatrix As New Matrix() ' Look for a ScalarTransform element and create a matrix ' if it is found. The GetValue method is defined below. ' ScalarTransform's matrix is in the following format: ' Mat1 Mat4 Mat7 ' Mat2 Mat5 Mat8 ' Mat3 Mat6 Mat9 Dim scalarTransform As XmlNode = _ node.SelectSingleNode("./jnt:ScalarTransform", nsmgr) If Not (scalarTransform Is Nothing) Then scalarMatrix.M11 = GetMatrixValue(scalarTransform, "Mat1") scalarMatrix.M12 = GetMatrixValue(scalarTransform, "Mat4") scalarMatrix.M21 = GetMatrixValue(scalarTransform, "Mat2") scalarMatrix.M22 = GetMatrixValue(scalarTransform, "Mat5") ' Multiply OffsetX and OffsetY by WPFRatio ' to find the WPF coordinates. scalarMatrix.OffsetX = _ GetMatrixValue(scalarTransform, "Mat3") * WPFRatio scalarMatrix.OffsetY = _ GetMatrixValue(scalarTransform, "Mat6") * WPFRatio End If ' Find the InkObject node. Dim inkObject As XmlNode = _ node.SelectSingleNode("./jnt:InkObject", nsmgr) If Not (inkObject Is Nothing) Then ' Load the base64 ISF into a MemoryStream and ' create a StrokeCollection. Dim base64ISF As String = inkObject.InnerText Dim isfData As _ New MemoryStream(Convert.FromBase64String(base64ISF)) Dim strokes As New StrokeCollection(isfData) ' Journal saves the ink in English Metric Units ' so convert the ink to inches. Dim scalar As New ScaleTransform(cmPerInch, cmPerInch) strokes.Transform(scalar.Value, False) If Not scalarMatrix.IsIdentity Then ' Apply the accompying ScalarMatrix to the strokes. strokes.Transform(scalarMatrix, False) End If 'Add the ink to the page. pageCanvas.Strokes.Add(strokes) End If Next node End Sub 'AddInkToCanvas ' Converts the value of ScalarTransform's ' attribute to a double. Private Function GetMatrixValue(ByVal node As XmlNode, _ ByVal valueName As String) As Double Dim nodeValue As String = _ node.Attributes.GetNamedItem(valueName).Value Return Convert.ToDouble(nodeValue) End Function 'GetValue </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.IO; 
+using System.Windows.Ink; 
+using System.Xml; 
+<Run>... </Run>
+ private void LoadInk() { // Load a Journal file. Microsoft.Win32.OpenFileDialog openJnt = new Microsoft.Win32.OpenFileDialog(); 
+openJnt.Multiselect = false; 
+openJnt.Filter = "Journal Files(*.jnt) | *.jnt"; 
+openJnt.ShowDialog(); 
+if (openJnt.FileName == "") { return; 
+} this.Title = openJnt.FileName; 
+//Read in the journal file and load its XML. Stream jntFile = openJnt.OpenFile(); 
+Stream jntXml = Microsoft.Ink.JournalReader.ReadFromStream(jntFile); 
+// Get the xml from the JournalReader. XmlDocument jntDoc = new XmlDocument(); 
+jntDoc.Load(jntXml); 
+//Get all JournalPage nodes in the xml. nsmgr = new XmlNamespaceManager(jntDoc.NameTable); 
+nsmgr.AddNamespace("jnt", "urn:schemas-microsoft-com:tabletpc:journalreader"); 
+XmlNodeList pages = jntDoc.DocumentElement.SelectNodes(".//jnt:JournalPage", nsmgr); 
+for (int pageCounter = 0; 
+pageCounter 
+&lt; 
+pages.Count; 
+pageCounter++) { XmlNode page = pages[pageCounter]; 
+// Create an InkCanvas to hold the ink. InkCanvas pageCanvas = new InkCanvas(); 
+// Create a tab item for each page and name // it according to its page number. TabItem tabPage = new TabItem(); 
+tabPage.Header = "Page " + (pageCounter + 1); 
+// Add the InkCanvas to the TabItem. tabPage.Content = pageCanvas; 
+// Find all the InkWord and Drawings nodes and add the // ink to the InkCanvas. XmlNodeList inkWords = page.SelectNodes(".//jnt:InkWord | .//jnt:Drawing", nsmgr); 
+AddInkToCanvas(pageCanvas, inkWords); 
+// Add the TabItem representing the current Journal // page to the TabControl. pagePanel.Items.Add(tabPage); 
+} //Close the streams. jntXml.Close(); 
+jntFile.Close(); 
+} private void AddInkToCanvas(InkCanvas pageCanvas, XmlNodeList xmlNodes) { const double cmPerInch = 2.54; 
+// The value to multiply to get // device independant pixels. const double WPFRatio = 96d / 2540d; 
+foreach (XmlNode node in xmlNodes) { Matrix scalarMatrix = new Matrix(); 
+// Look for a ScalarTransform element and create a matrix // if it is found. The GetValue method is defined below. // ScalarTransform's matrix is in the following format: // Mat1 Mat4 Mat7 // Mat2 Mat5 Mat8 // Mat3 Mat6 Mat9 XmlNode scalarTransform = node.SelectSingleNode("./jnt:ScalarTransform", nsmgr); 
+if (scalarTransform != null) { scalarMatrix.M11 = GetValue(scalarTransform, "Mat1"); 
+scalarMatrix.M12 = GetValue(scalarTransform, "Mat4"); 
+scalarMatrix.M21 = GetValue(scalarTransform, "Mat2"); 
+scalarMatrix.M22 = GetValue(scalarTransform, "Mat5"); 
+// Multiply OffsetX and OffsetY by WPFRatio // to find the WPF coordinates. scalarMatrix.OffsetX = GetValue(scalarTransform, "Mat3") * WPFRatio; 
+scalarMatrix.OffsetY = GetValue(scalarTransform, "Mat6") * WPFRatio; 
+} // Find the InkObject node. XmlNode inkObject = node.SelectSingleNode("./jnt:InkObject", nsmgr); 
+if (inkObject != null) { // Load the base64 ISF into a MemoryStream and // create a StrokeCollection. string base64ISF = inkObject.InnerText; 
+MemoryStream isfData = new MemoryStream(Convert.FromBase64String(base64ISF)); 
+StrokeCollection strokes = new StrokeCollection(isfData); 
+// Journal saves the ink in English Metric Units // so convert the ink to inches. ScaleTransform scalar = new ScaleTransform(cmPerInch, cmPerInch); 
+strokes.Transform(scalar.Value, false); 
+if (!scalarMatrix.IsIdentity) { // Apply the accompying ScalarMatrix to the strokes. strokes.Transform(scalarMatrix, false); 
+} //Add the ink to the page. pageCanvas.Strokes.Add(strokes); 
+} } } // Converts the value of ScalarTransform's // attribute to a double. private double GetValue(XmlNode node, string valueName) { string nodeValue = node.Attributes.GetNamedItem(valueName).Value; 
+return Convert.ToDouble(nodeValue); 
+} </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Compiling the Code
+    </Paragraph>
+
+    <Paragraph>To compile the code, add a reference to the Microsoft.Ink.JournalReader.dll assembly.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Read a Journal File to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

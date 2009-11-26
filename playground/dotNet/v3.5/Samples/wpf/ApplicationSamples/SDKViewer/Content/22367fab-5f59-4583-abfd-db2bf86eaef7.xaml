@@ -1,0 +1,587 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_22367fab_5f59_4583_abfd_db2bf86eaef7"
+  Tag     ="Opacity Masks Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Opacity Masks Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Opacity masks enable you to make portions of an element or visual either transparent or partially transparent. To create an opacity mask, you apply a Brush to the OpacityMask property of an element or Visual. The brush is mapped to the element or visual, and the opacity value of each brush pixel is used to determine the resulting opacity of each corresponding pixel of the element or visual.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prereqs">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="opacitymasks">Creating Visual Effects with Opacity Masks</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creatingopacitymasks">Creating an Opacity Mask</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creatingopacitymaskswithgradients">Using a Gradient as an Opacity Mask</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="specifyinggradientcolors">Specifying Gradient Stops for an Opacity Mask</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="usingimageasopacitymask">Using an Image as an Opacity Mask</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="drawingbrushasopacitymask">Creating an Opacity Mask from a Drawing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This overview assumes that you are familiar with <Run FontWeight="Bold">Brush</Run>
+ objects. For an introduction to using brushes, see <Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+. For information about ImageBrush and DrawingBrush, see <Hyperlink NavigateUri="779aac3f-8d41-49d8-8130-768244aa2240.xaml">Painting with Images, Drawings, and Visuals</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating Visual Effects with Opacity Masks
+    </Paragraph>
+
+    <Paragraph>An opacity mask works by mapping its contents to the element or visual. The <Run>alpha channel</Run>
+ of each of the brush's pixels are then used to determine the resulting opacity of the element or visual's corresponding pixels; 
+the actual color of the brush is ignored. If a given portion of the brush is transparent, the corresponding portion of the element or visual becomes transparent. If a given portion of the brush is opaque, the opacity of the corresponding portion of the element or visual is unchanged. The opacity specified by the opacity mask is combined with any opacity settings present in the element or visual. For example, if an element is 25 percent opaque and an opacity mask is applied that transitions from fully opaque to fully transparent, the result is an element that transitions from 25 percent opacity to fully transparent.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Although the examples in this overview demonstrate the use of opacity masks on image elements, an opacity mask may be applied to any element or <Run FontWeight="Bold">Visual</Run>
+, including panels and controls.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Opacity masks are used to create interesting visual effects, such as to create images or buttons that fade from view, to add textures to elements, or to combine gradients to produce glass-like surfaces. The following illustration demonstrates the use of an opacity mask. A checkered background is used to show the transparent portions of the mask.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Run FontWeight="Bold">Opacity masking example</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating an Opacity Mask
+    </Paragraph>
+
+    <Paragraph>To create an opacity mask, you create a <Run FontWeight="Bold">Brush</Run>
+ and apply it to the <Run FontWeight="Bold">OpacityMask</Run>
+ property of an element or visual. You can use any type of <Run FontWeight="Bold">Brush</Run>
+ as an opacity mask.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>LinearGradientBrush, RadialGradientBrush: Used to make an element or visual fade from view. 
+        </Paragraph>
+
+        <Paragraph>The following image shows a <Run FontWeight="Bold">LinearGradientBrush</Run>
+ used as an opacity mask.
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold">LinearGradientBrush Opacity Masking Example</Run>
+
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold"/>
+          <LineBreak/>
+        </Paragraph>
+
+        <Paragraph/>
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ImageBrush</Run>
+: Used to create texture and soft or torn edge effects. 
+        </Paragraph>
+
+        <Paragraph>The following image shows an <Run FontWeight="Bold">ImageBrush</Run>
+ used as an opacity mask.
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold">LinearGradientBrush opacity masking example</Run>
+
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold"/>
+          <LineBreak/>
+        </Paragraph>
+
+        <Paragraph/>
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">DrawingBrush</Run>
+: Used to create complex opacity masks from patterns of shapes, images, and gradients.
+        </Paragraph>
+
+        <Paragraph>The following image shows a <Run FontWeight="Bold">DrawingBrush</Run>
+ used as an opacity mask.
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold">DrawingBrush opacity masking example</Run>
+
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold"/>
+          <LineBreak/>
+        </Paragraph>
+
+        <Paragraph/>
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The gradient brushes (<Run FontWeight="Bold">LinearGradientBrush</Run>
+ and <Run FontWeight="Bold">RadialGradientBrush</Run>
+) are particularly well-suited for use as an opacity mask. Because a SolidColorBrush fills an area with a uniform color, they make poor opacity masks; 
+using a <Run FontWeight="Bold">SolidColorBrush</Run>
+ is equivalent to setting the element's or visual's <Run FontWeight="Bold">OpacityMask</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using a Gradient as an Opacity Mask
+    </Paragraph>
+
+    <Paragraph>To create a gradient fill, you specify two or more gradient stops. Each gradient stop contains describes a color and a position (see <Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+ for more information about creating and using gradients). The process is the same when using a gradient as an opacity mask, except that, instead of blending colors, the opacity mask gradient blends alpha channel values. So the actual color of the gradient's contents do not matter; 
+only the alpha channel, or opacity, of each color matters. The following is an example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!--With the opacity mask:--> 
+&lt;Image Width="200" Height="150" Source="sampleImages\Waterlilies.jpg" Margin="10" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="3"> 
+&lt;Image.OpacityMask> 
+&lt;LinearGradientBrush StartPoint="0.1,0.1" EndPoint="0.75,0.75"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0" Color="Black"/> 
+&lt;GradientStop Offset="1" Color="Transparent"/> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Image.OpacityMask> 
+&lt;/Image> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following image illustrates the opacity mask created with the previous code. A checkered background is used to show the transparent portions of the mask.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Specifying Gradient Stops for an Opacity Mask
+    </Paragraph>
+
+    <Paragraph>In the previous example, the system-defined color Black is used as the starting color of the gradient. Because all of the colors in the Colors class, except Transparent, are fully opaque, they can be used to simply define a starting color for a gradient opacity mask.
+    </Paragraph>
+
+    <Paragraph>For additional control over alpha values when defining an opacity mask, you can specify the alpha channel of colors using ARGB hexadecimal notation in markup or using the Color.FromScRgb method.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="18">Specifying Color Opacity in "XAML"
+    </Paragraph>
+
+    <Paragraph>In Extensible Application Markup Language (XAML), you use ARGB hexadecimal notation to specify the opacity of individual colors. ARGB hexadecimal notation uses the following syntax: 
+    </Paragraph>
+
+    <Paragraph><Run>#</Run>
+<Run FontWeight="Bold">aa</Run>
+<Run FontStyle="italic">rrggbb</Run>
+
+    </Paragraph>
+
+    <Paragraph>The <Run FontStyle="italic">aa</Run>
+ in the previous line represents a two-digit hexadecimal value used to specify the opacity of the color. The <Run FontStyle="italic">rr</Run>
+, <Run FontStyle="italic">gg</Run>
+, and <Run FontStyle="italic">bb</Run>
+ each represent a two digit hexadecimal value used to specify the amount of red, green, and blue in the color. Each hexadecimal digit may have a value from 0-9 or A-F. 0 is the smallest value, and F is the greatest. An alpha value of 00 specifies a color that is completely transparent, while an alpha value of FF creates a color that is fully opaque. In the following example, hexadecimal ARGB notation is used to specify two colors. The first is fully opaque, while the second is completely transparent.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas.OpacityMask> 
+&lt;RadialGradientBrush> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0" Color="#FF000000"/> 
+&lt;GradientStop Offset="1" Color="#00000000"/> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/Canvas.OpacityMask> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using an Image as an Opacity Mask
+    </Paragraph>
+
+    <Paragraph>Images can also be used as an opacity mask. The following image shows an example. A checkered background is used to show the transparent portions of the mask.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Opacity masking example</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>To use an image as an opacity mask, use an <Run FontWeight="Bold">ImageBrush</Run>
+ to contain the image. When creating an image to be used as an opacity mask, save the image in a format that supports multiple levels of transparency, such as Portable Network Graphics (PNG). The following example shows the code used to create the previous illustration.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- With the Opacity Mask--> 
+&lt;Image Height="150" Width="200" Source="sampleImages/Waterlilies.jpg" HorizontalAlignment="Left" Margin="10" Grid.Column="2" Grid.Row="1"> 
+&lt;Image.OpacityMask> 
+&lt;ImageBrush ImageSource="sampleImages/tornedges.png"/> 
+&lt;/Image.OpacityMask> 
+&lt;/Image> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="18">Using a Tiled Image as an Opacity Mask
+    </Paragraph>
+
+    <Paragraph>In the following example, the same image is used with another <Run FontWeight="Bold">ImageBrush</Run>
+, but the brush's tiling features are used to produce tiles of the image 50 pixels square.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- With the Opacity Mask --> 
+&lt;Image Height="150" Width="200" Source="sampleImages/Waterlilies.jpg" HorizontalAlignment="Left" Margin="10" Grid.Column="2" Grid.Row="2"> 
+&lt;Image.OpacityMask> 
+&lt;ImageBrush Viewport="0,0,50,50" ViewportUnits="Absolute" TileMode="Tile" ImageSource="sampleImages/tornedges.png"/> 
+&lt;/Image.OpacityMask> 
+&lt;/Image> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="22">Creating an Opacity Mask from a Drawing
+    </Paragraph>
+
+    <Paragraph>Drawings can be used an opacity mask. The shapes contained within the drawing can themselves be filled with gradients, solid colors, images, or even other drawings. The following image shows an example of a drawing used as an opacity mask. A checkered background is used to show the transparent portions of the mask. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">DrawingBrush opacity masking example</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>To use a drawing as an opacity mask, use a <Run FontWeight="Bold">DrawingBrush</Run>
+ to contain the drawing. The following example shows the code used to create the previous illustration:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- With the Opacity Mask--> 
+&lt;Image Grid.Row="4" Grid.Column="5" Height="150" Width="200" Source="sampleImages/Waterlilies.jpg"> 
+&lt;Image.OpacityMask> 
+&lt;DrawingBrush> 
+&lt;DrawingBrush.Drawing> 
+&lt;GeometryDrawing> 
+&lt;GeometryDrawing.Brush> 
+&lt;RadialGradientBrush> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0" Color="Black" /> 
+&lt;GradientStop Offset="1" Color="Transparent" /> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/GeometryDrawing.Brush> 
+&lt;GeometryDrawing.Geometry> 
+&lt;RectangleGeometry Rect="0.05,0.05 0.9,0.9" /> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="0.1" Brush="Black" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Image.OpacityMask> 
+&lt;/Image> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="18">Using a Tiled Drawing as an Opacity Mask
+    </Paragraph>
+
+    <Paragraph>Like the <Run FontWeight="Bold">ImageBrush</Run>
+, the <Run FontWeight="Bold">DrawingBrush</Run>
+ can be made to tile its drawing. In the following example, a drawing brush is used to create a tiled opacity mask.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- With the Opacity Mask--> 
+&lt;Button Grid.Row="8" Grid.Column="5" Height="100" Width="200" FontFamily="MS Gothic" FontSize="16"> A Button 
+&lt;Button.OpacityMask> 
+&lt;DrawingBrush Viewport="0,0,0.25,0.25" TileMode="Tile"> 
+&lt;DrawingBrush.Drawing> 
+&lt;GeometryDrawing> 
+&lt;GeometryDrawing.Brush> 
+&lt;RadialGradientBrush> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0" Color="Black" /> 
+&lt;GradientStop Offset="1" Color="Transparent" /> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/GeometryDrawing.Brush> 
+&lt;GeometryDrawing.Geometry> 
+&lt;RectangleGeometry Rect="0.05,0.05 0.9,0.9" /> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="0.1" Brush="Black" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Button.OpacityMask> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="779aac3f-8d41-49d8-8130-768244aa2240.xaml">Painting with Images, Drawings, and Visuals</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Opacity Masks Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

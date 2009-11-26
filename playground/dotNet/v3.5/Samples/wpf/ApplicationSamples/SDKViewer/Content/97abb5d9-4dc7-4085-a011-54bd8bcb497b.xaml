@@ -1,0 +1,142 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_97abb5d9_4dc7_4085_a011_54bd8bcb497b"
+  Tag     ="Animate Within a ControlTemplate"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate Within a ControlTemplate</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use Storyboard, EventTrigger, and Trigger objects to animate within a ControlTemplate.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- ControlStoryboardExample.xaml Uses storyboards to animate properties with a ControlTemplate. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="Microsoft.Samples.Animation.AnimatingWithStoryboards.ControlTemplateStoryboardExample" WindowTitle="Animate Properties with Storyboards"> 
+&lt;Page.Resources> 
+&lt;ControlTemplate x:Key="MyControlTemplate" TargetType="{x:Type ContentControl}"> 
+&lt;Border Margin="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"> 
+&lt;Border Name="innerBorder" Padding="10"> 
+&lt;Border.Background> 
+&lt;SolidColorBrush x:Name="innerBorderBackgroundBrush" Color="White" /> 
+&lt;/Border.Background> 
+&lt;Grid Name="contentPanel"> 
+&lt;Grid.Background> 
+&lt;SolidColorBrush x:Name="contentPanelBrush" Color="White" /> 
+&lt;/Grid.Background> 
+&lt;ContentPresenter Margin="10" Content="{TemplateBinding Content}" TextBlock.Foreground="{TemplateBinding Foreground}" /> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;/Border> 
+&lt;ControlTemplate.Triggers> 
+&lt;!-- Event Trigger Example --> 
+&lt;EventTrigger RoutedEvent="Border.MouseEnter" SourceName="innerBorder"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ColorAnimation Storyboard.TargetName="innerBorderBackgroundBrush" Storyboard.TargetProperty="Color" From="White" To="#CCCCFF" Duration="0:0:3" AutoReverse="True" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;!-- Property Trigger Example --> 
+&lt;Trigger Property="IsMouseOver" Value="True" SourceName="contentPanel"> 
+&lt;Trigger.EnterActions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ColorAnimation Storyboard.TargetName="contentPanelBrush" Storyboard.TargetProperty="Color" To="Purple" Duration="0:0:1" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/Trigger.EnterActions> 
+&lt;Trigger.ExitActions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ColorAnimation Storyboard.TargetName="contentPanelBrush" Storyboard.TargetProperty="Color" To="White" Duration="0:0:1" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/Trigger.ExitActions> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;/Page.Resources> 
+&lt;Border Background="White"> 
+&lt;StackPanel Margin="30" HorizontalAlignment="Left" MinWidth="500"> 
+&lt;ContentControl Template="{StaticResource MyControlTemplate}" Content="Hello, World" /> 
+&lt;/StackPanel> 
+&lt;/Border> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see the Property Animation Sample. For more information about animating properties with storyboards, see <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ControlTemplate
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate Within a ControlTemplate to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

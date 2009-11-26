@@ -1,0 +1,241 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_55d47757_2648_4a52_987f_b767953f168c"
+  Tag     ="Specify the Binding Source"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Specify the Binding Source</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In data binding, the <Run>binding source</Run>
+ object refers to the object you obtain your data from. This topic describes the different ways of specifying the binding source.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>If you are binding several properties to a common source, you want to use the <Run FontWeight="Bold">DataContext</Run>
+ property, which provides a convenient way to establish a scope within which all data-bound properties inherit a common source.
+    </Paragraph>
+
+    <Paragraph>In the following example, the data context is established on the root element of the application. This allows all child elements to inherit that data context. Data for the binding comes from a custom data class, <Run>NetIncome</Run>
+, referenced directly through a mapping and given the resource key of <Run>incomeDataSource</Run>
+.
+    </Paragraph>
+
+    <Paragraph>For the complete code sample, see Binding Modes Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="SDKSample.DirectionalBinding" xmlns:c="clr-namespace:SDKSample" Name="Page1" > 
+&lt;Grid.Resources> 
+&lt;c:NetIncome x:Key="incomeDataSource"/> 
+&lt;Style TargetType="{x:Type TextBlock}"> 
+&lt;Setter Property="Padding" Value="8"/> 
+&lt;/Style> 
+&lt;Style TargetType="{x:Type TextBox}"> 
+&lt;Setter Property="Margin" Value="0,6,0,0"/> 
+&lt;/Style> 
+&lt;/Grid.Resources> 
+&lt;Grid.DataContext> 
+&lt;Binding Source="{StaticResource incomeDataSource}"/> 
+&lt;/Grid.DataContext> <Run>... </Run>
+
+&lt;/Grid> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The above example instantiates the object in markup and uses it as a resource. If you want to bind to an object that has already been instantiated in code, you need to set the <Run FontWeight="Bold">DataContext</Run>
+ property programmatically. For an example, see <Hyperlink NavigateUri="7103c2e8-0e31-4a13-bf12-ca382221a8d5.xaml">How to: Make Data Available for Binding in XAML</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Alternatively, if you want to specify the source on your individual bindings explicitly, you have the following options. These take precedence over the inherited data context.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Source 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>You use this property to set the source to an instance of an object. If you do not need the functionality of establishing a scope in which several properties inherit the same data context, you can use the <Run FontWeight="Bold">Source</Run>
+ property instead of the <Run FontWeight="Bold">DataContext</Run>
+ property. For more information, see <Run FontWeight="Bold">Source</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RelativeSource 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This is useful when you want to specify the source relative to where your <Run>binding target</Run>
+ is. Some common scenarios where you may use this property is when you want to bind one property of your element to another property of the same element or if you are defining a binding in a style or a template. For more information, see <Run FontWeight="Bold">RelativeSource</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ElementName 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>You specify a string that represents the element you want to bind to. This is useful when you want to bind to the property of another element on your application. For example, if you want to use a Slider to control the height of another control in your application, or if you want to bind the Content of your control to the SelectedValue property of your ListBox control. For more information, see <Run FontWeight="Bold">ElementName</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>System.Windows.FrameworkElement.DataContext
+      <LineBreak/>System.Windows.FrameworkContentElement.DataContext
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d7c338f9-f2bf-48ed-832c-7be58ac390e4.xaml">Property Value Inheritance</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b97fd626-4c0d-4761-872a-2bca5820da2c.xaml">Binding Declarations Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Binding Modes Sample
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Specify the Binding Source to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

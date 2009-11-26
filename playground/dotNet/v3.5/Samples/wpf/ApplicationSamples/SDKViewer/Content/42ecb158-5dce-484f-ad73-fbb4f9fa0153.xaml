@@ -1,0 +1,1000 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_42ecb158_5dce_484f_ad73_fbb4f9fa0153"
+  Tag     ="Build System"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_42ecb158_5dce_484f_ad73_fbb4f9fa0153"
+    Tag     ="Build System"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>WPF Build System</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>The build system in Windows Presentation Foundation uses the Microsoft build engine (MSBuild) that is integrated with the Microsoft .NET Framework 2.0. The build is configured with information in a XML-based project file based on the <Run>http://schemas.microsoft.com/developer/msbuild/2003</Run>
+ namespace.    
+      </Paragraph>
+
+      <Paragraph>Typical usage: <Run>msbuild.exe 
+&lt;project file></Run>
+
+      </Paragraph>
+
+      <Paragraph>You can build a Windows Presentation Foundation application in any of the following ways:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>From the Windows command line using msbuild.exe.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>From the Windows Software Development Kit (SDK) command window, using msbuild.exe.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>By clicking F5 or Ctrl-F5 in Microsoft Visual Studio, which invokes the Windows Presentation Foundation build system through msbuild.exe.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Within <Hyperlink NavigateUri="http://www.microsoft.com/products/expression/en/interactive_designer/default.aspx">Expression Interactive Designer</Hyperlink>
+, which invokes the Windows Presentation Foundation build system through msbuild.exe.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The Windows Presentation Foundation build system also supports Visual Studio solution name as argument in place of the project file name.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">MSBuild Project Primer    
+      </Paragraph>
+
+      <Paragraph>At the root of an MSBuild project is the <Run>Project</Run>
+ element, which contains version information and is the location where the build system starts processing a project file.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> ... 
+&lt;/Project></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The MSBuild project file is essentially <Run FontWeight="Bold">Target</Run>
+ and <Run FontWeight="Bold">Task</Run>
+ driven. The Target elements determine how a project is built. Each Target consists of a set of Tasks that the build system will run sequentially. A Target can be made dependent on another Target.     
+      </Paragraph>
+
+      <Paragraph>A Task specifies the code that will run during the build process. Both the core MSBuild system and the Windows Presentation Foundation build system provide a core set of Targets and Tasks that may be reused. Users can also write custom tasks for non-standard functionality.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Target Name="GetFrameworkPaths" DependsOnTargets="$(GetFrameworkPathsDependsOn)"> 
+&lt;!-- The following is a task --> 
+&lt;GetFrameworkPath> 
+&lt;Output TaskParameter="Path" PropertyName="TargetFrameworkDirectory"/> 
+&lt;Output TaskParameter="Path" ItemName="_TargetFrameworkDirectoryItem"/> 
+&lt;/GetFrameworkPath> ... 
+&lt;/Target></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The project also supports <Run FontWeight="Bold">Properties</Run>
+ and <Run FontWeight="Bold">Items</Run>
+. Properties are variables that can be declared in the project file and referenced by Targets.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;PropertyGroup> 
+&lt;Platform Condition=" '$(Platform)' == '' ">AnyCPU
+&lt;/Platform> 
+&lt;OutputType>winexe
+&lt;/OutputType> 
+&lt;/PropertyGroup></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>Items are build inputs, and support Item metadata that allows you to further configure an item, as shown here:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;ItemGroup> 
+&lt;Compile Include="MyApp.xaml.cs"> 
+&lt;DependentUpon>MyApp.xaml
+&lt;/DependentUpon> 
+&lt;SubType>Code
+&lt;/SubType> 
+&lt;/Compile> 
+&lt;/ItemGroup></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>A project file typically has one or more references to other targets files. For instance, in a C#-based Windows Presentation Foundation application project, these Import directives are:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /> 
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" /></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The <Run>Microsoft.CSharp.targets</Run>
+ file contains the intelligence for building C# code files, and <Run>Microsoft.WinFX.targets</Run>
+ contains the information needed to build any type of Windows Presentation Foundation application. For Microsoft Visual Basic-based application projects, the first reference is to the <Run>Microsoft.VisualBasic.targets</Run>
+ file. Aside from these import directives, there is no indicator in the project file to specify whether a project is for a C#-based application or a Visual Basic-based application. This is why Visual Studio expects the project names to have language identifiers, such as .vbproj or .csproj, while the underlying MSBuild system doesn’t care.    
+      </Paragraph>
+
+      <Paragraph>Since these imported references have all of the Targets and Tasks necessary to build applications, the application’s project file need not have any.    
+      </Paragraph>
+
+      <Paragraph>More information about MSBuild can be found <Hyperlink NavigateUri="http://channel9.msdn.com/wiki/default.aspx/MSBuild.HomePage">online</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Supported Output Types    
+      </Paragraph>
+
+      <Paragraph>The Windows Presentation Foundation build system supports the following types of output types:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Microsoft .NET Framework version 3.0 Extensible Application Markup Language (XAML) Browser Application (XBAP): ClickOnce-deployed, browser-hosted Windows Presentation Foundation applications        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Microsoft .NET Framework version 3.0 Windows Application: standalone or installed applications which may or may not be ClickOnce-deployed        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Microsoft .NET Framework version 3.0 Control Library: user-defined control library to be used as reference in other Microsoft .NET Framework version 3.0 or Windows Forms applications        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>Common build properties include:    
+      </Paragraph>
+
+      <Paragraph><Run>AssemblyName</Run>
+. The name of the executable or library being built.    
+      </Paragraph>
+
+      <Paragraph><Run>OutputPath</Run>
+. Where the built binaries and content files will be copied.    
+      </Paragraph>
+
+      <Paragraph><Run>IntermediateOutputPath</Run>
+: The location where the Windows Presentation Foundation build system creates both the generated code files and the build cache files before they are packaged.    
+      </Paragraph>
+
+      <Paragraph><Run>Configuration</Run>
+: Decides the build configuration ie whether to create a <Run FontWeight="Bold">Debug</Run>
+ build or a <Run FontWeight="Bold">Release</Run>
+ build.    
+      </Paragraph>
+
+      <Paragraph><Run>Platform</Run>
+: Describes the CPU architecture of the assemblies being built. As is the default for managed code binaries, the default value for this property is <Run>AnyCPU</Run>
+ (indicating MSIL assemblies).     
+      </Paragraph>
+
+      <Paragraph><Run>UICulture</Run>
+: An optional property that determines the locale of the assemblies being built. When specified, all user interface (UI) content (compiled XAML files) and language-specific resources will be built into a satellite assembly, whereas all language-neutral content will be built into the main assembly.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>When <Run>UICulture</Run>
+ property is set, one must also specify the neutral resource language as an assembly attribute. This is done by adding the following attribute to the AssemblyInfo.<Run FontStyle="italic">languageExtension</Run>
+ file:            
+              </Paragraph>
+
+              <Paragraph><Run>[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]</Run>
+.            
+              </Paragraph>
+
+              <Paragraph>An entry like this, although commented out, already exists in the AssemblyInfo.<Run FontStyle="italic">languageExtension</Run>
+ file created by the Microsoft .NET Framework version 3.0 application templates in Visual Studio. When such a localized application is run on a machine with a different locale setting, this attribute tells the runtime what assembly to fallback to.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>In addition, these are the properties that are especially relevant in deciding the build flavor:        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run>OutputType</Run>
+: This property can be given one of the following values:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Run>Winexe</Run>
+: Build an executable application (.exe).        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run>Library</Run>
+: Build an application library (.dll).        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run>HostInBrowser</Run>
+: Creates a Windows Presentation Foundation application that will be hosted in a browser. It supports Boolean values:        
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph><Run FontWeight="Bold">True</Run>
+: to create a Microsoft .NET Framework version 3.0 XAML Browser Application (XBAP). The build process creates an exe, a deployment manifest (.xbap), and an application manifest (.exe.manifest).            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph><Run FontWeight="Bold">False</Run>
+: to create a Microsoft .NET Framework version 3.0 Windows Application. The build process creates an executable application (.exe) and, if ClickOnce-deployed, a deployment manifest (.xbap), and an application manifest (.exe.manifest) are also created.            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run>Install</Run>
+: Creates a Windows Presentation Foundation Windows Application. It too supports <Run FontWeight="Bold">Boolean</Run>
+ values, however, the value here must be the opposite of that set for the <Run>HostInBrowser</Run>
+ property.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run>GenerateManifests</Run>
+: <Run>GenerateManifests</Run>
+ is a <Run FontWeight="Bold">Boolean</Run>
+ that dictates whether the standalone application will be ClickOnce-deployed or not, and is only used when <Run>Install</Run>
+ property has value True:        
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph><Run FontWeight="Bold">True</Run>
+: creates the application executable (.exe) with additional, ClickOnce-specific manifests: a deployment manifest (.exe.deploy), and an application manifest (.exe.manifest).            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph><Run FontWeight="Bold">False</Run>
+: creates just the application executable (.exe).            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph FontSize="22">A Windows Presentation Foundation Application Project    
+      </Paragraph>
+
+      <Paragraph>There are some key Items that are present in a typical Windows Presentation Foundation application project.    
+      </Paragraph>
+
+      <Paragraph><Run>ApplicationDefinition</Run>
+: Mandatory when <Run>Install</Run>
+ property value is True (ie Application) and the <Run>OutputType</Run>
+ is <Run>winexe</Run>
+. There can be one and only one <Run>ApplicationDefinition</Run>
+ entry in the project. When you create a Windows Presentation Foundation project in Visual Studio, the default name for the <Run>ApplicationDefinition</Run>
+ file is MyApp.xaml.    
+      </Paragraph>
+
+      <Paragraph><Run>Page</Run>
+: Identifies a single XAML declarative markup file used to create UI elements for Windows Presentation Foundation applications. All XAML <Run>Page</Run>
+ files are compiled by the Windows Presentation Foundation build system into binary XAML (BAML) files: record-based binary files with the tree-representation of the UI and property sets.    
+      </Paragraph>
+
+      <Paragraph><Run>Compile</Run>
+: Identifies a code file that needs to be compiled.    
+      </Paragraph>
+
+      <Paragraph><Run>Reference</Run>
+: Refer to assemblies that are referred to by the files in the project (without the .dll file extension). A typical Windows Presentation Foundation project has references to System, System.Data, System.Xml, WindowsBase, PresentationCore, PresentationFramework, UIAutomationProvider, UIAutomationTypes, ReachFramework and System.Printing.    
+      </Paragraph>
+
+      <Paragraph><Run>Resource</Run>
+: Windows Presentation Foundation introduces a new resource management model which is compliant with the multi-lingual UI (MUI) assembly model. Unlike in Windows Forms projects, resource (.resx) files are not natively used in Windows Presentation Foundation projects. Instead, one declares application resources as Resource items in the project. During build time, these are translated directly into a .resources file (usually <Run FontStyle="italic">applicationName</Run>
+.g.resources). All such resources embedded into the application assembly can be referenced through URIs in XAML or code. For localized applications, ie those projects where the <Run>UICulture</Run>
+ property value is set, the files declared as <Run>Resource</Run>
+ are embedded into satellite assemblies (also referred to as resource assemblies because the file name is <Run FontStyle="italic">locale</Run>
+\<Run FontStyle="italic">applicationName</Run>
+.resources.dll). For non-localized applications (the default), these files are embedded in the main assembly.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">The Windows Presentation Foundation Build Pipeline    
+      </Paragraph>
+
+      <Paragraph>MSBuild ships with the Microsoft .NET Framework 2.0. This means if you have the Microsoft .NET Framework 2.0, you can compile a typical application. To compile a typical Windows Presentation Foundation application you need the Microsoft .NET Framework version 3.0 Runtime Components installed on your computer. Of course, the runtime provides a limited compilation support. For extended capabilities like compiling localized applications (with main and satellite resource assemblies), one needs to install the Windows Software Development Kit (SDK).     
+      </Paragraph>
+
+      <Paragraph>The following table lists the constituents of MSBuild which are relevant to building Windows Presentation Foundation applications:    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold"/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Constituent             
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Description             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>MSBuild.exe            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>The console application that consumes project files. Any C# or Visual Basic project you create in Visual Studio can be passed to MSBuild.exe to be built from the command-line.            
+              </Paragraph>
+
+              <Paragraph>Ships with the Microsoft .NET Framework 2.0.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Microsoft.Build.Engine.dll            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Is the common build engine responsible for reading in and executing build scripts.            
+              </Paragraph>
+
+              <Paragraph>Ships with the Microsoft .NET Framework 2.0.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Microsoft.Build.Tasks.dll            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Contains core MSBuild tasks. For example, there’s a CSC task for invoking the C# compiler.            
+              </Paragraph>
+
+              <Paragraph>Ships with the Microsoft .NET Framework 2.0.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>PresentationBuildTasks.dll            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Contains MSBuild tasks for Windows Presentation Foundation. These include <Run>MarkupCompilerPass1</Run>
+, <Run>MarkupCompilerPass1</Run>
+, <Run>FileClassifier</Run>
+, <Run>ResourcesGenerator</Run>
+ etc.             
+              </Paragraph>
+
+              <Paragraph>Ships with Microsoft .NET Framework version 3.0 Runtime Components 3.0.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Microsoft.Build.Utilities.dll            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Offers a set of utility classes that you would use if you were to write your own custom tasks. Ships with the Microsoft .NET Framework 2.0.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Microsoft.Build.Framework.dll            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Contains a set of interfaces that define the way the engine talks with tasks and loggers.            
+              </Paragraph>
+
+              <Paragraph>Ships with the Microsoft .NET Framework 2.0.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Microsoft.Build.Conversion.dll            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Contains classes that help convert legacy Microsoft Visual Studio .NET 2003 project formats to Microsoft Visual Studio 2005 MSBuild formats.            
+              </Paragraph>
+
+              <Paragraph>Ships with the Microsoft .NET Framework 2.0.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>Microsoft ships a bunch of <Run>.targets</Run>
+ files that you may enlist in building your project. For example:    
+      </Paragraph>
+
+      <Paragraph><Run>Microsoft.Common.targets</Run>
+: A repository of common targets, the bulk of the build work is done in this file.    
+      </Paragraph>
+
+      <Paragraph><Run>Microsoft.CSharp.targets</Run>
+: This contains C# build logic and depends on <Run>Microsoft.Common.targets</Run>
+ for other baseline build logic.    
+      </Paragraph>
+
+      <Paragraph><Run>Microsoft.VisualBasic.targets</Run>
+: This contains Visual Basic build logic and depends on <Run>Microsoft.Common.targets</Run>
+ for other baseline build logic.    
+      </Paragraph>
+
+      <Paragraph><Run>Microsoft.WinFX.targets</Run>
+: This contains the Windows Presentation Foundation build logic. This targets file depends on <Run>Microsoft.Common.targets</Run>
+ for other baseline build logic. <Run>Microsoft.WinFX.targets</Run>
+ does not ship with the Microsoft .NET Framework 2.0, instead gets installed with Microsoft .NET Framework version 3.0 Runtime Components or with the Windows Software Development Kit (SDK).     
+      </Paragraph>
+
+      <Paragraph>The Windows Presentation Foundation build pipeline employs a number of these targets and tasks to build <Run FontWeight="Bold">express</Run>
+ or <Run FontWeight="Bold">installed</Run>
+ applications. The following figure illustrates the key steps in the Windows Presentation Foundation Build Pipeline:    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Pre-Build Initializations    
+      </Paragraph>
+
+      <Paragraph>At the very outset, the build process determines the location of important tools and libraries: the Microsoft .NET Framework 2.0 and Windows Software Development Kit (SDK) directories, the location of Windows Presentation Foundation reference assemblies and the property for the assembly search paths etc. The reference assembly directory (eg <Run>%ProgramFiles%\Reference Assemblies\Microsoft\WinFX\v3.0\</Run>
+)is the first location where assemblies are looked for. In this stage, the build process also initializes the various properties and item groups, and performs any cleanup work.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Resolving references    
+      </Paragraph>
+
+      <Paragraph>The build process locates and binds the assemblies required to build the application project. This logic is contained in the <Run>ResolveAssemblyReferences</Run>
+ target and specifically the <Run>ResolveAssemblyReference</Run>
+ task within. All assemblies declared as <Run>Reference</Run>
+ in the project file are provided to the task along with information on the search paths and metadata on assemblies already installed on the system. The task looks up assemblies and uses the installed assembly's metadata to filter out those core Windows Presentation Foundation assemblies that need not show up in the output manifests. This is done to avoid redundant information in the ClickOnce manifests. For example, since PresentationFramework.dll can be considered representative of an application built on and for the Windows Presentation Foundation and moreover since all Windows Presentation Foundation assemblies exist at the same location on every machine that has the Microsoft .NET Framework version 3.0 Runtime Components installed, there is no need to include all information on all Microsoft .NET Framework version 3.0 reference assemblies in the manifests.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Pass 1 of Markup Compilation    
+      </Paragraph>
+
+      <Paragraph>This is also referred to as the <Run FontWeight="Bold">Code Generation</Run>
+ stage. In this stage, the following activities take place for every Foo.xaml page:    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Foo.xaml is parsed by the markup compiler        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>A BAML representation is created for that XAML and copied over to the <Run>obj\Release</Run>
+ folder.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>The markup compiler creates a <Run>CodeDOM</Run>
+ representation of a new partial class which too is saved to <Run>obj\Release</Run>
+.         
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>XAML files are parsed and compiled into BAML so that the runtime does not spend time parsing XML and validating property values etc. BAML is a binary representation of the object hierarchy and properties defined in the source XAML file. It is pre-tokenized so, at runtime, loading of a BAML file should be much faster than loading a XAML file.    
+      </Paragraph>
+
+      <Paragraph>In addition, for every XAML file, a language-specific code file is generated ie for Foo.xaml page in a Visual Basic project, a Foo.g.vb is generated, and, for a Bar.xaml page in a C# project, a Bar.g.cs is generated. The ".g" in this file name indicates this is generated code. This generated file has a partial class declaration for the root element of the markup file (eg <Run>Page</Run>
+, <Run>Window</Run>
+, etc). The class is declared partial in C# (extends in Visual Basic) to indicate there is another declaration for the class elsewhere, usually in the code-behind file Foo.xaml.cs.    
+      </Paragraph>
+
+      <Paragraph>The partial class extends from the appropriate base class and implements the <Run>System.Windows.Serialization.IComponentConnector</Run>
+ interface. The <Run>IComponentConnector</Run>
+ interface has methods used internally by the <Run>BamlReader</Run>
+ to initialize a component and connect names and events on elements in its content. Consequently, the generated code file has a method implementation like:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public void InitializeComponent(){ if (_contentLoaded){ return;} _contentLoaded = true;System.Uri resourceLocater = new System.Uri( "window1.baml", System.UriKind.RelativeOrAbsolute); 
+System.Windows.Application.LoadComponent(this, resourceLocater); 
+}</Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>It is important to note that not all XAML pages have BAML files created for them at this stage. Those XAML files that have locally-defined type references (ie references to types defined in code elsewhere in the same project) are exempt from BAML creation at this time. This is because those locally-defined types exist only in source and have no yet been compiled. In order to determine this, the parser uses heuristics that involve looking for <Run>x:Name</Run>
+ etc. in the markup file. When such an instance is found, that markup file’s BAML creation is postponed until the code files have been compiled. This means that second markup compilation pass will handle these files.    
+      </Paragraph>
+
+      <Paragraph>By default, markup compilation process runs in the same AppDomain as the MSBuild engine. This provides us significant performance gains. This behavior can be toggled through the <Run>AlwaysCompileMarkupFilesInSeparateDomain</Run>
+ property. With the latter approach one has the advantage of unloading all reference assemblies by unloading the separate <Run FontWeight="Bold">AppDomain</Run>
+.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">File Classification    
+      </Paragraph>
+
+      <Paragraph>The build process puts output files into different resource groups based on which application assembly they will be placed in. In a typical non-localized application, all data files marked as <Run>Resource</Run>
+ are placed in the main assembly (executable or library, as the case may be). When <Run>UICulture</Run>
+ is set in the project, all BAML files along with those resources specifically marked as language-specific, will be placed in the satellite resource assembly. And, all language-neutral resources will be placed in the main assembly. In this stage of the build process, that determination is made.    
+      </Paragraph>
+
+      <Paragraph>One can embellish the <Run>ApplicationDefinition</Run>
+, <Run>Page</Run>
+, and <Run>Resource</Run>
+ build actions in the project file with the <Run>Localizable</Run>
+ metadata (acceptable values are True and False), which dictates whether the file is language-specific or language-neutral.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Core Compilation    
+      </Paragraph>
+
+      <Paragraph>The core compile stage involves compilation of code files. This is orchestrated by logic in the language-specific targets files ie <Run>Microsoft.CSharp.targets</Run>
+ and <Run>Microsoft.VisualBasic.targets</Run>
+. If heuristics have determined that a single pass of the markup compiler is sufficient, then the main assembly is generated. However, if one or more XAML files in the project have references to locally-defined types, then a temporary .dll file is generated so the final application assemblies may be created once the second pass of markup compilation is complete.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Manifest generation    
+      </Paragraph>
+
+      <Paragraph>At the tail end of the build process, after all the application assemblies and content files are ready, the ClickOnce manifests for the application are generated.     
+      </Paragraph>
+
+      <Paragraph>The deployment manifest file describes the deployment model: the current version, update behavior, publisher identity along with digital signature. This manifest is intended to be authored by administrators who handle deployment. The file extension is .xbap for XAML Browser Applications (XBAP) applications, and .application for installed applications. The former is dictated by the <Run>HostInBrowser</Run>
+ project property and as a result the manifest identifies the application as browser-hosted.    
+      </Paragraph>
+
+      <Paragraph>The application manifest - an .exe.manifest file - describes the application assemblies, dependent libraries and lists permissions required by the application. This file is intended to be authored by the application developer. In order to launch a ClickOnce application, a user opens the application's deployment manifest file.    
+      </Paragraph>
+
+      <Paragraph>These manifest files are always created for Windows Presentation Foundation XAML Browser Applications (XBAPs). For installed applications, they are not created unless the <Run>GenerateManifests</Run>
+ property is specified in the project file with value True.    
+      </Paragraph>
+
+      <Paragraph>Windows Presentation Foundation XAML Browser Applications (XBAPs) get two additional permissions over and above those permissions assigned to typical Internet zone applications. These additional permissions are: <Run>WebPermission</Run>
+ and <Run>MediaPermission</Run>
+. The Windows Presentation Foundation build system declares those permissions in the application manifest.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Incremental Build    
+      </Paragraph>
+
+      <Paragraph>The Windows Presentation Foundation build system provides support for incremental builds. It is fairly intelligent about detecting changes made to markup or code and to compile only those artifacts impacted by the change.    
+      </Paragraph>
+
+      <Paragraph>The incremental build mechanism makes use of a <Run>$(AssemblyName)_MarkupCompiler.Cache</Run>
+ file to maintain current compiler state, and uses a <Run>$(AssemblyName)_MarkupCompiler.lref</Run>
+ file to cache the XAML files with references to locally-defined types.    
+      </Paragraph>
+
+      <Paragraph>The following is a set of rules governing incremental build:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>The file is the lowest granularity at which the build system detects change. So, for a code file, the build system cannot tell if a type was changed or if code was added. The same holds for Project files.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>The incremental build mechanism must be cognizant that a XAML page either defines a class or uses other classes.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If Reference entries change, then recompile all pages.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If code file changes, recompile all pages with locally-defined type references.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If XAML file changes:        
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph>If XAML is declared as <Run>Page</Run>
+ in the project: if XAML does not have locally-defined type references, recompile that XAML plus all XAML pages with local references;if XAML has local references, recompile all XAML pages with local references.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>If XAML is declared as <Run>ApplicationDefinition</Run>
+ in the project: recompile all XAML pages (reason: each XAML has reference to <Run>Application</Run>
+ type which may have changed).            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If the project file declares a code file as application definition instead of a XAML file:         
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph>Check if <Run>ApplicationClassName</Run>
+ value in project file has changed (eg is there a new application type?). If so, recompile the entire application.             
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>Or recompile all XAML pages with local references.            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If project file changes: apply all above rules and see what needs to be recompiled. Changes to the following properties trigger a full-blown re-compile: <Run>AssemblyName</Run>
+, <Run>IntermediateOutputPath</Run>
+, <Run>RootNamespace</Run>
+, <Run>HostInBrowser</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The following recompile scenarios exist:    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>The entire application is recompiled.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Only those XAML files that have locally-defined type references are recompiled.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Nothing is recompiled (if nothing in the project has changed).        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="aefbe9d1-2bca-4bbb-9406-796980eeca63.xaml">Creating, Building, Deploying, and Launching WPF Applications</Hyperlink>
+
+        <LineBreak/><Hyperlink NavigateUri="cd87f7ce-af09-4401-9cfb-ef19b06f7557.xaml">Creating a Project File</Hyperlink>
+
+        <LineBreak/><Hyperlink NavigateUri="7d73d005-4281-454e-901b-28afaace1c11.xaml">Hosting and Deploying WPF Applications and Components</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/0k6kkbsd.aspx">MSBuild</Hyperlink>
+
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about WPF Build System  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

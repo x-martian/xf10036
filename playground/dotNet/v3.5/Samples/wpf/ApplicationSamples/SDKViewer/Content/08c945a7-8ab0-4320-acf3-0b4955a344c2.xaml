@@ -1,0 +1,260 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_08c945a7_8ab0_4320_acf3_0b4955a344c2"
+  Tag     ="Change the Cursor Type"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Change the Cursor Type</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to change the Cursor of the mouse pointer for a specific element and for the application.
+    </Paragraph>
+
+    <Paragraph>This example consists of a Extensible Application Markup Language (XAML) file a code behind file. For the complete samples, see the Changing the Cursor Type Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following XAML creates the user interface, which consists of a ComboBox to select the desired <Run FontWeight="Bold">Cursor</Run>
+, a pair of RadioButton objects to determine the scope of the cursor change, and a Border which is the element that the new cursor is applied to.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Border Width="300"> 
+&lt;StackPanel Orientation="Horizontal" HorizontalAlignment="Center"> 
+&lt;StackPanel Margin="10"> 
+&lt;Label HorizontalAlignment="Left">Cursor Type
+&lt;/Label> 
+&lt;ComboBox Width="100" SelectionChanged="CursorTypeChanged" HorizontalAlignment="Left" Name="CursorSelector"> 
+&lt;ComboBoxItem Content="AppStarting" /> 
+&lt;ComboBoxItem Content="ArrowCD" /> 
+&lt;ComboBoxItem Content="Arrow" /> 
+&lt;ComboBoxItem Content="Cross" /> 
+&lt;ComboBoxItem Content="HandCursor" /> 
+&lt;ComboBoxItem Content="Help" /> 
+&lt;ComboBoxItem Content="IBeam" /> 
+&lt;ComboBoxItem Content="No" /> 
+&lt;ComboBoxItem Content="None" /> 
+&lt;ComboBoxItem Content="Pen" /> 
+&lt;ComboBoxItem Content="ScrollSE" /> 
+&lt;ComboBoxItem Content="ScrollWE" /> 
+&lt;ComboBoxItem Content="SizeAll" /> 
+&lt;ComboBoxItem Content="SizeNESW" /> 
+&lt;ComboBoxItem Content="SizeNS" /> 
+&lt;ComboBoxItem Content="SizeNWSE" /> 
+&lt;ComboBoxItem Content="SizeWE" /> 
+&lt;ComboBoxItem Content="UpArrow" /> 
+&lt;ComboBoxItem Content="WaitCursor" /> 
+&lt;ComboBoxItem Content="Custom" /> 
+&lt;/ComboBox> 
+&lt;/StackPanel> 
+&lt;!-- The user can select different cursor types using this ComboBox --> 
+&lt;StackPanel Margin="10"> 
+&lt;Label HorizontalAlignment="Left">Scope of Cursor
+&lt;/Label> 
+&lt;StackPanel> 
+&lt;RadioButton Name="rbScopeElement" IsChecked="True" Checked="CursorScopeSelected">Display Area Only
+&lt;/RadioButton> 
+&lt;RadioButton Name="rbScopeApplication" Checked="CursorScopeSelected">Entire Appliation
+&lt;/RadioButton> 
+&lt;/StackPanel> 
+&lt;/StackPanel> 
+&lt;/StackPanel> 
+&lt;/Border> 
+&lt;!-- When the mouse pointer is over this Border --> 
+&lt;!-- the selected cursor type is shown --> 
+&lt;Border Name="DisplayArea" Height="250" Width="400" Margin="20" Background="AliceBlue"> 
+&lt;Label HorizontalAlignment="Center"> Move Mouse Pointer Over This Area 
+&lt;/Label> 
+&lt;/Border> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code behind creates a SelectionChanged event handler which is called when the cursor type is changed in the <Run FontWeight="Bold">ComboBox</Run>
+. A switch statement filters on the cursor name and sets the Cursor property on the <Run FontWeight="Bold">Border</Run>
+ which is named <Run FontStyle="italic">DisplayArea</Run>
+.
+    </Paragraph>
+
+    <Paragraph>If the scope of the cursor change is set to "Entire Application", the OverrideCursor property is set to the <Run FontWeight="Bold">Cursor</Run>
+ property of the <Run FontWeight="Bold">Border</Run>
+ control. This forces the cursor to change for the whole application.
+    </Paragraph>
+
+    <Paragraph>The full sample also shows how to create a custom cursor type, Changing the Cursor Type Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void CursorTypeChanged(object sender, SelectionChangedEventArgs e) { ComboBox source = e.Source as ComboBox; 
+if (source != null) { ComboBoxItem selectedCursor = source.SelectedItem as ComboBoxItem; 
+// Changing the cursor of the Border control // by setting the Cursor property switch (selectedCursor.Content.ToString()) { case "AppStarting": DisplayArea.Cursor = Cursors.AppStarting; 
+break; 
+case "ArrowCD": DisplayArea.Cursor = Cursors.ArrowCD; 
+break; 
+case "Arrow": DisplayArea.Cursor = Cursors.Arrow; 
+break; 
+case "Cross": DisplayArea.Cursor = Cursors.Cross; 
+break; 
+case "HandCursor": DisplayArea.Cursor = Cursors.Hand; 
+break; 
+case "Help": DisplayArea.Cursor = Cursors.Help; 
+break; 
+case "IBeam": DisplayArea.Cursor = Cursors.IBeam; 
+break; 
+case "No": DisplayArea.Cursor = Cursors.No; 
+break; 
+case "None": DisplayArea.Cursor = Cursors.None; 
+break; 
+case "Pen": DisplayArea.Cursor = Cursors.Pen; 
+break; 
+case "ScrollSE": DisplayArea.Cursor = Cursors.ScrollSE; 
+break; 
+case "ScrollWE": DisplayArea.Cursor = Cursors.ScrollWE; 
+break; 
+case "SizeAll": DisplayArea.Cursor = Cursors.SizeAll; 
+break; 
+case "SizeNESW": DisplayArea.Cursor = Cursors.SizeNESW; 
+break; 
+case "SizeNS": DisplayArea.Cursor = Cursors.SizeNS; 
+break; 
+case "SizeNWSE": DisplayArea.Cursor = Cursors.SizeNWSE; 
+break; 
+case "SizeWE": DisplayArea.Cursor = Cursors.SizeWE; 
+break; 
+case "UpArrow": DisplayArea.Cursor = Cursors.UpArrow; 
+break; 
+case "WaitCursor": DisplayArea.Cursor = Cursors.Wait; 
+break; 
+case "Custom": DisplayArea.Cursor = CustomCursor; 
+break; 
+default: break; 
+} // If the cursor scope is set to the entire application // Use OverrideCursor to force the cursor for all elements if (cursorScopeElementOnly == false) { Mouse.OverrideCursor = DisplayArea.Cursor; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' When the Radiobox changes, a new cursor type is set Sub CursorTypeChanged(ByVal sender As Object, ByVal e As SelectionChangedEventArgs) Dim item As String = CType(e.Source, ComboBox).SelectedItem.Content.ToString() Select Case item Case "AppStarting" DisplayArea.Cursor = Cursors.AppStarting Case "ArrowCD" DisplayArea.Cursor = Cursors.ArrowCD Case "Arrow" DisplayArea.Cursor = Cursors.Arrow Case "Cross" DisplayArea.Cursor = Cursors.Cross Case "HandCursor" DisplayArea.Cursor = Cursors.Hand Case "Help" DisplayArea.Cursor = Cursors.Help Case "IBeam" DisplayArea.Cursor = Cursors.IBeam Case "No" DisplayArea.Cursor = Cursors.No Case "None" DisplayArea.Cursor = Cursors.None Case "Pen" DisplayArea.Cursor = Cursors.Pen Case "ScrollSE" DisplayArea.Cursor = Cursors.ScrollSE Case "ScrollWE" DisplayArea.Cursor = Cursors.ScrollWE Case "SizeAll" DisplayArea.Cursor = Cursors.SizeAll Case "SizeNESW" DisplayArea.Cursor = Cursors.SizeNESW Case "SizeNS" DisplayArea.Cursor = Cursors.SizeNS Case "SizeNWSE" DisplayArea.Cursor = Cursors.SizeNWSE Case "SizeWE" DisplayArea.Cursor = Cursors.SizeWE Case "UpArrow" DisplayArea.Cursor = Cursors.UpArrow Case "WaitCursor" DisplayArea.Cursor = Cursors.Wait Case "Custom" DisplayArea.Cursor = CustomCursor End Select ' if the cursor scope is set to the entire application ' use OverrideCursor to force the cursor for all elements If (cursorScopeElementOnly = False) Then Mouse.OverrideCursor = DisplayArea.Cursor End If End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Changing the Cursor Type Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Change the Cursor Type to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

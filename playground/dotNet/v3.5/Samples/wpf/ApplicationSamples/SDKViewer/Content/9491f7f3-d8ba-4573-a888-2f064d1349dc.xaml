@@ -1,0 +1,134 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_9491f7f3_d8ba_4573_a888_2f064d1349dc"
+  Tag     ="Hit Test Using a Win32 Host Container"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Hit Test Using a Win32 Host Container</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can create visual objects within a Win32 window by providing a host window container for the visual objects. To provide event handling for the contained visual objects you process the messages passed to the host window container’s message filter loop. Refer to <Hyperlink NavigateUri="f0e1600c-3217-43d5-875d-1864fa7fe628.xaml">Tutorial: Hosting Visual Objects in a Win32 Application</Hyperlink>
+ for more information on how to host visual objects in a Win32 window.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following code shows how to set up mouse event handlers for a Win32 window that is used as a host container for visual objects.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Constant values from the "winuser.h" header file. internal const int WM_LBUTTONUP = 0x0202, WM_RBUTTONUP = 0x0205; 
+internal static IntPtr ApplicationMessageFilter( IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled) { // Handle messages passed to the visual. switch (message) { // Handle the left and right mouse button up messages. case WM_LBUTTONUP: case WM_RBUTTONUP: Point pt = new Point(); 
+pt.X = (uint)lParam &amp; 
+(uint)0x0000ffff; 
+// LOWORD = x pt.Y = (uint)lParam >> 16; 
+// HIWORD = y MyShape.OnHitTest(pt, message); 
+break; 
+} return IntPtr.Zero; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to set up hit testing in response to trapping specific mouse events.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Constant values from the "winuser.h" header file. public const int WM_LBUTTONUP = 0x0202, WM_RBUTTONUP = 0x0205; 
+// Respond to WM_LBUTTONUP or WM_RBUTTONUP messages by determining which visual object was clicked. public static void OnHitTest(Point pt, int msg) { // Clear the contents of the list used for hit test results. hitResultsList.Clear(); 
+// Determine whether to change the color of the circle or to delete the shape. if (msg == WM_LBUTTONUP) { MyWindow.changeColor = true; 
+} if (msg == WM_RBUTTONUP) { MyWindow.changeColor = false; 
+} // Set up a callback to receive the hit test results enumeration. VisualTreeHelper.HitTest(MyWindow.myHwndSource.RootVisual, null, new HitTestResultCallback(CircleHitTestResult), new PointHitTestParameters(pt)); 
+// Perform actions on the hit test results list. if (hitResultsList.Count > 0) { ProcessHitTestResultsList(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b1a64b61-14be-4d75-b89a-5c67bebb2c7b.xaml">Hit Testing in the Visual Layer</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Hit Test Using a Win32 Host Container to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

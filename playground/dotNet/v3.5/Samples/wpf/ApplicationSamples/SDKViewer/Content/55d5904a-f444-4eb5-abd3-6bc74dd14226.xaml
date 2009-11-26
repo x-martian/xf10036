@@ -1,0 +1,118 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_55d5904a_f444_4eb5_abd3_6bc74dd14226"
+  Tag     ="Persist and Restore Application-Scope Properties Across Application Sessions"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Persist and Restore Application-Scope Properties Across Application Sessions</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to persist application-scope properties when an application shuts down, and how to restore application-scope properties when an application is next launch.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The application persists application-scope properties to, and restores them from, isolated storage. Isolated storage is a protected storage area that can safely be used by applications without file access permission.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Application x:Class="HOWTOApplicationModelSnippets.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="MainWindow.xaml" Startup="App_Startup" Exit="App_Exit" > <Run>... </Run>
+
+&lt;/Application> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.IO; 
+using System.IO.IsolatedStorage; 
+public partial class App : Application { string filename = "App.txt"; 
+... private void App_Startup(object sender, StartupEventArgs e) { // Restore application-scope property from isolated storage IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication(); 
+try { using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(filename, FileMode.Open, storage)) using (StreamReader reader = new StreamReader(stream)) { // Restore each application-scope property individually while (!reader.EndOfStream) { string key = reader.ReadLine(); 
+this.Properties[key] = reader.ReadLine(); 
+} } } catch (FileNotFoundException ex) { // Handle when file is not found in isolated storage: // * When the first application session // * When file has been deleted ... } } private void App_Exit(object sender, ExitEventArgs e) { // Persist application-scope property to isolated storage IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication(); 
+using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(filename, FileMode.Create, storage)) using (StreamWriter writer = new StreamWriter(stream)) { // Persist each application-scope property individually foreach (string key in this.Properties.Keys) { writer.WriteLine(key); 
+writer.WriteLine(this.Properties[key]); 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Persist and Restore Application-Scope Properties Across Application Sessions to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

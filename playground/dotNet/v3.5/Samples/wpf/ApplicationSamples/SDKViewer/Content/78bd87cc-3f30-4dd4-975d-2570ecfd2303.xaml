@@ -1,0 +1,975 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_78bd87cc_3f30_4dd4_975d_2570ecfd2303"
+  Tag     ="Adding 2-D Graphics and Data Binding"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_78bd87cc_3f30_4dd4_975d_2570ecfd2303"
+    Tag     ="Adding 2-D Graphics and Data Binding"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Adding 2-D Graphics and Data Binding</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>The first version of Wordgame, described in the tutorial <Hyperlink NavigateUri="dd3beeec-fda4-4d9a-a9bb-5e9658122999.xaml">How to: Create a Windows Presentation Foundation Application</Hyperlink>
+, showed you how to use basic Windows Presentation Foundation programming techniques to create an application. While resulting in a fully functional application, the implementation is relatively simple. This tutorial takes you through a more full-featured version of Wordgame called Wordgame 2. This sample has the same essential functionality as the Wordgame but introduces you to Windows Presentation Foundation data binding, 2-D graphics and animation, as well as improving the game's user interface (UI).    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>The code examples shown below are designed to illustrate the key features of this tutorial. For readability, most examples have been edited to focus only on the relevant code and are in C# only. However, you can find the complete application, plus a Microsoft Visual Basic .NET version, on the sample page. This tutorial also assumes that you are familiar with the material covered by <Hyperlink NavigateUri="dd3beeec-fda4-4d9a-a9bb-5e9658122999.xaml">How to: Create a Windows Presentation Foundation Application</Hyperlink>
+. You should read that tutorial before starting this one.            
+              </Paragraph>
+
+              <Paragraph/>
+              <Paragraph>This topic contains the following sections.            
+              </Paragraph>
+
+              <List MarkerStyle="Disc">
+                <ListItem>
+                  <Paragraph><Hyperlink TargetName="whats_new">What's New</Hyperlink>
+
+                  </Paragraph>
+
+                </ListItem>
+
+                <ListItem>
+                  <Paragraph><Hyperlink TargetName="ui_enhancements">UI Enhancements</Hyperlink>
+
+                  </Paragraph>
+
+                </ListItem>
+
+                <ListItem>
+                  <Paragraph><Hyperlink TargetName="data_binding">UI Data Binding</Hyperlink>
+
+                  </Paragraph>
+
+                </ListItem>
+
+                <ListItem>
+                  <Paragraph><Hyperlink TargetName="graphics_animation">2-D Graphics and Animation</Hyperlink>
+
+                  </Paragraph>
+
+                </ListItem>
+
+              </List>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">What's New    
+      </Paragraph>
+
+      <Paragraph>From the player's perspective, Wordgame 2 is very similar to the first version. However, there are several enhancements that create a more sophisticated application and introduce some additional Windows Presentation Foundation technologies.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>UI enhancements. There are several modest improvements to the UI that demonstrate some additional Windows Presentation Foundation technologies.         
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph>A menu. This version has a menu that allows the player to choose one of three languages: English, Italian, or German.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>A keystroke handler. In Wordgame, the user must click the <Run FontWeight="Bold">Go</Run>
+ button to play the letter that they have selected. This version allows the user to play the letter by pressing the ENTER key, allowing them to play an entire word from the keyboard.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>Persistence. Wordgame has no memory of previous sessions. Wordgame 2 allows the user to save their game state when the application shuts down and restore it when the application restarts.            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>UI data binding. This sample uses Windows Presentation Foundation   UI data binding to display the current state of the word in play and the list of used letters. This is a simple example of how to bind data to UI but it introduces you to a powerful technology that that can be useful in a variety of applications.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>2-D graphics and animation. The original version used a series of bitmaps to display the game state. This sample replaces that implementation with Windows Presentation Foundation 2-D graphics, largely implemented with Extensible Application Markup Language (XAML). To make it more interesting, there is also some simple animation.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">UI Enhancements    
+      </Paragraph>
+
+      <Paragraph>The layout and most of the controls are essentially identical to that used with Wordgame. See <Hyperlink NavigateUri="dd3beeec-fda4-4d9a-a9bb-5e9658122999.xaml">How to: Create a Windows Presentation Foundation Application</Hyperlink>
+ for details. This section describes three enhancements to the original sample and illustrates some additional features of Microsoft .NET Framework version 3.0.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Menus    
+      </Paragraph>
+
+      <Paragraph>Menus are used by most Microsoft Windows applications as a compact way to let users to perform a variety of actions. Wordgame 2 adds a menu that offers the user a choice of three languages: English, German, and Italian.    
+      </Paragraph>
+
+      <Paragraph>The following example shows how to add a menu to your UI with XAML.    
+      </Paragraph>
+
+      <Paragraph>Menus in Windows Presentation Foundation are simply another control. They consist of a top-level Menu element that contains individual menu items defined by MenuItem elements. The structure of the menu is controlled by how you nest the MenuItem elements. In this example, there is a single menu with "Language" as the header, and three selectable items. To add another menu header to the right of "Language", simply add a 
+&lt;MenuItem> tag immediately above the 
+&lt;/Menu> tag. You can then nest 
+&lt;MenuItem> tags within the additional header tag to populate that menu.    
+      </Paragraph>
+
+      <Paragraph>You normally detect when the user selects a menu item by handling the item's Click event. In Wordgame 2, all three menu items use the same event handler, <Run FontWeight="Bold">SelectLanguage</Run>
+. The handler determines which item was selected by comparing the value of the <Run FontStyle="italic">sender</Run>
+ argument to the Name assigned to each menu item. It then sets the corresponding language.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void SelectLanguage(object sender, RoutedEventArgs e){ correctAnswer1.ClearValue(System.Windows.Controls.TextBlock.TextProperty); 
+correctAnswer2.ClearValue(System.Windows.Controls.TextBlock.TextProperty); 
+Game_State = 0;goButton.IsEnabled = true;guessedChar.Focus(); 
+if (sender == english){ dataObject.NewLanguage(GameLanguage.English); 
+} else if (sender == italian){ dataObject.NewLanguage(GameLanguage.Italian); 
+} else { dataObject.NewLanguage(GameLanguage.German); 
+} } </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Capturing Keystrokes    
+      </Paragraph>
+
+      <Paragraph>With <Hyperlink NavigateUri="dd3beeec-fda4-4d9a-a9bb-5e9658122999.xaml">How to: Create a Windows Presentation Foundation Application</Hyperlink>
+, the user has to click the <Run FontWeight="Bold">Go</Run>
+ button to play the specified letter. This version adds a keystroke handler that enables the user to play the letter by pressing the ENTER key. You enable keystroke detection in XAML by attaching a handler to the TextBox control's KeyDown event.    
+      </Paragraph>
+
+      <Paragraph>The handler checks the event argument's  Key property to determine which key was pressed. If the RETURN key was pressed, the handler "plays" the letter by calling the <Run FontWeight="Bold">Go</Run>
+ button's Click event handler directly. The keystroke handler ignores all key strokes other than RETURN. However, you could also modify the keystroke handler to handle letter keystrokes and eliminate the need for the RETURN key or the <Run FontWeight="Bold">Go</Run>
+ button.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void keyHandler(object sender, KeyEventArgs e){ if (e.Key == Key.Return &&amp; 
+Game_State 
+&lt;6) btnGo(goButton, new RoutedEventArgs()); 
+} </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Saving and Restoring Application State    
+      </Paragraph>
+
+      <Paragraph>Many applications are persistent and save at least some state information when the user ends a session. When the user starts a new session, the application retrieves that information and uses it to start up with the same settings as before. Persistence can range from something as simple as saving the size and location of the window to saving the complete state, allowing the user to seamlessly continue the previous session.    
+      </Paragraph>
+
+      <Paragraph>The challenge for persistent applications is where to save the information. In the past, information of this sort was stored in a file or the registry. However, with Windows Presentation Foundation your application must work within the constraints of the security model. This model requires user permission to store information in the file system or registry. This section discusses how to use isolated storage to create a persistent application that runs in the Internet security zone and does not require any explicit user permissions.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Detecting Application Startup and Shutdown    
+      </Paragraph>
+
+      <Paragraph>To make an application persistent, you normally need to save information when the application shuts down and then recover that information when the application starts again. The simplest way to handle this is to use Application object events. These events are particularly useful for multipage applications because they aren't tied to a particular page. They allow you to put your startup or shutdown code in a single location rather than duplicating it on each page.    
+      </Paragraph>
+
+      <Paragraph>The Startup event was introduced in Wordgame. This version of the application adds the Exit event, which occurs when the application is shutting down. It is raised regardless of how the application is shut down, including when the user simply closes the main window    
+      </Paragraph>
+
+      <Paragraph>The application definition's MyApp.xaml file is similar to that for Wordgame. The main difference is that it also attaches a handler to <Run FontWeight="Bold">Exit</Run>
+.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="WordGame2.app" Exit="OnShutDown" Startup="On_Startup"> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Saving Application State    
+      </Paragraph>
+
+      <Paragraph>Wordgame 2 uses isolated storage save to save game state when the user shuts the game down. The code for this procedure is located in the event handler. You could put this code in the <Run FontWeight="Bold">Quit</Run>
+ button's Click event handler. However, using also allows you to store the data when the user shuts the application down by closing the window.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void OnShutDown(object sender, ExitEventArgs e){ MessageBoxResult result = MessageBox.Show("Save Current Game?", "Save Game", MessageBoxButton.YesNo); 
+if (result == MessageBoxResult.Yes) //use isolated data to store current game state { WordData dataObject = (WordData)Properties["WorkingWordList"];//get current data object IsolatedStorageFile isoLastState = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Domain | IsolatedStorageScope.Assembly, null, null); 
+StreamWriter stateWriter = new StreamWriter(new IsolatedStorageFileStream("LastGameState.txt", FileMode.Create, isoLastState)); 
+//The current language is the first line in the file stateWriter.WriteLine(dataObject.currentLanguage.ToString()); 
+for (int i = 0;i 
+&lt;dataObject.workingWordList.Length;i++){ if (dataObject.workingWordList[i].fUsed) continue;else stateWriter.WriteLine(dataObject.workingWordList[i].word); 
+} stateWriter.Close(); 
+} </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>Another feature of the Application object is its Properties collection. You can share data across your application by storing objects in this collection, which are accessible from anywhere in the application. This collection is most commonly used to share data between pages, but you can also access it from the application object.    
+      </Paragraph>
+
+      <Paragraph>The current list of words is contained in a private <Run FontWeight="Bold">WordData</Run>
+ object, which is discussed in more detail in the next section. When the object is created, a reference to it is assigned to an item in the Application object's Properties collection named <Run FontStyle="italic">WorkingWordList</Run>
+. This allows you to later access the object in your <Run FontWeight="Bold">Exit</Run>
+ event handler.    
+      </Paragraph>
+
+      <Paragraph>Once you have a reference to the <Run FontWeight="Bold">WordData</Run>
+ object, you can then save the data to isolated storage. There are a variety of ways to use this technology. The following steps outline how Wordgame 2 saves its state, which can be easily modified for other scenarios. See Isolated Storage for details. The basic procedure use in the sample is:    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Get a reference to an IsolatedStorageFile object by calling the static GetStore method.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Create a new StreamWriter object, to write to an IsolatedStorageFileStream object. In this case, a new file is created each time we save state.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Use the StreamWriter to write the current list of unplayed words to the stream.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Restoring Application State    
+      </Paragraph>
+
+      <Paragraph>Frequently, you restore your application state at startup in a <Run FontWeight="Bold">Startup</Run>
+ event handler. In this case, it is more practical to put the state restoration code in the <Run FontWeight="Bold">WordData</Run>
+ object itself. You restore state when the object is initialized. The following method is called from the object's constructor. It recovers the stored list of unused words from isolated storage and populates the word list that will be played.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private bool RetrieveStoredData() //retrieves stored word list from isolated storage { ArrayList tempWordList = new ArrayList(); 
+string tempWord;string language;//Open the isolated storage from the previous instance IsolatedStorageFile isoLastState = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Domain | IsolatedStorageScope.Assembly, null, null); 
+StreamReader stateReader = new StreamReader(new IsolatedStorageFileStream("LastGameState.txt", FileMode.OpenOrCreate, isoLastState)); 
+//Determine whether to read the data if (stateReader == null) //no data file return false;if ((language = stateReader.ReadLine()) == null) //no stored data in the file return false;if (MessageBox.Show("Retrieve Previous Game?", "Retrieve Game", MessageBoxButton.YesNo) == MessageBoxResult.No) return false;//Load stored data into the appropriate word list and set the current language value while ((tempWord = stateReader.ReadLine()) != null){ tempWordList.Add(tempWord); 
+} switch (language){ case "german": currentLanguage = GameLanguage.German;germanWordList = (string[])tempWordList.ToArray(typeof(string)); 
+masterWordList = germanWordList;break;case "italian": currentLanguage = GameLanguage.Italian;italianWordList = (string[])tempWordList.ToArray(typeof(string)); 
+masterWordList = italianWordList;break;default: currentLanguage = GameLanguage.English;englishWordList = (string[])tempWordList.ToArray(typeof(string)); 
+masterWordList = englishWordList;break;} stateReader.Close(); 
+return true;} </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The procedure for restoring state is similar to that for saving it:    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Get a reference to an IsolatedStorageFile object by calling the static GetStore method.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Create a new StreamReader object to read from an IsolatedStorageFileStream object.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Check to make sure that the file exists and contains data.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Retrieve the stored data and use it to populate the list of unplayed words.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">UI Data Binding    
+      </Paragraph>
+
+      <Paragraph>Windows Presentation Foundation data services includes a powerful and flexible way to bind the properties of most elements to a data source. This binding is not limited to taking data from a source and displaying it. You can bind virtually any property to any type of data. For example, you could provide a visual indication of temperature by binding an element's background color to the current value of temperature in a database.    
+      </Paragraph>
+
+      <Paragraph>You can bind to a variety of data sources, including:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>XML-encoded data.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Structured Query Language (SQL)-based databases.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Data objects.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>There are three basic types of data-binding:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>One-time. The property is initialized from the data source but does not change after that.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>One-way. The property is initialized from the data source and is automatically updated whenever the value in the data source changes.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Two-way. The property is initialized from the data source and is automatically updated whenever the value in the data source changes. If the user changes the value of the property, the corresponding value in the data source is updated.         
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>When you bind data to an element, you have to choose the binding type and data source based on the needs of your application. Wordgame 2 binds a data source to the <Run FontWeight="Bold">Text</Run>
+ properties of two Span elements. One displays the current state of the word that the user is trying to guess. The other displays the list of letters that have already been used.     
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Binding type. There are two pieces of data that need to be displayed—a string representing the current state of the word, and a string containing the list of used letters. The strings are updated periodically, but not directly modified by the user, indicating that one-way binding is the appropriate binding type.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Data source. The actual data that underlies the game is the word that the user is trying to guess. However, at any point in the game, you want to show only those letters that the user has successfully guessed. This rules out a static data source such as an XML file. While it is possible in principle to do the necessary processing with a database, a custom data object is the simplest way to handle the problem. This is the most powerful and flexible form of data-binding, and you can adapt the basic principles shown here to more sophisticated applications.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>See <Hyperlink NavigateUri="90f79b97-17e7-40d1-abf0-3ba600ad1d7e.xaml">Data Binding</Hyperlink>
+ for a more complete discussion of data-binding.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="binding_to_the_source">Binding Elements to a Data Source</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="custom_data_object">The Data Source</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Binding Elements to a Data Source    
+      </Paragraph>
+
+      <Paragraph>The simplest way to bind UI elements to a data source is with XAML, as shown in the following example.    
+      </Paragraph>
+
+      <Paragraph>The Mapping element prior to the root <Run FontWeight="Bold">Window</Run>
+ element maps an XML namespace for the data object. The xmlns declaration in the <Run FontWeight="Bold">Window</Run>
+ element declares the namespace with an alias of 'c'. The code in the 
+&lt;DockPanel.Resources> block specifies the <Run FontStyle="italic">WordData</Run>
+ class as a data source with a key name of "WordDataObject". This causes a <Run FontStyle="italic">WordData</Run>
+ object to be automatically created when the page is initialized.    
+      </Paragraph>
+
+      <Paragraph>The second section of the example binds two properties from that <Run FontWeight="Bold">WordData</Run>
+ object to TextBlock elements. The DataContext property for the StackPanel specifies the <Run FontWeight="Bold">WordData</Run>
+ object created in the first section as the data source for the elements contained by the panel. The <Run FontWeight="Bold">Text</Run>
+ properties of two of the TextBlock elements are then bound to the corresponding properties of the <Run FontWeight="Bold">WordData</Run>
+ object. Because this is a one-way binding, these elements are automatically updated each time the value of the underlying <Run FontWeight="Bold">WordData</Run>
+ property changes.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">The Data Source    
+      </Paragraph>
+
+      <Paragraph>The data object is implemented in the <Run FontWeight="Bold">WordData</Run>
+ class. Much of the code in that class implements game logic and is not discussed here. See Wordgame 2 for details. This section focuses on those parts of the class that are required for data binding.    
+      </Paragraph>
+
+      <Paragraph>One consequence of creating the <Run FontWeight="Bold">WordData</Run>
+ object in XAML is that it is created before the page is fully initialized. This means that any code that accesses the elements on the page cannot be located in the constructor. Because Wordgame 2 needs to initialize a number of page elements, the class includes an initialization method that is called from the page's Loaded event handler. This event is not raised until the page is fully loaded.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void On_Loaded(object sender, EventArgs e){ app = System.Windows.Application.Current;guessedChar.Focus(); 
+dataObject = (WordData)wordDisplay.DataContext;dataObject.InitData(); 
+app.Properties["WorkingWordList"] = dataObject;} </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The handler does three things related to data-binding:    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>The <Run FontWeight="Bold">WordData</Run>
+ object has already been created so the handler gets a reference to the object from the StackPanel element's DataContext property.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>It calls the object's <Run FontWeight="Bold">InitData</Run>
+ method to perform any initialization that can only be done after the page is fully loaded. This method is discussed in detail below.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>It stores a reference to the <Run FontWeight="Bold">WordData</Run>
+ object in the Application object's Properties collection. As discussed earlier, this gives you access to the object from an event handler when you save the game state.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The <Run FontWeight="Bold">InitData</Run>
+ method:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Retrieves any stored data and sets the current list of words.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Initializes the object that contains the working list of words and selects the starting word.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Initializes the text strings that display the current word and the list of guessed letters.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The <Run FontStyle="italic">RetrieveStoredData</Run>
+ method attempts to retrieve data stored by a previous instance of the application.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private bool RetrieveStoredData() //retrieves stored word list from isolated storage { ArrayList tempWordList = new ArrayList(); 
+string tempWord;string language;//Open the isolated storage from the previous instance IsolatedStorageFile isoLastState = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Domain | IsolatedStorageScope.Assembly, null, null); 
+StreamReader stateReader = new StreamReader(new IsolatedStorageFileStream("LastGameState.txt", FileMode.OpenOrCreate, isoLastState)); 
+//Determine whether to read the data if (stateReader == null) //no data file return false;if ((language = stateReader.ReadLine()) == null) //no stored data in the file return false;if (MessageBox.Show("Retrieve Previous Game?", "Retrieve Game", MessageBoxButton.YesNo) == MessageBoxResult.No) return false;//Load stored data into the appropriate word list and set the current language value while ((tempWord = stateReader.ReadLine()) != null){ tempWordList.Add(tempWord); 
+} switch (language){ case "german": currentLanguage = GameLanguage.German;germanWordList = (string[])tempWordList.ToArray(typeof(string)); 
+masterWordList = germanWordList;break;case "italian": currentLanguage = GameLanguage.Italian;italianWordList = (string[])tempWordList.ToArray(typeof(string)); 
+masterWordList = italianWordList;break;default: currentLanguage = GameLanguage.English;englishWordList = (string[])tempWordList.ToArray(typeof(string)); 
+masterWordList = englishWordList;break;} stateReader.Close(); 
+return true;} </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The key to implementing a data object is the INotifyPropertyChanged interface, which must be supported by all data objects. The interface consists of a single event, PropertyChanged. When you bind a UI element to this object in XAML, a handler is automatically attached to this event. The handler detects when a property changes and updates the bound UI element. To make data binding work properly, the <Run FontWeight="Bold">WordData</Run>
+ object must:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Inherit from INotifyPropertyChanged.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Declare a PropertyChanged event, represented by a PropertyChangedEventHandler delegate.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Raise the PropertyChanged event whenever a property changes. Conventionally, you raise this event in a private method named <Run FontWeight="Bold">NotifyPropertyChanged</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>When you raise the event, pass it a PropertyChangedEventArgs object, initialized with the name of the property that has changed. The UI element is then automatically updated with the current value of the bound property.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Span>public class WordData : INotifyPropertyChanged <Run>... </Run>
+ public event PropertyChangedEventHandler PropertyChanged;<Run>... </Run>
+ public void NewWord(){ _masterWord = SelectWord(); 
+InitCurrentWord(); 
+NotifyPropertyChanged("currentWord"); 
+//Update word display NotifyPropertyChanged("lettersUsed"); 
+} <Run>... </Run>
+private void NotifyPropertyChanged(string info){ if (PropertyChanged != null){ PropertyChanged(this, new PropertyChangedEventArgs(info)); 
+} } </Span>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">2-D Graphics and Animation    
+      </Paragraph>
+
+      <Paragraph>As the user guesses letters, the graphic indicates how many bad guesses they have made and how far they are from losing. <Hyperlink NavigateUri="dd3beeec-fda4-4d9a-a9bb-5e9658122999.xaml">How to: Create a Windows Presentation Foundation Application</Hyperlink>
+ simply used a set of bitmapped images. Wordgame 2 introduces you to Windows Presentation Foundation 2-D graphics by implementing a similar graphic in XAML.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Creating 2-D Images with "XAML"    
+      </Paragraph>
+
+      <Paragraph>Windows Presentation Foundation graphics includes a number of elements to draw basic 2-D shapes. Because the "happy/sad face" graphic is essentially just a collection of lines and ellipses or partial ellipses, it is relatively easy to implement in XAML. The complete graphic is contained in a Canvas element. This element allows you to explicitly position the individual components of the "happy/sad face". The Canvas element is contained in a Grid element, because that panel allows you to easily center an element.    
+      </Paragraph>
+
+      <Paragraph>The XAML shown above actually contains essentially everything that can be displayed. Initially, all of the elements other than <Run FontStyle="italic">PickLetter</Run>
+ have their Visibility attribute set to "Hidden". When the user makes an incorrect guesses, the <Run FontStyle="italic">PickLetter</Run>
+ element is set to Visibility.Hidden and the appropriate Visibility properties are successively set to Visibility.Visible, gradually revealing the image. The exception is step two, which changes the outer circle's Fill property from <Run FontWeight="Bold">null</Run>
+ to yellow.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void UpdateImage(){ switch (Game_State){ case 0: //Starting Image ResetImages(); 
+//Hide the images break;case 1 : Face.Visibility = Visibility.Visible;break;case 2: Face.Fill = new SolidColorBrush(Colors.Yellow); 
+break;case 3: LeftEye.Visibility = Visibility.Visible;break;case 4: PlainRightEye.Visibility = Visibility.Visible;break;case 5: Nose.Visibility = Visibility.Visible;break;case 6: //You Lose PlainRightEye.Visibility = Visibility.Visible;RotatingRightEye.Visibility = Visibility.Hidden;Smile.Visibility = Visibility.Hidden;YouWin.Visibility = Visibility.Hidden;YouLose.Visibility = Visibility.Visible;Frown.Visibility = Visibility.Visible;break;case 7: //You Win Face.Visibility = Visibility.Visible;Face.Fill = new SolidColorBrush(Colors.Yellow); 
+PlainRightEye.Visibility = Visibility.Hidden;RotatingRightEye.Visibility = Visibility.Visible;LeftEye.Visibility = Visibility.Visible;Nose.Visibility = Visibility.Visible;Smile.Visibility = Visibility.Visible;YouWin.Visibility = Visibility.Visible;break;} } </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Animating a UI Element    
+      </Paragraph>
+
+      <Paragraph>The final topic in this tutorial is animation. Windows Presentation Foundation allows you to animate most element properties. Wordgame 2 includes a simple example of animation. For a more thorough discussion of Windows Presentation Foundation animation, see <Hyperlink NavigateUri="7d83765b-d5ae-41b1-b423-80206e1124aa.xaml">Animation and Timing</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph>When the losing image is displayed, the right eye is a static blue circle. When the winning image is displayed, the right eye appears to rotate around a vertical axis. The rotating eye is accomplished entirely in XAML, by animating the ellipse's RadiusY property to smoothly change from nearly zero to its maximum value. The same basic approach can be used to animate virtually any property of any UI element. The rotating image is displayed in the same way as the other components of the graphic, by changing its Visibility property.    
+      </Paragraph>
+
+      <Paragraph>The XAML that implements the animation is located in the Storyboards property.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetProperty="(Path.RenderTransform).(ScaleTransform.ScaleX)" From="0.5" To="2" Duration="0:0:0.5" RepeatBehavior="Forever" AutoReverse="True" /> 
+&lt;DoubleAnimation Storyboard.TargetProperty="(Path.RenderTransform).(ScaleTransform.ScaleY)" From="0.5" To="2" Duration="0:0:0.5" RepeatBehavior="Forever" AutoReverse="True" /> 
+&lt;/Storyboard> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetProperty="(Path.RenderTransform).(ScaleTransform.ScaleX)" From="0.5" To="2" Duration="0:0:0.5" RepeatBehavior="Forever" AutoReverse="True" /> 
+&lt;DoubleAnimation Storyboard.TargetProperty="(Path.RenderTransform).(ScaleTransform.ScaleY)" From="0.5" To="2" Duration="0:0:0.5" RepeatBehavior="Forever" AutoReverse="True" /> 
+&lt;/Storyboard> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The animation uses a render transform to animate the right eye's radius. Since the property type is double, the sample uses a DoubleAnimation object to handle the animation. See <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+ for further discussion of animation and storyboards.    
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Adding 2-D Graphics and Data Binding  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

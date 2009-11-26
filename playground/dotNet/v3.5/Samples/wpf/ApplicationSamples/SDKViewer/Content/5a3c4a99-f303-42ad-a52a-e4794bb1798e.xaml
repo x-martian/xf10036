@@ -1,0 +1,256 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5a3c4a99_f303_42ad_a52a_e4794bb1798e"
+  Tag     ="Animate an Object Along a Path (Double Animation)"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate an Object Along a Path (Double Animation)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the DoubleAnimationUsingPath class to move an object along a path defined by a PathGeometry. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>The following example uses two <Run FontWeight="Bold">DoubleAnimationUsingPath</Run>
+ objects to move a rectangle along a geometric path:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The first <Run FontWeight="Bold">DoubleAnimationUsingPath</Run>
+ animates the X of the TranslateTransform applied to the rectangle. It makes the rectangle move horizontally along the path. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The second <Run FontWeight="Bold">DoubleAnimationUsingPath</Run>
+ animates the Y of the <Run FontWeight="Bold">TranslateTransform</Run>
+ applied to the rectangle. It makes the rectangle move vertically along the path. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_5a3c4a99_f303_42ad_a52a_e4794bb1798e_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="PresentationOptions"> 
+&lt;Page.Resources> 
+&lt;!-- This is the geometry creates the animation path. Because this example uses it multiple times, it's declared as a resource and frozen to improve performance. --> 
+&lt;PathGeometry x:Key="AnimationPath" Figures="M 10,100 C 35,0 135,0 160,100 180,190 285,200 310,100" PresentationOptions:Freeze="True" /> 
+&lt;/Page.Resources> 
+&lt;Canvas Width="400" Height="400"> 
+&lt;!-- The object to animate. --> 
+&lt;Rectangle Width="30" Height="30" Fill="Blue"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="AnimatedTranslateTransform" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Path.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard RepeatBehavior="Forever"> 
+&lt;!-- Animates the rectangle horizotally along the path. --> 
+&lt;DoubleAnimationUsingPath Storyboard.TargetName="AnimatedTranslateTransform" Storyboard.TargetProperty="X" PathGeometry="{StaticResource AnimationPath}" Source="X" Duration="0:0:5" /> 
+&lt;!-- Animates the rectangle vertically along the path. --> 
+&lt;DoubleAnimationUsingPath Storyboard.TargetName="AnimatedTranslateTransform" Storyboard.TargetProperty="Y" PathGeometry="{StaticResource AnimationPath}" Source="Y" Duration="0:0:5" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> 
+&lt;/Canvas> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Navigation; 
+using System.Windows.Shapes; 
+namespace SDKSample { public class DoubleAnimationUsingPathExample : Page { public DoubleAnimationUsingPathExample() { // Create a NameScope for the page so that // we can use Storyboards. NameScope.SetNameScope(this, new NameScope()); 
+// Create a rectangle. Rectangle aRectangle = new Rectangle(); 
+aRectangle.Width = 30; 
+aRectangle.Height = 30; 
+aRectangle.Fill = Brushes.Blue; 
+// Create a transform. This transform // will be used to move the rectangle. TranslateTransform animatedTranslateTransform = new TranslateTransform(); 
+// Register the transform's name with the page // so that they it be targeted by a Storyboard. this.RegisterName("AnimatedTranslateTransform", animatedTranslateTransform); 
+aRectangle.RenderTransform = animatedTranslateTransform; 
+// Create a Canvas to contain the rectangle // and add it to the page. Canvas mainPanel = new Canvas(); 
+mainPanel.Width = 400; 
+mainPanel.Height = 400; 
+mainPanel.Children.Add(aRectangle); 
+this.Content = mainPanel; 
+// Create the animation path. PathGeometry animationPath = new PathGeometry(); 
+PathFigure pFigure = new PathFigure(); 
+pFigure.StartPoint = new Point(10, 100); 
+PolyBezierSegment pBezierSegment = new PolyBezierSegment(); 
+pBezierSegment.Points.Add(new Point(35, 0)); 
+pBezierSegment.Points.Add(new Point(135, 0)); 
+pBezierSegment.Points.Add(new Point(160, 100)); 
+pBezierSegment.Points.Add(new Point(180, 190)); 
+pBezierSegment.Points.Add(new Point(285, 200)); 
+pBezierSegment.Points.Add(new Point(310, 100)); 
+pFigure.Segments.Add(pBezierSegment); 
+animationPath.Figures.Add(pFigure); 
+// Freeze the PathGeometry for performance benefits. animationPath.Freeze(); 
+// Create a DoubleAnimationUsingPath to move the // rectangle horizontally along the path by animating // its TranslateTransform. DoubleAnimationUsingPath translateXAnimation = new DoubleAnimationUsingPath(); 
+translateXAnimation.PathGeometry = animationPath; 
+translateXAnimation.Duration = TimeSpan.FromSeconds(5); 
+// Set the Source property to X. This makes // the animation generate horizontal offset values from // the path information. translateXAnimation.Source = PathAnimationSource.X; 
+// Set the animation to target the X property // of the TranslateTransform named "AnimatedTranslateTransform". Storyboard.SetTargetName(translateXAnimation, "AnimatedTranslateTransform"); 
+Storyboard.SetTargetProperty(translateXAnimation, new PropertyPath(TranslateTransform.XProperty)); 
+// Create a DoubleAnimationUsingPath to move the // rectangle vertically along the path by animating // its TranslateTransform. DoubleAnimationUsingPath translateYAnimation = new DoubleAnimationUsingPath(); 
+translateYAnimation.PathGeometry = animationPath; 
+translateYAnimation.Duration = TimeSpan.FromSeconds(5); 
+// Set the Source property to Y. This makes // the animation generate vertical offset values from // the path information. translateYAnimation.Source = PathAnimationSource.Y; 
+// Set the animation to target the Y property // of the TranslateTransform named "AnimatedTranslateTransform". Storyboard.SetTargetName(translateYAnimation, "AnimatedTranslateTransform"); 
+Storyboard.SetTargetProperty(translateYAnimation, new PropertyPath(TranslateTransform.YProperty)); 
+// Create a Storyboard to contain and apply the animations. Storyboard pathAnimationStoryboard = new Storyboard(); 
+pathAnimationStoryboard.RepeatBehavior = RepeatBehavior.Forever; 
+pathAnimationStoryboard.Children.Add(translateXAnimation); 
+pathAnimationStoryboard.Children.Add(translateYAnimation); 
+// Start the animations when the rectangle is loaded. aRectangle.Loaded += delegate(object sender, RoutedEventArgs e) { // Start the storyboard. pathAnimationStoryboard.Begin(this); 
+}; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>For the complete sample, see Path Animation Sample.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>Another way to move an object using a geometric path is to use a MatrixAnimationUsingPath object. For an example, see <Hyperlink NavigateUri="7000e697-1414-468c-b915-cf66062fc49e.xaml">How to: Animate an Object Along a Path (Matrix Animation)</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="1fa3f817-35bc-41a1-b366-f5a20b70da0c.xaml">How to: Animate an Object Along a Path (Point Animation)</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="7000e697-1414-468c-b915-cf66062fc49e.xaml">How to: Animate an Object Along a Path (Matrix Animation)</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1bca90ef-9832-4128-8ed6-62908e7ec146.xaml">How to: Animate an Object Along a Path (Matrix Animation with Offset Accumulation)</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="877dc9aa-6bdc-4beb-8772-3efaec32c0f0.xaml">How to: Rotate an Object by Using a Geometric Path (Matrix Animation)</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="cb31ca4d-f05a-4c6b-9a18-4b6faaf38d45.xaml">How to: Rotate an Object by Using a Geometric Path</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Path Animation Sample
+      <LineBreak/><Hyperlink NavigateUri="e9b71017-bac4-40d7-858b-326939442cb1.xaml">Path Animation How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate an Object Along a Path (Double Animation) to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

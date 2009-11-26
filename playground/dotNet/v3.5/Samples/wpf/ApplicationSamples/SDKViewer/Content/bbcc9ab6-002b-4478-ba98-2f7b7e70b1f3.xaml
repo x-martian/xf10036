@@ -1,0 +1,134 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_bbcc9ab6_002b_4478_ba98_2f7b7e70b1f3"
+  Tag     ="Use a LengthConverter Object"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Use a LengthConverter Object</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create and use an instance of the LengthConverter object. In this example, Canvas positioning values are represented by Content in a ListBoxItem. The Content is later converted into an instance of Double, which is a required argument for positioning. The value is then converted back into a String by using the LengthConverter. The value is displayed as text in a TextBlock element by using the GetLeft method.
+    </Paragraph>
+
+    <Paragraph>This code is abbreviated. To view the complete sample, see the Positioning Properties of Canvas Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create and use an instance of the LengthConverter object. A custom method called <Run>ChangeLeft</Run>
+ is defined, which converts the content of a ListBoxItem (defined in a separate Extensible Application Markup Language (XAML) file) to an instance of Double, and later into a String. This method passes the ListBoxItem to a LengthConverter object, which converts the ListBoxItem Content to an instance of Double. Notice that this value has already been converted to a String by using the ToString method. This value is then passed back to the SetLeft method and the GetLeft method of the Canvas in order to change the position of the <Run>text1</Run>
+ object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void ChangeLeft(object sender, SelectionChangedEventArgs args) { ListBoxItem li = ((sender as ListBox).SelectedItem as ListBoxItem); 
+LengthConverter myLengthConverter = new LengthConverter(); 
+Double db1 = (Double)myLengthConverter.ConvertFromString(li.Content.ToString()); 
+Canvas.SetLeft(text1, db1); 
+String st1 = (String)myLengthConverter.ConvertToString(Canvas.GetLeft(text1)); 
+canvasLeft.Text = "Canvas.Left = " + st1; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub ChangeLeft(ByVal sender As Object, ByVal e As SelectionChangedEventArgs) Dim li As ListBoxItem = CType(CType(sender, ListBox).SelectedItem, ListBoxItem) Dim myLengthConverter As New LengthConverter Dim db1 As Double = CType(myLengthConverter.ConvertFromString(li.Content.ToString()), Double) Canvas.SetLeft(text1, db1) Dim st1 As String = CType(myLengthConverter.ConvertToString(Canvas.GetLeft(text1)), String) canvasLeft.Text = "Canvas.Left = " + st1 End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Canvas
+      <LineBreak/>LengthConverter
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Positioning Properties of Canvas Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Use a LengthConverter Object to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

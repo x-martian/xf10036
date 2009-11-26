@@ -1,0 +1,154 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_8bdd1a73_1ecb_4a05_a891_a7827ebb767f"
+  Tag     ="Add Content to a Text Box Using UI Automation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Add Content to a Text Box Using UI Automation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic contains example code that demonstrates how to use Microsoft UI Automation to insert text into a single-line text box. An alternate method is provided for multi-line and rich text controls where UI Automation is not applicable. For comparison purposes, the example also demonstrates how to use Win32 methods to accomplish the same results.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example steps through a sequence of text controls in a target application. Each text control is tested to see if a ValuePattern object can be obtained from it using the TryGetCurrentPattern method. If the text control does support <Run FontWeight="Bold">ValuePattern</Run>
+, the SetValue method is used to insert a user-defined string into the text control. Otherwise, the SendKeys.SendWait method is used.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>///-------------------------------------------------------------------- /// 
+&lt;summary> /// Sets the values of the text controls using managed methods. /// 
+&lt;/summary> /// 
+&lt;param name="s">The string to be inserted.
+&lt;/param> ///-------------------------------------------------------------------- private void SetValueWithUIAutomation( string s ) { foreach ( AutomationElement control in textControls ) { InsertTextUsingUIAutomation(control, s); 
+} } ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Inserts a string into each text control of interest. /// 
+&lt;/summary> /// 
+&lt;param name="element">A text control.
+&lt;/param> /// 
+&lt;param name="value">The string to be inserted.
+&lt;/param> ///-------------------------------------------------------------------- private void InsertTextUsingUIAutomation(AutomationElement element, string value) { try { // Validate arguments / initial setup if (value == null) throw new ArgumentNullException( "String parameter must not be null."); 
+if (element == null) throw new ArgumentNullException( "AutomationElement parameter must not be null"); 
+// A series of basic checks prior to attempting an insertion. // // Check #1: Is control enabled? // An alternative to testing for static or read-only controls // is to filter using // PropertyCondition(AutomationElement.IsEnabledProperty, true) // and exclude all read-only text controls from the collection. if (!element.Current.IsEnabled) { throw new InvalidOperationException( "The control with an AutomationID of " + element.Current.AutomationId.ToString() + " is not enabled.\n\n"); 
+} // Check #2: Are there styles that prohibit us // from sending text to this control? if (!element.Current.IsKeyboardFocusable) { throw new InvalidOperationException( "The control with an AutomationID of " + element.Current.AutomationId.ToString() + "is read-only.\n\n"); 
+} // Once you have an instance of an AutomationElement, // check if it supports the ValuePattern pattern. object valuePattern = null; 
+// Control does not support the ValuePattern pattern // so use keyboard input to insert content. // // NOTE: Elements that support TextPattern // do not support ValuePattern and TextPattern // does not support setting the text of // multi-line edit or document controls. // For this reason, text input must be simulated // using one of the following methods. // if (!element.TryGetCurrentPattern( ValuePattern.Pattern, out valuePattern)) { feedbackText.Append("The control with an AutomationID of ") .Append(element.Current.AutomationId.ToString()) .Append(" does not support ValuePattern.") .AppendLine(" Using keyboard input.\n"); 
+// Set focus for input functionality and begin. element.SetFocus(); 
+// Delete existing content in the control and insert new content. SendKeys.SendWait("^{HOME}"); 
+// Move to start of control SendKeys.SendWait("^+{END}"); 
+// Select everything SendKeys.SendWait("{DEL}"); 
+// Delete selection SendKeys.SendWait(value); 
+} // Control supports the ValuePattern pattern so we can // use the SetValue method to insert content. else { feedbackText.Append("The control with an AutomationID of ") .Append(element.Current.AutomationId.ToString()) .Append((" supports ValuePattern.")) .AppendLine(" Using ValuePattern.SetValue().\n"); 
+// Set focus for input functionality and begin. element.SetFocus(); 
+((ValuePattern)valuePattern).SetValue(value); 
+} } catch (ArgumentNullException exc) { feedbackText.Append(exc.Message); 
+} catch (InvalidOperationException exc) { feedbackText.Append(exc.Message); 
+} finally { Feedback(feedbackText.ToString()); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>'' -------------------------------------------------------------------- '' 
+&lt;summary> '' Sets the values of the text controls using managed methods. '' 
+&lt;/summary> '' 
+&lt;param name="s">The string to be inserted.
+&lt;/param> '' -------------------------------------------------------------------- Private Sub SetValueWithUIAutomation(ByVal s As String) Dim control As AutomationElement For Each control In textControls InsertTextWithUIAutomation(control, s) Next control End Sub '' -------------------------------------------------------------------- '' 
+&lt;summary> '' Inserts a string into each text control of interest. '' 
+&lt;/summary> '' 
+&lt;param name="element">A text control.
+&lt;/param> '' 
+&lt;param name="value">The string to be inserted.
+&lt;/param> '' -------------------------------------------------------------------- Private Sub InsertTextWithUIAutomation( _ ByVal element As AutomationElement, ByVal value As String) Try ' Validate arguments / initial setup If value Is Nothing Then Throw New ArgumentNullException( _ "String parameter must not be null.") End If If element Is Nothing Then Throw New ArgumentNullException( _ "AutomationElement parameter must not be null") End If ' A series of basic checks prior to attempting an insertion. ' ' Check #1: Is control enabled? ' An alternative to testing for static or read-only controls ' is to filter using ' PropertyCondition(AutomationElement.IsEnabledProperty, true) ' and exclude all read-only text controls from the collection. If Not element.Current.IsEnabled Then Throw New InvalidOperationException( _ "The control with an AutomationID of " + _ element.Current.AutomationId.ToString() + _ " is not enabled." + vbLf + vbLf) End If ' Check #2: Are there styles that prohibit us ' from sending text to this control? If Not element.Current.IsKeyboardFocusable Then Throw New InvalidOperationException( _ "The control with an AutomationID of " + _ element.Current.AutomationId.ToString() + _ "is read-only." + vbLf + vbLf) End If ' Once you have an instance of an AutomationElement, ' check if it supports the ValuePattern pattern. Dim targetValuePattern As Object = Nothing ' Control does not support the ValuePattern pattern ' so use keyboard input to insert content. ' ' NOTE: Elements that support TextPattern ' do not support ValuePattern and TextPattern ' does not support setting the text of ' multi-line edit or document controls. ' For this reason, text input must be simulated ' using one of the following methods. ' If Not element.TryGetCurrentPattern(ValuePattern.Pattern, targetValuePattern) Then feedbackText.Append("The control with an AutomationID of ") _ .Append(element.Current.AutomationId.ToString()) _ .Append(" does not support ValuePattern."). _ AppendLine(" Using keyboard input.").AppendLine() ' Set focus for input functionality and begin. element.SetFocus() ' Delete existing content in the control and insert new content. SendKeys.SendWait("^{HOME}") ' Move to start of control SendKeys.SendWait("^+{END}") ' Select everything SendKeys.SendWait("{DEL}") ' Delete selection SendKeys.SendWait(value) ' Control supports the ValuePattern pattern so we can ' use the SetValue method to insert content. Else feedbackText.Append("The control with an AutomationID of ") _ .Append(element.Current.AutomationId.ToString()) _ .Append(" supports ValuePattern.") _ .AppendLine(" Using ValuePattern.SetValue().").AppendLine() ' Set focus for input functionality and begin. element.SetFocus() CType(targetValuePattern, ValuePattern).SetValue(value) End If Catch exc As ArgumentNullException feedbackText.Append(exc.Message) Catch exc As InvalidOperationException feedbackText.Append(exc.Message) Finally Feedback(feedbackText.ToString()) End Try End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>TextPattern Insert Text Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Add Content to a Text Box Using UI Automation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,412 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0230c4eb_0c8a_462b_ac4b_ae3e511659f4"
+  Tag     ="Focus Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Focus Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how focus is handled in Windows Presentation Foundation (WPF) applications. The concepts covered in this overview are the difference between keyboard focus and logical focus and the set of API used to determine and work with focus.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Introduction Section
+    </Paragraph>
+
+    <Paragraph>In WPF there are two main concepts that pertains to focus: keyboard focus and logical focus. Keyboard focus refers to the element that receives keyboard input and logical focus refers to the element in a focus scope that has focus. These concepts are discussed in detail in this overview. Understanding the difference in these concepts is important for creating complex applications that have multiple regions where focus can be obtained.
+    </Paragraph>
+
+    <Paragraph>The major classes which participate in focus management are the Keyboard class, the FocusManager class, and the base element classes, such as UIElement and ContentElement. For more information about the base elements, see the <Hyperlink NavigateUri="2c997092-72c6-4767-bc84-74267f4eee72.xaml">Base Elements Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Keyboard</Run>
+ class is concerned primarily with keyboard focus and the <Run FontWeight="Bold">FocusManager</Run>
+ is concerned primarily with logical focus, but this is not an absolute distinction. An element that has keyboard focus will also have logical focus, but an element that has logical focus does not necessarily have keyboard focus. This is apparent when you use the <Run FontWeight="Bold">Keyboard</Run>
+ class to set the element that has keyboard focus also, for it also sets logical focus on the element.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Keyboard Focus
+    </Paragraph>
+
+    <Paragraph>Keyboard focus refers to the element that is currently receiving keyboard input. There can be only one element on the whole desktop that has keyboard focus. In WPF, the element that has keyboard focus will have IsKeyboardFocused set to <Run FontWeight="Bold">true</Run>
+. The static property FocusedElement on the <Run FontWeight="Bold">Keyboard</Run>
+ class gets the element that currently has keyboard focus. 
+    </Paragraph>
+
+    <Paragraph>In order for an element to obtain keyboard focus, the Focusable property on the base elements must be set to <Run FontWeight="Bold">true</Run>
+. Some classes, such as the Panel class, have <Run FontWeight="Bold">Focusable</Run>
+ set to <Run FontWeight="Bold">false</Run>
+ by default; 
+therefore, you must set <Run FontWeight="Bold">Focusable</Run>
+ to <Run FontWeight="Bold">true</Run>
+ if you want the element to be able to obtain keyboard focus.
+    </Paragraph>
+
+    <Paragraph>Keyboard focus can be obtained through user interaction with the UI, such as tabbing to an element or clicking the mouse on certain elements. Keyboard focus can also be obtained programmatically by using the Focus method on the <Run FontWeight="Bold">Keyboard</Run>
+ class. The <Run FontWeight="Bold">Focus</Run>
+ method tries to give the specified element keyboard focus. The returned element is the element that has keyboard focus.
+    </Paragraph>
+
+    <Paragraph>The following example uses the <Run FontWeight="Bold">Focus</Run>
+ method to set keyboard focus on a Button.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void OnLoaded(object sender, RoutedEventArgs e) { // Sets keyboard focus on the first Button in the sample. Keyboard.Focus(firstButton); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The IsKeyboardFocused property on the base element classes gets a value indicating whether the element has keyboard focus. The IsKeyboardFocusWithin property on the base element classes gets a value indicating whether the element or any one of its visual child elements has keyboard focus.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Logical Focus
+    </Paragraph>
+
+    <Paragraph>Logical focus refers to the System.Windows.Input.FocusManager.FocusedElement in a focus scope. There can be multiple elements that have logical focus in an application, but there may only be one element that has logical focus in a particular focus scope.
+    </Paragraph>
+
+    <Paragraph>An element that has keyboard focus has logical focus for the focus scope it belongs to. 
+    </Paragraph>
+
+    <Paragraph>A focus scope is an element that keeps track of the <Run FontWeight="Bold">FocusedElement</Run>
+ within its scope. When keyboard focus leaves a focus scope, the focused element will lose keyboard focus but will retain logical focus. When keyboard focus returns to the focus scope, the focused element will obtain keyboard focus. This allows for keyboard focus to be changed between multiple focus scopes but insures that the focused element in the focus scope regains keyboard focus when focus returns to the focus scope.
+    </Paragraph>
+
+    <Paragraph>An element can be turned into a focus scope in Extensible Application Markup Language (XAML) by setting the <Run FontWeight="Bold">FocusManager</Run>
+ attached property IsFocusScope to <Run FontWeight="Bold">true</Run>
+. In procedural code, an element can be turned into a focus scope by calling SetIsFocusScope.
+    </Paragraph>
+
+    <Paragraph>The following example makes a StackPanel into a focus scope by setting the <Run FontWeight="Bold">IsFocusScope</Run>
+ attached property.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>StackPanel focuseScope2 = new StackPanel(); 
+FocusManager.SetIsFocusScope(focuseScope2, true); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>GetFocusScope returns the focus scope for the specified element. It is possible for an element to belong to two focus scopes, for a focus scope can be nested inside another focus scope. For example, the Window class is by default a focus scope. If a child element of a <Run FontWeight="Bold">Window</Run>
+, such as a <Run FontWeight="Bold">StackPanel</Run>
+, is defined as a focus scope, the elements in the <Run FontWeight="Bold">StackPanel</Run>
+ belong to the <Run FontWeight="Bold">StackPanel</Run>
+ focus scope and the <Run FontWeight="Bold">Window</Run>
+ focus scope. <Run FontWeight="Bold">GetFocusScope</Run>
+ walks up the element tree and returns the first focus scope it encounters.
+    </Paragraph>
+
+    <Paragraph>Classes in WPF which are focus scopes by default are <Run FontWeight="Bold">Window</Run>
+, MenuItem, ToolBar, and ContextMenu.
+    </Paragraph>
+
+    <Paragraph>GetFocusedElement gets the focused element for the specified focus scope. SetFocusedElement sets the focused element in the specified focus scope.
+    </Paragraph>
+
+    <Paragraph>The following example sets the focused element on a focus scope and gets the focused element of a focus scope. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Sets the focused element in focusScope1 // focusScope1 is a StackPanel. FocusManager.SetFocusedElement(focusScope1, button2); 
+// Gets the focused element for focusScope 1 IInputElement focusedElement = FocusManager.GetFocusedElement(focusScope1); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Manipulating Focus Programmatically
+    </Paragraph>
+
+    <Paragraph>Additional API to work with focus are MoveFocus and PredictFocus on the base element classes.
+    </Paragraph>
+
+    <Paragraph>MoveFocus changes keyboard focus to the next element in the application. A TraversalRequest is used to specify the direction to The FocusNavigationDirection passed to <Run FontWeight="Bold">MoveFocus</Run>
+ specifies the different directions focus can be moved, such as First, Last, Up and Down. 
+    </Paragraph>
+
+    <Paragraph>The following example uses <Run FontWeight="Bold">MoveFocus</Run>
+ to change the focused element. For the complete source code for this example, see the Manipulate Focus Programmatically Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Creating a FocusNavigationDirection object and setting it to a // local field that contains the direction selected. FocusNavigationDirection focusDirection = _focusMoveValue; 
+// MoveFocus takes a TraveralReqest as its argument. TraversalRequest request = new TraversalRequest(focusDirection); 
+// Gets the element with keyboard focus. UIElement elementWithFocus = Keyboard.FocusedElement as UIElement; 
+// Change keyboard focus. if (elementWithFocus != null) { elementWithFocus.MoveFocus(request); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>PredictFocus returns the object which would receive focus if focus were to be changed by using the specified <Run FontWeight="Bold">FocusNavigationDirection</Run>
+. Currently, only <Run FontWeight="Bold">Up</Run>
+, <Run FontWeight="Bold">Down</Run>
+, Left, and Right are supported by <Run FontWeight="Bold">PredictFocus</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Focus Events
+    </Paragraph>
+
+    <Paragraph>The events related to keyboard focus are PreviewGotKeyboardFocus, GotKeyboardFocus and PreviewLostKeyboardFocus, LostKeyboardFocus. The attached events are defined on the Keyboard class, but are accessible on the base element classes. For more information about attached routed events, see routed events see the <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">GotKeyboardFocus</Run>
+ is raised when the element obtains keyboard focus. <Run FontWeight="Bold">LostKeyboardFocus</Run>
+ is raised when the element loses keyboard focus.
+    </Paragraph>
+
+    <Paragraph>The following example attaches GotKeyboardFocus and LostKeyboardFocus event handlers to a TextBox. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Border BorderBrush="Black" BorderThickness="1" Width="200" Height="100" Margin="5"> 
+&lt;StackPanel> 
+&lt;Label HorizontalAlignment="Center" Content="Type Text In This TextBox" /> 
+&lt;TextBox Width="175" Height="50" Margin="5" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto" GotKeyboardFocus="TextBoxGotKeyboardFocus" LostKeyboardFocus="TextBoxLostKeyboardFocus" KeyDown="SourceTextKeyDown"/> 
+&lt;/StackPanel> 
+&lt;/Border> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the <Run FontWeight="Bold">TextBox</Run>
+ obtains keyboard focus, the Background property of the <Run FontWeight="Bold">TextBox</Run>
+ is changed to LightBlue.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void TextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { TextBox source = e.Source as TextBox; 
+if (source != null) { // Change the TextBox color when it obtains focus. source.Background = Brushes.LightBlue; 
+// Clear the TextBox. source.Clear(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the <Run FontWeight="Bold">TextBox</Run>
+ loses keyboard focus, the <Run FontWeight="Bold">Background</Run>
+ property of the <Run FontWeight="Bold">TextBox</Run>
+ is changed back to white.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void TextBoxLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { TextBox source = e.Source as TextBox; 
+if (source != null) { // Change the TextBox color when it loses focus. source.Background = Brushes.White; 
+// Set the hit counter back to zero and updates the display. this.ResetCounter(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The events related to logical focus are GotFocus and LostFocus. These events are defined on the <Run FontWeight="Bold">FocusManager</Run>
+ as attached events, but the <Run FontWeight="Bold">FocusManager</Run>
+ does not expose CLR event wrappers. <Run FontWeight="Bold">UIElement</Run>
+ and <Run FontWeight="Bold">ContentElement</Run>
+ alias these events and expose them.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>FocusManager
+      <LineBreak/>UIElement
+      <LineBreak/>ContentElement
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="2c997092-72c6-4767-bc84-74267f4eee72.xaml">Base Elements Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Focus Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

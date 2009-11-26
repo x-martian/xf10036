@@ -1,0 +1,204 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_7a080b88_184e_4b27_bb61_d42bafba9727"
+  Tag     ="Convert a ListBoxItem to a New Data Type"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Convert a ListBoxItem to a New Data Type</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to convert the contents of a ListBoxItem to an instance of Thickness. Although this example specifically shows how to convert a <Run FontWeight="Bold">ListBoxItem</Run>
+ into an instance of Thickness, it also shows how you can use any compatible type converter to convert a <Run FontWeight="Bold">ListBoxItem</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates a ListBox element that has ten selectable <Run FontWeight="Bold">ListBoxItem</Run>
+s. The SelectionChanged event triggers the <Run>ChangeMargin</Run>
+ custom method, which the subsequent code example defines. 
+    </Paragraph>
+
+    <Paragraph>In the Extensible Application Markup Language (XAML) example, each <Run FontWeight="Bold">ListBoxItem</Run>
+ represents a <Run FontWeight="Bold">Thickness</Run>
+ value, which is used to describe the uniform margins of an element. However, before you can use a <Run FontWeight="Bold">ListBoxItem</Run>
+ to represent an instance of <Run FontWeight="Bold">Thickness</Run>
+, you must first convert it to the correct data type. The subsequent code example shows the conversion.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Width="50" Height="50" SelectionChanged="ChangeMargin"> 
+&lt;ListBoxItem>10
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>20
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>30
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>40
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>50
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>60
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>70
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>80
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>90
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>100
+&lt;/ListBoxItem> 
+&lt;/ListBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When a user changes the <Run FontWeight="Bold">ListBox</Run>
+ selection, the change invokes the <Run>ChangeMargin</Run>
+ custom method. This method passes the <Run FontWeight="Bold">ListBoxItem</Run>
+ to a ThicknessConverter object, which converts the <Run FontWeight="Bold">ListBoxItem</Run>
+ Content to an instance of <Run FontWeight="Bold">Thickness</Run>
+. (Notice that this value has already been converted to a string by using the ToString method.) This value is then passed back as the Margin of the <Run>text1</Run>
+ object, dynamically changing its position.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void ChangeMargin(object sender, SelectionChangedEventArgs args) { ListBoxItem li = ((sender as ListBox).SelectedItem as ListBoxItem); 
+ThicknessConverter myThicknessConverter = new ThicknessConverter(); 
+Thickness th1 = (Thickness)myThicknessConverter.ConvertFromString(li.Content.ToString()); 
+text1.Margin = th1; 
+String st1 = (String)myThicknessConverter.ConvertToString(text1.Margin); 
+gridVal.Text = "The Margin property is set to " + st1 +"."; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub ChangeMargin(ByVal sender As Object, ByVal args As SelectionChangedEventArgs) Dim li As ListBoxItem = CType(CType(sender, ListBox).SelectedItem, ListBoxItem) Dim myThicknessConverter As ThicknessConverter = New ThicknessConverter() Dim th1 As Thickness = CType(myThicknessConverter.ConvertFromString(li.Content.ToString()), Thickness) text1.Margin = th1 Dim st1 As String = CType(myThicknessConverter.ConvertToString(text1.Margin), String) gridVal.Text = "The Margin property is set to " + st1 + "." End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Changing Margins in a Grid Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8a313efd-5f99-4097-b4c1-8fa49d8379a2.xaml">How to: Change the Margin Property</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="52682194-d7fd-499c-8005-73fcc84e7b2c.xaml">How to: Use a ThicknessConverter Object</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ListBox
+      <LineBreak/>ListBoxItem
+      <LineBreak/>ThicknessConverter
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Convert a ListBoxItem to a New Data Type to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

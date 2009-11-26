@@ -1,0 +1,189 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_97bd6842_929b_49d9_813e_46553ae46472"
+  Tag     ="Specify HandoffBehavior Between Storyboard Animations"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Specify HandoffBehavior Between Storyboard Animations</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to specify handoff behavior between storyboard animations. The HandoffBehavior property of BeginStoryboard specifies how new animations interact with any existing ones that are already applied to a property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates two buttons that enlarge when the mouse cursor moves over them and become smaller when the cursor moves away. To create this effect, the example uses two event triggers, each one having a corresponding storyboard. 
+    </Paragraph>
+
+    <Paragraph>Both buttons use a <Run FontWeight="Bold">BeginStoryboard</Run>
+ object and set its <Run FontWeight="Bold">HandoffBehavior</Run>
+ property. The example sets one event trigger to Compose, which causes new and existing animations to combine together by appending the new animations to the end of the composition chain. The example sets the other event trigger with the default <Run FontWeight="Bold">HandoffBehavior</Run>
+ value of SnapshotAndReplace, which causes the new animation to immediately replace the existing one. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_97bd6842_929b_49d9_813e_46553ae46472_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Page.Resources> 
+&lt;!-- This Style specifies mouseover and mouseout behaviors. The button gets larger when the cursor moves over it and smaller when the cursor moves away. Note that the same Properties (ScaleX and ScaleY) are being targeted by both animations. The BeginStoryboard for each animation uses a HandoffBehavior of "Compose" which causes the old animation to interpolate more gradually into the new one. --> 
+&lt;Style x:Key="ButtonWithCompose" TargetType="{x:Type Button}"> 
+&lt;Setter Property="Button.RenderTransform"> 
+&lt;Setter.Value> 
+&lt;ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" /> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Style.Triggers> 
+&lt;EventTrigger RoutedEvent="Mouse.MouseEnter"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard > 
+&lt;Storyboard> 
+&lt;DoubleAnimation Duration="0:0:2" Storyboard.TargetProperty="RenderTransform.ScaleX" To="3" /> 
+&lt;DoubleAnimation Duration="0:0:2" Storyboard.TargetProperty="RenderTransform.ScaleY" To="3" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Mouse.MouseLeave"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard HandoffBehavior="Compose"> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Duration="0:0:2" Storyboard.TargetProperty="RenderTransform.ScaleX" /> 
+&lt;DoubleAnimation Duration="0:0:2" Storyboard.TargetProperty="RenderTransform.ScaleY" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> 
+&lt;!-- For this button style, BeginStoryboard uses the default HandoffBehavior of "SnapShotAndReplace" --> 
+&lt;Style x:Key="ButtonWithSnapShotAndReplace" TargetType="{x:Type Button}"> 
+&lt;Setter Property="Button.RenderTransform"> 
+&lt;Setter.Value> 
+&lt;ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" /> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Style.Triggers> 
+&lt;EventTrigger RoutedEvent="Mouse.MouseEnter"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard > 
+&lt;Storyboard> 
+&lt;DoubleAnimation Duration="0:0:2" Storyboard.TargetProperty="RenderTransform.ScaleX" To="3" /> 
+&lt;DoubleAnimation Duration="0:0:2" Storyboard.TargetProperty="RenderTransform.ScaleY" To="3" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Mouse.MouseLeave"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Duration="0:0:2" Storyboard.TargetProperty="RenderTransform.ScaleX" /> 
+&lt;DoubleAnimation Duration="0:0:2" Storyboard.TargetProperty="RenderTransform.ScaleY" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> 
+&lt;/Page.Resources> 
+&lt;Canvas> 
+&lt;Button Style="{StaticResource ButtonWithSnapShotAndReplace}" Canvas.Top="200" Canvas.Left="200" Width="100" Height="100"> SnapShotAndReplace 
+&lt;/Button> 
+&lt;Button Style="{StaticResource ButtonWithCompose}" Canvas.Top="200" Canvas.Left="400" Width="100" Height="100"> Compose 
+&lt;/Button> 
+&lt;/Canvas> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>BeginStoryboard
+      <LineBreak/>HandoffBehavior
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Animation and Timing Overviews
+      <LineBreak/><Hyperlink NavigateUri="587e36f6-1957-424e-9d89-c43724f26d84.xaml">Animation and Timing How-to Topics</Hyperlink>
+
+      <LineBreak/>Animation and Timing Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Specify HandoffBehavior Between Storyboard Animations to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

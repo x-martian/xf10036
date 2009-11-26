@@ -1,0 +1,600 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_4571ccfe_8a60_4f06_9b37_7ac0b1c2d10f"
+  Tag     ="Globalization for the Windows Presentation Foundation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Globalization for the Windows Presentation Foundation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces issues that you should be aware of when writing Windows Presentation Foundation (WPF) applications for the global market. The globalization programming elements are defined in Microsoft .NET in <Run>System.Globalization</Run>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="xaml_globalization">XAML Globalization</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="design_intl_ui_with_xaml">Designing an International User Interface with "XAML"</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="developing_localizable_apps">Developing Localizable Applications</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="using_clickonce">Using ClickOnce with Localized Applications</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">XAML Globalization
+    </Paragraph>
+
+    <Paragraph>Extensible Application Markup Language (XAML) is based on XML and takes advantage of the globalization support defined in the XML specification. The following sections describe some XAML features that you should be aware of.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Character References
+    </Paragraph>
+
+    <Paragraph>A character reference gives the number of the particular Unicode character it represents, in either decimal or hexadecimal. The following example shows a decimal character reference.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>&#1000;</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows a hexadecimal character reference. Notice that it has an <Run FontWeight="Bold">x</Run>
+ in front of the hexadecimal number.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>&#x3E8;</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Encoding
+    </Paragraph>
+
+    <Paragraph>The encoding supported by XAML are ASCII, Unicode UTF-16, and UTF-8. The encoding statement is at the beginning of XAML document. If no encoding attribute exists and there is no byte-order, the parser defaults to UTF-8. UTF-8 and UTF-16 are the preferred encodings. UTF-7 is not supported. The following example demonstrates how to specify a UTF-8 encoding in a XAML file.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>?xml encoding="UTF-8"?</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Language Attribute
+    </Paragraph>
+
+    <Paragraph>XAML uses <Hyperlink NavigateUri="7aac0078-a1c5-41f8-b8b0-975510d9dca0.xaml">xml:lang Attribute</Hyperlink>
+ to represent the language attribute of an element. To take advantage of the CultureInfo class, the language attribute value needs to be one of the culture names predefined by CultureInfo. The language attribute is inheritable in the element tree and its default value is " " if it is not assigned explicitly.
+    </Paragraph>
+
+    <Paragraph>The language attribute is very useful for specifying dialects. For example, French has different spelling, vocabulary, and pronunciation in France, Quebec, Belgium, and Switzerland. Also Chinese, Japanese, and Korean share code points in Unicode, but the ideographic shapes are different and they use totally different fonts. In order to render text correctly, the rendering system needs to understand the language to decide which font to use.
+    </Paragraph>
+
+    <Paragraph>The following Extensible Application Markup Language (XAML) example uses the <Run>fr-CA</Run>
+ language attribute to specify Canadian French.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock xml:lang="fr-CA">Découvrir la France
+&lt;/TextBlock></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Unicode
+    </Paragraph>
+
+    <Paragraph>XAML supports all Unicode features including surrogates. As long as the character set can be mapped to Unicode, it is supported. For example, GB18030 introduces some characters that are mapped to the Chinese, Japanese, and Korean (CFK) extension A and B and surrogate pairs, therefore it is fully supported. A WPF application can use StringInfo to manipulate strings without understanding whether they have surrogate pairs or combining characters.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Designing an International User Interface with "XAML"
+    </Paragraph>
+
+    <Paragraph>This section describes user interface (UI) features that you should consider when writing an application.
+    </Paragraph>
+
+    <Paragraph FontSize="18">International Text
+    </Paragraph>
+
+    <Paragraph>WPF includes built-in processing for all Microsoft .NET Framework version 3.0 supported writing systems.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The following scripts are currently supported. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Arabic
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Cyrillic
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Greek
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Hebrew
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Ideographic scripts
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Lao
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Latin
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Mongolian
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Syriac
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Thaana
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Thai*
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Tibetan
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>*In this release we support the display and editing of Thai text but do not support word breaking.
+    </Paragraph>
+
+    <Paragraph>The following scripts are not currently supported:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Bengali
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Devanagari
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Gujarati
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Gurmukhi
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Kannada
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Khmer
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Korean Old Hangul
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Malayalam
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Myanmar
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Oriya
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Sinhala
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Tamil
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Telugu
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>All the writing system engines support OpenType fonts. OpenType fonts can include the OpenType layout tables that enable font creators to design better international and high-end typographic fonts. The OpenType font layout tables contain information about glyph substitutions, glyph positioning, justification, and baseline positioning, enabling text-processing applications to improve text layout.
+    </Paragraph>
+
+    <Paragraph>OpenType fonts allow the handling of large glyph sets using Unicode encoding. Such encoding enables broad international support as well as for typographic glyph variants.
+    </Paragraph>
+
+    <Paragraph>WPF text rendering is powered by Microsoft ClearType sub-pixel technology, that supports resolution independence. This significantly improves legibility and provides the ability to support high quality magazine style documents for all scripts.
+    </Paragraph>
+
+    <Paragraph FontSize="18">International Layout
+    </Paragraph>
+
+    <Paragraph>WPF provides a very convenient way to support horizontal, bidirectional, and vertical layouts. In presentation framework the FlowDirection property can be used to define layout. The flow direction patterns are:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">LeftToRight</Run>
+ - horizontal layout for Latin, East Asian and so forth.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">RightToLeft</Run>
+ - bidirectional for Arabic, Hebrew and so forth.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Developing Localizable Applications
+    </Paragraph>
+
+    <Paragraph>When you write an application for global consumption you should keep in mind that the application must be localizable. The following topics point out things to consider.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Multilingual User Interface
+    </Paragraph>
+
+    <Paragraph>Multilingual User Interfaces (MUI) is a Microsoft support for switching UIs from one language to another. A WPF application uses the assembly model to support MUI. One application contains language-neutral assemblies as well as language-dependent satellite resource assemblies. The entry point is a managed .EXE in the main assembly. WPF resource loader takes advantage of the Framework's resource manager to support resource lookup and fallback. Multiple language satellite assemblies work with the same main assembly. The resource assembly that is loaded depends on the CurrentUICulture of the current thread.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Localizable User Interface
+    </Paragraph>
+
+    <Paragraph>WPF applications use XAML to define their UI. XAML allows developers to specify a hierarchy of objects with a set of properties and logic. The primary use of XAML is to develop WPF applications but it can be used to specify a hierarchy of any common language runtime (CLR) objects. Most developers use XAML to specify their application's UI and use a programming language such as C# to react to user interaction.
+    </Paragraph>
+
+    <Paragraph>From a resource point of view, a XAML file designed to describe a language-dependent UI is a resource element and therefore its final distribution format must be localizable to support international languages. Because XAML cannot handle events many XAML applications contain blocks of code to do this. For more information, see <Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+. Code is stripped out and compiled into different binaries when a XAML file is tokenized into binary XAML (BAML). BAML files, images, and other types of managed resource objects are embedded in the satellite resource assembly, which can be localized into other languages, or the main assembly when localization is not required.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>WPF applications support all the Framework CLR resources including string tables, images, and so forth.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Building Localizable Applications
+    </Paragraph>
+
+    <Paragraph>Localization means to adapt a UI to different cultures. To make a WPF application localizable, developers need to build all the localizable resources into a resource assembly. The resource assembly is localized into different languages, and the code-behind uses resource management API to load. One of the files required for a WPF application is a project file (.proj). All resources that you use in your application should be included in the project file. The following example from a .csproj file shows how to do this.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Resource Include="data\picture1.jpg"/> 
+&lt;EmbeddedResource Include="data\stringtable.en-US.restext"/></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To use a resource in your application instantiate a ResourceManger and load the resource you want to use. The following example demonstrates how to do this.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void OnClick(object sender, RoutedEventArgs e) { ResourceManager rm = new ResourceManager ("MySampleApp.data.stringtable", Assembly.GetExecutingAssembly()); 
+Text1.Text = rm.GetString("Message"); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using ClickOnce with Localized Applications
+    </Paragraph>
+
+    <Paragraph>ClickOnce is a new Windows Forms deployment technology that will ship with Microsoft Visual Studio 2005. It enables application installation and upgrading of Web applications. When an application that was deployed with ClickOnce is localized it can only be viewed on the localized culture. For example, if a deployed application is localized to Japanese it can only be viewed on Japanese Microsoft Windows not on English Windows. This presents a problem because it is a common scenario for Japanese users to run an English version of Windows. 
+    </Paragraph>
+
+    <Paragraph>The solution to this problem is setting the neutral language fallback attribute. An application developer can optionally remove resources from the main assembly and specify that the resources can be found in a satellite assembly corresponding to a specific culture. To control this process use the NeutralResourcesLanguageAttribute. The constructor of the NeutralResourcesLanguageAttribute class has two signatures, one that takes an <Run FontWeight="Bold">UltimateResourceFallBackLocation</Run>
+ parameter to specify the location where the ResourceManager should extract the fallback resources: main assembly or satellite assembly. The following example shows how to use the attribute. For the ultimate fallback location, the code causes the ResourceManager to look for the resources in the "de" subdirectory of the directory of the currently executing assembly.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[assembly: NeutralResourcesLanguageAttribute("de" , UltimateResourceFallbackLocation.Satellite)] </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Globalization for the Windows Presentation Foundation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

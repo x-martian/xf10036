@@ -1,0 +1,504 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_af4151b9_72a7_438f_aab3_142be2835741"
+  Tag     ="ListBox Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>ListBox Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The ListBox control provides a list of items from which users can select. This topic introduces the <Run FontWeight="Bold">ListBox</Run>
+ class and illustrates how to use this control in both Extensible Application Markup Language (XAML) and code for C#.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="listbox_control">ListBox Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_listboxes">Creating ListBoxes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="listbox_data_binding">Populating ListBoxItems by Using Data Binding</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="listbox_selection_modes">Using ListBox Selection Modes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="listboxes_containing_rich_content">Using Rich Content in ListBoxes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">ListBox Control
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">ListBox</Run>
+ organizes a list of items and enables users to select from those items. In addition, other controls can use and encapsulate a <Run FontWeight="Bold">ListBox</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following figure illustrates a typical <Run FontWeight="Bold">ListBox</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Typical ListBox</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating ListBoxes
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ListBox</Run>
+ in the following XAML example contains multiple list items. Notice that a ListBoxItem wraps each side of the <Run FontWeight="Bold">ListBox</Run>
+ child elements. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBox Name="tb" Width="140" Height="30">
+&lt;/TextBox> 
+&lt;ListBox Name="lb" Width="100" Height="55" SelectionChanged="PrintText" SelectionMode="Single"> 
+&lt;ListBoxItem>Item 1
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Item 2
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Item 3
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Item 4
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Item 5
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Item 6
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Item 7
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Item 8
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Item 9
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Item 10
+&lt;/ListBoxItem> 
+&lt;/ListBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>After using XAML to create the <Run FontWeight="Bold">ListBox</Run>
+, you can add an event handler to handle SelectionChanged events. In this example, the event handler is <Run>PrintText</Run>
+. When the user selects an item, the event handler displays the item name. 
+    </Paragraph>
+
+    <Paragraph>You must write event handlers in a procedural programming language, such as C# or Visual Basic. The following example shows an event handler in C# code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void PrintText(object sender, SelectionChangedEventArgs args) { ListBoxItem lbi = ((sender as ListBox).SelectedItem as ListBoxItem); 
+tb.Text = " You selected " + lbi.Content.ToString() + "."; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub PrintText(ByVal sender As Object, ByVal e As SelectionChangedEventArgs) Dim lbsender As ListBox Dim li As ListBoxItem lbsender = CType(sender, ListBox) li = CType(lbsender.SelectedItem, ListBoxItem) tb.Text = " You selected " &amp; 
+li.Content.ToString &amp; 
+"." End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ListBox Sample.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to generate a <Run FontWeight="Bold">ListBox</Run>
+ in C#. The example creates a <Run FontWeight="Bold">ListBox</Run>
+ and adds list items; 
+then the <Run FontWeight="Bold">ListBox</Run>
+ (<Run>lb</Run>
+) is added to a panel element (<Run>spanel2</Run>
+).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>lb = new ListBox(); 
+lb.Width = 80; 
+lb.HorizontalAlignment = HorizontalAlignment.Left; 
+li1 = new ListBoxItem(); 
+li1.Content = "Item 1"; 
+lb.Items.Add(li1); 
+li2 = new ListBoxItem(); 
+li2.Content = "Item 2"; 
+lb.Items.Add(li2); 
+li3 = new ListBoxItem(); 
+li3.Content = "Item 3"; 
+lb.Items.Add(li3); 
+spanel2.Children.Add(lb); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Creating Controls Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Populating ListBoxItems by Using Data Binding
+    </Paragraph>
+
+    <Paragraph>You can create list boxes without separately specifying the contents of each <Run FontWeight="Bold">ListBoxItem</Run>
+. Instead, use data binding to bind data to the individual items.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create a <Run FontWeight="Bold">ListBox</Run>
+ that populates each <Run FontWeight="Bold">ListBoxItem</Run>
+ by binding data to a data source that is called <Run>Colors</Run>
+. In this case, you need not use <Run FontWeight="Bold">ListBoxItem</Run>
+ tags to specify the content of each item.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox Name="myListBox" HorizontalAlignment="Left" SelectionMode="Extended" Width="265" Height="55" Background="HoneyDew" ItemsSource="{Binding Source={StaticResource Colors}}" IsSynchronizedWithCurrentItem="true"> 
+&lt;/ListBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see List Box Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using ListBox Selection Modes
+    </Paragraph>
+
+    <Paragraph>The SelectionMode property for a <Run FontWeight="Bold">ListBox</Run>
+ determines how many items a user can select at one time. You can set the property to Single (the default value), Multiple, or Extended. When you set this property to one of these enumerations, users can select the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>One item (<Run FontWeight="Bold">Single</Run>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>More than one contiguous items (<Run FontWeight="Bold">Multiple</Run>
+). Users can select multiple items by clicking items with the mouse or holding down the SHIFT key and pressing the space key..
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Groups of items (<Run FontWeight="Bold">Extended</Run>
+). Users select groups of items by holding down the CTRL key while using the mouse to select items or holding down the CTRL key and pressing the space key.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example shows how to create a <Run FontWeight="Bold">ListBox</Run>
+ that enables users to select more than one items (<Run FontWeight="Bold">Multiple</Run>
+ selections).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox Width="265" Height="55" HorizontalAlignment="Left" SelectionMode="Multiple"> 
+&lt;DockPanel>
+&lt;Image Source="data\cat.png"/>
+&lt;TextBlock>CAT
+&lt;/TextBlock>
+&lt;/DockPanel> 
+&lt;DockPanel>
+&lt;Image Source="data\dog.png"/>
+&lt;TextBlock>DOG
+&lt;/TextBlock>
+&lt;/DockPanel> 
+&lt;DockPanel>
+&lt;Image Source="data\fish.png"/>
+&lt;TextBlock>FISH
+&lt;/TextBlock>
+&lt;/DockPanel> 
+&lt;/ListBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see List Box Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using Rich Content in ListBoxes
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ListBoxItem</Run>
+ controls can contain rich content such as images. The following example shows how to create a <Run FontWeight="Bold">ListBox</Run>
+ whose items contain an image and a TextBlock inside a DockPanel.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox Width="265" Height="55" HorizontalAlignment="Left" SelectionMode="Multiple"> 
+&lt;DockPanel>
+&lt;Image Source="data\cat.png"/>
+&lt;TextBlock>CAT
+&lt;/TextBlock>
+&lt;/DockPanel> 
+&lt;DockPanel>
+&lt;Image Source="data\dog.png"/>
+&lt;TextBlock>DOG
+&lt;/TextBlock>
+&lt;/DockPanel> 
+&lt;DockPanel>
+&lt;Image Source="data\fish.png"/>
+&lt;TextBlock>FISH
+&lt;/TextBlock>
+&lt;/DockPanel> 
+&lt;/ListBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see List Box Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="de93a907-709a-44a7-84bf-578b846a3d8b.xaml">How to: Bind Data to a ListBox</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1dac7de3-316b-40cb-9f5b-33e4a802d807.xaml">How to: Use ListBox Selection Modes</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="dafcb0e4-3a75-4c73-846a-831e5e38b2eb.xaml">How to: Create a ListBox with an Event Handler</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation Controls Gallery
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about ListBox Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,247 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ffb7b96a_351d_4c68_81e7_054033781c64"
+  Tag     ="Control When the TextBox Text Updates the Source"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Control When the TextBox Text Updates the Source</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how to use the UpdateSourceTrigger property to control the timing of <Run>binding source</Run>
+ updates. The topic uses the TextBox control as an example.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">TextBox</Run>
+.Text property has a default <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ value of LostFocus. This means if an application has a <Run FontWeight="Bold">TextBox</Run>
+ with a data-bound <Run FontWeight="Bold">TextBox</Run>
+.<Run FontWeight="Bold">Text</Run>
+ property, the text you type into the <Run FontWeight="Bold">TextBox</Run>
+ does not update the source until the <Run FontWeight="Bold">TextBox</Run>
+ loses focus (for instance, when you click away from the <Run FontWeight="Bold">TextBox</Run>
+).
+    </Paragraph>
+
+    <Paragraph>If you want the source to get updated as you are typing, set the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ of the binding to PropertyChanged. In the following example, the <Run FontWeight="Bold">Text</Run>
+ properties of both the <Run FontWeight="Bold">TextBox</Run>
+ and the TextBlock are bound to the same source property. The <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ property of the <Run FontWeight="Bold">TextBox</Run>
+ binding is set to <Run FontWeight="Bold">PropertyChanged</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Label>Enter a Name:
+&lt;/Label> 
+&lt;TextBox> 
+&lt;TextBox.Text> 
+&lt;Binding Source="{StaticResource myDataSource}" Path="PersonName" UpdateSourceTrigger="PropertyChanged"/> 
+&lt;/TextBox.Text> 
+&lt;/TextBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As a result, the <Run FontWeight="Bold">TextBlock</Run>
+ shows the same text (because the source changes) as the user enters text into the <Run FontWeight="Bold">TextBox</Run>
+, as illustrated by the following screenshot of the sample:
+    </Paragraph>
+
+    <Paragraph>For the complete sample, see Simple Binding Sample.
+    </Paragraph>
+
+    <Paragraph>If you have a dialog or a user-editable form and you want to defer source updates until the user is finished editing the fields and clicks "OK", you can set the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ value of your bindings to Explicit, as in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBox Name="itemNameTextBox" Text="{Binding Path=ItemName, UpdateSourceTrigger=Explicit}" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When you set the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ value to <Run FontWeight="Bold">Explicit</Run>
+, the source value only changes when the application calls the UpdateSource method. The following example shows how to call <Run FontWeight="Bold">UpdateSource</Run>
+ for <Run>itemNameTextBox</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class Window1 : Window { public void Preview(object sender, RoutedEventArgs args) { </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Explicitly Update Binding Source Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>: You can use the same technique for properties of other controls, but keep in mind that most other properties have a default <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ value of <Run FontWeight="Bold">PropertyChanged</Run>
+. For more information, see the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ property page.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>: The <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ property deals with source updates and therefore is only relevant for TwoWay or OneWayToSource bindings. For <Run FontWeight="Bold">TwoWay</Run>
+ and <Run FontWeight="Bold">OneWayToSource</Run>
+ bindings to work, the source object needs to provide property change notifications. You can refer to the samples cited in this topic for more information. In addition, you can look at <Hyperlink NavigateUri="30b59d9e-8c3a-4349-aa82-4be837e841cf.xaml">How to: Implement Property Change Notification</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Control When the TextBox Text Updates the Source to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

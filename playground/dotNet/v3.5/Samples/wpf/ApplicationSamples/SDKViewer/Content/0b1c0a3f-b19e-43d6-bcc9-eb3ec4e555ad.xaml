@@ -1,0 +1,230 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0b1c0a3f_b19e_43d6_bcc9_eb3ec4e555ad"
+  Tag     ="Programmatically Print XPS Files"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Programmatically Print XPS Files</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can use one overload of the AddJob method to print XML Paper Specification (XPS) files without opening a PrintDialog or, in principle, any user interface (UI) at all. 
+    </Paragraph>
+
+    <Paragraph>You can also print XML Paper Specification (XPS) files using the many Write and WriteAsync methods of the XpsDocumentWriter. For more about this, Printing an XPS Document.
+    </Paragraph>
+
+    <Paragraph>Another way of printing XML Paper Specification (XPS) is to use thePrintDocument or PrintVisual methods of the <Run FontWeight="Bold">PrintDialog</Run>
+ control. See <Hyperlink NavigateUri="e3a2c84c-74fe-45a4-8501-5813f9dbfed2.xaml">How to: Invoke a Print Dialog</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The main steps to using the three-parameter <Run FontWeight="Bold">AddJob</Run>
+ method are as follows. The example below gives details. 
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Determine if the printer is an XPSDrv printer. (See <Hyperlink NavigateUri="0de8ac41-9aa6-413d-a121-7aa6f41539b1.xaml">Printing Overview</Hyperlink>
+ for more about XPSDrv.)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the printer is not an XPSDrv printer, set the thread's apartment to single thread.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Instantiate a print server and print queue object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Call the method, specifying a job name, the file to be printed, and a Boolean flag indicating whether or not the printer is an XPSDrv printer.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The example below shows how to batch print all XPS files in a directory. Although the application prompts the user to specify the directory, the three-parameter <Run FontWeight="Bold">AddJob</Run>
+ method does not require a user interface (UI). It can be used in any code path where you have an XPS file name and path that you can pass to it. 
+    </Paragraph>
+
+    <Paragraph>The three-parameter <Run FontWeight="Bold">AddJob</Run>
+ overload of AddJob must run in a single thread apartment whenever the <Run FontWeight="Bold">Boolean</Run>
+ parameter is <Run FontWeight="Bold">false</Run>
+, which it must be when a non-XPSDrv printer is being used. However, the default apartment state for Microsoft .NET is multiple thread. This default must be reversed since the example assumes a non-XPSDrv printer. 
+    </Paragraph>
+
+    <Paragraph>There are two ways to change the default. One way is to simply add the STAThreadAttribute (that is, "<Run>[System.STAThreadAttribute()]</Run>
+") just above the first line of the application's <Run>Main</Run>
+ method (usually "<Run>static void Main(string[] args)</Run>
+"). However, many applications require that the <Run>Main</Run>
+ method have a multi-threaded apartment state, so there is a second method: put the call to <Run FontWeight="Bold">AddJob</Run>
+ in a separate thread whose apartment state is set to STA with SetApartmentState. The example below uses this second technique. 
+    </Paragraph>
+
+    <Paragraph>Accordingly, the example begins by instantiating a Thread object and passing it a <Run FontWeight="Bold">PrintXPS</Run>
+ method as the ThreadStart parameter. (The <Run FontWeight="Bold">PrintXPS</Run>
+ method is defined later in the example.) Next the thread is set to a single thread apartment. The only remaining code of the <Run>Main</Run>
+ method starts the new thread. 
+    </Paragraph>
+
+    <Paragraph>The meat of the example is in the <Run FontWeight="Bold">static</Run>
+<Run FontWeight="Bold">BatchXPSPrinter.PrintXPS</Run>
+ method. After creating a print server and queue, the method prompts the user for a directory containing XPS files. After validating the existence of the directory and the presence of *.xps files in it, the method adds each such file to the print queue. The example assumes that the printer is non-XPSDrv, so we are passing <Run FontWeight="Bold">false</Run>
+ to the last parameter of <Run FontWeight="Bold">AddJob</Run>
+ method. For this reason, the method will validate the XPS markup in the file before it attempts to convert it to the printer's page description language. If the validation fails, an exception is thrown. The example code will catch the exception, notify the user about it, and then go on to process the next XPS file. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>class Program { [System.MTAThreadAttribute()] // Added for clarity, but this line is redundant because MTA is the default. static void Main(string[] args) { // Create the secondary thread and pass the printing method for // the constructor's ThreadStart delegate parameter. The BatchXPSPrinter // class is defined below. Thread printingThread = new Thread(BatchXPSPrinter.PrintXPS); 
+// Set the thread that will use PrintQueue.AddJob to single threading. printingThread.SetApartmentState(ApartmentState.STA); 
+// Start the printing thread. The method passed to the Thread // constructor will execute. printingThread.Start(); 
+}//end Main }//end Program class public class BatchXPSPrinter { public static void PrintXPS() { // Create print server and print queue. LocalPrintServer localPrintServer = new LocalPrintServer(); 
+PrintQueue defaultPrintQueue = LocalPrintServer.GetDefaultPrintQueue(); 
+// Prompt user to identify the directory, and then create the directory object. Console.Write("Enter the directory containing the XPS files: "); 
+String directoryPath = Console.ReadLine(); 
+DirectoryInfo dir = new DirectoryInfo(directoryPath); 
+// If the user mistyped, end the thread and return to the Main thread. if (!dir.Exists) { Console.WriteLine("There is no such directory."); 
+} else { // If there are no XPS files in the directory, end the thread // and return to the Main thread. if (dir.GetFiles("*.xps").Length == 0) { Console.WriteLine("There are no XPS files in the directory."); 
+} else { Console.WriteLine("\nJobs will now be added to the print queue."); 
+Console.WriteLine("If the queue is not paused and the printer is working, jobs will begin printing."); 
+// Batch process all XPS files in the directory. foreach (FileInfo f in dir.GetFiles("*.xps")) { String nextFile = directoryPath + "\\" + f.Name; 
+Console.WriteLine("Adding {0} to queue.", nextFile); 
+try { // Print the Xps file while providing XPS validation and progress notifications. PrintSystemJobInfo xpsPrintJob = defaultPrintQueue.AddJob(f.Name, nextFile, false); 
+} catch (PrintJobException e) { Console.WriteLine("\n\t{0} could not be added to the print queue.", f.Name); 
+if (e.InnerException.Message == "File contains corrupted data.") { Console.WriteLine("\tIt is not a valid XPS file. Use the isXPS Conformance Tool to debug it."); 
+} Console.WriteLine("\tContinuing with next XPS file.\n"); 
+} }// end for each XPS file }//end if there are no XPS files in the directory }//end if the directory does not exist Console.WriteLine("Press Enter to end program."); 
+Console.ReadLine(); 
+}// end PrintXPS method }// end BatchXPSPrinter class </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you are using an XPSDrv printer, then you can set the final parameter to <Run FontWeight="Bold">true</Run>
+. In that case, since XPS is the printer's page description language, the method will send the file to the printer without validating it or converting it to another page description language. If you are uncertain at design time whether the application will be using an XPSDrv printer, you can modify the application to have it read the IsXpsDevice property and branch according to what it finds.
+    </Paragraph>
+
+    <Paragraph>Since there will initially be few XPSDrv printers available immediately after the release of Windows Vista and Microsoft .NET Framework version 3.0, you may need to disguise a non-XPSDrv printer as an XPSDrv printer. To do so, add Pipelineconfig.xml to the list of files in the following registry key of the computer running your application:
+    </Paragraph>
+
+    <Paragraph>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print\Environments\Windows NT x86\Drivers\Version-3\<Run FontStyle="italic">
+&lt;PseudoXPSPrinter></Run>
+\DependentFiles
+    </Paragraph>
+
+    <Paragraph>where <Run FontStyle="italic">
+&lt;PseudoXPSPrinter></Run>
+ is any print queue. The machine must then be rebooted. 
+    </Paragraph>
+
+    <Paragraph>This disguise will enable you to pass <Run FontWeight="Bold">true</Run>
+ as the final parameter of <Run FontWeight="Bold">AddJob</Run>
+ without causing an exception, but since <Run FontStyle="italic">
+&lt;PseudoXPSPrinter></Run>
+ is not really an XPSDrv printer, only garbage will print.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Note</Run>
+   For simplicity, the example above uses the presence of an *.xps extension as its test that a file is XPS. However, XPS files do not have to have this extension. The isXPS Conformance Tool is one way of testing a file for XPS validity. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>PrintQueue
+      <LineBreak/>AddJob
+      <LineBreak/>ApartmentState
+      <LineBreak/>STAThreadAttribute
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0de8ac41-9aa6-413d-a121-7aa6f41539b1.xaml">Printing Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Printing an XPS Document
+      <LineBreak/>Managed and Unmanaged Threading
+      <LineBreak/>isXPS Conformance Tool
+      <LineBreak/>Printing Samples
+      <LineBreak/><Hyperlink NavigateUri="http://www.microsoft.com/xps">XPS</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Programmatically Print XPS Files to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

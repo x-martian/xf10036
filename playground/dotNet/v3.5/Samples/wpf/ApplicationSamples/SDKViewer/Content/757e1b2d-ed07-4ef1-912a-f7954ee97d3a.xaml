@@ -1,0 +1,153 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_757e1b2d_ed07_4ef1_912a_f7954ee97d3a"
+  Tag     ="Restore the Default Value of a Dependency Property"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Restore the Default Value of a Dependency Property</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the ClearValue method to reset <Run>dependency property</Run>
+ values to their default value.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example clears the locally set property values within several types of Shape elements. The <Run>RestoreDefaultProperties</Run>
+ user-defined method shown in the example deliberately iterates all the read/write dependency properties that are locally set and clears each one. Local values for the properties were established (using XAML attribute syntax) in a loaded XAML page (not shown). After <Run>RestoreDefaultProperties</Run>
+ runs, the effective values for those properties is determined by the Setter values that are contained in the styles for that <Run FontWeight="Bold">Shape</Run>
+ type.
+    </Paragraph>
+
+    <Paragraph>Note that the default value for a dependency property is not necessarily the DefaultValue that is established in the metadata for that dependency property. Other factors are still active and they can become the source for the effective property value after the local value is cleared.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void RestoreDefaultProperties(object sender, RoutedEventArgs e) { UIElementCollection uic = Sandbox.Children; 
+foreach (Shape uie in uic) { LocalValueEnumerator locallySetProperties = uie.GetLocalValueEnumerator(); 
+while (locallySetProperties.MoveNext()) { DependencyProperty propertyToClear = (DependencyProperty)locallySetProperties.Current.Property; 
+if (!propertyToClear.ReadOnly) { uie.ClearValue(propertyToClear); 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub RestoreDefaultProperties(ByVal sender As Object, ByVal e As RoutedEventArgs) Dim uic As UIElementCollection = Sandbox.Children For Each uie As Shape In uic Dim locallySetProperties As LocalValueEnumerator = uie.GetLocalValueEnumerator() While locallySetProperties.MoveNext() Dim propertyToClear As DependencyProperty = locallySetProperties.Current.Property If Not propertyToClear.ReadOnly Then uie.ClearValue(propertyToClear) End If End While Next End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Restoring Default Values Sample. The complete sample that this example is derived from includes implicit styles for each <Run FontWeight="Bold">Shape</Run>
+ type. After the <Run FontWeight="Bold">ClearValue</Run>
+ call clears the local value, the style for each <Run FontWeight="Bold">Shape</Run>
+ determines property values for the specific properties that were cleared. The metadata-based <Run FontWeight="Bold">DefaultValue</Run>
+ of those properties operates at a lower value determination precedence than the styles do, therefore the <Run FontWeight="Bold">DefaultValue</Run>
+ is not used even after the values are cleared. For more information about value precedence for dependency properties, see <Hyperlink NavigateUri="1fbada8e-4867-4ed1-8d97-62c07dad7ebc.xaml">Dependency Property Value Precedence</Hyperlink>
+. Be sure to run theRestoring Default Values Sample to see how the style applies the value.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>DefaultValue
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="1fbada8e-4867-4ed1-8d97-62c07dad7ebc.xaml">Dependency Property Value Precedence</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Restoring Default Values Sample
+      <LineBreak/><Hyperlink NavigateUri="e16dd710-1530-4462-81a2-43719b973970.xaml">Properties How-to Topics</Hyperlink>
+
+      <LineBreak/>Properties Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Restore the Default Value of a Dependency Property to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,1671 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c707c95f_7811_401d_956e_2fffd019a211"
+  Tag     ="Data Binding Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Data Binding Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Presentation Foundation (WPF) data binding provides a simple and consistent way for applications to present and interact with data. Elements can be bound to data from a variety of data sources in the form of common language runtime (CLR) objects and XML. ContentControls like Button and listable ItemsControls like ListBox and ListView have built-in functionality to enable flexible styling of single data items or collections of data items. Sort, filter, and group views can be generated on top of the data.
+    </Paragraph>
+
+    <Paragraph>The data binding functionality in WPF has several advantages over traditional models, including a broad range of properties that inherently support data binding, flexible UI representation of data, and clean separation of business logic from UI.
+    </Paragraph>
+
+    <Paragraph>This topic first discusses concepts fundamental to WPF data binding and then goes into the usage of the Binding class and other features of data binding.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="basic_data_binding_concepts">Basic Data Binding Concepts</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_a_binding">Creating a Binding</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="data_conversion">Data Conversion</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="binding_to_collections">Binding to Collections</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="data_templating">Data Templating</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="data_validation">Data Validation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What is Data Binding?
+    </Paragraph>
+
+    <Paragraph>Data binding is the process that establishes a connection between the application UI and business logic. If the binding has the correct settings and the data provides the proper notifications, then, when the data changes its value, the elements that are bound to the data reflect changes automatically. Data binding can also mean that if an outer representation of the data in an element changes, then the underlying data can be automatically updated to reflect the change. For example, if the user edits the value in a TextBox element, the underlying data value is automatically updated to reflect that change.
+    </Paragraph>
+
+    <Paragraph>A typical use of data binding is to place server or local configuration data into forms or other UI controls. In WPF, this concept is expanded to include the binding of a broad range of properties to a variety of data sources. In WPF, <Run>dependency properties</Run>
+ of elements can be bound to CLR objects (including ADO.NET objects or objects associated with Web Services and Web properties) and XML data.
+    </Paragraph>
+
+    <Paragraph>For an example of data binding, take a look at the following application UI from the Data Binding Demo:
+    </Paragraph>
+
+    <Paragraph>The above is the UI of an application that displays a list of auction items. The application demonstrates the following features of data binding:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The content of the <Run FontWeight="Bold">ListBox</Run>
+ is bound to a collection of <Run FontStyle="italic">AuctionItem</Run>
+ objects. These <Run FontStyle="italic">AuctionItem</Run>
+ objects have properties such as <Run FontStyle="italic">Description</Run>
+, <Run FontStyle="italic">StartPrice</Run>
+, <Run FontStyle="italic">StartDate</Run>
+, <Run FontStyle="italic">Category</Run>
+, <Run FontStyle="italic">SpecialFeatures</Run>
+, etc.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The data (<Run FontStyle="italic">AuctionItem</Run>
+ objects) displayed in the <Run FontWeight="Bold">ListBox</Run>
+ is templated so that the description and the current price are shown for each item. This is done using DataTemplates in the application. In addition, the appearance of each item depends on the <Run FontStyle="italic">SpecialFeatures</Run>
+ value of the <Run FontStyle="italic">AuctionItem</Run>
+ being displayed. If the <Run FontStyle="italic">SpecialFeatures</Run>
+ value of the <Run FontStyle="italic">AuctionItem</Run>
+ is <Run FontStyle="italic">Color</Run>
+, the item has a blue border. If the value is <Run FontStyle="italic">Highlight</Run>
+, the item has an orange border and a star. The <Hyperlink TargetName="data_templating">Data Templating</Hyperlink>
+ section provides information about data templating.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The user can group, filter, or sort the data using the CheckBoxes provided. In the image above, the "Group by category" and "Sort by category and date" <Run FontWeight="Bold">CheckBox</Run>
+es are selected. You may have noticed that the data is grouped based on the category of the product, and the category name is in alphabetical order. It is difficult to notice from the image but the items are also sorted by the start date within each category. This is done using a <Run FontStyle="italic">collection view</Run>
+. The <Hyperlink TargetName="binding_to_collections">Binding to Collections</Hyperlink>
+ section discusses collection views.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When the user selects an item, the <Run FontWeight="Bold">ContentControl</Run>
+ displays the details of the selected item. This is called the <Run FontStyle="italic">Master-Detail scenario</Run>
+. The <Hyperlink TargetName="master_detail_scenario">Master-Detail Scenario</Hyperlink>
+ section provides information about this type of binding scenario.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The type of the <Run FontStyle="italic">StartDate</Run>
+ property is DateTime, which returns a date that includes the time to the millisecond. In this application, a custom converter has been used so that a shorter date string is displayed. The <Hyperlink TargetName="data_conversion">Data Conversion</Hyperlink>
+ section provides information about converters.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When the user clicks the <Run FontStyle="italic">Add Product</Run>
+ button, the following form comes up:
+    </Paragraph>
+
+    <Paragraph>The user can edit the fields in the form, preview the product listing using the short preview and the more detailed preview panes, and then click <Run FontStyle="italic">submit</Run>
+ to add the new product listing. Any existing grouping, filtering and sorting functionalities will apply to the new entry. In this particular case, the item entered in the above image will be displayed as the second item within the <Run FontStyle="italic">Computer</Run>
+ category.
+    </Paragraph>
+
+    <Paragraph>Not shown in this image is the validation logic provided in the <Run FontStyle="italic">Start Date</Run>
+<Run FontWeight="Bold">TextBox</Run>
+. If the user enters an invalid date (invalid formatting or a past date), the user will be notified with a ToolTip and a red exclamation point next to the <Run FontWeight="Bold">TextBox</Run>
+. The <Hyperlink TargetName="data_validation">Data Validation</Hyperlink>
+ section discusses how to create validation logic.
+    </Paragraph>
+
+    <Paragraph>Before going into the different features of data binding outlined above, we will first discuss in the next section the fundamental concepts that are critical to understanding WPF data binding.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Basic Data Binding Concepts
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="direction_of_data_flow">Direction of the Data Flow</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="what_triggers_source_updates">What Triggers Source Updates</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Regardless of what element you are binding and the nature of your data source, each binding always follows the model illustrated by the following figure:
+    </Paragraph>
+
+    <Paragraph>As illustrated by the above figure, data binding is essentially the bridge between your <Run>binding target</Run>
+ and your <Run>binding source</Run>
+. The figure demonstrates the following fundamental WPF data binding concepts:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Each binding has these four components: a binding target object, a target property, a binding source, and a path to the value in the binding source to use. For example, if you want to bind the content of a <Run FontWeight="Bold">TextBox</Run>
+ to the <Run FontStyle="italic">Name</Run>
+ property of an <Run FontStyle="italic">Employee</Run>
+ object, your target object is the <Run FontWeight="Bold">TextBox</Run>
+, the target property is the Text property, the value to use is <Run FontStyle="italic">Name</Run>
+, and the source object is the <Run FontStyle="italic">Employee</Run>
+ object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The target property must be a dependency property. Most properties of UIElements properties are dependency properties and most dependency properties, except read-only ones, support data binding by default. (Only DependencyObject types can define dependency properties and all <Run FontWeight="Bold">UIElement</Run>
+s derive from <Run FontWeight="Bold">DependencyObject</Run>
+.)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Although not specified in the figure, it should be noted that the binding source object is not restricted to being a custom CLR object. WPF data binding supports data in the form of CLR objects and XML. To provide some examples, your binding source may be a <Run FontWeight="Bold">UIElement</Run>
+, any list object, a CLR object that is associated with ADO.NET data or Web Services, or an XmlNode that contains your XML data.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>As you read through other software development kit (SDK) topics, it is important to remember that when you are establishing a binding, you are binding a binding target <Run FontStyle="italic">to</Run>
+ a binding source. For example, if you are displaying some underlying XML data in a <Run FontWeight="Bold">ListBox</Run>
+ using data binding, you are binding your <Run FontWeight="Bold">ListBox</Run>
+ to the XML data.
+    </Paragraph>
+
+    <Paragraph>To establish a binding, you use the <Run FontWeight="Bold">Binding</Run>
+ object. The rest of this topic discusses many of the concepts associated with and some of the properties and usage of the <Run FontWeight="Bold">Binding</Run>
+ object.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Direction of the Data Flow
+    </Paragraph>
+
+    <Paragraph>As mentioned previously and as indicated by the arrow in the figure above, the data flow of a binding can go from the binding target to the binding source (for example, the source value changes when a user edits the value of a <Run FontWeight="Bold">TextBox</Run>
+) and/or from the binding source to the binding target (for example, your <Run FontWeight="Bold">TextBox</Run>
+ content gets updated with changes in the binding source) if the binding source provides the proper notifications.
+    </Paragraph>
+
+    <Paragraph>You may want your application to enable users to change the data and propagate it back to the source object. Or you may not want to enable users to update the source data. You can control this by setting the Mode property of your <Run FontWeight="Bold">Binding</Run>
+ object. The following figure illustrates the different types of data flow:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>OneWay binding causes changes to the source property to automatically update the target property, but changes to the target property are not propagated back to the source property. This type of binding is appropriate if the control being bound is implicitly read-only. For instance, you may bind to a source such as a stock ticker or perhaps your target property has no control interface provided for making changes, such as a data-bound background color of a table. If there is no need to monitor the changes of the target property, using the <Run FontWeight="Bold">OneWay</Run>
+ binding mode avoids the overhead of the TwoWay binding mode.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">TwoWay</Run>
+ binding causes changes to either the source property or the target property to automatically update the other. This type of binding is appropriate for editable forms or other fully-interactive UI scenarios. Most properties default to <Run FontWeight="Bold">OneWay</Run>
+ binding, but some dependency properties (typically properties of user-editable controls such as the <Run FontWeight="Bold">Text</Run>
+ property of <Run FontWeight="Bold">TextBox</Run>
+ and the IsChecked property of <Run FontWeight="Bold">CheckBox</Run>
+) default to <Run FontWeight="Bold">TwoWay</Run>
+ binding. A programmatic way to determine whether a dependency property binds one-way or two-way by default is to get the property metadata of the property using GetMetadata and then check the boolean value of the BindsTwoWayByDefault property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>OneWayToSource is the reverse of <Run FontWeight="Bold">OneWay</Run>
+ binding; 
+it updates the source property when the target property changes. One example scenario is if you only need to re-evaluate the source value from the UI.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Not illustrated in the figure is OneTime binding, which causes the source property to initialize the target property, but subsequent changes do not propagate. This means that if the data context undergoes a change or the object in the data context changes, then the change is reflected in the target property. This type of binding is appropriate if you are using data where either a snapshot of the current state is appropriate to use or the data is truly static. This type of binding is also useful if you want to initialize your target property with some value from a source property and the data context is not known in advance. This type of binding is also appropriate for localization. Depending on the user's choice of region, the target property gets the document in the correct language and format once and does nothing thereafter. This is essentially a simpler form of <Run FontWeight="Bold">OneWay</Run>
+ binding that provides better performance in cases where the source value does not change.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Note that to detect source changes (applicable to <Run FontWeight="Bold">OneWay</Run>
+ and <Run FontWeight="Bold">TwoWay</Run>
+ bindings), the source must implement a suitable property change notification mechanism such as INotifyPropertyChanged. See <Hyperlink NavigateUri="30b59d9e-8c3a-4349-aa82-4be837e841cf.xaml">How to: Implement Property Change Notification</Hyperlink>
+ for an example of an <Run FontWeight="Bold">INotifyPropertyChanged</Run>
+ implementation.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Mode</Run>
+ property page provides more information about binding modes and an example of how to specify the direction of a binding.
+    </Paragraph>
+
+    <Paragraph FontSize="18">What Triggers Source Updates
+    </Paragraph>
+
+    <Paragraph>Bindings that are <Run FontWeight="Bold">TwoWay</Run>
+ or <Run FontWeight="Bold">OneWayToSource</Run>
+ listen for changes in the target property and propagate them back to the source. This is known as updating the source. For example, you may edit the text of a TextBox to change the underlying source value. As described in the last section, the direction of the data flow is determined by the value of the <Run FontWeight="Bold">Mode</Run>
+ property of the binding.
+    </Paragraph>
+
+    <Paragraph>However, does your source value get updated while you are editing the text or after you finish editing the text and point your mouse away from the TextBox? The UpdateSourceTrigger property of the binding determines what triggers the update of the source. The dots of the right arrows in the following figure illustrate the role of the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ property:
+    </Paragraph>
+
+    <Paragraph>If the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ value is PropertyChanged, then the value pointed to by the right arrow of <Run FontWeight="Bold">TwoWay</Run>
+ or the <Run FontWeight="Bold">OneWayToSource</Run>
+ bindings gets updated as soon as the target property changes. However, if the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ value is LostFocus, then that value only gets updated with the new value when the target property loses focus.
+    </Paragraph>
+
+    <Paragraph>Similar to the <Run FontWeight="Bold">Mode</Run>
+ property, different dependency properties have different default <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ values. The default value for most dependency properties is <Run FontWeight="Bold">PropertyChanged</Run>
+, while the <Run FontWeight="Bold">Text</Run>
+ property has a default value of <Run FontWeight="Bold">LostFocus</Run>
+. This means that source updates usually happen whenever the target property changes, which is fine for <Run FontWeight="Bold">CheckBox</Run>
+es and other simple controls. However, for text fields, updating after every keystroke can diminish performance and it denies the user the usual opportunity to backspace and fix typing errors before committing to the new value. That is why the Text property has a default value of <Run FontWeight="Bold">LostFocus</Run>
+ instead of <Run FontWeight="Bold">PropertyChanged</Run>
+.
+    </Paragraph>
+
+    <Paragraph>See the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ property page for information about how to find the default <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ value of a dependency property. The property page also has information about Explicit, another UpdateSourceTrigger enumeration value.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating a Binding
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="specifying_the_binding_source">Specifying the Binding Source</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="specifying_the_path_to_the_value">Specifying the Path to the Value</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="binding_bindingexpression">Binding and BindingExpression</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>To recapitulate some of the concepts discussed in the previous sections, you establish a binding using the <Run FontWeight="Bold">Binding</Run>
+ object, and each binding must have four components: binding target, target property, binding source, and a path to the source value to use. This section discusses how to set up a binding.
+    </Paragraph>
+
+    <Paragraph>Consider the following example, in which the binding source object is a class named <Run FontStyle="italic">MyData</Run>
+ that is defined in the <Run FontStyle="italic">SDKSample</Run>
+ namespace. For demonstration purposes, <Run FontStyle="italic">MyData</Run>
+ class has a string property named <Run FontStyle="italic">ColorName</Run>
+, of which the value is set to "Red". Thus, this example generates a button with a red background.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DockPanel Name="root" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="clr-namespace:SDKSample" > 
+&lt;DockPanel.Resources> 
+&lt;c:MyData x:Key="myDataSource"/> 
+&lt;/DockPanel.Resources> 
+&lt;DockPanel DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top"> 
+&lt;DockPanel.DataContext> 
+&lt;Binding Source="{StaticResource myDataSource}"/> 
+&lt;/DockPanel.DataContext> 
+&lt;Button Background="{Binding Path=ColorName}" Width="150" Height="30">I am bound to be RED!
+&lt;/Button> 
+&lt;/DockPanel> 
+&lt;/DockPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more details on the binding declaration syntax and for examples of how to set up a binding in code, see <Hyperlink NavigateUri="b97fd626-4c0d-4761-872a-2bca5820da2c.xaml">Binding Declarations Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>If we apply this example to our basic diagram, the resulting figure looks like the following. This is a <Run FontWeight="Bold">OneWay</Run>
+ binding because the Background property supports <Run FontWeight="Bold">OneWay</Run>
+ binding by default. 
+    </Paragraph>
+
+    <Paragraph>You may wonder why this works even though the <Run FontStyle="italic">ColorName</Run>
+ property is of type string while the Background property is of type Brush. This is default type conversion at work and is discussed in the <Hyperlink TargetName="data_conversion">Data Conversion</Hyperlink>
+ section.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Specifying the Binding Source
+    </Paragraph>
+
+    <Paragraph>Notice that in the previous example, the binding source is specified by setting the DataContext property on the DockPanel element. The <Run FontWeight="Bold">Button</Run>
+ then inherits the <Run FontWeight="Bold">DataContext</Run>
+ value from the <Run FontWeight="Bold">DockPanel</Run>
+, which is its parent element. To reiterate, the binding source object is one of the four necessary components of a binding. Therefore, without the binding source object being specified, the binding would do nothing.
+    </Paragraph>
+
+    <Paragraph>There are several ways to specify the binding source object. Using the <Run FontWeight="Bold">DataContext</Run>
+ property on a parent element is useful when you are binding multiple properties to the same source. However, sometimes it may be more appropriate to specify the binding source on individual binding declarations. For the previous example, instead of using the <Run FontWeight="Bold">DataContext</Run>
+ property, you can specify the binding source by setting the Source property directly on the binding declaration of the button, as in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DockPanel.Resources> 
+&lt;c:MyData x:Key="myDataSource"/> 
+&lt;/DockPanel.Resources> 
+&lt;DockPanel DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top"> 
+&lt;Button Background="{Binding Source={StaticResource myDataSource}, Path=ColorName}" Width="150" Height="30">I am bound to be RED!
+&lt;/Button> 
+&lt;/DockPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Other than setting the <Run FontWeight="Bold">DataContext</Run>
+ property on an element directly, inheriting the <Run FontWeight="Bold">DataContext</Run>
+ value from an ancestor (such as the button in the first example), and explicitly specifying the binding source by setting the <Run FontWeight="Bold">Source</Run>
+ property on the <Run FontWeight="Bold">Binding</Run>
+ (such as the button the last example), you can also use the ElementName property or the RelativeSource property to specify the binding source. The <Run FontWeight="Bold">ElementName</Run>
+ property is useful when you are binding to other elements in your application, such as when you are using a slider to adjust the width of a button. The <Run FontWeight="Bold">RelativeSource</Run>
+ property is useful when the binding is specified in a ControlTemplate or a Style. See the individual property pages for examples.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Specifying the Path to the Value
+    </Paragraph>
+
+    <Paragraph>If your binding source is an object, you use the Path property to specify the value to use for your binding. If you are binding to XML data, you use the XPath property to specify the value. In some cases, it may be applicable to use the <Run FontWeight="Bold">Path</Run>
+ property even when your data is XML. For example, if you want to access the Name property of a returned XmlNode (as a result of an XPath query), you should use the <Run FontWeight="Bold">Path</Run>
+ property instead of the <Run FontWeight="Bold">XPath</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>For syntax information and examples, see the <Run FontWeight="Bold">Path</Run>
+ and <Run FontWeight="Bold">XPath</Run>
+ property pages.
+    </Paragraph>
+
+    <Paragraph>Note that although we have emphasized that the <Run FontWeight="Bold">Path</Run>
+ to the value to use is one of the four necessary components of a binding, in the scenarios which you want to bind to an entire object, the value to use would be the same as the binding source object. In those cases, it is applicable to not specify a <Run FontWeight="Bold">Path</Run>
+. Consider the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="true"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The above example uses the empty binding syntax: {Binding}. In this case, the <Run FontWeight="Bold">ListBox</Run>
+ inherits the DataContext from a parent DockPanel element (not shown in this example). The path has been left out because we are binding the ItemsSource property to the entire object. (See the <Hyperlink TargetName="binding_to_collections">Binding to Collections</Hyperlink>
+ section for an in-depth discussion of binding to collections.)
+    </Paragraph>
+
+    <Paragraph>Other than binding to a collection, this scenario is also useful when you want to bind to an entire object instead of just a single property of an object. For example, if your source object is of type string and you simply want to bind to the string itself. Another common scenario is when you want to bind an element to an object with several properties.
+    </Paragraph>
+
+    <Paragraph>Note that you may need to apply custom logic so that the data is meaningful to your bound target property. The custom logic may be in the form of a custom converter (if default type conversion does not exist) or a <Run FontWeight="Bold">DataTemplate</Run>
+. See <Hyperlink TargetName="data_conversion">Data Conversion</Hyperlink>
+ for information about converters. See <Hyperlink TargetName="data_templating">Data Templating</Hyperlink>
+ for information about providing data templates.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Binding and BindingExpression
+    </Paragraph>
+
+    <Paragraph>Before getting into other features and usages of data binding, it would be useful to introduce the BindingExpression class. The <Run FontWeight="Bold">Binding</Run>
+ class is the high-level class for the declaration of a binding; 
+the <Run FontWeight="Bold">Binding</Run>
+ class provides many properties that allow you to specify the characteristics of a binding. A related class, <Run FontWeight="Bold">BindingExpression</Run>
+, is the underlying object that maintains the connection between the source and the target. A binding contains all the information that can be shared across several binding expressions. A <Run FontWeight="Bold">BindingExpression</Run>
+ is an instance expression that cannot be shared and contains all the instance information of the <Run FontWeight="Bold">Binding</Run>
+.
+    </Paragraph>
+
+    <Paragraph>For example, consider the following, where <Run FontStyle="italic">myDataObject</Run>
+ is an instance of <Run FontStyle="italic">MyData</Run>
+ class, <Run FontStyle="italic">myBinding</Run>
+ is the source <Run FontWeight="Bold">Binding</Run>
+ object, and <Run FontStyle="italic">MyData</Run>
+ class is a defined class that contains a string property named <Run FontStyle="italic">MyDataProperty</Run>
+. This example binds the text content of <Run FontStyle="italic">mytext</Run>
+, an instance of TextBlock, to <Run FontStyle="italic">MyDataProperty</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//make a new source MyData myDataObject = new MyData(DateTime.Now); 
+Binding myBinding = new Binding("MyDataProperty"); 
+myBinding.Source = myDataObject; 
+myText.SetBinding(TextBlock.TextProperty, myBinding); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can use the same <Run FontStyle="italic">myBinding</Run>
+ object to create other bindings. For example, you may use <Run FontStyle="italic">myBinding</Run>
+ object to bind the text content of a check box to <Run FontStyle="italic">MyDataProperty</Run>
+. In that scenario, there will be two instances of <Run FontWeight="Bold">BindingExpression</Run>
+ sharing the <Run FontStyle="italic">myBinding</Run>
+ object.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">BindingExpression</Run>
+ object can be obtained through the return value of calling GetBindingExpression on a data-bound object. The following topics demonstrate some of the usages of the <Run FontWeight="Bold">BindingExpression</Run>
+ class:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="87974c5f-136b-4de7-b07d-9285b62ab123.xaml">How to: Get the Binding Object from a Bound Target Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="ffb7b96a-351d-4c68-81e7-054033781c64.xaml">How to: Control When the TextBox Text Updates the Source</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Data Conversion
+    </Paragraph>
+
+    <Paragraph>In the previous example, the button is red because its <Run FontWeight="Bold">Background</Run>
+ property is bound to a string property with the value "Red". This works because a type converter is present on the <Run FontWeight="Bold">Brush</Run>
+ type to convert the string value to a <Run FontWeight="Bold">Brush</Run>
+.
+    </Paragraph>
+
+    <Paragraph>To add this information to the figure in the <Hyperlink TargetName="creating_a_binding">Creating a Binding</Hyperlink>
+ section, the diagram looks like the following:
+    </Paragraph>
+
+    <Paragraph>However, what if instead of having a property of type string your binding source object has a <Run FontStyle="italic">Color</Run>
+ property of type Color? In that case, in order for the binding to work you would need to first turn the <Run FontStyle="italic">Color</Run>
+ property value into something that the <Run FontWeight="Bold">Background</Run>
+ property accepts. You would need to create a custom converter by implementing the IValueConverter interface, as in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[ValueConversion(typeof(Color), typeof(SolidColorBrush))] public class ColorBrushConverter : IValueConverter { public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) { Color color = (Color)value; 
+return new SolidColorBrush(color); 
+} public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) { return null; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">IValueConverter</Run>
+ reference page provides more information.
+    </Paragraph>
+
+    <Paragraph>Now the custom converter is used instead of default conversion, and our diagram looks like this:
+    </Paragraph>
+
+    <Paragraph>To reiterate, default conversions may be available because of type converters that are present in the type being bound to. This behavior will depend on which type converters are available in the target. If in doubt, create your own converter.
+    </Paragraph>
+
+    <Paragraph>Following are some typical scenarios where it makes sense to implement a data converter:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Your data should be displayed differently, depending on culture. For instance, you might want to implement a currency converter or a calendar date/time converter based on the values or standards used in a particular culture.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The data being used is not necessarily intended to change the text value of a property, but is instead intended to change some other value, such as the source for an image, or the color or style of the display text. Converters can be used in this instance by converting the binding of a property that might not seem to be appropriate, such as binding a text field to the Background property of a table cell.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>More than one control or to multiple properties of controls are bound to the same data. In this case, the primary binding might just display the text, whereas other bindings handle specific display issues but still use the same binding as source information.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>So far we have not yet discussed MultiBinding, where a target property has a collection of bindings. In the case of a <Run FontWeight="Bold">MultiBinding</Run>
+, you use a custom IMultiValueConverter to produce a final value from the values of the bindings. For example, color may be computed from red, blue, and green values, which can be values from the same or different binding source objects. See the <Run FontWeight="Bold">MultiBinding</Run>
+ class page for examples and information.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Binding to Collections
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="how_to_implement_collections">How to Implement Collections</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="collection_views">Collection Views</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>A binding source object can be treated either as a single object of which the properties contain data or as a data collection of polymorphic objects that are often grouped together (such as the result of a query to a database). So far we've only discussed binding to single objects, however, binding to a data collection is a common scenario. For example, a common scenario is to use an <Run FontWeight="Bold">ItemsControl</Run>
+ such as a <Run FontWeight="Bold">ListBox</Run>
+, <Run FontWeight="Bold">ListView</Run>
+, or TreeView to display a data collection, such as in the application shown in the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section.
+    </Paragraph>
+
+    <Paragraph>Fortunately, our basic diagram still applies. If you are binding an <Run FontWeight="Bold">ItemsControl</Run>
+ to a collection, the diagram looks like this:
+    </Paragraph>
+
+    <Paragraph>As shown in this diagram, to bind an <Run FontWeight="Bold">ItemsControl</Run>
+ to a collection object, <Run FontWeight="Bold">ItemsSource</Run>
+ property is the property to use. You can think of <Run FontWeight="Bold">ItemsSource</Run>
+ property as the content area of the <Run FontWeight="Bold">ItemsControl</Run>
+. Note that the binding is <Run FontWeight="Bold">OneWay</Run>
+ because the <Run FontWeight="Bold">ItemsSource</Run>
+ property supports <Run FontWeight="Bold">OneWay</Run>
+ binding by default.
+    </Paragraph>
+
+    <Paragraph FontSize="18">How to Implement Collections
+    </Paragraph>
+
+    <Paragraph>You can enumerate over any collection that implements the IEnumerable interface. However, to set up dynamic bindings so that insertions or deletions in the collection update the UI automatically, the collection must implement the INotifyCollectionChanged interface. This interface exposes an event that should be raised whenever the underlying collection changes.
+    </Paragraph>
+
+    <Paragraph>WPF provides the ObservableCollection class, which is a built-in implementation of a data collection that exposes the <Run FontWeight="Bold">INotifyCollectionChanged</Run>
+ interface. Note that to fully support transferring data values from source objects to targets and vice versa, each object in your collection that supports bindable properties must also implement the <Run FontWeight="Bold">INotifyPropertyChanged</Run>
+ interface. For examples, see <Hyperlink NavigateUri="6cf7e275-df76-41c6-a611-53b889b8fd5a.xaml">How to: Create and Bind to an ObservableCollection</Hyperlink>
+ and the data collection implementation in the Data Binding Demo.
+    </Paragraph>
+
+    <Paragraph>Before implementing your own collection, consider using <Run FontWeight="Bold">ObservableCollection</Run>
+ or one of the existing collection classes, such as List, Collection, and BindingList, among many others. If you have an advanced scenario and wish to implement your own collection, consider using IList, which provides a non-generic collection of objects that can be individually accessed by index. Implementing <Run FontWeight="Bold">IList</Run>
+ provides the best performance with the data binding engine.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Collection Views
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="what_are_collection_views">What are Collection Views?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="how_to_create_a_view">How to Create a View</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="sorting">Sorting</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="filtering">Filtering</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="grouping">Grouping</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="current_record_pointers">Current Record Pointers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="master_detail_scenario">Master-Detail Binding Scenario</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Once your <Run FontWeight="Bold">ItemsControl</Run>
+ is bound to a data collection, you may want to sort, filter, or group the data. To do that, you use collection views, which are classes that implement the ICollectionView interface.
+    </Paragraph>
+
+    <Paragraph>This subsection discusses collection views.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">What are Collection Views?
+    </Paragraph>
+
+    <Paragraph>You can think of a collection view as the layer on top of the binding source collection that allows you to navigate and display the source collection based on sort, filter, and group queries, all without having to manipulate the underlying source collection itself. If the source collection implements the <Run FontWeight="Bold">INotifyCollectionChanged</Run>
+ interface, the changes raised by the CollectionChanged event are propagated to the views.
+    </Paragraph>
+
+    <Paragraph>Because views do not change the underlying source collections, each source collection can have multiple views associated with it. For example, you may have a collection of <Run FontStyle="italic">Task</Run>
+ objects. With the use of views, you can display that same data in different ways. For example, on the left side of your page you may want to show tasks sorted by priority, and on the right side, grouped by area.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">How to Create a View
+    </Paragraph>
+
+    <Paragraph>One way to create and use a view is to instantiate the view object directly and then use it as the binding source. For example, consider the Data Binding Demo application shown in the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section. The application is implemented such that the <Run FontWeight="Bold">ListBox</Run>
+ binds to a view over the data collection instead of the data collection directly. The following example is extracted from the Data Binding Demo application. The CollectionViewSource class is the Extensible Application Markup Language (XAML) proxy of CollectionView. In this particular example, the Source of the view is bound to the <Run FontStyle="italic">AuctionItems</Run>
+ collection (of type <Run FontWeight="Bold">ObservableCollection</Run>
+) of the current application object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.Resources> ... 
+&lt;CollectionViewSource Source="{Binding Source={x:Static Application.Current}, Path=AuctionItems}" x:Key="listingDataView" /> ... 
+&lt;/Window.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The resource <Run FontStyle="italic">listingDataView</Run>
+ then serves as the binding source for elements in the application, such as the <Run FontWeight="Bold">ListBox</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox Name="Master" Grid.Row="2" Grid.ColumnSpan="3" Margin="8" ItemsSource="{Binding Source={StaticResource listingDataView}}"> ... 
+&lt;/ListBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To create another view for the same collection, you can create another <Run FontWeight="Bold">CollectionViewSource</Run>
+ instance and give it a different <Run>x:Key</Run>
+ name.
+    </Paragraph>
+
+    <Paragraph>Using the view as the binding source is not the only way to create and use a collection view. All collections have a default collection view. For example, for all collections implementing IEnumerable, CollectionView is the default view object. ListCollectionView is the default view object for the collections that implement IList, and BindingListCollectionView is the collection view class used for collections that implement IBindingList. To get the default view, you use the GetDefaultView method. For an example, see <Hyperlink NavigateUri="b641e96c-c2f6-42ea-9c5d-bac81176ad65.xaml">How to: Get the Default View of a Data Collection</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Sorting
+    </Paragraph>
+
+    <Paragraph>As mentioned before, views can apply a sort order to a collection. As it exists in the underlying collection, your data may or may not have a relevant, inherent order. The view over the collection allows you to impose an order, or change the default order, based on comparison criteria that you supply. Because it is a client-based view of the data, a common scenario is that the user might want to sort columns of tabular data per the value that the column corresponds to. Using views, this user-driven sort can be applied, again without making any changes to the underlying collection or even having to requery for the collection content. For an example, see <Hyperlink NavigateUri="4865d720-d147-40ed-83a7-af7587f8aad8.xaml">How to: Sort a GridView Column When a Header Is Clicked</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The following example shows the sorting logic of the "Sort by category and date" <Run FontWeight="Bold">CheckBox</Run>
+ of the application UI in the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void AddSorting(object sender, RoutedEventArgs args) { // This sorts the items first by Category and within each Category, by StartDate // Notice that because Category is an enumeration, the order of the items is the same as in the // enumeration declaration listingDataView.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending)); 
+listingDataView.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Ascending)); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Filtering
+    </Paragraph>
+
+    <Paragraph>Views can also apply a filter to a collection. This means that although an item might exist in the collection, this particular view is intended to show only a certain subset of the full collection. You might filter on a condition in the data. For instance, as is done by the application in the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section, the "Show only bargains" <Run FontWeight="Bold">CheckBox</Run>
+ contains logic to filter out items that cost $25 or more. The following code is executed to set <Run FontStyle="italic">ShowOnlyBargainsFilter</Run>
+ as the Filter event handler when that <Run FontWeight="Bold">CheckBox</Run>
+ is selected:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>listingDataView.Filter += new FilterEventHandler(ShowOnlyBargainsFilter); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontStyle="italic">ShowOnlyBargainsFilter</Run>
+ event handler has the following implementation:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void ShowOnlyBargainsFilter(object sender, FilterEventArgs e) { AuctionItem product = e.Item as AuctionItem; 
+if (product != null) { // Filter out products with price 25 or above if (product.CurrentPrice 
+&lt; 
+25) { e.Accepted = true; 
+} else { e.Accepted = false; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you are using one of the <Run FontWeight="Bold">CollectionView</Run>
+ classes, you would use the Filter property to specify a callback. See <Run FontWeight="Bold">Filter</Run>
+ property for more information.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Grouping
+    </Paragraph>
+
+    <Paragraph>Views support the functionality of grouping, which allows the user to partition the collection in the collection view into logical groups. The groups can be explicit, where the user supplies a list of groups, or implicit, where the groups are generated dynamically depending on the data.
+    </Paragraph>
+
+    <Paragraph>For more information, see the PropertyGroupDescription class.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Current Record Pointers
+    </Paragraph>
+
+    <Paragraph>Views also support the notion of a current item. You can navigate through the objects in a collection view. As you navigate, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection. For an example, see <Hyperlink NavigateUri="fcd37590-bce1-4ac9-8b74-3b96c7458b8a.xaml">How to: Navigate Through the Objects in a Data CollectionView</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Note that moving the current record pointer has some interactions with any sorting or filtering that is applied to the collection. Sorting preserves the current record pointer on the last record selected, but the collection view is now restructured around it. (Perhaps the selected record was at the beginning of the list before, but now the selected record might be somewhere in the middle.) Filtering will preserve the selected record if that selection remains in view after the filtering. Otherwise, the current record pointer is set to the first record of the filtered collection view.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Master-Detail Binding Scenario
+    </Paragraph>
+
+    <Paragraph>The notion of a current item is useful not only for navigation of items in a collection, but also for the master-detail binding scenario. Consider the application UI in the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section again. In that application, the selection within the ListBox determines the content shown in the <Run FontWeight="Bold">ContentControl</Run>
+. To put it in another way, when a ListBox item is selected, the <Run FontWeight="Bold">ContentControl</Run>
+ shows the details of the selected item.
+    </Paragraph>
+
+    <Paragraph>You can implement the master-detail scenario simply by having two or more controls bound to the same view. The following example from the Data Binding Demo shows the markup of the <Run FontWeight="Bold">ListBox</Run>
+ and the <Run FontWeight="Bold">ContentControl</Run>
+ you see on the application UI in the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox Name="Master" Grid.Row="2" Grid.ColumnSpan="3" Margin="8" ItemsSource="{Binding Source={StaticResource listingDataView}}"> ... 
+&lt;/ListBox> ... 
+&lt;ContentControl Name="Detail" Grid.Row="3" Grid.ColumnSpan="3" Content="{Binding Source={StaticResource listingDataView}}" ContentTemplate="{StaticResource detailsProductListingTemplate}" Margin="9,0,0,0"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Notice that both of the controls are bound to the same source, the <Run FontStyle="italic">listingDataView</Run>
+ static resource (see the definition of this resource in the <Hyperlink TargetName="how_to_create_a_view">How to Create a View section</Hyperlink>
+). This works because when a singleton object (the <Run FontWeight="Bold">ContentControl</Run>
+ in this case) is bound to a collection view, it automatically binds to the CurrentItem of the view.
+    </Paragraph>
+
+    <Paragraph>For another example, see <Hyperlink NavigateUri="11429b9e-058d-4084-bfb6-2cf209c8ddf7.xaml">How to: Implement the Master-Detail Scenario</Hyperlink>
+, which shows how to use <Run FontWeight="Bold">ListBox</Run>
+es to display hierarchical data using the master-detail scenario.
+    </Paragraph>
+
+    <Paragraph>You may have noticed that the above example uses a template. In fact, the data would not be displayed the way we wish without the use of templates (the one explicitly used by the <Run FontWeight="Bold">ContentControl</Run>
+ and the one implicitly used by the <Run FontWeight="Bold">ListBox</Run>
+). We now turn to data templating in the next section.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Data Templating
+    </Paragraph>
+
+    <Paragraph>Without the use of data templates, our application UI in the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section would look like the following:
+    </Paragraph>
+
+    <Paragraph>As shown in the example in the previous section, both the <Run FontWeight="Bold">ListBox</Run>
+ control and the <Run FontWeight="Bold">ContentControl</Run>
+ are bound to the entire collection object (or more specifically, the view over the collection object) of <Run FontStyle="italic">AuctionItem</Run>
+s. Without specific instructions of how to display the data collection, the <Run FontWeight="Bold">ListBox</Run>
+ is displaying a string representation of each object in the underlying collection and the <Run FontWeight="Bold">ContentControl</Run>
+ is displaying a string representation of the object it is bound to.
+    </Paragraph>
+
+    <Paragraph>To solve that problem, the application defines <Run FontWeight="Bold">DataTemplate</Run>
+s. As shown in the example in the previous section, the <Run FontWeight="Bold">ContentControl</Run>
+ explicitly uses the <Run FontStyle="italic">detailsProductListingTemplate</Run>
+<Run FontWeight="Bold">DataTemplate</Run>
+. The <Run FontWeight="Bold">ListBox</Run>
+ control implicitly uses the following <Run FontWeight="Bold">DataTemplate</Run>
+ when displaying the <Run FontStyle="italic">AuctionItem</Run>
+ objects in the collection:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DataTemplate DataType="{x:Type src:AuctionItem}"> 
+&lt;Border BorderThickness="1" BorderBrush="Gray" Padding="7" Name="border" Margin="3" Width="500"> 
+&lt;Grid> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="20"/> 
+&lt;ColumnDefinition Width="86"/> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Polygon Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Fill="Yellow" Stroke="Black" StrokeThickness="1" StrokeLineJoin="Round" Width="20" Height="20" Stretch="Fill" Points="9,2 11,7 17,7 12,10 14,15 9,12 4,15 6,10 1,7 7,7" Visibility="Hidden" Name="star"/> 
+&lt;TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,8,0" Name="descriptionTitle" Style="{StaticResource smallTitleStyle}">Description:
+&lt;/TextBlock> 
+&lt;TextBlock Name="DescriptionDTDataType" Grid.Row="0" Grid.Column="2" Text="{Binding Path=Description}" Style="{StaticResource textStyleTextBlock}"/> 
+&lt;TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,8,0" Name="currentPriceTitle" Style="{StaticResource smallTitleStyle}">Current Price:
+&lt;/TextBlock> 
+&lt;StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal"> 
+&lt;TextBlock Text="$" Style="{StaticResource textStyleTextBlock}"/> 
+&lt;TextBlock Name="CurrentPriceDTDataType" Text="{Binding Path=CurrentPrice}" Style="{StaticResource textStyleTextBlock}"/> 
+&lt;/StackPanel> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;DataTemplate.Triggers> 
+&lt;DataTrigger Binding="{Binding Path=SpecialFeatures}"> 
+&lt;DataTrigger.Value> 
+&lt;src:SpecialFeatures>Color
+&lt;/src:SpecialFeatures> 
+&lt;/DataTrigger.Value> 
+&lt;DataTrigger.Setters> 
+&lt;Setter Property="BorderBrush" Value="DodgerBlue" TargetName="border" /> 
+&lt;Setter Property="Foreground" Value="Navy" TargetName="descriptionTitle" /> 
+&lt;Setter Property="Foreground" Value="Navy" TargetName="currentPriceTitle" /> 
+&lt;Setter Property="BorderThickness" Value="3" TargetName="border" /> 
+&lt;Setter Property="Padding" Value="5" TargetName="border" /> 
+&lt;/DataTrigger.Setters> 
+&lt;/DataTrigger> 
+&lt;DataTrigger Binding="{Binding Path=SpecialFeatures}"> 
+&lt;DataTrigger.Value> 
+&lt;src:SpecialFeatures>Highlight
+&lt;/src:SpecialFeatures> 
+&lt;/DataTrigger.Value> 
+&lt;Setter Property="BorderBrush" Value="Orange" TargetName="border" /> 
+&lt;Setter Property="Foreground" Value="Navy" TargetName="descriptionTitle" /> 
+&lt;Setter Property="Foreground" Value="Navy" TargetName="currentPriceTitle" /> 
+&lt;Setter Property="Visibility" Value="Visible" TargetName="star" /> 
+&lt;Setter Property="BorderThickness" Value="3" TargetName="border" /> 
+&lt;Setter Property="Padding" Value="5" TargetName="border" /> 
+&lt;/DataTrigger> 
+&lt;/DataTemplate.Triggers> 
+&lt;/DataTemplate> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>With the use of those two <Run FontWeight="Bold">DataTemplate</Run>
+s, the resulting UI is the one shown in the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section. As you can see from that screenshot, in addition to letting you place data in your controls, <Run FontWeight="Bold">DataTemplate</Run>
+s allow you to define compelling visuals for your data. For example, DataTriggers are used in the above <Run FontWeight="Bold">DataTemplate</Run>
+ so that <Run FontStyle="italic">AuctionItem</Run>
+s with <Run FontStyle="italic">SpecialFeatures</Run>
+ value of <Run FontStyle="italic">HighLight</Run>
+ would be displayed with an orange border and a star.
+    </Paragraph>
+
+    <Paragraph>For more information about data templates, see the <Hyperlink NavigateUri="0f4d9f8c-0230-4013-bd7b-e8e7fed01b4a.xaml">Data Templating Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Data Validation
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="validation_rules">Associating Validation Rules with a Binding</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="invalidation_feedback">Providing Visual Feedback</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="validation_process">Validation Process</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Most applications that take user input need to have validation logic to ensure that the user has entered the expected information. The validation checks can be based on type, range, format, or other application-specific requirements. This section discusses how data validation works in the WPF.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Associating Validation Rules with a Binding
+    </Paragraph>
+
+    <Paragraph>The WPF data binding model allows you to associate ValidationRules with your <Run FontWeight="Bold">Binding</Run>
+ object. For example, the following is the XAML for the <Run FontStyle="italic">Add Product Listing</Run>
+ "Start Price" <Run FontWeight="Bold">TextBox</Run>
+ from the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBox Name="StartPriceEntryForm" Grid.Row="2" Grid.Column="1" Style="{StaticResource textStyleTextBox}" Margin="8,5,0,5"> 
+&lt;TextBox.Text> 
+&lt;Binding Path="StartPrice" UpdateSourceTrigger="PropertyChanged"> 
+&lt;Binding.ValidationRules> 
+&lt;ExceptionValidationRule /> 
+&lt;/Binding.ValidationRules> 
+&lt;/Binding> 
+&lt;/TextBox.Text> 
+&lt;/TextBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">ValidationRules</Run>
+ property takes a collection of ValidationRule objects. ExceptionValidationRule is a built-in <Run FontWeight="Bold">ValidationRule</Run>
+ that checks for exceptions thrown during the update of the binding source property. In this particular example, the binding source property is <Run FontStyle="italic">StartPrice</Run>
+ (of type int) and the target property is <Run FontWeight="Bold">System.Windows.Controls.TextBox.Text</Run>
+. When the user enters a value that cannot be converted to an int, an exception is thrown, causing the binding to be marked as invalid.
+    </Paragraph>
+
+    <Paragraph>You can also create your own validation rule by deriving from the <Run FontWeight="Bold">ValidationRule</Run>
+ class and implementing the Validate method. The following example shows the rule used by the <Run FontStyle="italic">Add Product Listing</Run>
+ "Start Date" <Run FontWeight="Bold">TextBox</Run>
+ from the <Hyperlink TargetName="what_is_data_binding">What is Data Binding?</Hyperlink>
+ section:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>class FutureDateRule : ValidationRule { public override ValidationResult Validate(object value, CultureInfo cultureInfo) { DateTime date; 
+try { date = DateTime.Parse(value.ToString()); 
+} catch (FormatException) { return new ValidationResult(false, "Value is not a valid date."); 
+} if (DateTime.Now.Date > date) { return new ValidationResult(false, "Please enter a date in the future."); 
+} else { return ValidationResult.ValidResult; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontStyle="italic">StartDateEntryForm</Run>
+<Run FontWeight="Bold">TextBox</Run>
+ uses this <Run FontStyle="italic">FutureDateRule</Run>
+, as shown in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBox Name="StartDateEntryForm" Grid.Row="3" Grid.Column="1" Validation.ErrorTemplate="{StaticResource validationTemplate}" Style="{StaticResource textStyleTextBox}" Margin="8,5,0,5"> 
+&lt;TextBox.Text> 
+&lt;Binding Path="StartDate" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource dateConverter}" > 
+&lt;Binding.ValidationRules> 
+&lt;src:FutureDateRule /> 
+&lt;/Binding.ValidationRules> 
+&lt;/Binding> 
+&lt;/TextBox.Text> 
+&lt;/TextBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that because the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ value is <Run FontWeight="Bold">PropertyChanged</Run>
+, the binding engine updates the source value on every keystroke, which means it also checks every rule in the <Run FontWeight="Bold">ValidationRules</Run>
+ collection on every keystroke. We discuss this further in the Validation Process section.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Providing Visual Feedback
+    </Paragraph>
+
+    <Paragraph>If the user enters an invalid value, you may want to provide some feedback about the error on the application UI. One way to provide such feedback is to set the System.Windows.Controls.Validation.ErrorTemplate attached property to a custom <Run FontWeight="Bold">ControlTemplate</Run>
+. As shown in the previous subsection, the <Run FontStyle="italic">StartDateEntryForm</Run>
+<Run FontWeight="Bold">TextBox</Run>
+ uses an <Run FontWeight="Bold">ErrorTemplate</Run>
+ called <Run FontStyle="italic">validationTemplate</Run>
+. The following example shows the definition of <Run FontStyle="italic">validationTemplate</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ControlTemplate x:Key="validationTemplate"> 
+&lt;DockPanel> 
+&lt;TextBlock Foreground="Red" FontSize="20">!
+&lt;/TextBlock> 
+&lt;AdornedElementPlaceholder/> 
+&lt;/DockPanel> 
+&lt;/ControlTemplate> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The AdornedElementPlaceholder element specifies where the control being adorned should be placed.
+    </Paragraph>
+
+    <Paragraph>In addition, you may also use a <Run FontWeight="Bold">ToolTip</Run>
+ to display the error message. Both the <Run FontStyle="italic">StartDateEntryForm</Run>
+ and the <Run FontStyle="italic">StartPriceEntryForm</Run>
+<Run FontWeight="Bold">TextBox</Run>
+es use the style <Run FontStyle="italic">textStyleTextBox</Run>
+, which creates a <Run FontWeight="Bold">ToolTip</Run>
+ that displays the error message. The following example shows the definition of <Run FontStyle="italic">textStyleTextBox</Run>
+. The <Run>attached property</Run>
+ System.Windows.Controls.Validation.HasError is <Run FontWeight="Bold">true</Run>
+ when one or more of the bindings on the properties of the bound element are in error. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="textStyleTextBox" TargetType="{x:Type TextBox}"> 
+&lt;Setter Property="Foreground" Value="#333333" /> 
+&lt;Setter Property="MaxLength" Value="40" /> 
+&lt;Setter Property="Width" Value="392" /> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="Validation.HasError" Value="true"> 
+&lt;Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>With the custom <Run FontWeight="Bold">ErrorTemplate</Run>
+ and the <Run FontWeight="Bold">ToolTip</Run>
+, the <Run FontStyle="italic">StartDateEntryForm</Run>
+<Run FontWeight="Bold">TextBox</Run>
+ looks like the following when there is a validation error:
+    </Paragraph>
+
+    <Paragraph>If your <Run FontWeight="Bold">Binding</Run>
+ has associated validation rules but you do not specify an <Run FontWeight="Bold">ErrorTemplate</Run>
+ on the bound control, a default <Run FontWeight="Bold">ErrorTemplate</Run>
+ will be used to notify users when there is a validation error. The default <Run FontWeight="Bold">ErrorTemplate</Run>
+ is a control template that defines a red border in the adorner layer. With the default <Run FontWeight="Bold">ErrorTemplate</Run>
+ and the <Run FontWeight="Bold">ToolTip</Run>
+, the UI of the <Run FontStyle="italic">StartPriceEntryForm</Run>
+<Run FontWeight="Bold">TextBox</Run>
+ looks like the following when there is a validation error:
+    </Paragraph>
+
+    <Paragraph FontSize="18">Validation Process
+    </Paragraph>
+
+    <Paragraph>Because data validation is about target-to-source updates, it only applies to <Run FontWeight="Bold">TwoWay</Run>
+ and <Run FontWeight="Bold">OneWayToSource</Run>
+ bindings. Validation occurs each time an input value is transferred to the binding source property. To reiterate, what causes a source update depends on the value of the <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ property, as described in the <Hyperlink TargetName="what_triggers_source_updates">What Triggers Source Updates</Hyperlink>
+ section.
+    </Paragraph>
+
+    <Paragraph>The following illustration provides a visual representation of where validation fits in the data binding process:
+    </Paragraph>
+
+    <Paragraph>As illustrated above, validation occurs during target-to-source value transfer before the converter is called. The following describes the <Run FontStyle="italic">Validation</Run>
+ process, as labeled in the above diagram:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>When a value is being transferred from the target property to the source property, the data binding engine first removes any ValidationError that may have been added to the Validation.Errors attached property of the bound element. It then checks if there are any custom <Run FontWeight="Bold">ValidationRule</Run>
+s defined for that <Run FontWeight="Bold">Binding</Run>
+, in which case it calls the <Run FontWeight="Bold">Validate</Run>
+ method on each of the <Run FontWeight="Bold">ValidationRule</Run>
+s until one of them runs into an error or until all of them pass.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Once there is a custom rule that does not pass, the binding engine creates a <Run FontWeight="Bold">ValidationError</Run>
+ object and adds it to the <Run FontWeight="Bold">Validation</Run>
+.<Run FontWeight="Bold">Errors</Run>
+ collection of the bound element. When <Run FontWeight="Bold">Validation</Run>
+.<Run FontWeight="Bold">Errors</Run>
+ is not empty, the <Run FontWeight="Bold">Validation</Run>
+.<Run FontWeight="Bold">HasError</Run>
+ attached property of the element is set to <Run FontWeight="Bold">true</Run>
+. Also, if the NotifyOnValidationError property of the <Run FontWeight="Bold">Binding</Run>
+ is set to <Run FontWeight="Bold">true</Run>
+, then the binding engine raises the <Run FontWeight="Bold">Validation</Run>
+.Error <Run>attached event</Run>
+ on the element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If all of the rules pass, the binding engine then calls the converter, if one exists.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the converter passes, the binding engine calls the setter of the source property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the binding has an <Run FontWeight="Bold">ExceptionValidationRule</Run>
+ associated with it and an exception is thrown during step 3 or 4, the binding engine checks to see if there is a UpdateSourceExceptionFilter. You have the option to use the <Run FontWeight="Bold">UpdateSourceExceptionFilter</Run>
+ callback to provide a custom handler for handling exceptions. If an <Run FontWeight="Bold">UpdateSourceExceptionFilter</Run>
+ is not specified on the <Run FontWeight="Bold">Binding</Run>
+, the binding engine creates a <Run FontWeight="Bold">ValidationError</Run>
+ with the exception and adds it to the <Run FontWeight="Bold">Validation</Run>
+.<Run FontWeight="Bold">Errors</Run>
+ collection of the bound element.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Also note that a valid value transfer in either direction (target to source or source to target) will clear the <Run FontWeight="Bold">Validation</Run>
+.<Run FontWeight="Bold">Errors</Run>
+ attached property.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Demo
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Data Binding Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

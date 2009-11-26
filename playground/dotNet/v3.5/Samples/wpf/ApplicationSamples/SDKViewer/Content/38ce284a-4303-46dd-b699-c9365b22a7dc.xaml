@@ -1,0 +1,1174 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_38ce284a_4303_46dd_b699_c9365b22a7dc"
+  Tag     ="Walkthrough: Hosting Windows Presentation Foundation Content in a Win32 Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Walkthrough: Hosting Windows Presentation Foundation Content in a Win32 Application</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Presentation Foundation (WPF) provides a rich environment for creating applications. However, when you have a substantial investment in Win32 code, it might be more effective to add WPF functionality to your application rather than rewriting everything from scratch. WPF provides a straightforward mechanism for hosting a WPF page in a Win32 window.
+    </Paragraph>
+
+    <Paragraph>This tutorial describes how to write a sample application, Host a Windows Presentation Foundation Page in a Microsoft Win32 Window, that hosts a WPF page in a Win32 window. You can extend this sample to host any Win32 window. Because it involves mixing managed and unmanaged code, the application is written in C++/CLI (Common Language Infrastructure). 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="requirements">Requirements</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="basic_procedure">The Basic Procedure</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="implementing_the_application">Implementing the Host Application</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="implementing_the_wpf_page">Implementing the WPF Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Requirements
+    </Paragraph>
+
+    <Paragraph>This tutorial assumes a basic familiarity with both WPF and Win32 programming. For a basic introduction to WPF programming, see <Hyperlink NavigateUri="04f91da8-708c-46c7-8172-f1695ec847cd.xaml">Getting Started</Hyperlink>
+. For an introduction to Win32 programming, see any of the numerous books on the subject, in particular <Run FontStyle="italic">Programming Windows</Run>
+ by Charles Petzold.
+    </Paragraph>
+
+    <Paragraph>Because the sample that accompanies this tutorial is implemented in C++/CLI, this tutorial assumes familiarity with the use of C++ to program the Win32 API plus an understanding of managed code programming. Familiarity with C++/CLI is helpful but not essential.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>This tutorial includes a number of code examples from the associated sample. However, for readability, it does not include the complete sample code. For the complete sample code, see Host a Windows Presentation Foundation Page in a Microsoft Win32 Window.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">The Basic Procedure
+    </Paragraph>
+
+    <Paragraph>This section outlines the basic procedure you use to host a WPF page in a Win32 window. The remaining sections explain the details of each step.
+    </Paragraph>
+
+    <Paragraph>The key to hosting a WPF page on a Win32 window is the HwndSource class. This class wraps the WPF page in a Win32 window, allowing it to be incorporated into your user interface (UI) as a child window. The following approach combines the Win32 and WPF in a single application.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Implement your WPF page as a managed class. Typically, the class inherits from one of the panel classes, such as DockPanel.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implement a Win32 application with C++/CLI, previously known as managed C++. If you are starting with an existing application, you can usually enable it to call managed code by changing your project settings to include the <Run>/clr</Run>
+ compiler flag.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Set the threading model to single-threaded apartment (STA).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Handle the WM_CREATE notification in your window procedure and do the following: 
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>Create a new <Run FontWeight="Bold">HwndSource</Run>
+ object with the parent window as its <Run>parent</Run>
+ parameter.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Create an instance of your WPF page class.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Assign a reference to the WPF page object to the <Run FontWeight="Bold">HwndSource</Run>
+ object's RootVisual property. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Get the page's HWND. The <Run FontWeight="Bold">HwndSource</Run>
+ object's Handle property contains the window handle (HWND). To get an HWND that you can use in the unmanaged part of your application, cast Handle.ToPointer() to an HWND. 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implement a managed class that contains a static field to hold a reference to your page object. This class allows you to get a reference to the page object from your Win32 code.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Assign the page object to the static field.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Receive notifications from the WPF page by attaching a handler to one or more of the page's events.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Communicate with the page by using the reference that you stored in the static field to set properties, and so on.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>You can also use Extensible Application Markup Language (XAML) to implement your WPF page. However, you will have to compile it separately as a dynamic-link library (DLL) and reference that DLL from your Win32 application. The remainder of the procedure is similar to that outlined above.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Implementing the Host Application
+    </Paragraph>
+
+    <Paragraph>This section describes how to host a WPF page in a basic Win32 application. The page itself is implemented in C++/CLI as a managed class. For the most part, it is straightforward WPF programming. The key aspects of the page implementation are discussed in <Hyperlink TargetName="implementing_the_wpf_page">Implementing the WPF Page</Hyperlink>
+.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="the_basic_application">The Basic Application</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="hosting_the_wpf_page">Hosting the WPF Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="holding_a_reference">Holding a Reference to the Page Object</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="communicating_with_the_page">Communicating with the WPF Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">The Basic Application
+    </Paragraph>
+
+    <Paragraph>The starting point for the host application was to create a Microsoft Visual Studio 2005 template.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Open Visual Studio 2005, and select <Run FontWeight="Bold">New Project</Run>
+ from the<Run FontWeight="Bold">File</Run>
+ menu.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Select "Win32" from the list of Visual C++ project types. If your default language is not C++, you will find these project types under <Run FontWeight="Bold">Other Languages</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Select a <Run FontWeight="Bold">Win32 Project</Run>
+ template, assign a name to the project and click <Run FontWeight="Bold">OK</Run>
+ to launch the <Run FontWeight="Bold">Win32 Application Wizard</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Accept the wizard's default settings and click <Run FontWeight="Bold">Finish</Run>
+ to start the project.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The template creates a basic Win32 application, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>An entry point for the application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A window, with an associated window procedure (WndProc).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A menu with <Run FontWeight="Bold">File</Run>
+ and <Run FontWeight="Bold">Help</Run>
+ headings. The <Run FontWeight="Bold">File</Run>
+ menu has an <Run FontWeight="Bold">Exit</Run>
+ item that closes the application. The <Run FontWeight="Bold">Help</Run>
+ menu has an <Run FontWeight="Bold">About</Run>
+ item that launches a simple dialog box.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Before you start writing code to host the WPF page, you need to make two modifications to the basic template. 
+    </Paragraph>
+
+    <Paragraph>The first is to compile the project as managed code. By default, the project compiles as unmanaged code. However, because WPF is implemented in managed code, the project must be compiled accordingly. 
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Right-click the project name in <Run FontWeight="Bold">Solution Explorer</Run>
+ and select <Run FontWeight="Bold">Properties</Run>
+ from the context menu to launch the <Run FontWeight="Bold">Property Pages</Run>
+ dialog box.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Select <Run FontWeight="Bold">Configuration Properties</Run>
+ from the treeview in the left pane.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Select <Run FontWeight="Bold">Common Language Runtime</Run>
+ support from the <Run FontWeight="Bold">Project Defaults</Run>
+ list in the right pane.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Select <Run FontWeight="Bold">Common Language Runtime Support (/clr)</Run>
+ from the drop-down list box.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>This compiler flag allows you to use managed code in your application, but your unmanaged code will still compile as before.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>WPF uses the single-threaded apartment (STA) threading model. In order to work properly with the WPF page, you need to set the application's threading model to STA by adding an attribute to the entry point.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[System::STAThreadAttribute] //Needs to be an STA thread to play nicely with WPF int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow) { </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Hosting the WPF Page
+    </Paragraph>
+
+    <Paragraph>The WPF page is a simple address entry application. It consists of several TextBox controls to take user name, address, and so on. There are also two Button controls, <Run FontWeight="Bold">OK</Run>
+ and <Run FontWeight="Bold">Cancel</Run>
+. When the user clicks <Run FontWeight="Bold">OK</Run>
+, the button's Click event handler collects the data from the <Run FontWeight="Bold">TextBox</Run>
+ controls, assigns it to corresponding properties, and raises a custom event, <Run>OnButtonClicked</Run>
+. When the user clicks <Run FontWeight="Bold">Cancel</Run>
+, the handler simply raises <Run>OnButtonClicked</Run>
+. The event argument object for <Run>OnButtonClicked</Run>
+ contains a Boolean field that indicates which button was clicked.
+    </Paragraph>
+
+    <Paragraph>The code to host the page is implemented in a handler for the host window's WM_CREATE notification.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>case WM_CREATE : GetClientRect(hWnd, &amp;rect); 
+wpfHwnd = GetHwnd(hWnd, rect.right-375, 0, 375, 250); 
+CreateDataDisplay(hWnd, 275, rect.right-375, 375); 
+CreateRadioButtons(hWnd); 
+break; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run>GetHwnd</Run>
+ method takes size and position information plus the parent window handle and returns the window handle of the hosted page.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>You can't use a #using directive for the System::Windows::Interop namespace. Doing so creates a name collision between the MSG structure in that namespace and the MSG structure declared in winuser.h. You must instead use fully-qualified names to access the contents of that namespace.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>HWND GetHwnd(HWND parent, int x, int y, int width, int height) { System::Windows::Interop::HwndSourceParameters^ sourceParams = gcnew System::Windows::Interop::HwndSourceParameters( "hi" // NAME ); 
+sourceParams->PositionX = x; 
+sourceParams->PositionY = y; 
+sourceParams->Height = height; 
+sourceParams->Width = width; 
+sourceParams->ParentWindow = IntPtr(parent); 
+sourceParams->WindowStyle = WS_VISIBLE | WS_CHILD; 
+// style System::Windows::Interop::HwndSource^ source = gcnew System::Windows::Interop::HwndSource(*sourceParams); 
+WPFPage ^myPage = gcnew WPFPage(width, height); 
+//Assign a reference to the WPF page and a set of UI properties to a set of static properties in a class //that is designed for that purpose. WPFPageHost::hostedPage = myPage; 
+WPFPageHost::initBackBrush = myPage->Background; 
+WPFPageHost::initFontFamily = myPage->DefaultFontFamily; 
+WPFPageHost::initFontSize = myPage->DefaultFontSize; 
+WPFPageHost::initFontStyle = myPage->DefaultFontStyle; 
+WPFPageHost::initFontWeight = myPage->DefaultFontWeight; 
+WPFPageHost::initForeBrush = myPage->DefaultForeBrush; 
+myPage->OnButtonClicked += gcnew WPFPage::ButtonClickHandler(WPFButtonClicked); 
+source->RootVisual = myPage; 
+return (HWND) source->Handle.ToPointer(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can't host a WPF page directly in your application's window. Instead, you first create an <Run FontWeight="Bold">HwndSource</Run>
+ object to wrap the page. This object is basically a window that is designed to host a WPF page. You host the <Run FontWeight="Bold">HwndSource</Run>
+ object in the parent window by creating it as a child of that window. The constructor's parameters contain much the same information that you would pass to CreateWindow when you create a Win32 child window. 
+    </Paragraph>
+
+    <Paragraph>You next create an instance of the WPF page object. In this case, the page is implemented as a separate class, <Run>WPFPage</Run>
+, using C++/CLI. You could also implement the page with XAML. However, to do so you need to set up a separate project and build the page as a DLL. You can add a reference to that DLL to your project, and use that reference to create an instance of the page object.
+    </Paragraph>
+
+    <Paragraph>You display the page in your child window by assigning a reference to the page object to the <Run FontWeight="Bold">HwndSource</Run>
+ object's <Run FontWeight="Bold">RootVisual</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>The next line of code attaches an event handler, <Run>WPFButtonClicked</Run>
+, to the page's <Run>OnButtonClicked</Run>
+ event. This handler is called when the user clicks the page's <Run FontWeight="Bold">OK</Run>
+ or <Run FontWeight="Bold">Cancel</Run>
+ button. See <Hyperlink TargetName="communicating_with_the_page">communicating_with_the_page</Hyperlink>
+ for further discussion of this event handler.
+    </Paragraph>
+
+    <Paragraph>The final line of code shown returns the window handle that is associated with the <Run FontWeight="Bold">HwndSource</Run>
+ object. You can use this handle from your Win32 code to send messages to the hosted window, although the sample does not do so. The <Run FontWeight="Bold">HwndSource</Run>
+ object raises an event every time it receives a message. To process the messages, call the AddHook method to attach a message handler and then process the messages in that handler. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Holding a Reference to the Page Object
+    </Paragraph>
+
+    <Paragraph>For many applications, you will want to communicate with the page later. For example, you might want to modify the page properties, or perhaps have the <Run FontWeight="Bold">HwndSource</Run>
+ object host a different page. To do this, you need a reference to the <Run FontWeight="Bold">HwndSource</Run>
+ object or the page itself. The <Run FontWeight="Bold">HwndSource</Run>
+ object and its page object remain in memory until you destroy the window handle. However, the variable you assign to the <Run FontWeight="Bold">HwndSource</Run>
+ object will go out of scope as soon as you return from the window procedure. The customary way to handle this issue with Win32 applications is to use a static or global variable. Unfortunately, you cannot assign a managed object to those types of variables. You can assign the window handle associated with <Run FontWeight="Bold">HwndSource</Run>
+ object to a global or static variable, but that doesn't provide access to the object itself. 
+    </Paragraph>
+
+    <Paragraph>The simplest solution to this issue is to implement a managed class that contains a set of static fields to hold references to any managed objects that you need access to. The sample uses the <Run>WPFPageHost</Run>
+ class to hold a reference to the page object, plus the initial values of a number of its properties that might be changed later by the user. This is defined in the header.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public ref class WPFPageHost { public: WPFPageHost(); 
+static WPFPage^ hostedPage; 
+//initial property settings static System::Windows::Media::Brush^ initBackBrush; 
+static System::Windows::Media::Brush^ initForeBrush; 
+static System::Windows::Media::FontFamily^ initFontFamily; 
+static System::Windows::FontStyle initFontStyle; 
+static System::Windows::FontWeight initFontWeight; 
+static double initFontSize; 
+}; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The latter part of the <Run>GetHwnd</Run>
+ function assigns values to those fields for later use while <Run>myPage</Run>
+ is still in scope.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Communicating with the WPF Page
+    </Paragraph>
+
+    <Paragraph>There are two types of communication with the page. The application receives information from the page when the user clicks the <Run FontWeight="Bold">OK</Run>
+ or <Run FontWeight="Bold">Cancel</Run>
+ buttons. The application also has a UI that allows the user to change various page properties, such as the background color or default font size.
+    </Paragraph>
+
+    <Paragraph>As mentioned above, when the user clicks either button the page raises an <Run>OnButtonClicked</Run>
+ event. The application attaches a handler to this event to receive these notifications. If the <Run FontWeight="Bold">OK</Run>
+ button was clicked, the handler gets the user information from the page and displays it in a set of static controls.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void WPFButtonClicked(Object ^sender, MyPageEventArgs ^args) { if(args->IsOK) //display data if OK button was clicked { WPFPage ^myPage = WPFPageHost::hostedPage; 
+LPCWSTR userName = (LPCWSTR) InteropServices::Marshal::StringToHGlobalAuto("Name: " + myPage->EnteredName).ToPointer(); 
+SetWindowText(nameLabel, userName); 
+LPCWSTR userAddress = (LPCWSTR) InteropServices::Marshal::StringToHGlobalAuto("Address: " + myPage->EnteredAddress).ToPointer(); 
+SetWindowText(addressLabel, userAddress); 
+LPCWSTR userCity = (LPCWSTR) InteropServices::Marshal::StringToHGlobalAuto("City: " + myPage->EnteredCity).ToPointer(); 
+SetWindowText(cityLabel, userCity); 
+LPCWSTR userState = (LPCWSTR) InteropServices::Marshal::StringToHGlobalAuto("State: " + myPage->EnteredState).ToPointer(); 
+SetWindowText(stateLabel, userState); 
+LPCWSTR userZip = (LPCWSTR) InteropServices::Marshal::StringToHGlobalAuto("Zip: " + myPage->EnteredZip).ToPointer(); 
+SetWindowText(zipLabel, userZip); 
+} else { SetWindowText(nameLabel, L"Name: "); 
+SetWindowText(addressLabel, L"Address: "); 
+SetWindowText(cityLabel, L"City: "); 
+SetWindowText(stateLabel, L"State: "); 
+SetWindowText(zipLabel, L"Zip: "); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The handler receives a custom event argument object from the page, <Run>MyPageEventArgs</Run>
+. The object's <Run>IsOK</Run>
+ property is set to <Run FontWeight="Bold">true</Run>
+ if the <Run FontWeight="Bold">OK</Run>
+ button was clicked, and <Run FontWeight="Bold">false</Run>
+ if the <Run FontWeight="Bold">Cancel</Run>
+ button was clicked.
+    </Paragraph>
+
+    <Paragraph>If the <Run FontWeight="Bold">OK</Run>
+ button was clicked, the handler gets a reference to the page object from the container class. It then collects the user information that is held by the associated page object properties and uses the static controls to display the information on the parent window. Because the page object data is in the form of a managed string, it has to be marshaled for use by a Win32 control. If the <Run FontWeight="Bold">Cancel</Run>
+ button was clicked, the handler clears the data from the static controls.
+    </Paragraph>
+
+    <Paragraph>The application's UI provides a set of radio buttons that allow the user to modify the page's background color and several font-related properties. The following example is an excerpt from the application's window procedure (WndProc) and its message handling that sets various properties on different messages, including the page's background color. The others are similar, and are not shown. See the sample for details and context.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>case WM_COMMAND: wmId = LOWORD(wParam); 
+wmEvent = HIWORD(wParam); 
+switch (wmId) { //Menu selections case IDM_ABOUT: DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About); 
+break; 
+case IDM_EXIT: DestroyWindow(hWnd); 
+break; 
+//RadioButtons case IDC_ORIGINALBACKGROUND : WPFPageHost::hostedPage->Background = WPFPageHost::initBackBrush; 
+break; 
+case IDC_LIGHTGREENBACKGROUND : WPFPageHost::hostedPage->Background = gcnew SolidColorBrush(Colors::LightGreen); 
+break; 
+case IDC_LIGHTSALMONBACKGROUND : WPFPageHost::hostedPage->Background = gcnew SolidColorBrush(Colors::LightSalmon); 
+break; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To set the background color, get a reference to the page object (hostedPage) from <Run>WPFPageHost</Run>
+ and set the page's background color property to the appropriate color. The sample uses three color options: the original color, light green, or light salmon. The original background color is stored as a static field in the <Run>WPFPageHost</Run>
+ class. To set the other two, you create a new SolidColorBrush object and pass the constructor a static colors value from the Colors object.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Implementing the WPF Page
+    </Paragraph>
+
+    <Paragraph>You can host and use the WPF page without any knowledge of the actual implementation. If the page had been packaged in a separate DLL, it could have been built in any common language runtime (CLR) language. However, for those who might be interested, here is a brief walkthrough of the C++/CLI-based implementation that is used in the sample. This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="page_layout">Page Layout</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="returning_data_to_window">Returning the Data to the Host Window</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="set_page_properties">Setting the Page Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Page Layout
+    </Paragraph>
+
+    <Paragraph>The UI elements on the page consist of five <Run FontWeight="Bold">TextBox</Run>
+ controls, with associated Label controls: Name, Address, City, State, and Zip. There are also two <Run FontWeight="Bold">Button</Run>
+ controls, <Run FontWeight="Bold">OK</Run>
+ and <Run FontWeight="Bold">Cancel</Run>
+
+    </Paragraph>
+
+    <Paragraph>The page is implemented in the <Run>WPFPage</Run>
+ class. Layout is handled with a Grid layout element. The class inherits from <Run FontWeight="Bold">Grid</Run>
+, which effectively makes it the page's root element. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public ref class WPFPage : public Grid ...</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The page's constructor takes the required width and height, and sizes the <Run FontWeight="Bold">Grid</Run>
+ accordingly. It then defines the basic layout by creating a set of ColumnDefinition and RowDefinition objects and adding them to the <Run FontWeight="Bold">Grid</Run>
+ object's ColumnDefinitions and RowDefinitions collections, respectively. This defines a grid of five rows and seven columns, with the dimensions determined by the contents of the cells.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>WPFPage::WPFPage(int allottedWidth, int allotedHeight) { array
+&lt;ColumnDefinition ^> ^ columnDef = gcnew array
+&lt;ColumnDefinition ^> (4); 
+array
+&lt;RowDefinition ^> ^ rowDef = gcnew array
+&lt;RowDefinition ^> (6); 
+this->Height = allotedHeight; 
+this->Width = allottedWidth; 
+this->Background = gcnew SolidColorBrush(Colors::LightGray); 
+//Set up the Grid's row and column definitions for(int i=0; 
+i
+&lt;4; 
+i++) { columnDef[i] = gcnew ColumnDefinition(); 
+columnDef[i]->Width = GridLength(1, GridUnitType::Auto); 
+this->ColumnDefinitions->Add(columnDef[i]); 
+} for(int i=0; 
+i
+&lt;6; 
+i++) { rowDef[i] = gcnew RowDefinition(); 
+rowDef[i]->Height = GridLength(1, GridUnitType::Auto); 
+this->RowDefinitions->Add(rowDef[i]); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Next, the constructor adds the UI elements to the <Run FontWeight="Bold">Grid</Run>
+. The first element is the title text, which is a <Run FontWeight="Bold">Label</Run>
+ control that is centered in the first row of the grid.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//Add the title titleText = gcnew Label(); 
+titleText->Content = "Simple WPF Control"; 
+titleText->HorizontalAlignment = System::Windows::HorizontalAlignment::Center; 
+titleText->Margin = Thickness(10, 5, 10, 0); 
+titleText->FontWeight = FontWeights::Bold; 
+titleText->FontSize = 14; 
+Grid::SetColumn(titleText, 0); 
+Grid::SetRow(titleText, 0); 
+Grid::SetColumnSpan(titleText, 4); 
+this->Children->Add(titleText); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next row contains the Name <Run FontWeight="Bold">Label</Run>
+ control and its associated <Run FontWeight="Bold">TextBox</Run>
+ control. Because the same code is used for each label/textbox pair, it is placed in a pair of private methods and used for all five label/textbox pairs. The methods create the appropriate control, and call the <Run FontWeight="Bold">Grid</Run>
+ class's static SetColumn and SetRow methods to place the controls in the appropriate cell. Once the control is created, the sample calls the <Run FontWeight="Bold">Grid</Run>
+ object's Children.Add method to add the control to the grid. The code to add the remaining label/textbox pairs is similar. See the sample code for details. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//Add the Name Label and TextBox nameLabel = CreateLabel(0, 1, "Name"); 
+this->Children->Add(nameLabel); 
+nameTextBox = CreateTextBox(1, 1, 3); 
+this->Children->Add(nameTextBox); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The implementation of the two methods is as follows:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Label ^WPFPage::CreateLabel(int column, int row, String ^ text) { Label ^ newLabel = gcnew Label(); 
+newLabel->Content = text; 
+newLabel->Margin = Thickness(10, 5, 10, 0); 
+newLabel->FontWeight = FontWeights::Normal; 
+newLabel->FontSize = 12; 
+Grid::SetColumn(newLabel, column); 
+Grid::SetRow(newLabel, row); 
+return newLabel; 
+} TextBox ^WPFPage::CreateTextBox(int column, int row, int span) { TextBox ^newTextBox = gcnew TextBox(); 
+newTextBox->Margin = Thickness(10, 5, 10, 0); 
+Grid::SetColumn(newTextBox, column); 
+Grid::SetRow(newTextBox, row); 
+Grid::SetColumnSpan(newTextBox, span); 
+return newTextBox; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Finally, the sample adds the <Run FontWeight="Bold">OK</Run>
+ and <Run FontWeight="Bold">Cancel</Run>
+ buttons and attaches an event handler to their <Run FontWeight="Bold">Click</Run>
+ events. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//Add the Buttons and atttach event handlers okButton = CreateButton(0, 5, "OK"); 
+cancelButton = CreateButton(1, 5, "Cancel"); 
+this->Children->Add(okButton); 
+this->Children->Add(cancelButton); 
+okButton->Click += gcnew RoutedEventHandler(this, &amp;WPFPage::ButtonClicked); 
+cancelButton->Click += gcnew RoutedEventHandler(this, &amp;WPFPage::ButtonClicked); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Returning the Data to the Host Window
+    </Paragraph>
+
+    <Paragraph>When either button is clicked, its <Run FontWeight="Bold">Click</Run>
+ event is raised. The host window could simply attach handlers to these events and get the data directly from the <Run FontWeight="Bold">TextBox</Run>
+ controls. The sample uses a somewhat less direct approach. It handles the <Run FontWeight="Bold">Click</Run>
+ within the page object, and then raises a custom event <Run>OnButtonClicked</Run>
+, to notify the host page. This allows the page object to do some parameter validation before notifying the host. The handler gets the text from the <Run FontWeight="Bold">TextBox</Run>
+ controls and assigns it to public properties, from which the host page can retrieve the information.
+    </Paragraph>
+
+    <Paragraph>The event declaration, in WPFPage.h:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public: delegate void ButtonClickHandler(Object ^, MyPageEventArgs ^); 
+WPFPage(); 
+WPFPage(int height, int width); 
+event ButtonClickHandler ^OnButtonClicked; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">Click</Run>
+ event handler, in WPFPage.cpp:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void WPFPage::ButtonClicked(Object ^sender, RoutedEventArgs ^args) { //TODO: validate input data bool okClicked = true; 
+if(sender == cancelButton) okClicked = false; 
+EnteredName = nameTextBox->Text; 
+EnteredAddress = addressTextBox->Text; 
+EnteredCity = cityTextBox->Text; 
+EnteredState = stateTextBox->Text; 
+EnteredZip = zipTextBox->Text; 
+OnButtonClicked(this, gcnew MyPageEventArgs(okClicked)); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Setting the Page Properties
+    </Paragraph>
+
+    <Paragraph>The host page allows the user to change several page properties. From the Win32 side, it is simply a matter of changing the properties. The implementation in the page class is somewhat more complicated, because there isn't actually a single global property that controls the fonts for all controls. Instead, the appropriate property for each control is changed in the properties set accessor. The following example shows the code for the <Run>DefaultFontFamily</Run>
+ property. Setting the property calls a private method that in turn sets the FontFamily properties for the various controls.
+    </Paragraph>
+
+    <Paragraph>From WPFPage.h:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>property FontFamily^ DefaultFontFamily { FontFamily^ get() {return _defaultFontFamily;} void set(FontFamily^ value) {SetFontFamily(value);} }; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>From WPFPage.cpp:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void WPFPage::SetFontFamily(FontFamily^ newFontFamily) { _defaultFontFamily = newFontFamily; 
+titleText->FontFamily = newFontFamily; 
+nameLabel->FontFamily = newFontFamily; 
+addressLabel->FontFamily = newFontFamily; 
+cityLabel->FontFamily = newFontFamily; 
+stateLabel->FontFamily = newFontFamily; 
+zipLabel->FontFamily = newFontFamily; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Walkthrough: Hosting Windows Presentation Foundation Content in a Win32 Application to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

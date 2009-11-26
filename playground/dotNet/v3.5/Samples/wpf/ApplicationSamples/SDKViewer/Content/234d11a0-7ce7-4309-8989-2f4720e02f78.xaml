@@ -1,0 +1,367 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_234d11a0_7ce7_4309_8989_2f4720e02f78"
+  Tag     ="Implementing the UI Automation Grid Control Pattern"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Implementing the UI Automation Grid Control Pattern</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces the GridPattern <Run>control pattern</Run>
+. It contains guidelines and conventions for implementing the IGridProvider interface and includes information about <Run FontWeight="Bold">GridPattern</Run>
+ properties, methods, and events. Links to additional references are listed at the end of the overview.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">GridPattern</Run>
+ control pattern is used to support controls that act as containers for a collection of child elements. The children of this element must implement IGridItemProvider and be organized in a two-dimensional logical coordinate system that can be traversed by row and column. For examples of controls that implement this control pattern, see <Hyperlink NavigateUri="8b81645b-8be3-4e26-9c98-4fb0fceca06b.xaml">Control Pattern Mapping for UI Automation Clients</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Implementation_Guidelines_and_Conventions">Implementation Guidelines and Conventions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Required_Members_for_IGridProvider">Required Members for IGridProvider</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Exceptions">Exceptions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Implementation Guidelines and Conventions
+    </Paragraph>
+
+    <Paragraph>When implementing the Grid control pattern, note the following guidelines and conventions:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Grid coordinates are zero-based with the upper left (or upper right cell depending on locale) having coordinates (0,0).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If a cell is empty, a <Run>UI Automation element</Run>
+ must still be returned in order to support the ContainingGrid property for that cell. This is possible when the layout of child elements in the grid is similar to a ragged array (see example below).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontWeight="Bold">Example of a Grid Control with Empty Coordinates</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A grid with a single item is still required to implement <Run FontWeight="Bold">IGridProvider</Run>
+ if it is logically considered to be a grid. The number of child items in the grid is immaterial.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Hidden rows and columns, depending on the provider implementation, may be loaded in the UI Automation tree and will therefore be reflected in the RowCount and ColumnCount properties. If the hidden rows and columns have not yet been loaded, they should not be counted.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">IGridProvider</Run>
+ does not enable active manipulation of a grid; 
+ITransformProvider must be implemented to enable this functionality.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use a StructureChangedEventHandler to listen for structural or layout changes to the grid such as cells that have been added, removed, or merged.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use a AutomationFocusChangedEventHandler to track traversal through the items or cells of a grid.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Required Members for IGridProvider
+    </Paragraph>
+
+    <Paragraph>The following properties and methods are required for implementing the IGridProvider interface.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Required members 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RowCount 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ColumnCount 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>GetItem 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Method
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This control pattern has no associated events.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Exceptions
+    </Paragraph>
+
+    <Paragraph>Providers must throw the following exceptions.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Exception type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Condition 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ArgumentOutofRangeException 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetItem</Run>
+
+            </Paragraph>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>If the requested row coordinate is larger than the <Run FontWeight="Bold">RowCount</Run>
+ or the column coordinate is larger than the <Run FontWeight="Bold">ColumnCount</Run>
+.
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ArgumentOutofRangeException</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetItem</Run>
+
+            </Paragraph>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>If either of the requested row or column coordinates is less than zero.
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0d635c35-ffa8-4dc8-bbc9-12fcd5445776.xaml">Support Control Patterns in a UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ec722dff-6009-4279-b86a-e18d3fa94ebf.xaml">Use Caching in UI Automation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="571561d8-5f49-43a9-a054-87735194e013.xaml">UI Automation Control Patterns for Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="bffbae08-fe2a-42fd-ab84-f37187518916.xaml">Implementing the UI Automation GridItem Control Pattern</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Implementing the UI Automation Grid Control Pattern to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,339 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a3ce0fc6_7d71_4efd_b81b_dbf47d78d0e9"
+  Tag     ="Events Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_a3ce0fc6_7d71_4efd_b81b_dbf47d78d0e9"
+    Tag     ="Events Overview"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Events Overview</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>Events are actions or occurrences to which applications respond. Often events are user-generated actions such as button clicks, key presses, or mouse movements but they can also be triggered by program logic. This topic summarizes how you handle events when developing Windows Presentation Foundation applications, how events are routed through a tree of elements, and how to create your own custom events.    
+      </Paragraph>
+
+      <Paragraph>This topic contains the following sections.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="event_handing">Handling Events</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="routing">Event Routing</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="events_custom">Creating Custom Events</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="events_styles">Events and Styles</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Prerequisites    
+      </Paragraph>
+
+      <Paragraph>This topic assumes that you have basic knowledge of the common language runtime (CLR) and object-oriented programming, as well as the concept of element trees and relationships between Windows Presentation Foundation elements. In order to follow the examples in this topic, you should also understand Extensible Application Markup Language (XAML) and know how to write very basic Windows Presentation Foundation applications. For more information, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Handling Events    
+      </Paragraph>
+
+      <Paragraph>To handle an event using XAML you simply add the event's name as an attribute to an element that you want to be the event listener. You set the value of this event attribute to be the name of your event handler, as in the following example.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Button Click="b1SetColor">button
+&lt;/Button> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run>b1SetColor</Run>
+ is a method that implements the handler for the Click event. The handler you write must have the same signature as the delegate declared by the event, RoutedEventHandler in this case. Note that the first parameter of an event handler delegate specifies the element to which the event handler is attached, and the second parameter specifies any data for the event.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>void b1SetColor(object sender, RoutedEventArgs args){ //logic to handle the Click event ... } </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>Note that the code that implements the handler is typically not directly in the XAML page, but is instead in a related "code-behind" file that enables the procedural code to remain separate from declarative user interface (UI) markup. For a complete example of how to set an event handler on an element, see <Hyperlink NavigateUri="bb27ff4c-4d0e-44f4-bcdf-1727fb06a1fd.xaml">How to: Set the Background Property of a Button</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph>You can also add event handlers to a class instance entirely in procedural code, using basically the same syntax as you would when adding a CLR event to a CLR object. For an example of how to add an event handler in code, see <Hyperlink NavigateUri="269c61e0-6bd9-4291-9bed-1c5ee66da486.xaml">How to: Add an Event Handler</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Event Routing    
+      </Paragraph>
+
+      <Paragraph>In the previous example, the button simply handles an event that occurs directly on itself, and the scenario you see is really not any different than what you'd see in Windows Forms or common language runtime (CLR) programming However, in a typical Windows Presentation Foundation application, UI elements usually contain other elements as child elements, and the element on which the event is raised might not be the element that ends up handling the event. In Windows Presentation Foundation, the parent element can participate in many events directed to its child elements or other descendants through <Run>event routing</Run>
+. Routing is the process of informing multiple elements that exist in a parent-child relationship about a particular event, typically until one of the elements marks the event as Handled. Event routing is explained in greater detail in the <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+ topic, but is also described briefly here.    
+      </Paragraph>
+
+      <Paragraph>Events use one of three routing mechanisms: direct, tunneling, or bubbling. Direct event routing means that only the event source element is notified, resulting in the event scope that Windows Forms and other Microsoft .NET libraries use. A bubbling routed event travels up the element tree by first notifying the target element, then the target's parent element, then the parent's parent, and so on. Tunneling is the opposite direction—starting at the root of the element tree and traveling down that tree, ending with the target element.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Handling Routed Events    
+      </Paragraph>
+
+      <Paragraph>An example of a <Run>bubbling</Run>
+ event is the <Run FontWeight="Bold">Click</Run>
+ event. If you have multiple clickable controls that invoke the same event handler, you can attach the event handler to the common parent in the UI, rather than having to attach individual event handlers to each control (or re-attach the same event handler to each control via a new delegate each time). For an example, see <Hyperlink NavigateUri="157787b4-f469-4047-8777-5b034145f32e.xaml">How to: Handle a Routed Event</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Creating Custom Events    
+      </Paragraph>
+
+      <Paragraph>If your Windows Presentation Foundation custom event does not require routing mechanisms, then you can create it similar to any other .NET event. For an example of a custom .NET event, see the .NET software development kit (SDK) sections related to .NET events.    
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>Of more interest for Windows Presentation Foundation application developers is the ability to create a routed event. You can create a direct, bubbling or tunneling routed event by registering a RoutedEvent using the RegisterRoutedEvent method. Creating your own event then gives you the flexibility to create a custom delegate for it also, and appropriate event argument classses. For an example on how to create a custom routed event, please see <Hyperlink NavigateUri="b79f459a-1c3f-4045-b2d4-1659cc8eaa3c.xaml">How to: Create a Custom Routed Event</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph>See the following classes to learn more about routed events:     
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>EventManager         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">RoutedEvent</Run>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>RoutedEventArgs         
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Events and Styles    
+      </Paragraph>
+
+      <Paragraph>It is also possible to attach handlers for many events using styles, in one of two ways. You can attach handlers for a particular event, or you can define a control template that includes some pre-declared XAML event handling syntax in its markup. Of these two choices, the former is the most straightforward. The following is an example. Note that the <Run>b1SetColor</Run>
+ method referenced here is again in a code-behind file.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;StackPanel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="SDKSample.EventOvw2" Name="dpanel2" Initialized="PrimeHandledToo" > 
+&lt;StackPanel.Resources> 
+&lt;Style TargetType="{x:Type Button}"> 
+&lt;EventSetter Event="Click" Handler="b1SetColor"/> 
+&lt;/Style> 
+&lt;/StackPanel.Resources> 
+&lt;Button>Click me
+&lt;/Button> 
+&lt;Button Name="ThisButton" Click="HandleThis">Raise event, handle it, use handled=true handler to get it anyways
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The advantage gained here is that the style is likely to contain a great deal of other information that could apply to any button in your application, and having the event setter be part of that style promotes code reuse even at the markup level. Also it abstracts method names one step further away from the markup. Note that the event in question must be a routed event, and must also have an accessible event identifier field.    
+      </Paragraph>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+        <LineBreak/><Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+
+        <LineBreak/><Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph>Create and Use Dependency Properties      
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Events Overview  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

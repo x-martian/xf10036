@@ -1,0 +1,185 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_eb8dbdd8_5871_42bb_a16b_04e655fea677"
+  Tag     ="Implement the Master-Detail Scenario with XML Data"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Implement the Master-Detail Scenario with XML Data</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to implement the master-detail scenario with XML data.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>This example is the XML data version of the example discussed in <Hyperlink NavigateUri="11429b9e-058d-4084-bfb6-2cf209c8ddf7.xaml">How to: Implement the Master-Detail Scenario</Hyperlink>
+. In this example, the data is from the file <Run>League.xml</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Window x:Class="SDKSample.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="MasterDetailXml Sample" Width="400" Height="200" Background="Cornsilk"> 
+&lt;Window.Resources> 
+&lt;XmlDataProvider x:Key="MyList" Source="Data\Leagues.xml" XPath="Leagues/League"/> 
+&lt;DataTemplate x:Key="dataTemplate"> 
+&lt;TextBlock Text="{Binding XPath=@name}" /> 
+&lt;/DataTemplate> <Run>... </Run>
+ 
+&lt;/Window.Resources> 
+&lt;DockPanel DataContext="{Binding Source={StaticResource MyList}}"> 
+&lt;StackPanel> 
+&lt;Label>My Soccer Leagues
+&lt;/Label> 
+&lt;ListBox ItemsSource="{Binding}" ItemTemplate="{StaticResource dataTemplate}" IsSynchronizedWithCurrentItem="true"/> 
+&lt;/StackPanel> 
+&lt;StackPanel> 
+&lt;Label Content="{Binding XPath=@name}"/> 
+&lt;ListBox ItemsSource="{Binding XPath=Division}" ItemTemplate="{StaticResource dataTemplate}" SelectionChanged="DivisionChanged" IsSynchronizedWithCurrentItem="true"/> 
+&lt;/StackPanel> 
+&lt;StackPanel Name="teamStackPanel"> 
+&lt;Label Content="{Binding XPath=@name}"/> 
+&lt;ListBox ItemsSource="{Binding XPath=Team}" ItemTemplate="{StaticResource dataTemplate}"/> 
+&lt;/StackPanel> 
+&lt;/DockPanel> 
+&lt;/Window> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that the selection of the second ListBox control is handled by the SelectionChanged event. The following shows the implementation of the handler:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void DivisionChanged(object sender, SelectionChangedEventArgs args) { ListBox lb = (ListBox)sender; 
+if (lb.SelectedItem != null) teamStackPanel.DataContext = lb.SelectedItem; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub DivisionChanged(ByVal Sender As Object, ByVal e As SelectionChangedEventArgs) Dim lb As ListBox lb = Sender If Not (lb.SelectedItem Is Nothing) Then teamStackPanel.DataContext = lb.SelectedItem End If End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To see the complete sample, see Master-Detail Scenario Using XmlDataProvider Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>HierarchicalDataTemplate
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Implement the Master-Detail Scenario with XML Data to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

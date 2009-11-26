@@ -1,0 +1,211 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_8d6b4d9e_ea7f_4412_ba83_3feccec5a515"
+  Tag     ="Data Bind to an InkCanvas"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Data Bind to an InkCanvas</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates how to bind the Strokes property of an InkCanvas to another <Run FontWeight="Bold">InkCanvas</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;InkCanvas Background="LightGray" Canvas.Top="0" Canvas.Left="0" Height="400" Width="200" Name="ic"/> 
+&lt;!-- Bind the Strokes of the second InkCavas to the first InkCanvas and mirror the strokes along the Y axis.--> 
+&lt;InkCanvas Background="LightBlue" Canvas.Top="0" Canvas.Left="200" Height="400" Width="200" Strokes="{Binding ElementName=ic, Path=Strokes}"> 
+&lt;InkCanvas.LayoutTransform> 
+&lt;ScaleTransform ScaleX="-1" ScaleY="1" /> 
+&lt;/InkCanvas.LayoutTransform> 
+&lt;/InkCanvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example demonstrates how to bind the DefaultDrawingAttributes property to a data source.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas.Resources> 
+&lt;!--Define an array containing some DrawingAttributes.--> 
+&lt;x:Array x:Key="MyDrawingAttributes" x:Type="{x:Type DrawingAttributes}"> 
+&lt;DrawingAttributes Color="Black" FitToCurve="true" Width="3" Height="3"/> 
+&lt;DrawingAttributes Color="Blue" FitToCurve="false" Width="5" Height="5"/> 
+&lt;DrawingAttributes Color="Red" FitToCurve="true" Width="7" Height="7"/> 
+&lt;/x:Array> 
+&lt;!--Create a DataTemplate to display the DrawingAttributes shown above--> 
+&lt;DataTemplate DataType="{x:Type DrawingAttributes}" > 
+&lt;Border Width="80" Height="{Binding Path=Height}"> 
+&lt;Border.Background > 
+&lt;SolidColorBrush Color="{Binding Path=Color}"/> 
+&lt;/Border.Background> 
+&lt;/Border> 
+&lt;/DataTemplate> 
+&lt;/Canvas.Resources> ... 
+&lt;!--Bind the InkCavas' DefaultDrawingAtributes to a Listbox, called lbDrawingAttributes.--> 
+&lt;InkCanvas Name="inkCanvas1" Background="LightGreen" Canvas.Top="400" Canvas.Left="0" Height="400" Width="400" DefaultDrawingAttributes="{Binding ElementName=lbDrawingAttributes, Path=SelectedItem}" > 
+&lt;/InkCanvas> 
+&lt;!--Use the array, MyDrawingAttributes, to populate a ListBox--> 
+&lt;ListBox Name="lbDrawingAttributes" Canvas.Top="400" Canvas.Left="450" Height="100" Width="100" ItemsSource="{StaticResource MyDrawingAttributes}" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example declares two <Run FontWeight="Bold">InkCanvas</Run>
+ objects in XAML and establishes data binding between them and other data sources. The first <Run FontWeight="Bold">InkCanvas</Run>
+, called <Run>ic</Run>
+, is bound to two data sources. The EditingMode and <Run FontWeight="Bold">DefaultDrawingAttributes</Run>
+ properties on <Run>ic</Run>
+ are bound to ListBox objects, which are in turn bound to arrays defined in the XAML. The <Run FontWeight="Bold">EditingMode</Run>
+, <Run FontWeight="Bold">DefaultDrawingAttributes</Run>
+, and <Run FontWeight="Bold">Strokes</Run>
+ properties of the second <Run FontWeight="Bold">InkCanvas</Run>
+ are bound to the first <Run FontWeight="Bold">InkCanvas</Run>
+, <Run>ic</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas> 
+&lt;Canvas.Resources> 
+&lt;!--Define an array containing the InkEditingMode Values.--> 
+&lt;x:Array x:Key="MyEditingModes" x:Type="{x:Type InkCanvasEditingMode}"> 
+&lt;x:Static Member="InkCanvasEditingMode.Ink"/> 
+&lt;x:Static Member="InkCanvasEditingMode.Select"/> 
+&lt;x:Static Member="InkCanvasEditingMode.EraseByPoint"/> 
+&lt;x:Static Member="InkCanvasEditingMode.EraseByStroke"/> 
+&lt;/x:Array> 
+&lt;!--Define an array containing some DrawingAttributes.--> 
+&lt;x:Array x:Key="MyDrawingAttributes" x:Type="{x:Type DrawingAttributes}"> 
+&lt;DrawingAttributes Color="Black" FitToCurve="true" Width="3" Height="3"/> 
+&lt;DrawingAttributes Color="Blue" FitToCurve="false" Width="5" Height="5"/> 
+&lt;DrawingAttributes Color="Red" FitToCurve="true" Width="7" Height="7"/> 
+&lt;/x:Array> 
+&lt;!--Create a DataTemplate to display the DrawingAttributes shown above--> 
+&lt;DataTemplate DataType="{x:Type DrawingAttributes}" > 
+&lt;Border Width="80" Height="{Binding Path=Height}"> 
+&lt;Border.Background > 
+&lt;SolidColorBrush Color="{Binding Path=Color}"/> 
+&lt;/Border.Background> 
+&lt;/Border> 
+&lt;/DataTemplate> 
+&lt;/Canvas.Resources> 
+&lt;!--Bind the first InkCavas' DefaultDrawingAtributes to a Listbox, called lbDrawingAttributes, and its EditingMode to a ListBox called lbEditingMode.--> 
+&lt;InkCanvas Name="ic" Background="LightGray" Canvas.Top="0" Canvas.Left="0" Height="400" Width="200" DefaultDrawingAttributes="{Binding ElementName=lbDrawingAttributes, Path=SelectedItem}" EditingMode= "{Binding ElementName=lbEditingMode, Path=SelectedItem}" > 
+&lt;/InkCanvas> 
+&lt;!--Bind the Strokes, DefaultDrawingAtributes, and, EditingMode properties of the second InkCavas the first InkCanvas.--> 
+&lt;InkCanvas Background="LightBlue" Canvas.Top="0" Canvas.Left="200" Height="400" Width="200" Strokes="{Binding ElementName=ic, Path=Strokes}" DefaultDrawingAttributes="{Binding ElementName=ic, Path=DefaultDrawingAttributes}" EditingMode="{Binding ElementName=ic, Path=EditingMode}"> 
+&lt;InkCanvas.LayoutTransform> 
+&lt;ScaleTransform ScaleX="-1" ScaleY="1" /> 
+&lt;/InkCanvas.LayoutTransform> 
+&lt;/InkCanvas> 
+&lt;!--Use the array, MyEditingModes, to populate a ListBox--> 
+&lt;ListBox Name="lbEditingMode" Canvas.Top="0" Canvas.Left="450" Height="100" Width="100" ItemsSource="{StaticResource MyEditingModes}" /> 
+&lt;!--Use the array, MyDrawingAttributes, to populate a ListBox--> 
+&lt;ListBox Name="lbDrawingAttributes" Canvas.Top="150" Canvas.Left="450" Height="100" Width="100" ItemsSource="{StaticResource MyDrawingAttributes}" /> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Data Bind to an InkCanvas to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

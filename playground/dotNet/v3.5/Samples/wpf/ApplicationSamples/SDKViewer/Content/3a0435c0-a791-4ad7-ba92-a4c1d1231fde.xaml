@@ -1,0 +1,618 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3a0435c0_a791_4ad7_ba92_a4c1d1231fde"
+  Tag     ="Using UI Automation for Automated Testing"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Using UI Automation for Automated Testing</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This overview describes how Microsoft UI Automation can be useful as a framework for programmatic access in automated testing scenarios.
+    </Paragraph>
+
+    <Paragraph>UI Automation provides a unified object model that enables all user interface (UI) frameworks to expose complex and rich functionality in an accessible and easily automated manner.
+    </Paragraph>
+
+    <Paragraph>UI Automation was developed as a successor to Microsoft Active Accessibility. Active Accessibility is an existing framework designed to provide a solution for making controls and applications accessible. Active Accessibility was not designed with test automation in mind even though it evolved into that role due to the very similar requirements of accessibility and automation. UI Automation, in addition to providing more refined solutions for accessibility, is also specifically designed to provide robust functionality for automated testing. For example, Active Accessibility relies on a single interface to both expose information about the UI and collect the information needed by AT products; 
+UI Automation separates the two models.
+    </Paragraph>
+
+    <Paragraph>Both a <Run>provider</Run>
+ and <Run>client</Run>
+ are required to implement UI Automation for it to be useful as an automated test tool. UI Automation providers are applications such as Microsoft Word, Excel, and other third-party applications or controls based on the Microsoft Windows operating system. UI Automation clients include automated test scripts and assistive technology applications.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The intent of this overview is to showcase the new and improved automated testing capabilities of UI Automation. This overview is not intended to provide information on accessibility features and will not address accessibility other than where necessary.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Using_UI_Automation_During_Development">UI Automation in a Provider</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Testing_with_UI_Automation">UI Automation in a Client</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Supporting_tools">Related Tools and Technologies</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Security">Security</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">UI Automation in a Provider
+    </Paragraph>
+
+    <Paragraph>For a UI to be automated, a developer of an application or control must look at what actions an end-user can perform on the UI object using standard keyboard and mouse interaction. 
+    </Paragraph>
+
+    <Paragraph>Once these key actions have been identified, the corresponding UI Automation <Run>control patterns</Run>
+ (that is, the control patterns that mirror the functionality and behavior of the UI element) should be implemented on the control. For example, user interaction with a combo box control (such as the run dialog) typically involves expanding and collapsing the combo box to hide or display a list of items, selecting an item from that list, or adding a new value via keyboard input. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>With other accessibility models, developers must gather information directly from individual buttons, menus, or other controls. Unfortunately, every control type comes in dozens of minor variations. In other words, even though ten variations of a pushbutton may all work the same way and perform the same function, they must all be treated as unique controls. There is no way to know that these controls are functionally equivalent. Control patterns were developed to represent these common control behaviors. For more information, see <Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Implementing UI Automation
+    </Paragraph>
+
+    <Paragraph>As mentioned earlier, without the unified model provided by UI Automation, test tools and developers are required to know framework-specific information in order to expose properties and behaviors of controls in that framework. Since there can be several different UI frameworks present at any single time within Windows operating systems, including Win32, Windows Forms, and Windows Presentation Foundation (WPF), it can be a daunting task to test multiple applications with controls that seem similar. For example, the following table outlines the framework-specific property names required to retrieve the name (or text) associated with a button control and shows the single equivalent UI Automation property.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>UI Automation Control Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>UI Framework 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Framework Specific Property 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>UI Automation Property 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Button
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Windows Presentation Foundation
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Content
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>NameProperty
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Button
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Win32
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Caption
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>NameProperty
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Image
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>HTML
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>alt
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>NameProperty
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>UI Automation providers are responsible for mapping the framework-specific properties of their controls to the equivalent UI Automation properties. 
+    </Paragraph>
+
+    <Paragraph>Information on implementing UI Automation in a provider can be found at <Hyperlink NavigateUri="8b391958-6872-4f32-b1ba-5a506b864fff.xaml">UI Automation Providers for Managed Code-Overviews</Hyperlink>
+. Information on implementing control patterns is available at <Hyperlink NavigateUri="1f8b5ab3-c193-4d0f-9e67-a0076225a1a5.xaml">UI Automation Control Patterns</Hyperlink>
+ and <Hyperlink NavigateUri="b51206f2-1281-4ad0-9820-ea39d88ae577.xaml">UI Automation Text Pattern</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">UI Automation in a Client
+    </Paragraph>
+
+    <Paragraph>The goal of many automated test tools and scenarios is the consistent and repeatable manipulation of the user interface. This can involve unit testing specific controls through to the recording and playback of test scripts that iterate through a series of generic actions on a group of controls. 
+    </Paragraph>
+
+    <Paragraph>A complication that arises from automated applications is the difficulty synchronizing a test with a dynamic target. For example, a list box control, such as one contained in the Windows Task Manager, that displays a list of currently running applications. Since the items in the list box are dynamically updated outside the control of the test application, attempting to repeat the selection of a specific item in the list box with any consistency is impossible. Similar issues can also arise when attempting to repeat simple focus changes in a UI that is outside the control of the test application.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Programmatic Access
+    </Paragraph>
+
+    <Paragraph>Programmatic access provides the ability to imitate, through code, any interaction and experience exposed by traditional mouse and keyboard input. UI Automation enables programmatic access through five components.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The UI Automation <Run>tree</Run>
+ facilitates navigation through the structure of the UI. The tree is built from the collection of hWnd's. For more information, see <Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Automation elements</Run>
+ are individual components in the UI. These can often be more granular than an hWnd. For more information, see <Hyperlink NavigateUri="31102dca-1679-43a7-ac2a-c4d35d20af81.xaml">UI Automation Control Types-Overviews</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Automation properties provide specific information about UI elements. For more information, see <Hyperlink NavigateUri="a6c31d7b-b33e-49b3-b5c1-31a345f9b7c8.xaml">UI Automation Properties Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Control patterns define a particular aspect of a control's functionality; 
+they can consist of property, method, event, and structure information. For more information, see <Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Automation events provide event notifications and information. For more information, see <Hyperlink NavigateUri="69eebd8b-39ed-40e7-93cc-4457c4caf746.xaml">UI Automation Events Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Key properties critical to test automation
+    </Paragraph>
+
+    <Paragraph>The ability to uniquely identify and subsequently locate any control within the UI provides the basis for automated test applications to operate on that UI. There are several Microsoft UI Automation properties used by clients and providers that assist in this.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">AutomationID
+    </Paragraph>
+
+    <Paragraph>Uniquely identifies an automation element from its siblings. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AutomationIdProperty does not guarantee a unique identity throughout the automation tree. For example, an application may contain a menu control with multiple top-level menu items that, in turn, have multiple child menu items. These secondary menu items may be identified by a generic scheme such as "Item1, Item 2, Item3, etc.", allowing duplicate identifiers for children across top-level menu items. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>NameProperty can be localized if a product gets shipped in multiple languages limiting its usefulness in a test script; 
+<Run FontWeight="Bold">AutomationIdProperty</Run>
+ is not localized. See <Hyperlink NavigateUri="a24e807b-d7c3-4e93-ac48-80094c4e1c90.xaml">Use the AutomationID Property</Hyperlink>
+ document.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">ControlType
+    </Paragraph>
+
+    <Paragraph>Identifies the type of control represented by an automation element. Significant information can be inferred from knowledge of the control type. See <Hyperlink NavigateUri="31102dca-1679-43a7-ac2a-c4d35d20af81.xaml">UI Automation Control Types-Overviews</Hyperlink>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">NameProperty
+    </Paragraph>
+
+    <Paragraph>This is a text string that identifies or explains a control. <Run FontWeight="Bold">NameProperty</Run>
+ should be used with caution since it can be localized. See <Hyperlink NavigateUri="a6c31d7b-b33e-49b3-b5c1-31a345f9b7c8.xaml">UI Automation Properties Overview</Hyperlink>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">Steps Required To Automate the UI in a Test Application
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Add the UI Automation References
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The UI Automation dll's necessary for UI Automation clients are listed here. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>UIAutomationClient.dll provides access to the UI Automation client-side API's.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UIAutomationClientSideProvider.dll provides the ability to automate Win32 controls. See <Hyperlink NavigateUri="3770ea8a-2655-4add-9c59-fe0610ad5084.xaml">UI Automation Support for Standard Controls</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UIAutomationTypes.dll provides access to the specific types defined in UI Automation.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Add System.Windows.Automation namespace.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This namespace contains everything a UI Automation clients need to use the capabilities of UI Automation except text handling.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Add System.Windows.Automation.Text namespace.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This namespace contains everything a UI Automation clients need to use the capabilities of UI Automation text handling.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Find controls of interest
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Automated test scripts locate UI Automation elements that represent controls of interest within the automation tree.
+    </Paragraph>
+
+    <Paragraph>There are multiple ways to obtain a UI Automation elements with code. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Query the UI (that is, walk the automation tree) using a Condition statement. This is typically where the language-neutral <Run FontWeight="Bold">AutomationIdProperty</Run>
+ is used. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>An <Run FontWeight="Bold">AutomationIdProperty</Run>
+ can be obtained using a tool such as UI Spy that is able to itemize the UI Automation properties of a control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Track focus.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use the hWnd of the control.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use pixel location, such as the location of the mouse cursor.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>See <Hyperlink NavigateUri="c2caaf45-e59c-42a1-bc9b-77a6de520171.xaml">Obtaining UI Automation Elements</Hyperlink>
+
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Obtain Control Patterns 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Control patterns expose common behaviors for functionally similar controls. 
+    </Paragraph>
+
+    <Paragraph>After locating the controls that require testing, automated test scripts obtain the control patterns of interest from those UI Automation elements. For example, the InvokePattern control pattern for typical button functionality or the WindowPattern control pattern for window functionality.
+    </Paragraph>
+
+    <Paragraph>See <Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Automate the UI
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Automated test scripts can now control any UI of interest from a UI framework using the information and functionality exposed by the UI Automation control patterns. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Related Tools and Technologies
+    </Paragraph>
+
+    <Paragraph>There are a number of related tools and technologies that support automated testing with UI Automation.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>UI Spy is a graphical user interface (GUI) application that can be used to gather UI Automation information for both provider and client development and debugging. UI Spy is included in the Windows Software Development Kit (SDK).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UIAutoCmd is a command-line tool with capabilities similar to UI Spy.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>MSAABridge exposes UI Automation information to Active Accessibility clients. The primary goal of bridging UI Automation to Active Accessibility is to allow existing Active Accessibility clients the ability to interact with any framework that has implemented UI Automation.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Security
+    </Paragraph>
+
+    <Paragraph>For security information see <Hyperlink NavigateUri="1d853695-973c-48ae-b382-4132ae702805.xaml">UI Automation Security Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d270ab45-542b-45c0-a240-e80aa4a61b95.xaml">UI Automation Fundamentals</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Using UI Automation for Automated Testing to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

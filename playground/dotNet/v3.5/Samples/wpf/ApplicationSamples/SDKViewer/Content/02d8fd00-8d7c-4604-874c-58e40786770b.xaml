@@ -1,0 +1,955 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_02d8fd00_8d7c_4604_874c_58e40786770b"
+  Tag     ="Threading Model"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Threading Model</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Tyler Barton and Nick Kramer
+    </Paragraph>
+
+    <Paragraph>WPF 
+    </Paragraph>
+
+    <Paragraph>Microsoft Corporation
+    </Paragraph>
+
+    <Paragraph>When we created WPF, we worked very hard to save developers from the difficulties of threading. As a result, the vast majority of WPF programmers will never have to write an interface that uses more than one thread. This is great since multi threaded programs are complex and difficult to debug. They should be avoided when single threaded solutions exist.
+    </Paragraph>
+
+    <Paragraph>No matter how well architected, no UI framework will ever be able to provide a single threaded solution for every sort of problem. WPF comes close, but there are still situations where multiple threads improve user interface (UI) responsiveness or application performance. After discussing some background material, this paper will explore some of these situations. We’ll finish with a discussion of some lower level details for the particularly curious.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="threading_overview">Threading Overview</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="dispatcher_priorities">Dispatcher Priorities</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="samples">Threads in Action: The Samples</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="stumbling_points">Technical Details and Stumbling Points</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Conclusion">Conclusion</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Threading Overview
+    </Paragraph>
+
+    <Paragraph>Typical, WPF applications start their lives with two threads: one for handling rendering and another for managing the UI. The rendering thread effectively runs hidden in the background while the UI thread receives input, handles events, paints the screen, and runs application code. Most applications use a single UI thread, although in some situations it is best to use several. We’ll discuss this with an example later in the paper.
+    </Paragraph>
+
+    <Paragraph>The UI thread queues work items inside an object called a Dispatcher. The <Run FontWeight="Bold">Dispatcher</Run>
+ selects work items on a priority basis and runs each one to completion. Every UI thread must have at least one <Run FontWeight="Bold">Dispatcher</Run>
+ and each <Run FontWeight="Bold">Dispatcher</Run>
+ can execute work items in exactly one thread.
+    </Paragraph>
+
+    <Paragraph>The trick to building responsive, friendly applications is to maximize the <Run FontWeight="Bold">Dispatcher</Run>
+ throughput by keeping the work items small. This way items never get stale sitting in the <Run FontWeight="Bold">Dispatcher</Run>
+ queue waiting for processing. Any perceivable delay between input and response can frustrate a user.
+    </Paragraph>
+
+    <Paragraph>How then are WPF applications supposed to handle big operations? What if my code involves a large calculation or needs to query a database on some remote server? Usually, the answer is to handle the big operation in a separate thread, leaving the UI thread free to tend to items in the <Run FontWeight="Bold">Dispatcher</Run>
+ queue. When the big operation completes, it can report its result back to the UI thread for display.
+    </Paragraph>
+
+    <Paragraph>If there were no complications, and this process was as easy as it sounds, we wouldn’t need to publish this paper. Historically, Windows only allows UI elements to be accessed by the thread that created them. This means that a background thread in charge of some long running task can’t just dump its findings in a textbox when it’s done. Windows does this to ensure the integrity of UI components. A listbox could turn out looking very strange if its contents were updated by a background thread during painting.
+    </Paragraph>
+
+    <Paragraph>WPF has a built in mutual exclusion mechanism that enforces this. Just about every class in WPF descends from DependencyObject. At construction, a <Run FontWeight="Bold">DependencyObject</Run>
+ stores a reference to the <Run FontWeight="Bold">Dispatcher</Run>
+ linked to the currently running thread. In effect, the <Run FontWeight="Bold">DependencyObject</Run>
+ associates with the thread that creates it. During program execution, a <Run FontWeight="Bold">DependencyObject</Run>
+ can call its public VerifyAccess method. <Run FontWeight="Bold">VerifyAccess</Run>
+ examines the <Run FontWeight="Bold">Dispatcher</Run>
+ associated with the current thread and compares it to the <Run FontWeight="Bold">Dispatcher</Run>
+ reference stored during construction. If they don’t match, <Run FontWeight="Bold">VerifyAccess</Run>
+ throws an exception. <Run FontWeight="Bold">VerifyAccess</Run>
+ is intended to be called at the beginning of every method belonging to a <Run FontWeight="Bold">DependencyObject</Run>
+.
+    </Paragraph>
+
+    <Paragraph>With a guarantee that only one thread will ever access our components, we don’t have to worry about writing thread safe code. This saves time and prevents problems, but it also makes it difficult to use multiple threads in a graphical application. If only one thread can modify the UI how do background threads interact with the user? 
+    </Paragraph>
+
+    <Paragraph>A background thread can ask the UI thread to perform an operation on its behalf. It does this by registering a work item with the <Run FontWeight="Bold">Dispatcher</Run>
+ of the UI thread. The <Run FontWeight="Bold">Dispatcher</Run>
+ class provides two methods for registering work items: Invoke and BeginInvoke. Both methods schedule a delegate for execution. <Run FontWeight="Bold">Invoke</Run>
+ is a synchronous call – that is, it doesn’t return until the UI thread actually finishes executing the delegate. <Run FontWeight="Bold">BeginInvoke</Run>
+ is asynchronous and returns immediately.
+    </Paragraph>
+
+    <Paragraph>We will demonstrate these methods in the examples that follow.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dispatcher Priorities
+    </Paragraph>
+
+    <Paragraph>As mentioned earlier, the <Run FontWeight="Bold">Dispatcher</Run>
+ orders the elements in its queue by priority. There are ten levels that may be specified when adding an element to the <Run FontWeight="Bold">Dispatcher</Run>
+ queue. These priorities are maintained in the DispatcherPriority enumeration. Detailed information about <Run FontWeight="Bold">DispatcherPriority</Run>
+ levels can be found in the Windows SDK documentation.
+    </Paragraph>
+
+    <Paragraph>Priority levels fall into three categories: foreground, input, and background. In this paper, we will use two key priority levels: Send and SystemIdle. <Run FontWeight="Bold">Send</Run>
+ is the highest possible level. Events scheduled at this priority will be executed immediately. Conversely, events scheduled at <Run FontWeight="Bold">SystemIdle</Run>
+ will only be executed when the queue is otherwise empty.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Threads in Action: The Samples
+    </Paragraph>
+
+    <Paragraph FontSize="18">A Single Threaded Application with a Long Running Calculation
+    </Paragraph>
+
+    <Paragraph>Most Graphical user interfaces (GUIs) spend a large portion of their time idle while waiting for a user generated event. With a little careful programming this idle time can be used constructively; 
+without affecting the responsiveness of the UI. The WPF threading model doesn’t allow input to interrupt an operation happening in the UI thread. This means we must be sure to return to the <Run FontWeight="Bold">Dispatcher</Run>
+ periodically to process pending input events before they get stale.
+    </Paragraph>
+
+    <Paragraph>Consider the following example:
+    </Paragraph>
+
+    <Paragraph>This simple application counts upwards from 3 searching for prime numbers. When the user clicks the start button, the search begins. When the program finds a prime, it updates the user interface with its discovery. At any point, the user can stop the search.
+    </Paragraph>
+
+    <Paragraph>Although simple enough, this problem presents some difficulties. The prime number search could go on forever. If we handled the entire search inside of the start button’s “click” event handler, we would never give the UI thread a chance to handle other events. The UI would be unable to respond to input and process messages. It would never repaint and never service button clicks.
+    </Paragraph>
+
+    <Paragraph>We could conduct the prime number search in a separate thread, but then we would have to deal with synchronization issues. With a single threaded approach we can directly update the label listing the largest prime found.
+    </Paragraph>
+
+    <Paragraph>If we break up the task of calculation into manageable chunks we can periodically return to the <Run FontWeight="Bold">Dispatcher</Run>
+ and process events. We can give WPF an opportunity to repaint and process input.
+    </Paragraph>
+
+    <Paragraph>The best way to split processing time between calculation and event handling is to manage calculation from the <Run FontWeight="Bold">Dispatcher</Run>
+. Using <Run FontWeight="Bold">BeginInvoke</Run>
+, we can schedule prime number checks in the same queue UI events are drawn from. In our example, we will schedule only a single prime number check at a time. After the prime number check completes we will schedule the next check immediately. This check will proceed only after pending UI events have been handled.
+    </Paragraph>
+
+    <Paragraph>Microsoft Word accomplishes spell checking using this mechanism. Spell checking is done in the background using the idle time of the UI thread. Let's take a look at the code. 
+    </Paragraph>
+
+    <Paragraph>First the XAML:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="SDKSamples.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Prime Numbers" Width="260" Height="75" > 
+&lt;StackPanel Orientation="Horizontal" VerticalAlignment="Center" > 
+&lt;Button Content="Start" Click="StartOrStop" Name="startStopButton" Margin="5 0 5 0" /> 
+&lt;TextBlock Margin="10 5 0 0">Biggest Prime Found:
+&lt;/TextBlock> 
+&lt;TextBlock Name="bigPrime" Margin="4 5 0 0">3
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The code behind:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Threading; 
+using System.Threading; 
+namespace SDKSamples { public partial class Window1 : Window { public delegate void nextPrimeDelegate(); 
+//Current number to check private long num = 3; 
+private bool continueCalculating = false; 
+public Window1() : base() { InitializeComponent(); 
+} public void StartOrStop(object sender, EventArgs e) { if (continueCalculating) { continueCalculating = false; 
+startStopButton.Content = "Resume"; 
+} else { continueCalculating = true; 
+startStopButton.Content = "Stop"; 
+startStopButton.Dispatcher.BeginInvoke( DispatcherPriority.Send, new nextPrimeDelegate(checkNextNumber)); 
+} } public void checkNextNumber() { for (long i = 3; 
+i 
+&lt;= Math.Sqrt(num); 
+i++) { if (num % i == 0) { goto NotAPrime; 
+} } bigPrime.Text = num.ToString(); 
+NotAPrime: num += 2; 
+if (continueCalculating) { startStopButton.Dispatcher.BeginInvoke( System.Windows.Threading.DispatcherPriority.SystemIdle, new nextPrimeDelegate(this.checkNextNumber)); 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This is the event handler for the Button. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void StartOrStop(object sender, EventArgs e) { if (continueCalculating) { continueCalculating = false; 
+startStopButton.Content = "Resume"; 
+} else { continueCalculating = true; 
+startStopButton.Content = "Stop"; 
+startStopButton.Dispatcher.BeginInvoke( DispatcherPriority.Send, new nextPrimeDelegate(checkNextNumber)); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Besides updating the text on the <Run FontWeight="Bold">Button</Run>
+, this handler is responsible for scheduling the first prime number check by adding a delegate to the <Run FontWeight="Bold">Dispatcher</Run>
+ queue. Sometime after this event handler has completed, the <Run FontWeight="Bold">Dispatcher</Run>
+ will select this delegate for execution.
+    </Paragraph>
+
+    <Paragraph>As we mentioned earlier, <Run FontWeight="Bold">BeginInvoke</Run>
+ is the <Run FontWeight="Bold">Dispatcher</Run>
+ member used to schedule a delegate for execution. In this case, we choose the SystemIdle priority. The <Run FontWeight="Bold">Dispatcher</Run>
+ will only execute this delegate when there are no important events to process. UI responsiveness is more important than number checking. We also pass a new delegate representing our number checking routine.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void checkNextNumber() { for (long i = 3; 
+i 
+&lt;= Math.Sqrt(num); 
+i++) { if (num % i == 0) { goto NotAPrime; 
+} } bigPrime.Text = num.ToString(); 
+NotAPrime: num += 2; 
+if (continueCalculating) { startStopButton.Dispatcher.BeginInvoke( System.Windows.Threading.DispatcherPriority.SystemIdle, new nextPrimeDelegate(this.checkNextNumber)); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This function checks if the next odd number is prime. If it is prime, the function directly updates the bigPrime TextBlock to reflect its discovery. We can do this because the calculation is occurring in the same thread that was used to create the component. Had we chosen to use a separate thread for the calculation, we would have to use a more complicated synchronization mechanism and execute the update in the UI thread. We’ll demonstrate this situation next.
+    </Paragraph>
+
+    <Paragraph>Here is the complete code for this sample, Single Threaded Application With Long Running Calculation Sample
+    </Paragraph>
+
+    <Paragraph FontSize="18">Handling a Blocking Operation with a Background Thread
+    </Paragraph>
+
+    <Paragraph>Handling some blocking operations in a graphical application can be sticky. We don’t want to call blocking functions from event handlers because the application will appear to freeze up. We can use a separate thread to handle these operations, but when we’re done, we have to synchronize with the UI thread, since we can’t directly modify the GUI from our worker thread. We can use <Run FontWeight="Bold">Invoke</Run>
+ or <Run FontWeight="Bold">BeginInvoke</Run>
+ to insert delegates into the <Run FontWeight="Bold">Dispatcher</Run>
+ of the UI thread. Eventually, these delegates will be executed with permission to modify UI elements.
+    </Paragraph>
+
+    <Paragraph>In this example we will mimic a remote procedure call that retrieves a weather forecast. We’ll use a separate worker thread to execute this call, and we’ll schedule an update function in the <Run FontWeight="Bold">Dispatcher</Run>
+ of the UI thread when we’re done.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Media.Imaging; 
+using System.Windows.Shapes; 
+using System.Windows.Threading; 
+using System.Threading; 
+namespace SDKSamples { public partial class Window1 : Window { // Delegates to be used in placking jobs onto the Dispatcher. private delegate void NoArgDelegate(); 
+private delegate void OneArgeDelegate(String arg); 
+// Storyboards for the animations. private Storyboard showClockFaceStoryboard; 
+private Storyboard hideClockFaceStoryboard; 
+private Storyboard showWeatherImageStoryboard; 
+private Storyboard hideWeatherImageStoryboard; 
+public Window1(): base() { InitializeComponent(); 
+} private void window_Loaded(object sender, RoutedEventArgs e) { // Load the storyboard resources. showClockFaceStoryboard = (Storyboard)this.Resources["ShowClockFaceStoryboard"]; 
+hideClockFaceStoryboard = (Storyboard)this.Resources["HideClockFaceStoryboard"]; 
+showWeatherImageStoryboard = (Storyboard)this.Resources["ShowWeatherImageStoryboard"]; 
+hideWeatherImageStoryboard = (Storyboard)this.Resources["HideWeatherImageStoryboard"]; 
+} private void forecastButtonHandler(object sender, RoutedEventArgs e) { // Change the status image and start the rotation animation. fetchButton.IsEnabled = false; 
+fetchButton.Content = "Contacting Server"; 
+weatherText.Text = ""; 
+hideWeatherImageStoryboard.Begin(this); 
+// Start fetching the weather forecast asynchronously. NoArgDelegate fetcher = new NoArgDelegate( this.fetchWeatherFromServer); 
+fetcher.BeginInvoke(null, null); 
+} private void fetchWeatherFromServer() { // Simulate the delay from network access. Thread.Sleep(4000); 
+// Tried and true method for weather forecasting - random numbers. Random rand = new Random(); 
+String weather; 
+if (rand.Next(2) == 0) { weather = "rainy"; 
+} else { weather = "sunny"; 
+} // Schedule the update function in the UI thread. tomorrowsWeather.Dispatcher.BeginInvoke( System.Windows.Threading.DispatcherPriority.Normal, new OneArgeDelegate(updateUserInterface), weather); 
+} private void updateUserInterface(String weather) { //Set the weather image if (weather == "sunny") { weatherIndicatorImage.Source = (ImageSource)this.Resources[ "SunnyImageSource"]; 
+} else if (weather == "rainy") { weatherIndicatorImage.Source = (ImageSource)this.Resources[ "RainingImageSource"]; 
+} //Stop clock animation showClockFaceStoryboard.Stop(this); 
+hideClockFaceStoryboard.Begin(this); 
+//Update UI text fetchButton.IsEnabled = true; 
+fetchButton.Content = "Fetch Forecast"; 
+weatherText.Text = weather; 
+} private void HideClockFaceStoryboard_Completed(object sender, EventArgs args) { showWeatherImageStoryboard.Begin(this); 
+} private void HideWeatherImageStoryboard_Completed(object sender, EventArgs args) { showClockFaceStoryboard.Begin(this, true); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>1) The Button Handler
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void forecastButtonHandler(object sender, RoutedEventArgs e) { // Change the status image and start the rotation animation. fetchButton.IsEnabled = false; 
+fetchButton.Content = "Contacting Server"; 
+weatherText.Text = ""; 
+hideWeatherImageStoryboard.Begin(this); 
+// Start fetching the weather forecast asynchronously. NoArgDelegate fetcher = new NoArgDelegate( this.fetchWeatherFromServer); 
+fetcher.BeginInvoke(null, null); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the button is clicked, we display the clock drawing and start animating it. We disable the button. We invoke fetchWeatherFromServer in a new thread, then we return, allowing the <Run FontWeight="Bold">Dispatcher</Run>
+ to process events while we wait to collect the weather forecast.
+    </Paragraph>
+
+    <Paragraph>2) Fetching the Weather
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void fetchWeatherFromServer() { // Simulate the delay from network access. Thread.Sleep(4000); 
+// Tried and true method for weather forecasting - random numbers. Random rand = new Random(); 
+String weather; 
+if (rand.Next(2) == 0) { weather = "rainy"; 
+} else { weather = "sunny"; 
+} // Schedule the update function in the UI thread. tomorrowsWeather.Dispatcher.BeginInvoke( System.Windows.Threading.DispatcherPriority.Normal, new OneArgeDelegate(updateUserInterface), weather); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To keep things simple, we don’t actually have any networking code in this example. Instead, we simulate the delay of network access by putting our new thread to sleep for four seconds. In this time, the original UI thread is still running and responding to events. To prove this to you, we’ve left an animation running. The minimize and maximize buttons also continue to work.
+    </Paragraph>
+
+    <Paragraph>When the delay is finished, and we’ve randomly selected our weather forecast, it’s time to report back to the UI thread. We do this by scheduling a call to updateUserInterface in the UI thread using that thread’s <Run FontWeight="Bold">Dispatcher</Run>
+. We pass a string describing the weather to this scheduled function call.
+    </Paragraph>
+
+    <Paragraph>3) Updating the UI
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void updateUserInterface(String weather) { //Set the weather image if (weather == "sunny") { weatherIndicatorImage.Source = (ImageSource)this.Resources[ "SunnyImageSource"]; 
+} else if (weather == "rainy") { weatherIndicatorImage.Source = (ImageSource)this.Resources[ "RainingImageSource"]; 
+} //Stop clock animation showClockFaceStoryboard.Stop(this); 
+hideClockFaceStoryboard.Begin(this); 
+//Update UI text fetchButton.IsEnabled = true; 
+fetchButton.Content = "Fetch Forecast"; 
+weatherText.Text = weather; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the <Run FontWeight="Bold">Dispatcher</Run>
+ in the UI thread has time, it will execute the scheduled call to updateUserInterface. This method stops the clock animation, and chooses an image to describe the weather. It displays this image, and restores the “fetch forecast” button.
+    </Paragraph>
+
+    <Paragraph>Here is the complete code for this sample, Weather Service Simulation Via Dispatcher Sample
+    </Paragraph>
+
+    <Paragraph FontSize="18">Multiple Windows, Multiple Threads
+    </Paragraph>
+
+    <Paragraph>Some WPF applications will require multiple top level windows. It’s perfectly acceptable for one Thread/<Run FontWeight="Bold">Dispatcher</Run>
+ team to manage multiple windows, but sometimes several threads do a better job. This is especially true if there’s any chance that one of the windows will monopolize the thread.
+    </Paragraph>
+
+    <Paragraph>Windows Explorer works in this fashion. Every new explorer window belongs to the original process, but is created under the control of an independent thread.
+    </Paragraph>
+
+    <Paragraph>Using a WPF Frame control, we can display web pages. We can very easily create a simple internet explorer substitute. We’ll start with an important feature: the ability to open a new explorer window.
+    </Paragraph>
+
+    <Paragraph>When the user clicks the “new window” button, we launch a copy of our window in a separate thread. This way, long running or blocking operations in one of the windows won’t lock all the other windows.
+    </Paragraph>
+
+    <Paragraph>In reality, the web browser model has its own complicated threading model. We’ve chosen it because it should be familiar to most readers and it’s easy to believe that a web browser could monopolize the UI thread controlling it.
+    </Paragraph>
+
+    <Paragraph>Here's the CODE:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="SDKSamples.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="MultiBrowse" Height="600" Width="800" Loaded="OnLoaded" > 
+&lt;StackPanel Name="Stack" Orientation="Vertical"> 
+&lt;StackPanel Orientation="Horizontal"> 
+&lt;Button Content="New Window" Click="NewWindowHandler" /> 
+&lt;TextBox Name="newLocation" Width="500" /> 
+&lt;Button Content="GO!" Click="Browse" /> 
+&lt;/StackPanel> 
+&lt;Frame Name="PlaceHolder" Width="800" Height="550">
+&lt;/Frame> 
+&lt;/StackPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Data; 
+using System.Windows.Threading; 
+using System.Threading; 
+namespace SDKSamples { public partial class Window1 : Window { public Window1() : base() { InitializeComponent(); 
+} private void OnLoaded(object sender, RoutedEventArgs e) { PlaceHolder.Source = new Uri("http://www.msn.com"); 
+} private void Browse(object sender, RoutedEventArgs e) { PlaceHolder.Source = new Uri(newLocation.Text); 
+} private void NewWindowHandler(object sender, RoutedEventArgs e) { Thread newWindowThread = new Thread(new ThreadStart(ThreadStartingPoint)); 
+newWindowThread.SetApartmentState(ApartmentState.STA); 
+newWindowThread.Start(); 
+} private void ThreadStartingPoint() { Window1 tempWindow = new Window1(); 
+tempWindow.Show(); 
+System.Windows.Threading.Dispatcher.Run(); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The threading segments of this code are the most interesting to us in the context of this paper so we'll go over them.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void NewWindowHandler(object sender, RoutedEventArgs e) { Thread newWindowThread = new Thread(new ThreadStart(ThreadStartingPoint)); 
+newWindowThread.SetApartmentState(ApartmentState.STA); 
+newWindowThread.Start(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This function is called when the “new window” button is clicked. It creates a new thread and starts it asynchronously.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void ThreadStartingPoint() { Window1 tempWindow = new Window1(); 
+tempWindow.Show(); 
+System.Windows.Threading.Dispatcher.Run(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This method is the starting point for the new thread. We create a new window under the control of this thread. WPF automatically creates a new <Run FontWeight="Bold">Dispatcher</Run>
+ to manage our new thread. All we have to do to make our window functional is ask this <Run FontWeight="Bold">Dispatcher</Run>
+ to start running.
+    </Paragraph>
+
+    <Paragraph>Here is the complete code for this sample, Multithreading Web Browser Sample
+    </Paragraph>
+
+    <Paragraph FontSize="22">Technical Details and Stumbling Points
+    </Paragraph>
+
+    <Paragraph FontSize="18">Writing Components Using Threading
+    </Paragraph>
+
+    <Paragraph>The Microsoft .NET Framework Developer's Guide describes a pattern for how a component can expose asynchronous behavior to its clients (<Hyperlink>http://msdn2.microsoft.com/en-us/library/wewwczdw.aspx</Hyperlink>
+). For instance, suppose we wanted to package the fetchWeatherFromServer() function into a reusable, non-graphical component. Following the standard Microsoft .NET Framework pattern, this would look something like:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class WeatherComponent : Component { //gets weather: Synchronous public string GetWeather() { string weather = ""; 
+//predict the weather return weather; 
+} //get weather: Asynchronous public void GetWeatherAsync() { //get the weather } public event GetWeatherCompletedEventHandler GetWeatherCompleted; 
+} public class GetWeatherCompletedEventArgs : AsyncCompletedEventArgs { public GetWeatherCompletedEventArgs(Exception error, bool canceled, object userState, string weather) : base(error, canceled, userState) { _weather = weather; 
+} public string Weather { get { return _weather; 
+} } private string _weather; 
+} public delegate void GetWeatherCompletedEventHandler(object sender, GetWeatherCompletedEventArgs e); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>GetWeatherAsync would use one of the techniques described previously in this article, such as creating a background thread, to do the work asynchronously – i.e., not blocking the calling thread. 
+    </Paragraph>
+
+    <Paragraph>One of the most important parts of this pattern is calling the <Run FontStyle="italic">MethodName</Run>
+<Run FontWeight="Bold">Completed</Run>
+ method on the same thread that called the <Run FontStyle="italic">MethodName</Run>
+<Run FontWeight="Bold">Async</Run>
+ method to begin with. You could do this using WPF fairly easily, by storing away CurrentDispatcher–but then your non-graphical component could only be used in WPF applications, not in Windows Forms or ASP.NET programs. 
+    </Paragraph>
+
+    <Paragraph>The DispatcherSynchronizationContext class addresses this need–think of it as a simplified version of <Run FontWeight="Bold">Dispatcher</Run>
+ that works with other UI frameworks as well.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class WeatherComponent2 : Component { public string GetWeather() { return fetchWeatherFromServer(); 
+} private DispatcherSynchronizationContext requestingContext = null; 
+public void GetWeatherAsync() { if (requestingContext != null) throw new InvalidOperationException("This component can only handle 1 async request at a time"); 
+requestingContext = (DispatcherSynchronizationContext)DispatcherSynchronizationContext.Current; 
+NoArgDelegate fetcher = new NoArgDelegate(this.fetchWeatherFromServer); 
+// Launch thread fetcher.BeginInvoke(null, null); 
+} private void RaiseEvent(GetWeatherCompletedEventArgs e) { if (GetWeatherCompleted != null) GetWeatherCompleted(this, e); 
+} private string fetchWeatherFromServer() { // do stuff string weather = ""; 
+GetWeatherCompletedEventArgs e = new GetWeatherCompletedEventArgs(null, false, null, weather); 
+SendOrPostCallback callback = new SendOrPostCallback(DoEvent); 
+requestingContext.Post(callback, e); 
+requestingContext = null; 
+return e.Weather; 
+} private void DoEvent(object e) { //do stuff } public event GetWeatherCompletedEventHandler GetWeatherCompleted; 
+public delegate string NoArgDelegate(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Nested Pumping
+    </Paragraph>
+
+    <Paragraph>Sometimes it’s not feasible to completely lock up the UI thread. Let’s consider the Show function of the MessageBox class. <Run FontWeight="Bold">Show</Run>
+ doesn’t return until the user clicks the “ok” button. It does, however, create a window that must have a message loop in order to be interactive. While we’re waiting for the user to click “ok” the original application window does not respond to user input. It does, however, continue to process paint messages. You’ll notice that the original window redraws itself when covered and revealed. 
+    </Paragraph>
+
+    <Paragraph>Some thread must be in charge of the popup. WPF could create a new thread just for the popup, but this thread would be unable to paint the disabled elements in the original window (remember the mutual exclusion section from the beginning of the document). Instead, WPF uses a nested message processing system. The <Run FontWeight="Bold">Dispatcher</Run>
+ class includes a special method called PushFrame. <Run FontWeight="Bold">PushFrame</Run>
+ stores an application’s current execution point then begins a new message loop. When the nested message loop finishes, execution resumes after the original <Run FontWeight="Bold">PushFrame</Run>
+ call.
+    </Paragraph>
+
+    <Paragraph>In this case, <Run FontWeight="Bold">PushFrame</Run>
+ maintains the program context at the call to <Run FontWeight="Bold">MessageBox</Run>
+.<Run FontWeight="Bold">Show</Run>
+, and starts a new message loop to repaint the background window and handle input to the popup. When the user clicks “ok” and clears the popup, the nested loop exits and control resumes after the call to <Run FontWeight="Bold">Show</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Stale Routed Events
+    </Paragraph>
+
+    <Paragraph>The routed event system in WPF notifies entire trees when events are raised.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas MouseLeftButtonDown="handler1" Width="100" Height="100" > 
+&lt;Ellipse Width="50" Height="50" Fill="Blue" Canvas.Left="30" Canvas.Top="50" MouseLeftButtonDown="handler2" /> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the left mouse button is pressed over the ellipse, handler2 is executed. After handler2 finishes, the event will be passed along to the Canvas object which will use handler1 to process it. This will only happen if handler2 does not explicitly mark the event object as handled.
+    </Paragraph>
+
+    <Paragraph>It’s possible that handler2 will take a great deal of time processing this event. Handler2 might use <Run FontWeight="Bold">PushFrame</Run>
+ to begin a nested message loop that doesn’t return for hours. If handler2 does not mark the event as handled when this message loop completes, the event will be passed up the tree even though it is very old.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Reentrancy and Locking
+    </Paragraph>
+
+    <Paragraph>The locking mechanism of the Common language runtime (CLR) doesn’t behave exactly as one might imagine. One might expect a thread to cease operation completely when requesting a lock. In actuality, the thread continues to receive and process high priority messages. This helps prevent deadlocks and make interfaces minimally responsive but introduces the possibility for subtle bugs. The vast majority of the time you don’t need to know anything about this, it all just works, but under rare circumstances (usually involving Win32 window messages or COM STA components) this can be worth knowing.
+    </Paragraph>
+
+    <Paragraph>Most interfaces are not built with thread safety in mind because programmers work under the assumption that no UI component can ever be accessed by more than one thread. In this case, that single thread may make environmental changes at unexpected times, causing those ill effects that the DispatcherObject mutual exclusion mechanism is supposed to solve. Consider the following pseudo code:
+    </Paragraph>
+
+    <Paragraph>Most of the time that’s the right thing, but there are times in WPF where such unexpected reentrancy can really cause problems. So, at certain key times, WPF calls DisableProcessing which changes the lock instruction for that thread to use the WPF reentrancy-free lock, instead of the usual CLR lock. 
+    </Paragraph>
+
+    <Paragraph>The locking behavior of the CLR has been, to say the least, a controversial issue. So why did the CLR team choose this behavior? It had to do with COM STA objects and the finalization thread. When an object is garbage collected, its Finalize method is run on the dedicated finalizer thread, not the UI thread. And therein lies the problem, because a COM STA object that was created on the UI thread can only be disposed on the UI thread. The CLR does the moral equivalent of a <Run FontWeight="Bold">BeginInvoke</Run>
+ (in this case using Win32’s SendMessage). But if the UI thread is busy, the finalizer thread is stalled and the COM STA object can’t be disposed, which creates a nasty memory leak. So the CLR team made the tough call that in order to fix these really nasty leaks, they had to make locks work the way they do. 
+    </Paragraph>
+
+    <Paragraph>Chris Brumme’s blog has some really interesting stuff on this, see <Hyperlink>http://blogs.msdn.com/cbrumme/arc</Hyperlink>
+. The trick for us WPF folks has been how to avoid unexpected reentrancy without reintroducing the memory leak, which is why we don’t block reentrancy everywhere.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Conclusion
+    </Paragraph>
+
+    <Paragraph>If nothing else this paper probably taught you that multi threaded WPF applications are complicated. Avoid them when you can! If you program with WPF long enough you’ll undoubtedly run into situations where multiple threads are needed to keep the quality of your application high. Hopefully, the explanations and examples in this paper will help you build the clear, efficient solutions you’re looking for.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Single Threaded Application With Long Running Calculation
+      <LineBreak/>Weather Service Simulation Via Dispatcher
+      <LineBreak/>Multithreading Web Browser Sample
+      <LineBreak/>Check Thread Access Via Dispatcher
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Threading Model to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

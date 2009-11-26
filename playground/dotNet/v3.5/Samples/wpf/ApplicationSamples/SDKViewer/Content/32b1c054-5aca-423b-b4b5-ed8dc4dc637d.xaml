@@ -1,0 +1,1804 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_32b1c054_5aca_423b_b4b5_ed8dc4dc637d"
+  Tag     ="Application Management Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Application Management Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Application class encapsulates the various services that are needed by Windows Presentation Foundation (WPF) applications, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Managing application lifetime and core infrastructure.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Retrieving and processing command-line parameters.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Application-scope properties and resources.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Detecting and responding to unhandled exceptions.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Returning exit codes.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This topic provides an overview of these services, starting with an introduction to the <Run FontWeight="Bold">Application</Run>
+ class, how to define an application, application lifetime, and the additional services provided by <Run FontWeight="Bold">Application</Run>
+.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="TheApplicationClass">The Application Class</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="CreatingAnApplicationDefinition">Creating an Application Definition</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="ConfiguringAnApplicationDefinitionForMSBuild">Configuring the Application Definition for MSBuild</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="ApplicationLifetime">Application Lifetime</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="ApplicationOtherApplicationServices">Other Application Services</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">The Application Class
+    </Paragraph>
+
+    <Paragraph>In WPF, an application is encapsulated by the <Run FontWeight="Bold">Application</Run>
+ class. The <Run FontWeight="Bold">Application</Run>
+ provides the following fundamental services:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Entry point implementation.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Command line arguments and exit codes.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Application lifetime management.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Application-Scope properties and resources.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Unhandled exception detection and handling.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Application</Run>
+ provides additional window management support for standalone applications, which is covered further in <Hyperlink NavigateUri="737d04ec-8861-46c3-8d44-fa11d3528d23.xaml">Windows Presentation Foundation Windows Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>For XAML browser applications (XBAPs), and standalone applications with navigation windows and frames, <Run FontWeight="Bold">Application</Run>
+ implements several events for application-scope navigation handling. These are discussed in <Hyperlink NavigateUri="86ad2143-606a-4e34-bf7e-51a2594248b8.xaml">Navigation Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Creating an Application Definition
+    </Paragraph>
+
+    <Paragraph>A typical WPF application is defined using both markup and code-behind. This allows you to use markup to declaratively set application properties, resources, and register events, while handling the events and implementing application-specific behavior in code-behind. The following example shows how to define an application using both markup and code-behind:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CSharp.App" /> using System.Windows; 
+public partial class App : Application { public App() { InitializeComponent(); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To allow a markup file and code-behind file to work together, the following needs to happen:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>In markup, the <Run FontWeight="Bold">Application</Run>
+ element must include the <Run FontWeight="Bold">x:Class</Run>
+ attribute, which instructs the MSBuild to create a partial class for the markup file when the project is built. The use of <Run FontWeight="Bold">x:Class</Run>
+ requires the additional XML namespace declaration: xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml".
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In code-behind, the class must be declared as a partial class with the same name as the <Run FontWeight="Bold">x:Class</Run>
+ attributed in markup. This allows the code-behind file to be associated with the partial class that is generated for the markup file when the project is built (see <Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In code-behind, the class must implement a constructor that calls the <Run FontWeight="Bold">InitializeComponent</Run>
+ method. <Run FontWeight="Bold">InitializeComponent</Run>
+ is implemented by the markup file's generated partial class, whose role is to hook up events and set properties that are defined in markup.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>When you create a new Windows Application (WPF) project or XAML Browser Application (WPF) project using Microsoft Visual Studio, an application definition is included by default, and is defined using both markup and code-behind.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This minimal application definition is all the code that you need to write to create a working WPF application. However, the application definition needs to be built in a special way, which relies on additional MSBuild configuration.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Configuring the Application Definition for MSBuild
+    </Paragraph>
+
+    <Paragraph>All WPF standalone applications and XBAPs require the implementation of a certain level of infrastructure to be able to run. Primarily, this includes an entry point function, which is a well known function that the operating system calls to start an application. Traditionally, developers have needed to write some degree of this code for themselves, if not all of it. However, WPFallows will generate all of this code for by configuring the application definition's markup file as an MSBuild <Run FontWeight="Bold">ApplicationDefinition</Run>
+ item. The necessary configuration is shown in the following example:
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;Project </Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>DefaultTargets="Build"</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>xmlns="http://schemas.microsoft.com/developer/msbuild/2003"></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>...</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;ApplicationDefinition Include="App.xaml" /></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;Compile Include="App.xaml.cs" /></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>...</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;/Project></Run>
+
+    </Paragraph>
+
+    <Paragraph>Here, the code-behind file is configured as an MSBuild <Run FontWeight="Bold">Compile</Run>
+ item. Furthermore, the code-behind file has the same file name as the markup file, with an additional language-specific suffix (<Run FontWeight="Bold">.cs</Run>
+ or <Run FontWeight="Bold">.vb</Run>
+). This is not required, although makes your configuration more maintainable through the implicit association.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For in-depth coverage of building WPF applications, see <Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The effect of the combination of application definition and MSBuild configuration causes MSBuild to generate code like the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class App : Application { public App() {} [STAThread] public App(); 
+public static void Main() { App app = new App(); 
+app.Run(); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When this application is launched, Windows will call the entry point function (<Run FontWeight="Bold">Main</Run>
+ in both and Microsoft Visual Basic). In turn, the entry point function creates a new instance of the application.
+    </Paragraph>
+
+    <Paragraph>At most, there can only be one instance of the <Run FontWeight="Bold">Application</Run>
+ class or a subclass per application. For this reason, and to support shared access to a single set of application-scope properties and resources (discussed later), Application is implemented as a singleton. To access the singleton instance, you get the reference that is returned by Current:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Get reference to application App currentApp = (App)Application.Current;</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>See <Run FontWeight="Bold">Application</Run>
+ for more information.
+    </Paragraph>
+
+    <Paragraph>In the generated code, you'll notice that, after App is instantiated, the Run method is called; 
+this is the point at which the life of a WPF application begins.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>There are situations where you need to write this code yourself, such as to perform single instance detection. See Single Instance Detection Sample for more information.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Application Lifetime
+    </Paragraph>
+
+    <Paragraph>At a high level, the lifetime of a WPF application starts when it is launched by the operating system, and the lifetime of an application is dependent on one of the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The lifetime of an application's windows.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Whether the application is manually shutdown.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Whether exceptions are unhandled.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When a user ends the session by logging off or shutting down.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This topic covers the high level aspects of the lifetime of a WPF application.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Starting an Application
+    </Paragraph>
+
+    <Paragraph>When <Run FontWeight="Bold">Run</Run>
+ is called, a WPF application starts running by establishing the application infrastructure within which your application code will run. When this stage is completed, <Run FontWeight="Bold">Application</Run>
+ lets you know by raising the Startup event, shown here:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CSharp.App" <Run FontWeight="Bold">Startup="app_Startup"</Run>
+ /> public partial class App : Application { <Run FontWeight="Bold">void OnStartup(object sender, StartupEventArgs e)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">// Application is running</Run>
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Ultimately, when you create an application definition as an MSBuild <Run FontWeight="Bold">ApplicationDefinition</Run>
+ item, all the work of launching, running, and establishing application infrastructure is performed on your behalf by WPF. This means that you only need to spend time building the functionality that is specific to your application's startup needs, which almost always includes showing a UI, and sometimes includes processing command-line arguments.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Showing a User Interface
+    </Paragraph>
+
+    <Paragraph>Because most Windows applications open a user interface when they start, handling <Run FontWeight="Bold">Startup</Run>
+ is the ideal location to do so. For standalone applications, this involves showing a window:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class App : Application { <Run FontWeight="Bold">void OnStartup(object sender, StartupEventArgs e)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">// Application is running</Run>
+ // Show the main window MainWindow mainWindow = new MainWindow(); 
+mainWindow.Show(); 
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>However, if the only reason you are handling <Run FontWeight="Bold">Startup</Run>
+ is to show a window, you can instead declare the window to show on startup in XAML, using StartupUri:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CSharp.App" <Run FontWeight="Bold">StartupUri="MainWindow.xaml"</Run>
+ /></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If the of a standalone application is built using pages, instead of windows, you can also use <Run FontWeight="Bold">StartupUri</Run>
+ to specify the start page:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CSharp.App" <Run FontWeight="Bold">StartupUri="HomePage.xaml"</Run>
+ /></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For standalone applications, Application will automatically create an instance of NavigationWindow and navigate it to the specified page. You can also use <Run FontWeight="Bold">StartupUri</Run>
+ to specify the start page of an XBAP application, in which case the hosting browser is navigated to the specified page.
+    </Paragraph>
+
+    <Paragraph>For windows, there are two situations where you will need to handle <Run FontWeight="Bold">Startup</Run>
+ to show a window, which include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>When you need to instantiate a window by using a non-default constructor.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If you need to set properties on a window before showing it, and the values of the properties are only known at run time.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>And, you will definitely need to handle <Run FontWeight="Bold">Startup</Run>
+ if you want to process command-line arguments when your application starts.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Processing Command-Line Arguments
+    </Paragraph>
+
+    <Paragraph>In, standalone applications can be launched from the command prompt or the desktop. In both cases, command-line arguments can be passed to the application, like the following example shows for an application that is launched from a command prompt:
+    </Paragraph>
+
+    <Paragraph><Run>wpfapplication.exe /winstate:maximized</Run>
+
+    </Paragraph>
+
+    <Paragraph>During application initialization, WPF retrieves the command-line arguments from the operating system and passes them to the <Run FontWeight="Bold">Startup</Run>
+ event via the Args property of the StartupEventArgs parameter. You can retrieve and store the command-line arguments using code like the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>namespace CommandLineArgumentSample { using System; 
+using System.Collections; 
+using System.Text.RegularExpressions; 
+using System.Windows; 
+/// 
+&lt;summary> /// This sample expects zero or more command line args, where each arg /// has the following format: /// /argname:argvalue /// 
+&lt;/summary> public partial class App : Application { // Indexed command line args using hash table public static Hashtable CommandLineArgs = new Hashtable(); 
+void app_Startup(object sender, StartupEventArgs e) { // Don't bother if no command line args were passed // NOTE: e.Args is never null - if no command line args were passed, // the length of e.Args is 0. if (e.Args.Length == 0) return; 
+// Parse command line args using regular expressions // For regular expression information, see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpcongroupingconstructs.asp string pattern = @"(?
+&lt;argname>/\w+):(?
+&lt;argvalue>\w+)"; 
+foreach (string arg in e.Args) { Match match = Regex.Match(arg, pattern); 
+// If match not found, command line args are improperly formed. if (!match.Success) throw new ArgumentException("The command line arguments are improperly formed. Use /argname:argvalue."); 
+// Store command line arg and value CommandLineArgs[match.Groups["argname"].Value] = match.Groups["argvalue"].Value; 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>See the Processing Command Line Arguments Sample for more information.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Application Activation and Deactivation
+    </Paragraph>
+
+    <Paragraph>When an application is finally running, it is likely to have some kind of UI. For standalone applications, the UI will either be a window that is defined by you or a <Run FontWeight="Bold">NavigationWindow</Run>
+ that was created by <Run FontWeight="Bold">Application</Run>
+ to host a page that is defined by you. While either of these types of applications is running, users may switch between them and other applications that they may currently have running. A user really switches from one application to another by activating a window in another application. When this happens, the application deactivates, which is a situation that can be detected by handling Deactivated. Likewise, when a user switches back to the application by selecting one of its windows, the application activates and, consequently, Activated is raised and can be handled using the following code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Application x:Class="CSharp.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="MainWindow.xaml" Activated="App_Activated" Deactivated="App_Deactivated" > 
+&lt;/Application> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+namespace CSharp { public partial class App : Application { private bool isApplicationActive; 
+void App_Activated(object sender, EventArgs e) { // Activated this.isApplicationActive = true; 
+} void App_Deactivated(object sender, EventArgs e) { // Deactivated this.isApplicationActive = false; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Although Window raises its own Activated and Deactivated events, you would only handle them with code that is specific to a particular window. If you have activation and deactivation logic that is application-scoped, rather than window-scoped, you can handle <Run FontWeight="Bold">Activated</Run>
+<Run FontWeight="Bold">Deactivated</Run>
+ appropriately.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Unhandled Exceptions
+    </Paragraph>
+
+    <Paragraph>While an application is running, application code may cause an unanticipated exception to be raised. The default WPF behavior in the face of unhandled exceptions is to display a default dialog box, shown in the following figure, before shutting the application down.
+    </Paragraph>
+
+    <Paragraph>From the user experience perspective, it is better for an application to avoid this default behavior by providing a common mechanism for detecting unhandled exceptions, providing more descriptive information to users, and, where possible, attempting to keep an application running. If an unhandled exception cannot be recovered from, and the application must shut down, the application should also log some type of descriptive information, typically in the Windows event log. Implementing this support depends on being able to detect unhandled exceptions, which is what DispatcherUnhandledException is raised for:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System; 
+using System.Diagnostics; 
+using System.Windows; 
+using System.Windows.Threading; 
+namespace CSharp { public partial class App : Application { void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) { // Process unhandled exception <Run>... </Run>
+ // Prevent default unhandled exception processing e.Handled = true; 
+} } } </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">DispatcherUnhandledException</Run>
+ event handler is passed a DispatcherUnhandledExceptionEventArgs argument that contains contextual information regarding the unhandled exception, including the exception itself (Exception) and the Dispatcher from which it originated (Dispatcher). You can use this information to determine whether an exception is recoverable or not. A recoverable exception might be a FileNotFoundException, for example, while an unrecoverable exception might be a StackOverflowException, for example.
+    </Paragraph>
+
+    <Paragraph>Whenever you handle <Run FontWeight="Bold">DispatcherUnhandledException</Run>
+, you should set the Handled property to <Run FontWeight="Bold">true</Run>
+. Otherwise, WPF considers the exception to still be unhandled and will show an exception dialog box before shutting down the application, as per the default behavior.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>If an unhandled exception is raised and <Run FontWeight="Bold">DispatcherUnhandledException</Run>
+ is either unhandled, or is handled with <Run FontWeight="Bold">Handled</Run>
+ being set to <Run FontWeight="Bold">true</Run>
+, the application will shut down straight away. Furthermore, no other events that are implemented by Application are raised. Consequently, you will need to handle <Run FontWeight="Bold">DispatcherUnhandledException</Run>
+ if your application has code that is required to run prior to the application shutting down.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a more involved sample that demonstrates handling <Run FontWeight="Bold">DispatcherUnhandledException</Run>
+, see Unhandled Application Exceptions Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Application Shutdown
+    </Paragraph>
+
+    <Paragraph>When an unhandled exception occurs, the application will shut down if the exception remains unhandled. However, an application is far more likely to be shut down for more typical reasons, such as:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>All the windows have been closed by the user.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A particular window, such as a main window, has been closed by a user.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A user ends their Windows session by logging off or shutting it down.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A particular condition has been met.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In all these cases, the Shutdown method is called, either by WPF or by you depending on how you configure Application.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Shutdown Mode
+    </Paragraph>
+
+    <Paragraph>In general, the lifetime of a standalone application is decided by the lifetime of the windows that it shows. Depending on the type of application, the application will shutdown when either all the windows are closed, or will shutdown when the main window is closed. Because these two scenarios are the most common, you can configure <Run FontWeight="Bold">Application</Run>
+ to automatically shut down when they happen by setting ShutdownMode. You set it with one of the values of the ShutdownMode enumeration:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>OnLastWindowClose (default).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>OnMainWindowClose.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>OnExplicitShutdown.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For example, if you wanted to configure your application to shut down when the main window has closed, you would do the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CSharp.App" <Run FontWeight="Bold">ShutdownMode="OnMainWindowClose"</Run>
+ /></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The main window is the window that is referenced by the MainWindow property.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Setting <Run FontWeight="Bold">ShutdownMode</Run>
+ specifies when <Run FontWeight="Bold">Shutdown</Run>
+ is called, and by who. When <Run FontWeight="Bold">ShutdownMode</Run>
+ is set to either <Run FontWeight="Bold">OnLastWindowClose</Run>
+ or <Run FontWeight="Bold">OnMainWindowClose</Run>
+, WPF will automatically call <Run FontWeight="Bold">Shutdown</Run>
+ when either of the conditions specified by these enumeration values are set.
+    </Paragraph>
+
+    <Paragraph>However, if <Run FontWeight="Bold">ShutdownMode</Run>
+ is set to <Run FontWeight="Bold">OnExplicitShutdown</Run>
+, it is your responsibility to call <Run FontWeight="Bold">Shutdown</Run>
+, otherwise your application will continue running even if all the windows are closed.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Session Ending
+    </Paragraph>
+
+    <Paragraph>Whereas setting <Run FontWeight="Bold">ShutdownMode</Run>
+ is an application implemented mechanism for proactively shutting an application down, an application may have to shut down in response to the two following external conditions:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>When a user ends their session by logging off from Windows.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When a user ends their session by shutting down, restarting, or hibernating Windows.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When a user ends their session, Windows gives the opportunity for each currently running application to detect when they do and, if required, prevent the session from ending. Applications that allow users to edit data (like word processors and spread sheets, for example) are most likely to take advantage of this capability; 
+just as a user may accidentally attempt to close a document that they haven't saved, they may accidentally shut down Windows while applications have unsaved documents. Consequently, applications can use this opportunity to check that their application data is saved and, if not, give the user the opportunity to prevent Windows from shutting down.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Application</Run>
+ also detects the session ending notification from Windows and raises the Windows SessionEnding when it happens. Consequently, you can handle <Run FontWeight="Bold">SessionEnding</Run>
+ for detection and protection purposes, like so:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CSharp.App" <Run FontWeight="Bold">SessionEnding="app_SessionEnding"</Run>
+ /></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class App : Application { <Run FontWeight="Bold">void app_SessionEnding(object sender, SessionEndingCancelEventArgs e)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">using (StreamWriter writer = File.AppendText("output.txt"))</Run>
+<Run FontWeight="Bold">//using (FileStream stream = File.AppendText("output.txt"))</Run>
+<Run FontWeight="Bold">//using (StreamWriter writer = new StreamWriter(stream))</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">writer.WriteLine("OnSessionEnding");</Run>
+<Run FontWeight="Bold">}</Run>
+<Run FontWeight="Bold">// Ask the user if they want the session to end</Run>
+<Run FontWeight="Bold">string msg = "The application is shutting down for the following reason: " + e.ReasonSessionEnding + "\n\nShutdown?";</Run>
+<Run FontWeight="Bold">string title = "An Application";</Run>
+<Run FontWeight="Bold">MessageBoxButton buttons = MessageBoxButton.YesNo;</Run>
+<Run FontWeight="Bold">MessageBoxImage icon = MessageBoxImage.Stop;</Run>
+<Run FontWeight="Bold">MessageBoxResult result = MessageBox.Show(msg, title, buttons, icon);</Run>
+<Run FontWeight="Bold">// If they don't, prevent both the session from ending and the </Run>
+<Run FontWeight="Bold">// application from shutting down</Run>
+<Run FontWeight="Bold">e.Cancel = (result == MessageBoxResult.No);</Run>
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The SessionEndingCancelEventArgs parameter that is passed to the <Run FontWeight="Bold">SessionEnding</Run>
+ event handler implements the ReasonSessionEnding property, which specifies why the session is ending, and the Cancel property, to allow you to cancel the session ending.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Exit
+    </Paragraph>
+
+    <Paragraph>If an application proactively shuts itself down - that is, does not shut down due to unhandled exceptions or when the user session ends - the lifetime of an application will end. Before ending, applications may need to perform some final processing, such as persisting application state. For these situations, you can handle the Exit event.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Application x:Class="HOWTOApplicationModelSnippets.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="MainWindow.xaml" Startup="App_Startup" Exit="App_Exit" > <Run>... </Run>
+
+&lt;/Application> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.IO; 
+using System.IO.IsolatedStorage; 
+public partial class App : Application { string filename = "App.txt"; 
+... private void App_Startup(object sender, StartupEventArgs e) { // Restore application-scope property from isolated storage IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication(); 
+try { using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(filename, FileMode.Open, storage)) using (StreamReader reader = new StreamReader(stream)) { // Restore each application-scope property individually while (!reader.EndOfStream) { string key = reader.ReadLine(); 
+this.Properties[key] = reader.ReadLine(); 
+} } } catch (FileNotFoundException ex) { // Handle when file is not found in isolated storage: // * When the first application session // * When file has been deleted ... } } private void App_Exit(object sender, ExitEventArgs e) { // Persist application-scope property to isolated storage IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication(); 
+using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(filename, FileMode.Create, storage)) using (StreamWriter writer = new StreamWriter(stream)) { // Persist each application-scope property individually foreach (string key in this.Properties.Keys) { writer.WriteLine(key); 
+writer.WriteLine(this.Properties[key]); 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Exit Code
+    </Paragraph>
+
+    <Paragraph>Applications are mostly launched by the operating system in response to a user request. However, an application can be launched by another application to perform some specific task. In this case, both calling and called applications operate in separate processes. One issue with this situation occurs when the calling application's execution depends on how the called application terminated. In these situations, the called application can return a value that indicates how it terminated by using a special integer code known as the exit code. By default, <Run FontWeight="Bold">Application</Run>
+ will return a default exit code value of <Run FontWeight="Bold">0</Run>
+. To change this value, you can call an overload of Shutdown that accepts an integer argument to be the exit code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Shutdown and return a custom exit code Application.Current.Shutdown(-1);</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Furthermore, you can detect the value of the exit code, and change it, by handling the <Run FontWeight="Bold">Exit</Run>
+ event. The <Run FontWeight="Bold">Exit</Run>
+ event handler is passed an ExitEventArgs which provides access to the exit code with the ApplicationExitCode property. See <Run FontWeight="Bold">Exit</Run>
+ for more information.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Application Lifetime Events
+    </Paragraph>
+
+    <Paragraph>The following figure illustrates the key events in the lifetime of an application, and the sequence in which they are raised.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Other Application Services
+    </Paragraph>
+
+    <Paragraph>This topic covers the core lifetime of an application, as exposed by Application. However, Application provides further services that are discussed in more detail elsewhere, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Application and Window Management.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Application-Scope Properties.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Application-Scope Resources.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Application and Navigation Management.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Application and Windows
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Application</Run>
+ and <Run FontWeight="Bold">Window</Run>
+ have a close relationship. As you've seen in this topic, the lifetime of an application can be dictated by its windows, which <Run FontWeight="Bold">Application</Run>
+ is sensitive to through the <Run FontWeight="Bold">ShutdownMode</Run>
+ property. Furthermore, application records which window is designated the main application window (<Run FontWeight="Bold">MainWindow</Run>
+), and maintains a list of currently instantiated windows (Windows).
+    </Paragraph>
+
+    <Paragraph>See <Hyperlink NavigateUri="737d04ec-8861-46c3-8d44-fa11d3528d23.xaml">Windows Presentation Foundation Windows Overview</Hyperlink>
+ for further information.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Application-Scope Properties
+    </Paragraph>
+
+    <Paragraph>Application implements the Properties property to expose state that can be shared across the breadth of an application. The following provides an example of using <Run FontWeight="Bold">Properties</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Set an application-scope property with a custom type CustomType customType = new CustomType(); 
+Application.Current.Properties["CustomType"] = customType; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Get an application-scope property // NOTE: Need to convert since Application.Properties is a dictionary of System.Object CustomType customType = (CustomType)Application.Current.Properties["CustomType"]; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>See the following for more information:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="39abfac5-2313-44ce-93ff-e2f42243685f.xaml">How to: Get and Set Application-Scope Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="55d5904a-f444-4eb5-abd3-6bc74dd14226.xaml">How to: Persist and Restore Application-Scope Properties Across Application Sessions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Application-Scope Resources
+    </Paragraph>
+
+    <Paragraph>Application implements the Resources property to allow developers to share user interface (UI) resources across an application. The following provides an example of using <Run FontWeight="Bold">Properties</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Set an application-scope resource Application.Current.Resources["ApplicationScopeResource"] = Brushes.White; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Get an application-scope resource Brush whiteBrush = (Brush)Application.Current.Resources["ApplicationScopeResource"]; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>See the following for more information:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>TryFindResource 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>FindResource 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="39e0420c-c9fc-47dc-8956-fdd95b214095.xaml">How to: Get and Set Application-Scope Resources</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Application and Navigation
+    </Paragraph>
+
+    <Paragraph>For standalone applications that implement some degree of navigation, either using <Run FontWeight="Bold">NavigationWindow</Run>
+ or Frame, or XBAPs, application provides additional management. Specifically, <Run FontWeight="Bold">Application</Run>
+ detects when a navigation takes place anywhere in an application, and raises the following events as appropriate:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Navigating.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Navigated.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationProgress.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationFailed.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationStopped.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>LoadCompleted.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>FragmentNavigation.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Furthermore, <Run FontWeight="Bold">Application</Run>
+ provides the ability for applications of any type to create, persist, and retrieve cookies, using GetCookie and SetCookie.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>See <Hyperlink NavigateUri="86ad2143-606a-4e34-bf7e-51a2594248b8.xaml">Navigation Overview</Hyperlink>
+ for more information.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Application and Application Data Files
+    </Paragraph>
+
+    <Paragraph>WPF applications can manage several types of data files, including resource data files, content data files, and remote data files. Application provides the following helper methods to load each of these, respectively:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>GetResourceStream.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>GetContentStream.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>GetRemoteStream.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Additionally, WPF applications can load XAML content using LoadComponent.
+    </Paragraph>
+
+    <Paragraph>See the following for related discussion on application data files:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="7ad2943b-3961-41d3-8fc6-1582d43f5d99.xaml">Windows Presentation Foundation Application Data Files</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="43adb517-21a7-4df3-98e8-09e9cdf764c4.xaml">Pack URIs in Windows Presentation Foundation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Application
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="737d04ec-8861-46c3-8d44-fa11d3528d23.xaml">Windows Presentation Foundation Windows Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="86ad2143-606a-4e34-bf7e-51a2594248b8.xaml">Navigation Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="7ad2943b-3961-41d3-8fc6-1582d43f5d99.xaml">Windows Presentation Foundation Application Data Files</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Application Management Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

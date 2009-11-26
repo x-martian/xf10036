@@ -1,0 +1,221 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6128ca77_b826_4e36_b968_6f237157c543"
+  Tag     ="Control a MediaElement by Using a Storyboard"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Control a MediaElement by Using a Storyboard</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to control a MediaElement by using a MediaTimeline in a Storyboard.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>When you use a <Run FontWeight="Bold">MediaTimeline</Run>
+ in a <Run FontWeight="Bold">Storyboard</Run>
+ to control the timing of a <Run FontWeight="Bold">MediaElement</Run>
+, the functionality is identical to the functionality of other Timeline objects, such as animations. For example, a <Run FontWeight="Bold">MediaTimeline</Run>
+ uses <Run FontWeight="Bold">Timeline</Run>
+ properties like the BeginTime property to specify when to start a <Run FontWeight="Bold">MediaElement</Run>
+ (start media playback). It also uses the Duration property to specify how long the <Run FontWeight="Bold">MediaElement</Run>
+ is active (duration of media playback). For more information about using <Run FontWeight="Bold">Timeline</Run>
+ objects with a <Run FontWeight="Bold">Storyboard</Run>
+, see <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>This example shows how to create a simple media player that uses a <Run FontWeight="Bold">MediaTimeline</Run>
+ to control playback. The media player includes play, pause, resume, and stop buttons. The player also has a Slider control that acts as a progress bar.
+    </Paragraph>
+
+    <Paragraph>The following example creates the user interface (UI) for the media player.
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="SDKSample.MediaTimelineExample" > 
+&lt;StackPanel Background="Black"> 
+&lt;MediaElement Name="myMediaElement" MediaOpened="Element_MediaOpened" Width="260" Height="150" Stretch="Fill" /> 
+&lt;!-- Button controls for play, pause, resume, and stop. --> 
+&lt;StackPanel HorizontalAlignment="Center" Width="260" Orientation="Horizontal"> 
+&lt;Image Name="PlayButton" Source="images\UI_play.gif" Margin="30,10,10,10" /> 
+&lt;Image Name="PauseButton" Source="images\UI_pause.gif" Margin="10" /> 
+&lt;Image Name="ResumeButton" Source="images\UI_resume.gif" Margin="10" /> 
+&lt;Image Name="StopButton" Source="images\UI_stop.gif" Margin="10" /> 
+&lt;/StackPanel> 
+&lt;!-- Ths slider shows the progress of the media. --> 
+&lt;Slider Name="timelineSlider" Margin="5" Width="250" HorizontalAlignment="Center"/> 
+&lt;StackPanel.Triggers> 
+&lt;EventTrigger RoutedEvent="Image.MouseDown" SourceName="PlayButton"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard Name= "myBegin"> 
+&lt;Storyboard SlipBehavior="Slip"> 
+&lt;!-- The MediaTimeline controls the timing of the video and acts like other Timeline objects. For example, although the video clip (numbers.wmv) lasts longer, playback ends after six seconds because that is the duration of the MediaTimeline (Duration="0:0:6"). --> 
+&lt;MediaTimeline Source="media\numbers.wmv" Storyboard.TargetName="myMediaElement" BeginTime="0:0:0" Duration="0:0:6" CurrentTimeInvalidated="MediaTimeChanged" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;!-- These triggers impliment the functionality of the Pause, Resume and Stop buttons.--> 
+&lt;EventTrigger RoutedEvent="Image.MouseDown" SourceName="PauseButton"> 
+&lt;EventTrigger.Actions> 
+&lt;PauseStoryboard BeginStoryboardName="myBegin" /> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Image.MouseDown" SourceName="ResumeButton"> 
+&lt;EventTrigger.Actions> 
+&lt;ResumeStoryboard BeginStoryboardName="myBegin" /> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Image.MouseDown" SourceName="StopButton"> 
+&lt;EventTrigger.Actions> 
+&lt;StopStoryboard BeginStoryboardName="myBegin" /> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;/StackPanel.Triggers> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example creates the functionality for the progress bar.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+namespace SDKSample { public partial class MediaTimelineExample : Page { // When the media opens, initialize the "Seek To" slider maximum value // to the total number of miliseconds in the length of the media clip. public void Element_MediaOpened(object sender, EventArgs e) { timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds; 
+} public void MediaTimeChanged(object sender, EventArgs e) { timelineSlider.Value = myMediaElement.Position.TotalMilliseconds; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>For the complete sample, see Media Gallery.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6885a730-e054-4c16-8c1e-ffe17b1f7c32.xaml">How to: Control a MediaElement (Play, Pause, Stop, Volume, and Speed)</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>MediaElement
+      <LineBreak/>MediaTimeline
+      <LineBreak/>Storyboard
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1817d9dc-3d6c-46cb-afc8-63b0bae35e37.xaml">WPF Graphics, Animation, and Media Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Media Gallery
+      <LineBreak/><Hyperlink NavigateUri="f7d96707-ffb5-486c-9e85-db6f0d5ac547.xaml">Audio and Video How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Control a MediaElement by Using a Storyboard to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

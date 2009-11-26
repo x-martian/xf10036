@@ -1,0 +1,162 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b79f459a_1c3f_4045_b2d4_1659cc8eaa3c"
+  Tag     ="Create a Custom Routed Event"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Custom Routed Event</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For your custom event to support <Run>event routing</Run>
+, you need to register a RoutedEvent using the RegisterRoutedEvent method. This example demonstrates the basics of creating a custom routed event. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>As shown in the following example, you first register a <Run FontWeight="Bold">RoutedEvent</Run>
+ using the <Run FontWeight="Bold">RegisterRoutedEvent</Run>
+ method. By convention, the <Run FontWeight="Bold">RoutedEvent</Run>
+ static field name should end with the suffix <Span FontWeight="Bold"><Run FontStyle="italic">Event</Run>
+</Span>
+. In this example, the name of the event is <Run>Tap</Run>
+ and the routing strategy of the event is Bubble. After the registration call, you can provide add-and-remove common language runtime (CLR) event accessors for the event.
+    </Paragraph>
+
+    <Paragraph>Note that even though the event is raised through the <Run>OnTap</Run>
+ virtual method in this particular example, how you raise your event or how your event responds to changes depends on your needs.
+    </Paragraph>
+
+    <Paragraph>Note also that this example basically implements an entire subclass of Button; 
+that subclass is built as a separate assembly and then instantiated as a custom class on a separate Extensible Application Markup Language (XAML) page. This is to illustrate the concept that subclassed controls can be inserted into trees composed of other controls, and that in this situation, custom events on these controls have the very same event routing capabilities as any native Windows Presentation Foundation (WPF) element does. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class MyButtonSimple: Button { // Create a custom routed event by first registering a RoutedEventID // This event uses the bubbling routing strategy public static readonly RoutedEvent TapEvent = EventManager.RegisterRoutedEvent("Tap", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MyButtonSimple)); 
+// Provide CLR accessors for the event public event RoutedEventHandler Tap { add { AddHandler(TapEvent, value); 
+} remove { RemoveHandler(TapEvent, value); 
+} } // This method raises the Tap event void RaiseTapEvent() { RoutedEventArgs newEventArgs = new RoutedEventArgs(MyButtonSimple.TapEvent); 
+RaiseEvent(newEventArgs); 
+} // For demonstration purposes we raise the event when the MyButtonSimple is clicked protected override void OnClick() { RaiseTapEvent(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:custom="clr-namespace:SDKSample;assembly=SDKSampleLibrary" x:Class="SDKSample.RoutedEventCustomApp" > 
+&lt;Window.Resources> 
+&lt;Style TargetType="{x:Type custom:MyButtonSimple}"> 
+&lt;Setter Property="Height" Value="20"/> 
+&lt;Setter Property="Width" Value="250"/> 
+&lt;Setter Property="HorizontalAlignment" Value="Left"/> 
+&lt;Setter Property="Background" Value="#808080"/> 
+&lt;/Style> 
+&lt;/Window.Resources> 
+&lt;StackPanel Background="LightGray"> 
+&lt;custom:MyButtonSimple Name="mybtnsimple" Tap="TapHandler">Click to see Tap custom event work
+&lt;/custom:MyButtonSimple> 
+&lt;/StackPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Tunneling events are created the same way, but with RoutingStrategy set to Tunnel in the registration call. By convention, tunneling events in WPF are prefixed with the word "Preview".
+    </Paragraph>
+
+    <Paragraph>To view the complete sample, including the implementation of the actual "Tap" event handler, see Custom Routed Events Sample. To see an example of how bubbling events work, see <Hyperlink NavigateUri="157787b4-f469-4047-8777-5b034145f32e.xaml">How to: Handle a Routed Event</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3d864748-cff0-4e63-9b23-d8e5a635b28f.xaml">Control Authoring Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Custom Routed Event to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,180 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_eebef25b_ddc6_424e_a66d_ea228d1bf33d"
+  Tag     ="Group Items in a ListView That Implements a GridView"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Group Items in a ListView That Implements a GridView</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to display groups of items in the GridView view mode of a ListView control.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>To display groups of items in a <Run FontWeight="Bold">ListView</Run>
+, define a CollectionViewSource. The following example shows a <Run FontWeight="Bold">CollectionViewSource</Run>
+ that groups data items according to the value of the <Run>Catalog</Run>
+ data field. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;CollectionViewSource x:Key='src' Source="{Binding Source={StaticResource MyData}, XPath=Item}"> 
+&lt;CollectionViewSource.GroupDescriptions> 
+&lt;PropertyGroupDescription PropertyName="@Catalog" /> 
+&lt;/CollectionViewSource.GroupDescriptions> 
+&lt;/CollectionViewSource> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example sets the ItemsSource for the <Run FontWeight="Bold">ListView</Run>
+ to the <Run FontWeight="Bold">CollectionViewSource</Run>
+ that the previous example defines. The example also defines a GroupStyle that implements an Expander control. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView ItemsSource='{Binding Source={StaticResource src}}' BorderThickness="0"> 
+&lt;ListView.GroupStyle> 
+&lt;GroupStyle> 
+&lt;GroupStyle.ContainerStyle> 
+&lt;Style TargetType="{x:Type GroupItem}"> 
+&lt;Setter Property="Margin" Value="0,0,0,5"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type GroupItem}"> 
+&lt;Expander IsExpanded="True" BorderBrush="#FFA4B97F" BorderThickness="0,0,0,1"> 
+&lt;Expander.Header> 
+&lt;DockPanel> 
+&lt;TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/> 
+&lt;TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}"/> 
+&lt;/DockPanel> 
+&lt;/Expander.Header> 
+&lt;Expander.Content> 
+&lt;ItemsPresenter /> 
+&lt;/Expander.Content> 
+&lt;/Expander> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;/GroupStyle.ContainerStyle> 
+&lt;/GroupStyle> 
+&lt;/ListView.GroupStyle> ... 
+&lt;/ListView> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ListView Grouping Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ListView
+      <LineBreak/>GridView
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="989e12b0-260e-4570-95c6-489284003ce2.xaml">ListView Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b2d02267-32b3-40ce-8e9f-06972d8749d9.xaml">GridView Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="aafce40c-9bfe-45ec-86a3-599616a11276.xaml">ListView How-to Topics</Hyperlink>
+
+      <LineBreak/>GridView How-to Topics
+      <LineBreak/>ListView Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Group Items in a ListView That Implements a GridView to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

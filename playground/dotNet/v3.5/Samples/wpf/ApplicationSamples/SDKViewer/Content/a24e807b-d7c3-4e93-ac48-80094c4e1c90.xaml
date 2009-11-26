@@ -1,0 +1,312 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a24e807b_d7c3_4e93_ac48_80094c4e1c90"
+  Tag     ="Use the AutomationID Property"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Use the AutomationID Property</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic contains scenarios and sample code that show how and when the Microsoft UI Automation AutomationIdProperty can be used to locate an element within the UI Automation <Run>logical tree</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">AutomationIdProperty</Run>
+ uniquely identifies an <Run>automation element</Run>
+ from its siblings. For more information on property identifiers related to control identification see <Hyperlink NavigateUri="a6c31d7b-b33e-49b3-b5c1-31a345f9b7c8.xaml">UI Automation Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AutomationIdProperty</Run>
+ does not guarantee a unique identity throughout the automation tree; 
+it typically needs container and scope information to be useful. For example, an application may contain a menu control with multiple top-level menu items that, in turn, have multiple child menu items. These secondary menu items may be identified by a generic scheme such as "Item1, Item 2, Item3, etc.", allowing duplicate identifiers for children across top-level menu items. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Scenarios
+    </Paragraph>
+
+    <Paragraph>Three primary <Run>UI Automation client</Run>
+ application scenarios have been identified that require the use of <Run FontWeight="Bold">AutomationIdProperty</Run>
+ to achieve accurate and consistent results when searching for elements. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AutomationIdProperty</Run>
+ is supported by all UI Automation elements in the <Run>control view</Run>
+ except top-level application windows, UI Automation elements derived from Windows Presentation Foundation (WPF) controls that do not have an ID or x:Uid, and UI Automation elements derived from Win32 controls that do not have a control ID.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Use a unique and discoverable AutomationID to locate a specific element in the UI Automation tree
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Use a tool such as UI Spy to report the <Run FontWeight="Bold">AutomationIdProperty</Run>
+ of a UI element of interest. This value can then be copied and pasted into a client application such as a test script for subsequent automated testing. This approach reduces and simplifies the code necessary to identify and locate an element at runtime.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Caution: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>In general, you should try to obtain only direct children of the RootElement. A search for descendants may iterate through hundreds or even thousands of elements, possibly resulting in a stack overflow. If you are attempting to obtain a specific element at a lower level, you should start your search from the application window or from a container at a lower level.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>///-------------------------------------------------------------------- /// 
+&lt;summary> /// Finds all elements in the UI Automation tree that have a specified /// AutomationID. /// 
+&lt;/summary> /// 
+&lt;param name="targetApp"> /// The root element from which to start searching. /// 
+&lt;/param> /// 
+&lt;param name="automationID"> /// The AutomationID value of interest. /// 
+&lt;/param> /// 
+&lt;returns> /// The collection of UI Automation elements that have the specified /// AutomationID value. /// 
+&lt;/returns> ///-------------------------------------------------------------------- private AutomationElementCollection FindElementFromAutomationID(AutomationElement targetApp, string automationID) { return targetApp.FindAll( TreeScope.Descendants, new PropertyCondition(AutomationElement.AutomationIdProperty, automationID)); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>'''-------------------------------------------------------------------- ''' 
+&lt;summary> ''' Finds all elements in the UI Automation tree that have a specified ''' AutomationID. ''' 
+&lt;/summary> ''' 
+&lt;param name="targetApp"> ''' The root element from which to start searching. ''' 
+&lt;/param> ''' 
+&lt;param name="automationID"> ''' The AutomationID value of interest. ''' 
+&lt;/param> ''' 
+&lt;returns> ''' The collection of automation elements that have the specified ''' AutomationID value. ''' 
+&lt;/returns> '''-------------------------------------------------------------------- Private Function FindElementFromAutomationID( _ ByVal targetApp As AutomationElement, _ ByVal automationID As String) As AutomationElementCollection Return targetApp.FindAll( _ TreeScope.Descendants, _ New PropertyCondition( _ AutomationElement.AutomationIdProperty, automationID)) End Function 'FindElementFromAutomationID </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Use a persistent path to return to a previously identified AutomationElement
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Client applications, from simple test scripts to robust record and playback utilities, may require access to elements that are not currently instantiated, such as a file open dialog or a menu item, and therefore do not exist in the UI Automation tree. These elements can only be instantiated by reproducing, or 'playing back', a specific sequence of user interface (UI) actions through the use of UI Automation properties such as AutomationID, control patterns and event listeners. See Test Script Generator Sample for an example that uses Microsoft UI Automation to generate test scripts based on user interaction with the user interface (UI).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>'''-------------------------------------------------------------------- ''' 
+&lt;summary> ''' Creates a UI Automation thread. ''' 
+&lt;/summary> ''' 
+&lt;remarks> ''' UI Automation must be called on a separate thread if the client ''' application itself could become a target for event handling. ''' For example, focus tracking is a desktop event that could involve ''' the client application. ''' 
+&lt;/remarks> '''-------------------------------------------------------------------- Private Sub CreateUIAThread(ByVal sender As Object, ByVal e As EventArgs) ' Start another thread to do the UI Automation work. Dim threadDelegate As New ThreadStart(AddressOf CreateUIAWorker) Dim workerThread As New Thread(threadDelegate) workerThread.Start() End Sub 'CreateUIAThread '''-------------------------------------------------------------------- ''' 
+&lt;summary> ''' Delegated method for ThreadStart. Creates a UI Automation worker ''' class that does all UI Automation related work. ''' 
+&lt;/summary> '''-------------------------------------------------------------------- Public Sub CreateUIAWorker() uiaWorker = New UIAWorker(targetApp) End Sub 'CreateUIAWorker Private uiaWorker As UIAWorker ... '''-------------------------------------------------------------------- ''' 
+&lt;summary> ''' Function to playback through a series of recorded events calling ''' a WriteToScript function for each event of interest. ''' 
+&lt;/summary> ''' 
+&lt;remarks> ''' A major drawback to using AutomationID for recording user ''' interactions in a volatile UI is the probability of catastrophic ''' change in the UI. For example, the 'Processes' dialog where items ''' in the listbox container can change with no input from the user. ''' This mandates thtat a record and playback application must be ''' reliant on the tester owning the UI being tested. In other words, ''' there has to be a contract between the provider and client that ''' excludes uncontrolled, external applications. The added benefit ''' is the guarantee that each control in the UI should have an ''' AutomationID assigned to it. ''' ''' This function relies on a UI Automation worker class to create ''' the System.Collections.Generic.Queue object that stores the ''' information for the recorded user interactions. This ''' allows post-processing of the recorded items prior to actually ''' writing them to a script. If this is not necessary the interaction ''' could be written to the script immediately. ''' 
+&lt;/remarks> '''-------------------------------------------------------------------- Private Sub Playback(ByVal targetApp As AutomationElement) Dim element As AutomationElement Dim storedItem As ElementStore For Each storedItem In uiaWorker.elementQueue Dim propertyCondition As New PropertyCondition( _ AutomationElement.AutomationIdProperty, storedItem.AutomationID) ' Confirm the existence of a control. ' Depending on the controls and complexity of interaction ' this step may not be necessary or may require additional ' functionality. For example, to confirm the existence of a ' child menu item that had been invoked the parent menu item ' would have to be expanded. element = targetApp.FindFirst( _ TreeScope.Descendants, propertyCondition) If element Is Nothing Then ' Control not available, unable to continue. ' TODO: Handle error condition. Return End If WriteToScript(storedItem.AutomationID, storedItem.EventID) Next storedItem End Sub 'Playback '''-------------------------------------------------------------------- ''' 
+&lt;summary> ''' Generates script code and outputs the code to a text control in ''' the client. ''' 
+&lt;/summary> ''' 
+&lt;param name="automationID"> ''' The AutomationID of the current control. ''' 
+&lt;/param> ''' 
+&lt;param name="eventID"> ''' The event recorded on that control. ''' 
+&lt;/param> '''-------------------------------------------------------------------- Private Sub WriteToScript( _ ByVal automationID As String, ByVal eventID As String) ' Script code would be generated and written to an output file ' as plain text at this point, but for the ' purposes of this example we just write to the console. Console.WriteLine(automationID + " - " + eventID) End Sub 'WriteToScript </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Use a relative path to return to a previously identified AutomationElement
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>In certain circumstances, since AutomationID is only guaranteed to be unique amongst siblings, multiple elements in the UI Automation tree may have identical AutomationID property values. In these situations the elements can be uniquely identified based on a parent and, if necessary, a grandparent. For example, a developer may provide a menu bar with multiple menu items each with multiple child menu items where the children are identified with sequential AutomationID's such as 'Item1', 'Item2', etc. Each menu item could then be uniquely identified by its AutomationID along with the AutomationID of its parent and, if necessary, its grandparent.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="3acaee5a-6ce8-4c3e-81c8-67e59eb74477.xaml">Find a UI Automation Element Based on a Property Condition</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>AutomationIdProperty
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Use the AutomationID Property to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,336 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_95de9b9c_d804_405c_b2d1_49a88c1e0fe1"
+  Tag     ="How to: Enable Visual Styles in a Hybrid Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Enable Visual Styles in a Hybrid Application</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic shows how to enable Microsoft Windows XP visual styles on a Windows Forms control hosted in a WPF-based application.
+    </Paragraph>
+
+    <Paragraph>If your application calls the EnableVisualStyles method, most of your Windows Forms controls will automatically use visual styles when your application is run on Microsoft Windows XP. For more information, see How to: Enable Windows XP Visual Styles. 
+    </Paragraph>
+
+    <Paragraph>For a complete code listing of the tasks illustrated in this topic, see Enabling Visual Styles in a Hybrid Application Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The dialog boxes and menu commands you see might differ from those described in Help, depending on your active settings or edition. To change your settings, choose <Run FontWeight="Bold">Import and Export Settings</Run>
+ on the <Run FontWeight="Bold">Tools</Run>
+ menu. For more information, see Visual Studio Settings.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Enabling Windows Forms Visual Styles
+    </Paragraph>
+
+    <Paragraph FontSize="18">To enable Windows Forms visual styles
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a WPF application project named <Run FontWeight="Bold">HostingWfWithVisualStyles</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, add a reference to the WindowsFormsIntegration assembly, which is named WindowsFormsIntegration.dll. 
+        </Paragraph>
+
+        <Paragraph>The default location for this file is %programfiles%\Reference Assemblies\Microsoft\Framework\v3.0\WindowsFormsIntegration.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, add a reference to the Windows Forms assembly, which is named System.Windows.Forms.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In the Toolbox, double-click the Grid icon to place a <Run FontWeight="Bold">Grid</Run>
+ element on the design surface.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In the Properties window, set the values of the Height and Width properties to <Run FontWeight="Bold">Auto</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click the <Run FontWeight="Bold">Xaml</Run>
+ button to open Window1.xaml in the Code Editor.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Insert the following code to attach en event handler for the Loaded event.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="HostingWfWithVisualStyles.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="HostingWfWithVisualStyles" Height="300" Width="300" Loaded="WindowLoaded" > </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="HostingWfWithVisualStyles" Height="300" Width="300" Loaded="WindowLoaded" > </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Open Window1.xaml.cs in the Code Editor.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Insert the following code to handle the <Run FontWeight="Bold">Loaded</Run>
+ event.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void WindowLoaded(object sender, RoutedEventArgs e) { // Comment out the following line to disable visual // styles for the hosted Windows Forms control. System.Windows.Forms.Application.EnableVisualStyles(); 
+// Create a WindowsFormsHost element to host // the Windows Forms control. System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost(); 
+// Create a Windows Forms tab control. System.Windows.Forms.TabControl tc = new System.Windows.Forms.TabControl(); 
+tc.TabPages.Add("Tab1"); 
+tc.TabPages.Add("Tab2"); 
+// Assign the Windows Forms tab control as the hosted control. host.Child = tc; 
+// Assign the host element to the parent Grid element. this.grid1.Children.Add(host); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub WindowLoaded(ByVal sender As Object, ByVal e As RoutedEventArgs) ' Comment out the following line to disable visual ' styles for the hosted Windows Forms control. System.Windows.Forms.Application.EnableVisualStyles() ' Create a WindowsFormsHost element to host ' the Windows Forms control. Dim host As New System.Windows.Forms.Integration.WindowsFormsHost() ' Create a Windows Forms tab control. Dim tc As New System.Windows.Forms.TabControl() tc.TabPages.Add("Tab1") tc.TabPages.Add("Tab2") ' Assign the Windows Forms tab control as the hosted control. host.Child = tc ' Assign the host element to the parent Grid element. Me.grid1.Children.Add(host) End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. 
+        </Paragraph>
+
+        <Paragraph>The Windows Forms control is painted with visual styles. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Disabling Windows Forms Visual Styles
+    </Paragraph>
+
+    <Paragraph>To disable visual styles, simply remove the call to the <Run FontWeight="Bold">EnableVisualStyles</Run>
+ method.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To disable Windows Forms visual styles
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Open Window1.xaml.cs in the Code Editor.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Comment out the call to the <Run FontWeight="Bold">EnableVisualStyles</Run>
+ method.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. 
+        </Paragraph>
+
+        <Paragraph>The Windows Forms control is painted with the default system style. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9cb88415-39b0-4c46-80c4-ff325b674286.xaml">Walkthrough: Hosting a Windows Forms Control in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>EnableVisualStyles
+      <LineBreak/>System.Windows.Forms.VisualStyles
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>How to: Enable Windows XP Visual Styles
+      <LineBreak/><Hyperlink NavigateUri="619f9fcd-a71b-4db5-b3e4-da99ec3b5c41.xaml">Migration and Interoperability How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Enable Visual Styles in a Hybrid Application to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

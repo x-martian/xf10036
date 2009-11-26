@@ -1,0 +1,174 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e487a454_c9fc_4e53_aeaa_c458d059ad4c"
+  Tag     ="Determine if a Data Format is Present in a Data Object"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Determine if a Data Format is Present in a Data Object</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following examples show how to use the various GetDataPresent method overloads to query whether a particular data format is present in a data object.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example code uses the GetDataPresent overload to query for the presence of a particular data format by descriptor string.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DataObject dataObject = new DataObject("Some string data to store..."); 
+// Query for the presence of Text data in the data object, by a data format descriptor string. // In this overload of GetDataPresent, the method will return true both for native data formats // and when the data can automatically be converted to the specifed format. // In this case, Text data is present natively, so GetDataPresent returns "true". string textData = null; 
+if (dataObject.GetDataPresent(DataFormats.Text)) { textData = dataObject.GetData(DataFormats.Text) as string; 
+} // In this case, the Text data in the data object can be autoconverted to // Unicode text, so GetDataPresent returns "true". byte[] unicodeData = null; 
+if (dataObject.GetDataPresent(DataFormats.UnicodeText)) { unicodeData = dataObject.GetData(DataFormats.UnicodeText) as byte[]; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example code uses the GetDataPresent overload to query for the presence of a particular data format by type.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DataObject dataObject = new DataObject("Some string data to store..."); 
+// Query for the presence of String data in the data object, by type. In this overload // of GetDataPresent, the method will return true both for native data formats // and when the data can automatically be converted to the specifed format. // In this case, the Text data present in the data object can be autoconverted // to type string (also represented by DataFormats.String), so GetDataPresent returns "true". string stringData = null; 
+if (dataObject.GetDataPresent(typeof(string))) { stringData = dataObject.GetData(DataFormats.Text) as string; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example code uses the GetDataPresent overload to query for data by descriptor string, and specifying how to treat auto-convertible data formats.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DataObject dataObject = new DataObject("Some string data to store..."); 
+// Query for the presence of Text data in the data object, by data format descriptor string, // and specifying whether auto-convertible data formats are acceptable. // In this case, Text data is present natively, so GetDataPresent returns "true". string textData = null; 
+if (dataObject.GetDataPresent(DataFormats.Text, false /* Auto-convert? */)) { textData = dataObject.GetData(DataFormats.Text) as string; 
+} // In this case, the Text data in the data object can be autoconverted to // Unicode text, but it is not available natively, so GetDataPresent returns "false". byte[] unicodeData = null; 
+if (dataObject.GetDataPresent(DataFormats.UnicodeText, false /* Auto-convert? */)) { unicodeData = dataObject.GetData(DataFormats.UnicodeText) as byte[]; 
+} // In this case, the Text data in the data object can be autoconverted to // Unicode text, so GetDataPresent returns "true". if (dataObject.GetDataPresent(DataFormats.UnicodeText, true /* Auto-convert? */)) { unicodeData = dataObject.GetData(DataFormats.UnicodeText) as byte[]; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>IDataObject
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Drag and Drop Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Determine if a Data Format is Present in a Data Object to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

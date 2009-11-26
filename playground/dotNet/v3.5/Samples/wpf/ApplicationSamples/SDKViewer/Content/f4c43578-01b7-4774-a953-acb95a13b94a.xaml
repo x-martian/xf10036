@@ -1,0 +1,185 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f4c43578_01b7_4774_a953_acb95a13b94a"
+  Tag     ="Sort Data in a View"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Sort Data in View</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example describes how to sort data in a view.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates a simple ListBox and a Button:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="ListBoxSort_snip.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="ListBoxSort_snip" Height="300" Width="300"> 
+&lt;DockPanel> 
+&lt;ListBox Name="myListBox" DockPanel.Dock="Top"> 
+&lt;ListBoxItem>my
+&lt;/ListBoxItem> 
+&lt;!--Or you can set the content this way:--> 
+&lt;!--
+&lt;ListBoxItem Content="my"/>--> 
+&lt;ListBoxItem>1
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Sort
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>3
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>ListBox
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>2
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;Button Click="OnClick" Width="30" Height="20" DockPanel.Dock="Top">Sort
+&lt;/Button> 
+&lt;/DockPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Click event handler of the button contains logic to sort the items in the <Run FontWeight="Bold">ListBox</Run>
+ in the descending order. You can do this because adding items to a <Run FontWeight="Bold">ListBox</Run>
+ this way adds them to the ItemCollection of the <Run FontWeight="Bold">ListBox</Run>
+, and <Run FontWeight="Bold">ItemCollection</Run>
+ derives from the CollectionView class. If you are binding your <Run FontWeight="Bold">ListBox</Run>
+ to a collection using the ItemsSource property, you need to first create or obtain the default view of the collection. For an example of how to obtain a view, see <Hyperlink NavigateUri="b641e96c-c2f6-42ea-9c5d-bac81176ad65.xaml">How to: Get the Default View of a Data Collection</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void OnClick(object sender, RoutedEventArgs e) { myListBox.Items.SortDescriptions.Add( new SortDescription("Content", ListSortDirection.Descending)); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As long as you have a reference to the view object, you can use the same technique to sort the content of other collection views. For another example, see <Hyperlink NavigateUri="4865d720-d147-40ed-83a7-af7587f8aad8.xaml">How to: Sort a GridView Column When a Header Is Clicked</Hyperlink>
+. For more information about views, see Binding to Collections in <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>For an example of how to apply sorting logic in Extensible Application Markup Language (XAML), see <Hyperlink NavigateUri="145c8c3f-dbdd-4d0d-816f-90b35eba7eda.xaml">How to: Sort and Group Data Using a View in XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="4865d720-d147-40ed-83a7-af7587f8aad8.xaml">How to: Sort a GridView Column When a Header Is Clicked</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="c76e8606-4cc4-45a8-9110-e2ec66dc6afd.xaml">How to: Filter Data in a View</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>CustomSort
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Sort Data in View to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

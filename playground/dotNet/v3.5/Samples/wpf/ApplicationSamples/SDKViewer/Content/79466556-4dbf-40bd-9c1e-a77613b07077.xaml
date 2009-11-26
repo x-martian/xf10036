@@ -1,0 +1,303 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_79466556_4dbf_40bd_9c1e_a77613b07077"
+  Tag     ="Set a Property After Animating It with a Storyboard"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Set a Property After Animating It with a Storyboard</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In some cases, it might appear that you can't change the value of a property after it's been animated.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In the following example, a Storyboard is used to animate the color of a SolidColorBrush. The storyboard is triggered when the button is clicked. The Completed event is handled so that the program is notified when the ColorAnimation completes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Content="Animate and Then Set Example 1"> 
+&lt;Button.Background> 
+&lt;SolidColorBrush x:Name="Button1BackgroundBrush" Color="Red" /> 
+&lt;/Button.Background> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ColorAnimation Storyboard.TargetName="Button1BackgroundBrush" Storyboard.TargetProperty="Color" From="Red" To="Yellow" Duration="0:0:5" FillBehavior="HoldEnd" Completed="setButton1BackgroundBrushColor" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>After the <Run FontWeight="Bold">ColorAnimation</Run>
+ completes, the program attempts to changed the brush's color to blue. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void setButton1BackgroundBrushColor(object sender, EventArgs e) { // Does not appear to have any effect: // the brush remains yellow. Button1BackgroundBrush.Color = Colors.Blue; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The previous code doesn't appear to do anything: the brush remains yellow, which is the value supplied by the <Run FontWeight="Bold">ColorAnimation</Run>
+ that animated the brush. The underlying property value (the base value) is actually changed to blue. However, the effective, or current, value remains yellow because the <Run FontWeight="Bold">ColorAnimation</Run>
+ is still overriding the base value. If you want the base value to become the effective value again, you must stop the animation from influencing the property. There are two ways to do this with storyboard animations: Set the animation's FillBehavior property to Stop or remove the Storyboard.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Set the animation's FillBehavior property to Stop
+    </Paragraph>
+
+    <Paragraph>By setting <Run FontWeight="Bold">FillBehavior</Run>
+ to <Run FontWeight="Bold">Stop</Run>
+, you tell the animation to stop affecting its target property after it reaches the end of its active period. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Content="Animate and Then Set Example 2"> 
+&lt;Button.Background> 
+&lt;SolidColorBrush x:Name="Button2BackgroundBrush" Color="Red" /> 
+&lt;/Button.Background> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ColorAnimation Storyboard.TargetName="Button2BackgroundBrush" Storyboard.TargetProperty="Color" From="Red" To="Yellow" Duration="0:0:5" FillBehavior="Stop" Completed="setButton2BackgroundBrushColor" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void setButton2BackgroundBrushColor(object sender, EventArgs e) { // This appears to work: // the brush changes to blue. Button2BackgroundBrush.Color = Colors.Blue; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="22">Remove the storyboard
+    </Paragraph>
+
+    <Paragraph>By using a RemoveStoryboard trigger or the System.Windows.Media.Animation.Storyboard.Remove(System.Windows.FrameworkElement) method, you tell the storyboard animations to stop affecting their target properties. The difference between this approach and setting the <Run FontWeight="Bold">FillBehavior</Run>
+ property is that you can remove the storyboard at anytime, while the <Run FontWeight="Bold">FillBehavior</Run>
+ property only has an effect when the animation reaches the end of its active period.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Name="Button3" Content="Animate and Then Set Example 3"> 
+&lt;Button.Background> 
+&lt;SolidColorBrush x:Name="Button3BackgroundBrush" Color="Red" /> 
+&lt;/Button.Background> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard Name="MyBeginStoryboard"> 
+&lt;Storyboard x:Name="MyStoryboard"> 
+&lt;ColorAnimation Storyboard.TargetName="Button3BackgroundBrush" Storyboard.TargetProperty="Color" From="Red" To="Yellow" Duration="0:0:5" FillBehavior="HoldEnd" Completed="setButton3BackgroundBrushColor" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void setButton3BackgroundBrushColor(object sender, EventArgs e) { // This appears to work: // the brush changes to blue. MyStoryboard.Remove(Button3); 
+Button3BackgroundBrush.Color = Colors.Blue; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>FillBehavior
+      <LineBreak/>System.Windows.Media.Animation.Storyboard.Remove(System.Windows.FrameworkElement)
+      <LineBreak/>RemoveStoryboard
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Set a Property After Animating It with a Storyboard to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

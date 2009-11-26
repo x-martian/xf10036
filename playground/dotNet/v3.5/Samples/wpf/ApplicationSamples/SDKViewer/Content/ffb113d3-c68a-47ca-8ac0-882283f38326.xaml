@@ -1,0 +1,150 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ffb113d3_c68a_47ca_8ac0_882283f38326"
+  Tag     ="Save, Load, and Print RichTextBox Content"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Save, Load, and Print RichTextBox Content</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to save content of a RichTextBox to a file, load that content back into the <Run FontWeight="Bold">RichTextBox</Run>
+, and print the contents.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>Below is the markup for the example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="SDKSample.SaveLoadPrintRTB" > 
+&lt;StackPanel> 
+&lt;RichTextBox Name="richTB"> 
+&lt;FlowDocument> 
+&lt;Paragraph> 
+&lt;Run>Paragraph 1
+&lt;/Run> 
+&lt;/Paragraph> 
+&lt;/FlowDocument> 
+&lt;/RichTextBox> 
+&lt;Button Click="SaveRTBContent">Save RTB Content
+&lt;/Button> 
+&lt;Button Click="LoadRTBContent">Load RTB Content
+&lt;/Button> 
+&lt;Button Click="PrintRTBContent">Print RTB Content
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Below is the code behind for the example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.IO; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+using System.Windows.Media; 
+namespace SDKSample { public partial class SaveLoadPrintRTB : Page { // Handle "Save RichTextBox Content" button click. void SaveRTBContent(Object sender, RoutedEventArgs args) { // Send an arbitrary URL and file name string specifying // the location to save the XAML in. SaveXamlPackage("C:\\test.xaml"); 
+} // Handle "Load RichTextBox Content" button click. void LoadRTBContent(Object sender, RoutedEventArgs args) { // Send URL string specifying what file to retrieve XAML // from to load into the RichTextBox. LoadXamlPackage("C:\\test.xaml"); 
+} // Handle "Print RichTextBox Content" button click. void PrintRTBContent(Object sender, RoutedEventArgs args) { PrintCommand(); 
+} // Save XAML in RichTextBox to a file specified by _fileName void SaveXamlPackage(string _fileName) { TextRange range; 
+FileStream fStream; 
+range = new TextRange(richTB.Document.ContentStart, richTB.Document.ContentEnd); 
+fStream = new FileStream(_fileName, FileMode.Create); 
+range.Save(fStream, DataFormats.XamlPackage); 
+fStream.Close(); 
+} // Load XAML into RichTextBox from a file specified by _fileName void LoadXamlPackage(string _fileName) { TextRange range; 
+FileStream fStream; 
+if (File.Exists(_fileName)) { range = new TextRange(richTB.Document.ContentStart, richTB.Document.ContentEnd); 
+fStream = new FileStream(_fileName, FileMode.OpenOrCreate); 
+range.Load(fStream, DataFormats.XamlPackage); 
+fStream.Close(); 
+} } // Print RichTextBox content private void PrintCommand() { PrintDialog pd = new PrintDialog(); 
+if ((pd.ShowDialog() == true)) { //use either one of the below pd.PrintVisual(richTB as Visual, "printing as visual"); 
+pd.PrintDocument((((IDocumentPaginatorSource)richTB.Document).DocumentPaginator), "printing as paginator"); 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Save, Load, and Print RichTextBox Content to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

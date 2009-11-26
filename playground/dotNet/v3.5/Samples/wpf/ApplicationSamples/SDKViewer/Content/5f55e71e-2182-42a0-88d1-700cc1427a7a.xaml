@@ -1,0 +1,186 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5f55e71e_2182_42a0_88d1_700cc1427a7a"
+  Tag     ="Bind to a Method"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Bind to a Method</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to bind to a method using ObjectDataProvider.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In this example, <Run>TemperatureScale</Run>
+ is a class that has a method <Run>ConvertTemp</Run>
+, which takes two parameters (one of <Run FontWeight="Bold">double</Run>
+ and one of the <Run FontWeight="Bold">enum</Run>
+ type <Run>TempType)</Run>
+ and converts the given value from one temperature scale to another. In the following example, an <Run FontWeight="Bold">ObjectDataProvider</Run>
+ is used to instantiate the <Run>TemperatureScale</Run>
+ object. The <Run>ConvertTemp</Run>
+ method is called with two specified parameters.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.Resources> 
+&lt;ObjectDataProvider ObjectType="{x:Type local:TemperatureScale}" MethodName="ConvertTemp" x:Key="convertTemp"> 
+&lt;ObjectDataProvider.MethodParameters> 
+&lt;system:Double>0
+&lt;/system:Double> 
+&lt;local:TempType>Celsius
+&lt;/local:TempType> 
+&lt;/ObjectDataProvider.MethodParameters> 
+&lt;/ObjectDataProvider> 
+&lt;local:DoubleToString x:Key="doubleToString" /> 
+&lt;/Window.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Now that the method is available as a resource, you can bind to its results. In the following example, the Text property of the TextBox and the SelectedValue of the ComboBox are bound to the two parameters of the method. This allows users to specify the temperature to convert and the temperature scale to convert from. Note that BindsDirectlyToSource is set to <Run FontWeight="Bold">true</Run>
+ because we are binding to the MethodParameters property of the <Run FontWeight="Bold">ObjectDataProvider</Run>
+ instance and not properties of the object wrapped by the <Run FontWeight="Bold">ObjectDataProvider</Run>
+ (the <Run>TemperatureScale</Run>
+ object).
+    </Paragraph>
+
+    <Paragraph>The Content of the last Label updates when the user modifies the content of the <Run FontWeight="Bold">TextBox</Run>
+ or the selection of the <Run FontWeight="Bold">ComboBox</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Label Grid.Row="1" HorizontalAlignment="Right">Enter the degree to convert:
+&lt;/Label> 
+&lt;TextBox Grid.Row="1" Grid.Column="1" Name="tb"> 
+&lt;TextBox.Text> 
+&lt;Binding Source="{StaticResource convertTemp}" Path="MethodParameters[0]" BindsDirectlyToSource="true" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource doubleToString}"> 
+&lt;Binding.ValidationRules> 
+&lt;local:InvalidCharacterRule/> 
+&lt;/Binding.ValidationRules> 
+&lt;/Binding> 
+&lt;/TextBox.Text> 
+&lt;/TextBox> 
+&lt;ComboBox Grid.Row="1" Grid.Column="2" SelectedValue="{Binding Source={StaticResource convertTemp}, Path=MethodParameters[1], BindsDirectlyToSource=true}"> 
+&lt;local:TempType>Celsius
+&lt;/local:TempType> 
+&lt;local:TempType>Fahrenheit
+&lt;/local:TempType> 
+&lt;/ComboBox> 
+&lt;Label Grid.Row="2" HorizontalAlignment="Right">Result:
+&lt;/Label> 
+&lt;Label Content="{Binding Source={StaticResource convertTemp}}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The converter <Run>DoubleToString</Run>
+ takes a double and turns it into a string in the Convert direction (from the <Run>binding source</Run>
+ to <Run>binding target</Run>
+, which is the <Run FontWeight="Bold">Text</Run>
+ property) and converts a <Run FontWeight="Bold">string</Run>
+ to a <Run FontWeight="Bold">double</Run>
+ in the ConvertBack direction.
+    </Paragraph>
+
+    <Paragraph>The <Run>InvalidationCharacterRule</Run>
+ is a ValidationRule that checks for invalid characters. The default error template, which is a red border around the <Run FontWeight="Bold">TextBox</Run>
+, appears to notify users when the input value is not a double value.
+    </Paragraph>
+
+    <Paragraph>For the complete example, see Bind to the Results of a Method Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Bind to a Method to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

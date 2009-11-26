@@ -1,0 +1,343 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_94c15031_4975_43cc_bcd5_c9439ed21c9c"
+  Tag     ="Caching in UI Automation Clients"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Caching in UI Automation Clients</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces caching of Microsoft UI Automation properties and <Run>control patterns</Run>
+.
+    </Paragraph>
+
+    <Paragraph>In UI Automation, caching means pre-fetching of data. The data can then be accessed without further cross-process communication. Caching is typically used by <Run>UI Automation client</Run>
+ applications to retrieve properties and control patterns in bulk. Information is then retrieved from the cache as needed. The application updates the cache periodically, usually in response to events signifying that something in the user interface (UI) has changed.
+    </Paragraph>
+
+    <Paragraph>The benefits of caching are most noticeable with Windows Presentation Foundation (WPF) controls and custom controls that have server-side <Run>UI Automation providers</Run>
+. There is less benefit when accessing client-side providers such as the default providers for Win32 controls. 
+    </Paragraph>
+
+    <Paragraph>Caching occurs when the application activates a CacheRequest and then uses any method or property that returns an AutomationElement; 
+for example, FindFirst, FindAll. The methods of the TreeWalker class are an exception; 
+caching is only done if a <Run FontWeight="Bold">CacheRequest</Run>
+ is specified as a parameter (for example, System.Windows.Automation.TreeWalker.GetFirstChild(System.Windows.Automation.AutomationElement,System.Windows.Automation.CacheRequest).
+    </Paragraph>
+
+    <Paragraph>Caching also occurs when you subscribe to an event while a <Run FontWeight="Bold">CacheRequest</Run>
+ is active. The <Run FontWeight="Bold">AutomationElement</Run>
+ passed to your event handler as the source of an event contains the cached properties and patterns specified by the original <Run FontWeight="Bold">CacheRequest</Run>
+. Any changes made to the <Run FontWeight="Bold">CacheRequest</Run>
+ after you subscribe to the event have no effect.
+    </Paragraph>
+
+    <Paragraph>The UI Automation properties and control patterns of an element can be cached.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Options_for_Caching">Options for Caching</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Activating_the_CacheRequest">Activating the CacheRequest</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Retrieving_Cached_Properties">Retrieving Cached Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Retrieving_Cached_Control_Patterns">Retrieving Cached Control Patterns</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Retrieving_Cached_Children_and_Parents">Retrieving Cached Children and Parents</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Updating_the_Cache">Updating the Cache</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Options for Caching
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">CacheRequest</Run>
+ specifies the following options for caching.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Properties to Cache
+    </Paragraph>
+
+    <Paragraph>You can specify properties to cache by calling Add for each property before activating the request.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Control Patterns to Cache
+    </Paragraph>
+
+    <Paragraph>You can specify control patterns to cache by calling Add for each pattern before activating the request. When a pattern is cached, its properties are not automatically cached; 
+you must specify the properties you want cached by using <Run FontWeight="Bold">System.Windows.Automation.CacheRequest.Add(System.Windows.Automation.AutomationProperty)</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Scope and Filtering of Caching
+    </Paragraph>
+
+    <Paragraph>You can specify the elements whose properties and patterns you want to cache by setting the System.Windows.Automation.CacheRequest.TreeScope property before activating the request. The scope is relative to the elements that are retrieved while the request is active. For example, if you set only Children, and then retrieve an <Run FontWeight="Bold">AutomationElement</Run>
+, the properties and patterns of children of that element are cached, but not those of the element itself. To ensure that caching is done for the retrieved element itself, you must include Element in the <Run FontWeight="Bold">TreeScope</Run>
+ property. It is not possible to set the scope to Parent or Ancestors. However, a parent element can be cached when a child element is cached; 
+see Retrieving Cached Children and Parents in this topic.
+    </Paragraph>
+
+    <Paragraph>The extent of caching is also affected by the System.Windows.Automation.CacheRequest.TreeFilter property. By default, caching is performed only for elements that appear in the <Run>control view</Run>
+ of the Microsoft UI Automation tree. However, you can change this property to apply caching to all elements, or only to elements that appear in the <Run>content view</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Strength of the Element References
+    </Paragraph>
+
+    <Paragraph>When you retrieve an <Run FontWeight="Bold">AutomationElement</Run>
+, by default you have access to all properties and patterns of that element, including those that were not cached. However, for greater efficiency you can specify that the reference to the element refers to cached data only, by setting the AutomationElementMode property of the <Run FontWeight="Bold">CacheRequest</Run>
+ to None. In this case, you do not have access to any non-cached properties and patterns of retrieved elements. This means that you cannot access any properties through GetCurrentPropertyValue or the <Run FontWeight="Bold">Current</Run>
+ property of <Run FontWeight="Bold">AutomationElement</Run>
+ or any control pattern; 
+nor can you retrieve a pattern by using GetCurrentPattern or TryGetCurrentPattern. On cached patterns, you can call methods that retrieve array properties, such as System.Windows.Automation.SelectionPattern.SelectionPatternInformation.GetSelection, but not any that perform actions on the control, such as System.Windows.Automation.InvokePattern.Invoke.
+    </Paragraph>
+
+    <Paragraph>An example of an application that might not need full references to objects is a screen reader, which would prefetch the Name and ControlType properties of elements in a window but would not need the <Run FontWeight="Bold">AutomationElement</Run>
+ objects themselves.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Activating the CacheRequest
+    </Paragraph>
+
+    <Paragraph>Caching is performed only when <Run FontWeight="Bold">AutomationElement</Run>
+ objects are retrieved while a <Run FontWeight="Bold">CacheRequest</Run>
+ is active for the current thread. There are two ways to activate a <Run FontWeight="Bold">CacheRequest</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The usual way is to call Activate. This method returns an object that implements IDisposable. The request remains active as long as the <Run FontWeight="Bold">IDisposable</Run>
+ object exists. The easiest way to control the lifetime of the object is to enclose the call within a <Run FontWeight="Bold">using</Run>
+ (C#) or <Run FontWeight="Bold">Using</Run>
+ (Visual Basic) block. This ensures that the request will be popped from the stack even if an exception is raised.
+    </Paragraph>
+
+    <Paragraph>Another way, which is useful when you wish to nest cache requests, is to call Push. This puts the request on a stack and activates it. The request remains active until it is removed from the stack by Pop. The request becomes temporarily inactive if another request is pushed onto the stack; 
+only the top request on the stack is active. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22">Retrieving Cached Properties
+    </Paragraph>
+
+    <Paragraph>You can retrieve the cached properties of an element through the following methods and properties.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>GetCachedPropertyValue 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Cached 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>An exception is raised if the requested property is not in the cache.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Cached</Run>
+ like Current, exposes individual properties as members of a structure. However, you do not need to retrieve this structure; 
+you can access the individual properties directly. For example, the <Run FontWeight="Bold">Name</Run>
+ property can be obtained from <Run>element.Cached.Name</Run>
+, where <Run FontWeight="Bold">element</Run>
+ is an <Run FontWeight="Bold">AutomationElement</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Retrieving Cached Control Patterns
+    </Paragraph>
+
+    <Paragraph>You can retrieve the cached control patterns of an element through the following methods.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>GetCachedPattern 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>TryGetCachedPattern 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If the pattern is not in the cache, <Run FontWeight="Bold">GetCachedPattern</Run>
+ raises an exception, and <Run FontWeight="Bold">TryGetCachedPattern</Run>
+ returns <Run FontWeight="Bold">false</Run>
+.
+    </Paragraph>
+
+    <Paragraph>You can retrieve the cached properties of a control pattern by using the <Run>Cached</Run>
+ property of the pattern object. You can also retrieve the current values through the <Run>Current</Run>
+ property, but only if <Run FontWeight="Bold">None</Run>
+ was not specified when the <Run FontWeight="Bold">AutomationElement</Run>
+ was retrieved. (Full is the default value, and this permits access to the current values.)
+    </Paragraph>
+
+    <Paragraph FontSize="22">Retrieving Cached Children and Parents
+    </Paragraph>
+
+    <Paragraph>When you retrieve an <Run FontWeight="Bold">AutomationElement</Run>
+ and request caching for children of that element through the <Run FontWeight="Bold">TreeScope</Run>
+ property of the request, it is subsequently possible to get the child elements from the CachedChildren property of the element you retrieved.
+    </Paragraph>
+
+    <Paragraph>If <Run FontWeight="Bold">Element</Run>
+ was included in the scope of the cache request, the root element of the request is subsequently available from the CachedParent property of any of the child elements.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>You cannot cache parents or ancestors of the root element of the request.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Updating the Cache
+    </Paragraph>
+
+    <Paragraph>The cache is valid only as long as nothing changes in the UI. Your application is responsible for updating the cache, typically in response to events.
+    </Paragraph>
+
+    <Paragraph>If you subscribe to an event while a <Run FontWeight="Bold">CacheRequest</Run>
+ is active, you obtain an <Run FontWeight="Bold">AutomationElement</Run>
+ with an updated cache as the source of the event whenever your event-handler delegate is called. You can also update cached information for an element by calling GetUpdatedCache. You can pass in the original <Run FontWeight="Bold">CacheRequest</Run>
+ to update all information that was previously cached.
+    </Paragraph>
+
+    <Paragraph>Updating the cache does not alter the properties of any existing <Run FontWeight="Bold">AutomationElement</Run>
+ references. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ec722dff-6009-4279-b86a-e18d3fa94ebf.xaml">Use Caching in UI Automation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b909e388-3f24-4997-b6d4-bd9c35c2dc27.xaml">UI Automation Events for Clients</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>FetchTimer Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Caching in UI Automation Clients to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

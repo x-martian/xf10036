@@ -1,0 +1,220 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_4aa3cf6e_1953_4f26_8230_7c1409e5f28d"
+  Tag     ="Create Outlined Text"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create Outlined Text</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In most cases, when you are adding ornamentation to text strings in your Windows Presentation Foundation (WPF) application, you are using text in terms of a collection of discrete characters, or glyphs. For example, you could create a linear gradient brush and apply it to the Foreground property of a TextBox object. When you display or edit the text box, the linear gradient brush is automatically applied to the current set of characters in the text string.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of a linear gradient brush applied to a text box</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>However, you can also convert text into Geometry objects, allowing you to create other types of visually rich text. For example, you could create a <Run FontWeight="Bold">Geometry</Run>
+ object based on the outline of a text string.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of a linear gradient brush applied to the outline geometry of text</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>When text is converted to a <Run FontWeight="Bold">Geometry</Run>
+ object, it is no longer a collection of characters—you cannot modify the characters in the text string. However, you can affect the appearance of the converted text by modifying its stroke and fill properties. The stroke refers to the outline of the converted text; 
+the fill refers to the area inside the outline of the converted text.
+    </Paragraph>
+
+    <Paragraph>The following examples illustrate several ways of creating visual effects by modifying the stroke and fill of converted text.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of setting stroke and fill to different colors</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of an image brush applied to the stroke</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>It is also possible to modify the bounding box rectangle, or highlight, of the converted text. The following example illustrates a way to creating visual effects by modifying the stroke and highlight of converted text.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of an image brush applied to the stroke and highlight</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For the complete code sample from which the following code examples were extracted, see Outlined Text Custom Control Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The key to converting text to a <Run FontWeight="Bold">Geometry</Run>
+ object is to use the FormattedText object. Once you have created this object, you can use the BuildGeometry and BuildHighlightGeometry methods to convert the text to <Run FontWeight="Bold">Geometry</Run>
+ objects. The first method returns the geometry of the formatted text; 
+the second method returns the geometry of the formatted text's bounding box. The following code example shows how to create a <Run FontWeight="Bold">FormattedText</Run>
+ object and to retrieve the geometries of the formatted text and its bounding box.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the outline geometry based on the formatted text. public void CreateText() { // Create the formatted text based on the properties set. _formattedText = new FormattedText( _textContent, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(_fontFamily, _fontStyle, _fontWeight, _fontStretch), _fontSize, Brushes.Black // This brush does not matter since we use the geometry of the text. ); 
+// Build the geometry object that represents the text. _textGeometry = _formattedText.BuildGeometry(new Point(0, 0)); 
+// Build the geometry object that represents the text hightlight. if (_highlight == true) { _textHighLightGeometry = _formattedText.BuildHighlightGeometry(new Point(0, 0)); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In order to display the retrieved the <Run FontWeight="Bold">Geometry</Run>
+ objects, you need to access the DrawingContext of the object that is displaying the converted text. In these code examples, this is done by creating a custom control object that is derived from a class that supports user-defined rendering. For details on creating a custom control, see Outlined Text Custom Control Sample.
+    </Paragraph>
+
+    <Paragraph>To display <Run FontWeight="Bold">Geometry</Run>
+ objects in the custom control, provide an override for the OnRender method. Your overridden method should use the DrawGeometry method to draw the <Run FontWeight="Bold">Geometry</Run>
+ objects.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The OnRender override method allows you to draw directly into // the DrawingContext of the outlined text control. protected override void OnRender(DrawingContext drawingContext) { // Draw the outline based on the properties that are set. drawingContext.DrawGeometry(_fill, new Pen(_stroke, _strokeThickness), _textGeometry); 
+// Draw the text highlight based on the properties that are set. if (_highlight == true) { drawingContext.DrawGeometry(_fill, new Pen(_stroke, _strokeThickness), _textHighLightGeometry); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b1d851c1-331c-4814-9964-6fe769db6f1f.xaml">Drawing Formatted Text</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Outlined Text Custom Control Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create Outlined Text to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,135 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f325f0d8_1715_41ea_85ca_45b82ffea8bc"
+  Tag     ="Implement UI Automation Providers in a Client Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Implement UI Automation Providers in a Client Application</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic contains example code that shows how to implement a client-side <Run>UI Automation provider</Run>
+ within an application.
+    </Paragraph>
+
+    <Paragraph>This is an uncommon scenario. Most often, a <Run>UI Automation client</Run>
+ application uses server-side providers, or client-side providers that reside in a DLL.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example code implements a simple provider for a console window. The code does not have any useful functionality, but is intended to demonstrate the basic steps in setting up a provider within client code and registering it by using RegisterClientSideProviders.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows.Automation; 
+using System.Windows.Automation.Provider; 
+using System.Reflection; 
+using System.Runtime.InteropServices; 
+// for DllImport using System.IO; 
+namespace CSClientProviderImplementation { class CSClientSideImplementationProgram { [DllImport("kernel32.dll")] static extern IntPtr GetConsoleWindow(); 
+static void Main(string[] args) { ClientSettings.RegisterClientSideProviders( UIAutomationClientSideProviders.ClientSideProviderDescriptionTable); 
+IntPtr hwnd = GetConsoleWindow(); 
+// Get an AutomationElement that represents the window. AutomationElement elementWindow = AutomationElement.FromHandle(hwnd); 
+Console.WriteLine("Found UI Automation client-side provider for:"); 
+// The name property is furnished by the client-side provider. Console.WriteLine(elementWindow.Current.Name); 
+Console.WriteLine(); 
+Console.WriteLine("Press any key to exit."); 
+Console.ReadLine(); 
+} } // CSClientSideImplementationProgram class class UIAutomationClientSideProviders { /// 
+&lt;summary> /// Implementation of the static ClientSideProviderDescriptionTable field. /// In this case,only a single provider is listed in the table. /// 
+&lt;/summary> public static ClientSideProviderDescription[] ClientSideProviderDescriptionTable = { new ClientSideProviderDescription( // Method that creates the provider object. WindowProvider.Create, // Class of window that will be served by the provider. "ConsoleWindowClass") }; 
+} class WindowProvider : IRawElementProviderSimple { IntPtr providerHwnd; 
+public WindowProvider(IntPtr hwnd) { providerHwnd = hwnd; 
+} internal static IRawElementProviderSimple Create( IntPtr hwnd, int idChild, int idObject) { return Create(hwnd, idChild); 
+} private static IRawElementProviderSimple Create( IntPtr hwnd, int idChild) { // Something is wrong if idChild is not 0. if (idChild != 0) return null; 
+else return new WindowProvider(hwnd); 
+} #region IRawElementProviderSimple // This is a skeleton implementation. The only real functionality at this stage // is to return the name of the element and the host window provider, which can // supply other properties. ProviderOptions IRawElementProviderSimple.ProviderOptions { get { return ProviderOptions.ClientSideProvider; 
+} } IRawElementProviderSimple IRawElementProviderSimple.HostRawElementProvider { get { return AutomationInteropProvider.HostProviderFromHandle(providerHwnd); 
+} } object IRawElementProviderSimple.GetPropertyValue(int aid) { if (AutomationProperty.LookupById(aid) == AutomationElementIdentifiers.NameProperty) { return "Custom Console Window"; 
+} else { return null; 
+} } object IRawElementProviderSimple.GetPatternProvider(int iid) { return null; 
+} #endregion IRawElementProviderSimple } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a03af4d9-2771-43cc-b07b-d468dca23190.xaml">Register a Client-Side Provider Assembly</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="d91edaf2-be28-41ec-a508-af421cb43c3d.xaml">Create a Client-Side UI Automation Provider</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="859557b8-51e1-4d15-92e8-318d2dcdb2f7.xaml">UI Automation Providers Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3584c0a1-9cd0-4968-8b63-b06390890ef6.xaml">Client-Side UI Automation Provider Implementation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Implement UI Automation Providers in a Client Application to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,236 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_859557b8_51e1_4d15_92e8_318d2dcdb2f7"
+  Tag     ="UI Automation Providers Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation Providers Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run>UI Automation providers</Run>
+ enable controls to communicate with <Run>UI Automation client</Run>
+ applications. In general, each control or other distinct element in a user interface (UI) is represented by a provider. The provider exposes information about the element and optionally implements <Run>control patterns</Run>
+ that enable the client application to interact with the control.
+    </Paragraph>
+
+    <Paragraph>Client applications do not usually have to work directly with providers. Most of the standard controls in applications that use the Win32, Windows Forms, or Windows Presentation Foundation (WPF) frameworks are automatically exposed to the UI Automation system. Applications that implement custom controls may also implement UI Automation providers for those controls, and client applications do not have to take any special steps to gain access to them.
+    </Paragraph>
+
+    <Paragraph>This topic provides an overview of how control developers implement UI Automation providers, particularly for controls in Windows Forms and Win32 windows.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Types_of_Providers">Types of Providers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="AutomationProviderConcepts">UI Automation Provider Concepts</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Types of Providers
+    </Paragraph>
+
+    <Paragraph>UI_Automation providers fall into two categories: client-side providers and server-side providers.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Client-side providers
+    </Paragraph>
+
+    <Paragraph>Client-side providers are implemented by UI Automation clients to communicate with an application that does not support, or does not fully support, UI Automation. Client-side providers usually communicate with the server across the process boundary by sending and receiving Windows messages.
+    </Paragraph>
+
+    <Paragraph>Because UI Automation providers for controls in Win32, Windows Forms, or WPF applications are supplied as part of the operating system, client applications seldom have to implement their own providers, and this overview does not cover them further.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Server-side providers
+    </Paragraph>
+
+    <Paragraph>Server-side providers are implemented by custom controls or by applications that are based on a UI framework other than Win32, Windows Forms, or WPF.
+    </Paragraph>
+
+    <Paragraph>Server-side providers communicate with client applications across the process boundary by exposing interfaces to the UI Automation core system, which in turn serves requests from clients.
+    </Paragraph>
+
+    <Paragraph FontSize="22">UI Automation Provider Concepts
+    </Paragraph>
+
+    <Paragraph>This section provides brief explanations of some of the key concepts you need to understand in order to implement UI Automation providers.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Elements
+    </Paragraph>
+
+    <Paragraph>UI Automation elements are pieces of user interface (UI) that are visible to UI Automation clients. Examples include application windows, panes, buttons, tooltips, list boxes, and list items. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Navigation
+    </Paragraph>
+
+    <Paragraph>UI Automation elements are exposed to clients as a UI Automation tree. UI Automation constructs the tree by navigating from one element to another. Navigation is enabled by the providers for each element, each of which may point to a parent, siblings, and children.
+    </Paragraph>
+
+    <Paragraph>For more information on the client view of the UI Automation tree, see <Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Views
+    </Paragraph>
+
+    <Paragraph>A client can see the UI Automation tree in three principal views, as shown in the following table.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Raw view
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains all elements.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Control view
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains elements that are controls.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Content view
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains elements that have content.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information on client views of the UI Automation tree, see <Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>It is the responsibility of the provider implementation to define an element as a content element or a control element. Control elements may or may not also be content elements, but all content elements are control elements.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Frameworks
+    </Paragraph>
+
+    <Paragraph>A framework is a component that manages child controls, hit-testing, and rendering in an area of the screen. For example, a Win32 window, often referred to as an HWND, can serve as a framework that contains multiple UI Automation elements such as a menu bar, a status bar, and buttons. 
+    </Paragraph>
+
+    <Paragraph>Win32 container controls such as list boxes and tree views are considered to be frameworks, because they contain their own code for rendering child items and performing hit-testing on them. By contrast, a WPF list box is not a framework, because the rendering and hit-testing is being handled by the containing WPF window.
+    </Paragraph>
+
+    <Paragraph>The UI in an application can be made up of different frameworks. For example, an HWND application window might contain Dynamic HTML (DHTML) which in turn contains a component such as a combo box in an HWND.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Fragments
+    </Paragraph>
+
+    <Paragraph>A fragment is a complete subtree of elements from a particular framework. The element at the root node of the subtree is called a fragment root. A fragment root does not have a parent, but is hosted within some other framework, usually a Win32 window (HWND). 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Hosts
+    </Paragraph>
+
+    <Paragraph>The root node of every <Run>fragment</Run>
+ must be hosted in an element, usually a Win32 window (HWND). The exception is the desktop, which is not hosted in any other element. The host of a custom control is the HWND of the control itself, not the application window or any other window that might contain groups of top-level controls.
+    </Paragraph>
+
+    <Paragraph>The host of a fragment plays an important role in providing UI Automation services. It enables navigation to the fragment root, and supplies some default properties so that the custom provider does not have to implement them.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6acc6d08-bd67-4e2e-915c-9c1d34eb86fe.xaml">Server-Side UI Automation Provider Implementation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation Providers Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

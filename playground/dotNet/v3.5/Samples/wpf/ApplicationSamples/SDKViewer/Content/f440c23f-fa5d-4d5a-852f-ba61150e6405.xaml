@@ -1,0 +1,324 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f440c23f_fa5d_4d5a_852f_ba61150e6405"
+  Tag     ="Troubleshooting Hybrid Applications"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Troubleshooting Hybrid Applications</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic lists some common problems that can occur when authoring hybrid applications which use both WPF and Windows Forms technologies.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Overlapping Controls
+    </Paragraph>
+
+    <Paragraph>Controls may not overlap as you would expect. Windows Forms uses a separate HWND for each control. WPF uses one HWND for all content on a page. This implementation difference causes unexpected overlapping behaviors.
+    </Paragraph>
+
+    <Paragraph>A Windows Forms control hosted in WPF always appears on top of the WPF content. 
+    </Paragraph>
+
+    <Paragraph>WPF content hosted in an ElementHost control appears at the z-order of the <Run FontWeight="Bold">ElementHost</Run>
+ control. It is possible to overlap <Run FontWeight="Bold">ElementHost</Run>
+ controls, but the hosted WPF content does not combine or interact.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Child Property
+    </Paragraph>
+
+    <Paragraph>The WindowsFormsHost and <Run FontWeight="Bold">ElementHost</Run>
+ classes can host only a single child control or element. To host more than one control or element, you must use a container as the child content. For example, you could add Windows Forms button and check box controls to a System.Windows.Forms.Panel control, and then assign the panel to a <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control's Child property. However, you cannot add the button and check box controls separately to the same <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Scaling
+    </Paragraph>
+
+    <Paragraph>WPF and Windows Forms have different scaling models. Some WPF scaling transformations are meaningful to Windows Forms controls, but others are not. For example, scaling a Windows Forms control to 0 will work, but if you try to scale the same control back to a non-zero value, the control's size remains 0. For more information, see <Hyperlink NavigateUri="3c574597-bbde-440f-95cc-01371f1a5d9d.xaml">Layout Considerations for the WindowsFormsHost Element</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Adapter
+    </Paragraph>
+
+    <Paragraph>There may be confusion when working the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ and <Run FontWeight="Bold">ElementHost</Run>
+ classes, because they include a hidden container. Both the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ and <Run FontWeight="Bold">ElementHost</Run>
+ classes have a hidden container, called an <Run FontStyle="italic">adapter</Run>
+, which they use to host content. For the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element, the adapter derives from the System.Windows.Forms.ContainerControl class. For the <Run FontWeight="Bold">ElementHost</Run>
+ control, the adapter derives from the DockPanel element. When you see references to the adapter in other interoperation topics, this container is what is being discussed. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Nesting
+    </Paragraph>
+
+    <Paragraph>Nesting a <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element inside an <Run FontWeight="Bold">ElementHost</Run>
+ control is not supported. Nesting an <Run FontWeight="Bold">ElementHost</Run>
+ control inside a <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element is also not supported.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Focus
+    </Paragraph>
+
+    <Paragraph>Focus works differently in WPF and Windows Forms, which means that focus issues may occur in a hybrid application. For example, if you have focus inside a <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element, and you either minimize and restore the page or show a modal dialog box, focus inside the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element may be lost. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element still has focus, but the control inside it may not.
+    </Paragraph>
+
+    <Paragraph>Data validation is also affected by focus. Validation works in a <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element, but it does not work as you tab out of the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element, or between two different <Run FontWeight="Bold">WindowsFormsHost</Run>
+ elements.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Property Mapping
+    </Paragraph>
+
+    <Paragraph>Some property mappings require extensive interpretation to bridge dissimilar implementations between the WPF and Windows Forms technologies. Property mappings enable your code to react to changes in fonts, colors, and other properties. In general, property mappings work by listening for either <Run FontStyle="italic">Property</Run>
+Changed events or On<Run FontStyle="italic">Property</Run>
+Changed calls, and setting appropriate properties on either the child control or its adapter. For more information, see <Hyperlink NavigateUri="999d8298-9c04-467d-a453-86e41002057d.xaml">Windows Forms and WPF Property Mapping</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Layout-related Properties on Hosted Content
+    </Paragraph>
+
+    <Paragraph>When the <Run FontWeight="Bold">System.Windows.Forms.Integration.WindowsFormsHost.Child</Run>
+ or System.Windows.Forms.Integration.ElementHost.Child property is assigned, several layout-related properties on the hosted content are set automatically. Changing these content properties can cause unexpected layout behaviors.
+    </Paragraph>
+
+    <Paragraph>Your hosted content is docked to fill the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ and <Run FontWeight="Bold">ElementHost</Run>
+ parent. To enable this fill behavior, several properties are set when you set the child property. The following table lists which content properties are set by the <Run FontWeight="Bold">ElementHost</Run>
+ and <Run FontWeight="Bold">WindowsFormsHost</Run>
+ classes.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Host Class 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Content Properties 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ElementHost</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Height 
+            </Paragraph>
+
+            <Paragraph>Width 
+            </Paragraph>
+
+            <Paragraph>Margin 
+            </Paragraph>
+
+            <Paragraph>VerticalAlignment 
+            </Paragraph>
+
+            <Paragraph>HorizontalAlignment 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">WindowsFormsHost</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Margin 
+            </Paragraph>
+
+            <Paragraph>Dock 
+            </Paragraph>
+
+            <Paragraph>AutoSize 
+            </Paragraph>
+
+            <Paragraph>Location 
+            </Paragraph>
+
+            <Paragraph>MaximumSize 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Do not set these properties directly on the hosted content. For more information, see <Hyperlink NavigateUri="3c574597-bbde-440f-95cc-01371f1a5d9d.xaml">Layout Considerations for the WindowsFormsHost Element</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Navigation Applications
+    </Paragraph>
+
+    <Paragraph>Navigation applications may not maintain user state. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element recreates its controls when it is used in a navigation application. Recreating child controls occurs when the user navigates away from the page hosting the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element and then returns to it. Any content that has been typed in by the user will be lost.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Message Loop Interoperation
+    </Paragraph>
+
+    <Paragraph>When working with Windows Forms message loops, messages may not be processed as expected. The EnableWindowsFormsInterop method is called by the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ constructor. This method adds a message filter to the WPF message loop. This filter calls the System.Windows.Forms.Control.PreProcessMessage(System.Windows.Forms.Message) method if a System.Windows.Forms.Control was the target of the message and translates/dispatches the message.
+    </Paragraph>
+
+    <Paragraph>If you show a Window in a Windows Forms message loop with System.Windows.Forms.Application.Run, you cannot type anything unless you call the EnableModelessKeyboardInterop method. The <Run FontWeight="Bold">EnableModelessKeyboardInterop</Run>
+ method takes a <Run FontWeight="Bold">Window</Run>
+ and adds an System.Windows.Forms.IMessageFilter which re-routes key-related messages to the WPF message loop. For more information, see <Hyperlink NavigateUri="0eb6f137-f088-4c5e-9e37-f96afd28f235.xaml">Windows Forms and WPF Interoperability Input Architecture</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Opacity and Layering
+    </Paragraph>
+
+    <Paragraph>The HwndHost class does not support layering. This means that setting the Opacity property on the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element has no effect, and no blending will occur with other WPF windows which have AllowsTransparency set to <Run FontWeight="Bold">true</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dispose
+    </Paragraph>
+
+    <Paragraph>Not disposing classes properly can leak resources. In your hybrid applications, make sure that the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ and <Run FontWeight="Bold">ElementHost</Run>
+ classes are disposed, or you could leak resources. Windows Forms disposes <Run FontWeight="Bold">ElementHost</Run>
+ controls when its non-modal Form parent closes. WPF disposes <Run FontWeight="Bold">WindowsFormsHost</Run>
+ elements when your application shuts down. It is possible to show a <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element in a <Run FontWeight="Bold">Window</Run>
+ in a Windows Forms message loop. In this case, your code may not receive notification that your application is shutting down.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Enabling Visual Styles
+    </Paragraph>
+
+    <Paragraph>Microsoft Windows XP visual styles on a Windows Forms control may not be enabled. The System.Windows.Forms.Application.EnableVisualStyles method is called in the template for a Windows Forms application. Although this method is not called by default, if you use Visual Studio to create a project, you will get Microsoft Windows XP visual styles for controls, if version 6.0 of Comctl32.dll is available. You must call the <Run FontWeight="Bold">EnableVisualStyles</Run>
+ method before handles are created on the thread. For more information, see <Hyperlink NavigateUri="95de9b9c-d804-405c-b2d1-49a88c1e0fe1.xaml">How to: Enable Visual Styles in a Hybrid Application</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Licensed Controls
+    </Paragraph>
+
+    <Paragraph>Licensed Windows Forms controls that display licensing information in a message box to the user might cause unexpected behavior for a hybrid application. Some licensed controls show a dialog box in response to handle creation. For example, a licensed control might inform the user that a license is required, or that the user has three remaining trial uses of the control. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element derives from the <Run FontWeight="Bold">HwndHost</Run>
+ class, and the child control’s handle is created inside the BuildWindowCore method. The <Run FontWeight="Bold">HwndHost</Run>
+ class does not allow messages to be processed in the <Run FontWeight="Bold">BuildWindowCore</Run>
+ method, but displaying a dialog box causes messages to be sent. To enable this licensing scenario, call the System.Windows.Forms.Control.CreateControl method on the control before assigning it as the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element's child.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="95de9b9c-d804-405c-b2d1-49a88c1e0fe1.xaml">How to: Enable Visual Styles in a Hybrid Application</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ElementHost
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0eb6f137-f088-4c5e-9e37-f96afd28f235.xaml">Windows Forms and WPF Interoperability Input Architecture</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3c574597-bbde-440f-95cc-01371f1a5d9d.xaml">Layout Considerations for the WindowsFormsHost Element</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="999d8298-9c04-467d-a453-86e41002057d.xaml">Windows Forms and WPF Property Mapping</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d655de05-bf63-4814-bc64-6b3be01c70a2.xaml">Migration and Interoperability</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Troubleshooting Hybrid Applications to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

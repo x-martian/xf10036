@@ -1,0 +1,71 @@
+﻿<!--
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//
+// Copyright (C) Microsoft Corporation, 2005.  All rights reserved.
+//
+// File: BrowserTabControl.xaml
+//
+// Description: This file contains the XAML for a tabbed browser control. 
+//              Its children should be BrowserTabItems
+//
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+
+<TabControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:CC="clr-namespace:Microsoft.Windows.SdkViewer.Controls"
+    x:Class="Microsoft.Windows.SdkViewer.Controls.BrowserTabControl" xmlns:MappingPIGen1="clr-namespace:Microsoft.Windows.SdkViewer.Controls">
+    <TabControl.Resources>
+    
+        <Style x:Key="{x:Type CC:BrowserTabControl}" TargetType="{x:Type CC:BrowserTabControl}">
+            <Setter Property="Background" Value="transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Border.CornerRadius" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CC:BrowserTabControl}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            
+                            <!-- Tab header area -->
+                            <DockPanel Grid.Row="0" LastChildFill="False">
+                                <Button Name="CloseTabButton"
+                                        Style="{StaticResource WebDingsButton}"
+                                        FontFamily="Calibri"
+                                        DockPanel.Dock="Right"
+                                        VerticalAlignment="Top"
+                                        Click="OnCloseTabClicked"
+                                        ToolTip="Close Tab (Alt-W)"
+                                        Width="16" Height="16" Margin="5">Close</Button>
+                                <Button Name="NewTabButton"
+                                        Style="{StaticResource WebDingsButton}"
+                                        FontFamily="Calibri"
+                                        DockPanel.Dock="Right"
+                                        VerticalAlignment="Top"
+                                        Click="OnNewTabClicked"
+                                        ToolTip="New Tab (Alt-T)"
+                                        Width="16" Height="16" Margin="5">New</Button>
+                                <TabPanel DockPanel.Dock="Left" IsItemsHost="True" Margin="2,2,2,0" />
+                            </DockPanel>
+                            
+                            <!-- Tab Content -->
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding Border.CornerRadius}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Grid.Row="1">
+                                <ContentPresenter ContentSource="SelectedContent" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    
+    </TabControl.Resources>
+</TabControl>

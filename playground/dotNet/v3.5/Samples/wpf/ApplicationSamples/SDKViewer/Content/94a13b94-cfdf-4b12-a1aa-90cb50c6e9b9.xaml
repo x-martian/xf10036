@@ -1,0 +1,448 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_94a13b94_cfdf_4b12_a1aa_90cb50c6e9b9"
+  Tag     ="ScrollViewer Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>ScrollViewer Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Content within a user interface is often larger than a computer screen's display area. The ScrollViewer control provides a convenient way to enable scrolling of content in Windows Presentation Foundation (WPF) applications. This topic introduces the <Run FontWeight="Bold">ScrollViewer</Run>
+ element and provides several usage examples.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="what_is_a_scrollviewer_element">The ScrollViewer Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="scrollviewer_physical_vs_logical">Physical vs. Logical Scrolling</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="scrollviewer_markup_syntax_and_sample">Defining and Using a ScrollViewer Element</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="scrollviewer_styling_scrollviewer">Styling a ScrollViewer</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="scrollviewer_scroll_vs_paginate">Paginating Documents</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">The ScrollViewer Control
+    </Paragraph>
+
+    <Paragraph>There are two predefined elements that enable scrolling in WPF applications: ScrollBar and <Run FontWeight="Bold">ScrollViewer</Run>
+. The <Run FontWeight="Bold">ScrollViewer</Run>
+ control encapsulates horizontal and vertical <Run FontWeight="Bold">ScrollBar</Run>
+ elements and a content container (such as a Panel element) in order to display other visible elements in a scrollable area. You must build a custom object in order to use the <Run FontWeight="Bold">ScrollBar</Run>
+ element for content scrolling. However, you can use the <Run FontWeight="Bold">ScrollViewer</Run>
+ element by itself because it is a composite control that encapsulates <Run FontWeight="Bold">ScrollBar</Run>
+ functionality.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ScrollViewer</Run>
+ control responds to both mouse and keyboard commands, and defines numerous methods with which to scroll content by predetermined increments. You can use the ScrollChanged event to detect a change in a <Run FontWeight="Bold">ScrollViewer</Run>
+ state.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">ScrollViewer</Run>
+ can only have one child, typically a <Run FontWeight="Bold">Panel</Run>
+ element that can host a Children collection of UIElements. The Content property defines the sole child of the <Run FontWeight="Bold">ScrollViewer</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Physical vs. Logical Scrolling
+    </Paragraph>
+
+    <Paragraph>Physical scrolling is used to scroll content by a predetermined physical increment, typically by a value that is declared in pixels. Logical scrolling is used to scroll to the next item in the logical tree. Physical scrolling is the default scroll behavior for most <Run FontWeight="Bold">Panel</Run>
+ elements. WPF supports both types of scrolling.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">The IScrollInfo Interface
+    </Paragraph>
+
+    <Paragraph>The IScrollInfo interface represents the main scrolling region within a <Run FontWeight="Bold">ScrollViewer</Run>
+ or derived control. The interface defines scrolling properties and methods that can be implemented by <Run FontWeight="Bold">Panel</Run>
+ elements that require scrolling by logical unit, rather than by a physical increment. Casting an instance of <Run FontWeight="Bold">IScrollInfo</Run>
+ to a derived <Run FontWeight="Bold">Panel</Run>
+ and then using its scrolling methods provides a useful way to scroll to the next logical unit in a child collection, rather than by pixel increment. By default, the <Run FontWeight="Bold">ScrollViewer</Run>
+ control supports scrolling by physical units.
+    </Paragraph>
+
+    <Paragraph>StackPanel and VirtualizingStackPanel both implement <Run FontWeight="Bold">IScrollInfo</Run>
+ and natively support logical scrolling. For layout controls that natively support logical scrolling, you can still achieve physical scrolling by wrapping the host <Run FontWeight="Bold">Panel</Run>
+ element in a <Run FontWeight="Bold">ScrollViewer</Run>
+ and setting the CanContentScroll property to <Run FontWeight="Bold">false</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following code example demonstrates how to cast an instance of <Run FontWeight="Bold">IScrollInfo</Run>
+ to a <Run FontWeight="Bold">StackPanel</Run>
+ and use content scrolling methods (LineUp and LineDown) defined by the interface.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void spLineUp(object sender, RoutedEventArgs e) { ((IScrollInfo)sp1).LineUp(); 
+} private void spLineDown(object sender, RoutedEventArgs e) { ((IScrollInfo)sp1).LineDown(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub spLineUp(ByVal sender As Object, ByVal args As RoutedEventArgs) CType(sp1, IScrollInfo).LineUp() End Sub Private Sub spLineDown(ByVal sender As Object, ByVal args As RoutedEventArgs) CType(sp1, IScrollInfo).LineDown() End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Defining and Using a ScrollViewer Element
+    </Paragraph>
+
+    <Paragraph>The following example creates a <Run FontWeight="Bold">ScrollViewer</Run>
+ in a window that contains some text and a rectangle. <Run FontWeight="Bold">ScrollBar</Run>
+ elements appear only when they are necessary. When you resize the window, the <Run FontWeight="Bold">ScrollBar</Run>
+ elements appear and disappear, due to updated values of the ComputedHorizontalScrollBarVisibility and ComputedVerticalScrollBarVisibility properties.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For the complete code sample, see Scroll Viewer Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the application's main window mainWindow = gcnew System::Windows::Window(); 
+mainWindow->Title = "ScrollViewer Sample"; 
+// Define a ScrollViewer myScrollViewer = gcnew ScrollViewer(); 
+myScrollViewer->HorizontalScrollBarVisibility = ScrollBarVisibility::Auto; 
+// Add Layout control myStackPanel = gcnew StackPanel(); 
+myStackPanel->HorizontalAlignment = HorizontalAlignment::Left; 
+myStackPanel->VerticalAlignment = VerticalAlignment::Top; 
+TextBlock^ myTextBlock = gcnew TextBlock(); 
+myTextBlock->TextWrapping = TextWrapping::Wrap; 
+myTextBlock->Margin = System::Windows::Thickness(0, 0, 0, 20); 
+myTextBlock->Text = "Scrolling is enabled when it is necessary. Resize the Window, making it larger and smaller."; 
+Rectangle^ myRectangle = gcnew Rectangle(); 
+myRectangle->Fill = Brushes::Red; 
+myRectangle->Width = 500; 
+myRectangle->Height = 500; 
+// Add child elements to the parent StackPanel myStackPanel->Children->Add(myTextBlock); 
+myStackPanel->Children->Add(myRectangle); 
+// Add the StackPanel as the lone Child of the Border myScrollViewer->Content = myStackPanel; 
+// Add the Border as the Content of the Parent Window Object mainWindow->Content = myScrollViewer; 
+mainWindow->Show(); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the application's main window mainWindow = new Window (); 
+mainWindow.Title = "ScrollViewer Sample"; 
+// Define a ScrollViewer myScrollViewer = new ScrollViewer(); 
+myScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto; 
+// Add Layout control myStackPanel = new StackPanel(); 
+myStackPanel.HorizontalAlignment = HorizontalAlignment.Left; 
+myStackPanel.VerticalAlignment = VerticalAlignment.Top; 
+TextBlock myTextBlock = new TextBlock(); 
+myTextBlock.TextWrapping = TextWrapping.Wrap; 
+myTextBlock.Margin = new Thickness(0, 0, 0, 20); 
+myTextBlock.Text = "Scrolling is enabled when it is necessary. Resize the Window, making it larger and smaller."; 
+Rectangle myRectangle = new Rectangle(); 
+myRectangle.Fill = Brushes.Red; 
+myRectangle.Width = 500; 
+myRectangle.Height = 500; 
+// Add child elements to the parent StackPanel myStackPanel.Children.Add(myTextBlock); 
+myStackPanel.Children.Add(myRectangle); 
+// Add the StackPanel as the lone Child of the Border myScrollViewer.Content = myStackPanel; 
+// Add the Border as the Content of the Parent Window Object mainWindow.Content = myScrollViewer; 
+mainWindow.Show (); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>'Define a ScrollViewer. Dim myScrollViewer As New ScrollViewer myScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto 'Add Layout control. Dim myStackPanel As New StackPanel myStackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Left myStackPanel.VerticalAlignment = System.Windows.VerticalAlignment.Top Dim myTextBlock As New TextBlock myTextBlock.TextWrapping = TextWrapping.Wrap myTextBlock.Margin = New Thickness(0, 0, 0, 20) myTextBlock.Text = "Scrolling is enabled when it is necessary. Resize the Window, making it larger and smaller." Dim myRectangle As New Rectangle myRectangle.Fill = Brushes.Red myRectangle.Width = 500 myRectangle.Height = 500 'Add child elements to the parent StackPanel. myStackPanel.Children.Add(myTextBlock) myStackPanel.Children.Add(myRectangle) 'Add the StackPanel as the lone Child of the Border myScrollViewer.Content = myStackPanel Me.Content = myScrollViewer </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_94a13b94_cfdf_4b12_a1aa_90cb50c6e9b9_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="ScrollViewer Sample"> 
+&lt;ScrollViewer HorizontalScrollBarVisibility="Auto"> 
+&lt;StackPanel VerticalAlignment="Top" HorizontalAlignment="Left"> 
+&lt;TextBlock TextWrapping="Wrap" Margin="0,0,0,20">Scrolling is enabled when it is necessary. Resize the window, making it larger and smaller.
+&lt;/TextBlock> 
+&lt;Rectangle Fill="Red" Width="500" Height="500">
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/ScrollViewer> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Styling a ScrollViewer
+    </Paragraph>
+
+    <Paragraph>Like all controls in Windows Presentation Foundation, the <Run FontWeight="Bold">ScrollViewer</Run>
+ can be styled in order to change the default rendering behavior of the control. For an example of a custom styled ScrollViewer, see Style the ScrollViewer Element. For additional information on control styling, see Tutorial: Use Styling to Create a Visually Compelling Application.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Paginating Documents
+    </Paragraph>
+
+    <Paragraph>For document content, an alternative to scrolling is to choose a document container that supports pagination. FlowDocuments are documents that are designed to be hosted within a viewing control, such as FlowDocumentPageViewer, that supports paginating content across multiple pages, preventing the need for scrolling. DocumentViewer provides a solution for viewing FixedDocument content, which uses traditional scrolling to display content outside the realm of the display area.
+    </Paragraph>
+
+    <Paragraph>For additional information about document formats and presentation options, see <Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c8e46af7-b417-441b-aa30-791cbdbd43ef.xaml">How to: Create a ScrollViewer</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ScrollViewer
+      <LineBreak/>ScrollBar
+      <LineBreak/>IScrollInfo
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="066ea45a-e27d-43b0-adfe-cce6934c22f5.xaml">ScrollBar ControlTemplate Example</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Style the ScrollViewer Element
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about ScrollViewer Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

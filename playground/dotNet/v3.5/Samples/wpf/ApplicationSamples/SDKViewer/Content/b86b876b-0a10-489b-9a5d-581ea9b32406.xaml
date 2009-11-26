@@ -1,0 +1,158 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b86b876b_0a10_489b_9a5d_581ea9b32406"
+  Tag     ="Define and Reference a Resource"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Define and Reference a Resource</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to define a resource and reference it by using an attribute in Extensible Application Markup Language (XAML).
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example defines two types of resources: a SolidColorBrush resource, and several Style resources. The <Run FontWeight="Bold">SolidColorBrush</Run>
+ resource <Run>MyBrush</Run>
+ is used to provide the value of several properties that each take a Brush type value. The <Run FontWeight="Bold">Style</Run>
+ resources <Run>PageBackground</Run>
+, <Run>TitleText</Run>
+ and <Run>Label</Run>
+ each target a particular control type. The styles set a variety of different properties on the targeted controls, when that style resource is referenced by resource key and is used to set the Style property of several specific control elements defined in XAML.
+    </Paragraph>
+
+    <Paragraph>Note that one of the properties within the setters of the <Run>Label</Run>
+ style also references the <Run>MyBrush</Run>
+ resource defined earlier. This is a common technique, but it is important to remember that resources are parsed and entered into a resource dictionary in the order that they are given. Resources are also requested by the order found within the dictionary if you use the <Hyperlink NavigateUri="97af044c-71f1-4617-9a94-9064b68185d2.xaml">StaticResource Markup Extension</Hyperlink>
+ to reference them from within another resource. Make sure that any resource that you reference is defined earlier within the resources collection than where that resource is then requested. If necessary, you can work around the strict creation order of resource refererences by using a <Hyperlink NavigateUri="7324f243-03af-4c2b-b0db-26ac6cdfcbe4.xaml">DynamicResource Markup Extension</Hyperlink>
+ to reference the resource at runtime instead, but you should be aware that this DynamicResource technique has performance consequences. For details, see <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_b86b876b_0a10_489b_9a5d_581ea9b32406_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page Name="root" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Page.Resources> 
+&lt;SolidColorBrush x:Key="MyBrush" Color="Gold"/> 
+&lt;Style TargetType="{x:Type Border}" x:Key="PageBackground"> 
+&lt;Setter Property="Background" Value="Blue"/> 
+&lt;/Style> 
+&lt;Style TargetType="{x:Type TextBlock}" x:Key="TitleText"> 
+&lt;Setter Property="Background" Value="Blue"/> 
+&lt;Setter Property="DockPanel.Dock" Value="Top"/> 
+&lt;Setter Property="FontSize" Value="18"/> 
+&lt;Setter Property="Foreground" Value="#4E87D4"/> 
+&lt;Setter Property="FontFamily" Value="Trebuchet MS"/> 
+&lt;Setter Property="Margin" Value="0,40,10,10"/> 
+&lt;/Style> 
+&lt;Style TargetType="{x:Type TextBlock}" x:Key="Label"> 
+&lt;Setter Property="DockPanel.Dock" Value="Right"/> 
+&lt;Setter Property="FontSize" Value="8"/> 
+&lt;Setter Property="Foreground" Value="{StaticResource MyBrush}"/> 
+&lt;Setter Property="FontFamily" Value="Arial"/> 
+&lt;Setter Property="FontWeight" Value="Bold"/> 
+&lt;Setter Property="Margin" Value="0,3,10,0"/> 
+&lt;/Style> 
+&lt;/Page.Resources> 
+&lt;StackPanel> 
+&lt;Border Style="{StaticResource PageBackground}"> 
+&lt;DockPanel> 
+&lt;TextBlock Style="{StaticResource TitleText}">Title
+&lt;/TextBlock> 
+&lt;TextBlock Style="{StaticResource Label}">Label
+&lt;/TextBlock> 
+&lt;TextBlock DockPanel.Dock="Top" HorizontalAlignment="Left" FontSize="36" Foreground="{StaticResource MyBrush}" Text="Text" Margin="20" /> 
+&lt;Button DockPanel.Dock="Top" HorizontalAlignment="Left" Height="30" Background="{StaticResource MyBrush}" Margin="40">Button
+&lt;/Button> 
+&lt;Ellipse DockPanel.Dock="Top" HorizontalAlignment="Left" Width="100" Height="100" Fill="{StaticResource MyBrush}" Margin="40" /> 
+&lt;/DockPanel> 
+&lt;/Border> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Defining a Resource Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Defining a Resource Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Define and Reference a Resource to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,281 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f4a314e9_1da2_4367_85fc_1232487efa7a"
+  Tag     ="Animate a Property by Using a Storyboard"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate a Property by Using a Storyboard</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use a Storyboard to animate properties. To animate a property by using a <Run FontWeight="Bold">Storyboard</Run>
+, create an animation for each property that you want to animate and also create a <Run FontWeight="Bold">Storyboard</Run>
+ to contain the animations. 
+    </Paragraph>
+
+    <Paragraph>The type of property determines the type of animation to use. For example, to animate a property that takes Double values, use a DoubleAnimation. The TargetName and TargetProperty <Run>attached properties</Run>
+ specify the object and property to which the animation is applied. 
+    </Paragraph>
+
+    <Paragraph>To start a storyboard in Extensible Application Markup Language (XAML), use a BeginStoryboard action and an EventTrigger. The <Run FontWeight="Bold">EventTrigger</Run>
+ begins the <Run FontWeight="Bold">BeginStoryboard</Run>
+ action when the event that is specified by its RoutedEvent property occurs. The <Run FontWeight="Bold">BeginStoryboard</Run>
+ action starts the <Run FontWeight="Bold">Storyboard</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following example uses <Run FontWeight="Bold">Storyboard</Run>
+ objects to animate two Button controls. To make the first button change in size, its Width is animated. To make the second button change color, the Color property of the SolidColorBrush is used to set the Background of the button that is animated.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- StoryboardExample.xaml Uses storyboards to animate properties. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="Microsoft.Samples.Animation.AnimatingWithStoryboards.StoryboardExample" WindowTitle="Animate Properties with Storyboards"> 
+&lt;Border Background="White"> 
+&lt;StackPanel Margin="30" HorizontalAlignment="Left" MinWidth="500"> 
+&lt;TextBlock>Storyboard Animation Example
+&lt;/TextBlock> 
+&lt;!-- The width of this button is animated. --> 
+&lt;Button Name="myWidthAnimatedButton" Height="30" Width="200" HorizontalAlignment="Left"> A Button 
+&lt;Button.Triggers> 
+&lt;!-- Animates the width of the first button from 200 to 300. --> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="myWidthAnimatedButton" Storyboard.TargetProperty="Width" From="200" To="300" Duration="0:0:3" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;!-- The color of the brush used to paint this button is animated. --> 
+&lt;Button Height="30" Width="200" HorizontalAlignment="Left">Another Button 
+&lt;Button.Background> 
+&lt;SolidColorBrush x:Name="myAnimatedBrush" Color="Blue" /> 
+&lt;/Button.Background> 
+&lt;Button.Triggers> 
+&lt;!-- Animates the color of the brush used to paint the second button from red to blue . --> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ColorAnimation Storyboard.TargetName="myAnimatedBrush" Storyboard.TargetProperty="Color" From="Red" To="Blue" Duration="0:0:7" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Border> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Although animations can target both a FrameworkElement object, such as a Control or Panel, and a Freezable object, such as a Brush or Transform, only framework elements have a Name property. To assign a name to a freezable so that it can be targeted by an animation, use the <Hyperlink NavigateUri="b7e61222-e8cf-48d2-acd0-6df3b7685d48.xaml">x:Name Attribute</Hyperlink>
+, as the previous example shows.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you use code, you must create a NameScope for a <Run FontWeight="Bold">FrameworkElement</Run>
+ and register the names of the objects to animate with that <Run FontWeight="Bold">FrameworkElement</Run>
+. To start the animations in code, use a <Run FontWeight="Bold">BeginStoryboard</Run>
+ action with an <Run FontWeight="Bold">EventTrigger</Run>
+. Optionally, you can use an event handler and the Begin method of <Run FontWeight="Bold">Storyboard</Run>
+. The following example shows how to use the <Run FontWeight="Bold">Begin</Run>
+ method.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+namespace Microsoft.Samples.Animation.AnimatingWithStoryboards { // Uses a storyboard to animate the properties // of two buttons. public class StoryboardExample : Page { public StoryboardExample() { // Create a name scope for the page. NameScope.SetNameScope(this, new NameScope()); 
+this.WindowTitle = "Animate Properties using Storyboards"; 
+StackPanel myStackPanel = new StackPanel(); 
+myStackPanel.MinWidth = 500; 
+myStackPanel.Margin = new Thickness(30); 
+myStackPanel.HorizontalAlignment = HorizontalAlignment.Left; 
+TextBlock myTextBlock = new TextBlock(); 
+myTextBlock.Text = "Storyboard Animation Example"; 
+myStackPanel.Children.Add(myTextBlock); 
+// // Create and animate the first button. // // Create a button. Button myWidthAnimatedButton = new Button(); 
+myWidthAnimatedButton.Height = 30; 
+myWidthAnimatedButton.Width = 200; 
+myWidthAnimatedButton.HorizontalAlignment = HorizontalAlignment.Left; 
+myWidthAnimatedButton.Content = "A Button"; 
+// Set the Name of the button so that it can be referred // to in the storyboard that's created later. // The ID doesn't have to match the variable name; 
+// it can be any unique identifier. myWidthAnimatedButton.Name = "myWidthAnimatedButton"; 
+// Register the name with the page to which the button belongs. this.RegisterName(myWidthAnimatedButton.Name, myWidthAnimatedButton); 
+// Create a DoubleAnimation to animate the width of the button. DoubleAnimation myDoubleAnimation = new DoubleAnimation(); 
+myDoubleAnimation.From = 200; 
+myDoubleAnimation.To = 300; 
+myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(3000)); 
+// Configure the animation to target the button's Width property. Storyboard.SetTargetName(myDoubleAnimation, myWidthAnimatedButton.Name); 
+Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Button.WidthProperty)); 
+// Create a storyboard to contain the animation. Storyboard myWidthAnimatedButtonStoryboard = new Storyboard(); 
+myWidthAnimatedButtonStoryboard.Children.Add(myDoubleAnimation); 
+// Animate the button width when it's clicked. myWidthAnimatedButton.Click += delegate(object sender, RoutedEventArgs args) { myWidthAnimatedButtonStoryboard.Begin(myWidthAnimatedButton); 
+}; 
+myStackPanel.Children.Add(myWidthAnimatedButton); 
+// // Create and animate the second button. // // Create a second button. Button myColorAnimatedButton = new Button(); 
+myColorAnimatedButton.Height = 30; 
+myColorAnimatedButton.Width = 200; 
+myColorAnimatedButton.HorizontalAlignment = HorizontalAlignment.Left; 
+myColorAnimatedButton.Content = "Another Button"; 
+// Create a SolidColorBrush to paint the button's background. SolidColorBrush myBackgroundBrush = new SolidColorBrush(); 
+myBackgroundBrush.Color = Colors.Blue; 
+// Because a Brush isn't a FrameworkElement, it doesn't // have a Name property to set. Instead, you just // register a name for the SolidColorBrush with // the page where it's used. this.RegisterName("myAnimatedBrush", myBackgroundBrush); 
+// Use the brush to paint the background of the button. myColorAnimatedButton.Background = myBackgroundBrush; 
+// Create a ColorAnimation to animate the button's background. ColorAnimation myColorAnimation = new ColorAnimation(); 
+myColorAnimation.From = Colors.Red; 
+myColorAnimation.To = Colors.Blue; 
+myColorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(7000)); 
+// Configure the animation to target the brush's Color property. Storyboard.SetTargetName(myColorAnimation, "myAnimatedBrush"); 
+Storyboard.SetTargetProperty(myColorAnimation, new PropertyPath(SolidColorBrush.ColorProperty)); 
+// Create a storyboard to contain the animation. Storyboard myColorAnimatedButtonStoryboard = new Storyboard(); 
+myColorAnimatedButtonStoryboard.Children.Add(myColorAnimation); 
+// Animate the button background color when it's clicked. myColorAnimatedButton.Click += delegate(object sender, RoutedEventArgs args) { myColorAnimatedButtonStoryboard.Begin(myColorAnimatedButton); 
+}; 
+myStackPanel.Children.Add(myColorAnimatedButton); 
+this.Content = myStackPanel; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System Imports System.Windows Imports System.Windows.Controls Imports System.Windows.Media Imports System.Windows.Media.Animation Namespace SDKSample ' Uses a storyboard to animate the properties ' of two buttons. Public Class StoryboardExample Inherits Page Private Dim WithEvents myWidthAnimatedButton As Button Private Dim WithEvents myColorAnimatedButton As Button Private Dim myWidthAnimatedButtonStoryboard As Storyboard Private Dim myColorAnimatedButtonStoryboard As Storyboard Public Sub New() ' Create a name scope for the page. NameScope.SetNameScope(Me, New NameScope()) Me.WindowTitle = "Animate Properties using Storyboards" Dim myStackPanel As New StackPanel() myStackPanel.MinWidth = 500 myStackPanel.Margin = New Thickness(30) myStackPanel.HorizontalAlignment = HorizontalAlignment.Left Dim myTextBlock As New TextBlock() myTextBlock.Text = "Storyboard Animation Example" myStackPanel.Children.Add(myTextBlock) ' ' Create and animate the first button. ' ' Create a button. myWidthAnimatedButton = New Button() myWidthAnimatedButton.Height = 30 myWidthAnimatedButton.Width = 200 myWidthAnimatedButton.HorizontalAlignment = HorizontalAlignment.Left myWidthAnimatedButton.Content = "A Button" ' Set the Name of the button so that it can be referred ' to in the storyboard that's created later. ' The ID doesn't have to match the variable name; 
+' it can be any unique identifier. myWidthAnimatedButton.Name = "myWidthAnimatedButton" ' Register the name with the page to which the button belongs. Me.RegisterName(myWidthAnimatedButton.Name, myWidthAnimatedButton) ' Create a DoubleAnimation to animate the width of the button. Dim myDoubleAnimation As New DoubleAnimation() myDoubleAnimation.From = 200 myDoubleAnimation.To = 300 myDoubleAnimation.Duration = New Duration(TimeSpan.FromMilliseconds(3000)) ' Configure the animation to target the button's Width property. Storyboard.SetTargetName(myDoubleAnimation, myWidthAnimatedButton.Name) Storyboard.SetTargetProperty(myDoubleAnimation, New PropertyPath(Button.WidthProperty)) ' Create a storyboard to contain the animation. myWidthAnimatedButtonStoryboard = New Storyboard() myWidthAnimatedButtonStoryboard.Children.Add(myDoubleAnimation) myStackPanel.Children.Add(myWidthAnimatedButton) ' ' Create and animate the second button. ' ' Create a second button. myColorAnimatedButton = New Button() myColorAnimatedButton.Height = 30 myColorAnimatedButton.Width = 200 myColorAnimatedButton.HorizontalAlignment = HorizontalAlignment.Left myColorAnimatedButton.Content = "Another Button" ' Create a SolidColorBrush to paint the button's background. Dim myBackgroundBrush As New SolidColorBrush() myBackgroundBrush.Color = Colors.Blue ' Because a Brush isn't a FrameworkElement, it doesn't ' have a Name property to set. Instead, you just ' register a name for the SolidColorBrush with ' the page where it's used. Me.RegisterName("myAnimatedBrush", myBackgroundBrush) ' Use the brush to paint the background of the button. myColorAnimatedButton.Background = myBackgroundBrush ' Create a ColorAnimation to animate the button's background. Dim myColorAnimation As New ColorAnimation() myColorAnimation.From = Colors.Red myColorAnimation.To = Colors.Blue myColorAnimation.Duration = New Duration(TimeSpan.FromMilliseconds(7000)) ' Configure the animation to target the brush's Color property. Storyboard.SetTargetName(myColorAnimation, "myAnimatedBrush") Storyboard.SetTargetProperty(myColorAnimation, New PropertyPath(SolidColorBrush.ColorProperty)) ' Create a storyboard to contain the animation. myColorAnimatedButtonStoryboard = New Storyboard() myColorAnimatedButtonStoryboard.Children.Add(myColorAnimation) myStackPanel.Children.Add(myColorAnimatedButton) Me.Content = myStackPanel End Sub ' Start the animation when the button is clicked. Private Sub myWidthAnimatedButton_Loaded(ByVal sender as object, ByVal args as RoutedEventArgs) Handles myWidthAnimatedButton.Click myWidthAnimatedButtonStoryboard.Begin(myWidthAnimatedButton) End Sub ' Start the animation when the button is clicked. Private Sub myColorAnimatedButton_Loaded(ByVal sender as object, ByVal args as RoutedEventArgs) Handles myColorAnimatedButton.Click myColorAnimatedButtonStoryboard.Begin(myColorAnimatedButton) End Sub End Class End Namespace </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Animate a Property with Storyboards Sample. For more information about animation and storyboards, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>If you use code, you are not limited to using <Run FontWeight="Bold">Storyboard</Run>
+ objects in order to animate properties. For more information and examples, see <Hyperlink NavigateUri="d411db70-4df7-487d-82bc-95a7c1b2e7f8.xaml">How to: Apply a Local (Non-Storyboard) Animation to a Property</Hyperlink>
+ and <Hyperlink NavigateUri="e6542021-714c-4675-9567-04f1c7380834.xaml">How to: Animate a Property by Using an AnimationClock</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate a Property by Using a Storyboard to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

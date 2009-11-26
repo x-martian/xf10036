@@ -1,0 +1,431 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_40332c2f_5461_4a5b_b127_256f55015756"
+  Tag     ="Button Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Button Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Button control represents a standard button that reacts to a Click event. The <Run FontWeight="Bold">Button</Run>
+ class inherits directly from the ButtonBase class. This topic introduces the <Run FontWeight="Bold">Button</Run>
+ control and provides examples of how to create, customize, and style buttons.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="button_control">Button Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_buttons">Creating Buttons</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="buttons_containing_rich_content">Buttons Can Contain Complex Content</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="button_styling">Button Styling</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Button Control
+    </Paragraph>
+
+    <Paragraph>A button is a control, which is an interactive component that enables users to communicate with an application. The <Run FontWeight="Bold">Button</Run>
+ control is a ContentControl, which means that a button can contain content like text, images, or panels.
+    </Paragraph>
+
+    <Paragraph>The border and the background of a button can change according to the state of the button. In the following illustration, the first button shows the default state, and the second button shows a changed border color, which indicates the button is in a focused state. A focused state occurs when a user moves a mouse pointer over the button. The final button shows that the border and background both change if the user clicks the mouse button when the mouse pointer is over the button.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Buttons in default, focused, and clicked states</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating Buttons
+    </Paragraph>
+
+    <Paragraph>When you create a button, you must add an event handler. You can create buttons in either markup or in code; 
+however, you must create the event handler in code. 
+    </Paragraph>
+
+    <Paragraph>The following example contains two buttons of different colors and a third button that is labeled <Run FontWeight="Bold">Reset Colors</Run>
+. When a user clicks one of the colored buttons, its Background color changes to the color of the other button. The <Run FontWeight="Bold">Reset</Run>
+ button resets the first two buttons to their original colors.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Name="btn1" Background="Pink" BorderBrush="Black" BorderThickness="1" Click="OnClick1"> ClickMe1
+&lt;/Button> 
+&lt;Button Name="btn2" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Click="OnClick2"> ClickMe2
+&lt;/Button> 
+&lt;Button Name="btn3" Click="OnClick3">Reset
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to add an event handler, which handles the button <Run FontWeight="Bold">Click</Run>
+ events. You must write event handlers in a programming language, such as in C# or Microsoft Visual Basic.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void OnClick1(object sender, RoutedEventArgs e) { btn1.Background = Brushes.LightBlue; 
+} void OnClick2(object sender, RoutedEventArgs e) { btn2.Background = Brushes.Pink; 
+} void OnClick3(object sender, RoutedEventArgs e) { btn1.Background = Brushes.Pink; 
+btn2.Background = Brushes.LightBlue; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>btncsharp = new Button(); 
+btncsharp.Content = "Created with C# code."; 
+btncsharp.Background = SystemColors.ControlDarkDarkBrush; 
+btncsharp.FontSize = SystemFonts.CaptionFontSize; 
+cv2.Children.Add(btncsharp); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Buttons Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Buttons Can Contain Complex Content
+    </Paragraph>
+
+    <Paragraph>Buttons can contain graphical content like images. The following example shows how to create a button that contains an image.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Name="btn5" Width="50" Height="30" Click="OnClick5"> 
+&lt;Image Source="data\flower.jpg">
+&lt;/Image>
+&lt;/Button> 
+&lt;Button Name="btn6" BorderBrush="Black">Click the picture.
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Buttons can also contain complex content like panels. The following example shows a button that contains a DockPanel with an image and some text.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Margin="10,10,3,3" Grid.Column="0" Grid.Row="5" Width="250" Name="btn7" Click="OnClick6"> 
+&lt;DockPanel Height="30"> 
+&lt;Image Source="data\flower.jpg"/> 
+&lt;TextBlock Name="txt">Button with an image. Click me.
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see Buttons Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Button Styling
+    </Paragraph>
+
+    <Paragraph>When you apply a style to a control, you can change the appearance and behavior of buttons without writing a custom control. In addition to setting visual properties, you can also apply styles to individual parts of a control, change the behavior of parts of the control through properties, add parts, or change the layout of a control. 
+    </Paragraph>
+
+    <Paragraph>The following example defines a style called <Run>SystemResStyle</Run>
+ that shows how to use the current system settings in your style. The code assigns the color of the <Run>ControlLightBrush</Run>
+ as the background color for the button and the color of the <Run>ControlDarkBrush</Run>
+ as the foreground color for the brush. In markup you use the resource key for the SystemColors values.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="SystemResStyle" TargetType="{x:Type Button}"> 
+&lt;Setter Property = "Background" Value= "{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/> 
+&lt;Setter Property = "Foreground" Value= "{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/> 
+&lt;Setter Property = "FontSize" Value= "{DynamicResource {x:Static SystemFonts.IconFontSizeKey}}"/> 
+&lt;Setter Property = "FontWeight" Value= "{DynamicResource {x:Static SystemFonts.MessageFontWeightKey}}"/> 
+&lt;Setter Property = "FontFamily" Value= "{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example uses the Trigger class to change the appearance of a button in response to events that are raised on the button. In this example, if you:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Move the mouse pointer over the button, the background color of the button changes in response to the IsMouseOver trigger. As you move the mouse pointer over the button, the background becomes red and remains red until you move the mouse pointer away from the button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press the mouse button when the mouse pointer is over the <Run FontWeight="Bold">Button</Run>
+ control, the foreground color of the button changes. After you release the button, the color returns to its default appearance. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Triggers" TargetType="{x:Type Button}"> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="Button.IsMouseOver" Value="true"> 
+&lt;Setter Property = "Background" Value="Red"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="Button.IsPressed" Value="true"> 
+&lt;Setter Property = "Foreground" Value="Green"/> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see Button Styles Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Button
+      <LineBreak/>ButtonBase
+      <LineBreak/>RadioButton
+      <LineBreak/>RepeatButton
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e223c759-f8c4-4717-acfb-b1e40bdf5f3b.xaml">Button ControlTemplate Example</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a9d8f5a5-c98c-463e-808a-5a4e63173098.xaml">Button</Hyperlink>
+
+      <LineBreak/>Buttons Sample
+      <LineBreak/>Button Samples
+      <LineBreak/><Hyperlink NavigateUri="e11a54b5-f693-4cce-a055-bd9d11dd6348.xaml">Button How-to Topics</Hyperlink>
+
+      <LineBreak/>WPF Controls Gallery Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Button Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

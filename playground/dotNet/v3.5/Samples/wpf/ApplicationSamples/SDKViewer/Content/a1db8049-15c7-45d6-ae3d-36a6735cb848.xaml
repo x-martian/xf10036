@@ -1,0 +1,1923 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a1db8049_15c7_45d6_ae3d_36a6735cb848"
+  Tag     ="Walkthrough: Arranging Windows Forms Controls in Windows Presentation Foundation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Walkthrough: Arranging Windows Forms Controls in Windows Presentation Foundation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This walkthrough shows you how to use WPF layout features to arrange Windows Forms controls in a hybrid application.
+    </Paragraph>
+
+    <Paragraph>Tasks illustrated in this walkthrough include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Creating the project.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using default layout settings.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Sizing to content.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using absolute positioning.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Specifying size explicitly.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Setting layout properties.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Understanding z-order limitations.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Docking.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Setting visibility.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Hosting a control that does not stretch.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Scaling.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Rotating.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Setting padding and margins.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using dynamic layout containers.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For a complete code listing of the tasks illustrated in this walkthrough, see Arranging Windows Forms Controls in Windows Presentation Foundation Sample.
+    </Paragraph>
+
+    <Paragraph>When you are finished, you will have an understanding of Windows Forms layout features in WPF-based applications.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The dialog boxes and menu commands you see might differ from those described in Help, depending on your active settings or edition. To change your settings, choose <Run FontWeight="Bold">Import and Export Settings</Run>
+ on the <Run FontWeight="Bold">Tools</Run>
+ menu. For more information, see Visual Studio Settings.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>Prerequisites</Run>
+
+    </Paragraph>
+
+    <Paragraph>To complete this walkthrough you will need:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Development Tools for .NET Framework 3.0, which enable you to create a WPF application project. For information on installing these tools, see Installation Instructions for the Windows SDK.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Creating the Project</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">To create and set up the project
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a Windows Application (WPF) project named <Run FontWeight="Bold">WpfLayoutHostingWf</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, add a reference to the WindowsFormsIntegration assembly, which is named WindowsFormsIntegration.dll. 
+        </Paragraph>
+
+        <Paragraph>The default location for this file is %programfiles%\Reference Assemblies\Microsoft\Framework\v3.0\WindowsFormsIntegration.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, add a reference to the System.Windows.Forms assembly, which is named System.Windows.Forms.dll. Also add a reference to the System.Drawing assembly, which is named System.Drawing.dll. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Double-click Window1.xaml to open it in the Code Editor. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>At the start of the file, map the Windows Forms namespace with the following code.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="WpfLayoutHostingWfWithXaml.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" Title="Layout Demo for Interoperability" > </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" Title="Layout Demo for Interoperability" > </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Set up the default Grid element by creating five rows and three columns.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Grid ShowGridLines="true"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;/Grid.ColumnDefinitions> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Grid ShowGridLines="True"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;/Grid.ColumnDefinitions> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Using Default Layout Settings</Run>
+
+    </Paragraph>
+
+    <Paragraph>By default, the WindowsFormsHost element handles the layout for the hosted Windows Forms control. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">To use default layout settings
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Default layout. --> 
+&lt;Canvas Grid.Row="0" Grid.Column="0"> 
+&lt;WindowsFormsHost Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Default layout. --> 
+&lt;Canvas Grid.Row="0" Grid.Column="0"> 
+&lt;WindowsFormsHost Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The Windows Forms System.Windows.Forms.Button control appears in the Canvas. The hosted control is sized based on its content, and the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element is sized to accommodate the hosted control.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Sizing to Content</Run>
+
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element ensures that the hosted control is sized to display its content properly. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">To size to content
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Sizing to content. --> 
+&lt;Canvas Grid.Row="1" Grid.Column="0"> 
+&lt;WindowsFormsHost Background="Orange"> 
+&lt;wf:Button Text="Windows Forms control with more content" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> 
+&lt;Canvas Grid.Row="2" Grid.Column="0"> 
+&lt;WindowsFormsHost FontSize="24" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Sizing to content. --> 
+&lt;Canvas Grid.Row="1" Grid.Column="0"> 
+&lt;WindowsFormsHost Background="Orange"> 
+&lt;wf:Button Text="Windows Forms control with more content" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> 
+&lt;Canvas Grid.Row="2" Grid.Column="0"> 
+&lt;WindowsFormsHost FontSize="24" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The two new button controls are sized to display the longer text string and larger font size properly, and the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ elements are resized to accommodate the hosted controls.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Using Absolute Positioning</Run>
+
+    </Paragraph>
+
+    <Paragraph>You can use absolute positioning to place the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element anywhere in the user interface (UI). 
+    </Paragraph>
+
+    <Paragraph FontSize="18">To use absolute positioning
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Absolute positioning. --> 
+&lt;Canvas Grid.Row="3" Grid.Column="0"> 
+&lt;WindowsFormsHost Canvas.Top="20" Canvas.Left="20" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control with absolute positioning" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Absolute positioning. --> 
+&lt;Canvas Grid.Row="3" Grid.Column="0"> 
+&lt;WindowsFormsHost Canvas.Top="20" Canvas.Left="20" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control with absolute positioning" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element is placed 20 pixels from the top side of the grid cell and 20 pixels from the left.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Specifying Size Explicitly</Run>
+
+    </Paragraph>
+
+    <Paragraph>You can specify the size of the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element using the Width and Height properties. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">To specify size explicitly
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Explicit sizing. --> 
+&lt;Canvas Grid.Row="4" Grid.Column="0"> 
+&lt;WindowsFormsHost Width="50" Height="70" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Explicit sizing. --> 
+&lt;Canvas Grid.Row="4" Grid.Column="0"> 
+&lt;WindowsFormsHost Width="50" Height="70" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element is set to a size of 50 pixels wide by 70 pixels high, which is smaller than the default layout settings. The content of the Windows Forms control is rearranged accordingly.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Setting Layout Properties</Run>
+
+    </Paragraph>
+
+    <Paragraph>Always set layout-related properties on the hosted control by using the properties of the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element. Setting layout properties directly on the hosted control will yield unintended results.
+    </Paragraph>
+
+    <Paragraph>Setting layout-related properties on the hosted control in XAML has no effect.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To see the effects of setting properties on the hosted control
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Setting hosted control properties directly. --> 
+&lt;Canvas Grid.Row="0" Grid.Column="1"> 
+&lt;WindowsFormsHost Width="160" Height="50" Background="Yellow"> 
+&lt;wf:Button Name="button1" Click="button1Click" Text="Click me" FlatStyle="Flat" BackColor="Green"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Setting hosted control properties directly. --> 
+&lt;Canvas Grid.Row="0" Grid.Column="1"> 
+&lt;WindowsFormsHost Width="160" Height="50" Background="Yellow"> 
+&lt;wf:Button Name="button1" Click="button1Click" Text="Click me" FlatStyle="Flat" BackColor="Green"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, double-click Window1.xaml.cs to open it in the Code Editor. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run>Window1</Run>
+ class definition, after the <Run>Window1()</Run>
+ constructor.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void button1Click(object sender, EventArgs e ) { System.Windows.Forms.Button b = sender as System.Windows.Forms.Button; 
+b.Top = 20; 
+b.Left = 20; 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub button1Click(ByVal sender As Object, ByVal e As EventArgs) Dim b As System.Windows.Forms.Button = sender b.Top = 20 b.Left = 20 End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click the <Run FontWeight="Bold">Click me</Run>
+ button. The <Run>button1Click</Run>
+ event handler sets the Top and Left properties on the hosted control. This causes the hosted control to be repositioned within the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element. The host maintains the same screen area, but the hosted control is clipped. Instead, the hosted control should always fill the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Understanding Z-Order Limitations</Run>
+
+    </Paragraph>
+
+    <Paragraph>Visible <Run FontWeight="Bold">WindowsFormsHost</Run>
+ elements are always drawn on top of other WPF elements, and they are unaffected by z-order. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">To see z-order limitations
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>In the Window1.xaml file, copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Z-order demonstration. --> 
+&lt;Canvas Grid.Row="1" Grid.Column="1"> 
+&lt;Label Content="A WPF label" FontSize="24"/> 
+&lt;WindowsFormsHost Canvas.Top="20" Canvas.Left="20" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Z-order demonstration. --> 
+&lt;Canvas Grid.Row="1" Grid.Column="1"> 
+&lt;Label Content="A WPF label" FontSize="24"/> 
+&lt;WindowsFormsHost Canvas.Top="20" Canvas.Left="20" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element is painted over the label element.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Docking</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">WindowsFormsHost</Run>
+ element supports WPF docking. Set the Dock attached property to dock the hosted control in a DockPanel element.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To dock a hosted control
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Docking a WindowsFormsHost element. --> 
+&lt;DockPanel LastChildFill="false" Grid.Row="2" Grid.Column="1"> 
+&lt;WindowsFormsHost DockPanel.Dock="Right" Canvas.Top="20" Canvas.Left="20" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/DockPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Docking a WindowsFormsHost element. --> 
+&lt;DockPanel LastChildFill="false" Grid.Row="2" Grid.Column="1"> 
+&lt;WindowsFormsHost DockPanel.Dock="Right" Canvas.Top="20" Canvas.Left="20" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/DockPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element is docked to the right side of the <Run FontWeight="Bold">DockPanel</Run>
+ element.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Setting Visibility</Run>
+
+    </Paragraph>
+
+    <Paragraph>You can make your Windows Forms control invisible or collapse it by setting the Visibility property on the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element. When a control is invisible, it is not displayed, but it occupies layout space. When a control is collapsed, it is not displayed, nor does it occupy layout space.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To set the visibility of a hosted control
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Setting Visibility to hidden and collapsed. --> 
+&lt;StackPanel Grid.Row="3" Grid.Column="1"> 
+&lt;Button Name="button2" Click="button2Click" Content="Click to make invisible" Background="OrangeRed"/> 
+&lt;WindowsFormsHost Name="host1" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;Button Name="button3" Click="button3Click" Content="Click to collapse" Background="OrangeRed"/> 
+&lt;/StackPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Setting Visibility to hidden and collapsed. --> 
+&lt;StackPanel Grid.Row="3" Grid.Column="1"> 
+&lt;Button Name="button2" Click="button2Click" Content="Click to make invisible" Background="OrangeRed"/> 
+&lt;WindowsFormsHost Name="host1" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;Button Name="button3" Click="button3Click" Content="Click to collapse" Background="OrangeRed"/> 
+&lt;/StackPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, double-click Window1.xaml.cs to open it in the Code Editor. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run>Window1</Run>
+ class definition.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void button2Click(object sender, EventArgs e) { this.host1.Visibility = Visibility.Hidden; 
+} private void button3Click(object sender, EventArgs e) { this.host1.Visibility = Visibility.Collapsed; 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub button2Click(ByVal sender As Object, ByVal e As RoutedEventArgs) Me.host1.Visibility = Windows.Visibility.Hidden End Sub Private Sub button3Click(ByVal sender As Object, ByVal e As RoutedEventArgs) Me.host1.Visibility = Windows.Visibility.Collapsed End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click the <Run FontWeight="Bold">Click to make invisible</Run>
+ button to make the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element invisible.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click the <Run FontWeight="Bold">Click to collapse</Run>
+ button to hide the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element from the layout entirely. When the Windows Forms control is collapsed, the surrounding elements are rearranged to occupy its space.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Hosting a Control That Does Not Stretch</Run>
+
+    </Paragraph>
+
+    <Paragraph>Some Windows Forms controls have a fixed size and do not stretch to fill available space in the layout. For example, the MonthCalendar control displays a month in a fixed space. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">To host a control that does not stretch
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Hosting a control that does not stretch. --> 
+&lt;!-- The MonthCalendar has a discrete size. --> 
+&lt;StackPanel Grid.Row="4" Grid.Column="1"> 
+&lt;Label Content="A WPF element" Background="OrangeRed"/> 
+&lt;WindowsFormsHost Background="Yellow"> 
+&lt;wf:MonthCalendar/> 
+&lt;/WindowsFormsHost> 
+&lt;Label Content="Another WPF element" Background="OrangeRed"/> 
+&lt;/StackPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Hosting a control that does not stretch. --> 
+&lt;!-- The MonthCalendar has a discrete size. --> 
+&lt;StackPanel Grid.Row="4" Grid.Column="1"> 
+&lt;Label Content="A WPF element" Background="OrangeRed"/> 
+&lt;WindowsFormsHost Background="Yellow"> 
+&lt;wf:MonthCalendar/> 
+&lt;/WindowsFormsHost> 
+&lt;Label Content="Another WPF element" Background="OrangeRed"/> 
+&lt;/StackPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element is centered in the grid row, but it is not stretched to fill the available space. If the window is large enough, you may see two or more months displayed by the hosted <Run FontWeight="Bold">MonthCalendar</Run>
+ control, but these are centered in the row. The WPF layout engine centers elements that cannot be sized to fill the available space. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Scaling</Run>
+
+    </Paragraph>
+
+    <Paragraph>Unlike WPF elements, most Windows Forms controls are not continuously scalable. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element scales its hosted control when possible.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To scale a hosted control
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Scaling transformation. --> 
+&lt;StackPanel Grid.Row="0" Grid.Column="2"> 
+&lt;StackPanel.RenderTransform> 
+&lt;ScaleTransform CenterX="0" CenterY="0" ScaleX="0.5" ScaleY="0.5" /> 
+&lt;/StackPanel.RenderTransform> 
+&lt;Label Content="A WPF UIElement" Background="OrangeRed"/> 
+&lt;WindowsFormsHost Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;Label Content="Another WPF UIElement" Background="OrangeRed"/> 
+&lt;/StackPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Scaling transformation. --> 
+&lt;StackPanel Grid.Row="0" Grid.Column="2"> 
+&lt;StackPanel.RenderTransform> 
+&lt;ScaleTransform CenterX="0" CenterY="0" ScaleX="0.5" ScaleY="0.5" /> 
+&lt;/StackPanel.RenderTransform> 
+&lt;Label Content="A WPF UIElement" Background="OrangeRed"/> 
+&lt;WindowsFormsHost Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;Label Content="Another WPF UIElement" Background="OrangeRed"/> 
+&lt;/StackPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The hosted control and its surrounding elements are scaled by a factor of 0.5. However, the hosted control's font is not scaled. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Rotating</Run>
+
+    </Paragraph>
+
+    <Paragraph>Unlike WPF elements, Windows Forms controls do not support rotation. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element does not rotate with other WPF elements when a rotation transformation is applied. Any rotation value other than 180 degrees raises the LayoutError event.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To see the effect of rotation in a hybrid application
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Rotation transformation. --> 
+&lt;StackPanel Grid.Row="1" Grid.Column="2"> 
+&lt;StackPanel.RenderTransform> 
+&lt;RotateTransform CenterX="200" CenterY="50" Angle="180" /> 
+&lt;/StackPanel.RenderTransform> 
+&lt;Label Content="A WPF element" Background="OrangeRed"/> 
+&lt;WindowsFormsHost Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;Label Content="Another WPF element" Background="OrangeRed"/> 
+&lt;/StackPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Rotation transformation. --> 
+&lt;StackPanel Grid.Row="1" Grid.Column="2"> 
+&lt;StackPanel.RenderTransform> 
+&lt;RotateTransform CenterX="200" CenterY="50" Angle="180" /> 
+&lt;/StackPanel.RenderTransform> 
+&lt;Label Content="A WPF element" Background="OrangeRed"/> 
+&lt;WindowsFormsHost Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;Label Content="Another WPF element" Background="OrangeRed"/> 
+&lt;/StackPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The hosted control is not rotated, but its surrounding elements are rotated by an angle of 180 degrees. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Setting Padding and Margins</Run>
+
+    </Paragraph>
+
+    <Paragraph>Padding and margins in WPF layout are similar to padding and margins in Windows Forms. Simply set the Padding and Margin properties on the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To set padding and margins for a hosted control
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Padding. --> 
+&lt;Canvas Grid.Row="2" Grid.Column="2"> 
+&lt;WindowsFormsHost Padding="0, 20, 0, 0" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control with padding" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> ... 
+&lt;!-- Padding. --> 
+&lt;!--
+&lt;Canvas Grid.Row="2" Grid.Column="2"> 
+&lt;WindowsFormsHost Padding="0, 20, 0, 0" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control with padding" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas>--> ... 
+&lt;!-- Margin. --> 
+&lt;Canvas Grid.Row="3" Grid.Column="2"> 
+&lt;WindowsFormsHost Margin="20, 20, 0, 0" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control with margin" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> ... 
+&lt;!-- Margin. --> 
+&lt;Canvas Grid.Row="3" Grid.Column="2"> 
+&lt;WindowsFormsHost Margin="20, 20, 0, 0" Background="Yellow"> 
+&lt;wf:Button Text="Windows Forms control with margin" FlatStyle="Flat"/> 
+&lt;/WindowsFormsHost> 
+&lt;/Canvas> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The padding and margin settings are applied to the hosted Windows Forms controls in the same way they would be applied in Windows Forms. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Using Dynamic Layout Containers</Run>
+
+    </Paragraph>
+
+    <Paragraph>Windows Forms provides two dynamic layout containers, FlowLayoutPanel and TableLayoutPanel. You can also use these containers in WPF layouts.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To use a dynamic layout container
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run FontWeight="Bold">Grid</Run>
+ element, after the previous code example.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Flow layout. --> 
+&lt;DockPanel Grid.Row="4" Grid.Column="2"> 
+&lt;WindowsFormsHost Name="flowLayoutHost" Background="Yellow"> 
+&lt;wf:FlowLayoutPanel/> 
+&lt;/WindowsFormsHost> 
+&lt;/DockPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Flow layout. --> 
+&lt;DockPanel Grid.Row="4" Grid.Column="2"> 
+&lt;WindowsFormsHost Name="flowLayoutHost" Background="Yellow"> 
+&lt;wf:FlowLayoutPanel/> 
+&lt;/WindowsFormsHost> 
+&lt;/DockPanel> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, double-click Window1.xaml.cs to open it in the Code Editor.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Copy the following code into the <Run>Window1</Run>
+ class definition.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void InitializeFlowLayoutPanel() { System.Windows.Forms.FlowLayoutPanel flp = this.flowLayoutHost.Child as System.Windows.Forms.FlowLayoutPanel; 
+flp.WrapContents = true; 
+const int numButtons = 6; 
+for (int i = 0; 
+i 
+&lt; 
+numButtons; 
+i++) { System.Windows.Forms.Button b = new System.Windows.Forms.Button(); 
+b.Text = "Button"; 
+b.BackColor = System.Drawing.Color.AliceBlue; 
+b.FlatStyle = System.Windows.Forms.FlatStyle.Flat; 
+flp.Controls.Add(b); 
+} } </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub InitializeFlowLayoutPanel() Dim flp As System.Windows.Forms.FlowLayoutPanel = Me.flowLayoutHost.Child flp.WrapContents = True Const numButtons As Integer = 6 Dim i As Integer For i = 0 To numButtons Dim b As New System.Windows.Forms.Button() b.Text = "Button" b.BackColor = System.Drawing.Color.AliceBlue b.FlatStyle = System.Windows.Forms.FlatStyle.Flat flp.Controls.Add(b) Next i End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Add a call to the <Run>InitializeFlowLayoutPanel</Run>
+ method in the constructor.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public Window1() { InitializeComponent(); 
+this.InitializeFlowLayoutPanel(); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub New() InitializeComponent() Me.InitializeFlowLayoutPanel() End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element fills the <Run FontWeight="Bold">DockPanel</Run>
+, and <Run FontWeight="Bold">FlowLayoutPanel</Run>
+ arranges its child controls in the default FlowDirection. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ElementHost
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="3c574597-bbde-440f-95cc-01371f1a5d9d.xaml">Layout Considerations for the WindowsFormsHost Element</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="96fcd78d-1c77-4206-8928-3a0579476ef4.xaml">Walkthrough: Hosting a Windows Forms Composite Control in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0ac41286-4c1b-4b17-9196-d985cb844ce1.xaml">Walkthrough: Hosting a Windows Presentation Foundation Control in Windows Forms</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Arranging Windows Forms Controls in Windows Presentation Foundation Sample
+      <LineBreak/><Hyperlink NavigateUri="619f9fcd-a71b-4db5-b3e4-da99ec3b5c41.xaml">Migration and Interoperability How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Walkthrough: Arranging Windows Forms Controls in Windows Presentation Foundation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

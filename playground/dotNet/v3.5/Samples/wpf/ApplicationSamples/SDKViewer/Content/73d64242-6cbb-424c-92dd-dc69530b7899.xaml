@@ -1,0 +1,484 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_73d64242_6cbb_424c_92dd_dc69530b7899"
+  Tag     ="Implementing the UI Automation Scroll Control Pattern"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Implementing the UI Automation Scroll Control Pattern</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces the ScrollPattern <Run>control pattern</Run>
+. It contains guidelines and conventions for implementing the IScrollProvider interface and includes information about <Run FontWeight="Bold">ScrollPattern</Run>
+ events and properties. Links to additional references are listed at the end of the topic.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ScrollPattern</Run>
+ control pattern is used to support a control that acts as a scrollable container for a collection of child objects. The control is not required to use scrollbars to support the scrolling functionality, although it commonly does.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of a Scrolling Control That Does Not Use Scrollbars</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>For examples of controls that implement this control, see <Hyperlink NavigateUri="8b81645b-8be3-4e26-9c98-4fb0fceca06b.xaml">Control Pattern Mapping for UI Automation Clients</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Implementation_Guidelines_and_Conventions">Implementation Guidelines and Conventions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Required_Members_for_IScrollProvider">Required Members for IScrollProvider</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Exceptions">Exceptions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Implementation Guidelines and Conventions
+    </Paragraph>
+
+    <Paragraph>When implementing the Scroll control pattern, note the following guidelines and conventions:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The children of this control must implement IScrollItemProvider.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The scrollbars of a container control do not support the <Run FontWeight="Bold">ScrollPattern</Run>
+ control pattern. They must support the RangeValuePattern control pattern instead.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When scrolling is measured in percentages, all values or amounts related to scroll graduation must be normalized to a range of 0 to 100.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>HorizontallyScrollableProperty and VerticallyScrollableProperty are independent of the IsEnabledProperty.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If <Run FontWeight="Bold">HorizontallyScrollableProperty</Run>
+ = <Run FontWeight="Bold">false</Run>
+ then HorizontalViewSizeProperty should be set to 100% and HorizontalScrollPercentProperty should be set to NoScroll. Likewise, if <Run FontWeight="Bold">VerticallyScrollableProperty</Run>
+ = <Run FontWeight="Bold">false</Run>
+ then VerticalViewSizeProperty should be set to 100% and VerticalScrollPercentProperty should be set to <Run FontWeight="Bold">NoScroll</Run>
+. This allows a <Run>UI Automation client</Run>
+ to use these property values within the SetScrollPercent method while avoiding a <Hyperlink NavigateUri="http://support.microsoft.com/default.aspx?scid=kb;en-us;317723">race condition</Hyperlink>
+ if a direction the client is not interested in scrolling becomes activated.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>HorizontalScrollPercent is locale-specific. Setting HorizontalScrollPercent = 100.0 must set the scrolling location of the control to the equivalent of its rightmost position for languages such as English that read left to right. Alternately, for languages such as Arabic that read right to left, setting HorizontalScrollPercent = 100.0 must set the scroll location to the leftmost position.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Required Members for IScrollProvider
+    </Paragraph>
+
+    <Paragraph>The following properties and methods are required for implementing <Run FontWeight="Bold">IScrollProvider</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Required member 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Member type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>HorizontalScrollPercent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>VerticalScrollPercent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>HorizontalViewSize 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>VerticalViewSize 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>HorizontallyScrollable 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>VerticallyScrollable 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Scroll 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Method
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>SetScrollPercent 
+            </Paragraph>
+
+            <Paragraph/>
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Method
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This control pattern has no associated events.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Exceptions
+    </Paragraph>
+
+    <Paragraph>Providers must throw the following exceptions.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Exception Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Condition 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ArgumentException 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Scroll</Run>
+ throws this exception if a control supports SmallIncrement values exclusively for horizontal or vertical scrolling, but a LargeIncrement value is passed in.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ArgumentException</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">SetScrollPercent</Run>
+ throws this exception when a value that cannot be converted to a double is passed in.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ArgumentOutOfRangeException 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">SetScrollPercent</Run>
+ throws this exception when a value greater than 100 or less than 0 is passed in (except -1 which is equivalent to <Run FontWeight="Bold">NoScroll</Run>
+).
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>InvalidOperationException 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Both <Run FontWeight="Bold">Scroll</Run>
+ and <Run FontWeight="Bold">SetScrollPercent</Run>
+ throw this exception when an attempt is made to scroll in an unsupported direction.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0d635c35-ffa8-4dc8-bbc9-12fcd5445776.xaml">Support Control Patterns in a UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ec722dff-6009-4279-b86a-e18d3fa94ebf.xaml">Use Caching in UI Automation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="571561d8-5f49-43a9-a054-87735194e013.xaml">UI Automation Control Patterns for Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Implementing the UI Automation Scroll Control Pattern to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

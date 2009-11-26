@@ -1,0 +1,246 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_bfc7160a_45f2_4e17_9961_df414dfb13c5"
+  Tag     ="Change the Settings for Multiple Columns and Rows by Using ColumnDefinitionsCollections and RowDefinitionsCollections"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Change the Settings for Multiple Columns and Rows by Using ColumnDefinitionsCollections and RowDefinitionsCollections</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the methods in the ColumnDefinitionCollection and RowDefinitionCollection classes to perform actions like adding, clearing, or counting the contents of rows or columns. For example, you can Add, Clear, or Count the items that are included in a ColumnDefinition or RowDefinition. To view the complete sample, see Manipulating Row and Column Collections Sample.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates a Grid element with a Name of <Run>grid1</Run>
+. The <Run FontWeight="Bold">Grid</Run>
+ contains a StackPanel that holds Button elements, each controlled by a different collection method. When you click a Button, it activates a method call in the code-behind file. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Grid DockPanel.Dock="Top" HorizontalAlignment="Left" Name="grid1" ShowGridLines="true" Width="625" Height="400" Background="#b0e0e6"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;/Grid.RowDefinitions> 
+&lt;/Grid> 
+&lt;StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Width="625" DockPanel.Dock="Top"> 
+&lt;Button Width="125" Click="addCol">Add Column
+&lt;/Button> 
+&lt;Button Width="125" Click="addRow">Add Row
+&lt;/Button> 
+&lt;Button Width="125" Click="clearCol">Clear All Columns
+&lt;/Button> 
+&lt;Button Width="125" Click="clearRow">Clear All Rows
+&lt;/Button> 
+&lt;Button Width="125" Click="removeCol">Remove One Column
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Width="625" DockPanel.Dock="Top"> 
+&lt;Button Width="125" Click="removeRow">Remove One Row
+&lt;/Button> 
+&lt;Button Width="125" Click="colCount">How Many Columns?
+&lt;/Button> 
+&lt;Button Width="125" Click="rowCount">How Many Rows?
+&lt;/Button> 
+&lt;Button Width="125" Click="rem5Col">Remove 5 Columns
+&lt;/Button> 
+&lt;Button Width="125" Click="rem5Row">Remove 5 Rows
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Width="625" DockPanel.Dock="Top"> 
+&lt;Button Width="125" Click="containsRow">Contains Row?
+&lt;/Button> 
+&lt;Button Width="125" Click="containsCol">Contains Column?
+&lt;/Button> 
+&lt;Button Width="125" Click="insertRowAt">Insert Row
+&lt;/Button> 
+&lt;Button Width="125" Click="insertColAt">Insert Column
+&lt;/Button> 
+&lt;Button Width="125" Click="colReadOnly">IsReadOnly?
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example defines a series of custom methods, each corresponding to a Click event in the Extensible Application Markup Language (XAML) file. You can change the number of columns and rows in the Grid in several ways, which includes adding or removing rows and columns; 
+and counting the total number of rows and columns. To prevent ArgumentOutOfRangeException and ArgumentException exceptions, you can use the error-checking functionality that the RemoveRange method provides.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+namespace columndefinitions_grid { public partial class Window1 : Window { RowDefinition rowDef1; 
+ColumnDefinition colDef1; 
+private void addCol(object sender, RoutedEventArgs e) { colDef1 = new ColumnDefinition(); 
+grid1.ColumnDefinitions.Add(colDef1); 
+} private void addRow(object sender, RoutedEventArgs e) { rowDef1 = new RowDefinition(); 
+grid1.RowDefinitions.Add(rowDef1); 
+} private void clearCol(object sender, RoutedEventArgs e) { grid1.ColumnDefinitions.Clear(); 
+} private void clearRow(object sender, RoutedEventArgs e) { grid1.RowDefinitions.Clear(); 
+} private void removeCol(object sender, RoutedEventArgs e) { if (grid1.ColumnDefinitions.Count 
+&lt;= 0) { tp1.Text = "No More Columns to Remove!"; 
+} else { grid1.ColumnDefinitions.RemoveAt(0); 
+} } private void removeRow(object sender, RoutedEventArgs e) { if (grid1.RowDefinitions.Count 
+&lt;= 0) { tp1.Text = "No More Rows to Remove!"; 
+} else { grid1.RowDefinitions.RemoveAt(0); 
+} } private void colCount(object sender, RoutedEventArgs e) { tp2.Text = "The current number of Columns is: " + grid1.ColumnDefinitions.Count; 
+} private void rowCount(object sender, RoutedEventArgs e) { tp2.Text = "The current number of Rows is: " + grid1.RowDefinitions.Count; 
+} private void rem5Col(object sender, RoutedEventArgs e) { if (grid1.ColumnDefinitions.Count 
+&lt; 
+5) { tp1.Text = "There aren't five Columns to Remove!"; 
+} else { grid1.ColumnDefinitions.RemoveRange(0,5); 
+} } private void rem5Row(object sender, RoutedEventArgs e) { if (grid1.RowDefinitions.Count 
+&lt; 
+5) { tp1.Text = "There aren't five Rows to Remove!"; 
+} else { grid1.RowDefinitions.RemoveRange(0, 5); 
+} } private void containsRow(object sender, RoutedEventArgs e) { if (grid1.RowDefinitions.Contains(rowDef1)) { tp2.Text = "Grid Contains RowDefinition rowDef1"; 
+} else { tp2.Text = "Grid Does Not Contain RowDefinition rowDef1"; 
+} } private void containsCol(object sender, RoutedEventArgs e) { if (grid1.ColumnDefinitions.Contains(colDef1)) { tp3.Text = "Grid Contains ColumnDefinition colDef1"; 
+} else { tp3.Text = "Grid Does Not Contain ColumnDefinition colDef1"; 
+} } private void colReadOnly(object sender, RoutedEventArgs e) { tp4.Text = "RowDefinitionsCollection IsReadOnly?: " + grid1.RowDefinitions.IsReadOnly.ToString(); 
+tp5.Text = "ColumnDefinitionsCollection IsReadOnly?: " + grid1.ColumnDefinitions.IsReadOnly.ToString(); 
+} private void insertRowAt(object sender, RoutedEventArgs e) { rowDef1 = new RowDefinition(); 
+grid1.RowDefinitions.Insert(grid1.RowDefinitions.Count, rowDef1); 
+tp1.Text = "RowDefinition added at index position " + grid1.RowDefinitions.IndexOf(rowDef1).ToString(); 
+} private void insertColAt(object sender, RoutedEventArgs e) { colDef1 = new ColumnDefinition(); 
+grid1.ColumnDefinitions.Insert(grid1.ColumnDefinitions.Count, colDef1); 
+tp2.Text = "ColumnDefinition added at index position " + grid1.ColumnDefinitions.IndexOf(colDef1).ToString(); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System Imports System.Windows Imports System.Windows.Controls Imports System.Windows.Documents Namespace SDKSample '@ 
+&lt;summary> '@ Interaction logic for Window1.xaml '@ 
+&lt;/summary> Partial Public Class Window1 Inherits Window Dim rowDef1 As New RowDefinition Dim colDef1 As New ColumnDefinition Public Sub addCol(ByVal sender As Object, ByVal e As RoutedEventArgs) Dim colDef1 As New ColumnDefinition grid1.ColumnDefinitions.Add(colDef1) End Sub Public Sub addRow(ByVal sender As Object, ByVal e As RoutedEventArgs) Dim rowDef1 As New RowDefinition() grid1.RowDefinitions.Add(rowDef1) End Sub Public Sub clearCol(ByVal sender As Object, ByVal e As RoutedEventArgs) grid1.ColumnDefinitions.Clear() End Sub Public Sub clearRow(ByVal sender As Object, ByVal e As RoutedEventArgs) grid1.RowDefinitions.Clear() End Sub Public Sub removeCol(ByVal sender As Object, ByVal e As RoutedEventArgs) If (grid1.ColumnDefinitions.Count 
+&lt;= 0) Then tp1.Text = "No More Columns to Remove!" Else grid1.ColumnDefinitions.RemoveAt(0) End If End Sub Public Sub removeRow(ByVal sender As Object, ByVal e As RoutedEventArgs) If (grid1.RowDefinitions.Count 
+&lt;= 0) Then tp1.Text = "No More Rows to Remove!" Else grid1.RowDefinitions.RemoveAt(0) End If End Sub Public Sub colCount(ByVal sender As Object, ByVal e As RoutedEventArgs) tp2.Text = "The current number of Columns is: " + grid1.ColumnDefinitions.Count.ToString() End Sub Public Sub rowCount(ByVal sender As Object, ByVal e As RoutedEventArgs) tp2.Text = "The current number of Rows is: " + grid1.RowDefinitions.Count.ToString() End Sub Public Sub rem5Col(ByVal sender As Object, ByVal e As RoutedEventArgs) If (grid1.ColumnDefinitions.Count 
+&lt; 
+5) Then tp1.Text = "There aren't five Columns to Remove!" Else grid1.ColumnDefinitions.RemoveRange(0, 5) End If End Sub Public Sub rem5Row(ByVal sender As Object, ByVal e As RoutedEventArgs) If (grid1.RowDefinitions.Count 
+&lt; 
+5) Then tp1.Text = "There aren't five Rows to Remove!" Else grid1.RowDefinitions.RemoveRange(0, 5) End If End Sub Public Sub containsRow(ByVal sender As Object, ByVal e As RoutedEventArgs) If (grid1.RowDefinitions.Contains(rowDef1)) Then tp2.Text = "Grid Contains RowDefinition rowDef1" Else tp2.Text = "Grid Does Not Contain RowDefinition rowDef1" End If End Sub Public Sub containsCol(ByVal sender As Object, ByVal e As RoutedEventArgs) If (grid1.ColumnDefinitions.Contains(colDef1)) Then tp3.Text = "Grid Contains ColumnDefinition colDef1" Else tp3.Text = "Grid Does Not Contain ColumnDefinition colDef1" End If End Sub Public Sub colReadOnly(ByVal sender As Object, ByVal e As RoutedEventArgs) tp4.Text = "RowDefinitionsCollection IsReadOnly?: " + grid1.RowDefinitions.IsReadOnly.ToString() tp5.Text = "ColumnDefinitionsCollection IsReadOnly?: " + grid1.ColumnDefinitions.IsReadOnly.ToString() End Sub Public Sub insertRowAt(ByVal sender As Object, ByVal e As RoutedEventArgs) Dim rowDef1 As New RowDefinition grid1.RowDefinitions.Insert(grid1.RowDefinitions.Count, rowDef1) tp1.Text = "RowDefinition added at index position " + grid1.RowDefinitions.IndexOf(rowDef1).ToString() End Sub Public Sub insertColAt(ByVal sender As Object, ByVal e As RoutedEventArgs) Dim colDef1 As New ColumnDefinition() grid1.ColumnDefinitions.Insert(grid1.ColumnDefinitions.Count, colDef1) tp2.Text = "ColumnDefinition added at index position " + grid1.ColumnDefinitions.IndexOf(colDef1).ToString() End Sub End Class End Namespace </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Grid
+      <LineBreak/>ColumnDefinitionCollection
+      <LineBreak/>RowDefinitionCollection
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Change the Settings for Multiple Columns and Rows by Using ColumnDefinitionsCollections and RowDefinitionsCollections to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

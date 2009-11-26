@@ -1,0 +1,306 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_7452dd39_6e11_44bf_806a_31d87f3772ac"
+  Tag     ="Implement ICommandSource"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: How to Implement ICommandSource</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create a command source by implementing ICommandSource. A command source is an object that knows how to invoke a command. The ICommand interface exposes three members: Command, CommandParameter, and CommandTarget. <Run FontWeight="Bold">Command</Run>
+ is the command which will be invoked. The <Run FontWeight="Bold">CommandParameter</Run>
+ is a user-defined data type which is passed from the command source to the method which handles the command. The <Run FontWeight="Bold">CommandTarget</Run>
+ is the object that the command is being executed on.
+    </Paragraph>
+
+    <Paragraph>In this example, a class is created which subclasses the Slider control and implements <Run FontWeight="Bold">ICommandSource</Run>
+. For the complete source code, see Implement ICommand Source Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>WPF provides a number of classes which implement <Run FontWeight="Bold">ICommandSource</Run>
+, such as Button, MenuItem, and ListBoxItem. A command source defines how it invokes a command. <Run FontWeight="Bold">Button</Run>
+ and <Run FontWeight="Bold">MenuItem</Run>
+ invoke a command when they are clicked. A <Run FontWeight="Bold">ListBoxItem</Run>
+ invokes a command when it is double clicked. These classes only become a command source when their <Run FontWeight="Bold">Command</Run>
+ property is set. 
+    </Paragraph>
+
+    <Paragraph>For this example we will invoke the command when the slider is moved, or more accurately, when the Value property is changed.
+    </Paragraph>
+
+    <Paragraph>The following is the class definition. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class CommandSlider : Slider, ICommandSource { public CommandSlider() : base() { } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next step is to implement the <Run FontWeight="Bold">ICommandSource</Run>
+ members. In this example, the properties are implemented as DependencyProperty objects. This enables the properties to use data binding. For more information about the <Run FontWeight="Bold">DependencyProperty</Run>
+ class, see the <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+. For more information about data binding, see the <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Only the <Run FontWeight="Bold">Command</Run>
+ property is shown here. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//make Command a dependency property so it can be DataBound public static readonly DependencyProperty CommandProperty = DependencyProperty.Register( "Command", typeof(ICommand), typeof(CommandSlider), new PropertyMetadata((ICommand)null, new PropertyChangedCallback(CommandChanged))); 
+public ICommand Command { get { return (ICommand)GetValue(CommandProperty); 
+} set { SetValue(CommandProperty, value); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following is the <Run FontWeight="Bold">DependencyProperty</Run>
+ callback.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Command dependency property change callback private static void CommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) { CommandSlider cs = (CommandSlider)d; 
+cs.HookUpCommand((ICommand)e.OldValue,(ICommand)e.NewValue); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next step is to add and remove the command which is associated with the command source. The <Run FontWeight="Bold">Command</Run>
+ property cannot simply be overwritten when a new command is added, because the event handlers associated with the previous command, if there was one, must be removed first.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Add a new command to the Command Property private void HookUpCommand(ICommand oldCommand, ICommand newCommand) { //if oldCommand is not null, then we need to remove the handlers if (oldCommand != null) { RemoveCommand(oldCommand, newCommand); 
+} AddCommand(oldCommand, newCommand); 
+} // Remove an old command from the Command Property private void RemoveCommand(ICommand oldCommand, ICommand newCommand) { EventHandler handler = CanExecuteChanged; 
+oldCommand.CanExecuteChanged -= handler; 
+} // add the command private void AddCommand(ICommand oldCommand, ICommand newCommand) { EventHandler handler = new EventHandler(CanExecuteChanged); 
+canExecuteChangedHandler = handler; 
+if (newCommand != null) { newCommand.CanExecuteChanged += canExecuteChangedHandler; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The last step is to create logic for the CanExecuteChanged handler and the Execute method.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">CanExecuteChanged</Run>
+ event notifies the command source that the ability of the command to execute on the current command target may have changed. When a command source receives this event, it typically calls the CanExecute method on the command. If the command cannot execute on the current command target, the command source will typically disable itself. If the command can execute on the current command target, the command source will typically enable itself. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void CanExecuteChanged(object sender, EventArgs e) { if (this.Command != null) { RoutedCommand command = this.Command as RoutedCommand; 
+// if RoutedCommand if (command != null) { if (command.CanExecute(CommandParameter, CommandTarget)) { this.IsEnabled = true; 
+} else { this.IsEnabled = false; 
+} } // if not RoutedCommand else { if (Command.CanExecute(CommandParameter)) { this.IsEnabled = true; 
+} else { this.IsEnabled = false; 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The last step is the <Run FontWeight="Bold">Execute</Run>
+ method. If the command is a RoutedCommand, the <Run FontWeight="Bold">RoutedCommand</Run>
+ Execute method is called; 
+otherwise, the <Run FontWeight="Bold">ICommand</Run>
+<Run FontWeight="Bold">Execute</Run>
+ method is called.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//if Command is defined, then moving the slider will invoke the command; 
+//otherwise, the silder will behave normally protected override void OnValueChanged(double oldValue, double newValue) { base.OnValueChanged(oldValue, newValue); 
+if (this.Command != null) { RoutedCommand command = Command as RoutedCommand; 
+if (command != null) { command.Execute(CommandParameter, CommandTarget); 
+} else { ((ICommand)Command).Execute(CommandParameter); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Implement ICommand Source Sample creates an sample application which uses this command source.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ICommandSource
+      <LineBreak/>ICommand
+      <LineBreak/>RoutedCommand
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: How to Implement ICommandSource to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

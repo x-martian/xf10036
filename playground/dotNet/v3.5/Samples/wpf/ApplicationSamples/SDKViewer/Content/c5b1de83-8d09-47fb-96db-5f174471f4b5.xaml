@@ -1,0 +1,329 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c5b1de83_8d09_47fb_96db_5f174471f4b5"
+  Tag     ="Apply a BitmapEffect to a Drawing"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Apply a BitmapEffect to a Drawing</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to apply a BitmapEffect to a drawing. Use a <Run FontWeight="Bold">BitmapEffect</Run>
+ to blur or emboss, or to apply other visual effects to rendered content. 
+    </Paragraph>
+
+    <Paragraph>Only DrawingGroup objects support bitmap effects. To apply a bitmap effect to another type of Drawing object, add it to a <Run FontWeight="Bold">DrawingGroup</Run>
+ and set the BitmapEffect property of the <Run FontWeight="Bold">DrawingGroup</Run>
+ object.
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Windows Presentation Foundation (WPF) bitmap effects are software rendered. Any object that applies a <Run FontWeight="Bold">BitmapEffect</Run>
+ is also rendered in the software. Avoid using a <Run FontWeight="Bold">BitmapEffect</Run>
+ in large visuals or animations because this scenario can cause a decrease in system performance.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">DrawingGroup</Run>
+ to apply a BlurBitmapEffect to several GeometryDrawing objects.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows the output from this example. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+using System.Windows.Media.Effects; 
+namespace SDKSample { /// 
+&lt;summary> /// This example creates two DrawingGroup objects, /// one with a bitmap effect and one without. /// 
+&lt;/summary> public class BitmapEffectExample : Page { public BitmapEffectExample() { // // Create a DrawingGroup // that has no BitmapEffect // PathFigure pLineFigure = new PathFigure(); 
+pLineFigure.StartPoint = new Point(25, 25); 
+PolyLineSegment pLineSegment = new PolyLineSegment(); 
+pLineSegment.Points.Add(new Point(0,50)); 
+pLineSegment.Points.Add(new Point(25, 75)); 
+pLineSegment.Points.Add(new Point(50, 50)); 
+pLineSegment.Points.Add(new Point(25, 25)); 
+pLineSegment.Points.Add(new Point(25, 0)); 
+pLineFigure.Segments.Add(pLineSegment); 
+PathGeometry pGeometry = new PathGeometry(); 
+pGeometry.Figures.Add(pLineFigure); 
+GeometryDrawing drawing1 = new GeometryDrawing( Brushes.Lime, new Pen(Brushes.Black, 10), pGeometry ); 
+GeometryDrawing drawing2 = new GeometryDrawing( Brushes.Lime, new Pen(Brushes.Black, 2), new EllipseGeometry(new Point(10,10), 5, 5) ); 
+// Create a DrawingGroup DrawingGroup drawingGroupWithoutBitmapEffect = new DrawingGroup(); 
+drawingGroupWithoutBitmapEffect.Children.Add(drawing1); 
+drawingGroupWithoutBitmapEffect.Children.Add(drawing2); 
+// Use an Image control and a DrawingImage to // display the drawing. DrawingImage drawingImage01 = new DrawingImage(drawingGroupWithoutBitmapEffect); 
+// Freeze the DrawingImage for performance benefits. drawingImage01.Freeze(); 
+Image image01 = new Image(); 
+image01.Source = drawingImage01; 
+image01.Stretch = Stretch.None; 
+image01.HorizontalAlignment = HorizontalAlignment.Left; 
+// // Create another DrawingGroup and apply // a blur effect to it. // // Create a clone of the first DrawingGroup. DrawingGroup drawingGroupWithBitmapEffect = drawingGroupWithoutBitmapEffect.Clone(); 
+// Create a blur effect. BlurBitmapEffect blurEffect = new BlurBitmapEffect(); 
+blurEffect.Radius = 3.0; 
+// Apply it to the drawing group. drawingGroupWithBitmapEffect.BitmapEffect = blurEffect; 
+// Use another Image control and DrawingImage // to display the drawing. DrawingImage drawingImage02 = new DrawingImage(drawingGroupWithBitmapEffect); 
+// Freeze the DrawingImage for performance benefits. drawingImage02.Freeze(); 
+Image image02 = new Image(); 
+image02.Source = drawingImage02; 
+image02.Stretch = Stretch.None; 
+image02.HorizontalAlignment = HorizontalAlignment.Left; 
+// Create borders around the images and add them to the // page. Border border01 = new Border(); 
+border01.BorderBrush = Brushes.Gray; 
+border01.BorderThickness = new Thickness(1); 
+border01.VerticalAlignment = VerticalAlignment.Top; 
+border01.Margin = new Thickness(10); 
+border01.Child = image01; 
+Border border02 = new Border(); 
+border02.BorderBrush = Brushes.Gray; 
+border02.BorderThickness = new Thickness(1); 
+border02.VerticalAlignment = VerticalAlignment.Top; 
+border02.Margin = new Thickness(50,10,10,10); 
+border02.Child = image02; 
+StackPanel mainPanel = new StackPanel(); 
+mainPanel.Orientation = Orientation.Horizontal; 
+mainPanel.HorizontalAlignment = HorizontalAlignment.Left; 
+mainPanel.VerticalAlignment = VerticalAlignment.Top; 
+mainPanel.Children.Add(border01); 
+mainPanel.Children.Add(border02); 
+// // Use a DrawingBrush to create a checkered background for the page. // GeometryDrawing backgroundSquareDrawing = new GeometryDrawing( Brushes.White, null, new RectangleGeometry(new Rect(0,0,1,1))); 
+GeometryGroup twoRectangles = new GeometryGroup(); 
+twoRectangles.Children.Add(new RectangleGeometry(new Rect(0,0,0.5,0.5))); 
+twoRectangles.Children.Add(new RectangleGeometry(new Rect(0.5,0.5,0.5,0.5))); 
+SolidColorBrush squaresBrush = new SolidColorBrush(Color.FromArgb(102,204,204,204)); 
+squaresBrush.Opacity = 0.4; 
+GeometryDrawing checkerDrawing = new GeometryDrawing( squaresBrush, null, twoRectangles); 
+DrawingGroup checkerDrawings = new DrawingGroup(); 
+checkerDrawings.Children.Add(backgroundSquareDrawing); 
+checkerDrawings.Children.Add(checkerDrawing); 
+DrawingBrush checkerBrush = new DrawingBrush(checkerDrawings); 
+checkerBrush.Viewport = new Rect(0,0,10,10); 
+checkerBrush.ViewportUnits = BrushMappingMode.Absolute; 
+checkerBrush.TileMode = TileMode.Tile; 
+checkerBrush.Freeze(); 
+this.Background = checkerBrush; 
+this.Content = mainPanel; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_c5b1de83_8d09_47fb_96db_5f174471f4b5_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="PresentationOptions"> 
+&lt;StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"> 
+&lt;!-- Shows the DrawingGroup without the blur effect. --> 
+&lt;Border BorderBrush="Gray" BorderThickness="1" Margin="10" VerticalAlignment="Top"> 
+&lt;Image Stretch="None" HorizontalAlignment="Left"> 
+&lt;Image.Source> 
+&lt;DrawingImage PresentationOptions:Freeze="True"> 
+&lt;DrawingImage.Drawing> 
+&lt;DrawingGroup> 
+&lt;GeometryDrawing Brush="Lime" Geometry="M 25,25 L 0,50 25,75 50,50 25,25 25,0"> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="10" Brush="Black" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;GeometryDrawing Brush="Lime"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;EllipseGeometry Center="10,10" RadiusX="5" RadiusY="5" /> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="2" Brush="Black" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingGroup> 
+&lt;/DrawingImage.Drawing> 
+&lt;/DrawingImage> 
+&lt;/Image.Source> 
+&lt;/Image> 
+&lt;/Border> 
+&lt;Border BorderBrush="Gray" BorderThickness="1" Margin="50,10,10,10" VerticalAlignment="Top"> 
+&lt;Image Stretch="None" HorizontalAlignment="Left"> 
+&lt;Image.Source> 
+&lt;DrawingImage PresentationOptions:Freeze="True"> 
+&lt;DrawingImage.Drawing> 
+&lt;!-- The drawing group, with a BlurBitmapEffect. --> 
+&lt;DrawingGroup> 
+&lt;GeometryDrawing Brush="Lime" Geometry="M 25,25 L 0,50 25,75 50,50 25,25 25,0"> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="10" Brush="Black" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;GeometryDrawing Brush="Lime"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;EllipseGeometry Center="10,10" RadiusX="5" RadiusY="5" /> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="2" Brush="Black" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;DrawingGroup.BitmapEffect> 
+&lt;BlurBitmapEffect Radius="5" /> 
+&lt;/DrawingGroup.BitmapEffect> 
+&lt;/DrawingGroup> 
+&lt;/DrawingImage.Drawing> 
+&lt;/DrawingImage> 
+&lt;/Image.Source> 
+&lt;/Image> 
+&lt;/Border> 
+&lt;/StackPanel> 
+&lt;Page.Background> 
+&lt;!-- Creates a checkered background. --> 
+&lt;DrawingBrush Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile" PresentationOptions:Freeze="True"> 
+&lt;DrawingBrush.Drawing> 
+&lt;DrawingGroup> 
+&lt;GeometryDrawing Brush="White"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;RectangleGeometry Rect="0 0 1 1"/> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;/GeometryDrawing> 
+&lt;GeometryDrawing Brush="#66CCCCCC"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;GeometryGroup> 
+&lt;RectangleGeometry Rect="0 0 0.5 0.5" /> 
+&lt;RectangleGeometry Rect="0.5 0.5 0.5 0.5"/> 
+&lt;/GeometryGroup> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingGroup> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Page.Background> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="391032dd-2fba-4804-bb8a-3b071797a9f4.xaml">PresentationOptions:Freeze Attribute</Hyperlink>
+
+      <LineBreak/>BitmapEffect
+      <LineBreak/>Freeze
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="23cb338e-4b59-4b52-b294-96431f9c9568.xaml">Bitmap Effects Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Apply a BitmapEffect to a Drawing to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

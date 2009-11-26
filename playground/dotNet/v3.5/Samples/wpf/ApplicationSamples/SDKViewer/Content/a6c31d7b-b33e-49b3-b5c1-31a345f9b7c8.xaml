@@ -1,0 +1,1408 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a6c31d7b_b33e_49b3_b5c1_31a345f9b7c8"
+  Tag     ="UI Automation Properties Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation Properties Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run>UI Automation providers</Run>
+ expose properties on Microsoft UI Automation elements. These properties enable <Run>UI Automation client</Run>
+ applications to discover information about pieces of the user interface (UI), especially controls, including both static and dynamic data.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Property_Identifiers">Property Identifiers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Properties_by_Category">Properties by Category</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Properties_and_Events">Properties and Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This section gives a broad overview of Microsoft UI Automation properties. More specific information is given in the following topics:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="255905af-0b17-485c-93d4-8a2db2a6524b.xaml">UI Automation Properties for Clients</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="6acc6d08-bd67-4e2e-915c-9c1d34eb86fe.xaml">Server-Side UI Automation Provider Implementation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Property Identifiers
+    </Paragraph>
+
+    <Paragraph>Every property is identified by a number and a name. The names of properties are used only for debugging and diagnosis. Providers use the numeric IDs to identify incoming property requests. Client applications, however, only use AutomationProperty, which encapsulates the number and name, to identify properties they wish to retrieve. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">AutomationProperty</Run>
+ objects representing particular properties are available as fields in various classes. For security reasons, UI Automation providers obtain these objects from a separate set of classes that are contained in Uiautomationtypes.dll.
+    </Paragraph>
+
+    <Paragraph>The following table categorizes properties by the classes that contain the <Run FontWeight="Bold">AutomationProperty</Run>
+ IDs.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Kinds of properties 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Clients get IDs from 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Providers get IDs from 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Properties common to all elements (see following tables)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationElement 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationElementIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Position of a docking window
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>DockPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>DockPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>State of an element that can expand and collapse
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ExpandCollapsePattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ExpandCollapsePatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Properties of an item in a grid
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GridItemPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GridItemPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Properties of a grid
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GridPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GridPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Current and supported view of an element that has multiple views
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>MultipleViewPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>MultipleViewPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Properties of an element that moves over a range of values, such as a slider
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>RangeValuePattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>RangeValuePatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Properties of a scrolling window
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ScrollPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ScrollPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Status and container of an item that can be selected, as in a list
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>SelectionItemPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>SelectionItemPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Properties of a control that contains selection items
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>SelectionPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>SelectionPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Column and row headers of an item in a table
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TableItemPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TableItemPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Column and row headers, and orientation, of a table
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TablePattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TablePatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>State of a toggle control
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TogglePattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TogglePatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Capabilities of an element that can be moved, rotated, or resized
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TransformPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TransformPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Value and read/write capabilities of an element that has a value
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ValuePattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ValuePatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Capabilities and state of a window
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WindowPattern 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WindowPatternIdentifiers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Properties by Category
+    </Paragraph>
+
+    <Paragraph>The following tables categorize the properties whose IDs are found in <Run FontWeight="Bold">AutomationElement</Run>
+ and <Run FontWeight="Bold">AutomationElementIdentifiers</Run>
+. These properties are common to all controls. All but a few of them are likely to be static over the lifetime of the provider application; 
+most dynamic properties are associated with control patterns.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Property Access</Run>
+ column lists any other accessors for each property, in addition to GetCurrentPropertyValue and GetCachedPropertyValue. For more information on getting properties in a client application, see <Hyperlink NavigateUri="255905af-0b17-485c-93d4-8a2db2a6524b.xaml">UI Automation Properties for Clients</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For specific information about each property, follow the link in the <Run FontWeight="Bold">Property Access</Run>
+ column.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Display Characteristics</Run>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property identifier 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property access 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>BoundingRectangleProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>BoundingRectangle 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>CultureProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>n/a
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>HelpTextProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>HelpText 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsOffscreenProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsOffscreen 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>OrientationProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Orientation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Element Type</Run>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property identifier 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property access 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ControlTypeProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ControlType 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsContentElementProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsContentElement 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsControlElementProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsControlElement 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ItemTypeProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ItemType 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>LocalizedControlTypeProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>LocalizedControlType 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Identification</Run>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property identifier 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property access 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AutomationIdProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationId 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ClassNameProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ClassName 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>FrameworkIdProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>FrameworkId 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>LabeledByProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>LabeledBy 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>NameProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Name 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ProcessIdProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ProcessId 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RuntimeIdProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GetRuntimeId 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>NativeWindowHandleProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>NativeWindowHandle 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Interaction</Run>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property identifier 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property access 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AcceleratorKeyProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AcceleratorKey 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AccessKeyProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AccessKey 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ClickablePointProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GetClickablePoint 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>HasKeyboardFocusProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>HasKeyboardFocus 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsEnabledProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsEnabled 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsKeyboardFocusableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsKeyboardFocusable 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Support for Patterns</Run>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property identifier 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property access 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsDockPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GetSupportedPatterns 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsExpandCollapsePatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsGridItemPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsGridPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsInvokePatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsMultipleViewPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsRangeValuePatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsScrollItemPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsScrollPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsSelectionItemPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsSelectionPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsTableItemPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsTablePatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsTextPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsTogglePatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsTransformPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsValuePatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsWindowPatternAvailableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">GetSupportedPatterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Miscellaneous</Run>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property identifier 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property access 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsRequiredForFormProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsRequiredForForm 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsPasswordProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsPassword 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ItemStatusProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ItemStatus 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Properties and Events
+    </Paragraph>
+
+    <Paragraph>Closely tied in with the properties in UI Automation is the concept of property-changed events. For dynamic properties, the client application needs a way to know that a property value has changed, so that it can update its cache of information or react to the new information in some other way.
+    </Paragraph>
+
+    <Paragraph>Providers raise events when something in the UI changes. For example, if a check box is selected or cleared, a property-changed event is raised by the provider's implementation of the Toggle pattern. Providers can raise events selectively, depending on whether any clients are listening for events, or listening for specific events.
+    </Paragraph>
+
+    <Paragraph>Not all property changes raise events; 
+that is entirely up to the implementation of the UI Automation provider for the element. For example, the standard proxy providers for list boxes do not raise an event when the SelectionProperty changes. In this case, the application instead must listen for an ElementSelectedEvent.
+    </Paragraph>
+
+    <Paragraph>Clients listen for events by subscribing to them. Subscribing to events means creating delegate methods that can handle the events, and then passing the methods to UI Automation along with the specific events that will be dealt with in those methods. For property-changed events in particular, clients must implement AutomationPropertyChangedEventHandler.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="3acaee5a-6ce8-4c3e-81c8-67e59eb74477.xaml">Find a UI Automation Element Based on a Property Condition</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="5eba950e-b9e1-48eb-ab8e-b69db76bf589.xaml">Return Properties from a UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9fe2f01b-f7d8-49a8-a185-d4472b9976c0.xaml">Raise Events from a UI Automation Provider</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="94c15031-4975-43cc-bcd5-c9439ed21c9c.xaml">Caching in UI Automation Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="255905af-0b17-485c-93d4-8a2db2a6524b.xaml">UI Automation Properties for Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6acc6d08-bd67-4e2e-915c-9c1d34eb86fe.xaml">Server-Side UI Automation Provider Implementation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation Properties Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

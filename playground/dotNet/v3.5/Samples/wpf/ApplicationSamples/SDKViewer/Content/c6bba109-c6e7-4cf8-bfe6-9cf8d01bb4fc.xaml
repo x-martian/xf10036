@@ -1,0 +1,237 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c6bba109_c6e7_4cf8_bfe6_9cf8d01bb4fc"
+  Tag     ="Crop an Image"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Crop an Image</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to crop an image using CroppedBitmap.
+    </Paragraph>
+
+    <Paragraph>CroppedBitmap is primarily used when encoding a cropped version of an image to save out to a file. To crop an image for display purposes see the <Hyperlink NavigateUri="56e4bed6-78d7-4292-b917-d72d0b3e4376.xaml">How to: Create a Clip Region</Hyperlink>
+ topic.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following Extensible Application Markup Language (XAML) defines resources used within the samples below.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page.Resources> 
+&lt;!-- Define some image resources, for use as the image element source. --> 
+&lt;BitmapImage x:Key="masterImage" UriSource="/sampleImages/gecko.jpg" /> 
+&lt;CroppedBitmap x:Key="croppedImage" Source="{StaticResource masterImage}" SourceRect="30 20 105 50"/> 
+&lt;/Page.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example creates an image using a CroppedBitmap as its source.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Use the cropped image resource as the images source --> 
+&lt;Image Width="200" Source="{StaticResource croppedImage}" Margin="5" Grid.Column="0" Grid.Row="1" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create an Image element. Image croppedImage = new Image(); 
+croppedImage.Width = 200; 
+croppedImage.Margin = new Thickness(5); 
+// Create a CroppedBitmap based off of a xaml defined resource. CroppedBitmap cb = new CroppedBitmap( (BitmapSource)this.Resources["masterImage"], new Int32Rect(30, 20, 105, 50)); 
+//select region rect croppedImage.Source = cb; 
+//set image source to cropped </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The CroppedBitmap can also be used as the source of another CroppedBitmap, chaining the cropping. Note that the SourceRect uses values that are relative to the source cropped bitmap and not the initial image.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Chain a cropped bitmap off a previosly defined cropped image --> 
+&lt;Image Width="200" Grid.Column="0" Grid.Row="3" Margin="5"> 
+&lt;Image.Source> 
+&lt;CroppedBitmap Source="{StaticResource croppedImage}" SourceRect="30 0 75 50"/> 
+&lt;/Image.Source> 
+&lt;/Image> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create an Image element. Image chainImage = new Image(); 
+chainImage.Width = 200; 
+chainImage.Margin = new Thickness(5); 
+// Create the cropped image based on previous CroppedBitmap. CroppedBitmap chained = new CroppedBitmap(cb, new Int32Rect(30, 0, (int)cb.Width-30, (int)cb.Height)); 
+// Set the image's source. chainImage.Source = chained; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Image Element Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="56e4bed6-78d7-4292-b917-d72d0b3e4376.xaml">How to: Create a Clip Region</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Image Element Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Crop an Image to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

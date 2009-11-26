@@ -1,0 +1,320 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_cf3cb4e7_782a_4be7_b2d4_e0935e21e4e0"
+  Tag     ="Create a Text Decoration"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Text Decoration</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A TextDecoration object is a visual ornamentation you can add to text. There are four types of text decorations: underline, baseline, strikethrough, and overline. The following example shows the locations of the text decorations relative to the text.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of text decoration types</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>To add a text decoration to text, create a <Run FontWeight="Bold">TextDecoration</Run>
+ object and modify its properties. Use the Location property to specify where the text decoration appears, such as underline. Use the Pen property to specify the appearance of the text decoration, such as a solid fill or gradient color. If you do not specify a value for the <Run FontWeight="Bold">Pen</Run>
+ property, the decorations defaults to the same color as the text. Once you have defined a <Run FontWeight="Bold">TextDecoration</Run>
+ object, add it to the TextDecorations collection of the desired text object.
+    </Paragraph>
+
+    <Paragraph>The following example shows a text decoration that has been styled with a linear gradient brush and a dashed pen.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of an underline styled with a linear gradient brush and dashed pen</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In the following code example, an underline text decoration uses the default font value.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Use the default font values for the strikethrough text decoration. --> 
+&lt;TextBlock TextDecorations="Strikethrough" FontSize="36" > The quick red fox 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Use the default font values for the strikethrough text decoration. private void SetDefaultStrikethrough() { // Set the underline decoration directly to the text block. TextBlock1.TextDecorations = TextDecorations.Strikethrough; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In the following code example, an underline text decoration is created with a solid color brush for the pen.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Use a Red pen for the underline text decoration --> 
+&lt;TextBlock FontSize="36" > jumped over 
+&lt;TextBlock.TextDecorations> 
+&lt;TextDecorationCollection> 
+&lt;TextDecoration PenThicknessUnit="FontRecommended"> 
+&lt;TextDecoration.Pen> 
+&lt;Pen Brush="Red" Thickness="1" /> 
+&lt;/TextDecoration.Pen> 
+&lt;/TextDecoration> 
+&lt;/TextDecorationCollection> 
+&lt;/TextBlock.TextDecorations> 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Use a Red pen for the underline text decoration. private void SetRedUnderline() { // Create an underline text decoration. Default is underline. TextDecoration myUnderline = new TextDecoration(); 
+// Create a solid color brush pen for the text decoration. myUnderline.Pen = new Pen(Brushes.Red, 1); 
+myUnderline.PenThicknessUnit = TextDecorationUnit.FontRecommended; 
+// Set the underline decoration to a TextDecorationCollection and add it to the text block. TextDecorationCollection myCollection = new TextDecorationCollection(); 
+myCollection.Add(myUnderline); 
+TextBlock2.TextDecorations = myCollection; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In the following code example, an underline text decoration is created with a linear gradient brush for the dashed pen.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Use a linear gradient pen for the underline text decoration. --> 
+&lt;TextBlock FontSize="36">the lazy brown dog. 
+&lt;TextBlock.TextDecorations> 
+&lt;TextDecorationCollection> 
+&lt;TextDecoration PenThicknessUnit="FontRecommended"> 
+&lt;TextDecoration.Pen> 
+&lt;Pen Thickness="1.5"> 
+&lt;Pen.Brush> 
+&lt;LinearGradientBrush Opacity="0.5" StartPoint="0,0.5" EndPoint="1,0.5"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="Yellow" Offset="0" /> 
+&lt;GradientStop Color="Red" Offset="1" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Pen.Brush> 
+&lt;Pen.DashStyle> 
+&lt;DashStyle Dashes="2"/> 
+&lt;/Pen.DashStyle> 
+&lt;/Pen> 
+&lt;/TextDecoration.Pen> 
+&lt;/TextDecoration> 
+&lt;/TextDecorationCollection> 
+&lt;/TextBlock.TextDecorations> 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Use a linear gradient pen for the underline text decoration. private void SetLinearGradientUnderline() { // Create an underline text decoration. Default is underline. TextDecoration myUnderline = new TextDecoration(); 
+// Create a linear gradient pen for the text decoration. Pen myPen = new Pen(); 
+myPen.Brush = new LinearGradientBrush(Colors.Yellow, Colors.Red, new Point(0, 0.5), new Point(1, 0.5)); 
+myPen.Brush.Opacity = 0.5; 
+myPen.Thickness = 1.5; 
+myPen.DashStyle = DashStyles.Dash; 
+myUnderline.Pen = myPen; 
+myUnderline.PenThicknessUnit = TextDecorationUnit.FontRecommended; 
+// Set the underline decoration to a TextDecorationCollection and add it to the text block. TextDecorationCollection myCollection = new TextDecorationCollection(); 
+myCollection.Add(myUnderline); 
+TextBlock3.TextDecorations = myCollection; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For a complete example of using text decorations, see the TextDecorationSample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Text Decoration to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

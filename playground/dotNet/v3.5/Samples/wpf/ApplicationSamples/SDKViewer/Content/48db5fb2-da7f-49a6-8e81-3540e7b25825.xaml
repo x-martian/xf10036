@@ -1,0 +1,344 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_48db5fb2_da7f_49a6_8e81_3540e7b25825"
+  Tag     ="Dependency Property Callbacks and Validation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Dependency Property Callbacks and Validation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how to create dependency properties using alternative custom implementations for property-related features such as validation determination, callbacks that are invoked whenever the property's effective value is changed, and overriding possible outside influences on value determination. This topic also discusses scenarios where expanding on the default property system behaviors by using these techniques is appropriate.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Validation_Callbacks">Validation Callbacks</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Coerce_Value_Callbacks_and_Property_Changed_Events">Coerce Value Callbacks and Property Changed Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Advanced">Advanced Coercion and Callback Scenarios</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you understand the basic scenarios of implementing a dependency property, and how metadata is applied to a custom dependency property. See <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+ and <Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+ for context.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Validation Callbacks
+    </Paragraph>
+
+    <Paragraph>Validation callbacks can be assigned to a dependency property when you first register it. The validation callback is not part of property metadata, it is a direct input of the Register method. Therefore, once a validation callback is created for a dependency property, it cannot be overridden by a new implementation.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public static readonly DependencyProperty CurrentReadingProperty = DependencyProperty.Register( "CurrentReading", typeof(double), typeof(Gauge), new FrameworkPropertyMetadata( Double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure, new PropertyChangedCallback(OnCurrentReadingChanged), new CoerceValueCallback(CoerceCurrentReading) ), new ValidateValueCallback(IsValidReading) ); 
+public double CurrentReading { get { return (double)GetValue(CurrentReadingProperty); 
+} set { SetValue(CurrentReadingProperty, value); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The callbacks are implemented such that they are provided an object value, and return <Run FontWeight="Bold">true</Run>
+ if the provided value is valid for the property, and <Run FontWeight="Bold">false</Run>
+ otherwise. It is assumed that the property is of the correct type per the type registered with the property system, so checking type within the callbacks is not ordinarily done. The callbacks are used by the property system in a variety of different operations. This includes the initial type initialization by default value, programmatic change by invoking SetValue, or attempts to override metadata with new default value provided. If the validation callback is invoked by any of these operations, and returns <Run FontWeight="Bold">false</Run>
+, then an exception will be raised. Application writers must be prepared to handle these exceptions. A common use of validation callbacks is validating enumeration values, or constraining values of ints or doubles when the property sets measurements that must be zero or greater.
+    </Paragraph>
+
+    <Paragraph>Validation callbacks specifically are intended to be class validators, not instance validators. The parameters of the callback do not communicate a specific DependencyObject on which the properties to validate are set. Therefore the validation callbacks are not useful for enforcing the possible "dependencies" that might influence a property value, where the instance-specific value of a property is dependent on factors such as instance-specific values of other properties, or run-time state.
+    </Paragraph>
+
+    <Paragraph>The following is example code for a very simple validation callback scenario: validating that a property that is typed as the Double primitive is not PositiveInfinity or NegativeInfinity.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public static bool IsValidReading(object value) { Double v = (Double)value; 
+return (!v.Equals(Double.NegativeInfinity) &amp;&amp; 
+!v.Equals(Double.PositiveInfinity)); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Coerce Value Callbacks and Property Changed Events
+    </Paragraph>
+
+    <Paragraph>Coerce value callbacks do pass the specific <Run FontWeight="Bold">DependencyObject</Run>
+ instance for properties, as do PropertyChangedCallback implementations that are invoked by the property system whenever the value of a dependency property changes. Using these two callbacks in combination, you can create a series of properties on elements where changes in one property will force a coercion or reevaluation of another property.
+    </Paragraph>
+
+    <Paragraph>A typical scenario for using a linkage of dependency properties is when you have a user interface driven property where the element holds one property each for the minimum and maximum value, and a third property for the actual or current value. Here, if the maximum was adjusted in such a way that the current value exceeded the new maximum, you would want to coerce the current value to be no greater than the new maximum, and a similar relationship for minimum to current.
+    </Paragraph>
+
+    <Paragraph>The following is very brief example code for just one of the three dependency properties that illustrate this relationship. The example shows how the <Run>CurrentReading</Run>
+ property of a Min/Max/Current set of related *Reading properties is registered. It uses the validation as shown in the previous section.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public static readonly DependencyProperty CurrentReadingProperty = DependencyProperty.Register( "CurrentReading", typeof(double), typeof(Gauge), new FrameworkPropertyMetadata( Double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure, new PropertyChangedCallback(OnCurrentReadingChanged), new CoerceValueCallback(CoerceCurrentReading) ), new ValidateValueCallback(IsValidReading) ); 
+public double CurrentReading { get { return (double)GetValue(CurrentReadingProperty); 
+} set { SetValue(CurrentReadingProperty, value); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The property changed callback for Current is used to forward the change to other dependent properties, by explicitly invoking the coerce value callbacks that are registered for those other properties:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private static void OnCurrentReadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) { d.CoerceValue(MinReadingProperty); 
+d.CoerceValue(MaxReadingProperty); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The coerce value callback checks the values of properties that the current property is potentially dependent upon, and coerces the current value if necessary:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private static object CoerceCurrentReading(DependencyObject d, object value) { Gauge g = (Gauge)d; 
+double current = (double)value; 
+if (current 
+&lt; 
+g.MinReading) current = g.MinReading; 
+if (current > g.MaxReading) current = g.MaxReading; 
+return current; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Default values of properties are not coerced. A property value equal to the default value might occur if a property value still has its initial default, or through clearing other values with ClearValue.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The coerce value and property changed callbacks are part of property metadata. Therefore, you can change the callbacks for a particular dependency property as it exists on a type that you derive from the type that owns the dependency property, by overriding the metadata for that property on your type.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Advanced Coercion and Callback Scenarios
+    </Paragraph>
+
+    <Paragraph FontSize="18">Constraints and Desired Values
+    </Paragraph>
+
+    <Paragraph>The CoerceValueCallback callbacks will be used by the property system to coerce a value in accordance to the logic you declare, but a coerced value of a locally set property will still retain a "desired value" internally. If the constraints are based on other property values that may change dynamically during the application lifetime, the coercion constraints are changed dynamically also, and the constrained property can change its value to get as close to the desired value as possible given the new constraints. The value will become the desired value if all constraints are lifted. You can potentially introduce some fairly complicated dependency scenarios if you have multiple properties that are dependent on one another in a circular manner. For instance, in the Min/Max/Current scenario, you could choose to have Minimum and Maximum be user settable. If so, you might need to coerce that Maximum is always greater than Minimum and vice versa. But if that coercion is active, and Maximum coerces to Minimum, it leaves Current in an unsettable state, because it is dependent on both and is constrained to the range between the values, which is zero. Then, if Maximum or Minimum are adjusted, Current will seem to "follow" one of the values, because the desired value of Current is still stored and is attempting to reach the desired value as the constraints are loosened.
+    </Paragraph>
+
+    <Paragraph>There is nothing technically wrong with complex dependencies, but they can be a slight performance detriment if they require large numbers of reevaluations, and can also be confusing to users if they affect the UI directly. Be careful with property changed and coerce value callbacks and make sure that the coercion being attempted can be treated as unambiguously as possible, and does not "overconstrain". This SDK includes a sample (PropertyChanged and CoerceValue Callbacks Sample) that deliberately illustrates what is not necessarily a best practice for coercion, with several interrelated dependency properties and some UI presentations. You should experiment with this sample as a way of illustrating the constraint issues as well as the desired value concept explained here.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Using CoerceValue to Cancel Value Changes
+    </Paragraph>
+
+    <Paragraph>The property system will treat any CoerceValueCallback that returns the value UnsetValue as a special case. This special case means that the property change that resulted in the <Run FontWeight="Bold">CoerceValueCallback</Run>
+ being called should be rejected by the property system, and that the property system should instead report whatever previous value the property had. This mechanism can be useful to check that changes to a property that were initiated asynchonously are still valid for the current object state, and suppress the changes if not. Another possible scenario is that you can selectively suppress a value depending on which component of property value determination is responsible for the value being reported. To do this, you can use the DependencyProperty passed in the callback and the property identifier as input for GetValueSource, and then process the ValueSource.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Dependency Property Callbacks and Validation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

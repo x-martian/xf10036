@@ -1,0 +1,461 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1931d292_0dd1_434f_963c_dcda7638d75a"
+  Tag     ="Walkthrough: Hosting an ActiveX Control in Windows Presentation Foundation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Walkthrough: Hosting an ActiveX Control in Windows Presentation Foundation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To enable improved interaction with browsers, you can use Microsoft ActiveX controls in your WPF-based application. This walkthrough demonstrates how you can host the Microsoft Windows Media Player as a control on a WPF page.
+    </Paragraph>
+
+    <Paragraph>Tasks illustrated in this walkthrough include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Creating the project.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Creating the ActiveX control.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Hosting the ActiveX control on a Windows Presentation Foundation Page.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For a complete code listing of the tasks shown in this walkthrough, see Hosting an ActiveX Control in Windows Presentation Foundation Sample.
+    </Paragraph>
+
+    <Paragraph>When you have completed this walkthrough, you will understand how to use Microsoft ActiveX controls in your WPF-based application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The dialog boxes and menu commands you see might differ from those described in Help, depending on your active settings or edition. To change your settings, choose <Run FontWeight="Bold">Import and Export Settings</Run>
+ on the <Run FontWeight="Bold">Tools</Run>
+ menu. For more information, see Visual Studio Settings.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>Prerequisites</Run>
+
+    </Paragraph>
+
+    <Paragraph>To complete this walkthrough, you will need: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Microsoft Windows Media Player installed on the computer where Microsoft Visual Studio 2005 is installed. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Development Tools for .NET Framework 3.0, which enable you to create a WPF application project. For information on installing these tools, see Installation Instructions for the Windows SDK.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Creating the Project</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">To create and set up the project
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a Windows Application (WPF) project named <Run FontWeight="Bold">HostingAxInWpf</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Add a Windows Control Library project to the application project, and name the project <Run FontWeight="Bold">WmpAxLib</Run>
+. 
+        </Paragraph>
+
+        <Paragraph>For more information, see Add New Project Dialog Box. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, add a reference to the Microsoft Windows Media Player assembly, which is named wmp.dll. 
+        </Paragraph>
+
+        <Paragraph>For more information, see How to: Add References to Type Libraries. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Open the <Run FontWeight="Bold">Toolbox</Run>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Right-click in the <Run FontWeight="Bold">Toolbox</Run>
+, and then click <Run FontWeight="Bold">Choose Items</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click the <Run FontWeight="Bold">COM Components</Run>
+ tab, select the <Run FontWeight="Bold">Windows Media Player</Run>
+ control, and then click <Run FontWeight="Bold">OK</Run>
+ to accept the selection.
+        </Paragraph>
+
+        <Paragraph>The Microsoft Windows Media Player control is added to the <Run FontWeight="Bold">Toolbox</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, right-click the <Run FontWeight="Bold">UserControl1</Run>
+ file, and then click <Run FontWeight="Bold">Rename</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Change the name to <Run FontWeight="Bold">WmpAxControl.cs</Run>
+ or <Run FontWeight="Bold">WmpAxControl.vb</Run>
+, depending on the language. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If you are prompted to rename all references, click <Run FontWeight="Bold">Yes</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Creating the ActiveX Control</Run>
+
+    </Paragraph>
+
+    <Paragraph>Microsoft Visual Studio automatically generates an AxHost wrapper class for a Microsoft ActiveX control when the control is added to a design surface. The following procedure creates a managed assembly named AxInterop.WMPLib.dll.
+    </Paragraph>
+
+    <Paragraph FontSize="18">To create the ActiveX control
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>In the Windows Forms Designer, open <Run FontWeight="Bold">WmpAxControl</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>From the <Run FontWeight="Bold">Toolbox</Run>
+, add the Microsoft Windows Media Player control to the design surface.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In the Properties window, set the value of the Microsoft Windows Media Player control's Dock property to Fill.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F6 to build the control library.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Hosting the ActiveX Control on a Windows Presentation Foundation Page</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">To host the ActiveX control
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>In the HostingAxInWpf project, add a reference to the generated ActiveX interoperability assembly. 
+        </Paragraph>
+
+        <Paragraph>This assembly is named AxInterop.WMPLib.dll and was added to the Debug folder of the WmpAxLib project when you imported the Microsoft Windows Media Player control.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Add a reference to the WindowsFormsIntegration assembly, which is named WindowsFormsIntegration.dll. 
+        </Paragraph>
+
+        <Paragraph>The default location for this file is %programfiles%\Reference Assemblies\Microsoft\Framework\v3.0\WindowsFormsIntegration.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Add a reference to the Windows Forms assembly, which is named System.Windows.Forms.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Open Window1.xaml, and replace the generated code with the following code. 
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="HostingAxInWpf.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="HostingAxInWpf" Loaded="WindowLoaded" > 
+&lt;Grid Name="grid1"> 
+&lt;/Grid> 
+&lt;/Window> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="HostingAxInWpf" Loaded="WindowLoaded" > 
+&lt;Grid Name="grid1"> 
+&lt;/Grid> 
+&lt;/Window> </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Open Window1.xaml.cs, and uncomment the definition of the <Run>WindowLoaded</Run>
+ method.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Insert the following code to handle the Loaded event. 
+        </Paragraph>
+
+        <Paragraph>This code creates an instance of the WindowsFormsHost control and adds an instance of the <Run>AxWindowsMediaPlayer</Run>
+ control as its child.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void WindowLoaded(object sender, RoutedEventArgs e) { // Create the interop host control. System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost(); 
+// Create the ActiveX control. AxWMPLib.AxWindowsMediaPlayer axWmp = new AxWMPLib.AxWindowsMediaPlayer(); 
+// Assign the ActiveX control as the host control's child. host.Child = axWmp; 
+// Add the interop host control to the Grid // control's collection of child controls. this.grid1.Children.Add(host); 
+// Play a .wav file with the ActiveX control. axWmp.URL = @"C:\WINDOWS\Media\Windows XP Startup.wav"; 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub WindowLoaded(ByVal sender As Object, ByVal e As RoutedEventArgs) ' Create the interop host control. Dim host As New System.Windows.Forms.Integration.WindowsFormsHost() ' Create the ActiveX control. Dim axWmp As New AxWMPLib.AxWindowsMediaPlayer() ' Assign the ActiveX control as the host control's child. host.Child = axWmp ' Add the interop host control to the Grid ' control's collection of child controls. Me.grid1.Children.Add(host) ' Play a .wav file with the ActiveX control. axWmp.URL = "C:\WINDOWS\Media\Windows XP Startup.wav" End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ElementHost
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="96fcd78d-1c77-4206-8928-3a0579476ef4.xaml">Walkthrough: Hosting a Windows Forms Composite Control in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0ac41286-4c1b-4b17-9196-d985cb844ce1.xaml">Walkthrough: Hosting a Windows Presentation Foundation Control in Windows Forms</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="619f9fcd-a71b-4db5-b3e4-da99ec3b5c41.xaml">Migration and Interoperability How-to Topics</Hyperlink>
+
+      <LineBreak/>Hosting an ActiveX Control in Windows Presentation Foundation Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Walkthrough: Hosting an ActiveX Control in Windows Presentation Foundation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

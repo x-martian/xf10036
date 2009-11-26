@@ -1,0 +1,143 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6a791f3d_6b1f_4972_a2f9_35880bcfd954"
+  Tag     ="Animate Within a Style"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate Within a Style</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to animate properties within a style. When animating within a style, only the framework element for which the style is defined can be targeted directly. To target a freezable object, you must "dot down" from a property of the styled element.
+    </Paragraph>
+
+    <Paragraph>In the following example, several animations are defined within a style and applied to a Button. When the user moves the mouse over the button, it fades from opaque to partially translucent and back again, repeatedly. When the user moves the mouse off the button, it becomes completely opaque. When the button is clicked, its background color changes from orange to white and back again. Because the SolidColorBrush used to paint the button can't be targeted directly, it is accessed by dotting down from the button's Background property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_6a791f3d_6b1f_4972_a2f9_35880bcfd954_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;!-- StyleStoryboardsExample.xaml This example shows how to create storyboards in a style. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Storyboards in Styles Example" Background="White"> 
+&lt;Page.Resources> 
+&lt;!-- Defines a Button style. --> 
+&lt;Style TargetType="{x:Type Button}" x:Key="MyButtonStyle"> 
+&lt;Setter Property="Button.Background"> 
+&lt;Setter.Value> 
+&lt;SolidColorBrush Color="Orange" /> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Style.Triggers> 
+&lt;!-- Animates the button's opacity on mouse over. --> 
+&lt;EventTrigger RoutedEvent="Button.MouseEnter"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetProperty="(Button.Opacity)" From="1.0" To="0.5" Duration="0:0:0.5" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;!-- Returns the button's opacity to 1 when the mouse leaves. --> 
+&lt;EventTrigger RoutedEvent="Button.MouseLeave"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetProperty="(Button.Opacity)" To="1" Duration="0:0:0.1" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;!-- Changes the button's color when clicked. Notice that the animation can't target the SolidColorBrush used to paint the button's background directly. The brush must be accessed through the button's Background property. --> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="Orange" To="White" Duration="0:0:0.1" AutoReverse="True" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> 
+&lt;/Page.Resources> 
+&lt;StackPanel Margin="20"> 
+&lt;Button Style="{StaticResource MyButtonStyle}">Click Me
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that when animating within a style, it's possible to target objects that don't exist. For example, suppose your style uses a <Run FontWeight="Bold">SolidColorBrush</Run>
+ to set a Button's background property, but at some point the style is overridden and the button's background is set with a LinearGradientBrush. Trying to animate the <Run FontWeight="Bold">SolidColorBrush</Run>
+ won't throw an exception; 
+the animation will simply fail silently.
+    </Paragraph>
+
+    <Paragraph>Fore more information about storyboard targeting syntax, see the <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+. For more information about animation, see the <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+. For more information about styles, see the <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate Within a Style to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

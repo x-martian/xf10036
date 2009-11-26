@@ -1,0 +1,529 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Sample Title" x:Class="mysamp_Samp.Page1" Loaded="OnLoaded">
+    <Page.Resources>
+        <Style x:Key="itemHeaderStyler">
+            <Setter Property="ListBoxItem.Margin" Value="0,2,0,5" />
+            <Setter Property="ListBoxItem.Padding" Value="2" />
+            <Setter Property="ListBoxItem.FontFamily" Value="Verdana" />
+            <Setter Property="ListBoxItem.FontWeight" Value="Bold" />
+            <Setter Property="ListBoxItem.FontSize" Value="12" />
+        </Style>
+        <Style x:Key="imageStyler">
+            <Setter Property="TextBlock.Margin" Value="15" />
+        </Style>
+        <Style x:Key="HeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="20" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="TabStyle">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TabStyle2">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TabItem.Foreground" Value="Black" />
+        </Style>
+        <Style x:Key="SubHeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="16" />
+            <Setter Property="TextBlock.Foreground" Value="DarkSlateBlue" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="DisStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="8" />
+            <Setter Property="TextBlock.Foreground" Value="Gray" />
+            <Setter Property="TextBlock.Margin" Value="5,0,5,0" />
+        </Style>
+        <Style x:Key="mainContentStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="5,10,5,10" />
+        </Style>
+        <Style x:Key="tocStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.Margin" Value="0" />
+        </Style>
+        <Style x:Key="CodeSnippetParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Courier New" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10,0,10,0" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="noteParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="TCStyle">
+            <Setter Property="TabControl.Margin" Value="10" />
+        </Style>
+    </Page.Resources>
+    <TabControl MinHeight="500" MaxHeight="700" MinWidth="400" Style="{StaticResource TCStyle}">
+        <TabItem Style="{StaticResource TabStyle}" Header="Context Menu Sample" IsSelected="true">
+            <StackPanel>
+                <TextBlock Style="{StaticResource HeaderStyle}">Context Menu</TextBlock>
+                <TextBlock Style="{StaticResource mainContentStyle}">This example describes how to create ContextMenu controls.</TextBlock>
+                <TextBlock Style="{StaticResource mainContentStyle}">The preview window renders code from the C#+Markup tab. The VB+markup code is provided for reference purposes.</TextBlock>
+            </StackPanel>
+        </TabItem>
+        <TabItem Name="xaml" Style="{StaticResource TabStyle}" Header="XAML">
+        </TabItem>
+        <TabItem Name="xamlcsharp" Style="{StaticResource TabStyle}" Header="XAML + C#">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xcsharpCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+&lt;Canvas
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="ContextMenus.Pane1"
+    Name="cv1" 
+    &gt;
+  &lt;Grid Name="grid" ShowGridLines ="false" Background ="White" &gt;
+    &lt;ColumnDefinition Width="300"/&gt;
+    &lt;ColumnDefinition Width="250"/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;RowDefinition/&gt;
+    &lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="0" FontSize="24"&gt;Context Menus&lt;/TextBlock&gt;
+    &lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="1" FontSize="14" Grid.ColumnSpan="2"&gt;The following context menu examples demonstrate:&lt;/TextBlock&gt;
+    &lt;DockPanel Grid.Column="0" Grid.Row="2"&gt;
+      &lt;Button Height="30"&gt;
+          Button with Context Menu
+        &lt;Button.ContextMenu&gt;
+          &lt;ContextMenu&gt;
+            &lt;MenuItem Header="File"/&gt;
+            &lt;MenuItem Header="Save"/&gt;
+            &lt;MenuItem Header="SaveAs"/&gt;
+            &lt;MenuItem Header="Recent Files"&gt;
+              &lt;MenuItem Header="ReadMe.txt"/&gt;
+              &lt;MenuItem Header="Schedule.xls"/&gt;
+            &lt;/MenuItem&gt;
+          &lt;/ContextMenu&gt;
+        &lt;/Button.ContextMenu&gt;
+      &lt;/Button&gt;
+    &lt;/DockPanel&gt;
+    &lt;TextBlock Margin="5, 10, 5, 5" Grid.Column="1" Grid.Row="2" FontSize="12" VerticalAlignment="Center"&gt;Simple context menu with submenu items.&lt;/TextBlock&gt;
+
+    &lt;DockPanel Grid.Column="0" Grid.Row="3"&gt;
+      &lt;Button Height="30"&gt;
+            With ToolTip
+        &lt;Button.ContextMenu&gt;
+          &lt;ContextMenu&gt;
+            &lt;MenuItem Header="Edit"&gt;
+              &lt;MenuItem Header="Cut"/&gt;
+              &lt;MenuItem Header="Copy"/&gt;
+              &lt;MenuItem Header="Paste"/&gt;
+              &lt;Separator /&gt;
+              &lt;MenuItem Header="Context Menu item with ToolTip"&gt;
+                &lt;MenuItem.ToolTip&gt;
+                  &lt;ToolTip&gt;
+                    Some information.
+                  &lt;/ToolTip&gt;
+                &lt;/MenuItem.ToolTip&gt;
+              &lt;/MenuItem&gt;
+            &lt;/MenuItem&gt;
+          &lt;/ContextMenu&gt;
+        &lt;/Button.ContextMenu&gt;
+      &lt;/Button&gt;
+    &lt;/DockPanel&gt;
+    &lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="3" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"&gt;Context menu item with tooltip.&lt;/TextBlock&gt;
+
+    &lt;DockPanel Grid.Column="0" Grid.Row="4"&gt;
+      &lt;Button Height="30"&gt;
+        Choose a Pet
+        &lt;Button.ContextMenu&gt;
+          &lt;ContextMenu&gt;
+            &lt;MenuItem Header="Animals"&gt;
+              &lt;MenuItem&gt;
+                &lt;MenuItem.Header&gt;
+                  &lt;Image Source="data/cat.png"/&gt;
+                &lt;/MenuItem.Header&gt;
+              &lt;/MenuItem&gt;
+              &lt;MenuItem&gt;
+                &lt;MenuItem.Header&gt;
+                  &lt;Image Source="data/dog.png"/&gt;
+                &lt;/MenuItem.Header&gt;
+              &lt;/MenuItem&gt;
+              &lt;MenuItem&gt;
+                &lt;MenuItem.Header&gt;
+                  &lt;Image Source="data/fish.png"/&gt;
+                &lt;/MenuItem.Header&gt;
+              &lt;/MenuItem&gt;
+            &lt;/MenuItem&gt;
+          &lt;/ContextMenu&gt;
+        &lt;/Button.ContextMenu&gt;
+      &lt;/Button&gt;
+    &lt;/DockPanel&gt;
+
+    &lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="4" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"&gt;Image used as a context menu item.&lt;/TextBlock&gt;
+
+    &lt;DockPanel Grid.Column="0" Grid.Row="5"&gt;
+      &lt;Button Height="30"&gt;
+        Context Menu with AccessText
+        &lt;Button.ContextMenu&gt;
+          &lt;ContextMenu&gt;
+            &lt;MenuItem&gt;
+              &lt;MenuItem.Header&gt;
+                &lt;TextBlock&gt;
+                  &lt;AccessText&gt;P&lt;/AccessText&gt;roject
+                &lt;/TextBlock&gt;
+              &lt;/MenuItem.Header&gt;
+              &lt;MenuItem&gt;
+                &lt;MenuItem.Header&gt;
+                  &lt;TextBlock&gt;
+                    &lt;AccessText&gt;A&lt;/AccessText&gt;dd
+                  &lt;/TextBlock&gt;
+                &lt;/MenuItem.Header&gt;
+              &lt;/MenuItem&gt;
+              &lt;MenuItem&gt;
+                &lt;MenuItem.Header&gt;
+                  &lt;TextBlock&gt;
+                    &lt;AccessText&gt;D&lt;/AccessText&gt;elete
+                  &lt;/TextBlock&gt;
+                &lt;/MenuItem.Header&gt;
+              &lt;/MenuItem&gt;
+              &lt;Separator /&gt;
+              &lt;MenuItem Header="Recent Files"/&gt;
+            &lt;/MenuItem&gt;
+          &lt;/ContextMenu&gt;
+        &lt;/Button.ContextMenu&gt;
+      &lt;/Button&gt;
+    &lt;/DockPanel&gt;
+    &lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="5" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"&gt;ContextMenu Item with AccessText. Hover over the menu and press the ALT key to see the AccessText underlined.&lt;/TextBlock&gt;
+
+    &lt;Button Height="30" Margin="5, 10, 5, 5" Grid.Column="0" Grid.Row="6" Click="OnClick"&gt;Click me to create a context menu with C# code.&lt;/Button&gt;
+    &lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="6" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"&gt;Creating a context menu with C#.&lt;/TextBlock&gt;
+  &lt;/Grid&gt;
+  &lt;Canvas Name="cv2" Width="550" Height="50" Canvas.Top="280" Canvas.Left="10"&gt;&lt;/Canvas&gt;
+&lt;/Canvas&gt;
+
+                
+            </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="C#">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Windows.Data;
+using System.Windows.Media;
+
+namespace ContextMenus
+{
+  /// &lt;summary&gt;
+  /// Interaction logic for Pane1.xaml
+  /// &lt;/summary&gt;
+
+  public partial class Pane1 : Canvas
+  {
+    System.Windows.Controls.ContextMenu contextmenu;
+    System.Windows.Controls.MenuItem mi, mia, mib, mib1, mib1a;
+    System.Windows.Controls.Button btn;
+
+    void OnClick(object sender, RoutedEventArgs e)
+    {
+      btn = new Button();
+      btn.Content = "Create with C#";
+      contextmenu = new ContextMenu();
+      btn.ContextMenu = contextmenu;
+      mi = new MenuItem();
+      mi.Header = "File";
+      mia = new MenuItem();
+      mia.Header = "New";
+      mi.Items.Add(mia);
+      mib = new MenuItem();
+      mib.Header = "Open";
+      mi.Items.Add(mib);
+      mib1 = new MenuItem();
+      mib1.Header = "Recently Opened";
+      mib.Items.Add(mib1);
+      mib1a = new MenuItem();
+      mib1a.Header = "Text.xaml";
+      mib1.Items.Add(mib1a);
+      contextmenu.Items.Add(mi);
+      cv2.Children.Add(btn);
+    }
+
+  }
+}         
+                
+            </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="xamlvb" Style="{StaticResource TabStyle}" Header="XAML + Visual Basic.NET">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xvbCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+ 
+&lt;Canvas  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="ContextMenusVB.Pane1"
+    Name="cv1"
+    &gt;
+    &lt;!--  The namespace + class name in the codebehind file and the x:Class attribute in the root of this document, must stay identical.  You can change them, but you must keep them in sync. --&gt;
+    
+   &lt;Grid Name="grid" ShowGridLines ="false" Background ="White" &gt;
+&lt;ColumnDefinition Width="300"/&gt;
+&lt;ColumnDefinition Width="250"/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;RowDefinition/&gt;
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="0" FontSize="24"&gt;Context Menus&lt;/TextBlock&gt;
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="1" FontSize="14" Grid.ColumnSpan="2"&gt;The following context menu examples demonstrate:&lt;/TextBlock&gt;  
+&lt;DockPanel Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="2"&gt;
+&lt;Button Height="30"&gt;Button with ContextMenu
+&lt;Button.ContextMenu&gt; 
+&lt;ContextMenu&gt;
+   &lt;MenuItem Header="File"/&gt;
+   &lt;MenuItem Header="Save"/&gt;
+   &lt;MenuItem Header="SaveAs"/&gt;
+   &lt;MenuItem Header="Recent Files"&gt;
+        &lt;MenuItem Header="ReadMe.txt"/&gt;
+        &lt;MenuItem Header="Schedule.xls"/&gt;          
+   &lt;/MenuItem&gt;
+&lt;/ContextMenu&gt;
+&lt;/Button.ContextMenu&gt;
+&lt;/Button&gt;
+&lt;/DockPanel&gt;
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="2" FontSize="12" VerticalAlignment="Center"&gt;Simple context menu with submenu items.&lt;/TextBlock&gt;  
+
+&lt;DockPanel Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="3"&gt;
+&lt;Button Height="30"&gt;With ToolTip
+&lt;Button.ContextMenu&gt;
+&lt;ContextMenu&gt;
+      &lt;MenuItem Header="Edit"&gt;
+          &lt;MenuItem Header="Cut"/&gt;
+          &lt;MenuItem Header="Copy"/&gt;
+          &lt;MenuItem Header="Paste"/&gt;
+	  &lt;Separator /&gt;
+      &lt;MenuItem Header="Menu item with ToolTip"&gt;
+          &lt;MenuItem.ToolTip&gt;
+            &lt;ToolTip&gt;
+            Some information.
+            &lt;/ToolTip&gt;
+          &lt;/MenuItem.ToolTip&gt;
+      &lt;/MenuItem&gt;
+     &lt;/MenuItem&gt;
+&lt;/ContextMenu&gt;
+&lt;/Button.ContextMenu&gt;
+&lt;/Button&gt;
+&lt;/DockPanel&gt;
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="3" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"&gt;Context menu item with tooltip.&lt;/TextBlock&gt; 
+
+&lt;DockPanel Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="4"&gt;
+&lt;Button Height="30"&gt;With AccessText
+&lt;Button.ContextMenu&gt;
+&lt;ContextMenu&gt;
+      &lt;MenuItem&gt;
+        &lt;MenuItem.Header&gt;
+        &lt;TextBlock&gt;&lt;AccessText&gt;P&lt;/AccessText&gt;roject&lt;/TextBlock&gt;
+        &lt;/MenuItem.Header&gt;
+          &lt;MenuItem&gt;
+            &lt;MenuItem.Header&gt;
+              &lt;TextBlock&gt;&lt;AccessText&gt;A&lt;/AccessText&gt;dd&lt;/TextBlock&gt;
+            &lt;/MenuItem.Header&gt;
+          &lt;/MenuItem&gt;
+          &lt;MenuItem&gt;
+            &lt;MenuItem.Header&gt;
+              &lt;TextBlock&gt;&lt;AccessText&gt;D&lt;/AccessText&gt;elete&lt;/TextBlock&gt;
+            &lt;/MenuItem.Header&gt;
+          &lt;/MenuItem&gt;
+	  &lt;Separator /&gt;
+      &lt;MenuItem Header="Recent Files"/&gt;
+     &lt;/MenuItem&gt;
+&lt;/ContextMenu&gt;
+&lt;/Button.ContextMenu&gt;
+&lt;/Button&gt;
+&lt;/DockPanel&gt;
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="4" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"&gt;Context menu Item with AccessText. Hover over the menu and press the ALT key to see the AccessText underlined.&lt;/TextBlock&gt;
+  
+&lt;Button Height="30" Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="6" Click="OnClick"&gt;Click me to create a context menu with VisualBasic.Net.&lt;/Button&gt;
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="6" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"&gt;Creating a context menu with VisualBasic.Net.&lt;/TextBlock&gt;
+&lt;/Grid&gt;
+&lt;Canvas Name="cv2" Width="550" Height="50" Canvas.Top="280" Canvas.Left="10"&gt;&lt;/Canvas&gt;
+&lt;/Canvas&gt;
+
+
+                                                  
+                                                  
+                   </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="VB.NET">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+Imports System
+Imports System.Windows
+Imports System.Windows.Controls
+Imports System.Windows.Controls.Primitives
+Imports System.Windows.Documents
+Imports System.Windows.Navigation
+Imports System.Windows.Shapes
+Imports System.Windows.Data
+Imports System.Windows.Media
+
+
+Namespace ContextMenusVB
+
+    '@ &lt;summary&gt;
+    '@ Interaction logic for Pane1_xaml.xaml
+    '@ &lt;/summary&gt;
+    Partial Class Pane1
+        Sub OnClick(ByVal sender As Object, ByVal args As RoutedEventArgs)
+           Dim btn As New Button()
+           Dim contextmenu As New ContextMenu()
+           Dim mi As New MenuItem()
+           Dim mia As New MenuItem()
+
+           btn.Background = Brushes.Red
+           btn.Height = 30
+           btn.Content = "Created with VB"
+ 
+           mi.Header = ("Item 1")
+           contextmenu.Items.Add(mi)
+           mia.Header = ("Item 2")
+           contextmenu.Items.Add(mia)
+
+           btn.ContextMenu = (contextmenu)
+           cv2.Children.Add(btn)
+
+        End Sub
+    End Class
+
+End Namespace                  
+                  
+                                     </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="csharp" Style="{StaticResource TabStyle}" Header="C#">
+        </TabItem>
+        <TabItem Name="vb" Style="{StaticResource TabStyle}" Header="Visual Basic.NET">
+        </TabItem>
+        <TabItem Name="managedcpp" Style="{StaticResource TabStyle}" Header="Managed C++">
+        </TabItem>
+        <TabItem Style="{StaticResource TabStyle}" Header="Preview Sample">
+            <Canvas>
+                <!--  The namespace + class name in the codebehind file and the x:Class attribute in the root of this document, must stay identical.  You can change them, but you must keep them in sync. -->
+                <Grid Name="grid" ShowGridLines="false" Background="White">
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="250" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="0" FontSize="24">Context Menus</TextBlock>
+                    <TextBlock Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="1" FontSize="14" Grid.ColumnSpan="2">The following context menu examples demonstrate:</TextBlock>
+                    <DockPanel Grid.Column="0" Grid.Row="2">
+                        <Button Height="30">
+                Button with Context Menu
+                <Button.ContextMenu><ContextMenu><MenuItem Header="File" /><MenuItem Header="Save" /><MenuItem Header="SaveAs" /><MenuItem Header="Recent Files"><MenuItem Header="ReadMe.txt" /><MenuItem Header="Schedule.xls" /></MenuItem></ContextMenu></Button.ContextMenu></Button>
+                    </DockPanel>
+                    <TextBlock Margin="5, 10, 5, 5" Grid.Column="1" Grid.Row="2" FontSize="12" VerticalAlignment="Center">Simple context menu with submenu items.</TextBlock>
+                    <DockPanel Grid.Column="0" Grid.Row="3">
+                        <Button Height="30">
+                With ToolTip
+                <Button.ContextMenu><ContextMenu><MenuItem Header="Edit"><MenuItem Header="Cut" /><MenuItem Header="Copy" /><MenuItem Header="Paste" /><Separator /><MenuItem Header="Context Menu item with ToolTip"><MenuItem.ToolTip><ToolTip>
+                                        Some information.
+                                    </ToolTip></MenuItem.ToolTip></MenuItem></MenuItem></ContextMenu></Button.ContextMenu></Button>
+                    </DockPanel>
+                    <TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="3" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap">Context menu item with tooltip.</TextBlock>
+                    <DockPanel Grid.Column="0" Grid.Row="4">
+                        <Button Height="30">
+                Choose a Pet
+                <Button.ContextMenu><ContextMenu><MenuItem Header="Animals"><MenuItem><MenuItem.Header><Image Stretch="None"><Image.Source><BitmapImage UriSource="pack://application:,,,/samples;component/Images\cat.png" /></Image.Source></Image></MenuItem.Header></MenuItem><MenuItem><MenuItem.Header><Image Stretch="None"><Image.Source><BitmapImage UriSource="pack://application:,,,/samples;component/Images\dog.png" /></Image.Source></Image></MenuItem.Header></MenuItem><MenuItem><MenuItem.Header><Image Stretch="None"><Image.Source><BitmapImage UriSource="pack://application:,,,/samples;component/Images\fish.png" /></Image.Source></Image></MenuItem.Header></MenuItem></MenuItem></ContextMenu></Button.ContextMenu></Button>
+                    </DockPanel>
+                    <TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="4" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap">Image used as a context menu item.</TextBlock>
+                    <DockPanel Grid.Column="0" Grid.Row="5">
+                        <Button Height="30">
+                Context Menu with AccessText
+                <Button.ContextMenu><ContextMenu><MenuItem><MenuItem.Header><TextBlock><AccessText>P</AccessText>roject
+                                </TextBlock></MenuItem.Header><MenuItem><MenuItem.Header><TextBlock><AccessText>A</AccessText>dd
+                                    </TextBlock></MenuItem.Header></MenuItem><MenuItem><MenuItem.Header><TextBlock><AccessText>D</AccessText>elete
+                                    </TextBlock></MenuItem.Header></MenuItem><Separator /><MenuItem Header="Recent Files" /></MenuItem></ContextMenu></Button.ContextMenu></Button>
+                    </DockPanel>
+                    <TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="5" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap">ContextMenu Item with AccessText. Hover over the menu and press the ALT key to see the AccessText underlined.</TextBlock>
+                    <Button Height="30" Margin="5, 10, 5, 5" Grid.Column="0" Grid.Row="6" Click="OnClick">Click me to create a context menu with C# code.</Button>
+                    <TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="6" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap">Creating a context menu with C#.</TextBlock>
+                </Grid>
+                <Canvas Name="cv2" Width="550" Height="50" Canvas.Top="280" Canvas.Left="10">
+                </Canvas>
+            </Canvas>
+        </TabItem>
+    </TabControl>
+</Page>

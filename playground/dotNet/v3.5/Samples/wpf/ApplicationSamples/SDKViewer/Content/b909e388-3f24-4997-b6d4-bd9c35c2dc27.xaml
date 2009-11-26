@@ -1,0 +1,431 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b909e388_3f24_4997_b6d4_bd9c35c2dc27"
+  Tag     ="UI Automation Events for Clients"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation Events for Clients</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how Microsoft UI Automation events are used by <Run>UI Automation clients</Run>
+.
+    </Paragraph>
+
+    <Paragraph>UI Automation allows clients to subscribe to events of interest. This capability improves performance by eliminating the need to continually poll all the UI elements in the system to see if any information, structure, or state has changed.
+    </Paragraph>
+
+    <Paragraph>Efficiency is also improved by the ability to listen for events only within a defined scope. For example, a client can listen for focus change events on all UI Automation elements in the tree, or on just one element and its descendants.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Do not assume that all possible events are raised by a Microsoft UI Automation provider. For example, not all property changes cause events to be raised by the standard proxy providers for Windows Forms and Win32 controls.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a broader view of UI Automation events, see <Hyperlink NavigateUri="69eebd8b-39ed-40e7-93cc-4457c4caf746.xaml">UI Automation Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Subscribing_to_Events">Subscribing to Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Subscribing to Events
+    </Paragraph>
+
+    <Paragraph>Client applications subscribe to events of a particular kind by registering an event handler, using one of the following methods.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Method 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Event Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Event Arguments Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Delegate Type 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AddAutomationFocusChangedEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Focus change
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationFocusChangedEventArgs 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationFocusChangedEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AddAutomationPropertyChangedEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property change
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationPropertyChangedEventArgs 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationPropertyChangedEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AddStructureChangedEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Structure change
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>StructureChangedEventArgs 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>StructureChangedEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AddAutomationEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>All other events, identified by an AutomationEvent
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationEventArgs or WindowClosedEventArgs
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Before calling the method, you must create a delegate method to handle the event. If you prefer, you can handle different kinds of events in a single method, and pass this method in multiple calls to one of the methods in the table. For example, a single <Run FontWeight="Bold">AutomationEventHandler</Run>
+ can be set up to handle various events differently according to the EventId.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>To process window-closed events, cast the argument type that is passed to the event handler as <Run FontWeight="Bold">WindowClosedEventArgs</Run>
+. Because the Microsoft UI Automation element for the window is no longer valid, you cannot use the <Run>sender</Run>
+ parameter to retrieve information; 
+use GetRuntimeId instead.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Caution: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>If your application might receive events from its own UI, do not use your application's UI thread to subscribe to events, or to unsubscribe. Doing so might lead to unpredictable behavior. For more information, see <Hyperlink NavigateUri="0ab8d42c-5b8b-481b-b788-2caecc2f0191.xaml">UI Automation Threading Issues</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>On shutdown, or when UI Automation events are no longer of interest to the application, UI Automation clients should call one of the following methods.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Method 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RemoveAutomationEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Unregisters an event handler that was registered by using <Run FontWeight="Bold">AddAutomationEventHandler</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RemoveAutomationFocusChangedEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Unregisters an event handler that was registered by using <Run FontWeight="Bold">AddAutomationFocusChangedEventHandler</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RemoveAutomationPropertyChangedEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Unregisters an event handler that was registered by using <Run FontWeight="Bold">AddAutomationPropertyChangedEventHandler</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RemoveAllEventHandlers 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Unregisters all registered event handlers.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For example code, see <Hyperlink NavigateUri="b688effa-b3e8-4b05-944d-05ed89a245aa.xaml">Subscribe to UI Automation Events</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b688effa-b3e8-4b05-944d-05ed89a245aa.xaml">Subscribe to UI Automation Events</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="69eebd8b-39ed-40e7-93cc-4457c4caf746.xaml">UI Automation Events Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="a6c31d7b-b33e-49b3-b5c1-31a345f9b7c8.xaml">UI Automation Properties Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>TrackFocus Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation Events for Clients to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

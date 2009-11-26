@@ -1,0 +1,576 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b081a170_84c6_48f9_a487_5766a8d58a82"
+  Tag     ="Diagnose Problematic Print Job"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Diagnose Problematic Print Job</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Network administrators often field complaints from users about print jobs that do not print or print slowly. The rich set of print job properties exposed in the APIs of Microsoft .NET Framework version 3.0 provide a means for performing a rapid remote diagnosis of print jobs. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The major steps for creating this kind of utility are as follows.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Identify the print job that the user is complaining about. Users often cannot do this precisely. They may not know the names of the print servers or printers. They may describe the location of the printer in different terminology than was used in setting its Location property. Accordingly, it is a good idea to generate a list of the user's currently submitted jobs. If there is more than one, then communication between the user and the print system administrator can be used to pinpoint the job that is having problems. The substeps are as follows.
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>Obtain a list of all print servers.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Loop through the servers to query their print queues. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Within each pass of the server loop, loop through all the server's queues to query their jobs
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Within each pass of the queue loop, loop through its jobs and gather identifying information about those that were submitted by the complaining user. 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When the problematic print job has been identified, examine relevant properties to see what might be the problem. For example, is job in an error state or did the printer servicing the queue go offline before the job could print? 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The code below is series of code examples. For the full sample, see Diagnose Problematic Print Job Sample.
+    </Paragraph>
+
+    <Paragraph>The first code example contains the loop through the print queues. (Step 1c above.) The variable <Run>myPrintQueues</Run>
+ is the PrintQueueCollection object for the current print server. 
+    </Paragraph>
+
+    <Paragraph>The code example begins by refreshing the current print queue object with System.Printing.PrintQueue.Refresh. This ensures that the object's properties accurately represent the state of the physical printer that it represents. Then the application gets the collection of print jobs currently in the print queue by using GetPrintJobInfoCollection. 
+    </Paragraph>
+
+    <Paragraph>Next the application loops through the PrintSystemJobInfo collection and compares each Submitter property with the alias of the complaining user. If they match, the application adds identifying information about the job to the string that will be presented. (The <Run>userName</Run>
+ and <Run>jobList</Run>
+ variables are initialized earlier in the application.)
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>for each (PrintQueue^ pq in myPrintQueues) { pq->Refresh(); 
+PrintJobInfoCollection^ jobs = pq->GetPrintJobInfoCollection(); 
+for each (PrintSystemJobInfo^ job in jobs) { // Since the user may not be able to articulate which job is problematic, // present information about each job the user has submitted. if (job->Submitter == userName) { atLeastOne = true; 
+jobList = jobList + "\nServer:" + line; 
+jobList = jobList + "\n\tQueue:" + pq->Name; 
+jobList = jobList + "\n\tLocation:" + pq->Location; 
+jobList = jobList + "\n\t\tJob: " + job->JobName + " ID: " + job->JobIdentifier; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>foreach (PrintQueue pq in myPrintQueues) { pq.Refresh(); 
+PrintJobInfoCollection jobs = pq.GetPrintJobInfoCollection(); 
+foreach (PrintSystemJobInfo job in jobs) { // Since the user may not be able to articulate which job is problematic, // present information about each job the user has submitted. if (job.Submitter == userName) { atLeastOne = true; 
+jobList = jobList + "\nServer:" + line; 
+jobList = jobList + "\n\tQueue:" + pq.Name; 
+jobList = jobList + "\n\tLocation:" + pq.Location; 
+jobList = jobList + "\n\t\tJob: " + job.JobName + " ID: " + job.JobIdentifier; 
+} }// end for each print job }// end for each print queue </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next code example picks up the application at Step 2. (See above.) The problematic job has been identified and the application prompts for the information that will identify it. From this information it creates PrintServer, PrintQueue, and <Run FontWeight="Bold">PrintSystemJobInfo</Run>
+ objects. 
+    </Paragraph>
+
+    <Paragraph>At this point the application contains a branching structure corresponding to the two ways of checking a print job's status:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>You can read the flags of the JobStatus property which is of type PrintJobStatus. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You can read each relevant property such as IsBlocked and IsInError.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This example demonstrates both methods, so the user was previously prompted as to which method to use and responded with "Y" if he or she wanted to use the flags of the <Run FontWeight="Bold">JobStatus</Run>
+ property. See below for the details of the two methods. Finally, the application uses a method called <Run FontWeight="Bold">ReportQueueAndJobAvailability</Run>
+ to report on whether the job can be printed at this time of day. This method is discussed in <Hyperlink NavigateUri="7e9c8ec1-abf6-4b3d-b1c6-33b35d3c4063.xaml">How to: Discover Whether a Print Job Can Be Printed At This Time of Day</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// When the problematic print job has been identified, enter information about it. Console::Write("\nEnter the print server hosting the job (including leading slashes \\\\): " + "\n(press Return for the current computer \\\\{0}): ", Environment::MachineName); 
+String^ pServer = Console::ReadLine(); 
+if (pServer == "") { pServer = "\\\\" + Environment::MachineName; 
+} Console::Write("\nEnter the print queue hosting the job: "); 
+String^ pQueue = Console::ReadLine(); 
+Console::Write("\nEnter the job ID: "); 
+Int16 jobID = Convert::ToInt16(Console::ReadLine()); 
+// Create objects to represent the server, queue, and print job. PrintServer^ hostingServer = gcnew PrintServer(pServer, PrintSystemDesiredAccess::AdministrateServer); 
+PrintQueue^ hostingQueue = gcnew PrintQueue(hostingServer, pQueue, PrintSystemDesiredAccess::AdministratePrinter); 
+PrintSystemJobInfo^ theJob = hostingQueue->GetJob(jobID); 
+if (useAttributesResponse == "Y") { TroubleSpotter::SpotTroubleUsingJobAttributes(theJob); 
+// TroubleSpotter class is defined in the complete example. } else { TroubleSpotter::SpotTroubleUsingProperties(theJob); 
+} TroubleSpotter::ReportQueueAndJobAvailability(theJob); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// When the problematic print job has been identified, enter information about it. Console.Write("\nEnter the print server hosting the job (including leading slashes \\\\): " + "\n(press Return for the current computer \\\\{0}): ", Environment.MachineName); 
+String pServer = Console.ReadLine(); 
+if (pServer == "") { pServer = "\\\\" +Environment.MachineName; 
+} Console.Write("\nEnter the print queue hosting the job: "); 
+String pQueue = Console.ReadLine(); 
+Console.Write("\nEnter the job ID: "); 
+Int16 jobID = Convert.ToInt16(Console.ReadLine()); 
+// Create objects to represent the server, queue, and print job. PrintServer hostingServer = new PrintServer(pServer, PrintSystemDesiredAccess.AdministrateServer); 
+PrintQueue hostingQueue = new PrintQueue(hostingServer, pQueue, PrintSystemDesiredAccess.AdministratePrinter); 
+PrintSystemJobInfo theJob = hostingQueue.GetJob(jobID); 
+if (useAttributesResponse == "Y") { TroubleSpotter.SpotTroubleUsingJobAttributes(theJob); 
+// TroubleSpotter class is defined in the complete example. } else { TroubleSpotter.SpotTroubleUsingProperties(theJob); 
+} TroubleSpotter.ReportQueueAndJobAvailability(theJob); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To check print job status using the flags of the <Run FontWeight="Bold">JobStatus</Run>
+ property, you check each relevant flag to see if it is set. The standard way to see if one bit is set in a set of bit flags is to perform a logical AND operation with the set of flags as one operand and the flag itself as the other. Since the flag itself has only one bit set, the result of the logical AND is that, at most, that same bit is set. To find out whether it is or not, just compare the result of the logical AND with the flag itself. For more information, see <Run FontWeight="Bold">PrintJobStatus</Run>
+, the &amp; 
+operator reference, and FlagsAttribute. 
+    </Paragraph>
+
+    <Paragraph>For each attribute whose bit is set, the code reports this to the console screen and sometimes suggests a way to respond. (The <Run FontWeight="Bold">HandlePausedJob</Run>
+ method that is called if the job or queue is paused is discussed below.)
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Check for possible trouble states of a print job using the flags of the JobStatus property static void SpotTroubleUsingJobAttributes (PrintSystemJobInfo^ theJob) { if ((theJob->JobStatus &amp; 
+PrintJobStatus::Blocked) == PrintJobStatus::Blocked) { Console::WriteLine("The job is blocked."); 
+} if (((theJob->JobStatus &amp; 
+PrintJobStatus::Completed) == PrintJobStatus::Completed) || ((theJob->JobStatus &amp; 
+PrintJobStatus::Printed) == PrintJobStatus::Printed)) { Console::WriteLine("The job has finished. Have user recheck all output bins and be sure the correct printer is being checked."); 
+} if (((theJob->JobStatus &amp; 
+PrintJobStatus::Deleted) == PrintJobStatus::Deleted) || ((theJob->JobStatus &amp; 
+PrintJobStatus::Deleting) == PrintJobStatus::Deleting)) { Console::WriteLine("The user or someone with administration rights to the queue has deleted the job. It must be resubmitted."); 
+} if ((theJob->JobStatus &amp; 
+PrintJobStatus::Error) == PrintJobStatus::Error) { Console::WriteLine("The job has errored."); 
+} if ((theJob->JobStatus &amp; 
+PrintJobStatus::Offline) == PrintJobStatus::Offline) { Console::WriteLine("The printer is offline. Have user put it online with printer front panel."); 
+} if ((theJob->JobStatus &amp; 
+PrintJobStatus::PaperOut) == PrintJobStatus::PaperOut) { Console::WriteLine("The printer is out of paper of the size required by the job. Have user add paper."); 
+} if (((theJob->JobStatus &amp; 
+PrintJobStatus::Paused) == PrintJobStatus::Paused) || ((theJob->HostingPrintQueue->QueueStatus &amp; 
+PrintQueueStatus::Paused) == PrintQueueStatus::Paused)) { HandlePausedJob(theJob); 
+//HandlePausedJob is defined in the complete example. } if ((theJob->JobStatus &amp; 
+PrintJobStatus::Printing) == PrintJobStatus::Printing) { Console::WriteLine("The job is printing now."); 
+} if ((theJob->JobStatus &amp; 
+PrintJobStatus::Spooling) == PrintJobStatus::Spooling) { Console::WriteLine("The job is spooling now."); 
+} if ((theJob->JobStatus &amp; 
+PrintJobStatus::UserIntervention) == PrintJobStatus::UserIntervention) { Console::WriteLine("The printer needs human intervention."); 
+} }; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Check for possible trouble states of a print job using the flags of the JobStatus property internal static void SpotTroubleUsingJobAttributes(PrintSystemJobInfo theJob) { if ((theJob.JobStatus &amp; 
+PrintJobStatus.Blocked) == PrintJobStatus.Blocked) { Console.WriteLine("The job is blocked."); 
+} if (((theJob.JobStatus &amp; 
+PrintJobStatus.Completed) == PrintJobStatus.Completed) || ((theJob.JobStatus &amp; 
+PrintJobStatus.Printed) == PrintJobStatus.Printed)) { Console.WriteLine("The job has finished. Have user recheck all output bins and be sure the correct printer is being checked."); 
+} if (((theJob.JobStatus &amp; 
+PrintJobStatus.Deleted) == PrintJobStatus.Deleted) || ((theJob.JobStatus &amp; 
+PrintJobStatus.Deleting) == PrintJobStatus.Deleting)) { Console.WriteLine("The user or someone with administration rights to the queue has deleted the job. It must be resubmitted."); 
+} if ((theJob.JobStatus &amp; 
+PrintJobStatus.Error) == PrintJobStatus.Error) { Console.WriteLine("The job has errored."); 
+} if ((theJob.JobStatus &amp; 
+PrintJobStatus.Offline) == PrintJobStatus.Offline) { Console.WriteLine("The printer is offline. Have user put it online with printer front panel."); 
+} if ((theJob.JobStatus &amp; 
+PrintJobStatus.PaperOut) == PrintJobStatus.PaperOut) { Console.WriteLine("The printer is out of paper of the size required by the job. Have user add paper."); 
+} if (((theJob.JobStatus &amp; 
+PrintJobStatus.Paused) == PrintJobStatus.Paused) || ((theJob.HostingPrintQueue.QueueStatus &amp; 
+PrintQueueStatus.Paused) == PrintQueueStatus.Paused)) { HandlePausedJob(theJob); 
+//HandlePausedJob is defined in the complete example. } if ((theJob.JobStatus &amp; 
+PrintJobStatus.Printing) == PrintJobStatus.Printing) { Console.WriteLine("The job is printing now."); 
+} if ((theJob.JobStatus &amp; 
+PrintJobStatus.Spooling) == PrintJobStatus.Spooling) { Console.WriteLine("The job is spooling now."); 
+} if ((theJob.JobStatus &amp; 
+PrintJobStatus.UserIntervention) == PrintJobStatus.UserIntervention) { Console.WriteLine("The printer needs human intervention."); 
+} }//end SpotTroubleUsingJobAttributes </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To check print job status using separate properties, you simply read each property and, if the property is <Run FontWeight="Bold">true</Run>
+, report to the console screen and possibly suggest a way to respond. (The <Run FontWeight="Bold">HandlePausedJob</Run>
+ method that is called if the job or queue is paused is discussed below.)
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Check for possible trouble states of a print job using its properties static void SpotTroubleUsingProperties (PrintSystemJobInfo^ theJob) { if (theJob->IsBlocked) { Console::WriteLine("The job is blocked."); 
+} if (theJob->IsCompleted || theJob->IsPrinted) { Console::WriteLine("The job has finished. Have user recheck all output bins and be sure the correct printer is being checked."); 
+} if (theJob->IsDeleted || theJob->IsDeleting) { Console::WriteLine("The user or someone with administration rights to the queue has deleted the job. It must be resubmitted."); 
+} if (theJob->IsInError) { Console::WriteLine("The job has errored."); 
+} if (theJob->IsOffline) { Console::WriteLine("The printer is offline. Have user put it online with printer front panel."); 
+} if (theJob->IsPaperOut) { Console::WriteLine("The printer is out of paper of the size required by the job. Have user add paper."); 
+} if (theJob->IsPaused || theJob->HostingPrintQueue->IsPaused) { HandlePausedJob(theJob); 
+//HandlePausedJob is defined in the complete example. } if (theJob->IsPrinting) { Console::WriteLine("The job is printing now."); 
+} if (theJob->IsSpooling) { Console::WriteLine("The job is spooling now."); 
+} if (theJob->IsUserInterventionRequired) { Console::WriteLine("The printer needs human intervention."); 
+} }; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Check for possible trouble states of a print job using its properties internal static void SpotTroubleUsingProperties(PrintSystemJobInfo theJob) { if (theJob.IsBlocked) { Console.WriteLine("The job is blocked."); 
+} if (theJob.IsCompleted || theJob.IsPrinted) { Console.WriteLine("The job has finished. Have user recheck all output bins and be sure the correct printer is being checked."); 
+} if (theJob.IsDeleted || theJob.IsDeleting) { Console.WriteLine("The user or someone with administration rights to the queue has deleted the job. It must be resubmitted."); 
+} if (theJob.IsInError) { Console.WriteLine("The job has errored."); 
+} if (theJob.IsOffline) { Console.WriteLine("The printer is offline. Have user put it online with printer front panel."); 
+} if (theJob.IsPaperOut) { Console.WriteLine("The printer is out of paper of the size required by the job. Have user add paper."); 
+} if (theJob.IsPaused || theJob.HostingPrintQueue.IsPaused) { HandlePausedJob(theJob); 
+//HandlePausedJob is defined in the complete example. } if (theJob.IsPrinting) { Console.WriteLine("The job is printing now."); 
+} if (theJob.IsSpooling) { Console.WriteLine("The job is spooling now."); 
+} if (theJob.IsUserInterventionRequired) { Console.WriteLine("The printer needs human intervention."); 
+} }//end SpotTroubleUsingProperties </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">HandlePausedJob</Run>
+ method enables the application's user to remotely resume paused jobs. Because there might be a good reason why the print queue was paused, the method begins by prompting for a user decision about whether to resume it. If the answer is "Y", then the System.Printing.PrintQueue.Resume method is called. 
+    </Paragraph>
+
+    <Paragraph>Next the user is prompted to decide if the job itself should be resumed, just in case it is paused independently of the print queue. (Compare System.Printing.PrintQueue.IsPaused and System.Printing.PrintSystemJobInfo.IsPaused.) If the answer is "Y", then System.Printing.PrintSystemJobInfo.Resume is called; 
+otherwise Cancel is called. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>static void HandlePausedJob (PrintSystemJobInfo^ theJob) { // If there's no good reason for the queue to be paused, resume it and // give user choice to resume or cancel the job. Console::WriteLine("The user or someone with administrative rights to the queue" + "\nhas paused the job or queue." + "\nResume the queue? (Has no effect if queue is not paused.)" + "\nEnter \"Y\" to resume, otherwise press return: "); 
+String^ resume = Console::ReadLine(); 
+if (resume == "Y") { theJob->HostingPrintQueue->Resume(); 
+// It is possible the job is also paused. Find out how the user wants to handle that. Console::WriteLine("Does user want to resume print job or cancel it?" + "\nEnter \"Y\" to resume (any other key cancels the print job): "); 
+String^ userDecision = Console::ReadLine(); 
+if (userDecision == "Y") { theJob->Resume(); 
+} else { theJob->Cancel(); 
+} } }; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>internal static void HandlePausedJob(PrintSystemJobInfo theJob) { // If there's no good reason for the queue to be paused, resume it and // give user choice to resume or cancel the job. Console.WriteLine("The user or someone with administrative rights to the queue" + "\nhas paused the job or queue." + "\nResume the queue? (Has no effect if queue is not paused.)" + "\nEnter \"Y\" to resume, otherwise press return: "); 
+String resume = Console.ReadLine(); 
+if (resume == "Y") { theJob.HostingPrintQueue.Resume(); 
+// It is possible the job is also paused. Find out how the user wants to handle that. Console.WriteLine("Does user want to resume print job or cancel it?" + "\nEnter \"Y\" to resume (any other key cancels the print job): "); 
+String userDecision = Console.ReadLine(); 
+if (userDecision == "Y") { theJob.Resume(); 
+} else { theJob.Cancel(); 
+} }//end if the queue should be resumed }//end HandlePausedJob </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>PrintJobStatus
+      <LineBreak/>PrintSystemJobInfo
+      <LineBreak/>FlagsAttribute
+      <LineBreak/>PrintQueue
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0de8ac41-9aa6-413d-a121-7aa6f41539b1.xaml">Printing Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>&amp; 
+operator reference
+      <LineBreak/>Printing Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Diagnose Problematic Print Job to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

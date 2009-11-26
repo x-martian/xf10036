@@ -1,0 +1,444 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Bind Validation" x:Class="BindValidation.Page1" Loaded="OnLoaded">
+    <Page.Resources>
+        <Style x:Key="itemHeaderStyler">
+            <Setter Property="ListBoxItem.Margin" Value="0,2,0,5" />
+            <Setter Property="ListBoxItem.Padding" Value="2" />
+            <Setter Property="ListBoxItem.FontFamily" Value="Verdana" />
+            <Setter Property="ListBoxItem.FontWeight" Value="Bold" />
+            <Setter Property="ListBoxItem.FontSize" Value="12" />
+        </Style>
+        <Style x:Key="imageStyler">
+            <Setter Property="TextBlock.Margin" Value="15" />
+        </Style>
+        <Style x:Key="HeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="20" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="TabStyle">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TabStyle2">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TabItem.Foreground" Value="Black" />
+        </Style>
+        <Style x:Key="SubHeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="16" />
+            <Setter Property="TextBlock.Foreground" Value="DarkSlateBlue" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="DisStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="8" />
+            <Setter Property="TextBlock.Foreground" Value="Gray" />
+            <Setter Property="TextBlock.Margin" Value="5,0,5,0" />
+        </Style>
+        <Style x:Key="mainContentStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="5,10,5,10" />
+        </Style>
+        <Style x:Key="tocStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.Margin" Value="0" />
+        </Style>
+        <Style x:Key="CodeSnippetParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Courier New" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10,0,10,0" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="noteParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="TCStyle">
+            <Setter Property="TabControl.Margin" Value="10" />
+        </Style>
+    </Page.Resources>
+    <TabControl MinHeight="500" MaxHeight="700" MinWidth="400" Style="{StaticResource TCStyle}">
+        <TabItem Style="{StaticResource TabStyle}" Header="Bind Validation Sample" IsSelected="true">
+            <StackPanel>
+                <TextBlock Style="{StaticResource HeaderStyle}">Bind Validation Sample</TextBlock>
+                <TextBlock Style="{StaticResource mainContentStyle}">This sample shows how to provide for data validation during binding.</TextBlock>
+            </StackPanel>
+        </TabItem>
+        <TabItem Name="xaml" Style="{StaticResource TabStyle}" Header="XAML">
+        </TabItem>
+        <TabItem Name="xamlcsharp" Style="{StaticResource TabStyle}" Header="XAML + C#">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xcsharpCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+
+&lt;?Mapping XmlNamespace="CodeMapNS" ClrNamespace="SDKSample" ?&gt;
+&lt;?Mapping XmlNamespace="System" ClrNamespace="System" Assembly="Mscorlib"?&gt;
+&lt;Window Background="Honeydew"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:c="CodeMapNS"
+  xmlns:s="System"
+  x:Class="SDKSample.Window1"
+  Title="Binding Validation Sample"
+  Width = "320"
+  Height = "170"
+  &gt;
+
+  &lt;Window.Resources&gt;
+    &lt;c:MyDataProvider x:Key="ods"/&gt;
+
+    &lt;ControlTemplate x:Key="ValidationErrorAdorner"&gt;
+      &lt;DockPanel&gt;
+        &lt;AdornedElementPlaceholder/&gt;
+        &lt;TextBlock Foreground="Red" FontSize="28"&gt;!&lt;/TextBlock&gt;
+      &lt;/DockPanel&gt;
+    &lt;/ControlTemplate&gt;
+
+    &lt;Style x:Key="tbInError" TargetType="{x:Type TextBox}"&gt;
+      &lt;Style.Triggers&gt;
+        &lt;DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.HasError)}" &gt;
+          &lt;DataTrigger.Value&gt;
+            &lt;s:Boolean&gt;True&lt;/s:Boolean&gt;
+          &lt;/DataTrigger.Value&gt;
+          &lt;Setter Property="ToolTip"
+            Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/&gt;
+        &lt;/DataTrigger&gt;
+      &lt;/Style.Triggers&gt;
+    &lt;/Style&gt;
+	&lt;/Window.Resources&gt;
+
+  &lt;Grid VerticalAlignment="Top" HorizontalAlignment="Left"&gt;
+    &lt;RowDefinition Height="Auto"/&gt;
+    &lt;RowDefinition Height="Auto"/&gt;
+    &lt;RowDefinition Height="Auto"/&gt;
+    &lt;RowDefinition Height="Auto"/&gt;
+    &lt;ColumnDefinition Width="Auto"/&gt;
+    &lt;ColumnDefinition Width="Auto"/&gt;
+
+    &lt;TextBlock FontSize="18" FontWeight="Bold" Margin="10"
+      Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+      HorizontalAlignment="Center"&gt;Binding With Validation&lt;/TextBlock&gt;
+
+    &lt;TextBlock Text="Name (3-20 chars):" FontSize="13"
+      Grid.Row="1" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Right" /&gt;
+
+    &lt;TextBox Name="tbName" Grid.Row="1" Grid.Column="1" Height="25" Width="150"
+      Style="{StaticResource tbInError}"&gt;
+      &lt;TextBox.Text&gt;
+        &lt;Binding Source="{StaticResource ods}" Path="Name"&gt;
+          &lt;Binding.ValidationRules&gt;
+            &lt;c:LengthRangeRule Min="3" Max="20"/&gt;
+          &lt;/Binding.ValidationRules&gt;
+        &lt;/Binding&gt;
+      &lt;/TextBox.Text&gt;
+    &lt;/TextBox&gt;
+
+    &lt;TextBlock Text="Age:" Grid.Row="2" Grid.Column="0" FontSize="13"
+      VerticalAlignment="Center" HorizontalAlignment="Right" /&gt;
+
+    &lt;TextBox Name="tbAge" Grid.Row="2" Grid.Column="1" Height="25" Width="150"
+      Validation.ErrorTemplate="{StaticResource ValidationErrorAdorner}"
+      Style="{StaticResource tbInError}"&gt;
+      &lt;TextBox.Text&gt;
+        &lt;Binding Source="{StaticResource ods}" Path="Age"&gt;
+          &lt;Binding.ValidationRules&gt;
+            &lt;c:AgeRangeRule Min="21" Max="130"/&gt;
+          &lt;/Binding.ValidationRules&gt;
+        &lt;/Binding&gt;
+      &lt;/TextBox.Text&gt;
+    &lt;/TextBox&gt;
+
+    &lt;TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+      TextWrapping="Wrap" Width="300" Margin="3" Foreground="Red" Background="Khaki"&gt;
+      &lt;TextBlock.Style&gt;
+        &lt;Style TargetType="{x:Type TextBlock}"&gt;
+          &lt;Style.Triggers&gt;
+            &lt;DataTrigger Binding="{Binding ElementName=tbAge, Path=(Validation.HasError)}" &gt;
+              &lt;DataTrigger.Value&gt;
+              	&lt;s:Boolean&gt;True&lt;/s:Boolean&gt;
+              &lt;/DataTrigger.Value&gt;
+              &lt;Setter Property="Text"
+                 Value="{Binding ElementName=tbAge, Path=(Validation.Errors)[0].ErrorContent}"/&gt;
+            &lt;/DataTrigger&gt;
+            &lt;DataTrigger Binding="{Binding ElementName=tbName, Path=(Validation.HasError)}" &gt;
+              &lt;DataTrigger.Value&gt;
+                &lt;s:Boolean&gt;True&lt;/s:Boolean&gt;
+              &lt;/DataTrigger.Value&gt;
+              &lt;Setter Property="Text"
+                Value="{Binding ElementName=tbName, Path=(Validation.Errors)[0].ErrorContent}"/&gt;
+            &lt;/DataTrigger&gt;
+          &lt;/Style.Triggers&gt;
+        &lt;/Style&gt;
+      &lt;/TextBlock.Style&gt;
+    &lt;/TextBlock&gt;
+  &lt;/Grid&gt;
+&lt;/Window&gt;
+                
+              </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="C#">
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+
+
+using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Windows.Data;
+using System.Globalization;
+using System.Collections.ObjectModel;
+
+namespace SDKSample
+{
+  public partial class Window1 : Window
+  {
+    public Window1()
+    {
+      InitializeComponent();
+    }
+  }
+
+  public class MyDataProvider
+  {
+    private string _name;
+    private int _age;
+
+    public MyDataProvider()
+    {
+      Name = "";
+      Age = 0;
+    }
+
+    public string Name
+    {
+      get { return _name; }
+      set { _name = value; }
+    }
+
+    public int Age
+    {
+      get { return _age; }
+      set { _age = value; }
+    }
+  }
+
+  public class LengthRangeRule : ValidationRule
+  {
+    private int _min;
+    private int _max;
+
+    public LengthRangeRule()
+    {
+    }
+
+    public int Min
+    {
+      get { return _min; }
+      set { _min = value; }
+    }
+
+
+    public int Max
+    {
+      get { return _max; }
+      set { _max = value; }
+    }
+
+    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+    {
+      string strInserted = value.ToString();
+      int actualLength = strInserted.Length;
+
+      if ((actualLength &lt; Min) || (actualLength &gt; Max))
+      {
+        return new ValidationResult(false,
+          "You entered " + actualLength + " characters. Please enter " + Min + " - " + Max + " characters.");
+      }
+      return new ValidationResult(true, null);
+    }
+  }
+
+  public class AgeRangeRule : ValidationRule
+  {
+    private int _min;
+    private int _max;
+
+    public AgeRangeRule()
+    {
+    }
+
+    public int Min
+    {
+      get { return _min; }
+      set { _min = value; }
+    }
+
+    public int Max
+    {
+      get { return _max; }
+      set { _max = value; }
+    }
+
+    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+    {
+      int age = 0;
+
+      try
+      {
+        if (((string)value).Length &gt; 0)
+          age = Int32.Parse((String)value);
+      }
+      catch (Exception e)
+      {
+        return new ValidationResult(false, "Illegal characters or "+e.Message);
+      }
+
+      if ((age &lt; Min) || (age &gt; Max))
+      {
+        return new ValidationResult(false,
+          "Please enter an age in the range: " + Min + " - " + Max + ".");
+      }
+
+      return new ValidationResult(true, null);
+    }
+  }
+}
+                
+                
+              </TextBox>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="xamlvb" Style="{StaticResource TabStyle}" Header="XAML + Visual Basic.NET">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xvbCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="VB.NET">
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="csharp" Style="{StaticResource TabStyle}" Header="C#">
+        </TabItem>
+        <TabItem Name="vb" Style="{StaticResource TabStyle}" Header="Visual Basic.NET">
+        </TabItem>
+        <TabItem Name="managedcpp" Style="{StaticResource TabStyle}" Header="Managed C++">
+        </TabItem>
+        <TabItem Style="{StaticResource TabStyle}" Header="Preview Sample">
+            
+            
+            <Canvas Background="Honeydew" xmlns:c="clr-namespace:BindValidation" xmlns:s="clr-namespace:System;assembly=Mscorlib" Width="320" Height="170">
+                <Canvas.Resources>
+                    <c:MyDataProvider x:Key="ods" />
+                    <ControlTemplate x:Key="ValidationErrorAdorner">
+                        <DockPanel>
+                            <AdornedElementPlaceholder />
+                            <TextBlock Foreground="Red" FontSize="28">!</TextBlock>
+                        </DockPanel>
+                    </ControlTemplate>
+                    <Style x:Key="tbInError" TargetType="{x:Type TextBox}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.HasError)}">
+                                <DataTrigger.Value>
+                                    <s:Boolean>True</s:Boolean>
+                                </DataTrigger.Value>
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Canvas.Resources>
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock FontSize="18" FontWeight="Bold" Margin="10" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">Binding With Validation</TextBlock>
+                    <TextBlock Text="Name (3-20 chars):" FontSize="13" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    <TextBox Name="tbName" Grid.Row="1" Grid.Column="1" Height="25" Width="150" Style="{StaticResource tbInError}">
+                        <TextBox.Text>
+                            <Binding Source="{StaticResource ods}" Path="Name">
+                                <Binding.ValidationRules>
+                                    <c:LengthRangeRule Min="3" Max="20" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBlock Text="Age:" Grid.Row="2" Grid.Column="0" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    <TextBox Name="tbAge" Grid.Row="2" Grid.Column="1" Height="25" Width="150" Validation.ErrorTemplate="{StaticResource ValidationErrorAdorner}" Style="{StaticResource tbInError}">
+                        <TextBox.Text>
+                            <Binding Source="{StaticResource ods}" Path="Age">
+                                <Binding.ValidationRules>
+                                    <c:AgeRangeRule Min="21" Max="130" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Width="300" Margin="3" Foreground="Red" Background="Khaki">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=tbAge, Path=(Validation.HasError)}">
+                                        <DataTrigger.Value>
+                                            <s:Boolean>True</s:Boolean>
+                                        </DataTrigger.Value>
+                                        <Setter Property="Text" Value="{Binding ElementName=tbAge, Path=(Validation.Errors)[0].ErrorContent}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=tbName, Path=(Validation.HasError)}">
+                                        <DataTrigger.Value>
+                                            <s:Boolean>True</s:Boolean>
+                                        </DataTrigger.Value>
+                                        <Setter Property="Text" Value="{Binding ElementName=tbName, Path=(Validation.Errors)[0].ErrorContent}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </Canvas>
+        </TabItem>
+    </TabControl>
+</Page>

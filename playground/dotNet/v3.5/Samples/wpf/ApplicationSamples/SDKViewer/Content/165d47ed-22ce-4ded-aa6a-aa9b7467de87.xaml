@@ -1,0 +1,196 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_165d47ed_22ce_4ded_aa6a_aa9b7467de87"
+  Tag     ="Play Media using a VideoDrawing"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Play Media using a VideoDrawing</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To play an audio or video file, you use a VideoDrawing and a MediaPlayer. There are two ways to load and play media. The first is to use a <Run FontWeight="Bold">MediaPlayer</Run>
+ and a <Run FontWeight="Bold">VideoDrawing</Run>
+ by themselves, and the second way is to create your own MediaTimeline to use with the <Run FontWeight="Bold">MediaPlayer</Run>
+ and <Run FontWeight="Bold">VideoDrawing</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>When distributing media with your application, you cannot use a media file as a project resource, like you would an image. In your project file, you must instead set the media type to <Run>Content</Run>
+ and set <Run>CopyToOutputDirectory</Run>
+ to <Run>PreserveNewest</Run>
+ or <Run>Always</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">VideoDrawing</Run>
+ and a <Run FontWeight="Bold">MediaPlayer</Run>
+ to play a video file once.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Create a VideoDrawing. // MediaPlayer player = new MediaPlayer(); 
+player.Open(new Uri(@"sampleMedia\xbox.wmv", UriKind.Relative)); 
+VideoDrawing aVideoDrawing = new VideoDrawing(); 
+aVideoDrawing.Rect = new Rect(0, 0, 100, 100); 
+aVideoDrawing.Player = player; 
+// Play the video once. player.Play(); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To gain additional timing control over the media, use a <Run FontWeight="Bold">MediaTimeline</Run>
+ with the <Run FontWeight="Bold">MediaPlayer</Run>
+ and <Run FontWeight="Bold">VideoDrawing</Run>
+ objects. The <Run FontWeight="Bold">MediaTimeline</Run>
+ enables you to specify whether the video should repeat. 
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">MediaTimeline</Run>
+ with the <Run FontWeight="Bold">MediaPlayer</Run>
+ and <Run FontWeight="Bold">VideoDrawing</Run>
+ objects to play a video repeatedly. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Create a VideoDrawing that repeats. // // Create a MediaTimeline. MediaTimeline mTimeline = new MediaTimeline(new Uri(@"sampleMedia\xbox.wmv", UriKind.Relative)); 
+// Set the timeline to repeat. mTimeline.RepeatBehavior = RepeatBehavior.Forever; 
+// Create a clock from the MediaTimeline. MediaClock mClock = mTimeline.CreateClock(); 
+MediaPlayer repeatingVideoDrawingPlayer = new MediaPlayer(); 
+repeatingVideoDrawingPlayer.Clock = mClock; 
+VideoDrawing repeatingVideoDrawing = new VideoDrawing(); 
+repeatingVideoDrawing.Rect = new Rect(150, 0, 100, 100); 
+repeatingVideoDrawing.Player = repeatingVideoDrawingPlayer; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that, when you use a <Run FontWeight="Bold">MediaTimeline</Run>
+, you use the the interactive ClockController returned from the Controller property of the MediaClock to control media playback instead of the interactive methods of <Run FontWeight="Bold">MediaPlayer</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>VideoDrawing
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Multimedia Overview
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Play Media using a VideoDrawing to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

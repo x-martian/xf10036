@@ -1,0 +1,261 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ee3466cd_e66f_4e8f_8a5a_71d77bc1e390"
+  Tag     ="Rotate an Object"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Rotate an Object</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to rotate an object. The example first creates a RotateTransform and then specifies its Angle in degrees. 
+    </Paragraph>
+
+    <Paragraph>The following example rotates a Polyline object 45 degrees about its upper-left corner.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas Height="200" Width="200"> 
+&lt;!-- Rotates the Polyline 45 degrees about the point (0,0). --> 
+&lt;Polyline Points="25,25 0,50 25,75 50,50 25,25 25,0" Stroke="Blue" StrokeThickness="10" Canvas.Left="75" Canvas.Top="50"> 
+&lt;Polyline.RenderTransform> 
+&lt;RotateTransform CenterX="0" CenterY="0" Angle="45" /> 
+&lt;/Polyline.RenderTransform> 
+&lt;/Polyline> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a Polyline. Polyline polyline1 = new Polyline(); 
+polyline1.Points.Add(new Point(25, 25)); 
+polyline1.Points.Add(new Point(0, 50)); 
+polyline1.Points.Add(new Point(25, 75)); 
+polyline1.Points.Add(new Point(50, 50)); 
+polyline1.Points.Add(new Point(25, 25)); 
+polyline1.Points.Add(new Point(25, 0)); 
+polyline1.Stroke = Brushes.Blue; 
+polyline1.StrokeThickness = 10; 
+// Create a RotateTransform to rotate // the Polyline 45 degrees about its // top-left corner. RotateTransform rotateTransform1 = new RotateTransform(45); 
+polyline1.RenderTransform = rotateTransform1; 
+// Create a Canvas to contain the Polyline. Canvas canvas1 = new Canvas(); 
+canvas1.Width = 200; 
+canvas1.Height = 200; 
+Canvas.SetLeft(polyline1, 75); 
+Canvas.SetTop(polyline1, 50); 
+canvas1.Children.Add(polyline1); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The CenterX and CenterY properties of the <Run FontWeight="Bold">RotateTransform</Run>
+ specify the point about which the object is rotated. This center point is expressed in the coordinate space of the element that is transformed. By default, the rotation is applied to (0,0), which is the upper-left corner of the object to transform. 
+    </Paragraph>
+
+    <Paragraph>The next example rotates a <Run FontWeight="Bold">Polyline</Run>
+ object clockwise 45 degrees about the point (25,50).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas Height="200" Width="200"> 
+&lt;!-- Rotates the Polyline 45 degrees about the point (25,50). --> 
+&lt;Polyline Points="25,25 0,50 25,75 50,50 25,25 25,0" Stroke="Blue" StrokeThickness="10" Canvas.Left="75" Canvas.Top="50"> 
+&lt;Polyline.RenderTransform> 
+&lt;RotateTransform CenterX="25" CenterY="50" Angle="45" /> 
+&lt;/Polyline.RenderTransform> 
+&lt;/Polyline> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a Polyline. Polyline polyline2 = new Polyline(); 
+polyline2.Points = polyline1.Points; 
+polyline2.Stroke = Brushes.Blue; 
+polyline2.StrokeThickness = 10; 
+// Create a RotateTransform to rotate // the Polyline 45 degrees about the // point (25,50). RotateTransform rotateTransform2 = new RotateTransform(45); 
+rotateTransform2.CenterX = 25; 
+rotateTransform2.CenterY = 50; 
+polyline2.RenderTransform = rotateTransform2; 
+// Create a Canvas to contain the Polyline. Canvas canvas2 = new Canvas(); 
+canvas2.Width = 200; 
+canvas2.Height = 200; 
+Canvas.SetLeft(polyline2, 75); 
+Canvas.SetTop(polyline2, 50); 
+canvas2.Children.Add(polyline2); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the results of applying a Transform to the two objects. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Two objects that rotate 45 degrees from different rotational centers</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Polyline</Run>
+ in the previous examples is a UIElement. When you apply a <Run FontWeight="Bold">Transform</Run>
+ to the RenderTransform property of a <Run FontWeight="Bold">UIElement</Run>
+, you can use the RenderTransformOrigin property to specify an origin for every <Run FontWeight="Bold">Transform</Run>
+ that you apply to the element. Because the <Run FontWeight="Bold">RenderTransformOrigin</Run>
+ property uses relative coordinates, you can apply a transformation to the center of the element even if you do not know its size. For more information and for an example, see <Hyperlink NavigateUri="f4dbc29d-93c7-41cd-96d8-5cfd8624b470.xaml">How to: Specify the Origin of a Transform Using Relative Values</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph>For the complete sample, see 2-D Transforms Sample. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Transform
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8f153d5e-ed61-4aa5-a7cd-286f0c427a13.xaml">Transforms Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ff71384e-8811-420f-8cc8-0a3332e0397f.xaml">Transformations How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Rotate an Object to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

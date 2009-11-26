@@ -1,0 +1,383 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d6c3fb4a_7e0d_46d1_bdf7_a70c777c55d4"
+  Tag     ="Create a Simple Application with Procedural Code in WPF"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Simple Application with Procedural Code in Windows Presentation Foundation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Abstract
+    </Paragraph>
+
+    <Paragraph>This example shows how to create a simple application in Windows Presentation Foundation (WPF) by using procedural code.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Summary
+    </Paragraph>
+
+    <Paragraph>Although the typical Windows Presentation Foundation (WPF) application is implemented with Extensible Application Markup Language (XAML), you might sometimes want to write an application entirely in procedural code. For example, if your application needs to construct its pages dynamically at runtime, you must write the application by using procedural code. 
+    </Paragraph>
+
+    <Paragraph>This topic shows you how to implement a simple one-page WPF application by using only C#. 
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run>Abstract</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Summary</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="basic_procedure">Essential Steps for Implementing a Code-Only Application</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="a_simple_example">Creating a Simple Code-Only Application</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Compiling the Complete Sample and Its Project Files</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Essential Steps for Implementing a Code-Only Application
+    </Paragraph>
+
+    <Paragraph>The following list outlines the essential steps you need to follow to create an application that uses WPF with procedural code. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">To create the application</Run>
+
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a class that inherits from Application. 
+        </Paragraph>
+
+        <Paragraph>When your application inherits from Application, message dispatching is handled automatically; 
+therefore, you do not need to implement a message pump and a window procedure.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a new NavigationWindow or Window object. Do one of the following:
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>If your application needs navigation support, useNavigationWindow.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>If your application does not need navigation support, use Window.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create your user interface (UI) by inserting panels and controls.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>You must explicitly implement an entry point for code-only applications. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">To explicitly implement an entry point</Run>
+
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Implement a second class.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implement a public static <Run FontStyle="italic">Main</Run>
+ method in that class to serve as your application entry point.
+        </Paragraph>
+
+        <Paragraph>WPF requires the STA threading model; 
+therefore, <Run FontStyle="italic">Main</Run>
+ must have a [System.STAThread()] attribute, which is typically the only method in the class.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In <Run FontStyle="italic">Main</Run>
+, create a new instance of your application class.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Call the Run method for the class in order to start the application.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Creating a Simple Code-Only Application
+    </Paragraph>
+
+    <Paragraph>The following code example creates a simple application that consists of a page with a single TextBlock element that is contained in a StackPanel. Creating this simple application involves two main processes: creating an entry point and implementing the page in the <Run FontStyle="italic">MyApp</Run>
+ class.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">To create an entry point for the application</Run>
+
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Implement a sealed public class that contains a static <Run FontStyle="italic">Main</Run>
+ method. This is the application entry point.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Apply a [System.STAThread()] attribute to Main to specify the STA threading model.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create an instance of the application class, <Run FontStyle="italic">MyApp</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Call the Run for the <Run FontStyle="italic">MyApp</Run>
+ object to launch the application.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontWeight="Bold">To implement the page in the MyApp class</Run>
+
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Implement a class named <Run FontStyle="italic">MyApp</Run>
+ that inherits from Application and overrides its OnStartup method.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a Window object for the application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a StackPanel object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Assign the stack panel to the Content property for the window object. 
+        </Paragraph>
+
+        <Paragraph>The stack panel is now the child element for the window and the root panel for the page.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a TextBlock to display some text on the page and assign a string containing the text to its Text property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>For the root panel, add the text block element to the Children collection.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Call the window Show method to show the window.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using namespace System; 
+using namespace System::Windows; 
+using namespace System::Windows::Documents; 
+using namespace System::Threading; 
+using namespace System::Windows::Controls; 
+namespace SimpleProcedural { public ref class app : Application { private: TextBlock^ txtElement; 
+StackPanel^ rootPanel; 
+Window^ win; 
+protected: virtual void OnStartup (StartupEventArgs^ e) override { win = gcnew Window(); 
+rootPanel = gcnew StackPanel(); 
+txtElement = gcnew TextBlock(); 
+txtElement->Text = "Some Text"; 
+win->Content = rootPanel; 
+rootPanel->Children->Add(txtElement); 
+win->Show(); 
+}; 
+}; 
+private ref class TestMain sealed { public: [System::STAThread()] static void Main () { SimpleProcedural::app^ app = gcnew SimpleProcedural::app(); 
+app->Run(); 
+}; 
+}; 
+} //Entry Point: [System::STAThreadAttribute()] void main () { return SimpleProcedural::TestMain::Main(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Documents; 
+using System.Threading; 
+using System.Windows.Controls; 
+namespace SimpleProcedural { public class app : Application { TextBlock txtElement; 
+StackPanel rootPanel; 
+Window win; 
+protected override void OnStartup(StartupEventArgs e) { win = new System.Windows.Window(); 
+rootPanel = new StackPanel(); 
+txtElement = new TextBlock(); 
+txtElement.Text = "Some Text"; 
+win.Content = rootPanel; 
+rootPanel.Children.Add(txtElement); 
+win.Show(); 
+} } internal sealed class TestMain { [System.STAThread()] public static void Main() { app app = new app(); 
+app.Run(); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Compiling the Complete Sample and Its Project Files
+    </Paragraph>
+
+    <Paragraph>You can download the complete sample, which includes the preceding code example and the necessary project files, from A Simple Windows Presentation Foundation Application Written in Procedural Code Sample. You can compile this sample by using Microsoft Visual Studio 2005 or you can compile from the command line by using Microsoft build engine (MSBuild). 
+    </Paragraph>
+
+    <Paragraph>See Creating, Building, Deploying, and Launching Windows Presentation Foundation Applications for information about building from the command line.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Simple Application with Procedural Code in Windows Presentation Foundation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

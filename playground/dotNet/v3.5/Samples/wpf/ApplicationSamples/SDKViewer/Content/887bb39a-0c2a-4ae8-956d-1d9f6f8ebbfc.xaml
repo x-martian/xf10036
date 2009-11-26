@@ -1,0 +1,143 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_887bb39a_0c2a_4ae8_956d_1d9f6f8ebbfc"
+  Tag     ="Seek a Storyboard"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Seek a Storyboard</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to use the Seek method of a Storyboard to jump to any position in a storyboard animation.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>Below is the XAML markup for the sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="SDKSample.SeekStoryboardExample"> 
+&lt;StackPanel Margin="20" > 
+&lt;Rectangle Name="myRectangle" Width="10" Height="20" Fill="#AA3333FF" HorizontalAlignment="Left" > 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard Name="myBeginStoryboard"> 
+&lt;Storyboard Name="myStoryboard" Duration="0:0:4"> 
+&lt;DoubleAnimation Storyboard.TargetName="myRectangle" Storyboard.TargetProperty="Width" Duration="0:0:4" From="10" To="500"/> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> 
+&lt;!-- Use this slider to seek to different points of the Storyboard Duration (in milliseconds). --> 
+&lt;Slider Name="SeekSlider" ValueChanged="OnSliderValueChanged" Height="Auto" Width="500" Minimum="0" Maximum="4000" HorizontalAlignment="Left" /> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Below is the procedural code used with the XAML code above.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Media; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media.Animation; 
+namespace SDKSample { public partial class SeekStoryboardExample : Page { public void OnSliderValueChanged(object sender, RoutedEventArgs e) { int sliderValue = (int)SeekSlider.Value; 
+// Use the value of the slider to seek to a duration value of the Storyboard (in milliseconds). myStoryboard.Seek(myRectangle, new TimeSpan(0, 0, 0, 0, sliderValue), TimeSeekOrigin.BeginTime); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="03e06271-a946-4810-88ea-3fb4cfa9e0f1.xaml">How to: Seek a Storyboard Synchronously</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Seek a Storyboard to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

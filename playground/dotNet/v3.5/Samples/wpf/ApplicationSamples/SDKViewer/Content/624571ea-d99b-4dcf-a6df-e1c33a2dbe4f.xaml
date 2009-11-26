@@ -1,0 +1,269 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_624571ea_d99b_4dcf_a6df_e1c33a2dbe4f"
+  Tag     ="UpdateManifestForBrowserApplication Task"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_624571ea_d99b_4dcf_a6df_e1c33a2dbe4f"
+    Tag     ="UpdateManifestForBrowserApplication Task"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>UpdateManifestForBrowserApplication Task</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>The <Run FontWeight="Bold">UpdateManifestForBrowserApplication</Run>
+ task is executed when a XAML browser application (XBAP) project is build to add the <Run>
+&lt;hostInBrowser /></Run>
+ tag to the application manifest (<Run FontStyle="italic">projectname</Run>
+.exe.config).    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Attributes    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold"/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Parameter             
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Description             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>ApplicationManifest</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Required <Run FontWeight="Bold">ITaskItem[]</Run>
+ parameter.            
+              </Paragraph>
+
+              <Paragraph>Specifies the path and name of the application manifest file to add the <Run>
+&lt;hostInBrowser /></Run>
+ tag to.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>HostInBrowser</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Required <Run FontWeight="Bold">Boolean</Run>
+ parameter.            
+              </Paragraph>
+
+              <Paragraph>Specifies whether to modify the application manifest to include the <Run>
+&lt;hostInBrowser /></Run>
+ tag. If <Run FontWeight="Bold">true</Run>
+, a new <Run>
+&lt;hostInBrowser /></Run>
+ tag is included in the <Run>
+&lt;entryPoint /></Run>
+ tag. Note that this is cumulative;if a <Run>
+&lt;hostInBrowser /></Run>
+ tag already exists, it is not removed or overwritten. Instead, an additional <Run>
+&lt;hostInBrowser /></Run>
+ tag is created. If <Run FontWeight="Bold">false</Run>
+, the application manifest is not modified.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph FontSize="22">Remarks    
+      </Paragraph>
+
+      <Paragraph>XBAPs are deployed using the ClickOnce deployment engine and, consequently, need to have both deployment and application manifests. The GenerateApplicationManifest task is used by Microsoft build engine (MSBuild) to generate an application manifest.    
+      </Paragraph>
+
+      <Paragraph>However, XBAPs add an additional requirement to the application manifest to include an additional tag, <Run>
+&lt;hostInBrowser /></Run>
+, which specifies that the application is hosted from a browser:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Span>
+&lt;!--MyXBAPApplication.exe.manifest--> 
+&lt;?xml version="1.0" encoding="utf-8"?> 
+&lt;asmv1:assembly ... > 
+&lt;asmv1:assemblyIdentity ... /> 
+&lt;application /> 
+&lt;entryPoint> ... <Run FontWeight="Bold">
+&lt;hostInBrowser xmlns="urn:schemas-microsoft-com:asm.v3" /></Run>
+ 
+&lt;/entryPoint> ... /></Span>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The <Run FontWeight="Bold">UpdateManifestForBrowserApplication</Run>
+ task is executed when a XBAP project is build to add the <Run>
+&lt;hostInBrowser /></Run>
+ tag.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Example    
+      </Paragraph>
+
+      <Paragraph>The following example demonstrates how to ensure the <Run>
+&lt;hostInBrowser /></Run>
+ tag is included in an application manifest file.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> 
+&lt;UsingTask TaskName="Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication" AssemblyFile="C:\Program Files\Reference Assemblies\Microsoft\WinFx\v3.0\PresentationBuildTasks.dll" /> 
+&lt;Target Name="UpdateManifestForBrowserApplicationTask"> 
+&lt;UpdateManifestForBrowserApplication ApplicationManifest="MyXBAPApplication.exe.manifest" HostInBrowser="true" /> 
+&lt;/Target> 
+&lt;/Project></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Reference    
+      </Paragraph>
+
+      <Paragraph>MSBuild Tasks      
+        <LineBreak/>MSBuild Task Reference      
+        <LineBreak/>ClickOnce Deployment      
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="42ecb158-5dce-484f-ad73-fbb4f9fa0153.xaml">WPF Build System</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="7e72507a-ad0e-438e-b717-655e122a1caf.xaml">XAML Browser Applications</Hyperlink>
+
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UpdateManifestForBrowserApplication Task  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

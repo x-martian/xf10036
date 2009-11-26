@@ -1,0 +1,180 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c1cfcddb_e39c_41c8_a7f3_60984914dfae"
+  Tag     ="Resources and Code"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Resources and Code</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This overview concentrates on how Windows Presentation Foundation (WPF) resources can be accessed or created using code rather than Extensible Application Markup Language (XAML) syntax. For more information on general resource usage and resources from a XAML syntax perspective, see <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="accessing">Accessing Resources from Code</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating">Creating Resources with Code</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="objectaskey">Using Objects as Keys</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Accessing Resources from Code
+    </Paragraph>
+
+    <Paragraph>The keys that identify resources if they are defined through XAML are also used to retrieve specific resources if you request the resource in code. The simplest way to retrieve a resource from code is to call either the FindResource or the TryFindResource method from framework-level objects in your application. The behavioral difference between these methods is what happens if the requested key is not found. <Run FontWeight="Bold">FindResource</Run>
+ raises an exception; 
+<Run FontWeight="Bold">TryFindResource</Run>
+ will not raise an exception but returns <Run FontWeight="Bold">null</Run>
+. Each method takes the resource key as an input parameter, and returns a loosely typed object. Typically, a resource key is a string, but there are occasional nonstring usages; 
+see the <Hyperlink TargetName="objectaskey">Using Objects as Keys</Hyperlink>
+ section for details. Typically you would cast the returned object to the type required by the property that you are setting when requesting the resource. The lookup logic for code resource resolution is the same as the dynamic resource reference XAML case. The search for resources starts from the calling element, then continues to successive parent elements in the <Run>logical tree</Run>
+. The lookup continues onwards into application resources, themes, and system resources if necessary. A code request for a resource will properly account for runtime changes in resource dictionaries that might have been made subsequent to that resource dictionary being loaded from XAML, and also for realtime system resource changes.
+    </Paragraph>
+
+    <Paragraph>The following is a brief code example that finds a resource by key and uses the returned value to set a property, implemented as a Click event handler.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void SetBGByResource(object sender, RoutedEventArgs e) { Button b = sender as Button; 
+b.Background = (Brush)this.FindResource("RainbowBrush"); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>An alternative method for assigning a resource reference is SetResourceReference. This method takes two parameters: the key of the resource, and the identifier for a particular dependency property that is present on the element instance to which the resource value should be assigned. Functionally, this method is the same and has the advantage of not requiring any casting of return values.
+    </Paragraph>
+
+    <Paragraph>Still another way to access resources programmatically is to access the contents of the Resources property as a dictionary. Accessing the dictionary contained by this property is also how you can add new resources to existing collections, check to see if a given key name is already taken in the collection, and other dictionary/collection operations. If you are writing a WPF application entirely in code, you can also create the entire collection in code, assign keys to it, and then assign the finished collection to the <Run FontWeight="Bold">Resources</Run>
+ property of an established element. This will be described in the next section.
+    </Paragraph>
+
+    <Paragraph>You can index within any given <Run FontWeight="Bold">Resources</Run>
+ collection, using a specific key as the index, but you should be aware that accessing the resource in this way does not follow the normal runtime rules of resource resolution. You are only accessing that particular collection. Resource lookup will not be traversing the scope to the root or the application if no valid object was found at the requested key. However, this approach may have performance advantages in some cases precisely because the scope of the search for the key is more constrained. See the ResourceDictionary class for more details on how to work with the resource dictionary directly.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating Resources with Code
+    </Paragraph>
+
+    <Paragraph>If you are creating an entire WPF application in code, you might also will want to create any resources in that application in code also. To achieve this, create a new <Run FontWeight="Bold">ResourceDictionary</Run>
+ instance, and then add all the resources to the dictionary using successive calls to System.Windows.ResourceDictionary.Add(System.Object,System.Object). Then, use the <Run FontWeight="Bold">ResourceDictionary</Run>
+ thus created to set the <Run FontWeight="Bold">Resources</Run>
+ property on an element that is present in a page scope, or the System.Windows.Application.Resources. You could also maintain the <Run FontWeight="Bold">ResourceDictionary</Run>
+ as a standalone object without adding it to an element. However, if you do this, you must access the resources within it by item key, as if it were a generic dictionary. A <Run FontWeight="Bold">ResourceDictionary</Run>
+ that is not attached to an element <Run FontWeight="Bold">Resources</Run>
+ property would not exist as part of the element tree and has no scope in a lookup sequence that can be used by <Run FontWeight="Bold">FindResource</Run>
+ and related methods.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using Objects as Keys
+    </Paragraph>
+
+    <Paragraph>Most resource usages will set the key of the resource to be a string. However, various WPF features deliberately do not use a string type to specify keys, instead this parameter is an object. The capability of having the resource be keyed by an object is used by the WPF style and theming support. The styles in themes which become the default style for an otherwise non-styled control are each keyed by the Type of the control that they should apply to. Being keyed by type provides a reliable lookup mechanism that works on default instances of each control type, and type can be detected by reflection and used for styling derived classes even though the derived type otherwise has no default style. You can specify a <Run FontWeight="Bold">Type</Run>
+ key for a resource defined in XAML by using the <Hyperlink NavigateUri="e0e0ce6f-e873-49c7-8ad7-8b840eb353ec.xaml">x:Type Markup Extension</Hyperlink>
+. Similar extensions exist for other nonstring key usages that support WPF features, such as <Hyperlink NavigateUri="d6bcdbe6-61b3-40a7-b381-4e02185b5a85.xaml">ComponentResourceKey Markup Extension</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Application-Level Programming Overview
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Resources and Code to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

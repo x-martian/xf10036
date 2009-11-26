@@ -1,0 +1,254 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_7103c2e8_0e31_4a13_bf12_ca382221a8d5"
+  Tag     ="Make Data Available for Binding in XAML"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Make Data Available for Binding in XAML</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic discusses the different ways you can make data available for binding in Extensible Application Markup Language (XAML), depending on the needs of your application.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>If you have a common language runtime (CLR) object you would like to bind to from XAML, one way you can make the object available for binding is to define it as a resource and give it an <Run FontWeight="Bold">x:Key</Run>
+. In the following example, you have a <Run>Person</Run>
+ object with a string property named <Run>PersonName</Run>
+. The <Run>Person</Run>
+ object is defined in the namespace called <Run>SDKSample</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Window Name="root" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:src="clr-namespace:SDKSample" xmlns:system="clr-namespace:System;assembly=mscorlib" SizeToContent="WidthAndHeight" Title="Simple Data Binding Sample"> 
+&lt;Window.Resources> 
+&lt;src:Person x:Key="myDataSource" PersonName="Joe"/> <Run>... </Run>
+ 
+&lt;/Window.Resources> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can then bind to the object in XAML, as shown in the following example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Text="{Binding Source={StaticResource myDataSource}, Path=PersonName}"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Alternatively, you can use the ObjectDataProvider class, as in the following example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ObjectDataProvider x:Key="myDataSource" ObjectType="{x:Type src:Person}"> 
+&lt;ObjectDataProvider.ConstructorParameters> 
+&lt;system:String>Joe
+&lt;/system:String> 
+&lt;/ObjectDataProvider.ConstructorParameters> 
+&lt;/ObjectDataProvider> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You define the binding the same way:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Text="{Binding Source={StaticResource myDataSource}, Path=PersonName}"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In this particular example, the result is the same: you have a TextBlock with the text content <Run>Joe</Run>
+. However, the <Run FontWeight="Bold">ObjectDataProvider</Run>
+ class provides functionality such as the ability to bind to the result of a method. You can choose to use the <Run FontWeight="Bold">ObjectDataProvider</Run>
+ class if you need the functionality it provides. 
+    </Paragraph>
+
+    <Paragraph>However, if you are binding to an object that has already been created, you need to set the <Run FontWeight="Bold">DataContext</Run>
+ in code, as in the following example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DataSet myDataSet; 
+private void OnInit(object sender, EventArgs e) { string mdbFile = Path.Combine(AppDataPath, "BookData.mdb"); 
+string connString = string.Format( "Provider=Microsoft.Jet.OLEDB.4.0; 
+Data Source={0}", mdbFile); 
+OleDbConnection conn = new OleDbConnection(connString); 
+OleDbDataAdapter adapter = new OleDbDataAdapter("SELECT * FROM BookTable;", conn); 
+myDataSet = new DataSet(); 
+adapter.Fill(myDataSet, "BookTable"); 
+// myListBox is a ListBox control. // Set the DataContext of the ListBox to myDataSet myListBox.DataContext = myDataSet; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To see the complete samples, see Simple Binding Sample and Binding with Data in an ADO DataSet Sample.
+    </Paragraph>
+
+    <Paragraph>To access XML data for binding, use the XmlDataProvider class. For an example, see <Hyperlink NavigateUri="7dcd018f-16aa-4870-8e47-c1b4ea31e574.xaml">How to: Bind to XML Data Using an XMLDataProvider and XPath Queries</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>For information about the different ways you can specify the data you are binding to, see <Hyperlink NavigateUri="55d47757-2648-4a52-987f-b767953f168c.xaml">How to: Specify the Binding Source</Hyperlink>
+. For information about what types of data you can bind to or how to implement your own common language runtime (CLR) objects for binding, see <Hyperlink NavigateUri="2df2cd11-6aac-4bdf-ab7b-ea5f464cd5ca.xaml">Binding Sources Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Make Data Available for Binding in XAML to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

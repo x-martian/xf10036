@@ -1,0 +1,480 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f0a7986e_f5b2_485c_a27d_f8e922022212"
+  Tag     ="Advanced Text Formatting"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Advanced Text Formatting</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Windows Presentation Foundation (WPF) provides a robust set of APIs for including text in your application. Layout and user interface (UI) APIs, such as TextBlock, provide the most common and general use elements for text presentation. Drawing APIs, such as GlyphRunDrawing and FormattedText provide a means for including formatted text in drawings. At the most advanced level, WPF provides an extensible text engine to control every aspect of text presentation, such as text store management, text run formatting management, and embedded object management.
+    </Paragraph>
+
+    <Paragraph>This topic provides an introduction to WPF text formatting. It focuses on client implementation and use of the WPF text engine. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>All code examples within this document can be found in the Advanced Text Formatting API Sample.
+            </Paragraph>
+
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prereq">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="section1">Advanced Text Formatting</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="section2">Using the Text Formatter</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="section3">Implementing the Client Text Store</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="section4">Providing Text Runs</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="section5">Specifying Formatting Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you are familiar with the higher level APIs used for text presentation. Most user scenarios will not require the advanced text formatting APIs discussed in this topic. For an introduction to the different text APIs, see <Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Advanced Text Formatting
+    </Paragraph>
+
+    <Paragraph>The text layout and UI controls in WPF provide formatting properties that allow you to easily include formatted text in your application. These controls expose a number of properties to handle the presentation of text, which includes its typeface, size, and color. Under ordinary circumstances, these controls can handle the majority of text presentation in your application. However, some advanced scenarios require the control of text storage as well as text presentation. WPF provides an extensible text engine for this purpose. 
+    </Paragraph>
+
+    <Paragraph>The advanced text formatting features found in WPF consist of a text formatting engine, a text store, text runs, and formatting properties. The text formatting engine, TextFormatter, creates lines of text to be used for presentation. This is achieved by initiating the line formatting process and calling the formatter's FormatLine. The formatter retrieves text runs from your text store by calling the store's GetTextRun method. The TextRun objects are then formed into TextLine objects by the formatter and given to your application for inspection or display.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using the Text Formatter
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">TextFormatter</Run>
+ is the WPF text engine and provides services for formatting and breaking text lines. The formatter can handle different text character formats and paragraph styles, and includes support for international text layout.
+    </Paragraph>
+
+    <Paragraph>Unlike a traditional text API, the <Run FontWeight="Bold">TextFormatter</Run>
+ interacts with a text layout client through a set of callback methods. It requires the client to provide these methods in an implementation of the TextSource class. The following diagram illustrates the interaction of the text formatter client and the text layout client.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The formatter is used to retrieve formatted text lines from the text store, which is an implementation of <Run FontWeight="Bold">TextSource</Run>
+. This is done by first creating an instance of the formatter by using the Create method. This method creates an instance of the text formatter and sets the maximum line height and width values. As soon as an instance of the text formatter is created, the line creation process is started by calling the <Run FontWeight="Bold">FormatLine</Run>
+ method. <Run FontWeight="Bold">TextFormatter</Run>
+ calls back to the text source to retrieve the text and formatting parameters for the runs of text that form a line. 
+    </Paragraph>
+
+    <Paragraph>In the following example, the process of formatting a text store is shown. The <Run FontWeight="Bold">TextFormatter</Run>
+ object is used to retrieve text lines from the text store and then format the text line for drawing into the DrawingContext.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a DrawingGroup object for storing formatted text. textDest = new DrawingGroup(); 
+DrawingContext dc = textDest.Open(); 
+// Update the text store. _textStore.Text = textToFormat.Text; 
+_textStore.FontRendering = _currentRendering; 
+// Create a TextFormatter object. TextFormatter formatter = TextFormatter.Create(); 
+// Format each line of text from the text store and draw it. while (textStorePosition 
+&lt; 
+_textStore.Text.Length) { // Create a textline from the text store using the TextFormatter object. using (TextLine myTextLine = formatter.FormatLine( _textStore, textStorePosition, 96*6, new GenericTextParagraphProperties(_currentRendering), null)) { // Draw the formatted text into the drawing context. myTextLine.Draw(dc, linePosition, InvertAxes.None); 
+// Update the index position in the text store. textStorePosition += myTextLine.Length; 
+// Update the line position coordinate for the displayed line. linePosition.Y += myTextLine.Height; 
+} } // Persist the drawn text content. dc.Close(); 
+// Display the formatted text in the DrawingGroup object. myDrawingBrush.Drawing = textDest; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Implementing the Client Text Store
+    </Paragraph>
+
+    <Paragraph>When you extend the text engine, you are required to implement and manage all aspects of the text store. This is not a trivial task. The text store is responsible for tracking text run properties, paragraph properties, embedded objects, and other similar content. It also provides the formatter with individual <Run FontWeight="Bold">TextRun</Run>
+ objects which the formatter uses to create <Run FontWeight="Bold">TextLine</Run>
+ objects. 
+    </Paragraph>
+
+    <Paragraph>To handle the virtualization of the text store, the text formatter requires that the text store be derived from <Run FontWeight="Bold">TextSource</Run>
+. <Run FontWeight="Bold">TextSource</Run>
+ defines the method the text formatter uses to retrieve text runs from the text store. <Run FontWeight="Bold">GetTextRun</Run>
+ is the method used by the formatter to retrieve text runs used in line formatting. The call to <Run FontWeight="Bold">GetTextRun</Run>
+ is repeatedly made by the formatter until one of the following conditions occurs: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A TextEndOfLine or a subclass is returned.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The accumulated width of text runs exceeds the maximum line width specified in either the call to create the formatter or the call to the formatter's <Run FontWeight="Bold">FormatLine</Run>
+ method.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A Unicode newline sequence, such as "CF", "LF", or "CRLF", is returned.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Providing Text Runs
+    </Paragraph>
+
+    <Paragraph>The core of the text formatting process is the interaction between the text formatter and the text store. Your implementation of <Run FontWeight="Bold">TextSource</Run>
+ provides the formatter with the <Run FontWeight="Bold">TextRun</Run>
+ objects and the properties with which to format the text runs. This interaction is handled by the <Run FontWeight="Bold">GetTextRun</Run>
+ method, which is called by the formatter. 
+    </Paragraph>
+
+    <Paragraph>The following table shows some of the predefined <Run FontWeight="Bold">TextRun</Run>
+ objects. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextRun Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Usage 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextCharacters 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The specialized text run used to pass a representation of character glyphs back to the text formatter.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextEmbeddedObject 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The specialized text run used to provide content in which measuring, hit testing, and drawing is done in whole, such as a button or image within the text.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">TextEndOfLine</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The specialized text run used to mark the end of a line.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextEndOfParagraph 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The specialized text run used to mark the end of a paragraph.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextEndOfSegment 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The specialized text run used to mark the end of a segment, such as to end the scope affected by a previous TextModifier run.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextHidden 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The specialized text run used to mark a range of hidden characters.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">TextModifier</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The specialized text run used to modify properties of text runs in its scope. The scope extends to the next matching <Run FontWeight="Bold">TextEndOfSegment</Run>
+ text run, or the next <Run FontWeight="Bold">TextEndOfParagraph</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Any of the predefined <Run FontWeight="Bold">TextRun</Run>
+ objects can be subclassed. This allows your text source to provide the formatter with text runs that include custom data. 
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates a <Run FontWeight="Bold">GetTextRun</Run>
+ method. This text store returns <Run FontWeight="Bold">TextRun</Run>
+ objects to the text formatter for processing.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Used by the TextFormatter object to retrieve a run of text from the text source. public override TextRun GetTextRun(int textSourceCharacterIndex) { // Make sure text source index is in bounds. if (textSourceCharacterIndex 
+&lt; 
+0) throw new ArgumentOutOfRangeException("textSourceCharacterIndex", "Value must be greater than 0."); 
+if (textSourceCharacterIndex >= _text.Length) { return new TextEndOfParagraph(1); 
+} // Create TextCharacters using the current font rendering properties. if (textSourceCharacterIndex 
+&lt; 
+_text.Length) { return new TextCharacters( _text, textSourceCharacterIndex, _text.Length - textSourceCharacterIndex, new GenericTextRunProperties(_currentRendering)); 
+} // Return an end-of-paragraph if no more text source. return new TextEndOfParagraph(1); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>In this example, the text store provides the same text properties to all of the text. Advanced text stores would need to implement their own span management to allow individual characters to have different properties. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Specifying Formatting Properties
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">TextRun</Run>
+ objects are formatted by using properties provided by the text store. These properties come in two types, TextParagraphProperties and TextRunProperties. <Run FontWeight="Bold">TextParagraphProperties</Run>
+ handle paragraph inclusive properties such as TextAlignment and FlowDirection. <Run FontWeight="Bold">TextRunProperties</Run>
+ are properties that can be different for each text run within a paragraph, such as foreground brush, Typeface, and font size. 
+    </Paragraph>
+
+    <Paragraph>To use the text formatting engine, custom paragraph and run property types must be created and derive from <Run FontWeight="Bold">TextParagraphProperties</Run>
+ and <Run FontWeight="Bold">TextRunProperties</Run>
+ respectively. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="06cbf17b-6eff-4fe5-949d-2dd533e4e1f4.xaml">Typography in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Advanced Text Formatting to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

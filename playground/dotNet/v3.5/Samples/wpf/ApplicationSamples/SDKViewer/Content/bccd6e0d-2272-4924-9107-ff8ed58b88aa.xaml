@@ -1,0 +1,792 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_bccd6e0d_2272_4924_9107_ff8ed58b88aa"
+  Tag     ="Walkthrough: Mapping Properties Using the ElementHost Control"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Walkthrough: Mapping Properties Using the ElementHost Control</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This walkthrough shows you how to use the PropertyMap property to map Windows Forms properties to corresponding properties on a hosted WPF element. 
+    </Paragraph>
+
+    <Paragraph>Tasks illustrated in this walkthrough include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Creating the project.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Defining a new property mapping.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Removing a default property mapping.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Extending a default property mapping.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For a complete code listing of the tasks illustrated in this walkthrough, see Mapping Properties Using the ElementHost Control Sample.
+    </Paragraph>
+
+    <Paragraph>When you are finished, you will be able to map Windows Forms properties to corresponding WPF properties on a hosted element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The dialog boxes and menu commands you see might differ from those described in Help, depending on your active settings or edition. To change your settings, choose <Run FontWeight="Bold">Import and Export Settings</Run>
+ on the <Run FontWeight="Bold">Tools</Run>
+ menu. For more information, see Visual Studio Settings.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>Prerequisites</Run>
+
+    </Paragraph>
+
+    <Paragraph>To complete this walkthrough you will need:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Development Tools for .NET Framework 3.0, which enable you to create a WPF application project. For information on installing these tools, see Installation Instructions for the Windows SDK.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Creating the Project</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">To create the project
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a Windows Forms application project named <Run FontWeight="Bold">PropertyMappingWithElementHost</Run>
+. For more information, see How to: Create a Windows Application Project.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In Solution Explorer, add references to the following WPF assemblies. For more information, see How to: Add References to Type Libraries.
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>PresentationCore 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>PresentationFramework 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>WindowsBase 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>WindowsFormsIntegration 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+        <Paragraph>The default location for these assemblies is %programfiles%\Reference Assemblies\Microsoft\Framework\v3.0.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Copy the following code into the top of the <Run>Form1</Run>
+ code file.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System.Windows; 
+using System.Windows.Media; 
+using System.Windows.Media.Imaging; 
+using System.Windows.Forms.Integration; 
+</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System.Windows Imports System.Windows.Media Imports System.Windows.Media.Imaging Imports System.Windows.Forms.Integration </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Open <Run>Form1</Run>
+ in the Windows Forms Designer. Double-click the form to add an event handler for the Load event.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Return to the Windows Forms Designer and add an event handler for the form's Resize event. For more information, see How to: Create Event Handlers Using the Designer. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Declare an ElementHost field in the <Run>Form1</Run>
+ class.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>ElementHost elemHost = null; 
+</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private elemHost As ElementHost = Nothing </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Defining New Property Mappings</Run>
+
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ElementHost</Run>
+ control provides several default property mappings. You add a new property mapping by calling the Add method on the <Run FontWeight="Bold">ElementHost</Run>
+ control's <Run FontWeight="Bold">PropertyMap</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">To define new property mappings 
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the definition for the <Run>Form1</Run>
+ class.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The AddMarginMapping method adds a new property mapping // for the Margin property. private void AddMarginMapping() { elemHost.PropertyMap.Add( "Margin", new PropertyTranslator(OnMarginChange)); 
+} // The OnMarginChange method implements the mapping // from the Windows Forms Margin property to the // Windows Presentation Foundation Margin property. // // The provided Padding value is used to construct // a Thickness value for the hosted element's Margin // property. private void OnMarginChange(object h, String propertyName, object value) { ElementHost host = h as ElementHost; 
+Padding p = (Padding)value; 
+System.Windows.Controls.Button wpfButton = host.Child as System.Windows.Controls.Button; 
+Thickness t = new Thickness(p.Left, p.Top, p.Right, p.Bottom ); 
+wpfButton.Margin = t; 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' The AddMarginMapping method adds a new property mapping ' for the Margin property. Private Sub AddMarginMapping() elemHost.PropertyMap.Add( _ "Margin", _ New PropertyTranslator(AddressOf OnMarginChange)) End Sub ' The OnMarginChange method implements the mapping ' from the Windows Forms Margin property to the ' Windows Presentation Foundation Margin property. ' ' The provided Padding value is used to construct ' a Thickness value for the hosted element's Margin ' property. Private Sub OnMarginChange( _ ByVal h As Object, _ ByVal propertyName As String, _ ByVal value As Object) Dim host As ElementHost = h Dim p As Padding = CType(value, Padding) Dim wpfButton As System.Windows.Controls.Button = host.Child Dim t As New Thickness(p.Left, p.Top, p.Right, p.Bottom) wpfButton.Margin = t End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph>The <Run>AddMarginMapping</Run>
+ method adds a new mapping for the Margin property. 
+        </Paragraph>
+
+        <Paragraph>The <Run>OnMarginChange</Run>
+ method translates the <Run FontWeight="Bold">Margin</Run>
+ property to the WPF Margin property. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Copy the following code into the definition for the <Run>Form1</Run>
+ class.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The AddRegionMapping method assigns a custom // mapping for the Region property. private void AddRegionMapping() { elemHost.PropertyMap.Add( "Region", new PropertyTranslator(OnRegionChange)); 
+} // The OnRegionChange method assigns an EllipseGeometry to // the hosted element's Clip property. private void OnRegionChange( object h, String propertyName, object value) { ElementHost host = h as ElementHost; 
+System.Windows.Controls.Button wpfButton = host.Child as System.Windows.Controls.Button; 
+wpfButton.Clip = new EllipseGeometry(new Rect( 0, 0, wpfButton.ActualWidth, wpfButton.ActualHeight)); 
+} // The Form1_Resize method handles the form's Resize event. // It calls the OnRegionChange method explicitly to // assign a new clipping geometry to the hosted element. private void Form1_Resize(object sender, EventArgs e) { this.OnRegionChange(elemHost, "Region", null); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' The AddRegionMapping method assigns a custom ' mapping for the Region property. Private Sub AddRegionMapping() elemHost.PropertyMap.Add( _ "Region", _ New PropertyTranslator(AddressOf OnRegionChange)) End Sub ' The OnRegionChange method assigns an EllipseGeometry to ' the hosted element's Clip property. Private Sub OnRegionChange( _ ByVal h As Object, _ ByVal propertyName As String, _ ByVal value As Object) Dim host As ElementHost = h Dim wpfButton As System.Windows.Controls.Button = host.Child wpfButton.Clip = New EllipseGeometry(New Rect( _ 0, _ 0, _ wpfButton.ActualWidth, _ wpfButton.ActualHeight)) End Sub ' The Form1_Resize method handles the form's Resize event. ' It calls the OnRegionChange method explicitly to ' assign a new clipping geometry to the hosted element. Private Sub Form1_Resize( _ ByVal sender As Object, _ ByVal e As EventArgs) Handles MyBase.Resize Me.OnRegionChange(elemHost, "Region", Nothing) End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph>The <Run>AddRegionMapping</Run>
+ method adds a new mapping for the Region property. 
+        </Paragraph>
+
+        <Paragraph>The <Run>OnRegionChange</Run>
+ method translates the <Run FontWeight="Bold">Region</Run>
+ property to the WPF Clip property. 
+        </Paragraph>
+
+        <Paragraph>The <Run>Form1_Resize</Run>
+ method handles the form's <Run FontWeight="Bold">Resize</Run>
+ event and sizes the clipping region to fit the hosted element.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Removing a Default Property Mapping</Run>
+
+    </Paragraph>
+
+    <Paragraph>Remove a default property mapping by calling the Remove method on the <Run FontWeight="Bold">ElementHost</Run>
+ control's <Run FontWeight="Bold">PropertyMap</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">To remove a default property mapping
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Copy the following code into the definition for the <Run>Form1</Run>
+ class.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The RemoveCursorMapping method deletes the default // mapping for the Cursor property. private void RemoveCursorMapping() { elemHost.PropertyMap.Remove("Cursor"); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' The RemoveCursorMapping method deletes the default ' mapping for the Cursor property. Private Sub RemoveCursorMapping() elemHost.PropertyMap.Remove("Cursor") End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph>The <Run>RemoveCursorMapping</Run>
+ method deletes the default mapping for the Cursor property.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Extending a Default Property Mapping</Run>
+
+    </Paragraph>
+
+    <Paragraph>You can use a default property mapping and also extend it with your own mapping. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">To extend a default property mapping
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Copy the following code into the definition for the <Run>Form1</Run>
+ class.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The ExtendBackColorMapping method adds a property // translator if a mapping already exists. private void ExtendBackColorMapping() { if (elemHost.PropertyMap["BackColor"] != null) { elemHost.PropertyMap["BackColor"] += new PropertyTranslator(OnBackColorChange); 
+} } // The OnBackColorChange method assigns a specific image // to the hosted element's Background property. private void OnBackColorChange(object h, String propertyName, object value) { ElementHost host = h as ElementHost; 
+System.Windows.Controls.Button wpfButton = host.Child as System.Windows.Controls.Button; 
+ImageBrush b = new ImageBrush(new BitmapImage( new Uri(@"file:///C:\WINDOWS\Santa Fe Stucco.bmp"))); 
+wpfButton.Background = b; 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' The ExtendBackColorMapping method adds a property ' translator if a mapping already exists. Private Sub ExtendBackColorMapping() If elemHost.PropertyMap("BackColor") IsNot Nothing Then elemHost.PropertyMap("BackColor") = PropertyTranslator.Combine( _ elemHost.PropertyMap("BackColor"), _ PropertyTranslator.CreateDelegate( _ GetType(PropertyTranslator), _ Me, _ "OnBackColorChange")) End If End Sub ' The OnBackColorChange method assigns a specific image ' to the hosted element's Background property. Private Sub OnBackColorChange( _ ByVal h As Object, _ ByVal propertyName As String, _ ByVal value As Object) Dim host As ElementHost = h Dim wpfButton As System.Windows.Controls.Button = host.Child Dim b As New ImageBrush(New BitmapImage( _ New Uri("file:///C:\WINDOWS\Santa Fe Stucco.bmp"))) wpfButton.Background = b End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph>The <Run>ExtendBackColorMapping</Run>
+ method adds a custom property translator to the existing BackColor property mapping. 
+        </Paragraph>
+
+        <Paragraph>The <Run>OnBackColorChange</Run>
+ method assigns a specific image to the hosted control's Background property. The <Run>OnBackColorChange</Run>
+ method is called after the default property mapping is applied.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>Initializing Your Property Mappings</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">To initialize your property mappings
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Copy the following code into the definition for the <Run>Form1</Run>
+ class.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void Form1_Load(object sender, EventArgs e) { // Create the ElementHost control. elemHost = new ElementHost(); 
+elemHost.Dock = DockStyle.Fill; 
+this.Controls.Add(elemHost); 
+// Create a Windows Presentation Foundation Button element // and assign it as the ElementHost control's child. System.Windows.Controls.Button wpfButton = new System.Windows.Controls.Button(); 
+wpfButton.Content = "Windows Presentation Foundation Button"; 
+elemHost.Child = wpfButton; 
+// Map the Margin property. this.AddMarginMapping(); 
+// Remove the mapping for the Cursor property. this.RemoveCursorMapping(); 
+// Add a mapping for the Region property. this.AddRegionMapping(); 
+// Add another mapping for the BackColor property. this.ExtendBackColorMapping(); 
+// Cause the OnMarginChange delegate to be called. elemHost.Margin = new Padding(23, 23, 23, 23); 
+// Cause the OnRegionChange delegate to be called. elemHost.Region = new Region(); 
+// Cause the OnBackColorChange delegate to be called. elemHost.BackColor = System.Drawing.Color.AliceBlue; 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub Form1_Load( _ ByVal sender As Object, _ ByVal e As EventArgs) Handles MyBase.Load ' Create the ElementHost control. elemHost = New ElementHost() elemHost.Dock = DockStyle.Fill Me.Controls.Add(elemHost) ' Create a Windows Presentation Foundation Button element ' and assign it as the ElementHost control's child. Dim wpfButton As New System.Windows.Controls.Button() wpfButton.Content = "Windows Presentation Foundation Button" elemHost.Child = wpfButton ' Map the Margin property. Me.AddMarginMapping() ' Remove the mapping for the Cursor property. Me.RemoveCursorMapping() ' Add a mapping for the Region property. Me.AddRegionMapping() ' Add another mapping for the BackColor property. Me.ExtendBackColorMapping() ' Cause the OnMarginChange delegate to be called. elemHost.Margin = New Padding(23, 23, 23, 23) ' Cause the OnRegionChange delegate to be called. elemHost.Region = New [Region]() ' Cause the OnBackColorChange delegate to be called. elemHost.BackColor = System.Drawing.Color.AliceBlue End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph>The <Run>Form1_Load</Run>
+ method handles the <Run FontWeight="Bold">Load</Run>
+ event and performs the following initialization. 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Creates a WPF Button element.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Calls the methods you defined earlier in the walkthrough to set up the property mappings.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Assigns initial values to the mapped properties.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Press F5 to build and run the application.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>System.Windows.Forms.Integration.ElementHost.PropertyMap
+      <LineBreak/>System.Windows.Forms.Integration.WindowsFormsHost.PropertyMap
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="999d8298-9c04-467d-a453-86e41002057d.xaml">Windows Forms and WPF Property Mapping</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0ac41286-4c1b-4b17-9196-d985cb844ce1.xaml">Walkthrough: Hosting a Windows Presentation Foundation Control in Windows Forms</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d655de05-bf63-4814-bc64-6b3be01c70a2.xaml">Migration and Interoperability</Hyperlink>
+
+      <LineBreak/>Migration and Interoperability Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Walkthrough: Mapping Properties Using the ElementHost Control to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

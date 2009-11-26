@@ -1,0 +1,1084 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_2cd3ec6c_e8d0_4b4e_8049_de8e781b5ca0"
+  Tag     ="WPF Assembly Resources"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_2cd3ec6c_e8d0_4b4e_8049_de8e781b5ca0"
+    Tag     ="WPF Assembly Resources"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Windows Presentation Foundation Assembly Resources</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>Applications often depend on files that contain non-executable data, such as strings, images, video, and audio. But, applications always can't rely on independent files being available on the client;files may be application-specific, or files that are included as part of an assumed default client installation may be missing if, for example, a user intentionally (or inadvertently) deletes them.    
+      </Paragraph>
+
+      <Paragraph>Windows Presentation Foundation provides the ability to include files with assemblies. These files are known as <Run FontStyle="italic">resources</Run>
+, and Windows Presentation Foundation provides a simplified model for configuring, identifying, and loading resources. The Windows Presentation Foundation resource model uses URI references to uniquely identify resources, and uses the inherent extensibility of the URI specification to identify resources which are compiled directly into an assembly, distributed with an assembly, or are compiled into a referenced assembly.     
+      </Paragraph>
+
+      <Paragraph>The flexibility of the Windows Presentation Foundation resource model extends to operate over non-resource files that are stored in the same location from which an application was launched.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Configuring Resources    
+      </Paragraph>
+
+      <Paragraph>The Windows Presentation Foundation resource model allows files to be configured as either embedded or loose resources. Which type of resource is used depends on several factors, including the size of an assembly, where an assembly is launched from, and whether resources can be updated independently of the assembly in which they are included.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Embedded Resources    
+      </Paragraph>
+
+      <Paragraph>An <Run FontStyle="italic">embedded resource</Run>
+ is a file that is compiled directly into an assembly, and is the only way to guarantee availability of dependent files. Once an embedded resource has been compiled into an assembly, it can only be updated by updating the resource file and rebuilding the project.    
+      </Paragraph>
+
+      <Paragraph>You should use embedded resources when:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>You don't need to replace the file once the assembly has been built (conversely, you don't need to rebuild an assembly to only update its resources).        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>You want to reduce application management complexity by being able to move an application without the need to move dependent files.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>You file needs to be localizable.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>In Windows Presentation Foundation, an embedded resource is a file that is included in a project as a <Run>Resource</Run>
+ item:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ... > 
+&lt;PropertyGroup> 
+&lt;RootNamespace>ResourcesSample
+&lt;/RootNamespace> 
+&lt;AssemblyName>ResourcesSample
+&lt;/AssemblyName> ... 
+&lt;/PropertyGroup> ... 
+&lt;ItemGroup> 
+&lt;Resource Include="EmbeddedResource.bmp" /> 
+&lt;/ItemGroup> ... 
+&lt;/Project></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>In Microsoft Visual Studio 2005, you add a file to a project and set its <Run FontWeight="Bold">Build Action</Run>
+ to <Run>Resource</Run>
+. This is different than the Microsoft .NET Framework resource model, which requires that resources are embedded, and have a <Run FontWeight="Bold">Build Action</Run>
+ of <Run>Embedded Resource</Run>
+.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>When the project is built, MSBuild embeds the resource into the assembly. Specifically, the file is placed into an embedded manifest resource that Windows Presentation Foundation uses as a container to store all embedded resources in an assembly.    
+      </Paragraph>
+
+      <Paragraph>You can use the Intermediate Language Disassembler (ILDASM) utility that ships with the Windows Software Development Kit (SDK) to view an assembly's embedded manifest resource, which looks like the following:    
+      </Paragraph>
+
+      <Paragraph><Run>// Metadata version: v2.0.50727</Run>
+
+      </Paragraph>
+
+      <Paragraph><Run>...</Run>
+
+      </Paragraph>
+
+      <Paragraph><Run>.assembly ResourceSample { ... }</Run>
+
+      </Paragraph>
+
+      <Paragraph><Run>.mresource public ResourcesSample.g.resources { // Offset: 0x00000000 Length: 0x0006BD13 }</Run>
+
+      </Paragraph>
+
+      <Paragraph>The name of the embedded manifest resource conforms to the following format:    
+      </Paragraph>
+
+      <Paragraph><Run>
+&lt;AssemblyName>.g.resources</Run>
+
+      </Paragraph>
+
+      <Paragraph>Each embedded resource can be identified using a unique identifier that corresponds to its location in the MSBuild project. For an embedded resource in the project root, the identifier would be something like the following:    
+      </Paragraph>
+
+      <Paragraph><Run>EmbeddedResource.bmp</Run>
+
+      </Paragraph>
+
+      <Paragraph>An embedded resource that is located in a project subfolder, however, will have a identifier like the following:    
+      </Paragraph>
+
+      <Paragraph><Run>Resources/EmbeddedResource.bmp</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="18">Loose Resources    
+      </Paragraph>
+
+      <Paragraph>A <Run FontStyle="italic">loose resource</Run>
+ is a file that is deployed alongside an assembly. You should use loose resources when you want the flexibility of updating them without having to rebuild an assembly.    
+      </Paragraph>
+
+      <Paragraph>To specify a file as a loose resource, the file must be included in a project as a <Run>Content</Run>
+ item. Furthermore, because a loose resource must be deployed with the assembly, you need to provide additional configuration that specifies that a resource file should be copied to the build output folder, and how often that occurs. You use the MSBuild<Run>CopyToOutputDirectory</Run>
+ attribute to specify that a resource is copied. If you want the resource to be copied to the build output folder every time a project is built, you set the <Run>CopyToOutputDirectory</Run>
+ attribute with the <Run>Always</Run>
+ value. Otherwise, you can ensure that only the newest version of the resource is copied to the build output folder by using the <Run>PreserveNewest</Run>
+ value.    
+      </Paragraph>
+
+      <Paragraph>The following shows a file that is configured as a loose resource which is copied to the build output folder only when a new version of the resource is added to the project:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ... > 
+&lt;PropertyGroup> 
+&lt;RootNamespace>ResourcesSample
+&lt;/RootNamespace> 
+&lt;AssemblyName>ResourcesSample
+&lt;/AssemblyName> ... 
+&lt;/PropertyGroup> ... 
+&lt;ItemGroup> 
+&lt;Content Include="LooseResource.bmp"> 
+&lt;CopyToOutputDirectory>PreserveNewest
+&lt;/CopyToOutputDirectory> 
+&lt;/Content> 
+&lt;/ItemGroup> ... 
+&lt;/Project></Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>In Microsoft Visual Studio 2005, you add a file to a project and set its <Run FontWeight="Bold">Build Action</Run>
+ to <Run>Content</Run>
+, and set its <Run FontWeight="Bold">Copy to Output Directory</Run>
+ to <Run>Copy always</Run>
+ (same as <Run>Always</Run>
+) and <Run>Copy if newer</Run>
+ (same as <Run>PreserveNewest</Run>
+).            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>When the project is built, MSBuild embeds an <Run>AssemblyAssociatedContentFile</Run>
+ attribute into the metadata of the assembly:    
+      </Paragraph>
+
+      <Paragraph><Run>[assembly: AssemblyAssociatedContentFile("LooseResource.bmp")]</Run>
+
+      </Paragraph>
+
+      <Paragraph>The value of the <Run>AssemblyAssociatedContentFile</Run>
+ attribute implies the path to the loose resource relative to its position in the project. For example, if a loose resource was located in a project subfolder, the additional path information would be incorporated into the <Run>AssemblyAssociatedContentFile</Run>
+ attribute value:    
+      </Paragraph>
+
+      <Paragraph><Run>[assembly: AssemblyAssociatedContentFile("Resources/LooseResource.bmp")]</Run>
+
+      </Paragraph>
+
+      <Paragraph>The <Run>AssemblyAssociatedContentFile</Run>
+ attribute value also specifies the location in the build output folder, relative to the compiled assembly, that the loose resource will be copied to during a build.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Loading Resources    
+      </Paragraph>
+
+      <Paragraph>When a file is configured as either an embedded or loose resource, information about that resource is compiled into the assembly. Embedded resources are embedded directly into a well-known Windows Presentation Foundation-managed embedded manifest resource, while loose resources are associated with an assembly by an attribute. The sum of this information provides a framework against which the Windows Presentation Foundation resource model can identify and load a resource, embedded or loose, using a <Run FontWeight="Bold">relative </Run>
+URI. Windows Presentation Foundation also exposes both programmatic and declarative mechanisms for doing so.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Loading Embedded Resources    
+      </Paragraph>
+
+      <Paragraph>To retrieve an embedded resource, you first need to determine the URI that uniquely maps to the embedded resource. For an embedded resource, the URI is a relative reference to the embedded resource identifier, eg:    
+      </Paragraph>
+
+      <Paragraph><Run>EmbeddedResource.bmp</Run>
+
+      </Paragraph>
+
+      <Paragraph>If the embedded resource is located in a project subfolder, the identifier needs to include the relative path information, eg:    
+      </Paragraph>
+
+      <Paragraph><Run>Resources/EmbeddedResource.bmp</Run>
+
+      </Paragraph>
+
+      <Paragraph>To retrieve the embedded resource that maps to the URI, you call the GetResourceStream method of the Application class, passing in a Uri that encapsulates the URI:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Span>using System;// Uri using System.IO;// Stream using System.Windows.Resources;// StreamResourceInfo <Run>... </Run>
+// Create Uri that maps to embedded resource Uri uri = new Uri("EmbeddedResource.bmp", UriKind.Relative); 
+// Load embedded resource StreamResourceInfo info = Application.GetResourceStream(uri); 
+string resourceType = info.ContentType;Stream resourceStream = info.Stream;</Span>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">GetResourceStream</Run>
+ returns a StreamResourceInfo object, which exposes the embedded resource as a stream and describes its content type.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Loading Loose Resources    
+      </Paragraph>
+
+      <Paragraph>Retrieving a loose resource is similar to retrieving an embedded resource. You first identify the URI that maps to the loose resource, which is the name of the resource file, eg:    
+      </Paragraph>
+
+      <Paragraph><Run>LooseResource.bmp</Run>
+
+      </Paragraph>
+
+      <Paragraph>If the loose resource is situated in a subfolder path relative to the assembly needs to be included, eg:    
+      </Paragraph>
+
+      <Paragraph><Run>/Resources/LooseResource.bmp</Run>
+
+      </Paragraph>
+
+      <Paragraph>To retrieve the loose resource that maps to the URI, you call GetContentStream and pass in a <Run FontWeight="Bold">Uri</Run>
+ that encapsulates the URI:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Span>using System;// Uri using System.IO;// Stream using System.Windows.Resources;// StreamResourceInfo <Run>... </Run>
+// Create Uri that maps to a resource Uri uri = new Uri("LooseResource.bmp", UriKind.Relative); 
+// Load embedded resource StreamResourceInfo info = Application.GetContentStream(uri); 
+string resourceType = info.ContentType;Stream resourceStream = info.Stream;</Span>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>Like <Run FontWeight="Bold">GetContentStream</Run>
+, <Run FontWeight="Bold">GetContentStream</Run>
+ returns a <Run FontWeight="Bold">StreamResourceInfo</Run>
+ object that encapsulates the retrieved resource stream.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Resource Model Type Integration    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">GetResourceStream</Run>
+ and <Run FontWeight="Bold">GetContentStream</Run>
+ do require the additional effort of converting resource streams into instances of appropriate types. Furthermore, while using a relative URI is independent of resource type, the act of calling either <Run FontWeight="Bold">GetResourceStream</Run>
+ and <Run FontWeight="Bold">GetContentStream</Run>
+ is dependent on resource type.    
+      </Paragraph>
+
+      <Paragraph>However, Windows Presentation Foundation extends the fundamental resource model by providing a higher level abstraction that simplifies your efforts by incorporating the relative URI mapping mechanism into a wide variety of Windows Presentation Foundation types, and doesn't force you to distinguish between embedded and loose resources.    
+      </Paragraph>
+
+      <Paragraph>For example, Image exposes the Source property, which you can set with an ImageSource instance that is loaded with an image resource located at a specified URI:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Image Name="resourceImage" /> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Span>using System;// Uri using System.Windows.Media.Imaging;// BitmapImage <Run>... </Run>
+// Create Uri that maps to a resource Uri uri = new Uri("EmbeddedOrLooseResource.bmp", UriKind.Relative); 
+// Load embedded resource this.resourceImage.Source = new System.Windows.Media.Imaging.BitmapImage(uri); 
+</Span>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>This technique supports scenarios in which the desired resource may change and, consequently, the URI that maps to that resource can only be ascertained at run time. However, if the resource doesn't change, a static URI can be specified more simply in XAML:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Image Name="resourceImage" Source="EmbeddedOrLooseResource.bmp">
+&lt;/Image> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>When compiled, the string value of the <Run FontWeight="Bold">Source</Run>
+ attribute is converted to a relative URI.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Resource Resolution    
+      </Paragraph>
+
+      <Paragraph>While using relative URIs relieves simplifies the client code model, URIs have to be mapped to either embedded or loose resources before those resources can be loaded. The Windows Presentation Foundation resource model resolves relative URIs to resources using the following heuristics:    
+      </Paragraph>
+
+      <Paragraph>It is possible for a relative URI to map to either an embedded or loose resource. Windows Presentation Foundation employs a simple mechanism that resolves a URI to either type of resource, using the following steps:    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Probe the assembly metadata for an <Run>AssemblyAssociatedContentFile</Run>
+ attribute that matches the URI.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If the <Run>AssemblyAssociatedContentFile</Run>
+ attribute is found, the resource is loose and should be loaded from a location relative to the assembly.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If the <Run>AssemblyAssociatedContentFile</Run>
+ attribute is not found, enumerate the Windows Presentation Foundation-managed embedded manifest resource set for an identifier that matches the URI.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If the identifier is found, the resource is embedded and loaded from the embedded manifest resource.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If the resource is not found, the internally created <Run FontWeight="Bold">Uri</Run>
+ is invalid.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The advantage of being able to use relative URIs and relying on the Windows Presentation Foundation resource model for resolving them to a resource is to write code or XAML that is independent of the physical location of a resource;a file may be switched between being configured as an embedded or loose resource, but the code or XAML that loads it need not change as long as the URI is relative.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Pack URIs    
+      </Paragraph>
+
+      <Paragraph>In the Windows Presentation Foundation resource model, the predominant technique for mapping to resources relies on relative URIs. As it turns out, the resource model deals in absolute references. Specifically, the resource model integrates the Pack URI Scheme for mapping to resources with absolute URIs. This allows the resource model to leverage the intrinsic extensibility of the Pack URI Scheme to support other resource loading scenarios. One example is the ability to load resources from referenced assemblies, which is subsequently available using relative referencing. Another example is the ability to loading non-resource files from a local disk, a Universal Naming Convention (UNC) file share, a web site, and an assembly's launch location.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">The Pack URI Scheme, in a Nutshell    
+      </Paragraph>
+
+      <Paragraph>RFC 2396 (<Hyperlink NavigateUri="http://www.ietf.org/rfc/rfc2396.txt">Uniform Resource Identifiers (URI): Generic Syntax</Hyperlink>
+) includes an extensibility mechanism that allows the definition of new types of URI based on new schemes. The scheme used by a URI is specified by its prefix, of which <Run FontWeight="Bold">http</Run>
+, <Run FontWeight="Bold">ftp</Run>
+, and <Run FontWeight="Bold">file</Run>
+ are well known examples.    
+      </Paragraph>
+
+      <Paragraph>The Pack URI Scheme is defined by the <Run FontWeight="Bold">Open Packaging Conventions</Run>
+ (<Hyperlink NavigateUri="http://www.microsoft.com/whdc/xps/xpspkg.mspx">http://www.microsoft.com/whdc/xps/xpspkg.mspx</Hyperlink>
+), which is a specification that itself defines a model for organizing resources within a package. Fundamentally, a package is a logical entity that contains parts, where each part is a resource, as illustrated in the following figure.    
+      </Paragraph>
+
+      <Paragraph>The Pack URI Scheme defines a way to use URIs to refer to the parts that are contained within a package. A URI that conforms to the Pack URI Scheme is known as a "pack URI", and adheres to the following format:    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">pack</Run>
+://<Run FontStyle="italic">
+&lt;authority>
+&lt;path></Run>
+
+      </Paragraph>
+
+      <Paragraph><Run>
+&lt;authority></Run>
+ refers to the type of package, while <Run>
+&lt;path></Run>
+ refers to part within a package, as shown in the following figure:    
+      </Paragraph>
+
+      <Paragraph>The concept of packages and parts is analogous to assemblies and resources, where an assembly (package) can include one or more embedded or loose resources, as shown in the following figure.    
+      </Paragraph>
+
+      <Paragraph>Windows Presentation Foundation provides <Run>application://</Run>
+ as the <Run>
+&lt;authority></Run>
+ for assemblies, and each <Run>
+&lt;path></Run>
+ is a relative resource reference eg:    
+      </Paragraph>
+
+      <Paragraph><Run>pack://application:,,,/MyResource.bmp</Run>
+
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>the authority component in a pack URI is an embedded URI that points to a package. Consequently, the embedded URI must conform to RFC 2396. Additionally, the "/" character must be replaced with the "," character, and reserved characters like "%" and "?" need to be escaped. See the Open Packaging Conventions for complete details.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>A fully-constructed pack URI is considered an absolute URI reference to a particular resource. Internally, the Windows Presentation Foundation resource model operates over absolute pack URIs, rather than relative URIs. Windows Presentation Foundation supports relative URIs as a convenience for developers, and translates them to absolute pack URIs.    
+      </Paragraph>
+
+      <Paragraph>You can use absolute pack URIs to refer to both embedded and loose resources. Furthermore, absolute pack URIs enable the identification and loading of embedded resources in referenced assemblies, and are the only type of URI that allows you to identify and load non-resource files.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Loading Resources using Absolute Pack URIs    
+      </Paragraph>
+
+      <Paragraph>To retrieve either an embedded or loose resource from an assembly, you first need to determine the absolute pack URI that maps to the resource.    
+      </Paragraph>
+
+      <Paragraph>For a resource, the absolute pack URI<Run>
+&lt;authority></Run>
+ will be <Run>application://</Run>
+. The <Run>
+&lt;path></Run>
+ value will correspond to the relative URI for the resource. The following shows an absolute pack URI that refers to an embedded resource:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Image Source="pack://application:,,,/EmbeddedOrLooseResource.bmp">
+&lt;/Image> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>If a resource is located in a project subfolder, the <Run>
+&lt;path></Run>
+ will need to contain the appropriate resource path information, just as with relative URI references. An absolute pack URI for a resource in a project subfolder will look like the following:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Image Source="pack://application:,,,/Resources/EmbeddedOrLooseResource.bmp">
+&lt;/Image> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>When using an absolute pack URI in XAML, the absolute reference could refer to either embedded or loose resource, just as it does when using a relative URI. Consequently, the resource that an absolute pack URI maps to must be resolved, and is done so using the same resource resolution heuristics that are used by Windows Presentation Foundation to resolve relative resources.    
+      </Paragraph>
+
+      <Paragraph FontSize="18">Loading Resources from Referenced Assemblies    
+      </Paragraph>
+
+      <Paragraph>The absolute pack URI allows assemblies to load embedded resources from referenced assemblies. Consider the following figure:    
+      </Paragraph>
+
+      <Paragraph>To load the embedded resource from the referenced assembly, the absolute pack URI<Run>
+&lt;path></Run>
+ value must identify the referenced assembly as well as the relative path to the embedded resource contained within the referenced assembly. Windows Presentation Foundation adds special support for identifying referenced assemblies using the absolute Pack URI Scheme, which you employ by adding the following to the <Run>
+&lt;path></Run>
+ value:    
+      </Paragraph>
+
+      <Paragraph><Run FontStyle="italic">ReferencedAssemblyName</Run>
+<Run FontWeight="Bold">;component</Run>
+
+      </Paragraph>
+
+      <Paragraph>An example of a complete absolute pack URI that maps to a resource in a referenced assembly looks like the following:    
+      </Paragraph>
+
+      <Paragraph>Windows Presentation Foundation supports the ability to create a relative URI that maps to a resource in a referenced assembly, which is simply the <Run>
+&lt;path></Run>
+ component of the absolute pack URI:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Image Source="/ResourceLibrary;component/EmbeddedResource.bmp">
+&lt;/Image> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Loading Non-Resource Files    
+      </Paragraph>
+
+      <Paragraph>When a file is added to an assembly as a loose resource, a relationship is established and the file should be distributed alongside the assembly. But, there are times when you may want to establish a less tight relationship between application and file, including when:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>You want the flexibility of replacing files after an application is built.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>You want to download files on-demand.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>A file's content is not ready when an application is built.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>A file doesn't exist when an application is built.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>One or more files are large enough to significantly affect application download times, such as large media files.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>In these situations, you can load loose files using traditional schemes, such as <Run FontWeight="Bold">file://</Run>
+ and <Run FontWeight="Bold">http://</Run>
+:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Image Source="file://C:/DataFile.bmp">
+&lt;/Image> 
+&lt;Image Source="http://www.datafilewebsite.com/DataFile.bmp">
+&lt;/Image> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>However, in these scenarios, your application needs to have full-trust;if your standalone Windows Presentation Foundation application is deployed from the <Run FontWeight="Bold">Internet</Run>
+ or <Run FontWeight="Bold">LocalIntranet</Run>
+ zones, or is a XAML Browser Application (XBAP), loose files can only be loaded from the application launch location, which is also known as the <Run FontStyle="italic">site of origin</Run>
+.    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">Application</Run>
+ exposes the GetRemoteStream method which you can use to download loose files from the site of origin. You pass it a URI that maps to the location of the desired file relative the site of origin. For example, to load a file from the same folder as the application, you could use the following:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>// Load loose data file from site of origin (application launch location) Uri rootFolderUri = new Uri("LooseDataFile.bmp", UriKind.Relative); 
+StreamResourceInfo rootFolderInfo = Application.GetRemoteStream(rootFolderUri); 
+</Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>To load a file from a subfolder, you could use the following:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>// Load loose data file from site of origin (application launch location) Uri subFolderUri = new Uri("Resources/LooseDataFile.bmp", UriKind.Relative); 
+StreamResourceInfo subFolderInfo = Application.GetRemoteStream(subFolderUri); 
+</Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>Support for loading files is built into Windows Presentation Foundation at a higher level, but can only be achieved by constructing absolute pack URIs with a special <Run>
+&lt;authority></Run>
+ for files located at the site of origin, <Run>siteoforigin://</Run>
+, which is demonstrated in the following example:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>// Load loose data file from site of origin (application launch location) Uri siteOfOriginUri = new Uri("pack://siteoforigin:,,,/LooseDataFile.bmp", UriKind.Absolute); 
+this.siteOfOriginImage.Source = new BitmapImage(siteOfOriginUri); 
+</Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>Files can also be configured to be loaded declaratively, using XAML.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Image Name="siteOfOriginImage" Source="pack://siteoforigin:,,,/LooseDataFile.bmp">
+&lt;/Image> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="e45922b9-8d88-432e-88ba-fc35013ccca6.xaml">Globalization and Localization Overviews</Hyperlink>
+
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Assembly Resources  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

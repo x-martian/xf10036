@@ -1,0 +1,207 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_df28ab41_25fb_4ab3_b51d_7f695b24f55e"
+  Tag     ="Draw an Image Using ImageDrawing"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Draw an Image Using ImageDrawing</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use an ImageDrawing to draw an image. An <Run FontWeight="Bold">ImageDrawing</Run>
+ enables you display an ImageSource with a DrawingBrush, DrawingImage, or Visual. To draw an image, you create an <Run FontWeight="Bold">ImageDrawing</Run>
+ and set its System.Windows.Media.ImageDrawing.ImageSource and System.Windows.Media.ImageDrawing.Rect properties. The <Run FontWeight="Bold">System.Windows.Media.ImageDrawing.ImageSource</Run>
+ property specifies the image to draw, and the <Run FontWeight="Bold">System.Windows.Media.ImageDrawing.Rect</Run>
+ property specifies the position and size of each image.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates a composite drawing using four <Run FontWeight="Bold">ImageDrawing</Run>
+ objects. This example produces the following image:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Four ImageDrawing objects</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+using System.Windows.Media.Imaging; 
+namespace SDKSample { public class ImageDrawingExample : Page { public ImageDrawingExample() { // Create a DrawingGroup to combine the ImageDrawing objects. DrawingGroup imageDrawings = new DrawingGroup(); 
+// Create a 100 by 100 image with an upper-left point of (75,75). ImageDrawing bigKiwi = new ImageDrawing(); 
+bigKiwi.Rect = new Rect(75, 75, 100, 100); 
+bigKiwi.ImageSource = new BitmapImage( new Uri(@"sampleImages\kiwi.png", UriKind.Relative)); 
+imageDrawings.Children.Add(bigKiwi); 
+// Create a 25 by 25 image with an upper-left point of (0,150). ImageDrawing smallKiwi1 = new ImageDrawing(); 
+smallKiwi1.Rect = new Rect(0, 150, 25, 25); 
+smallKiwi1.ImageSource = new BitmapImage(new Uri(@"sampleImages\kiwi.png", UriKind.Relative)); 
+imageDrawings.Children.Add(smallKiwi1); 
+// Create a 25 by 25 image with an upper-left point of (150,0). ImageDrawing smallKiwi2 = new ImageDrawing(); 
+smallKiwi2.Rect = new Rect(150, 0, 25, 25); 
+smallKiwi2.ImageSource = new BitmapImage(new Uri(@"sampleImages\kiwi.png", UriKind.Relative)); 
+imageDrawings.Children.Add(smallKiwi2); 
+// Create a 75 by 75 image with an upper-left point of (0,0). ImageDrawing wholeKiwi = new ImageDrawing(); 
+wholeKiwi.Rect = new Rect(0, 0, 75, 75); 
+wholeKiwi.ImageSource = new BitmapImage(new Uri(@"sampleImages\wholekiwi.png", UriKind.Relative)); 
+imageDrawings.Children.Add(wholeKiwi); 
+// // Use a DrawingImage and an Image control to // display the drawings. // DrawingImage drawingImageSource = new DrawingImage(imageDrawings); 
+// Freeze the DrawingImage for performance benefits. drawingImageSource.Freeze(); 
+Image imageControl = new Image(); 
+imageControl.Stretch = Stretch.None; 
+imageControl.Source = drawingImageSource; 
+// Create a border to contain the Image control. Border imageBorder = new Border(); 
+imageBorder.BorderBrush = Brushes.Gray; 
+imageBorder.BorderThickness = new Thickness(1); 
+imageBorder.HorizontalAlignment = HorizontalAlignment.Left; 
+imageBorder.VerticalAlignment = VerticalAlignment.Top; 
+imageBorder.Margin = new Thickness(20); 
+imageBorder.Child = imageControl; 
+this.Background = Brushes.White; 
+this.Margin = new Thickness(20); 
+this.Content = imageBorder; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="PresentationOptions" Background="White" Margin="20"> 
+&lt;Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20"> 
+&lt;Image Stretch="None"> 
+&lt;Image.Source> 
+&lt;DrawingImage PresentationOptions:Freeze="True"> 
+&lt;DrawingImage.Drawing> 
+&lt;DrawingGroup> 
+&lt;!-- The Rect property specifies that the image only fill a 100 by 100 rectangular area. --> 
+&lt;ImageDrawing Rect="75,75,100,100" ImageSource="sampleImages\kiwi.png"/> 
+&lt;!-- This image is set to fill a 25 by 25 rectangular area. --> 
+&lt;ImageDrawing Rect="0,150,25,25" ImageSource="sampleImages\kiwi.png"/> 
+&lt;!-- This image is set to fill a 25 by 25 rectangular area. --> 
+&lt;ImageDrawing Rect="150,0,25,25" ImageSource="sampleImages\kiwi.png"/> 
+&lt;!-- This image is set to fill a 75 by 75 rectangular area. --> 
+&lt;ImageDrawing Rect="0,0,75,75" ImageSource="sampleImages\wholekiwi.png"/> 
+&lt;/DrawingGroup> 
+&lt;/DrawingImage.Drawing> 
+&lt;/DrawingImage> 
+&lt;/Image.Source> 
+&lt;/Image> 
+&lt;/Border> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For an example showing a simple way to display an image without using <Run FontWeight="Bold">ImageDrawing</Run>
+, see <Hyperlink NavigateUri="5b92e74b-1b56-4756-ac64-d5e9e08d9854.xaml">How to: Use the Image Element</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="391032dd-2fba-4804-bb8a-3b071797a9f4.xaml">PresentationOptions:Freeze Attribute</Hyperlink>
+
+      <LineBreak/>Freeze
+      <LineBreak/>Image
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Draw an Image Using ImageDrawing to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

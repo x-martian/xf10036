@@ -1,0 +1,326 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b97fd626_4c0d_4761_872a_2bca5820da2c"
+  Tag     ="Binding Declarations Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Binding Declarations Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic discusses the different ways you can declare a binding.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Prereq">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="BindinginXAML">Declaring a Binding in XAML</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="BindinginCode">Creating a Binding in Code</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Default">Default Behaviors</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>Before reading this topic, it is important that you are familiar with the concept and usage of markup extensions. For more information about markup extensions, see <Hyperlink NavigateUri="618dc745-8b14-4886-833f-486d2254bb78.xaml">Markup Extensions and XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>This topic does not cover data binding concepts. For a discussion of data binding concepts, see <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Declaring a Binding in XAML
+    </Paragraph>
+
+    <Paragraph>This section discusses how to declare a binding in Extensible Application Markup Language (XAML).
+    </Paragraph>
+
+    <Paragraph FontSize="18">Markup Extension Usage
+    </Paragraph>
+
+    <Paragraph>Binding is a markup extension. When you use the binding extension to declare a binding, the declaration consists of a series of clauses following the <Run FontWeight="Bold">Binding</Run>
+ keyword and separated by commas (,). The clauses in the binding declaration can be in any order and there are many possible combinations. The clauses are <Run FontStyle="italic">Name</Run>
+=<Run FontStyle="italic">Value</Run>
+ pairs where <Run FontStyle="italic">Name</Run>
+ is the name of the <Run FontWeight="Bold">Binding</Run>
+ property and <Run FontStyle="italic">Value</Run>
+ is the value you are setting for the property.
+    </Paragraph>
+
+    <Paragraph>When creating binding declaration strings in markup, they must be attached to the specific <Run>dependency property</Run>
+ of a target object. The following example shows how to bind the TextBox.Text property using the binding extension, specifying the Source, Path, and UpdateSourceTrigger properties.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Text="{Binding Source={StaticResource myDataSource}, Path=PersonName}"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can specify most of the properties of the <Run FontWeight="Bold">Binding</Run>
+ class this way. For more information about the binding extension as well as for a list of <Run FontWeight="Bold">Binding</Run>
+ properties that cannot be set using the binding extension, see the <Hyperlink NavigateUri="83d6e2a4-1b0c-4fc8-bd96-b5e98800ab63.xaml">Binding Markup Extension</Hyperlink>
+ overview.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Object Element Syntax
+    </Paragraph>
+
+    <Paragraph>Object element syntax is an alternative to creating the binding declaration. In most cases, there is no particular advantage to using either the markup extension or the object element syntax. However, in cases which the markup extension does not support your scenario, such as when your property value is of a non-string type for which no type conversion exists, you need to use the object element syntax.
+    </Paragraph>
+
+    <Paragraph>The following is an example of both the object element syntax and the markup extension usage:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Canvas.Top="70" Canvas.Left="35" Width="300" Height="30" Name="myconvertedtext" Foreground="{Binding Path=TheDate, Converter={StaticResource MyConverterReference}}"> 
+&lt;TextBlock.Text> 
+&lt;Binding Path="TheDate" Converter="{StaticResource MyConverterReference}"/> 
+&lt;/TextBlock.Text> 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The example binds the Foreground property by declaring a binding using the extension syntax. The binding declaration for the Text property uses the object element syntax.
+    </Paragraph>
+
+    <Paragraph>For more information about the different terms, see <Hyperlink NavigateUri="67cce290-ca26-4c41-a797-b68aabc45479.xaml">XAML Syntax Terminology</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">MultiBinding and PriorityBinding
+    </Paragraph>
+
+    <Paragraph>MultiBinding and PriorityBinding do not support the XAML extension syntax. Therefore, you must use the object element syntax if you are declaring a <Run FontWeight="Bold">MultiBinding</Run>
+ or a <Run FontWeight="Bold">PriorityBinding</Run>
+ in XAML.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating a Binding in Code
+    </Paragraph>
+
+    <Paragraph>Another way to specify a binding is to set properties directly on a <Run FontWeight="Bold">Binding</Run>
+ object in code. The following example shows how to create a <Run FontWeight="Bold">Binding</Run>
+ object and specify the properties in code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void OnPageLoaded(object sender, EventArgs e) { // Make a new source, to grab a new timestamp MyData myChangedData = new MyData(); 
+// Create a new binding // TheDate is a property of type DateTime on MyData class Binding myNewBindDef = new Binding("TheDate"); 
+myNewBindDef.Mode = BindingMode.OneWay; 
+myNewBindDef.Source = myChangedData; 
+myNewBindDef.Converter = TheConverter; 
+myNewBindDef.ConverterCulture = new CultureInfo("en-US"); 
+// myDatetext is a TextBlock object that is the binding target object BindingOperations.SetBinding(myDateText, TextBlock.TextProperty, myNewBindDef); 
+BindingOperations.SetBinding(myDateText, TextBlock.ForegroundProperty, myNewBindDef); 
+... } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If the object you are binding is a FrameworkElement or a FrameworkContentElement you can call the <Run FontWeight="Bold">SetBinding</Run>
+ method on your object directly instead of using System.Windows.Data.BindingOperations.SetBinding(System.Windows.DependencyObject,System.Windows.DependencyProperty,System.Windows.Data.BindingBase). For an example, see <Hyperlink NavigateUri="1a606db9-cf5f-42ed-a1c5-9e4722ec77a0.xaml">How to: Create a Binding in Code</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Default Behaviors
+    </Paragraph>
+
+    <Paragraph>The default behavior is as follows if not specified in the declaration.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A default converter is created that tries to do a type conversion between the <Run>binding source</Run>
+ value and the <Run>binding target</Run>
+ value. If a conversion cannot be made, the default converter returns <Run FontWeight="Bold">null</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If you do not set ConverterCulture, the binding engine uses the <Run FontWeight="Bold">Language</Run>
+ property of the binding target object. In XAML this defaults to "en-US" or inherits the value from the root element (or any element) of the page, if one has been explicitly set.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>As long as the binding already has a data context (for instance, the inherited data context coming from a parent element), and whatever item or collection being returned by that context is appropriate for binding without requiring further path modification, a binding declaration can have no clauses at all: <Run>{Binding}</Run>
+ This is often the way a binding is specified for data styling, where the binding acts upon a collection. For more information, see the Entire Objects Used as a Binding Source section in the <Hyperlink NavigateUri="2df2cd11-6aac-4bdf-ab7b-ea5f464cd5ca.xaml">Binding Sources Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The default Mode varies between one-way and two-way depending on the dependency property that is being bound. You can always declare the binding mode explicitly to ensure that your binding has the desired behavior. In general, user-editable control properties, such as <Run FontWeight="Bold">System.Windows.Controls.TextBox.Text</Run>
+ and System.Windows.Controls.Primitives.RangeBase.Value, default to two-way bindings, whereas most other properties default to one-way bindings.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The default <Run FontWeight="Bold">UpdateSourceTrigger</Run>
+ value varies between PropertyChanged and LostFocus depending on the bound dependency property as well. The default value for most dependency properties is <Run FontWeight="Bold">PropertyChanged</Run>
+, while the <Run FontWeight="Bold">System.Windows.Controls.TextBox.Text</Run>
+ property has a default value of <Run FontWeight="Bold">LostFocus</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Binding Declarations Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

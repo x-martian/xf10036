@@ -1,0 +1,281 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_adb4a598_71a2_4dd5_b677_ea3fc11b78b2"
+  Tag     ="Create a 3-D Scene"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a 3-D Scene</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create a 3-D object that looks like a flat sheet of paper which has been rotated. A Viewport3D along with the following components are used to create this simple 3-D scene:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A camera is created using a PerspectiveCamera. The camera specifies what part of the 3-D scene is viewable. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A mesh is created to specify the shape of 3-D object (sheet of paper) using the Geometry property of GeometryModel3D.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A material is specified to be displayed on the surface of the object (linear gradient in this sample) using the Material property of <Run FontWeight="Bold">GeometryModel3D</Run>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A light is created to shine on the object using DirectionalLight.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The code below shows how to create a 3-D scene in XAML.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_adb4a598_71a2_4dd5_b677_ea3fc11b78b2_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;DockPanel> 
+&lt;Viewbox> 
+&lt;Canvas Width="321" Height="201"> 
+&lt;!-- The Viewport3D provides a rendering surface for 3-D visual content. --> 
+&lt;Viewport3D ClipToBounds="True" Width="150" Height="150" Canvas.Left="0" Canvas.Top="10"> 
+&lt;!-- Defines the camera used to view the 3D object. --> 
+&lt;Viewport3D.Camera> 
+&lt;PerspectiveCamera Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" /> 
+&lt;/Viewport3D.Camera> 
+&lt;!-- The ModelVisual3D children contain the 3D models --> 
+&lt;Viewport3D.Children> 
+&lt;!-- This ModelVisual3D defines the light cast in the scene. Without light, the 3D object cannot be seen. Also, the direction of the lights affect shadowing. If desired, you can create multiple lights with different colors that shine from different directions. --> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" /> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;GeometryModel3D> 
+&lt;!-- The geometry specifes the shape of the 3D plane. In this sample, a flat sheet is created. --> 
+&lt;GeometryModel3D.Geometry> 
+&lt;MeshGeometry3D TriangleIndices="0,1,2 3,4,5 " Normals="0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 " TextureCoordinates="0,0 1,0 1,1 1,1 0,1 0,0 " Positions="-0.5,-0.5,0.5 0.5,-0.5,0.5 0.5,0.5,0.5 0.5,0.5,0.5 -0.5,0.5,0.5 -0.5,-0.5,0.5 " /> 
+&lt;/GeometryModel3D.Geometry> 
+&lt;!-- The material specifies the material applied to the 3D object. In this sample a linear gradient covers the surface of the 3D object.--> 
+&lt;GeometryModel3D.Material> 
+&lt;MaterialGroup> 
+&lt;DiffuseMaterial> 
+&lt;DiffuseMaterial.Brush> 
+&lt;LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="Yellow" Offset="0" /> 
+&lt;GradientStop Color="Red" Offset="0.25" /> 
+&lt;GradientStop Color="Blue" Offset="0.75" /> 
+&lt;GradientStop Color="LimeGreen" Offset="1" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/DiffuseMaterial.Brush> 
+&lt;/DiffuseMaterial> 
+&lt;/MaterialGroup> 
+&lt;/GeometryModel3D.Material> 
+&lt;!-- Apply a transform to the object. In this sample, a rotation transform is applied, rendering the 3D object rotated. --> 
+&lt;GeometryModel3D.Transform> 
+&lt;RotateTransform3D> 
+&lt;RotateTransform3D.Rotation> 
+&lt;AxisAngleRotation3D Axis="0,3,0" Angle="40" /> 
+&lt;/RotateTransform3D.Rotation> 
+&lt;/RotateTransform3D> 
+&lt;/GeometryModel3D.Transform> 
+&lt;/GeometryModel3D> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;/Viewport3D.Children> 
+&lt;/Viewport3D> 
+&lt;/Canvas> 
+&lt;/Viewbox> 
+&lt;/DockPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The code below shows how to create the same 3-D scene in procedural code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Media3D; 
+namespace SDKSample { public partial class Basic3DShapeExample : Page { public Basic3DShapeExample() { // Declare scene objects. Viewport3D myViewport3D = new Viewport3D(); 
+Model3DGroup myModel3DGroup = new Model3DGroup(); 
+GeometryModel3D myGeometryModel = new GeometryModel3D(); 
+ModelVisual3D myModelVisual3D = new ModelVisual3D(); 
+// Defines the camera used to view the 3D object. In order to view the 3D object, // the camera must be positioned and pointed such that the object is within view // of the camera. PerspectiveCamera myPCamera = new PerspectiveCamera(); 
+// Specify where in the 3D scene the camera is. myPCamera.Position = new Point3D(0, 0, 2); 
+// Specify the direction that the camera is pointing. myPCamera.LookDirection = new Vector3D(0, 0, -1); 
+// Define camera's horizontal field of view in degrees. myPCamera.FieldOfView = 60; 
+// Asign the camera to the viewport myViewport3D.Camera = myPCamera; 
+// Define the lights cast in the scene. Without light, the 3D object cannot // be seen. Also, the direction of the lights affect shadowing. Note: to // illuminate an object from additional directions, create additional lights. DirectionalLight myDirectionalLight = new DirectionalLight(); 
+myDirectionalLight.Color = Colors.White; 
+myDirectionalLight.Direction = new Vector3D(-0.61, -0.5, -0.61); 
+myModel3DGroup.Children.Add(myDirectionalLight); 
+// The geometry specifes the shape of the 3D plane. In this sample, a flat sheet // is created. MeshGeometry3D myMeshGeometry3D = new MeshGeometry3D(); 
+// Create a collection of normal vectors for the MeshGeometry3D. Vector3DCollection myNormalCollection = new Vector3DCollection(); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myMeshGeometry3D.Normals = myNormalCollection; 
+// Create a collection of vertex positions for the MeshGeometry3D. Point3DCollection myPositionCollection = new Point3DCollection(); 
+myPositionCollection.Add(new Point3D(-0.5, -0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(0.5, -0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(0.5, 0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(0.5, 0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(-0.5, 0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(-0.5, -0.5, 0.5)); 
+myMeshGeometry3D.Positions = myPositionCollection; 
+// Create a collection of texture coordinates for the MeshGeometry3D. PointCollection myTextureCoordinatesCollection = new PointCollection(); 
+myTextureCoordinatesCollection.Add(new Point(0, 0)); 
+myTextureCoordinatesCollection.Add(new Point(1, 0)); 
+myTextureCoordinatesCollection.Add(new Point(1, 1)); 
+myTextureCoordinatesCollection.Add(new Point(1, 1)); 
+myTextureCoordinatesCollection.Add(new Point(0, 1)); 
+myTextureCoordinatesCollection.Add(new Point(0, 0)); 
+myMeshGeometry3D.TextureCoordinates = myTextureCoordinatesCollection; 
+// Create a collection of triangle indices for the MeshGeometry3D. Int32Collection myTriangleIndicesCollection = new Int32Collection(); 
+myTriangleIndicesCollection.Add(0); 
+myTriangleIndicesCollection.Add(1); 
+myTriangleIndicesCollection.Add(2); 
+myTriangleIndicesCollection.Add(3); 
+myTriangleIndicesCollection.Add(4); 
+myTriangleIndicesCollection.Add(5); 
+myMeshGeometry3D.TriangleIndices = myTriangleIndicesCollection; 
+// Apply the mesh to the geometry model. myGeometryModel.Geometry = myMeshGeometry3D; 
+// The material specifies the material applied to the 3D object. In this sample a // linear gradient covers the surface of the 3D object. // Create a horizontal linear gradient with four stops. LinearGradientBrush myHorizontalGradient = new LinearGradientBrush(); 
+myHorizontalGradient.StartPoint = new Point(0, 0.5); 
+myHorizontalGradient.EndPoint = new Point(1, 0.5); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.Yellow, 0.0)); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.Red, 0.25)); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.Blue, 0.75)); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.LimeGreen, 1.0)); 
+// Define material and apply to the mesh geometries. DiffuseMaterial myMaterial = new DiffuseMaterial(myHorizontalGradient); 
+myGeometryModel.Material = myMaterial; 
+// Apply a transform to the object. In this sample, a rotation transform is applied, // rendering the 3D object rotated. RotateTransform3D myRotateTransform3D = new RotateTransform3D(); 
+AxisAngleRotation3D myAxisAngleRotation3d = new AxisAngleRotation3D(); 
+myAxisAngleRotation3d.Axis = new Vector3D(0,3,0); 
+myAxisAngleRotation3d.Angle = 40; 
+myRotateTransform3D.Rotation = myAxisAngleRotation3d; 
+myGeometryModel.Transform = myRotateTransform3D; 
+// Add the geometry model to the model group. myModel3DGroup.Children.Add(myGeometryModel); 
+// Add the group of models to the ModelVisual3d. myModelVisual3D.Content = myModel3DGroup; 
+// myViewport3D.Children.Add(myModelVisual3D); 
+// Apply the viewport to the page so it will be rendered. this.Content = myViewport3D; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="67f31ed4-e36b-4b02-9889-dcce245d7afc.xaml">3-D Graphics Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a 3-D Scene to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

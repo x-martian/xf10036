@@ -1,0 +1,354 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ec722dff_6009_4279_b86a_e18d3fa94ebf"
+  Tag     ="Use Caching in UI Automation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Use Caching in UI Automation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This section shows how to implement caching of AutomationElement properties and <Run>control pattern</Run>
+s.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Activate a Cache Request
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a CacheRequest.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Specify properties and patterns to cache by using Add.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Specify the scope of caching by setting the TreeScope property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Specify the view of the subtree by setting the TreeFilter property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Set the AutomationElementMode property to None if you wish to increase efficiency by not retrieving a full reference to objects. (This will make it impossible to retrieve current values from those objects.)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Activate the request by using Activate within a <Run FontWeight="Bold">using</Run>
+ block (<Run FontWeight="Bold">Using</Run>
+ in Microsoft Visual Basic .NET).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>After obtaining <Run FontWeight="Bold">AutomationElement</Run>
+ objects or subscribing to events, deactivate the request by using Pop (if Push was used) or by disposing the object created by <Run FontWeight="Bold">Activate</Run>
+. (Use <Run FontWeight="Bold">Activate</Run>
+in a <Run FontWeight="Bold">using</Run>
+ block (<Run FontWeight="Bold">Using</Run>
+ in Microsoft Visual Basic .NET).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Cache AutomationElement Properties
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>While a <Run FontWeight="Bold">CacheRequest</Run>
+ is active, obtain <Run FontWeight="Bold">AutomationElement</Run>
+ objects by using FindFirst or FindAll; 
+or obtain an <Run FontWeight="Bold">AutomationElement</Run>
+ as the source of an event that you registered for when the <Run FontWeight="Bold">CacheRequest</Run>
+ was active. (You can also create a cache by passing a <Run FontWeight="Bold">CacheRequest</Run>
+ to GetUpdatedCache or one of the TreeWalker methods.)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use GetCachedPropertyValue or retrieve a property from the Cached property of the <Run FontWeight="Bold">AutomationElement</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Obtain Cached Patterns and Their Properties
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>While a <Run FontWeight="Bold">CacheRequest</Run>
+ is active, obtain <Run FontWeight="Bold">AutomationElement</Run>
+ objects by using <Run FontWeight="Bold">FindFirst</Run>
+ or <Run FontWeight="Bold">FindAll</Run>
+; 
+or obtain an <Run FontWeight="Bold">AutomationElement</Run>
+ as the source of an event that you registered for when the <Run FontWeight="Bold">CacheRequest</Run>
+ was active. (You can also create a cache by passing a <Run FontWeight="Bold">CacheRequest</Run>
+ to GetUpdatedCache or one of the <Run FontWeight="Bold">TreeWalker</Run>
+ methods.)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use GetCachedPattern or TryGetCachedPattern to retrieve a cached pattern.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Retrieve property values from the <Run FontWeight="Bold">Cached</Run>
+ property of the control pattern.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following code example shows various aspects of caching, using <Run FontWeight="Bold">Activate</Run>
+ to activate the <Run FontWeight="Bold">CacheRequest</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Caches and retrieves properties for a list item by using CacheRequest.Activate. /// 
+&lt;/summary> /// 
+&lt;param name="elementList">Element from which to retrieve a child element.
+&lt;/param> /// 
+&lt;remarks> /// This code demonstrates various aspects of caching. It is not intended to be /// an example of a useful method. /// 
+&lt;/remarks> private void CachePropertiesByActivate(AutomationElement elementList) { AutomationElement elementListItem; 
+// Set up the request. CacheRequest cacheRequest = new CacheRequest(); 
+cacheRequest.Add(AutomationElement.NameProperty); 
+cacheRequest.Add(AutomationElement.IsEnabledProperty); 
+cacheRequest.Add(SelectionItemPattern.Pattern); 
+cacheRequest.Add(SelectionItemPattern.SelectionContainerProperty); 
+// Obtain an element and cache the requested items. using (cacheRequest.Activate()) { Condition cond = new PropertyCondition(AutomationElement.IsSelectionItemPatternAvailableProperty, true); 
+elementListItem = elementList.FindFirst(TreeScope.Children, cond); 
+} // The CacheRequest is now inactive. // Retrieve the cached property and pattern. SelectionItemPattern pattern; 
+String itemName; 
+try { itemName = elementListItem.Cached.Name; 
+pattern = elementListItem.GetCachedPattern(SelectionItemPattern.Pattern) as SelectionItemPattern; 
+} catch (InvalidOperationException ex) { Console.WriteLine("Object was not in cache."); 
+return; 
+} // Alternatively, you can use TryGetCachedPattern to retrieve the cached pattern. object cachedPattern; 
+if (true == elementListItem.TryGetCachedPattern(SelectionItemPattern.Pattern, out cachedPattern)) { pattern = cachedPattern as SelectionItemPattern; 
+} // Specified pattern properties are also in the cache. AutomationElement parentList = pattern.Cached.SelectionContainer; 
+// The following line will raise an exception, because the HelpText property was not cached. /*** String itemHelp = elementListItem.Cached.HelpText; 
+***/ // Similarly, pattern properties that were not specified in the CacheRequest cannot be // retrieved from the cache. This would raise an exception. /*** bool selected = pattern.Cached.IsSelected; 
+***/ // This is still a valid call, even though the property is in the cache. // Of course, the cached value and the current value are not guaranteed to be the same. itemName = elementListItem.Current.Name; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Caches and retrieves properties for a list item by using CacheRequest.Activate. ''' 
+&lt;/summary> ''' 
+&lt;param name="elementList">Element from which to retrieve a child element.
+&lt;/param> ''' 
+&lt;remarks> ''' This code demonstrates various aspects of caching. It is not intended to be ''' an example of a useful method. ''' 
+&lt;/remarks> Private Sub CachePropertiesByActivate(ByVal elementList As AutomationElement) ' Set up the request. Dim myCacheRequest As New CacheRequest() myCacheRequest.Add(AutomationElement.NameProperty) myCacheRequest.Add(AutomationElement.IsEnabledProperty) myCacheRequest.Add(SelectionItemPattern.Pattern) myCacheRequest.Add(SelectionItemPattern.SelectionContainerProperty) Dim elementListItem As AutomationElement ' Obtain an element and cache the requested items. Using myCacheRequest.Activate() Dim myCondition As New PropertyCondition( _ AutomationElement.IsSelectionItemPatternAvailableProperty, True) elementListItem = elementList.FindFirst(TreeScope.Children, myCondition) End Using ' The CacheRequest is now inactive. ' Retrieve the cached property and pattern. Dim pattern As SelectionItemPattern Dim itemName As String Try itemName = elementListItem.Cached.Name pattern = DirectCast(elementListItem.GetCachedPattern(SelectionItemPattern.Pattern), _ SelectionItemPattern) Catch ex As InvalidOperationException Console.WriteLine("Object was not in cache.") Return End Try ' Alternatively, you can use TryGetCachedPattern to retrieve the cached pattern. Dim cachedPattern As Object = Nothing If True = elementListItem.TryGetCachedPattern(SelectionItemPattern.Pattern, cachedPattern) Then pattern = DirectCast(cachedPattern, SelectionItemPattern) End If ' Specified pattern properties are also in the cache. Dim parentList As AutomationElement = pattern.Cached.SelectionContainer ' The following line will raise an exception, because the HelpText property was not cached. '** String itemHelp = elementListItem.Cached.HelpText; 
+** ' Similarly, pattern properties that were not specified in the CacheRequest cannot be ' retrieved from the cache. This would raise an exception. '** bool selected = pattern.Cached.IsSelected; 
+** ' This is still a valid call, even though the property is in the cache. ' Of course, the cached value and the current value are not guaranteed to be the same. itemName = elementListItem.Current.Name End Sub 'CachePropertiesByActivate </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code example shows various aspects of caching, using <Run FontWeight="Bold">Push</Run>
+ to activate the <Run FontWeight="Bold">CacheRequest</Run>
+. Except when you wish to nest cache requests, it is preferable to use <Run FontWeight="Bold">Activate</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Caches and retrieves properties for a list item by using CacheRequest.Push. /// 
+&lt;/summary> /// 
+&lt;param name="autoElement">Element from which to retrieve a child element.
+&lt;/param> /// 
+&lt;remarks> /// This code demonstrates various aspects of caching. It is not intended to be /// an example of a useful method. /// 
+&lt;/remarks> private void CachePropertiesByPush(AutomationElement elementList) { // Set up the request. CacheRequest cacheRequest = new CacheRequest(); 
+// Do not get a full reference to the cached objects, only to their cached properties and patterns. cacheRequest.AutomationElementMode = AutomationElementMode.None; 
+// Cache all elements, regardless of whether they are control or content elements. cacheRequest.TreeFilter = Automation.RawViewCondition; 
+// Property and pattern to cache. cacheRequest.Add(AutomationElement.NameProperty); 
+cacheRequest.Add(SelectionItemPattern.Pattern); 
+// Activate the request. cacheRequest.Push(); 
+// Obtain an element and cache the requested items. Condition cond = new PropertyCondition(AutomationElement.IsSelectionItemPatternAvailableProperty, true); 
+AutomationElement elementListItem = elementList.FindFirst(TreeScope.Children, cond); 
+// At this point, you could call another method that creates a CacheRequest and calls Push/Pop. // While that method was retrieving automation elements, the CacheRequest set in this method // would not be active. // Deactivate the request. cacheRequest.Pop(); 
+// Retrieve the cached property and pattern. String itemName = elementListItem.Cached.Name; 
+SelectionItemPattern pattern = elementListItem.GetCachedPattern(SelectionItemPattern.Pattern) as SelectionItemPattern; 
+// The following is an alternative way of retrieving the Name property. itemName = elementListItem.GetCachedPropertyValue(AutomationElement.NameProperty) as String; 
+// This is yet another way, which returns AutomationElement.NotSupported if the element does // not supply a value. If the second parameter is false, a default name is returned. object objName = elementListItem.GetCachedPropertyValue(AutomationElement.NameProperty, true); 
+if (objName == AutomationElement.NotSupported) { itemName = "Unknown"; 
+} else { itemName = objName as String; 
+} // The following call raises an exception, because only the cached properties are available, // as specified by cacheRequest.AutomationElementMode. If AutomationElementMode had its // default value (Full), this call would be valid. /*** bool enabled = elementListItem.Current.IsEnabled; 
+***/ } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Caches and retrieves properties for a list item by using CacheRequest.Push. ''' 
+&lt;/summary> ''' 
+&lt;param name="elementList">Element from which to retrieve a child element.
+&lt;/param> ''' 
+&lt;remarks> ''' This code demonstrates various aspects of caching. It is not intended to be ''' an example of a useful method. ''' 
+&lt;/remarks> Private Sub CachePropertiesByPush(ByVal elementList As AutomationElement) ' Set up the request. Dim cacheRequest As New CacheRequest() ' Do not get a full reference to the cached objects, only to their cached properties and patterns. cacheRequest.AutomationElementMode = AutomationElementMode.None ' Cache all elements, regardless of whether they are control or content elements. cacheRequest.TreeFilter = Automation.RawViewCondition ' Property and pattern to cache. cacheRequest.Add(AutomationElement.NameProperty) cacheRequest.Add(SelectionItemPattern.Pattern) ' Activate the request. cacheRequest.Push() ' Obtain an element and cache the requested items. Dim myCondition As New PropertyCondition(AutomationElement.IsSelectionItemPatternAvailableProperty, _ True) Dim elementListItem As AutomationElement = elementList.FindFirst(TreeScope.Children, myCondition) ' At this point, you could call another method that creates a CacheRequest and calls Push/Pop. ' While that method was retrieving automation elements, the CacheRequest set in this method ' would not be active. ' Deactivate the request. cacheRequest.Pop() ' Retrieve the cached property and pattern. Dim itemName As String = elementListItem.Cached.Name Dim pattern As SelectionItemPattern = _ DirectCast(elementListItem.GetCachedPattern(SelectionItemPattern.Pattern), SelectionItemPattern) ' The following is an alternative way of retrieving the Name property. itemName = CStr(elementListItem.GetCachedPropertyValue(AutomationElement.NameProperty)) ' This is yet another way, which returns AutomationElement.NotSupported if the element does ' not supply a value. If the second parameter is false, a default name is returned. Dim objName As Object = elementListItem.GetCachedPropertyValue(AutomationElement.NameProperty, True) If objName Is AutomationElement.NotSupported Then itemName = "Unknown" Else itemName = CStr(objName) End If ' The following call raises an exception, because only the cached properties are available, ' as specified by cacheRequest.AutomationElementMode. If AutomationElementMode had its ' default value (Full), this call would be valid. '** bool enabled = elementListItem.Current.IsEnabled; 
+** End Sub 'CachePropertiesByPush </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="94c15031-4975-43cc-bcd5-c9439ed21c9c.xaml">Caching in UI Automation Clients</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Use Caching in UI Automation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,242 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ebada2f9_f01f_4863_9ea2_c2e4e51610f1"
+  Tag     ="Transform a Brush"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Transform a Brush</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to transform Brush objects using their two transformation properties: RelativeTransform and Transform.
+    </Paragraph>
+
+    <Paragraph>When you set the <Run FontWeight="Bold">RelativeTransform</Run>
+ property with a transform, it is applied before the brush's content is stretched to fill the output area. One of the benefits of using the <Run FontWeight="Bold">RelativeTransform</Run>
+ property is that it enables you to specify relative values on the transform objects you apply to the brush. This makes it easier to perform actions like rotating the brush's contents about its center, because you can specify a relative center value (0.5, 0.5). 
+    </Paragraph>
+
+    <Paragraph>When you set the <Run FontWeight="Bold">Transform</Run>
+ property, the transform is applied after the brush's content is stretched to fill the output area.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example applies a RotateTransform to the <Run FontWeight="Bold">RelativeTransform</Run>
+ property of an ImageBrush. The <Run FontWeight="Bold">RotateTransform</Run>
+ object's CenterX and CenterY properties are both set to 0.5, the relative coordinates of the content's center point. As a result, the brush's contents are rotated about its center. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Create an ImageBrush with a relative transform and // use it to paint a rectangle. // ImageBrush relativeTransformImageBrush = new ImageBrush(); 
+relativeTransformImageBrush.ImageSource = new BitmapImage(new Uri(@"sampleImages\pinkcherries.jpg", UriKind.Relative)); 
+// Create a 45 rotate transform about the brush's center // and apply it to the brush's RelativeTransform property. RotateTransform aRotateTransform = new RotateTransform(); 
+aRotateTransform.CenterX = 0.5; 
+aRotateTransform.CenterY = 0.5; 
+aRotateTransform.Angle = 45; 
+relativeTransformImageBrush.RelativeTransform = aRotateTransform; 
+// Use the brush to paint a rectangle. Rectangle relativeTransformImageBrushRectangle = new Rectangle(); 
+relativeTransformImageBrushRectangle.Width = 175; 
+relativeTransformImageBrushRectangle.Height = 90; 
+relativeTransformImageBrushRectangle.Stroke = Brushes.Black; 
+relativeTransformImageBrushRectangle.Fill = relativeTransformImageBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="175" Height="90" Stroke="Black"> 
+&lt;Rectangle.Fill> 
+&lt;ImageBrush ImageSource="sampleImages\pinkcherries.jpg"> 
+&lt;ImageBrush.RelativeTransform> 
+&lt;RotateTransform CenterX="0.5" CenterY="0.5" Angle="45" /> 
+&lt;/ImageBrush.RelativeTransform> 
+&lt;/ImageBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next example also applies a <Run FontWeight="Bold">RotateTransform</Run>
+ to an <Run FontWeight="Bold">ImageBrush</Run>
+, but uses the <Run FontWeight="Bold">Transform</Run>
+ property instead of the <Run FontWeight="Bold">RelativeTransform</Run>
+ property. To rotate the brush about its center, the <Run FontWeight="Bold">RotateTransform</Run>
+ object's <Run FontWeight="Bold">CenterX</Run>
+ and <Run FontWeight="Bold">CenterY</Run>
+ must be set to absolute coordinates. Because the rectangle being painted by the brush is 175 by 90 pixels, its center point is (87.5, 45). 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Create an ImageBrush with a transform and // use it to paint a rectangle. // ImageBrush transformImageBrush = new ImageBrush(); 
+transformImageBrush.ImageSource = new BitmapImage(new Uri(@"sampleImages\pinkcherries.jpg", UriKind.Relative)); 
+// Create a 45 rotate transform about the brush's center // and apply it to the brush's Transform property. RotateTransform anotherRotateTransform = new RotateTransform(); 
+anotherRotateTransform.CenterX = 87.5; 
+anotherRotateTransform.CenterY = 45; 
+anotherRotateTransform.Angle = 45; 
+transformImageBrush.Transform = anotherRotateTransform; 
+// Use the brush to paint a rectangle. Rectangle transformImageBrushRectangle = new Rectangle(); 
+transformImageBrushRectangle.Width = 175; 
+transformImageBrushRectangle.Height = 90; 
+transformImageBrushRectangle.Stroke = Brushes.Black; 
+transformImageBrushRectangle.Fill = transformImageBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="175" Height="90" Stroke="Black"> 
+&lt;Rectangle.Fill> 
+&lt;ImageBrush ImageSource="sampleImages\pinkcherries.jpg"> 
+&lt;ImageBrush.Transform> 
+&lt;RotateTransform CenterX="87.5" CenterY="45" Angle="45" /> 
+&lt;/ImageBrush.Transform> 
+&lt;/ImageBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the brush without a transform, with the transform applied to the <Run FontWeight="Bold">RelativeTransform</Run>
+ property, and with the transform applied to the <Run FontWeight="Bold">Transform</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>This example is part of a larger sample. For the complete sample, see the Brushes Sample. For more information about brushes, see <Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="8f153d5e-ed61-4aa5-a7cd-286f0c427a13.xaml">Transforms Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Transform a Brush to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

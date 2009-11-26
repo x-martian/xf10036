@@ -1,0 +1,962 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_bc208dfe_367d_426a_99de_52b7e7511e81"
+  Tag     ="Commanding Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Commanding Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Commanding is an input mechanism in Windows Presentation Foundation (WPF) which provides input handling at a more semantic level than device input. Examples of commands are the <Run FontWeight="Bold">Copy</Run>
+, <Run FontWeight="Bold">Cut</Run>
+, <Run FontWeight="Bold">Paste</Run>
+ operations found on many applications.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This overview defines what commands are in WPF, what classes are part of the commanding model, and how to use and create commands in your applications.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="commands_at_10000_feet">What Are Commands</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="simple_command">Simpe Command Example</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Four_Main_Concepts">Four Main Concepts in Commanding</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Commands">Commands</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Command_Sources">CommandSource</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Command_Binding">CommandBinding</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Command_Target">CommandTarget</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Command_Manager">CommandManger</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Command_Library">Command Library</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_commands">Creating Custom Commands</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoToggle">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What Are Commands?
+    </Paragraph>
+
+    <Paragraph>What makes commands different form a simple event handler attached to a button or a timer is that commands separate the semantics of an action from its logic. This allows for multiple and disparate sources to invoke the same command logic, and allows the command logic to be customized for different targets. 
+    </Paragraph>
+
+    <Paragraph>Examples of commands are the editing operations <Run FontWeight="Bold">Copy</Run>
+, <Run FontWeight="Bold">Cut</Run>
+, and <Run FontWeight="Bold">Paste</Run>
+ which are found on many applications. The semantics of a command are consistent across applications and classes, but the logic of the action is specific to the particular object being acted upon. The KeyGesture, Ctrl-C, which invokes the <Run FontWeight="Bold">Cut</Run>
+ command is the same in text classes, image classes, and web browsers, but the actual logic for performing the <Run FontWeight="Bold">Cut</Run>
+ operation is defined by the object or the application on which the cut is occurring and not on the source that invoked the command. A text object may cut the selected text into the clipboard, while an image object may cut the selected image, but the same command source, a <Run FontWeight="Bold">KeyGesture</Run>
+ or a ToolBar Button, can be used to invoke the command on both classes.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Simple Command Example in WPF
+    </Paragraph>
+
+    <Paragraph>The simplest way to use a command in WPF is to use a predefined RoutedCommand from one of the command library classes; 
+use a control that has native support for handling the command; 
+and use a control that has native support for invoking a command. The Paste command is one of the predefined commands in the ApplicationCommands class. The TextBox control has built in logic for handling the <Run FontWeight="Bold">Paste</Run>
+ command. And the MenuItem class has native support for invoking commands.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to set up a <Run FontWeight="Bold">MenuItem</Run>
+ so that when it is clicked it will invoke the <Run FontWeight="Bold">Paste</Run>
+ command on a <Run FontWeight="Bold">TextBox</Run>
+, assuming the <Run FontWeight="Bold">TextBox</Run>
+ has keyboard focus. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Menu> 
+&lt;MenuItem Command="ApplicationCommands.Paste" /> 
+&lt;/Menu> 
+&lt;TextBox /> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Creating the UI objects StackPanel mainStackPanel = new StackPanel(); 
+TextBox pasteTextBox = new TextBox(); 
+Menu stackPanelMenu = new Menu(); 
+MenuItem pasteMenuItem = new MenuItem(); 
+// Adding objects to the panel and the menu stackPanelMenu.Items.Add(pasteMenuItem); 
+mainStackPanel.Children.Add(stackPanelMenu); 
+mainStackPanel.Children.Add(pasteTextBox); 
+// Setting the command to the Paste command pasteMenuItem.Command = ApplicationCommands.Paste; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Four Main Concepts in WPF Commanding
+    </Paragraph>
+
+    <Paragraph>Commanding in WPF can be broken up into four main concepts: the command, the command source, the command target, and the command binding. The command is the action to be executed. The command source is the object which invokes the command. The command target is the object that the command is being executed on. And finally, the command binding is the object which maps the command logic to the command. 
+    </Paragraph>
+
+    <Paragraph>In the previous example, the <Run FontWeight="Bold">Paste</Run>
+ command is the command, the <Run FontWeight="Bold">MenuItem</Run>
+ is the command source, the <Run FontWeight="Bold">TextBox</Run>
+ is the command target, and the command binding is supplied by the <Run FontWeight="Bold">TextBox</Run>
+ control. It is worth noting that it is not always the case that the CommandBinding is supplied by the control. Quite often the <Run FontWeight="Bold">CommandBinding</Run>
+ must be created by the application developer and the <Run FontWeight="Bold">CommandBinding</Run>
+ may be attached to an ancestor of the command target.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Commands
+    </Paragraph>
+
+    <Paragraph>Commands in WPF are created by implementing the ICommand interface on a class. <Run FontWeight="Bold">ICommand</Run>
+ exposes two methods and an event: Execute, CanExecute, and CanExecuteChanged. <Run FontWeight="Bold">Execute</Run>
+ performs the action of the command, <Run FontWeight="Bold">CanExecute</Run>
+ determines whether the command can execute on the current command target, and <Run FontWeight="Bold">CanExecuteChanged</Run>
+ signifies that the ability of the command to execute has changed. The WPF implementation of <Run FontWeight="Bold">ICommand</Run>
+ is the <Run FontWeight="Bold">RoutedCommand</Run>
+ class. 
+    </Paragraph>
+
+    <Paragraph>The main sources of input in WPF are the Mouse, the Keyboard, Ink, and Commands. All of these types of input use a RoutedEvent to notify objects that an input event has occurred. A <Run FontWeight="Bold">RoutedCommand</Run>
+ is no different. The Execute and CanExecute methods of a <Run FontWeight="Bold">RoutedCommand</Run>
+ do not contain the programming logic that perform the command, but rather they raise events that tunnel and bubble through the element tree until they encounter an object with a <Run FontWeight="Bold">CommandBinding</Run>
+. The <Run FontWeight="Bold">CommandBinding</Run>
+ contains the handlers for these events and it is the handlers that perform the command. 
+    </Paragraph>
+
+    <Paragraph>When a <Run FontWeight="Bold">RoutedCommand</Run>
+ is invoked, it raises the PreviewExecuted and the Executed events on the command target. These events tunnel and bubble, respectably, through the element tree until they encounter an object which has a <Run FontWeight="Bold">CommandBinding</Run>
+ for that particular command. To be more accurate, the <Run FontWeight="Bold">PreviewExecuted</Run>
+ event is raised first, and if the event is not handled, the <Run FontWeight="Bold">Executed</Run>
+ event is raised. For more information on event routing in WPF, see the <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">PreviewExecuted</Run>
+ and <Run FontWeight="Bold">Executed</Run>
+ events are looking for an object that has a <Run FontWeight="Bold">CommandBinding</Run>
+ for the specific command that raised the event. The <Run FontWeight="Bold">CommandBinding</Run>
+ is the mechanism that associates a command with the logic that performs the action. The <Run FontWeight="Bold">CommandBinding</Run>
+ class is discussed in more detail further on in this overview, but it is worth noting that a <Run FontWeight="Bold">CommandBinding</Run>
+ is in the scope of the object it is attached to. If a <Run FontWeight="Bold">CommandBinding</Run>
+ is present on the object, then the Executed handler is called. The ExecutedRoutedEventHandler contains the code for performing the command. 
+    </Paragraph>
+
+    <Paragraph>Another version of the <Run FontWeight="Bold">RoutedCommand</Run>
+ is the RoutedUICommand. The <Run FontWeight="Bold">RoutedUICommand</Run>
+ class inherits from <Run FontWeight="Bold">RoutedCommand</Run>
+ and supplies one additional property: Text. The <Run FontWeight="Bold">Text</Run>
+ property is normally used by the command source to display the name of the command. For example, if a <Run FontWeight="Bold">MenuItem</Run>
+ is the command source for the <Run FontWeight="Bold">Paste</Run>
+ command, and the Header on the <Run FontWeight="Bold">MenuItem</Run>
+ is not explicitly set, then the header text will be set to the <Run FontWeight="Bold">Text</Run>
+ property of the <Run FontWeight="Bold">RoutedUICommand</Run>
+.
+    </Paragraph>
+
+    <Paragraph>WPF supplies a set of common RoutedCommands spread across several classes: MediaCommands, <Run FontWeight="Bold">ApplicationCommands</Run>
+, NavigationCommands, ComponentCommands, and EditingCommands. These classes are referred to as the command library. As mentioned earlier, these classes consist only of the <Run FontWeight="Bold">RoutedCommand</Run>
+ objects, and not the implementation logic of the command. The implementation logic is the responsibility of the object on which the command is being executed on.
+    </Paragraph>
+
+    <Paragraph>Unlike methods, commands generally should not throw exceptions because commands are usually invoked as a result of user action so there is no place to catch the exception.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Command Sources
+    </Paragraph>
+
+    <Paragraph>A command source is the object which invokes the command. Examples of command sources are <Run FontWeight="Bold">MenuItem</Run>
+, Button, and <Run FontWeight="Bold">KeyGesture</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>Command sources in WPF normally implement the ICommandSource interface. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ICommandSource</Run>
+ exposes three properties: Command, CommandTarget, and CommandParameter. The <Run FontWeight="Bold">Command</Run>
+ is the command to execute when the command source is invoked. The <Run FontWeight="Bold">CommandTarget</Run>
+ is the object on which to execute the command. If the command target is not defined, the element with keyboard focus will be the command target. <Run FontWeight="Bold">CommandParameter</Run>
+ is a user defined data type used to pass information to the handlers implementing the command.
+    </Paragraph>
+
+    <Paragraph>The WPF classes that implement <Run FontWeight="Bold">ICommandSource</Run>
+ are ButtonBase, <Run FontWeight="Bold">MenuItem</Run>
+, ListBoxItem, Hyperlink, and InputBinding. <Run FontWeight="Bold">ButtonBase</Run>
+, <Run FontWeight="Bold">MenuItem</Run>
+, and <Run FontWeight="Bold">Hyperlink</Run>
+ invoke a command when they are clicked, <Run FontWeight="Bold">ListBoxItem</Run>
+ invokes a command when it is double clicked, and an <Run FontWeight="Bold">InputBinding</Run>
+ invokes a command when the InputGesture associated with it is performed.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to use a <Run FontWeight="Bold">MenuItem</Run>
+ in a ContextMenu as a command source for the Properties command.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;StackPanel.ContextMenu> 
+&lt;ContextMenu> 
+&lt;MenuItem Command="ApplicationCommands.Properties" /> 
+&lt;/ContextMenu> 
+&lt;/StackPanel.ContextMenu> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>StackPanel cmdSourcePanel = new StackPanel(); 
+ContextMenu cmdSourceContextMenu = new ContextMenu(); 
+MenuItem cmdSourceMenuItem = new MenuItem(); 
+// Add ContextMenu to the StackPanel cmdSourcePanel.ContextMenu = cmdSourceContextMenu; 
+cmdSourcePanel.ContextMenu.Items.Add(cmdSourceMenuItem); 
+// Associate Command with MenuItem cmdSourceMenuItem.Command = ApplicationCommands.Properties; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Typically, a command source will listen to the CanExecuteChanged event. This event informs the command source that the ability of the command to execute on the current command target has changed. The command source can query the current status of the <Run FontWeight="Bold">RoutedCommand</Run>
+ using <Run FontWeight="Bold">CanExecute</Run>
+ method. The command source can then disable itself if the command cannot execute. An example of this is a <Run FontWeight="Bold">MenuItem</Run>
+ graying itself out when a command cannot execute.
+    </Paragraph>
+
+    <Paragraph>An <Run FontWeight="Bold">InputGesture</Run>
+ can be used as a command source. Two types of input gestures in WPF are the <Run FontWeight="Bold">KeyGesture</Run>
+ and MouseGesture. You can think of a <Run FontWeight="Bold">KeyGesture</Run>
+ as a keyboard shortcut, such as Ctrl-C. A <Run FontWeight="Bold">KeyGesture</Run>
+ is comprised of a Key and a set of ModifierKeys. A <Run FontWeight="Bold">MouseGesture</Run>
+ is comprised of a MouseAction and an optional set of <Run FontWeight="Bold">ModifierKeys</Run>
+.
+    </Paragraph>
+
+    <Paragraph>In order for an <Run FontWeight="Bold">InputGesture</Run>
+ to act as a command source, it must be associated with a command. There are a few ways to accomplish this. One way is to use an <Run FontWeight="Bold">InputBinding</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create a KeyBinding between a <Run FontWeight="Bold">KeyGesture</Run>
+ and a <Run FontWeight="Bold">RoutedCommand</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.InputBindings> 
+&lt;KeyBinding Key="B" Modifiers="Control" Command="ApplicationCommands.Open" /> 
+&lt;/Window.InputBindings> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>KeyGesture OpenKeyGesture = new KeyGesture( Key.B, ModifierKeys.Control); 
+KeyBinding OpenCmdKeybinding = new KeyBinding( ApplicationCommands.Open, OpenKeyGesture); 
+this.InputBindings.Add(OpenCmdKeybinding); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Another way to associate an <Run FontWeight="Bold">InputGesture</Run>
+ to a <Run FontWeight="Bold">RoutedCommand</Run>
+ is to add the <Run FontWeight="Bold">InputGesture</Run>
+ to the InputGestureCollection on the <Run FontWeight="Bold">RoutedCommand</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The following example shows how to add a <Run FontWeight="Bold">KeyGesture</Run>
+ to the <Run FontWeight="Bold">InputGestureCollection</Run>
+ of a <Run FontWeight="Bold">RoutedCommand</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>KeyGesture OpenCmdKeyGesture = new KeyGesture( Key.B, ModifierKeys.Control); 
+ApplicationCommands.Open.InputGestures.Add(OpenCmdKeyGesture); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">CommandBinding
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">CommandBinding</Run>
+ associates a command with the event handlers that implement the command. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">CommandBinding</Run>
+ class contains a Command property, and PreviewExecuted, <Run FontWeight="Bold">Executed</Run>
+, PreviewCanExecute, and CanExecute events. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Command</Run>
+ is the command that the <Run FontWeight="Bold">CommandBinding</Run>
+ is being associated with. The event handlers which are attached to the <Run FontWeight="Bold">PreviewExecuted</Run>
+ and <Run FontWeight="Bold">Executed</Run>
+ events implement the command logic. The event handlers attached to the <Run FontWeight="Bold">PreviewCanExecute</Run>
+ and <Run FontWeight="Bold">CanExecute</Run>
+ events determine if the command can execute on the current command target. 
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create a <Run FontWeight="Bold">CommandBinding</Run>
+ on the root Window of an application. The <Run FontWeight="Bold">CommandBinding</Run>
+ associates the Open command with <Run FontWeight="Bold">Executed</Run>
+ and <Run FontWeight="Bold">CanExecute</Run>
+ handlers.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.CommandBindings> 
+&lt;CommandBinding Command="ApplicationCommands.Open" Executed="OpenCmdExecuted" CanExecute="OpenCmdCanExecute"/> 
+&lt;/Window.CommandBindings> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Creating CommandBinding and attaching an Executed and CanExecute handler CommandBinding OpenCmdBinding = new CommandBinding( ApplicationCommands.Open, OpenCmdExecuted, OpenCmdCanExecute); 
+this.CommandBindings.Add(OpenCmdBinding); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Next, the <Run FontWeight="Bold">ExecutedRoutedEventHandler</Run>
+ and a CanExecuteRoutedEventHandler are created. The <Run FontWeight="Bold">ExecutedRoutedEventHandler</Run>
+ opens a MessageBox that displays a string saying the command has been executed. The <Run FontWeight="Bold">CanExecuteRoutedEventHandler</Run>
+ sets the CanExecute property to true.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void OpenCmdExecuted(object target, ExecutedRoutedEventArgs e) { MessageBox.Show("The command has been invoked."); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub OpenCmdExecuted(ByVal sender As Object, ByVal e As ExecutedRoutedEventArgs) MessageBox.Show("The Open Command") End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void OpenCmdCanExecute(object sender, CanExecuteRoutedEventArgs e) { e.CanExecute = true; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub OpenCmdCanExecute(ByVal sender As Object, ByVal e As CanExecuteRoutedEventArgs) e.CanExecute = True End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A <Run FontWeight="Bold">CommandBinding</Run>
+ is attached to a specific object, such as the root <Run FontWeight="Bold">Window</Run>
+ of the application or a control. The object that the <Run FontWeight="Bold">CommandBinding</Run>
+ is attached to defines the scope of the binding. For example, a <Run FontWeight="Bold">CommandBinding</Run>
+ attached to an ancestor of the command target can be reached by the <Run FontWeight="Bold">Executed</Run>
+ event, but a <Run FontWeight="Bold">CommandBinding</Run>
+ attached to a descendant of the command target cannot be reached. This is a direct consequence of the way a <Run FontWeight="Bold">RoutedEvent</Run>
+ tunnels and bubbles from the object which raises the event.
+    </Paragraph>
+
+    <Paragraph>In some situations the <Run FontWeight="Bold">CommandBinding</Run>
+ is attached to the command target itself, such as with the <Run FontWeight="Bold">TextBox</Run>
+ class and the Cut, Copy, and <Run FontWeight="Bold">Paste</Run>
+ commands. Quite often though, it is more convenient to attach the <Run FontWeight="Bold">CommandBinding</Run>
+ to an ancestor of the command target, such as the main <Run FontWeight="Bold">Window</Run>
+ or the Application object, especially if the same <Run FontWeight="Bold">CommandBinding</Run>
+ can be used for multiple command targets. These are design decision you will want to consider when you are created your commanding infrastructure.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Command Target
+    </Paragraph>
+
+    <Paragraph>The command target is the element on which the command is executed on. With regards to a <Run FontWeight="Bold">RoutedCommand</Run>
+, the command target is the element at which routing of the <Run FontWeight="Bold">Executed</Run>
+ and CanExecute starts. 
+    </Paragraph>
+
+    <Paragraph>The command source can explicitly set the command target. If the command target is not defined, the element with keyboard focus will be used as the command target. One of the benefits of using the element with keyboard focus as the command target is that it allows the application developer to use the same command source to invoke a command on multiple targets without having to keep track of the command target. For example, if a <Run FontWeight="Bold">MenuItem</Run>
+ invokes the paste command in an application that has a <Run FontWeight="Bold">TextBox</Run>
+ control and a PasswordBox control, the target can be either the <Run FontWeight="Bold">TextBox</Run>
+ or <Run FontWeight="Bold">PasswordBox</Run>
+ depending on which control has keyboard focus. 
+    </Paragraph>
+
+    <Paragraph>The following example shows how to explicitly set the command target in markup and in code behind.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Menu> 
+&lt;MenuItem Command="ApplicationCommands.Paste" CommandTarget="{Binding ElementName=mainTextBox}" /> 
+&lt;/Menu> 
+&lt;TextBox Name="mainTextBox"/> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Creating the UI objects StackPanel mainStackPanel = new StackPanel(); 
+TextBox pasteTextBox = new TextBox(); 
+Menu stackPanelMenu = new Menu(); 
+MenuItem pasteMenuItem = new MenuItem(); 
+// Adding objects to the panel and the menu stackPanelMenu.Items.Add(pasteMenuItem); 
+mainStackPanel.Children.Add(stackPanelMenu); 
+mainStackPanel.Children.Add(pasteTextBox); 
+// Setting the command to the Paste command pasteMenuItem.Command = ApplicationCommands.Paste; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example uses two <Run FontWeight="Bold">Button</Run>
+ objects to invoke the DecreaseSmall and IncreaseSmall commands on a Slider. The command target, which is discussed in more detail in the next section, is explicitly set to the <Run FontWeight="Bold">Slider</Run>
+, so even though the <Run FontWeight="Bold">Button</Run>
+ objects and the <Run FontWeight="Bold">Slider</Run>
+ are siblings in the element tree, the command sources will still receive the <Run FontWeight="Bold">CanExecuteChanged</Run>
+ events The <Run FontWeight="Bold">Slider</Run>
+ class provides the <Run FontWeight="Bold">CommandBinding</Run>
+ objects for these commands, so no additional handlers are required.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Border BorderBrush="DarkBlue" BorderThickness="1" Height="75" Width="425"> 
+&lt;StackPanel Orientation="Horizontal"> 
+&lt;Button Command="Slider.DecreaseSmall" CommandTarget="{Binding ElementName=secondSlider}" Height="25" Width="25" Content="-"/> 
+&lt;Label VerticalAlignment="Center">0
+&lt;/Label> 
+&lt;Slider Name="secondSlider" Minimum="0" Maximum="60" Value="15" TickFrequency="5" Height="50" Width="275" TickPlacement="BottomRight" LargeChange="5" SmallChange="5" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="0" MouseWheel="OnSliderMouseWheel" MouseUp="OnSliderMouseUp"> 
+&lt;/Slider> 
+&lt;Label VerticalAlignment="Center">60
+&lt;/Label> 
+&lt;Button Command="Slider.IncreaseSmall" CommandTarget="{Binding ElementName=secondSlider}" Height="25" Width="25" Content="+"/> 
+&lt;/StackPanel> 
+&lt;/Border> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">The CommandManager
+    </Paragraph>
+
+    <Paragraph>The CommandManager serves a number of command related functions. It provides a set of static methods for adding and removing <Run FontWeight="Bold">PreviewExecuted</Run>
+, <Run FontWeight="Bold">Executed</Run>
+, PreviewCanExecute, and <Run FontWeight="Bold">CanExecute</Run>
+ event handlers to and from a specific element. It provides a means to register <Run FontWeight="Bold">CommandBinding</Run>
+ and <Run FontWeight="Bold">InputBinding</Run>
+ objects onto a specific class. The <Run FontWeight="Bold">CommandManager</Run>
+ also provides a means, through the RequerySuggested event, to notify a command when it should raise the <Run FontWeight="Bold">CanExecuteChanged</Run>
+ event.
+    </Paragraph>
+
+    <Paragraph>The InvalidateRequerySuggested method forces the <Run FontWeight="Bold">CommandManager</Run>
+ to raise the <Run FontWeight="Bold">RequerySuggested</Run>
+ event. This is useful for conditions that should disable/enable a command but are not conditions that the <Run FontWeight="Bold">CommandManager</Run>
+ is aware of. For an example of calling <Run FontWeight="Bold">InvalidateRequerySuggested</Run>
+ to force the <Run FontWeight="Bold">CommandManager</Run>
+ to raise the <Run FontWeight="Bold">RequerySuggested</Run>
+ event, see the Disable Command Source Via Dispatcher Timer Sample sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Command Library
+    </Paragraph>
+
+    <Paragraph>WPF provides a set of predefined commands. The command library consists of the following classes: <Run FontWeight="Bold">ApplicationCommands</Run>
+, <Run FontWeight="Bold">NavigationCommands</Run>
+, <Run FontWeight="Bold">MediaCommands</Run>
+, <Run FontWeight="Bold">EditingCommands</Run>
+, and the <Run FontWeight="Bold">ComponentCommands</Run>
+. These classes provide commands such as <Run FontWeight="Bold">Cut</Run>
+, BrowseBack and BrowseForward, Play, Stop, and Pause. 
+    </Paragraph>
+
+    <Paragraph>Many of these commands include a set of default input bindings. For example, if you specify that your application handles the copy command, you automatically get the keyboard binding "CTRL +C" You also get bindings for other input devices, such as Tablet PC pen gestures and speech information.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating Custom Commands
+    </Paragraph>
+
+    <Paragraph>If the commands in the command library classes do not meet your needs, then you can create your own commands. There are essentially two ways to go about creating a custom command. The first is to start from the ground up and implement the <Run FontWeight="Bold">ICommand</Run>
+ interface. The other way, and the more common approach, is to create a <Run FontWeight="Bold">RoutedCommand</Run>
+ or a <Run FontWeight="Bold">RoutedUICommand</Run>
+.
+    </Paragraph>
+
+    <Paragraph>For an example of creating a custom <Run FontWeight="Bold">RoutedCommand</Run>
+, see the Create a Custom RoutedCommand Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="7452dd39-6e11-44bf-806a-31d87f3772ac.xaml">How to: How to Implement ICommandSource</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="013d68a0-5373-4a68-bd91-5de574307370.xaml">How to: Add a Command to a MenuItem</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>RoutedCommand
+      <LineBreak/>CommandBinding
+      <LineBreak/>InputBinding
+      <LineBreak/>CommandManager
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Create a Custom RoutedCommand Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Commanding Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,174 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_321dcff4_891f_4869_ba1c_81e6e0630de2"
+  Tag     ="Data-Bind DocumentViewer's Zoom Property Using ZoomPercentageConverter"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Data-Bind DocumentViewer's Zoom Property Using ZoomPercentageConverter</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This Extensible Application Markup Language (XAML) example shows how to bind the data of the DocumentViewer.Zoom property to a text control using the ZoomPercentageConverter type-converter.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="SDKSample.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Grid> 
+&lt;Grid.Resources> 
+&lt;ZoomPercentageConverter x:Key="MyConverterKey" /> 
+&lt;/Grid.Resources> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="*" /> 
+&lt;RowDefinition Height="*" /> 
+&lt;/Grid.RowDefinitions> 
+&lt;DocumentViewer Name="dvZoomSource" Grid.Row="0" /> 
+&lt;TextBox Grid.Row="1"> 
+&lt;TextBox.Text> 
+&lt;Binding ElementName="dvZoomSource" Path="Zoom" Converter="{StaticResource MyConverterKey}" Mode="OneWay" /> 
+&lt;/TextBox.Text> 
+&lt;/TextBox> 
+&lt;/Grid> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Task Remarks</Run>
+
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>In this example, any changes to the value of <Run FontWeight="Bold">Zoom</Run>
+ are immediately reflected in the data-bound TextBox. The <Run FontWeight="Bold">ZoomPercentageConverter</Run>
+ type-converter is automatically called whenever an update propagates through the data binding. This particular type-converter translates the double value of <Run FontWeight="Bold">Zoom</Run>
+ into a string value appended with a percent sign (%).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>This example uses a property element syntax binding declaration to bind the value of <Run FontWeight="Bold">Zoom</Run>
+ to the Text property of a <Run FontWeight="Bold">TextBox</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">ElementName</Run>
+ clause in the binding declaration refers to the <Run FontWeight="Bold">Name</Run>
+ of the source element, which in this case is "dvZoomSource".
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">Path</Run>
+ clause in the binding declaration names the source property, which in this case is <Run FontWeight="Bold">Zoom</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">Converter</Run>
+ clause specifies a type-converter to use for this data binding. In this case, clause refers to a locally-defined static resource mapping by matching the resource key (x:Key) to the value referenced in the <Run FontWeight="Bold">Converter</Run>
+ clause. In the example above, the resource key is "MyConverterKey". The key itself is an arbitrary string value that must be unique within the current scope. Locally-defined resources must by referenced using the <Run FontWeight="Bold">StaticResource</Run>
+ syntax show in the example above.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">Mode</Run>
+ clause in the binding declaration specifies that this is a one-way data binding; 
+updates to the source value of <Run FontWeight="Bold">Zoom</Run>
+ are reflected in the target <Run FontWeight="Bold">TextBox</Run>
+, but changes to the contents of the <Run FontWeight="Bold">TextBox</Run>
+ do not change the value of <Run FontWeight="Bold">Zoom</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>IValueConverter
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b97fd626-4c0d-4761-872a-2bca5820da2c.xaml">Binding Declarations Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Data-Bind DocumentViewer's Zoom Property Using ZoomPercentageConverter to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

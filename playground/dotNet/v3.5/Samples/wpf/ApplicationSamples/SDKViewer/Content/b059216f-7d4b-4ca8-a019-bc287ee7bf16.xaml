@@ -1,0 +1,433 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b059216f_7d4b_4ca8_a019_bc287ee7bf16"
+  Tag     ="Control Key-Frame Animation Timing"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Control Key-Frame Animation Timing</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to control the timing of key frames within a key-frame animation. Like other animations, key-frame animations have a Duration property. In addition to specifying the duration of an animation, you need to specify what part of that duration is allotted to each of its key frames. To allot the time, you specify a KeyTime for each key frame in the animation.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The <Run FontWeight="Bold">KeyTime</Run>
+ for each key frame specifies when a key frame ends (it does not specify the length of time a key frame plays). You can specify a <Run FontWeight="Bold">KeyTime</Run>
+ as a TimeSpan value; 
+as a percentage; 
+or as the Uniform or Paced special value.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses a DoubleAnimationUsingKeyFrames to animate a rectangle across the screen. The key frames' key times are set with <Run FontWeight="Bold">TimeSpan</Run>
+ values.
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/* This Rectangle is animated with KeyTimes using TimeSpan Values. It moves horizontally to 100 in the first 3 seconds, 100 to 300 in the next second, and 300 to 500 in the last 6 seconds. */ // Create the a rectangle. Rectangle aRectangle = new Rectangle(); 
+aRectangle.Fill = Brushes.Blue; 
+aRectangle.Stroke = Brushes.Black; 
+aRectangle.StrokeThickness = 5; 
+aRectangle.Width = 50; 
+aRectangle.Height = 50; 
+// Create a transform to move the rectangle // across the screen. TranslateTransform translateTransform1 = new TranslateTransform(); 
+aRectangle.RenderTransform = translateTransform1; 
+// Create a DoubleAnimationUsingKeyFrames // to animate the transform. DoubleAnimationUsingKeyFrames transformAnimation = new DoubleAnimationUsingKeyFrames(); 
+transformAnimation.Duration = TimeSpan.FromSeconds(10); 
+// Animate to 100 at 3 seconds. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(100, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(3)))); 
+// Animate to 300 at 4 seconds. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(300, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4)))); 
+// Animate to 500 at 10 seconds. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(500, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(10)))); 
+// Start the animation when the rectangle is loaded. aRectangle.Loaded += delegate(object sender, RoutedEventArgs e) { translateTransform1.BeginAnimation(TranslateTransform.XProperty, transformAnimation); 
+}; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This Rectangle is animated with KeyTimes using TimeSpan Values. It moves horizontally to 100 in the first 3 seconds, 100 to 300 in the next second, and 300 to 500 in the last 6 seconds. --> 
+&lt;Rectangle Fill="Blue" Stroke="Black" StrokeThickness="5" Width="50" Height="50"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="TranslateTransform1" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="TranslateTransform1" Storyboard.TargetProperty="X" Duration="0:0:10"> 
+&lt;!-- These KeyTime properties are specified as TimeSpan values which are in the form of "hours:minutes:seconds". --> 
+&lt;LinearDoubleKeyFrame Value="100" KeyTime="0:0:3" /> 
+&lt;LinearDoubleKeyFrame Value="300" KeyTime="0:0:4" /> 
+&lt;LinearDoubleKeyFrame Value="500" KeyTime="0:0:10" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>The following illustration shows when the value of each key frame is reached.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The next example shows an animation that is identical, except that the key frames' key times are set with percentage values. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/* This rectangle moves horizontally to 100 in the first 3 seconds, 100 to 300 in the next second, and 300 to 500 in the last 6 seconds. */ // Create the a rectangle. Rectangle aRectangle = new Rectangle(); 
+aRectangle.Fill = Brushes.Purple; 
+aRectangle.Stroke = Brushes.Black; 
+aRectangle.StrokeThickness = 5; 
+aRectangle.Width = 50; 
+aRectangle.Height = 50; 
+// Create a transform to move the rectangle // across the screen. TranslateTransform translateTransform2 = new TranslateTransform(); 
+aRectangle.RenderTransform = translateTransform2; 
+// Create a DoubleAnimationUsingKeyFrames // to animate the transform. DoubleAnimationUsingKeyFrames transformAnimation = new DoubleAnimationUsingKeyFrames(); 
+transformAnimation.Duration = TimeSpan.FromSeconds(10); 
+// Animate to 100 at 30% of the animation's duration. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(100, KeyTime.FromPercent(0.3))); 
+// Animate to 300 at 40% of the animation's duration. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(300, KeyTime.FromPercent(0.4))); 
+// Animate to 500 at 100% of the animation's duration. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(500, KeyTime.FromPercent(1.0))); 
+// Start the animation when the rectangle is loaded. aRectangle.Loaded += delegate(object sender, RoutedEventArgs e) { translateTransform2.BeginAnimation(TranslateTransform.XProperty, transformAnimation); 
+}; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This rectangle moves horizontally to 100 in the first 3 seconds, 100 to 300 in the next second, and 300 to 500 in the last 6 seconds.--> 
+&lt;Rectangle Fill="Purple" Stroke="Black" StrokeThickness="5" Width="50" Height="50"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="TranslateTransform2" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="TranslateTransform2" Storyboard.TargetProperty="X" Duration="0:0:10"> 
+&lt;!-- KeyTime properties are expressed as Percentages. --> 
+&lt;LinearDoubleKeyFrame Value="100" KeyTime="30%" /> 
+&lt;LinearDoubleKeyFrame Value="300" KeyTime="40%" /> 
+&lt;LinearDoubleKeyFrame Value="500" KeyTime="100%" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>The following illustration shows when the value of each key frame is reached.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>The next example uses <Run FontWeight="Bold">Uniform</Run>
+ key time values. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/* This rectangle is animated with KeyTimes using Uniform values. Goes to 100 in the first 3.3 seconds, 100 to 300 in the next 3.3 seconds, 300 to 500 in the last 3.3 seconds. */ // Create the a rectangle. Rectangle aRectangle = new Rectangle(); 
+aRectangle.Fill = Brushes.Red; 
+aRectangle.Stroke = Brushes.Black; 
+aRectangle.StrokeThickness = 5; 
+aRectangle.Width = 50; 
+aRectangle.Height = 50; 
+// Create a transform to move the rectangle // across the screen. TranslateTransform translateTransform3 = new TranslateTransform(); 
+aRectangle.RenderTransform = translateTransform3; 
+// Create a DoubleAnimationUsingKeyFrames // to animate the transform. DoubleAnimationUsingKeyFrames transformAnimation = new DoubleAnimationUsingKeyFrames(); 
+transformAnimation.Duration = TimeSpan.FromSeconds(10); 
+/* KeyTime properties are expressed with values of Uniform. When a key time is set to "Uniform" the total allotted time of the animation is divided evenly between key frames. In this example, the total duration of the animation is ten seconds and there are four key frames each of which are set to "Uniform", therefore, the duration of each key frame is 3.3 seconds (10/3). */ // Animate to 100. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(100, KeyTime.Uniform)); 
+// Animate to 300. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(300, KeyTime.Uniform)); 
+// Animate to 500. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(500, KeyTime.Uniform)); 
+// Start the animation when the rectangle is loaded. aRectangle.Loaded += delegate(object sender, RoutedEventArgs e) { translateTransform3.BeginAnimation(TranslateTransform.XProperty, transformAnimation); 
+}; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This rectangle is animated with KeyTimes using Uniform values. Goes to 100 in the first 3.3 seconds, 100 to 300 in the next 3.3 seconds, 300 to 500 in the last 3.3 seconds. --> 
+&lt;Rectangle Fill="Red" Stroke="Black" StrokeThickness="5" Width="50" Height="50"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="TranslateTransform3" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="TranslateTransform3" Storyboard.TargetProperty="X" Duration="0:0:10"> 
+&lt;!-- KeyTime properties are expressed with values of Uniform. When a key time is set to "Uniform" the total allotted time of the animation is divided evenly between key frames. In this example, the total duration of the animation is ten seconds and there are four key frames each of which are set to "Uniform", therefore, the duration of each key frame is 3.3 seconds (10/3). --> 
+&lt;LinearDoubleKeyFrame Value="100" KeyTime="Uniform" /> 
+&lt;LinearDoubleKeyFrame Value="300" KeyTime="Uniform" /> 
+&lt;LinearDoubleKeyFrame Value="500" KeyTime="Uniform" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>The following illustration shows when the value of each key frame is reached.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>The final example uses <Run FontWeight="Bold">Paced</Run>
+ key time values.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/* This rectangle is animated with KeyTimes using Paced Values. The rectangle moves between key frames at uniform rate except for first key frame because using a Paced value on the first KeyFrame in a collection of frames gives a time of zero. */ // Create the a rectangle. Rectangle aRectangle = new Rectangle(); 
+aRectangle.Fill = Brushes.Orange; 
+aRectangle.Stroke = Brushes.Black; 
+aRectangle.StrokeThickness = 5; 
+aRectangle.Width = 50; 
+aRectangle.Height = 50; 
+// Create a transform to move the rectangle // across the screen. TranslateTransform translateTransform4 = new TranslateTransform(); 
+aRectangle.RenderTransform = translateTransform4; 
+// Create a DoubleAnimationUsingKeyFrames // to animate the transform. DoubleAnimationUsingKeyFrames transformAnimation = new DoubleAnimationUsingKeyFrames(); 
+transformAnimation.Duration = TimeSpan.FromSeconds(10); 
+/* Use Paced values when a constant rate is desired. The time allocated to a key frame with a KeyTime of "Paced" is determined by the time allocated to the other key frames of the animation. This time is calculated to attempt to give a "paced" or "constant velocity" for the animation. */ // Animate to 100. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(100, KeyTime.Paced)); 
+// Animate to 300. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(300, KeyTime.Paced)); 
+// Animate to 500. transformAnimation.KeyFrames.Add( new LinearDoubleKeyFrame(500, KeyTime.Paced)); 
+// Start the animation when the rectangle is loaded. aRectangle.Loaded += delegate(object sender, RoutedEventArgs e) { translateTransform4.BeginAnimation(TranslateTransform.XProperty, transformAnimation); 
+}; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>The following illustration shows when the value of each key frame is reached.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>For simplicity, the code versions of this example use local animations, not storyboards, because only a single animation is being applied to a single property, but the examples may be modified to use storyboards instead. For an example showing how to declare a storyboard in code, see <Hyperlink NavigateUri="f4a314e9-1da2-4367-85fc-1232487efa7a.xaml">How to: Animate a Property by Using a Storyboard</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>For the complete sample, see KeyFrame Animation Sample. For more information about key frame animations, see the <Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Animation and Timing Samples
+      <LineBreak/><Hyperlink NavigateUri="587e36f6-1957-424e-9d89-c43724f26d84.xaml">Animation and Timing How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Control Key-Frame Animation Timing to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

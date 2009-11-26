@@ -1,0 +1,279 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_2c997092_72c6_4767_bc84_74267f4eee72"
+  Tag     ="Base Elements Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Base Elements Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A high percentage of classes in Windows Presentation Foundation (WPF) inherit from four classes which are commonly referred to in the SDK documentation as the base element classes. These are UIElement, FrameworkElement, ContentElement, and FrameworkContentElement.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="base_apis">Base Element APIs in WPF Classes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="subclassing_elements">Choosing Which Element to Subclass</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Base Element APIs in WPF Classes
+    </Paragraph>
+
+    <Paragraph>Both <Run FontWeight="Bold">UIElement</Run>
+ and <Run FontWeight="Bold">ContentElement</Run>
+ inherit from DependencyObject, through somewhat different pathways. The split at this level deals with how a <Run FontWeight="Bold">UIElement</Run>
+ or <Run FontWeight="Bold">ContentElement</Run>
+ are used in a user interface and what purpose they serve in an application. <Run FontWeight="Bold">UIElement</Run>
+ also has Visual in its class hierarchy, which is a class that exposes the lower-level graphics support underlying the Windows Presentation Foundation (WPF). <Run FontWeight="Bold">Visual</Run>
+ provides a rendering framework by defining independent rectangular screen regions. In practice, <Run FontWeight="Bold">UIElement</Run>
+ is for elements that will support a larger object model, are intended to render and layout into regions that can be described as rectangular screen regions, and where the content model is deliberately more open, to allow different combinations of elements. <Run FontWeight="Bold">ContentElement</Run>
+ does not inherit <Run FontWeight="Bold">Visual</Run>
+; 
+its model is that a <Run FontWeight="Bold">ContentElement</Run>
+ would be consumed by something else, such as a reader or viewer that would then interpret the elements and produce the complete <Run FontWeight="Bold">Visual</Run>
+ for Windows Presentation Foundation (WPF) to consume. Certain <Run FontWeight="Bold">UIElement</Run>
+ classes are intended to be content hosts: they provide the hosting and rendering for one or more <Run FontWeight="Bold">ContentElement</Run>
+ classes (DocumentViewer is an example of such a class). <Run FontWeight="Bold">ContentElement</Run>
+ is used as base class for elements with somewhat smaller object models and that more address the text, information, or document content that might be hosted within a <Run FontWeight="Bold">UIElement</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">UIElement</Run>
+ is inherited by <Run FontWeight="Bold">FrameworkElement</Run>
+, and <Run FontWeight="Bold">ContentElement</Run>
+ is inherited by <Run FontWeight="Bold">FrameworkContentElement</Run>
+. The reason for this next level of classes is to support a WPF core that is separate from a WPF framework, with this division also existing in how the APIs are divided within "PresentationCore" and "PresentationFramework" assemblies. The framework presents a more complete solution for basic application needs, including the implementation of the layout manager for presentation. The core level provides a way to use much of WPF without taking the overhead of the additional assembly, for cases where your overall solution already has its own implementations of user interface (UI) composition and layout.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Choosing Which Element to Subclass
+    </Paragraph>
+
+    <Paragraph>The most practical way to create a custom class that extends WPF is by subclassing one of the WPF classes so you get some of the functionality through the hierarchy. This section lists the functionality that comes with three of the most important classes to help you decide which class to inherit from.
+    </Paragraph>
+
+    <Paragraph>If you create a class that inherits from <Run FontWeight="Bold">DependencyObject</Run>
+, you inherit the following functionality:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>GetValue and SetValue support, and general property system support.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Ability to use <Run>dependency properties</Run>
+ and <Run>attached properties</Run>
+ that are implemented as dependency properties.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If you create a class that inherits from <Run FontWeight="Bold">UIElement</Run>
+, you inherit the following functionality in addition to that provided by <Run FontWeight="Bold">DependencyObject</Run>
+:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Support for animations. For more information, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Basic input event support, and commanding support. For more information, see <Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+ and <Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Virtual methods that can be overridden to provide information to the layout manager.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If you create a class that inherits from <Run FontWeight="Bold">FrameworkElement</Run>
+, you inherit the following functionality in addition to that provided by <Run FontWeight="Bold">UIElement</Run>
+:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Support for styling and storyboards. For more information, see Style and <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Support for databinding. For more information, see <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Property inheritance support, and other flags in the metadata that help report conditions about properties to framework services like databinding, styles, or the framework implementation of layout. For more information, see <Hyperlink NavigateUri="9962f380-b885-4b61-a62e-457397083fea.xaml">Framework Property Metadata</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If you create a class that inherits from <Run FontWeight="Bold">ContentElement</Run>
+, you inherit the following functionality in addition to that provided by <Run FontWeight="Bold">DependencyObject</Run>
+:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Support for animations. For more information, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Basic input event support, and commanding support. For more information, see <Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+ and <Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If you create a class that inherits from <Run FontWeight="Bold">FrameworkContentElement</Run>
+, you get the following functionality in addition to that provided by <Run FontWeight="Bold">ContentElement</Run>
+:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Support for styling and storyboards. For more information, see <Run FontWeight="Bold">Style</Run>
+ and <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Support for databinding. For more information, see <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Property inheritance support, and other flags in the metadata that help report conditions about properties to framework services like databinding, styles, or the framework implementation of layout. For more information, see <Hyperlink NavigateUri="9962f380-b885-4b61-a62e-457397083fea.xaml">Framework Property Metadata</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You do not inherit access to layout system modifications (such as ArrangeOverride). Layout system implementations are only available on <Run FontWeight="Bold">FrameworkElement</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If you are implementing a control, you probably want to start from a class that is a practical control, a control family base class, or at least from the Control base class. For some guidance and practical examples, see <Hyperlink NavigateUri="3d864748-cff0-4e63-9b23-d8e5a635b28f.xaml">Control Authoring Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Content models are documented for a variety of classes. The content model for a class is one possible factor you should consider if you want to find an appropriate class to derive from. For more information, see <Hyperlink NavigateUri="9912af80-f6e3-4687-a79b-7e99ecd26f86.xaml">Content Models</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Control
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3d864748-cff0-4e63-9b23-d8e5a635b28f.xaml">Control Authoring Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="8579c10b-76ab-4c52-9691-195ce02333c8.xaml">WPF Architecture</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Base Elements Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,537 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0de8ac41_9aa6_413d_a121_7aa6f41539b1"
+  Tag     ="Printing Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Printing Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>With Microsoft .NET Framework version 3.0, application developers using Windows Presentation Foundation (WPF) have a rich new set of printing and print system management APIs. With Windows Vista, some of these print system enhancements are also available to developers creating Windows Forms applications and developers using unmanaged code. At the core of this new functionality is the new XML Paper Specification (XPS) file format and the XPS print path. 
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="introduction_to_XPS">About XPS</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="XPS_print_path_intro">XPS Print Path</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="GDI_Print_Path_intro">GDI Print Path</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="XPS_Driver_Model_intro">XPSDrv Driver Model</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">About XPS
+    </Paragraph>
+
+    <Paragraph>XPS is an electronic document format, a spool file format and a page description language. It is an open document format that uses XML, Open Packaging Conventions (OPC), and other industry standards to create cross-platform documents. XPS simplifies the process by which digital documents are created, shared, printed, viewed, and archived. For additional information on XPS, see the <Hyperlink NavigateUri="http://www.microsoft.com/xps">XPS Web Site</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Several techniques for printing XPS based content using WPF are demonstrated in the Printing an XPS Document sample and in <Hyperlink NavigateUri="0b1c0a3f-b19e-43d6-bcc9-eb3ec4e555ad.xaml">How to: Programmatically Print XPS Files</Hyperlink>
+. You may find it useful to reference these samples during review of content contained in this topic. (Unmanaged code developers should see the help for the Microsoft XPS Document Converter printer escape. Windows Forms developers must use the API in the System.Drawing.Printing namespace which does not support the full XPS print path, but does support a hybrid GDI-to-XPS print path. See <Run FontWeight="Bold">Print Path Architecture</Run>
+ below.)
+    </Paragraph>
+
+    <Paragraph FontSize="22">XPS Print Path
+    </Paragraph>
+
+    <Paragraph>The XML Paper Specification (XPS) print path is a new Windows feature that redefines how printing is handled in Windows applications. Because XPS can replace a document presentation language (such as RTF), a print spooler format (such as WMF), and a page description language (such as PCL or Postscript); 
+the new print path maintains the XPS format from application publication to the final processing in the print driver or device. 
+    </Paragraph>
+
+    <Paragraph>The XPS print path is built upon the XPS printer driver model (XPSDrv), which provides several benefits for developers such as "what you see is what you get" (WYSIWYG) printing, improved color support, and significantly improved print performance. (For more on XPSDrv, see the <Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnanchor/html/DeviceDriver.asp">Windows Driver Development Kit</Hyperlink>
+.)
+    </Paragraph>
+
+    <Paragraph>The operation of the print spooler for XPS documents is essentially the same as in previous versions of Windows. However, it has been enhanced to support the XPS print path in addition to the existing GDI print path. The new print path natively consumes an XPS spool file. While user-mode printer drivers written for previous versions of Windows will continue to work, an XPS printer driver (XPSDrv) is required in order to use the XPS print path.
+    </Paragraph>
+
+    <Paragraph>The benefits of the XPS print path are significant, and include: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>WYSIWYG print support
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Native support of advanced color profiles, which include 32 bits per channel (bpc), CMYK, named-colors, n-inks, and native support of transparency and gradients.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Improved print performance for both .NET Framework 3.0 and Win32 based applications.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Industry standard XPS format.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For basic print scenarios, a simple and intuitive API is available with a single entry point for user interface, configuration and job submission. For advanced scenarios, an additional support is added for user interface (UI) customization (or no UI at all), <Run>synchronous</Run>
+ or <Run>asynchronous</Run>
+ printing, and batch printing capabilities. Both options provide print support in full or partial trust mode.
+    </Paragraph>
+
+    <Paragraph>XPS was designed with extensibility in mind. By using the extensibility framework, features and capabilities can be added to XPS in a modular manner. Extensibility features include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="http://windowssdk.msdn.microsoft.com/library/en-us/printschema/html/d746bdd1-96c2-41f5-ad99-0b51c8ee8731.asp?frame=true">Print Schema</Hyperlink>
+. The public schema is updated regularly and enables rapid extension of device capabilities. (See <Run FontWeight="Bold">PrintTicket and PrintCapabilities</Run>
+ below.)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Extensible Filter Pipeline. The XPS printer driver (XPSDrv) filter pipeline was designed to enable both direct and scalable printing of XPS documents. (Lookup "XPSDrv" in the <Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnanchor/html/DeviceDriver.asp">Windows Driver Development Kit</Hyperlink>
+.)
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Print Path Architecture
+    </Paragraph>
+
+    <Paragraph>While both Win32 and .NET Framework 3.0 applications support XPS, Win32 and Windows Forms applications use a GDI to XPS conversion in order to create XPS formatted content for the XPS printer driver (XPSDrv). These applications are not required to use the XPS print path, and can continue to use Enhanced Metafile (EMF) based printing. However, most XPS features and enhancements are only available to applications that target the XPS print path. 
+    </Paragraph>
+
+    <Paragraph>To enable the use of XPSDrv-based printers by Win32 and Windows Forms applications, the XPS printer driver (XPSDrv) supports conversion of GDI to XPS format. The XPSDrv model also provides a converter for XPS to GDI format so that Win32 applications can print XPS Documents. For WPF applications, conversion of XPS to GDI format is done automatically by the Write and WriteAsync methods of the XpsDocumentWriter class whenever the target print queue of the write operation does not have an XPSDrv driver. (Windows Forms applications cannot print XPS Documents.)
+    </Paragraph>
+
+    <Paragraph>The following illustration depicts the print subsystem and defines the portions provided by Microsoft, and the portions defined by software and hardware vendors.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Basic XPS Printing
+    </Paragraph>
+
+    <Paragraph>WPF defines both a basic and advanced API. For those applications that do not require extensive print customization or access to the complete XPS feature set, basic print support is available. Basic print support is exposed through a print dialog control that requires minimal configuration and features a familiar UI. Many XPS features are available using this simplified print model.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">PrintDialog
+    </Paragraph>
+
+    <Paragraph>The System.Windows.Controls.PrintDialog control provides a single entry point for UI, configuration, and XPS job submission. For information about how to instantiate and use the control, see <Hyperlink NavigateUri="e3a2c84c-74fe-45a4-8501-5813f9dbfed2.xaml">How to: Invoke a Print Dialog</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Advanced XPS Printing
+    </Paragraph>
+
+    <Paragraph>To access the complete set of XPS features, the advanced print API must be used. Several relevant API are described in greater detail below. For a complete list of XPS print path APIs, see the System.Windows.Xps and System.Printing namespace references.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">PrintTicket and PrintCapabilities
+    </Paragraph>
+
+    <Paragraph>The PrintTicket and PrintCapabilities classes are the foundation of the advanced XPS features. Both types of objects are XML formatted structures of print-oriented features such as collation, two-sided printing, stapling, etc. These structures are defined by the <Hyperlink NavigateUri="http://windowssdk.msdn.microsoft.com/library/en-us/printschema/html/d746bdd1-96c2-41f5-ad99-0b51c8ee8731.asp?frame=true">Print Schema</Hyperlink>
+. A <Run FontWeight="Bold">PrintTicket</Run>
+ instructs a printer how to process a print job. The <Run FontWeight="Bold">PrintCapabilities</Run>
+ class defines the capabilities of a printer. By querying the capabilities of a printer, a <Run FontWeight="Bold">PrintTicket</Run>
+ can be created that takes full advantage of a printer's supported features. Similarly, unsupported features can be avoided. 
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates how to query the <Run FontWeight="Bold">PrintCapabilities</Run>
+ of a printer and create a <Run FontWeight="Bold">PrintTicket</Run>
+ using procedural code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// ---------------------- GetPrintTicketFromPrinter ----------------------- /// 
+&lt;summary> /// Returns a PrintTicket based on the current default printer.
+&lt;/summary> /// 
+&lt;returns> /// A PrintTicket for the current local default printer.
+&lt;/returns> PrintTicket^ GetPrintTicketFromPrinter () { PrintQueue^ printQueue = nullptr; 
+LocalPrintServer^ localPrintServer = gcnew LocalPrintServer(); 
+// Retrieving collection of local printer on user machine PrintQueueCollection^ localPrinterCollection = localPrintServer->GetPrintQueues(); 
+System::Collections::IEnumerator^ localPrinterEnumerator = localPrinterCollection->GetEnumerator(); 
+if (localPrinterEnumerator->MoveNext()) { // Get PrintQueue from first available printer printQueue = ((PrintQueue^)localPrinterEnumerator->Current); 
+} else { return nullptr; 
+} // Get default PrintTicket from printer PrintTicket^ printTicket = printQueue->DefaultPrintTicket; 
+PrintCapabilities^ printCapabilites = printQueue->GetPrintCapabilities(); 
+// Modify PrintTicket if (printCapabilites->CollationCapability->Contains(Collation::Collated)) { printTicket->Collation = Collation::Collated; 
+} if (printCapabilites->DuplexingCapability->Contains(Duplexing::TwoSidedLongEdge)) { printTicket->Duplexing = Duplexing::TwoSidedLongEdge; 
+} if (printCapabilites->StaplingCapability->Contains(Stapling::StapleDualLeft)) { printTicket->Stapling = Stapling::StapleDualLeft; 
+} return printTicket; 
+};// end:GetPrintTicketFromPrinter() </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// ---------------------- GetPrintTicketFromPrinter ----------------------- /// 
+&lt;summary> /// Returns a PrintTicket based on the current default printer.
+&lt;/summary> /// 
+&lt;returns> /// A PrintTicket for the current local default printer.
+&lt;/returns> private PrintTicket GetPrintTicketFromPrinter() { PrintQueue printQueue = null; 
+LocalPrintServer localPrintServer = new LocalPrintServer(); 
+// Retrieving collection of local printer on user machine PrintQueueCollection localPrinterCollection = localPrintServer.GetPrintQueues(); 
+System.Collections.IEnumerator localPrinterEnumerator = localPrinterCollection.GetEnumerator(); 
+if (localPrinterEnumerator.MoveNext()) { // Get PrintQueue from first available printer printQueue = (PrintQueue)localPrinterEnumerator.Current; 
+} else { // No printer exist, return null PrintTicket return null; 
+} // Get default PrintTicket from printer PrintTicket printTicket = printQueue.DefaultPrintTicket; 
+PrintCapabilities printCapabilites = printQueue.GetPrintCapabilities(); 
+// Modify PrintTicket if (printCapabilites.CollationCapability.Contains(Collation.Collated)) { printTicket.Collation = Collation.Collated; 
+} if ( printCapabilites.DuplexingCapability.Contains( Duplexing.TwoSidedLongEdge) ) { printTicket.Duplexing = Duplexing.TwoSidedLongEdge; 
+} if (printCapabilites.StaplingCapability.Contains(Stapling.StapleDualLeft)) { printTicket.Stapling = Stapling.StapleDualLeft; 
+} return printTicket; 
+}// end:GetPrintTicketFromPrinter() </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete example, see Creating an XPS Document Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">PrintServer and PrintQueue
+    </Paragraph>
+
+    <Paragraph>The PrintServer class represents a network print server and the PrintQueue class represents a printer and the output job queue associated with it. Together, these APIs allow advanced management of a server's print jobs. A <Run FontWeight="Bold">PrintServer</Run>
+, or one of its derived classes, is used to manage a <Run FontWeight="Bold">PrintQueue</Run>
+. The AddJob method is used to insert a new print job into the queue.
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates how to create a LocalPrintServer and access its default <Run FontWeight="Bold">PrintQueue</Run>
+ by using procedural code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// -------------------- GetPrintXpsDocumentWriter() ------------------- /// 
+&lt;summary> /// Returns an XpsDocumentWriter for the default print queue.
+&lt;/summary> /// 
+&lt;returns> /// An XpsDocumentWriter for the default print queue.
+&lt;/returns> private XpsDocumentWriter GetPrintXpsDocumentWriter() { // Create a local print server LocalPrintServer ps = new LocalPrintServer(); 
+// Get the default print queue PrintQueue pq = ps.DefaultPrintQueue; 
+// Get an XpsDocumentWriter for the default print queue XpsDocumentWriter xpsdw = PrintQueue.CreateXpsDocumentWriter(pq); 
+return xpsdw; 
+}// end:GetPrintXpsDocumentWriter() </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete example, see Printing an XPS Document.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">XpsDocumentWriter
+    </Paragraph>
+
+    <Paragraph>An <Run FontWeight="Bold">XpsDocumentWriter</Run>
+, with its many the <Run FontWeight="Bold">Write</Run>
+ and <Run FontWeight="Bold">WriteAsync</Run>
+ methods, is used to write XPS documents to a <Run FontWeight="Bold">PrintQueue</Run>
+. For example, the Write method is used to output an XPS document and <Run FontWeight="Bold">PrintTicket</Run>
+ synchronously. The WriteAsync method is used to output an XPS document and <Run FontWeight="Bold">PrintTicket</Run>
+ asynchronously.
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates how to create an <Run FontWeight="Bold">XpsDocumentWriter</Run>
+ using procedural code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// -------------------- GetPrintXpsDocumentWriter() ------------------- /// 
+&lt;summary> /// Returns an XpsDocumentWriter for the default print queue.
+&lt;/summary> /// 
+&lt;returns> /// An XpsDocumentWriter for the default print queue.
+&lt;/returns> private XpsDocumentWriter GetPrintXpsDocumentWriter() { // Create a local print server LocalPrintServer ps = new LocalPrintServer(); 
+// Get the default print queue PrintQueue pq = ps.DefaultPrintQueue; 
+// Get an XpsDocumentWriter for the default print queue XpsDocumentWriter xpsdw = PrintQueue.CreateXpsDocumentWriter(pq); 
+return xpsdw; 
+}// end:GetPrintXpsDocumentWriter() </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete example, see Printing an XPS Document.
+    </Paragraph>
+
+    <Paragraph>The AddJob methods also provide ways to print. See <Hyperlink NavigateUri="0b1c0a3f-b19e-43d6-bcc9-eb3ec4e555ad.xaml">How to: Programmatically Print XPS Files</Hyperlink>
+. for details.
+    </Paragraph>
+
+    <Paragraph FontSize="22">GDI Print Path
+    </Paragraph>
+
+    <Paragraph>While WPF applications natively support the XPS print path, Win32 and Windows Forms applications can also take advantage of some XPS features. The XPS printer driver (XPSDrv) can convert GDI based output to XPS format. For advanced scenarios, custom conversion of content is supported using the Microsoft XPS Document Converter printer escape. Similarly, WPF applications can also output to the GDI print path by calling one of the <Run FontWeight="Bold">Write</Run>
+ or <Run FontWeight="Bold">WriteAsync</Run>
+ methods of the <Run FontWeight="Bold">XpsDocumentWriter</Run>
+ class and designating a non-XpsDrv printer as the target print queue.
+    </Paragraph>
+
+    <Paragraph>For applications that do not require XPS functionality or support, the current GDI print path remains unchanged.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>For additional reference material on the GDI print path and the various XPS conversion options, see <Hyperlink NavigateUri="http://windowssdk.msdn.microsoft.com/library/en-us/Gdi/prntspol_62ia.asp?frame=true">Printing and Print Spooler</Hyperlink>
+, Microsoft XPS Document Converter printer escape, and "XPSDrv" in the <Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnanchor/html/DeviceDriver.asp">Windows Driver Development Kit</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">XPSDrv Driver Model
+    </Paragraph>
+
+    <Paragraph>The XPS print path improves spooler efficiency by using XPS as the native print spool format when printing to an XPS -enabled printer or driver. The simplified spooling process eliminates the need to generate an intermediate spool file, such as an EMF data file, before the document is spooled. Through smaller spool file sizes, the XPS print path can reduce network traffic and improve print performance.
+    </Paragraph>
+
+    <Paragraph>EMF is a closed format that represents application output as a series of calls into GDI for rendering services. Unlike EMF, the XPS spool format represents the actual document without requiring further interpretation when output to an XPS-based printer driver (XPSDrv). The drivers can operate directly on the data in the format. This capability eliminates the data and color space conversions required when you use EMF files and GDI-based print drivers.
+    </Paragraph>
+
+    <Paragraph>Spool file sizes are usually reduced when you use XPS Documents that target an XPS printer driver (XPSDrv) compared with their EMF equivalents; 
+however, there are exceptions: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A vector graphic that is very complex, multi-layered, or inefficiently written can be larger than a bitmapped version of the same graphic.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>For screen display purposes, XPS files embed device fonts as well as computer-based fonts; 
+whereas GDI spool files do not embed device fonts. But both kinds of fonts are subsetted (see below) and printer drivers can remove the device fonts before transmitting the file to the printer. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Spool size reduction is performed through several mechanisms:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Font subsetting</Run>
+. Only characters used within the actual document are stored in the XPS file.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Advanced Graphics Support</Run>
+. Native support for transparency and gradient primitives avoids rasterization of content in the XPS Document.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Identification of common resources</Run>
+. Resources that are used multiple times (such as an image that represents a corporate logo) are treated as shared resources and are loaded only once.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ZIP compression</Run>
+. All XPS documents use ZIP compression.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Microsoft XPS Document Converter printer escape
+      <LineBreak/>PrintDialog
+      <LineBreak/>XpsDocumentWriter
+      <LineBreak/>XpsDocument
+      <LineBreak/>PrintTicket
+      <LineBreak/>PrintCapabilities
+      <LineBreak/>PrintServer
+      <LineBreak/>PrintQueue
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="4839cd87-e206-4571-803f-0200098ad37b.xaml">Document Serialization and Storage</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="5f3d391a-4afd-49ee-ad99-ceb737c0c8a8.xaml">Printing How-to Topics</Hyperlink>
+
+      <LineBreak/>Printing an XPS Document
+      <LineBreak/><Hyperlink NavigateUri="http://windowssdk.msdn.microsoft.com/library/en-us/printschema/html/d746bdd1-96c2-41f5-ad99-0b51c8ee8731.asp?frame=true">Print Schema</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://www.microsoft.com/xps">XPS</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://windowssdk.msdn.microsoft.com/library/en-us/Gdi/prntspol_62ia.asp?frame=true">Printing and Print Spooler</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Printing Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

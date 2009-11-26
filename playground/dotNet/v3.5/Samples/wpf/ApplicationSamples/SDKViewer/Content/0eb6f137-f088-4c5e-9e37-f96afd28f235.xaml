@@ -1,0 +1,376 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0eb6f137_f088_4c5e_9e37_f96afd28f235"
+  Tag     ="Windows Forms and WPF Interoperability Input Architecture"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Forms and WPF Interoperability Input Architecture</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Interoperation between the WPF and Windows Forms requires that both technologies have the appropriate keyboard input processing. This topic describes how these technologies implement keyboard and message processing to enable smooth interoperation in hybrid applications.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following subsections:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink>Modeless Forms and Dialog Boxes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink>WindowsFormsHost Keyboard and Message Processing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink>ElementHost Keyboard and Message Processing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Modeless Forms and Dialog Boxes
+    </Paragraph>
+
+    <Paragraph>Call the EnableWindowsFormsInterop method on the WindowsFormsHost element to open a modeless form or dialog box from a WPF-based application. 
+    </Paragraph>
+
+    <Paragraph>Call the EnableModelessKeyboardInterop method on the ElementHost control to open a modeless WPF page in a Windows Forms-based application. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">WindowsFormsHost Keyboard and Message Processing
+    </Paragraph>
+
+    <Paragraph>When hosted by a WPF-based application, Windows Forms keyboard and message processing consists of the following: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ class acquires messages from the WPF message loop, which is implemented by the ComponentDispatcher class. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ class creates a surrogate Windows Forms message loop to ensure that ordinary Windows Forms keyboard processing occurs. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ class implements the IKeyboardInputSink interface to coordinate focus management with WPF.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ controls register themselves and start their message loops.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following sections describe these parts of the process in more detail.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Acquiring Messages from the Windows Presentation Foundation Message Loop
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ComponentDispatcher</Run>
+ class implements the message loop manager for WPF. The <Run FontWeight="Bold">ComponentDispatcher</Run>
+ class provides hooks to enable external clients to filter messages before WPF processes them. 
+    </Paragraph>
+
+    <Paragraph>The interoperation implementation handles the System.Windows.Interop.ComponentDispatcher.ThreadFilterMessage event, which enables Windows Forms controls to process messages before WPF controls. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Surrogate Windows Forms Message Loop
+    </Paragraph>
+
+    <Paragraph>By default, the System.Windows.Forms.Application class contains the primary message loop for Windows Forms applications. During interoperation, the Windows Forms message loop does not process messages. Therefore, this logic must be reproduced. The handler for the <Run FontWeight="Bold">System.Windows.Interop.ComponentDispatcher.ThreadFilterMessage</Run>
+ event performs the following steps:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Filters the message using the IMessageFilter interface.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Calls the System.Windows.Forms.Control.PreProcessMessage(System.Windows.Forms.Message) method.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Translates and dispatches the message, if it is required.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Passes the message to the hosting control, if no other controls process the message.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">IKeyboardInputSink Implementation
+    </Paragraph>
+
+    <Paragraph>The surrogate message loop handles keyboard management. Therefore, the System.Windows.Interop.IKeyboardInputSink.TabInto(System.Windows.Input.TraversalRequest) method is the only <Run FontWeight="Bold">IKeyboardInputSink</Run>
+ member that requires an implementation in the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ class.
+    </Paragraph>
+
+    <Paragraph>By default, the HwndHost class returns <Run FontWeight="Bold">false</Run>
+ for its TabInto implementation. This prevents tabbing from a WPF control to a Windows Forms control. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ implementation of the <Run FontWeight="Bold">System.Windows.Interop.IKeyboardInputSink.TabInto(System.Windows.Input.TraversalRequest)</Run>
+ method performs the following steps:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Finds the first or last Windows Forms control that is contained by the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control and that can receive focus. The control choice depends on traversal information.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Sets focus to the control and returns <Run FontWeight="Bold">true</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If no control can receive focus, returns <Run FontWeight="Bold">false</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">WindowsFormsHost Registration
+    </Paragraph>
+
+    <Paragraph>When the window handle to a <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control is created, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control calls an internal static method that registers its presence for the message loop.
+    </Paragraph>
+
+    <Paragraph>During registration, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control examines the message loop. If the message loop has not been started, the <Run FontWeight="Bold">System.Windows.Interop.ComponentDispatcher.ThreadFilterMessage</Run>
+ event handler is created. The message loop is considered to be running when the <Run FontWeight="Bold">System.Windows.Interop.ComponentDispatcher.ThreadFilterMessage</Run>
+ event handler is attached.
+    </Paragraph>
+
+    <Paragraph>When the window handle is destroyed, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control removes itself from registration.
+    </Paragraph>
+
+    <Paragraph FontSize="22">ElementHost Keyboard and Message Processing
+    </Paragraph>
+
+    <Paragraph>When hosted by a Windows Forms application, WPF keyboard and message processing consists of the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>HwndSource, <Run FontWeight="Bold">IKeyboardInputSink</Run>
+, and IKeyboardInputSite interface implementations.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Tabbing and arrow keys.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Command keys and dialog box keys.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Windows Forms accelerator processing.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following sections describe these parts in more detail.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Interface Implementations
+    </Paragraph>
+
+    <Paragraph>In Windows Forms, keyboard messages are routed to the window handle of the control that has focus. In the <Run FontWeight="Bold">ElementHost</Run>
+ control, these messages are routed to the hosted element. To accomplish this, the <Run FontWeight="Bold">ElementHost</Run>
+ control provides an <Run FontWeight="Bold">HwndSource</Run>
+ instance. If the <Run FontWeight="Bold">ElementHost</Run>
+ control has focus, the <Run FontWeight="Bold">HwndSource</Run>
+ instance routes most keyboard input so that it can be processed by the WPF InputManager class.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">HwndSource</Run>
+ class implements the <Run FontWeight="Bold">IKeyboardInputSink</Run>
+ and <Run FontWeight="Bold">IKeyboardInputSite</Run>
+ interfaces.
+    </Paragraph>
+
+    <Paragraph>Keyboard interoperation relies on implementing the OnNoMoreTabStops method to handle TAB key and arrow key input that moves focus out of hosted elements. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Tabbing and Arrow Keys
+    </Paragraph>
+
+    <Paragraph>The Windows Forms selection logic is mapped to the TabInto and <Run FontWeight="Bold">OnNoMoreTabStops</Run>
+ methods to implement TAB and arrow key navigation. Overriding the Select method accomplishes this mapping.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Command Keys and Dialog Box Keys
+    </Paragraph>
+
+    <Paragraph>To give WPF the first opportunity to process command keys and dialog keys, Windows Forms command preprocessing is connected to the TranslateAccelerator method. Overriding the System.Windows.Forms.Control.ProcessCmdKey(System.Windows.Forms.Message,System.Windows.Forms.Keys) method connects the two technologies. 
+    </Paragraph>
+
+    <Paragraph>With the <Run FontWeight="Bold">TranslateAccelerator</Run>
+ method, the hosted elements can handle any key message, such as WM_KEYDOWN, WM_KEYUP, WM_SYSKEYDOWN, or WM_SYSKEYUP, including command keys, such as TAB, ENTER, ESC, and arrow keys. If a key message is not handled, it is sent up the Windows Forms ancestor hierarchy for handling. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Accelerator Processing
+    </Paragraph>
+
+    <Paragraph>To process accelerators correctly, Windows Forms accelerator processing must be connected to the WPF AccessKeyManager class. Additionally, all WM_CHAR messages must be correctly routed to hosted elements. 
+    </Paragraph>
+
+    <Paragraph>Because the default <Run FontWeight="Bold">HwndSource</Run>
+ implementation of the TranslateChar method returns <Run FontWeight="Bold">false</Run>
+, WM_CHAR messages are processed using the following logic:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The System.Windows.Forms.Control.IsInputChar(System.Char) method is overridden to ensure that all WM_CHAR messages are forwarded to hosted elements.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the ALT key is pressed, the message is WM_SYSCHAR. Windows Forms does not preprocess this message through the <Run FontWeight="Bold">IsInputChar</Run>
+ method. Therefore, the ProcessMnemonic method is overridden to query the WPF <Run FontWeight="Bold">AccessKeyManager</Run>
+ for a registered accelerator. If a registered accelerator is found, <Run FontWeight="Bold">AccessKeyManager</Run>
+ processes it. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the ALT key is not pressed, the WPF <Run FontWeight="Bold">InputManager</Run>
+ class processes the unhandled input. If the input is an accelerator, the <Run FontWeight="Bold">AccessKeyManager</Run>
+ processes it. The PostProcessInput event is handled for WM_CHAR messages that were not processed. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When the user presses the ALT key, accelerator visual cues are shown on the whole form. To support this behavior, all <Run FontWeight="Bold">ElementHost</Run>
+ controls on the active form receive WM_SYSKEYDOWN messages, regardless of which control has focus. 
+    </Paragraph>
+
+    <Paragraph>Messages are sent only to <Run FontWeight="Bold">ElementHost</Run>
+ controls in the active form. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>EnableWindowsFormsInterop
+      <LineBreak/>EnableModelessKeyboardInterop
+      <LineBreak/>ElementHost
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="96fcd78d-1c77-4206-8928-3a0579476ef4.xaml">Walkthrough: Hosting a Windows Forms Composite Control in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0ac41286-4c1b-4b17-9196-d985cb844ce1.xaml">Walkthrough: Hosting a Windows Presentation Foundation Control in Windows Forms</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation Migration and Interop Architecture
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Forms and WPF Interoperability Input Architecture to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

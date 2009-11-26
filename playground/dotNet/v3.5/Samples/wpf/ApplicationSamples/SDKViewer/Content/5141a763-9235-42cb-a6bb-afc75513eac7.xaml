@@ -1,0 +1,218 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5141a763_9235_42cb_a6bb_afc75513eac7"
+  Tag     ="Paint an Area with a System Brush"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Paint an Area with a System Brush</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The SystemColors class provides access to system brushes and colors, such as ControlBrush, ControlBrushKey, and DesktopBrush. A system brush is a SolidColorBrush object that paints an area with the specified system color. A system brush always produces a solid fill; 
+it can't be used to create a gradient.
+    </Paragraph>
+
+    <Paragraph>You can use system brushes as either a static or a dynamic resource. Use a dynamic resource if you want the brush to update automatically if the user changes the system brush as the application is running; 
+otherwise, use a static resource. The SystemColors class contains a variety of static properties that follow a strict naming convention:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">
+&lt;SystemColor></Run>
+Brush
+        </Paragraph>
+
+        <Paragraph>Gets a static reference to a <Run FontWeight="Bold">SolidColorBrush</Run>
+ of the specified system color.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">
+&lt;SystemColor></Run>
+BrushKey
+        </Paragraph>
+
+        <Paragraph>Gets a dynamic reference to a <Run FontWeight="Bold">SolidColorBrush</Run>
+ of the specified system color.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">
+&lt;SystemColor></Run>
+Color
+        </Paragraph>
+
+        <Paragraph>Gets a static reference to a Color structure of the specified system color.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">
+&lt;SystemColor></Run>
+ColorKey
+        </Paragraph>
+
+        <Paragraph>Gets a dynamic reference to the <Run FontWeight="Bold">Color</Run>
+ structure of the specified system color.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>A system color is a <Run FontWeight="Bold">Color</Run>
+ structure that can be used to configure a brush. For example, you can create a gradient using system colors by setting the Color properties of a LinearGradientBrush object's gradient stops with system colors. For an example, see <Hyperlink NavigateUri="11942e7e-6300-4b50-8ed1-f50e8d20e7d2.xaml">How to: Use System Colors in a Gradient</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses a dynamic system brush reference to set the Background of a button.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_5141a763_9235_42cb_a6bb_afc75513eac7_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="SystemColors Example" Background="White"> 
+&lt;StackPanel Margin="20"> 
+&lt;!-- Uses a dynamic resource to set the background of a button. If the desktop brush changes while this application is running, this button will be updated. --> 
+&lt;Button Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" Content="Hello, World!" /> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next example uses a static system brush reference to set the Background of a button.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_5141a763_9235_42cb_a6bb_afc75513eac7_1">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="SystemColors Example" Background="White"> 
+&lt;StackPanel Margin="20"> 
+&lt;!-- Uses a static brush to set the background of a button. If the desktop brush changes while this application is running, this button will not be updated until the page is loaded again. --> 
+&lt;Button Background="{x:Static SystemColors.DesktopBrush}" Content="Hello, World!" /> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For an example showing how to use a system color in a gradient, see <Hyperlink NavigateUri="11942e7e-6300-4b50-8ed1-f50e8d20e7d2.xaml">How to: Use System Colors in a Gradient</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="11942e7e-6300-4b50-8ed1-f50e8d20e7d2.xaml">How to: Use System Colors in a Gradient</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>System Brushes and Colors Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Paint an Area with a System Brush to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

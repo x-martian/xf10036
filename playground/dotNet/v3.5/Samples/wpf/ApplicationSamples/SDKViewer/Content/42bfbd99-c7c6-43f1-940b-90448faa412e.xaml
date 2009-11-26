@@ -1,0 +1,116 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_42bfbd99_c7c6_43f1_940b_90448faa412e"
+  Tag     ="Hit Test in a Viewport3D"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Hit Test in a Viewport3D</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to hit test for 3D Visuals in a Viewport3D. 
+    </Paragraph>
+
+    <Paragraph>Because HitTest returns 2D and 3D information, it is possible to iterate through the test results to read only 3D results. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void HitTest(object sender, System.Windows.Input.MouseButtonEventArgs args) { Point mouseposition = args.GetPosition(myViewport); 
+Point3D testpoint3D = new Point3D(mouseposition.X, mouseposition.Y, 0); 
+Vector3D testdirection = new Vector3D(mouseposition.X, mouseposition.Y, 10); 
+PointHitTestParameters pointparams = new PointHitTestParameters(mouseposition); 
+RayHitTestParameters rayparams = new RayHitTestParameters(testpoint3D, testdirection); 
+//test for a result in the Viewport3D VisualTreeHelper.HitTest(myViewport, null, HTResult, pointparams); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The HitTestResultBehavior in the following code determines how the hit test results are processed. UpdateResultInfo and UpdateMaterial are locally-defined methods.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public HitTestResultBehavior HTResult(System.Windows.Media.HitTestResult rawresult) { //MessageBox.Show(rawresult.ToString()); 
+RayHitTestResult rayResult = rawresult as RayHitTestResult; 
+if (rayResult != null) { RayMeshGeometry3DHitTestResult rayMeshResult = rayResult as RayMeshGeometry3DHitTestResult; 
+if (rayMeshResult != null) { GeometryModel3D hitgeo = rayMeshResult.ModelHit as GeometryModel3D; 
+UpdateResultInfo(rayMeshResult); 
+UpdateMaterial(hitgeo, (side1GeometryModel3D.Material as MaterialGroup)); 
+} } return HitTestResultBehavior.Continue; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Hit Test in a Viewport3D to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

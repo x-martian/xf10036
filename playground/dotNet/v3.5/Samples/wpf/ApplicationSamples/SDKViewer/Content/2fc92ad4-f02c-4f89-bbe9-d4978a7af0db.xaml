@@ -1,0 +1,234 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_2fc92ad4_f02c_4f89_bbe9_d4978a7af0db"
+  Tag     ="Use SelectedValue, SelectedValuePath, and SelectedItem"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Use SelectedValue, SelectedValuePath, and SelectedItem</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the SelectedValue and SelectedValuePath properties to specify a value for the SelectedItem of a TreeView.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">SelectedValuePath</Run>
+ property provides a way to specify a <Run FontWeight="Bold">SelectedValue</Run>
+ for the <Run FontWeight="Bold">SelectedItem</Run>
+ in a <Run FontWeight="Bold">TreeView</Run>
+. Typically, a <Run FontWeight="Bold">SelectedItem</Run>
+ represents a data item in a collection and displays a component of that data item. The <Run FontWeight="Bold">SelectedValuePath</Run>
+ property specifies the component to use in order to set the <Run FontWeight="Bold">SelectedValue</Run>
+ property. The component that you specify for the <Run FontWeight="Bold">SelectedValuePath</Run>
+ property may be different from the component that is displayed by the <Run FontWeight="Bold">SelectedItem</Run>
+. The examples in this topic illustrate this concept.
+    </Paragraph>
+
+    <Paragraph>The following example shows an XmlDataProvider that contains employee information.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;XmlDataProvider x:Key="myEmployeeData" XPath="/EmployeeData"> 
+&lt;x:XData> 
+&lt;EmployeeData xmlns=""> 
+&lt;EmployeeInfo> 
+&lt;EmployeeName>Jesper Aabergy
+&lt;/EmployeeName> 
+&lt;EmployeeWorkDay>Monday
+&lt;/EmployeeWorkDay> 
+&lt;EmployeeWorkDay>Wednesday
+&lt;/EmployeeWorkDay> 
+&lt;EmployeeWorkDay>Friday
+&lt;/EmployeeWorkDay> 
+&lt;EmployeeStartTime>8:00am
+&lt;/EmployeeStartTime> 
+&lt;EmployeeNumber>12345
+&lt;/EmployeeNumber> 
+&lt;/EmployeeInfo> 
+&lt;EmployeeInfo> 
+&lt;EmployeeName>Dominik Paiha
+&lt;/EmployeeName> 
+&lt;EmployeeWorkDay>Monday
+&lt;/EmployeeWorkDay> 
+&lt;EmployeeWorkDay>Tuesday
+&lt;/EmployeeWorkDay> 
+&lt;EmployeeStartTime>6:30am
+&lt;/EmployeeStartTime> 
+&lt;EmployeeNumber>98765
+&lt;/EmployeeNumber> 
+&lt;/EmployeeInfo> 
+&lt;/EmployeeData> 
+&lt;/x:XData> 
+&lt;/XmlDataProvider> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example defines a HierarchicalDataTemplate that specifies the components of the employee information that appears in a TreeViewItem control. Note that the <Run FontWeight="Bold">HierarchicalDataTemplate</Run>
+ does not specify the <Run>EmployeeNumber</Run>
+ as part of the template.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;HierarchicalDataTemplate DataType="EmployeeInfo" ItemsSource ="{Binding XPath=EmployeeWorkDay}"> 
+&lt;TextBlock Text="{Binding XPath=EmployeeName}" /> 
+&lt;/HierarchicalDataTemplate> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows a <Run FontWeight="Bold">TreeView</Run>
+ that uses the <Run FontWeight="Bold">HierarchicalDataTemplate</Run>
+ to display the <Run>EmployeeName</Run>
+ and <Run>EmployeeWorkDay</Run>
+ information and that sets the <Run FontWeight="Bold">SelectedValue</Run>
+ property to the <Run>EmployeeNumber</Run>
+. When you select an <Run>EmployeeName</Run>
+ in the <Run FontWeight="Bold">TreeView</Run>
+, the <Run FontWeight="Bold">SelectedItem</Run>
+ property returns the <Run>EmployeeInfo</Run>
+ data item that corresponds to the selected <Run>EmployeeName</Run>
+. However, because the <Run FontWeight="Bold">SelectedValuePath</Run>
+ of this <Run FontWeight="Bold">TreeView</Run>
+ is set to <Run>EmployeeNumber</Run>
+, the <Run FontWeight="Bold">SelectedValue</Run>
+ is set to the <Run>EmployeeNumber</Run>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TreeView ItemsSource="{Binding Source={StaticResource myEmployeeData}, XPath=EmployeeInfo}" Name="myTreeView" SelectedValuePath="EmployeeNumber" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see TreeView that Specifies SelectedValuePath.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>TreeView
+      <LineBreak/>TreeViewItem
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="62212512-5a5c-4864-949e-b6a6a3a52c02.xaml">TreeView Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b9e9790e-7bfd-45d1-8b7a-1e0d125182a8.xaml">TreeView How-to Topics</Hyperlink>
+
+      <LineBreak/>TreeView Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Use SelectedValue, SelectedValuePath, and SelectedItem to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

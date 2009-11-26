@@ -1,0 +1,172 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5c0854e3_7470_435d_9fe2_93eec9d3634e"
+  Tag     ="XAML Namespaces and Namespace Mapping"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML Namespaces and Namespace Mapping</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic further explains the presence and purpose of the two namespace mappings as found in the root tag of each Extensible Application Markup Language (XAML) file. It also describes how to produce similar mappings for using elements that are defined in your own code, and/or within separate assemblies.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="The_WPF_and_XAML_Namespace_Declarations">The WPF and XAML Namespace Declarations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Mapping_To_Custom_Classes_and_Assemblies">Mapping To Custom Classes and Assemblies</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Mapping_CLR_Namespaces_to_XML_Namespaces_in_an">Mapping CLR Namespaces to XML Namespaces in an Assembly</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">The WPF and XAML Namespace Declarations
+    </Paragraph>
+
+    <Paragraph>Within the namespace declarations in the root tag of many Extensible Application Markup Language (XAML) files, you will see that there are two xmlns declarations. The first declaration maps the overall Windows Presentation Foundation (WPF) namespace as the default:
+    </Paragraph>
+
+    <Paragraph><Run>xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"</Run>
+
+    </Paragraph>
+
+    <Paragraph>The second declaration maps a separate Extensible Application Markup Language (XAML) namespace, mapping it (typically) to the <Run FontWeight="Bold">x:</Run>
+ prefix. 
+    </Paragraph>
+
+    <Paragraph><Run>xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"</Run>
+
+    </Paragraph>
+
+    <Paragraph>The relationship between these declarations is that effectively XAML is a language standard, and WPF is one implementation that uses XAML as a language. The XAML language specifies certain language elements that are presumed to be implemented in order to be compliant, and each of these should be accessible through XAML reader or writer implementations working against the XAML namespace. The WPF implementation reserves the default namespace for its own APIs, and uses a separate mapped prefix for the markup syntax expected in XAML. By convention that prefix is <Run FontWeight="Bold">x:</Run>
+, and this same <Run FontWeight="Bold">x:</Run>
+ convention is followed by project templates, sample code, and the documentation of language features within this SDK. The XAML namespace defines many commonly-used features that are necessary even for basic WPF applications. For instance, in order to join any code-behind to a XAML file through a partial class, you must name that class as the <Run FontWeight="Bold">x:Class</Run>
+ attribute in the root element of the relevant XAML file. Or, any element as defined in a XAML page that you wish to access as a keyed resource should have the <Run FontWeight="Bold">x:Key</Run>
+ attribute set on the element in question. For more information on these and other aspects of XAML see <Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+ or <Hyperlink NavigateUri="67cce290-ca26-4c41-a797-b68aabc45479.xaml">XAML Syntax Terminology</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Mapping To Custom Classes and Assemblies
+    </Paragraph>
+
+    <Paragraph>You can map namespaces to assemblies using a series of tokens within an xmlns prefix declaration, similar to how the standard WPF and XAML namespaces are mapped to prefixes.
+    </Paragraph>
+
+    <Paragraph>The syntax takes the following possible named tokens and following values:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">clr-namespace</Run>
+: The common language runtime (CLR) namespace declared within the assembly that contains the public types to expose as elements.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">assembly=</Run>
+ the assembly that contains some or all of the referenced CLR namespace. This value is typically just the name of the assembly, not the path. The path to that assembly must be established as a project reference in the project file that produces the compiled XAML. Optionally, in order to incorporate versioning and strong name signing, the value may instead be a string as defined by AssemblyName.
+    </Paragraph>
+
+    <Paragraph>Note that the character separating the <Run FontWeight="Bold">clr-namespace </Run>
+token from its value is a colon (:) whereas the character separating the <Run FontWeight="Bold">assembly</Run>
+ token from its value is an equals sign (=). The character to use between these two tokens is a semicolon. For example:
+    </Paragraph>
+
+    <Paragraph><Run>xmlns:custom="clr-namespace:SDKSample;assembly=SDKSampleLibrary"</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">Mapping to Current Assemblies
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">assembly</Run>
+ can be omitted if the <Run FontWeight="Bold">clr-namespace</Run>
+ referenced is being defined within the same assembly as the application code that is referencing the custom classes. Or, an equivalent syntax for this case is to specify <Run FontWeight="Bold">assembly=</Run>
+, with no string token following the equals sign.
+    </Paragraph>
+
+    <Paragraph>Custom classes cannot be used as the root element of a page if defined in the same assembly. Partial classes don't need to be mapped, only classes that are not the partial class of a page in your application will need to be mapped if you intend to reference them as elements in XAML.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Mapping CLR Namespaces to XML Namespaces in an Assembly
+    </Paragraph>
+
+    <Paragraph>WPF defines a CLR attribute that is consumed by XAML readers in order to map multiple CLR namespaces to a single XML namespace. This attribute, XmlnsDefinitionAttribute, is placed at the assembly level in the source code that produces the assembly. The WPF assembly source code uses this attribute to map the various common namespaces such as System.Windows, System.Windows.Controls, etc. to the <Run>http://schemas.microsoft.com/winfx/2006/xaml/presentation</Run>
+ namespace.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">XmlnsDefinitionAttribute</Run>
+ takes two parameters: the XML namespace name, and the CLR namespace name. More than one <Run FontWeight="Bold">XmlnsDefinitionAttribute</Run>
+ can exist to map multiple multiple CLR namespaces to the same XML namespace. Once mapped, members of those namespaces can also be referenced without full qualification if desired by providing the appropriate <Run FontWeight="Bold">using</Run>
+ statement in the partial class code-behind page. For more details, see <Run FontWeight="Bold">XmlnsDefinitionAttribute</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="http://msdn.microsoft.com/library/en-us/dnxml/html/xml_namespaces.asp">Understanding XML Namespaces</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about XAML Namespaces and Namespace Mapping to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

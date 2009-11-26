@@ -1,0 +1,807 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5f3a45c6_6d40_4017_9b47_933f134ceba3"
+  Tag     ="Select Ink from a Custom Control"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Select Ink from a Custom Control</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>By adding an IncrementalLassoHitTester to your custom control, you can enable your control so that a user can select ink with a lasso tool, similar to the way the InkCanvas selects ink with a lasso. 
+    </Paragraph>
+
+    <Paragraph>This example assumes you are familiar with creating an ink-enabled custom control. To create a custom control that accepts ink input, see <Hyperlink NavigateUri="c31f3a67-cb3f-4ded-af9e-ed21f6575b26.xaml">Creating an Ink Input Control</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>When the user draws a lasso, the <Run FontWeight="Bold">IncrementalLassoHitTester</Run>
+ predicts which strokes will be within the lasso path's boundaries after the user completes the lasso. Strokes that are determined to be within the lasso path's boundaries can be thought of as being selected. Selected strokes can also become unselected. For example, if the user reverses direction while drawing the lasso, the <Run FontWeight="Bold">IncrementalLassoHitTester</Run>
+ may unselect some strokes. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">IncrementalLassoHitTester</Run>
+ raises the SelectionChanged event, which enables your custom control to respond while the user is drawing the lasso. For example, you can change the appearance of strokes as the user selects and unselects them.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Managing the Ink Mode
+    </Paragraph>
+
+    <Paragraph>It is helpful to the user if the lasso appears differently than the ink on your control. To accomplish this, your custom control must keep track of whether the user is writing or selecting ink. The easiest way to do this is to declare an enumeration with two values: one to indicate that the user is writing ink and one to indicate that the user is selecting ink.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Enum that keeps track of whether StrokeCollectionDemo is in ink mode // or select mode. public enum InkMode { Ink, Select } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' Enum that keeps track of whether StrokeCollectionDemo is in ink mode ' or select mode. Public Enum InkMode Ink [Select] End Enum 'InkMode </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Next, add two DrawingAttributes to the class: one to use when the user writes ink, one to use when the user selects ink. In the constructor, initialize the <Run FontWeight="Bold">DrawingAttributes</Run>
+ and attach both AttributeChanged events to the same event handler. Then set the DrawingAttributes property of the DynamicRenderer to the ink <Run FontWeight="Bold">DrawingAttributes</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private inkDA As DrawingAttributes Private selectDA As DrawingAttributes ... ' In the constructor. ' Selection drawing attributes use dark gray ink. selectDA = New DrawingAttributes() selectDA.Color = Colors.DarkGray ' ink drawing attributes use default attributes inkDA = New DrawingAttributes() inkDA.Width = 5 inkDA.Height = 5 AddHandler inkDA.AttributeChanged, _ AddressOf DrawingAttributesChanged AddHandler selectDA.AttributeChanged, _ AddressOf DrawingAttributesChanged </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DrawingAttributes inkDA; 
+DrawingAttributes selectDA; 
+... // In the constructor. // Selection drawing attributes use dark gray ink. selectDA = new DrawingAttributes(); 
+selectDA.Color = Colors.DarkGray; 
+// ink drawing attributes use default attributes inkDA = new DrawingAttributes(); 
+inkDA.Width = 5; 
+inkDA.Height = 5; 
+inkDA.AttributeChanged += new PropertyDataChangedEventHandler(DrawingAttributesChanged); 
+selectDA.AttributeChanged += new PropertyDataChangedEventHandler(DrawingAttributesChanged); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Add a property that exposes the selection mode. When the user changes the selection mode, set the <Run FontWeight="Bold">DrawingAttributes</Run>
+ property of the <Run FontWeight="Bold">DynamicRenderer</Run>
+ to the appropriate <Run FontWeight="Bold">DrawingAttributes</Run>
+ object and then reattach the RootVisual Property to the InkPresenter.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Property to indicate whether the user is inputting or // selecting ink. public InkMode Mode { get { return mode; 
+} set { mode = value; 
+// Set the DrawingAttributes of the DynamicRenderer if (mode == InkMode.Ink) { renderer.DrawingAttributes = inkDA; 
+} else { renderer.DrawingAttributes = selectDA; 
+} // Reattach the visual of the DynamicRenderer to the InkPresenter. presenter.DetachVisuals(renderer.RootVisual); 
+presenter.AttachVisuals(renderer.RootVisual, renderer.DrawingAttributes); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' Property to indicate whether the user is inputting or ' selecting ink. Public Property Mode() As InkMode Get Return Mode End Get Set(ByVal value As InkMode) modeState = value ' Set the DrawingAttributes of the DynamicRenderer If modeState = InkMode.Ink Then renderer.DrawingAttributes = inkDA Else renderer.DrawingAttributes = selectDA End If ' Reattach the visual of the DynamicRenderer to the InkPresenter. presenter.DetachVisuals(renderer.RootVisual) presenter.AttachVisuals(renderer.RootVisual, renderer.DrawingAttributes) End Set End Property </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Expose the <Run FontWeight="Bold">DrawingAttributes</Run>
+ as properties so applications can determine the appearance of the ink strokes and selection strokes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Property to allow the user to change the pen's DrawingAttributes. public DrawingAttributes InkDrawingAttributes { get { return inkDA; 
+} } // Property to allow the user to change the Selector'newStroke DrawingAttributes. public DrawingAttributes SelectDrawingAttributes { get { return selectDA; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' Property to allow the user to change the pen's DrawingAttributes. Public ReadOnly Property InkDrawingAttributes() As DrawingAttributes Get Return inkDA End Get End Property ' Property to allow the user to change the Selector'newStroke DrawingAttributes. Public ReadOnly Property SelectDrawingAttributes() As DrawingAttributes Get Return selectDA End Get End Property </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When a property of a <Run FontWeight="Bold">DrawingAttributes</Run>
+ object changes, the <Run FontWeight="Bold">RootVisual</Run>
+ must be reattached to the <Run FontWeight="Bold">InkPresenter</Run>
+. In the event handler for the <Run FontWeight="Bold">AttributeChanged</Run>
+ event, reattach the <Run FontWeight="Bold">RootVisual</Run>
+ to the <Run FontWeight="Bold">InkPresenter</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void DrawingAttributesChanged(object sender, PropertyDataChangedEventArgs e) { // Reattach the visual of the DynamicRenderer to the InkPresenter // whenever the DrawingAttributes change. presenter.DetachVisuals(renderer.RootVisual); 
+presenter.AttachVisuals(renderer.RootVisual, renderer.DrawingAttributes); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub DrawingAttributesChanged(ByVal sender As Object, _ ByVal e As PropertyDataChangedEventArgs) ' Reattach the visual of the DynamicRenderer to the InkPresenter ' whenever the DrawingAttributes change. presenter.DetachVisuals(renderer.RootVisual) presenter.AttachVisuals(renderer.RootVisual, _ renderer.DrawingAttributes) End Sub 'DrawingAttributesChanged </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using the IncrementalLassoHitTester
+    </Paragraph>
+
+    <Paragraph>Create and initialize a StrokeCollection that contains the selected strokes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// StylusPointCollection that collects the stylus points from the stylus events. StylusPointCollection stylusPoints; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' StylusPointCollection that collects the stylus points from the stylus events. Private stylusPoints As StylusPointCollection </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the user starts to draw a stroke, either ink or the lasso, unselect any selected strokes. Then, if the user is drawing a lasso, create an <Run FontWeight="Bold">IncrementalLassoHitTester</Run>
+ by calling GetIncrementalLassoHitTester, subscribe to the <Run FontWeight="Bold">SelectionChanged</Run>
+ event, and call AddPoints. This code can be a separate method and called from the OnStylusDown and OnMouseDown methods.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void InitializeHitTester(StylusPointCollection collectedPoints) { // Deselect any selected strokes. foreach (Stroke selectedStroke in selectedStrokes) { selectedStroke.DrawingAttributes.Color = inkDA.Color; 
+} selectedStrokes.Clear(); 
+if (mode == InkMode.Select) { // Remove the previously drawn lasso, if it exists. if (lassoPath != null) { presenter.Strokes.Remove(lassoPath); 
+lassoPath = null; 
+} selectionTester = presenter.Strokes.GetIncrementalLassoHitTester(80); 
+selectionTester.SelectionChanged += new LassoSelectionChangedEventHandler(selectionTester_SelectionChanged); 
+selectionTester.AddPoints(collectedPoints); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub InitializeHitTester(ByVal collectedPoints As StylusPointCollection) ' Deselect any selected strokes. Dim selectedStroke As Stroke For Each selectedStroke In selectedStrokes selectedStroke.DrawingAttributes.Color = inkDA.Color Next selectedStroke selectedStrokes.Clear() If modeState = InkMode.Select Then ' Remove the previously drawn lasso, if it exists. If Not (lassoPath Is Nothing) Then presenter.Strokes.Remove(lassoPath) lassoPath = Nothing End If selectionTester = presenter.Strokes.GetIncrementalLassoHitTester(80) AddHandler selectionTester.SelectionChanged, AddressOf selectionTester_SelectionChanged selectionTester.AddPoints(collectedPoints) End If End Sub 'InitializeHitTester </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Add the stylus points to the <Run FontWeight="Bold">IncrementalLassoHitTester</Run>
+ while the user draws the lasso. Call the following method from the OnStylusMove, OnStylusUp, OnMouseMove, and OnMouseLeftButtonUp methods.
+    </Paragraph>
+
+    <Paragraph>Handle the <Run FontWeight="Bold">System.Windows.Ink.IncrementalLassoHitTester.SelectionChanged</Run>
+ event to respond when the user selects and unselects strokes. The LassoSelectionChangedEventArgs class has the SelectedStrokes and DeselectedStrokes properties that get the strokes that were selected and unselected, respectively. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void selectionTester_SelectionChanged(object sender, LassoSelectionChangedEventArgs args) { // Change the color of all selected strokes to red. foreach (Stroke selectedStroke in args.SelectedStrokes) { selectedStroke.DrawingAttributes.Color = Colors.Red; 
+selectedStrokes.Add(selectedStroke); 
+} // Change the color of all unselected strokes to // their original color. foreach (Stroke unselectedStroke in args.DeselectedStrokes) { unselectedStroke.DrawingAttributes.Color = inkDA.Color; 
+selectedStrokes.Remove(unselectedStroke); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub selectionTester_SelectionChanged(ByVal sender As Object, _ ByVal args As LassoSelectionChangedEventArgs) ' Change the color of all selected strokes to red. Dim selectedStroke As Stroke For Each selectedStroke In args.SelectedStrokes selectedStroke.DrawingAttributes.Color = Colors.Red selectedStrokes.Add(selectedStroke) Next selectedStroke ' Change the color of all unselected strokes to ' their original color. Dim unselectedStroke As Stroke For Each unselectedStroke In args.DeselectedStrokes unselectedStroke.DrawingAttributes.Color = inkDA.Color selectedStrokes.Remove(unselectedStroke) Next unselectedStroke End Sub 'selectionTester_SelectionChanged </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the user finishes drawing the lasso, unsubscribe from the <Run FontWeight="Bold">SelectionChanged</Run>
+ event and call EndHitTesting. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>if (mode == InkMode.Select &amp;&amp; 
+lassoPath == null) { // Add the lasso to the InkPresenter and add the packetList // to selectionTester. lassoPath = newStroke; 
+lassoPath.DrawingAttributes = selectDA.Clone(); 
+presenter.Strokes.Add(lassoPath); 
+selectionTester.SelectionChanged -= new LassoSelectionChangedEventHandler (selectionTester_SelectionChanged); 
+selectionTester.EndHitTesting(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>If modeState = InkMode.Select AndAlso lassoPath Is Nothing Then ' Add the lasso to the InkPresenter and add the packetList ' to selectionTester. lassoPath = newStroke lassoPath.DrawingAttributes = selectDA.Clone() presenter.Strokes.Add(lassoPath) RemoveHandler selectionTester.SelectionChanged, _ AddressOf selectionTester_SelectionChanged selectionTester.EndHitTesting() End If </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Putting it All Together.
+    </Paragraph>
+
+    <Paragraph>The following example is a custom control that enables a user to select ink with a lasso.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Input; 
+using System.Windows.Input.StylusPlugIns; 
+using System.Windows.Ink; 
+// Enum that keeps track of whether StrokeCollectionDemo is in ink mode // or select mode. public enum InkMode { Ink, Select } // This control allows the user to input and select ink. When the // user selects ink, the lasso remains visible until they erase, or clip // the selected strokes, or clear the selection. When the control is // in selection mode, strokes that are selected turn red. public class InkSelector : Label { InkMode mode; 
+DrawingAttributes inkDA; 
+DrawingAttributes selectDA; 
+InkPresenter presenter; 
+IncrementalLassoHitTester selectionTester; 
+StrokeCollection selectedStrokes = new StrokeCollection(); 
+// StylusPointCollection that collects the stylus points from the stylus events. StylusPointCollection stylusPoints; 
+// Stroke that represents the lasso. Stroke lassoPath; 
+DynamicRenderer renderer; 
+public InkSelector() { mode = InkMode.Ink; 
+// Use an InkPresenter to display the strokes on the custom control. presenter = new InkPresenter(); 
+this.Content = presenter; 
+// In the constructor. // Selection drawing attributes use dark gray ink. selectDA = new DrawingAttributes(); 
+selectDA.Color = Colors.DarkGray; 
+// ink drawing attributes use default attributes inkDA = new DrawingAttributes(); 
+inkDA.Width = 5; 
+inkDA.Height = 5; 
+inkDA.AttributeChanged += new PropertyDataChangedEventHandler(DrawingAttributesChanged); 
+selectDA.AttributeChanged += new PropertyDataChangedEventHandler(DrawingAttributesChanged); 
+// Add a DynmaicRenderer to the control so ink appears // to "flow" from the tablet pen. renderer = new DynamicRenderer(); 
+renderer.DrawingAttributes = inkDA; 
+this.StylusPlugIns.Add(renderer); 
+presenter.AttachVisuals(renderer.RootVisual, renderer.DrawingAttributes); 
+} static InkSelector() { // Allow ink to be drawn only within the bounds of the control. Type owner = typeof(InkSelector); 
+ClipToBoundsProperty.OverrideMetadata(owner, new FrameworkPropertyMetadata(true)); 
+} // Prepare to collect stylus packets. If Mode is set to Select, // get the IncrementalHitTester from the InkPresenter'newStroke // StrokeCollection and subscribe to its StrokeHitChanged event. protected override void OnStylusDown(StylusDownEventArgs e) { base.OnStylusDown(e); 
+Stylus.Capture(this); 
+// Create a new StylusPointCollection using the StylusPointDescription // from the stylus points in the StylusDownEventArgs. stylusPoints = new StylusPointCollection(); 
+StylusPointCollection eventPoints = e.GetStylusPoints(this, stylusPoints.Description); 
+stylusPoints.Add(eventPoints); 
+InitializeHitTester(eventPoints); 
+} protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) { base.OnMouseLeftButtonDown(e); 
+Mouse.Capture(this); 
+if (e.StylusDevice != null) { return; 
+} Point pt = e.GetPosition(this); 
+StylusPointCollection collectedPoints = new StylusPointCollection(new Point[] { pt }); 
+stylusPoints = new StylusPointCollection(); 
+stylusPoints.Add(collectedPoints); 
+InitializeHitTester(collectedPoints); 
+} private void InitializeHitTester(StylusPointCollection collectedPoints) { // Deselect any selected strokes. foreach (Stroke selectedStroke in selectedStrokes) { selectedStroke.DrawingAttributes.Color = inkDA.Color; 
+} selectedStrokes.Clear(); 
+if (mode == InkMode.Select) { // Remove the previously drawn lasso, if it exists. if (lassoPath != null) { presenter.Strokes.Remove(lassoPath); 
+lassoPath = null; 
+} selectionTester = presenter.Strokes.GetIncrementalLassoHitTester(80); 
+selectionTester.SelectionChanged += new LassoSelectionChangedEventHandler(selectionTester_SelectionChanged); 
+selectionTester.AddPoints(collectedPoints); 
+} } // Collect the stylus packets as the stylus moves. protected override void OnStylusMove(StylusEventArgs e) { if (stylusPoints == null) { return; 
+} StylusPointCollection collectedPoints = e.GetStylusPoints(this, stylusPoints.Description); 
+stylusPoints.Add(collectedPoints); 
+AddPointsToHitTester(collectedPoints); 
+} protected override void OnMouseMove(MouseEventArgs e) { base.OnMouseMove(e); 
+if (e.StylusDevice != null) { return; 
+} if (e.LeftButton == MouseButtonState.Released) { return; 
+} if (stylusPoints == null) { stylusPoints = new StylusPointCollection(); 
+} Point pt = e.GetPosition(this); 
+StylusPointCollection collectedPoints = new StylusPointCollection(new Point[] { pt }); 
+stylusPoints.Add(collectedPoints); 
+AddPointsToHitTester(collectedPoints); 
+} private void AddPointsToHitTester(StylusPointCollection collectedPoints) { if (mode == InkMode.Select &amp;&amp; 
+selectionTester != null &amp;&amp; 
+selectionTester.IsValid) { // When the control is selecting strokes, add the // stylus packetList to selectionTester. selectionTester.AddPoints(collectedPoints); 
+} } // When the user lifts the stylus, create a Stroke from the // collected stylus points and add it to the InkPresenter. // When the control is selecting strokes, add the // point data to the IncrementalHitTester. protected override void OnStylusUp(StylusEventArgs e) { if (stylusPoints == null) { stylusPoints = new StylusPointCollection(); 
+} StylusPointCollection collectedPoints = e.GetStylusPoints(this, stylusPoints.Description); 
+stylusPoints.Add(collectedPoints); 
+AddPointsToHitTester(collectedPoints); 
+AddStrokeToPresenter(); 
+stylusPoints = null; 
+Stylus.Capture(null); 
+} protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e) { base.OnMouseLeftButtonUp(e); 
+if (e.StylusDevice != null) return; 
+if (stylusPoints == null) stylusPoints = new StylusPointCollection(); 
+Point pt = e.GetPosition(this); 
+StylusPointCollection collectedPoints = new StylusPointCollection(new Point[] { pt }); 
+stylusPoints.Add(collectedPoints); 
+AddPointsToHitTester(collectedPoints); 
+AddStrokeToPresenter(); 
+stylusPoints = null; 
+Mouse.Capture(null); 
+} private void AddStrokeToPresenter() { Stroke newStroke = new Stroke(stylusPoints); 
+if (mode == InkMode.Ink) { // Add the stroke to the InkPresenter. newStroke.DrawingAttributes = inkDA.Clone(); 
+presenter.Strokes.Add(newStroke); 
+} if (mode == InkMode.Select &amp;&amp; 
+lassoPath == null) { // Add the lasso to the InkPresenter and add the packetList // to selectionTester. lassoPath = newStroke; 
+lassoPath.DrawingAttributes = selectDA.Clone(); 
+presenter.Strokes.Add(lassoPath); 
+selectionTester.SelectionChanged -= new LassoSelectionChangedEventHandler (selectionTester_SelectionChanged); 
+selectionTester.EndHitTesting(); 
+} } void selectionTester_SelectionChanged(object sender, LassoSelectionChangedEventArgs args) { // Change the color of all selected strokes to red. foreach (Stroke selectedStroke in args.SelectedStrokes) { selectedStroke.DrawingAttributes.Color = Colors.Red; 
+selectedStrokes.Add(selectedStroke); 
+} // Change the color of all unselected strokes to // their original color. foreach (Stroke unselectedStroke in args.DeselectedStrokes) { unselectedStroke.DrawingAttributes.Color = inkDA.Color; 
+selectedStrokes.Remove(unselectedStroke); 
+} } // Property to indicate whether the user is inputting or // selecting ink. public InkMode Mode { get { return mode; 
+} set { mode = value; 
+// Set the DrawingAttributes of the DynamicRenderer if (mode == InkMode.Ink) { renderer.DrawingAttributes = inkDA; 
+} else { renderer.DrawingAttributes = selectDA; 
+} // Reattach the visual of the DynamicRenderer to the InkPresenter. presenter.DetachVisuals(renderer.RootVisual); 
+presenter.AttachVisuals(renderer.RootVisual, renderer.DrawingAttributes); 
+} } void DrawingAttributesChanged(object sender, PropertyDataChangedEventArgs e) { // Reattach the visual of the DynamicRenderer to the InkPresenter // whenever the DrawingAttributes change. presenter.DetachVisuals(renderer.RootVisual); 
+presenter.AttachVisuals(renderer.RootVisual, renderer.DrawingAttributes); 
+} // Property to allow the user to change the pen's DrawingAttributes. public DrawingAttributes InkDrawingAttributes { get { return inkDA; 
+} } // Property to allow the user to change the Selector'newStroke DrawingAttributes. public DrawingAttributes SelectDrawingAttributes { get { return selectDA; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System Imports System.Windows Imports System.Windows.Controls Imports System.Windows.Media Imports System.Windows.Input Imports System.Windows.Input.StylusPlugIns Imports System.Windows.Ink ' Enum that keeps track of whether StrokeCollectionDemo is in ink mode ' or select mode. Public Enum InkMode Ink [Select] End Enum 'InkMode ' This control allows the user to input and select ink. When the ' user selects ink, the lasso remains visible until they erase, or clip ' the selected strokes, or clear the selection. When the control is ' in selection mode, strokes that are selected turn red. Public Class InkSelector Inherits Label Private modeState As InkMode Private inkDA As DrawingAttributes Private selectDA As DrawingAttributes Private presenter As InkPresenter Private selectionTester As IncrementalLassoHitTester Private selectedStrokes As New StrokeCollection() ' StylusPointCollection that collects the stylus points from the stylus events. Private stylusPoints As StylusPointCollection ' Stroke that represents the lasso. Private lassoPath As Stroke Private renderer As DynamicRenderer Public Sub New() modeState = InkMode.Ink ' Use an InkPresenter to display the strokes on the custom control. presenter = New InkPresenter() Me.Content = presenter ' In the constructor. ' Selection drawing attributes use dark gray ink. selectDA = New DrawingAttributes() selectDA.Color = Colors.DarkGray ' ink drawing attributes use default attributes inkDA = New DrawingAttributes() inkDA.Width = 5 inkDA.Height = 5 AddHandler inkDA.AttributeChanged, _ AddressOf DrawingAttributesChanged AddHandler selectDA.AttributeChanged, _ AddressOf DrawingAttributesChanged ' Add a DynmaicRenderer to the control so ink appears ' to "flow" from the tablet pen. renderer = New DynamicRenderer() renderer.DrawingAttributes = inkDA Me.StylusPlugIns.Add(renderer) presenter.AttachVisuals(renderer.RootVisual, _ renderer.DrawingAttributes) End Sub 'New Shared Sub New() ' Allow ink to be drawn only within the bounds of the control. Dim owner As Type = GetType(InkSelector) ClipToBoundsProperty.OverrideMetadata(owner, _ New FrameworkPropertyMetadata(True)) End Sub 'New ' Prepare to collect stylus packets. If Mode is set to Select, ' get the IncrementalHitTester from the InkPresenter'newStroke ' StrokeCollection and subscribe to its StrokeHitChanged event. Protected Overrides Sub OnStylusDown(ByVal e As StylusDownEventArgs) MyBase.OnStylusDown(e) Stylus.Capture(Me) ' Create a new StylusPointCollection using the StylusPointDescription ' from the stylus points in the StylusDownEventArgs. stylusPoints = New StylusPointCollection() Dim eventPoints As StylusPointCollection = e.GetStylusPoints(Me, stylusPoints.Description) stylusPoints.Add(eventPoints) InitializeHitTester(eventPoints) End Sub 'OnStylusDown Protected Overrides Sub OnMouseLeftButtonDown(ByVal e As MouseButtonEventArgs) MyBase.OnMouseLeftButtonDown(e) Mouse.Capture(Me) If Not (e.StylusDevice Is Nothing) Then Return End If Dim pt As Point = e.GetPosition(Me) Dim collectedPoints As New StylusPointCollection(New Point() {pt}) stylusPoints = New StylusPointCollection() stylusPoints.Add(collectedPoints) InitializeHitTester(collectedPoints) End Sub 'OnMouseLeftButtonDown Private Sub InitializeHitTester(ByVal collectedPoints As StylusPointCollection) ' Deselect any selected strokes. Dim selectedStroke As Stroke For Each selectedStroke In selectedStrokes selectedStroke.DrawingAttributes.Color = inkDA.Color Next selectedStroke selectedStrokes.Clear() If modeState = InkMode.Select Then ' Remove the previously drawn lasso, if it exists. If Not (lassoPath Is Nothing) Then presenter.Strokes.Remove(lassoPath) lassoPath = Nothing End If selectionTester = presenter.Strokes.GetIncrementalLassoHitTester(80) AddHandler selectionTester.SelectionChanged, AddressOf selectionTester_SelectionChanged selectionTester.AddPoints(collectedPoints) End If End Sub 'InitializeHitTester ' Collect the stylus packets as the stylus moves. Protected Overrides Sub OnStylusMove(ByVal e As StylusEventArgs) If stylusPoints Is Nothing Then Return End If Dim collectedPoints As StylusPointCollection = e.GetStylusPoints(Me, stylusPoints.Description) stylusPoints.Add(collectedPoints) AddPointsToHitTester(collectedPoints) End Sub 'OnStylusMove Protected Overrides Sub OnMouseMove(ByVal e As MouseEventArgs) MyBase.OnMouseMove(e) If Not (e.StylusDevice Is Nothing) Then Return End If If e.LeftButton = MouseButtonState.Released Then Return End If If stylusPoints Is Nothing Then stylusPoints = New StylusPointCollection() End If Dim pt As Point = e.GetPosition(Me) Dim collectedPoints As New StylusPointCollection(New Point() {pt}) stylusPoints.Add(collectedPoints) AddPointsToHitTester(collectedPoints) End Sub 'OnMouseMove Private Sub AddPointsToHitTester(ByVal collectedPoints As StylusPointCollection) If modeState = InkMode.Select AndAlso _ Not selectionTester Is Nothing AndAlso _ selectionTester.IsValid Then ' When the control is selecting strokes, add the ' stylus packetList to selectionTester. selectionTester.AddPoints(collectedPoints) End If End Sub 'AddPointsToHitTester ' When the user lifts the stylus, create a Stroke from the ' collected stylus points and add it to the InkPresenter. ' When the control is selecting strokes, add the ' point data to the IncrementalHitTester. Protected Overrides Sub OnStylusUp(ByVal e As StylusEventArgs) If stylusPoints Is Nothing Then stylusPoints = New StylusPointCollection() End If Dim collectedPoints As StylusPointCollection = _ e.GetStylusPoints(Me, stylusPoints.Description) stylusPoints.Add(collectedPoints) AddPointsToHitTester(collectedPoints) AddStrokeToPresenter() stylusPoints = Nothing Stylus.Capture(Nothing) End Sub 'OnStylusUp Protected Overrides Sub OnMouseLeftButtonUp(ByVal e As MouseButtonEventArgs) MyBase.OnMouseLeftButtonUp(e) If Not (e.StylusDevice Is Nothing) Then Return End If If stylusPoints Is Nothing Then stylusPoints = New StylusPointCollection() End If Dim pt As Point = e.GetPosition(Me) Dim collectedPoints As New StylusPointCollection(New Point() {pt}) stylusPoints.Add(collectedPoints) AddPointsToHitTester(collectedPoints) AddStrokeToPresenter() stylusPoints = Nothing Mouse.Capture(Nothing) End Sub 'OnMouseLeftButtonUp Private Sub AddStrokeToPresenter() Dim newStroke As New Stroke(stylusPoints) If modeState = InkMode.Ink Then ' Add the stroke to the InkPresenter. newStroke.DrawingAttributes = inkDA.Clone() presenter.Strokes.Add(newStroke) End If If modeState = InkMode.Select AndAlso lassoPath Is Nothing Then ' Add the lasso to the InkPresenter and add the packetList ' to selectionTester. lassoPath = newStroke lassoPath.DrawingAttributes = selectDA.Clone() presenter.Strokes.Add(lassoPath) RemoveHandler selectionTester.SelectionChanged, _ AddressOf selectionTester_SelectionChanged selectionTester.EndHitTesting() End If End Sub 'AddStrokeToPresenter Sub selectionTester_SelectionChanged(ByVal sender As Object, _ ByVal args As LassoSelectionChangedEventArgs) ' Change the color of all selected strokes to red. Dim selectedStroke As Stroke For Each selectedStroke In args.SelectedStrokes selectedStroke.DrawingAttributes.Color = Colors.Red selectedStrokes.Add(selectedStroke) Next selectedStroke ' Change the color of all unselected strokes to ' their original color. Dim unselectedStroke As Stroke For Each unselectedStroke In args.DeselectedStrokes unselectedStroke.DrawingAttributes.Color = inkDA.Color selectedStrokes.Remove(unselectedStroke) Next unselectedStroke End Sub 'selectionTester_SelectionChanged ' Property to indicate whether the user is inputting or ' selecting ink. Public Property Mode() As InkMode Get Return Mode End Get Set(ByVal value As InkMode) modeState = value ' Set the DrawingAttributes of the DynamicRenderer If modeState = InkMode.Ink Then renderer.DrawingAttributes = inkDA Else renderer.DrawingAttributes = selectDA End If ' Reattach the visual of the DynamicRenderer to the InkPresenter. presenter.DetachVisuals(renderer.RootVisual) presenter.AttachVisuals(renderer.RootVisual, renderer.DrawingAttributes) End Set End Property Sub DrawingAttributesChanged(ByVal sender As Object, _ ByVal e As PropertyDataChangedEventArgs) ' Reattach the visual of the DynamicRenderer to the InkPresenter ' whenever the DrawingAttributes change. presenter.DetachVisuals(renderer.RootVisual) presenter.AttachVisuals(renderer.RootVisual, _ renderer.DrawingAttributes) End Sub 'DrawingAttributesChanged ' Property to allow the user to change the pen's DrawingAttributes. Public ReadOnly Property InkDrawingAttributes() As DrawingAttributes Get Return inkDA End Get End Property ' Property to allow the user to change the Selector'newStroke DrawingAttributes. Public ReadOnly Property SelectDrawingAttributes() As DrawingAttributes Get Return selectDA End Get End Property End Class 'InkSelector </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>IncrementalLassoHitTester
+      <LineBreak/>StrokeCollection
+      <LineBreak/>StylusPointCollection
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c31f3a67-cb3f-4ded-af9e-ed21f6575b26.xaml">Creating an Ink Input Control</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Select Ink from a Custom Control to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

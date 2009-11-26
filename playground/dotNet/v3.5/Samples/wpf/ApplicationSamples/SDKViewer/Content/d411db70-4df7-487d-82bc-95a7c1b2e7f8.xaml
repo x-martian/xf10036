@@ -1,0 +1,259 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d411db70_4df7_487d_82bc_95a7c1b2e7f8"
+  Tag     ="Apply a Local (Non-Storyboard) Animation to a Property"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Apply a Local (Non-Storyboard) Animation to a Property</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to apply a non-Storyboard animation to a property. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>This functionality is not available in Extensible Application Markup Language (XAML). For information about animating a property in XAML, see <Hyperlink NavigateUri="f4a314e9-1da2-4367-85fc-1232487efa7a.xaml">How to: Animate a Property by Using a Storyboard</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To apply a local animation to a property, use the BeginAnimation method. This method takes two parameters: a DependencyProperty that specifies the property to animate, and the animation timeline to apply to that property. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows how to animate the width and background color of a Button.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/* This sample demonstrates how to apply non-storyboard animations to a property. To animate in markup, you must use storyboards. */ using namespace System; 
+using namespace System::Windows; 
+using namespace System::Windows::Navigation; 
+using namespace System::Windows::Media; 
+using namespace System::Windows::Media::Animation; 
+using namespace System::Windows::Shapes; 
+using namespace System::Windows::Controls; 
+namespace Microsoft { namespace Samples { namespace Animation { namespace LocalAnimations { // Create the demonstration. public ref class LocalAnimationExample : Page { public: LocalAnimationExample () { WindowTitle = "Local Animation Example"; 
+StackPanel^ myStackPanel = gcnew StackPanel(); 
+myStackPanel->Margin = Thickness(20); 
+// Create and set the Button. Button^ aButton = gcnew Button(); 
+aButton->Content = "A Button"; 
+// Animate the Button's Width. DoubleAnimation^ myDoubleAnimation = gcnew DoubleAnimation(); 
+myDoubleAnimation->From = 75; 
+myDoubleAnimation->To = 300; 
+myDoubleAnimation->Duration = Duration(TimeSpan::FromSeconds(5)); 
+myDoubleAnimation->AutoReverse = true; 
+myDoubleAnimation->RepeatBehavior = RepeatBehavior::Forever; 
+// Apply the animation to the button's Width property. aButton->BeginAnimation(Button::WidthProperty, myDoubleAnimation); 
+// Create and animate a Brush to set the button's Background. SolidColorBrush^ myBrush = gcnew SolidColorBrush(); 
+myBrush->Color = Colors::Blue; 
+ColorAnimation^ myColorAnimation = gcnew ColorAnimation(); 
+myColorAnimation->From = Colors::Blue; 
+myColorAnimation->To = Colors::Red; 
+myColorAnimation->Duration = Duration(TimeSpan::FromMilliseconds(7000)); 
+myColorAnimation->AutoReverse = true; 
+myColorAnimation->RepeatBehavior = RepeatBehavior::Forever; 
+// Apply the animation to the brush's Color property. myBrush->BeginAnimation(SolidColorBrush::ColorProperty, myColorAnimation); 
+aButton->Background = myBrush; 
+// Add the Button to the panel. myStackPanel->Children->Add(aButton); 
+this->Content = myStackPanel; 
+}; 
+}; 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/* This sample demonstrates how to apply non-storyboard animations to a property. To animate in markup, you must use storyboards. */ using System; 
+using System.Windows; 
+using System.Windows.Navigation; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+using System.Windows.Controls; 
+namespace Microsoft.Samples.Animation.LocalAnimations { // Create the demonstration. public class LocalAnimationExample : Page { public LocalAnimationExample() { WindowTitle = "Local Animation Example"; 
+StackPanel myStackPanel = new StackPanel(); 
+myStackPanel.Margin = new Thickness(20); 
+// Create and set the Button. Button aButton = new Button(); 
+aButton.Content = "A Button"; 
+// Animate the Button's Width. DoubleAnimation myDoubleAnimation = new DoubleAnimation(); 
+myDoubleAnimation.From = 75; 
+myDoubleAnimation.To = 300; 
+myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(5)); 
+myDoubleAnimation.AutoReverse = true; 
+myDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever; 
+// Apply the animation to the button's Width property. aButton.BeginAnimation(Button.WidthProperty, myDoubleAnimation); 
+// Create and animate a Brush to set the button's Background. SolidColorBrush myBrush = new SolidColorBrush(); 
+myBrush.Color = Colors.Blue; 
+ColorAnimation myColorAnimation = new ColorAnimation(); 
+myColorAnimation.From = Colors.Blue; 
+myColorAnimation.To = Colors.Red; 
+myColorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(7000)); 
+myColorAnimation.AutoReverse = true; 
+myColorAnimation.RepeatBehavior = RepeatBehavior.Forever; 
+// Apply the animation to the brush's Color property. myBrush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation); 
+aButton.Background = myBrush; 
+// Add the Button to the panel. myStackPanel.Children.Add(aButton); 
+this.Content = myStackPanel; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' '''This sample demonstrates how to apply non-storyboard animations to a property. '''To animate in markup, you must use storyboards. ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' Imports System Imports System.Windows Imports System.Windows.Navigation Imports System.Windows.Media Imports System.Windows.Media.Animation Imports System.Windows.Shapes Imports System.Windows.Controls Namespace Microsoft.Samples.Animation.LocalAnimations ' Create the demonstration. Public Class LocalAnimationExample Inherits Page Public Sub New() WindowTitle = "Animate Property Example" Dim myStackPanel As New StackPanel() myStackPanel.Margin = New Thickness(20) ' Create and set the Button. Dim aButton As New Button() aButton.Content = "A Button" ' Animate the Button's Width. Dim myDoubleAnimation As New DoubleAnimation() myDoubleAnimation.From = 75 myDoubleAnimation.To = 300 myDoubleAnimation.Duration = New Duration(TimeSpan.FromSeconds(5)) myDoubleAnimation.AutoReverse = True myDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever ' Apply the animation to the button's Width property. aButton.BeginAnimation(Button.WidthProperty, myDoubleAnimation) ' Create and animate a Brush to set the button's Background. Dim myBrush As New SolidColorBrush() myBrush.Color = Colors.Blue Dim myColorAnimation As New ColorAnimation() myColorAnimation.From = Colors.Blue myColorAnimation.To = Colors.Red myColorAnimation.Duration = New Duration(TimeSpan.FromMilliseconds(7000)) myColorAnimation.AutoReverse = True myColorAnimation.RepeatBehavior = RepeatBehavior.Forever ' Apply the animation to the brush's Color property. myBrush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation) aButton.Background = myBrush ' Add the Button to the panel. myStackPanel.Children.Add(aButton) Me.Content = myStackPanel End Sub End Class End Namespace </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Local Animations Sample.
+    </Paragraph>
+
+    <Paragraph>A variety of animation classes in the System.Windows.Media.Animation namespace exist for animating different types of properties. For more information about animating properties, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+. For more information about <Run>dependency properties</Run>
+ (the type of properties that are shown in these examples) and their features, see <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>System.Windows.Media.Animation
+      <LineBreak/>Storyboard
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Local Animations Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Apply a Local (Non-Storyboard) Animation to a Property to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

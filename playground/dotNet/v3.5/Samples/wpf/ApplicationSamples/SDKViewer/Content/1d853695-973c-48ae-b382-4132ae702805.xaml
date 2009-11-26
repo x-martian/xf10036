@@ -1,0 +1,159 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1d853695_973c_48ae_b382_4132ae702805"
+  Tag     ="UI Automation Security Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation Security Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This overview describes the security model for Microsoft UI Automation in Windows Vista.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="User_Account_Control">User Account Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Tasks_Requiring_Higher_Privileges">Tasks Requiring Higher Privileges</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Manifest_Files">Manifest Files</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">User Account Control
+    </Paragraph>
+
+    <Paragraph>Security is a major focus of Windows Vista and among the innovations is the ability for users to run as standard (non-administrator) users without necessarily being blocked from running applications and services that require higher privileges. 
+    </Paragraph>
+
+    <Paragraph>In Windows Vista, most applications are supplied with either a standard or an administrative token. If an application cannot be identified as an administrative application, it is launched as a standard application by default. Before an application identified as administrative can be launched, Windows Vista prompts the user for consent to run the application as elevated. The consent prompt is displayed by default, even if the user is a member of the local Administrators group, because administrators run as standard users until an application or system component that requires administrative credentials requests permission to run.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Tasks Requiring Higher Privileges
+    </Paragraph>
+
+    <Paragraph>When a user attempts to perform a task that requires administrative privileges, Windows Vista presents a dialog box asking the user for consent to continue. This dialog box is protected from cross-process communication, so that malicious software cannot simulate user input. Similarly, the desktop logon screen cannot normally be accessed by other processes.
+    </Paragraph>
+
+    <Paragraph><Run>UI Automation clients</Run>
+ must communicate with other processes, some of them perhaps running at a higher privilege level. Clients also might need access to the system dialog boxes that are not normally visible to other processes. Therefore, UI Automation clients must be trusted by the system, and must run with special privileges.
+    </Paragraph>
+
+    <Paragraph>To be trusted to communicate with applications running at a higher privilege level, applications must be signed.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Manifest Files
+    </Paragraph>
+
+    <Paragraph>To gain access to the protected system UI, applications must be built with a manifest file that includes a special attribute in the manifest file. This <Run>uiAccess</Run>
+ attribute is included in the <Run>requestedExecutionLevel</Run>
+ tag, as follows:
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;trustInfo xmlns="urn:0073chemas-microsoft-com:asm.v3"></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>    
+&lt;security></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>        
+&lt;requestedPrivileges></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>        
+&lt;requestedExecutionLevel </Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>            level="highestAvailable"</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>            UIAccess="true" /></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>        
+&lt;/requestedPrivileges></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>    
+&lt;/security></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;/trustInfo></Run>
+
+    </Paragraph>
+
+    <Paragraph>The value of the <Run>level</Run>
+ attribute in this code is an example only. 
+    </Paragraph>
+
+    <Paragraph><Run>UIAccess</Run>
+ is "false" by default; 
+that is, if the attribute is omitted, or if there is no manifest for the assembly, the application will not be able to gain access to protected UI.
+    </Paragraph>
+
+    <Paragraph>For more information on Windows Vista security, on signing applications, and on creating assembly manifests, see <Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnlong/html/AccProtVista.asp">Developer Best Practices and Guidelines for Applicati</Hyperlink>
+ on MSDN.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation Security Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

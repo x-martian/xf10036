@@ -1,0 +1,313 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Stretch Title" x:Class="myStretch.Page1" Loaded="OnLoaded">
+    <Page.Resources>
+        <Style x:Key="itemHeaderStyler">
+            <Setter Property="ListBoxItem.Margin" Value="0,2,0,5" />
+            <Setter Property="ListBoxItem.Padding" Value="2" />
+            <Setter Property="ListBoxItem.FontFamily" Value="Verdana" />
+            <Setter Property="ListBoxItem.FontWeight" Value="Bold" />
+            <Setter Property="ListBoxItem.FontSize" Value="12" />
+        </Style>
+        <Style x:Key="imageStyler">
+            <Setter Property="TextBlock.Margin" Value="15" />
+        </Style>
+        <Style x:Key="HeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="20" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="TabStyle">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TabStyle2">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TabItem.Foreground" Value="Black" />
+        </Style>
+        <Style x:Key="SubHeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="16" />
+            <Setter Property="TextBlock.Foreground" Value="DarkSlateBlue" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="DisStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="8" />
+            <Setter Property="TextBlock.Foreground" Value="Gray" />
+            <Setter Property="TextBlock.Margin" Value="5,0,5,0" />
+        </Style>
+        <Style x:Key="mainContentStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="5,10,5,10" />
+        </Style>
+        <Style x:Key="tocStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.Margin" Value="0" />
+        </Style>
+        <Style x:Key="CodeSnippetParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Courier New" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10,0,10,0" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="noteParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="TCStyle">
+            <Setter Property="TabControl.Margin" Value="10" />
+        </Style>
+    </Page.Resources>
+    <TabControl MinHeight="500" MaxHeight="700" MinWidth="400" Style="{StaticResource TCStyle}">
+        <TabItem Style="{StaticResource TabStyle}" Header="Stretch Sample" IsSelected="true">
+            <StackPanel>
+                <TextBlock Style="{StaticResource HeaderStyle}">Stretch Sample</TextBlock>
+                <TextBlock Style="{StaticResource mainContentStyle}">This example demonstrates different stretch values.</TextBlock>
+            </StackPanel>
+        </TabItem>
+        <TabItem Name="xaml" Style="{StaticResource TabStyle}" Header="XAML">
+            <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                <TextBlock Name="xamlCheck">
+                    <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+&lt;!-- This example shows how to draw Line elements. --&gt;
+&lt;Canvas
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="Microsoft.Samples.Graphics.StretchExample"
+    Title="Stretch Example" &gt;
+  &lt;Canvas.Resources&gt;
+      &lt;Style x:Key="MyGridBorderStyle"&gt;
+        &lt;Setter Property="Border.Background" Value="{StaticResource MyGridBrushResource}"/&gt;
+        &lt;Setter Property="Border.HorizontalAlignment" Value="Center"/&gt;
+        &lt;Setter Property="Border.VerticalAlignment" Value="Top"/&gt;
+        &lt;Setter Property="Border.BorderBrush" Value="Black"/&gt;
+        &lt;Setter Property="Border.BorderThickness" Value="1"/&gt;
+      &lt;/Style&gt;
+          &lt;DrawingBrush x:Key="MyGridBrushResource" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile"&gt;
+        &lt;DrawingBrush.Drawing&gt;
+          &lt;DrawingGroup&gt;
+            &lt;DrawingGroup.Children&gt;
+              &lt;GeometryDrawing Brush="White"&gt;
+                &lt;GeometryDrawing.Geometry&gt;
+                  &lt;RectangleGeometry Rect="0,0,1,1" /&gt;
+                &lt;/GeometryDrawing.Geometry&gt;
+              &lt;/GeometryDrawing&gt;
+              &lt;GeometryDrawing Geometry="M0,0 L1,0 1,0.1, 0,0.1Z" Brush="#CCCCFF" /&gt;
+              &lt;GeometryDrawing Geometry="M0,0 L0,1 0.1,1, 0.1,0Z" Brush="#CCCCFF" /&gt;
+            &lt;/DrawingGroup.Children&gt;
+          &lt;/DrawingGroup&gt;
+        &lt;/DrawingBrush.Drawing&gt;
+      &lt;/DrawingBrush&gt;   
+    
+  &lt;/Canvas.Resources&gt;
+    &lt;Grid&gt;
+
+        &lt;ColumnDefinition /&gt;
+        &lt;ColumnDefinition Width="20"/&gt;
+        &lt;ColumnDefinition /&gt;
+        &lt;RowDefinition Height="Auto" /&gt;
+        &lt;RowDefinition Height="Auto" /&gt;
+        &lt;RowDefinition Height="Auto" /&gt;
+        &lt;RowDefinition Height="40" /&gt;
+        &lt;RowDefinition Height="Auto" /&gt;
+        &lt;RowDefinition Height="Auto" /&gt;
+
+        &lt;Border Grid.Row="0" Grid.Column="0"  Background="HorizontalGradient #CCCCFF AliceBlue"  &gt;
+            &lt;TextBlock Margin="10" HorizontalAlignment="Left" &gt;
+                StretchExample
+            &lt;/TextBlock&gt;
+        &lt;/Border&gt;
+        &lt;TextBlock Grid.Row="1" Grid.Column="0"&gt;Stretch="None"&lt;/TextBlock&gt;
+        &lt;Border Grid.Row="2" Grid.Column="0" Style="{StaticResource MyGridBorderStyle}" HorizontalAlignment="Left"&gt;
+            &lt;Canvas Height="200" Width="200"&gt;
+                &lt;Border Height="100" Width="50" Canvas.Top="50" Canvas.Left="70"   
+                        BorderBrush="Black" BorderThickness="1" &gt;
+                    &lt;Polygon Height="100" Width="50" Points="0,0 10,10 0,10" Fill="Blue" Stretch="None"/&gt;
+                &lt;/Border&gt;
+            &lt;/Canvas&gt;
+        &lt;/Border&gt;
+
+        &lt;TextBlock Grid.Row="1" Grid.Column="2"&gt;Stretch="Fill"&lt;/TextBlock&gt;
+        &lt;Border Grid.Row="2" Grid.Column="2" Style="{StaticResource MyGridBorderStyle}" HorizontalAlignment="Left"&gt;
+                &lt;Canvas Height="200" Width="200"&gt;
+                  &lt;Border Height="100" Width="50" Canvas.Top="50" Canvas.Left="70"   
+                          BorderBrush="Black" BorderThickness="1" &gt;
+                    &lt;Polygon Height="100" Width="50" Points="0,0 10,10 0,10" Fill="Blue" Stretch="Fill"/&gt;
+                  &lt;/Border&gt;
+              &lt;/Canvas&gt;
+          &lt;/Border&gt;
+
+
+          &lt;TextBlock Grid.Row="4" Grid.Column="0"&gt;Stretch="Uniform"&lt;/TextBlock&gt;
+          &lt;Border Grid.Row="5" Grid.Column="0" Style="{StaticResource MyGridBorderStyle}" HorizontalAlignment="Left"&gt;
+              &lt;Canvas Height="200" Width="200"&gt;
+                 &lt;Border Height="100" Width="50" Canvas.Top="50" Canvas.Left="70"   
+                         BorderBrush="Black" BorderThickness="1" &gt;
+                    &lt;Polygon Height="100" Width="50" Points="0,0 10,10 0,10" Fill="Blue" Stretch="Uniform"/&gt;
+                 &lt;/Border&gt;
+                &lt;/Canvas&gt;
+        &lt;/Border&gt;
+
+
+        &lt;TextBlock Grid.Row="4" Grid.Column="2"&gt;Stretch="UniformToFill"&lt;/TextBlock&gt;           
+        &lt;Border Grid.Row="5" Grid.Column="2" Style="{StaticResource MyGridBorderStyle}" HorizontalAlignment="Left"&gt;
+                &lt;Canvas Height="200" Width="200"&gt;
+                  &lt;Border Height="100" Width="50" Canvas.Top="50" Canvas.Left="70"   
+                          BorderBrush="Black" BorderThickness="1" &gt;
+                    &lt;Polygon Height="100" Width="50" Points="0,0 10,10 0,10" Fill="Blue" Stretch="UniformToFill"/&gt;
+                   &lt;/Border&gt;
+                &lt;/Canvas&gt;
+        &lt;/Border&gt;
+    &lt;/Grid&gt;
+&lt;/Canvas&gt;
+            
+            </TextBox>
+                </TextBlock>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Name="xamlcsharp" Style="{StaticResource TabStyle}" Header="XAML + C#">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xcsharpCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="C#">
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="xamlvb" Style="{StaticResource TabStyle}" Header="XAML + Visual Basic.NET">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xvbCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="VB.NET">
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="csharp" Style="{StaticResource TabStyle}" Header="C#">
+        </TabItem>
+        <TabItem Name="vb" Style="{StaticResource TabStyle}" Header="Visual Basic.NET">
+        </TabItem>
+        <TabItem Name="managedcpp" Style="{StaticResource TabStyle}" Header="Managed C++">
+        </TabItem>
+        <TabItem Style="{StaticResource TabStyle}" Header="Preview Sample">
+            <!-- This example shows how to draw Line elements. -->
+            <Canvas Height="600">
+                <Canvas.Resources>
+                    <DrawingBrush x:Key="MyGridBrushResource" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="White">
+                                        <GeometryDrawing.Geometry>
+                                            <RectangleGeometry Rect="0,0,1,1" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                    <GeometryDrawing Geometry="M0,0 L1,0 1,0.1, 0,0.1Z" Brush="#CCCCFF" />
+                                    <GeometryDrawing Geometry="M0,0 L0,1 0.1,1, 0.1,0Z" Brush="#CCCCFF" />
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                    <Style x:Key="MyGridBorderStyle">
+                        <Setter Property="Border.Background" Value="{StaticResource MyGridBrushResource}" />
+                        <Setter Property="Border.HorizontalAlignment" Value="Center" />
+                        <Setter Property="Border.VerticalAlignment" Value="Top" />
+                        <Setter Property="Border.BorderBrush" Value="Black" />
+                        <Setter Property="Border.BorderThickness" Value="1" />
+                    </Style>
+                </Canvas.Resources>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Grid.Column="0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#CCCCFF" Offset="0" />
+                                        <GradientStop Color="AliceBlue" Offset="1" />
+                                    </GradientStopCollection>
+                                </GradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock Margin="10" HorizontalAlignment="Left">
+                StretchExample
+            </TextBlock>
+                    </Border>
+                    <TextBlock Grid.Row="1" Grid.Column="0">Stretch="None"</TextBlock>
+                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource MyGridBorderStyle}" HorizontalAlignment="Left">
+                        <Canvas Height="200" Width="200">
+                            <Border Height="100" Width="50" Canvas.Top="50" Canvas.Left="70" BorderBrush="Black" BorderThickness="1">
+                                <Polygon Height="100" Width="50" Points="0,0 10,10 0,10" Fill="Blue" Stretch="None" />
+                            </Border>
+                        </Canvas>
+                    </Border>
+                    <TextBlock Grid.Row="1" Grid.Column="2">Stretch="Fill"</TextBlock>
+                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource MyGridBorderStyle}" HorizontalAlignment="Left">
+                        <Canvas Height="200" Width="200">
+                            <Border Height="100" Width="50" Canvas.Top="50" Canvas.Left="70" BorderBrush="Black" BorderThickness="1">
+                                <Polygon Height="100" Width="50" Points="0,0 10,10 0,10" Fill="Blue" Stretch="Fill" />
+                            </Border>
+                        </Canvas>
+                    </Border>
+                    <TextBlock Grid.Row="4" Grid.Column="0">Stretch="Uniform"</TextBlock>
+                    <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource MyGridBorderStyle}" HorizontalAlignment="Left">
+                        <Canvas Height="200" Width="200">
+                            <Border Height="100" Width="50" Canvas.Top="50" Canvas.Left="70" BorderBrush="Black" BorderThickness="1">
+                                <Polygon Height="100" Width="50" Points="0,0 10,10 0,10" Fill="Blue" Stretch="Uniform" />
+                            </Border>
+                        </Canvas>
+                    </Border>
+                    <TextBlock Grid.Row="4" Grid.Column="2">Stretch="UniformToFill"</TextBlock>
+                    <Border Grid.Row="5" Grid.Column="2" Style="{StaticResource MyGridBorderStyle}" HorizontalAlignment="Left">
+                        <Canvas Height="200" Width="200">
+                            <Border Height="100" Width="50" Canvas.Top="50" Canvas.Left="70" BorderBrush="Black" BorderThickness="1">
+                                <Polygon Height="100" Width="50" Points="0,0 10,10 0,10" Fill="Blue" Stretch="UniformToFill" />
+                            </Border>
+                        </Canvas>
+                    </Border>
+                </Grid>
+            </Canvas>
+        </TabItem>
+    </TabControl>
+</Page>

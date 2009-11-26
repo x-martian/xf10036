@@ -1,0 +1,838 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_516fce0a_e7f8_49b8_b018_53b3d409a8a3"
+  Tag     ="From/To/By Animations Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>From/To/By Animations Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how to use From/To/By animations to animate <Run>dependency properties</Run>
+. A From/To/By animation creates a transition between two values.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prereq">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="whatisanimation">What is a From/To/By Animation?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="animation_types">From/To/By Animation Types</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="anim_values">Target Values</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="examples">Using From/To/By Values</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="otheranimationtypes">Other Animation Types</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To understand this topic, you should be familiar with WPF animations features. For an introduction to animation features, see the <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What is a From/To/By Animation?
+    </Paragraph>
+
+    <Paragraph>A From/To/By animation is a type of AnimationTimeline that creates a transition between a starting value and an ending value. The amount of time the transition takes to complete is determined by that animation's Duration.
+    </Paragraph>
+
+    <Paragraph>A From/To/By animation can be applied to a property by using a Storyboard in markup and code or by using the BeginAnimation method in code. You may also use a From/To/Animation to create an AnimationClock and apply it to one or more properties. For more information about the different methods for applying animations, see the <Hyperlink NavigateUri="74f61413-f8c0-4e75-bf04-951886426c8b.xaml">Different Methods for Animating Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>From/to/by animations can have at most two target values. If you require an animation with more than two target values, use a key frame animation. Key frame animations are described in the <Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">From/To/By Animation Types
+    </Paragraph>
+
+    <Paragraph>Because animations generate property values, there are different animation types for different property types. To animate a property that takes a Double (such as an element's Width property), you use an animation that produces <Run FontWeight="Bold">Double</Run>
+ values. To animate a property that takes a Point, you use an animation that produces <Run FontWeight="Bold">Point</Run>
+ values, and so on.
+    </Paragraph>
+
+    <Paragraph>From/to/by animation classes belong to the System.Windows.Media.Animation namespace and adhere to the following naming convention:
+    </Paragraph>
+
+    <Paragraph><Run FontStyle="italic">
+&lt;Type></Run>
+<Run>Animation</Run>
+
+    </Paragraph>
+
+    <Paragraph>Where <Run FontStyle="italic">
+&lt;Type></Run>
+ is the type of value that the class animates.
+    </Paragraph>
+
+    <Paragraph>WPF provides the following From/To/By animation classes.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Corresponding from/to/by animation class 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Byte 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ByteAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Color 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ColorAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Decimal 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>DecimalAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Double</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>DoubleAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Int16 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Int16Animation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Int32 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Int32Animation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Int64 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Int64Animation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Point</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>PointAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>QuaternionAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">QuaternionAnimation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Rect 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>RectAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Rotation3D 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Rotation3DAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Single 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>SingleAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Size 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>SizeAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Thickness 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ThicknessAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Vector3D 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Vector3DAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Vector 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>VectorAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Target Values
+    </Paragraph>
+
+    <Paragraph>A From/to/by animation creates a transition between two target values. The preceding example showed an animation with two target values: a starting value (set using the From property) and an ending value (set using the To property). You may also specify only a starting value, a destination value, or an offset value. In these cases, the animation gets the missing target value from the property being animated. The following list describes the different ways to specify an animation's target values.
+    </Paragraph>
+
+    <Paragraph/>
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Starting Value</Run>
+
+        </Paragraph>
+
+        <Paragraph>Use the <Run FontWeight="Bold">From</Run>
+ property when you want to explicitly specify the starting value of an animation. The <Run FontWeight="Bold">From</Run>
+ property may be used by itself, or with the <Run FontWeight="Bold">To</Run>
+ or By property. If only the <Run FontWeight="Bold">From</Run>
+ property is specified, the animation transitions from that value to the base value of the animated property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Ending Value</Run>
+
+        </Paragraph>
+
+        <Paragraph>To specify an ending value of an animation, use its <Run FontWeight="Bold">To</Run>
+ property. If the <Run FontWeight="Bold">To</Run>
+ property is used by itself, the animation obtains its starting value from the property being animated, or from the output of another animation applied to the same property. The <Run FontWeight="Bold">To</Run>
+ property may be used with the <Run FontWeight="Bold">From</Run>
+ property to explicitly specify starting and ending values for the animation. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Offset Value</Run>
+
+        </Paragraph>
+
+        <Paragraph>The <Run FontWeight="Bold">By</Run>
+ property enables you to specify an offset rather than an explicit starting or ending value for the animation. The <Run FontWeight="Bold">By</Run>
+ property of an animation specifies "by how much" the animation changes a value over its duration. The <Run FontWeight="Bold">By</Run>
+ property may be used by itself or with the <Run FontWeight="Bold">From</Run>
+ property. If only the <Run FontWeight="Bold">By</Run>
+ property is specified, the animation adds the offset value to the property's base value or to the output of another animation.
+        </Paragraph>
+
+        <Paragraph/>
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Using From/To/By Values
+    </Paragraph>
+
+    <Paragraph>The following sections describe how the <Run FontWeight="Bold">From</Run>
+, <Run FontWeight="Bold">To</Run>
+, and <Run FontWeight="Bold">By</Run>
+ properties may be used together or separately. 
+    </Paragraph>
+
+    <Paragraph>The examples in this section each use a <Run FontWeight="Bold">DoubleAnimation</Run>
+, a type of From/To/By animation, to animate the <Run FontWeight="Bold">Width</Run>
+ property of a Rectangle that is 10 <Run>device independent pixels</Run>
+ high and 100 device independent pixels wide. 
+    </Paragraph>
+
+    <Paragraph>Although each of the examples use a <Run FontWeight="Bold">DoubleAnimation</Run>
+, the From, To, and By properties of all From/To/By animations behave identically. Note that although each of these examples uses a <Run FontWeight="Bold">Storyboard</Run>
+, there are other ways to use From/To/By animations. For more information, see the <Hyperlink NavigateUri="74f61413-f8c0-4e75-bf04-951886426c8b.xaml">Different Methods for Animating Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">From/To
+    </Paragraph>
+
+    <Paragraph>When you set the <Run FontWeight="Bold">From</Run>
+ and <Run FontWeight="Bold">To</Run>
+ values together, the animation progresses from the value specified by the <Run FontWeight="Bold">From</Run>
+ property to the value specified by the <Run FontWeight="Bold">To</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>The following example sets the <Run FontWeight="Bold">From</Run>
+ property of the <Run FontWeight="Bold">DoubleAnimation</Run>
+ to 50 and its <Run FontWeight="Bold">To</Run>
+ property to 300. As a result, the <Run FontWeight="Bold">Width</Run>
+ of the <Run FontWeight="Bold">Rectangle</Run>
+ is animated from 50 to 300.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Demonstrates the From and To properties used together. --> 
+&lt;Rectangle Name="fromToAnimatedRectangle" Height="10" Width="100" HorizontalAlignment="Left" Fill="Black"> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseLeftButtonDown"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Demonstrates the From and To properties used together. Animates the rectangle's Width property from 50 to 300 over 10 seconds. --> 
+&lt;DoubleAnimation Storyboard.TargetName="fromToAnimatedRectangle" Storyboard.TargetProperty="Width" From="50" To="300" Duration="0:0:10" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">To
+    </Paragraph>
+
+    <Paragraph>When you set just the <Run FontWeight="Bold">To</Run>
+ property of an animation, the animation progresses from the animated property's base value or from the output of a composing animation previously applied to the same property to the value specified by the <Run FontWeight="Bold">To</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>("Composing animation" refers to an Active or Filling animation previously applied to the same property that is still in effect because the current animation was applied using the Compose handoff behavior.)
+    </Paragraph>
+
+    <Paragraph>The following example sets just the <Run FontWeight="Bold">To</Run>
+ property of the <Run FontWeight="Bold">DoubleAnimation</Run>
+ to 300. Because no starting value was specified, the <Run FontWeight="Bold">DoubleAnimation</Run>
+ uses the base value (100) of the <Run FontWeight="Bold">Width</Run>
+ property as its starting value. The <Run FontWeight="Bold">Width</Run>
+ of the <Run FontWeight="Bold">Rectangle</Run>
+ is animated from 100 to the animation's target value of 300.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Demonstrates the use of the To property. --> 
+&lt;Rectangle Name="toAnimatedRectangle" Height="10" Width="100" HorizontalAlignment="Left" Fill="Gray"> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseLeftButtonDown"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Demonstrates the To property used by itself. Animates the Rectangle's Width property from its base value (100) to 300 over 10 seconds. --> 
+&lt;DoubleAnimation Storyboard.TargetName="toAnimatedRectangle" Storyboard.TargetProperty="Width" To="300" Duration="0:0:10" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">By
+    </Paragraph>
+
+    <Paragraph>When you set just the <Run FontWeight="Bold">By</Run>
+ property of an animation, the animation progresses from the base value of the property being animated or from the output of a composing animation to the sum of that value and the value specified by the <Run FontWeight="Bold">By</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>The following example sets just the <Run FontWeight="Bold">By</Run>
+ property of the <Run FontWeight="Bold">DoubleAnimation</Run>
+ to 300. Because no starting value was specified, the <Run FontWeight="Bold">DoubleAnimation</Run>
+ uses the base value of the <Run FontWeight="Bold">Width</Run>
+ property, 100, as its starting value. The ending value is determined by adding the <Run FontWeight="Bold">By</Run>
+ value of the animation, 300, to its starting value, 100: 400. As a result, the <Run FontWeight="Bold">Width</Run>
+ of the <Run FontWeight="Bold">Rectangle</Run>
+ is animated from 100 to 400.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Demonstrates the use of the By property. --> 
+&lt;Rectangle Name="byAnimatedRectangle" Height="10" Width="100" HorizontalAlignment="Left" Fill="RoyalBlue"> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseLeftButtonDown"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Demonstrates the By property used by itself. Increments the Rectangle's Width property by 300 over 10 seconds. As a result, the Width property is animated from its base value (100) to 400 (100 + 300) over 10 seconds. --> 
+&lt;DoubleAnimation Storyboard.TargetName="byAnimatedRectangle" Storyboard.TargetProperty="Width" By="300" Duration="0:0:10" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">From/By
+    </Paragraph>
+
+    <Paragraph>When you set the <Run FontWeight="Bold">From</Run>
+ and <Run FontWeight="Bold">By</Run>
+ properties of an animation, the animation progresses from the value specified by the <Run FontWeight="Bold">From</Run>
+ property to the value specified by the sum of the <Run FontWeight="Bold">From</Run>
+ and <Run FontWeight="Bold">By</Run>
+ properties.
+    </Paragraph>
+
+    <Paragraph>The following example sets the <Run FontWeight="Bold">From</Run>
+ property of the <Run FontWeight="Bold">DoubleAnimation</Run>
+ to 50 and its <Run FontWeight="Bold">By</Run>
+ property to 300. The ending value is determined by adding the <Run FontWeight="Bold">By</Run>
+ value of the animation, 300, to its starting value, 50: 350. As a result, the <Run FontWeight="Bold">Width</Run>
+ of the <Run FontWeight="Bold">Rectangle</Run>
+ is animated from 50 to 350.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Demonstrates the use of the From and By properties. --> 
+&lt;Rectangle Name="fromByAnimatedRectangle" Grid.Row="6" Grid.Column="2" Height="10" Width="100" HorizontalAlignment="Left" Fill="BlueViolet"> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseLeftButtonDown"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Demonstrates the From and By properties used by together. Increments the Rectangle's Width property by 300 over 10 seconds. As a result, the Width property is animated from 50 to 350 (50 + 300) over 10 seconds. --> 
+&lt;DoubleAnimation Storyboard.TargetName="fromByAnimatedRectangle" Storyboard.TargetProperty="Width" From="50" By="300" Duration="0:0:10" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">From
+    </Paragraph>
+
+    <Paragraph>When you specify just the <Run FontWeight="Bold">From</Run>
+ value of an animation, the animation progresses from the value specified by the <Run FontWeight="Bold">From</Run>
+ property to the base value of the property being animated or to the output of a composing animation.
+    </Paragraph>
+
+    <Paragraph>The following example sets just the <Run FontWeight="Bold">From</Run>
+ property of the <Run FontWeight="Bold">DoubleAnimation</Run>
+ to 50. Because no ending value was specified, the <Run FontWeight="Bold">DoubleAnimation</Run>
+ uses the base value of the <Run FontWeight="Bold">Width</Run>
+ property, 100, as its ending value. The <Run FontWeight="Bold">Width</Run>
+ of the <Run FontWeight="Bold">Rectangle</Run>
+ is animated from 50 to the base value of the <Run FontWeight="Bold">Width</Run>
+ property, 100.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Demonstrates the use of the From property. --> 
+&lt;Rectangle Name="fromAnimatedRectangle" Grid.Row="8" Grid.Column="2" Height="10" Width="100" HorizontalAlignment="Left" Fill="Purple"> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseLeftButtonDown"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Demonstrates the From property used by itself. Animates the rectangle's Width property from 50 to its base value (100) over 10 seconds. --> 
+&lt;DoubleAnimation Storyboard.TargetName="fromAnimatedRectangle" Storyboard.TargetProperty="Width" From="50" Duration="0:0:10" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Other Animation Types
+    </Paragraph>
+
+    <Paragraph>From/To/By animations are not the only type of animations WPF provides: there are also key-frame animations and path animations. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A key frame animation animates along any number of destination values, described using key frames. For more information, see the <Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A path animation generates output values from a PathGeometry. For more information, see the <Hyperlink NavigateUri="979c732c-df74-47a6-be96-8e07b3707d53.xaml">Path Animations Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>WPF also enables you to create your own custom animation types. For more information, see the <Hyperlink NavigateUri="9be69d50-3384-4938-886f-08ce00e4a7a6.xaml">Custom Animations Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Timeline
+      <LineBreak/>Storyboard
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="979c732c-df74-47a6-be96-8e07b3707d53.xaml">Path Animations Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9be69d50-3384-4938-886f-08ce00e4a7a6.xaml">Custom Animations Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>From, To, and By Animation Target Values Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about From/To/By Animations Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

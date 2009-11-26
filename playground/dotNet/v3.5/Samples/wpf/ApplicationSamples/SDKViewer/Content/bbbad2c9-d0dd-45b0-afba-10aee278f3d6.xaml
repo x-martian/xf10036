@@ -1,0 +1,853 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_bbbad2c9_d0dd_45b0_afba_10aee278f3d6"
+  Tag     ="Create a Basic Photo Store Application for Styling"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_bbbad2c9_d0dd_45b0_afba_10aee278f3d6"
+    Tag     ="Create a Basic Photo Store Application for Styling"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Tutorial: Create a Basic Photo Store Application for Styling</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>This tutorial shows you how to implement a simple photo store application. While this tutorial does not contain styling tasks, you can use the application that you create here in conjunction with the topic <Hyperlink NavigateUri="89247491-d617-4222-bb33-42c78554d4fe.xaml">Tutorial: Use Styling to Create a Visually Compelling Application</Hyperlink>
+, which shows you how to style your application.     
+      </Paragraph>
+
+      <Paragraph>This tutorial uses code examples from a photo store demonstration included elsewhere in the Windows SDK;for the full code sample, see Photo Store Demo with Basic User Interface.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Summary    
+      </Paragraph>
+
+      <Paragraph>By the end of this tutorial, you will have developed a basic photo store application that has a functional user interface (UI). You will then be ready to follow the steps in <Hyperlink NavigateUri="89247491-d617-4222-bb33-42c78554d4fe.xaml">Tutorial: Use Styling to Create a Visually Compelling Application</Hyperlink>
+, which will show you how to apply styles to your application to create a more visually compelling user experience.    
+      </Paragraph>
+
+      <Paragraph>The tasks that are illustrated in this tutorial include:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Run>Summary</Run>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="datastructure">Creating the Data Structure</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="applicationlogic">Adding Application Logic</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="basic_UI">Constructing the UI</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="next_steps">What's Next</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Creating the Data Structure    
+      </Paragraph>
+
+      <Paragraph>This section demonstrates how to create data stores and add event logic for your photo store application.    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">To create the data structure</Run>
+
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open Microsoft Visual Studio and create a new project named <Run FontWeight="Bold">PhotoStore</Run>
+ using the WinFX Windows Application template.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Create a new C# code file by clicking <Run FontWeight="Bold">Project</Run>
+, clicking <Run FontWeight="Bold">Add New Item</Run>
+, and then selecting the <Run FontWeight="Bold">Class</Run>
+ option. Name the file <Run FontWeight="Bold">Data.cs</Run>
+. This file will contain the data structures for items such as photos and prints.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Add the following using statements to the Data.cs file. These namespaces are necessary for the data structures and logic you will add to this file later in this tutorial.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>using System.IO;using System.Collections.ObjectModel;using System.ComponentModel;</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Add the following class inside the "PhotoStore" namespace. The <Run FontStyle="italic">Photo</Run>
+ class is a simple class that contains a "Source" string that indicates the path to the photo.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public class Photo { public Photo(string path){ _source = path;} public override string ToString(){ return Source;} private string _source;public string Source { get { return _source;} } } </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>The next class to add in the "PhotoStore" namespace is the <Run FontStyle="italic">PhotoList</Run>
+ class, which is an ObservableCollection of photos. An <Run FontWeight="Bold">ObservableCollection</Run>
+ is useful for data binding because it provides change notifications. The <Run FontStyle="italic">PhotoList</Run>
+ class contains a string <Run FontStyle="italic">Path</Run>
+ property and a <Run FontStyle="italic">Directory</Run>
+ property, along with an <Run FontStyle="italic">Update()</Run>
+ method that finds all .jpg images in the directory and adds them to the collection.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public class PhotoList : ObservableCollection
+&lt;Photo> { public PhotoList(){ } public PhotoList(string path) : this(new DirectoryInfo(path)){ } public PhotoList(DirectoryInfo directory){ _directory = directory;Update(); 
+} public string Path { set { _directory = new DirectoryInfo(value); 
+Update(); 
+} get { return _directory.FullName;} } public DirectoryInfo Directory { set { _directory = value;Update(); 
+} get { return _directory;} } private void Update(){ foreach (FileInfo f in _directory.GetFiles("*.jpg")){ Add(new Photo(f.FullName)); 
+} } DirectoryInfo _directory;} </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>In order to allow the <Run FontWeight="Bold">PhotoStore</Run>
+ application to have different types of photo prints available, create a <Run FontStyle="italic">PrintType</Run>
+ class to contain a description and a price for each type of print. Add the following class in the "PhotoStore" namespace.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public class PrintType { public PrintType(string description, double cost){ _description = description;_cost = cost;} public override string ToString(){ return _description;} private string _description;public String Description { get { return _description;} } private double _cost;public double Cost { get { return _cost;} } } </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Next, add the <Run FontStyle="italic">PrintTypeList</Run>
+ class, as shown in the following example. The PrintTypeList class is an <Run FontWeight="Bold">ObservableCollection</Run>
+ of print types.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public class PrintTypeList : ObservableCollection
+&lt;PrintType> { public PrintTypeList(){ Add(new PrintType("4x6 Print", 0.19)); 
+Add(new PrintType("5x7 Print", 0.99)); 
+Add(new PrintType("8x10 Print", 2.99)); 
+Add(new PrintType("Framed Print", 7.99)); 
+Add(new PrintType("T-Shirt", 12.99)); 
+} } </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Next you will create a <Run FontStyle="italic">Print</Run>
+ class that describes the photo to be printed, the type of the print, and the quantity to be printed. Note that the <Run FontStyle="italic">Print</Run>
+ class implements the INotifyPropertyChanged interface, which means that when a property on a print changes, the <Run FontWeight="Bold">PropertyChanged</Run>
+ event will be raised.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public class Print : INotifyPropertyChanged { public Print(Photo photo, PrintType printtype, int quantity){ Photo = photo;PrintType = printtype;Quantity = quantity;} private Photo _photo;public Photo Photo { set { _photo = value;OnPropertyChanged("Photo"); 
+} get { return _photo;} } private PrintType _PrintType;public PrintType PrintType { set { _PrintType = value;OnPropertyChanged("PrintType"); 
+} get { return _PrintType;} } private int _quantity;public int Quantity { set { _quantity = value;OnPropertyChanged("Quantity"); 
+} get { return _quantity;} } public event PropertyChangedEventHandler PropertyChanged;private void OnPropertyChanged(String info){ if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(info)); 
+} public override string ToString(){ return Quantity + " " + PrintType + " " + Photo;} } </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>The last class to add to the "PhotoStore" namespace is the <Run FontStyle="italic">PrintList</Run>
+ class, which is an <Run FontWeight="Bold">ObservableCollection</Run>
+ of prints.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public class PrintList : ObservableCollection
+&lt;Print> { } </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Adding Application Logic    
+      </Paragraph>
+
+      <Paragraph>This section demonstrates how to add application logic for populating the object data providers (which you will define in the next section) that will point to the photos and prints data. This section also shows you how to provide methods for adding photos and for getting and uploading prints.    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open Window1.xaml.cs and add the following variable declarations in the <Run FontStyle="italic">Window1</Run>
+ class.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>PhotoList Photos;PrintList PhotoTray;</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>In the next section, <Hyperlink TargetName="basic_UI">Constructing the User Interface</Hyperlink>
+, you will declare some ObjectDataProviders as the resources for the window. The following method assigns the data from the <Run FontWeight="Bold">ObjectDataProvider</Run>
+s to the corresponding photos and print lists when the window is first loaded. Note that the following example assumes that there is a folder named Resources in your PhotoStore project, and that the photos to be used in your application are in that folder. Refer to the code sample in Photo Store Demo with Basic User Interface for a sample Resources folder containing sample photos.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void WindowLoaded(object sender, RoutedEventArgs e){ Photos = (PhotoList)(this.Resources["Photos"] as ObjectDataProvider).Data;Photos.Path = "...\\...\\Resources";PhotoTray = (PrintList)(this.Resources["PhotoTray"] as ObjectDataProvider).Data;} </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>When you construct the user interface (UI) in the next section, you will add a ComboBox and an "Add to Cart" Button. The combo box allows users to choose the photos they want, and the button allows them to add the selected photos to their photo tray or to their shopping cart. The following code example creates an <Run FontStyle="italic">AddToPhotoTray</Run>
+ event handler, which contains the logic for the Click event of the "Add to Cart" button. Note that because the following code refers to <Run FontStyle="italic">PrintTypeComboBox</Run>
+, a variable which has yet to be defined, you should comment out the method body until you define the variable.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void AddToPhotoTray(object sender, RoutedEventArgs e){ /*if (PrintTypeComboBox.SelectedItem != null){ foreach (Photo p in PhotosListBox.SelectedItems){ Print print = GetPrintFromPhotoTray(p, PrintTypeComboBox.SelectedItem as PrintType); 
+if (print != null){ print.Quantity++;} else { print = new Print(p, PrintTypeComboBox.SelectedItem as PrintType, 1); 
+PhotoTray.Add(print); 
+} } }*/ } </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>In the next section you will also add an "Upload" <Run FontWeight="Bold">Button</Run>
+ and a ProgressBar control that monitors upload progress. The following method, which you add to the <Run FontStyle="italic">Window1</Run>
+ class, simply iterates from 0 percent to 100 percent. Because this example refers to <Run FontStyle="italic">UploadProgressBar</Run>
+, a variable which you have not yet defined, you should comment out that line of the code until you define the variable.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void Upload(object sender, RoutedEventArgs e){ for (int i = 0;i 
+&lt;= 100;i++){ //UploadProgressBar.Value = i;} } </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Finally, you will add the following helper method to get the prints from the photo tray. This method is used by the <Run FontStyle="italic">AddToPhotoTray</Run>
+ method that you defined in an earlier step.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private Print GetPrintFromPhotoTray(Photo photo, PrintType printtype){ foreach (Print print in PhotoTray){ if (print.Photo == photo &&amp; 
+print.PrintType == printtype){ return print;} } return null;} </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If you commented out the body of the <Run FontStyle="italic">AddToPhotoTray</Run>
+ method and the one line in the <Run FontStyle="italic">Upload</Run>
+ method in previous steps, your project should compile. However, running your application will only result in a blank window.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Constructing the UI    
+      </Paragraph>
+
+      <Paragraph>This section demonstrates how to create the user interface (UI) for your photo store application.    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Add attributes to the <Run FontWeight="Bold">Window</Run>
+ root element so that it looks like the following code example. Note that this associates the XML namespace with a prefix. Establishing a mapping between the common language runtime (CLR) and XML namespaces and assigning a prefix to the XML namespace allows you to refer to the common language runtime (CLR) objects in the Extensible Application Markup Language (XAML) file. Note that the code example also assigns <Run FontStyle="italic">WindowLoaded</Run>
+ to be the handler for the Loaded event.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Window x:Class="PhotoStore.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="PhotoStore" Loaded="WindowLoaded" xmlns:ps="clr-namespace:PhotoStore" Width="640" Height="670"> 
+&lt;Window.Background> 
+&lt;LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0.0" Color="#DDDDDD" /> 
+&lt;GradientStop Offset="1.0" Color="#EEEEEE" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Window.Background> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Now you can define the object data providers by adding the following code to the resources section. You can use an <Run FontWeight="Bold">ObjectDataProvider</Run>
+ to provide a data context. For example, one of the following object data providers refers to the list of photos. You will be using the list of photos as the data context for a list box so that the list box can bind to and display the list of photos.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;ObjectDataProvider x:Name="PhotosODP" x:Key="Photos" ObjectType="{x:Type ps:PhotoList}"/> 
+&lt;ObjectDataProvider x:Name="PhotoTrayODP" x:Key="PhotoTray" ObjectType="{x:Type ps:PrintList}"/> 
+&lt;ObjectDataProvider x:Name="PrintTypes" x:Key="PrintTypes" ObjectType="{x:Type ps:PrintTypeList}"/> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Finally, you can add the following user interface (UI) definition to your Window1.xaml file. This user interface (UI) consists of a ListBox to display the photos for selection, a ContentControl to display the selected photo, a <Run FontWeight="Bold">ComboBox</Run>
+ for the selection of different print types, a <Run FontWeight="Bold">Button</Run>
+ to add selected photos to the photo tray, and another button for uploading photos.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Grid Margin="20" MaxWidth="600" ShowGridLines="False" > 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition Height="250" /> 
+&lt;RowDefinition Height="15" /> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition Height="2000" /> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition Width="Auto" /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;TextBlock Grid.Row="0" Grid.ColumnSpan="2"> PhotoStore 
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Row="1" Grid.ColumnSpan="2">Making memories.
+&lt;/TextBlock> 
+&lt;ListBox Grid.Row="2" Grid.ColumnSpan="2" Margin="0,8,0,8" Name="PhotosListBox" DataContext="{Binding Source={StaticResource Photos}}" ItemsSource="{Binding }" SelectedIndex="0" /> 
+&lt;ContentControl Grid.Row="4" Grid.RowSpan="4" Grid.Column="0" Margin="0" Content="{Binding ElementName=PhotosListBox, Path=SelectedItem}"/> 
+&lt;StackPanel Grid.Row="6" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0"> 
+&lt;ComboBox Margin="2" VerticalAlignment="Center" Name="PrintTypeComboBox" DataContext="{Binding Source={StaticResource PrintTypes}}" ItemsSource="{Binding}" Width="100" SelectedIndex="0" /> 
+&lt;Button Click="AddToPhotoTray" Margin="2" VerticalAlignment="Center" IsDefault="true"> Add To Tray 
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;TextBlock Grid.Row="3" Grid.Column="1"> Photo Tray 
+&lt;/TextBlock> 
+&lt;ItemsControl Grid.Row="4" Grid.Column="1" Name="PhotoTrayItemsControl" DataContext="{Binding Source={StaticResource PhotoTray}}" ItemsSource="{Binding}" /> 
+&lt;StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0"> 
+&lt;ProgressBar Name="UploadProgressBar" Width="126" Value="0" Margin="2" VerticalAlignment="Center" /> 
+&lt;Button Click="Upload" Margin="2" VerticalAlignment="Center" >Upload
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Grid> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Now that you have defined the various controls, you can uncomment the block of code in the <Run FontStyle="italic">AddToPhotoTray</Run>
+ method and the line of code in the <Run FontStyle="italic">Upload</Run>
+ method.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If you compile and run your application at this point, you will see the following functional version of the user interface (UI).        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">What's Next    
+      </Paragraph>
+
+      <Paragraph>You have completed the initial user interface (UI) for your photo store application. Note that you named each piece of the user interface (UI) so that you can refer to it in the code-behind file. At this point, you could hand this project off to a designer while you continue to add application logic such as order processing to the project. As long as the Extensible Application Markup Language (XAML) includes the named elements that are referred to in the code-behind file, you can dramatically alter the visuals independent of the application logic. This allows developers and designers to work together efficiently.    
+      </Paragraph>
+
+      <Paragraph>You can now move on to the <Hyperlink NavigateUri="89247491-d617-4222-bb33-42c78554d4fe.xaml">Tutorial: Use Styling to Create a Visually Compelling Application</Hyperlink>
+ tutorial to learn how to add styles to your photo store application, to provide a more visually-compelling experience for your users.    
+      </Paragraph>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styles Overview</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph>Data Binding Demo      
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Tutorial: Create a Basic Photo Store Application for Styling  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

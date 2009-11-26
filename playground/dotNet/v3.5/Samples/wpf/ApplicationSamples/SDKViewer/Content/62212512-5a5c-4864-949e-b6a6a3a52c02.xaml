@@ -1,0 +1,427 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_62212512_5a5c_4864_949e_b6a6a3a52c02"
+  Tag     ="TreeView Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>TreeView Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The TreeView control provides a way to display information in a hierarchical structure by using collapsible nodes. This topic introduces the <Run FontWeight="Bold">TreeView</Run>
+ and TreeViewItem controls, and provides simple examples of their use.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Simple_TreeView_Control">What Is a TreeView?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Creating_a_TreeView">Creating a TreeView</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Expanding_and_Collapsing_a_TreeViewItem">Expanding and Collapsing a TreeViewItem</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="TreeViewItem_Selection">TreeViewItem Selection</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="TreeView_Style">TreeView Style</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Adding_Images_and_oOther_Content_to_TreeView_Items">Adding Images and Other Content to TreeView Items</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What Is a TreeView?
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">TreeView</Run>
+ is an ItemsControl that nests the items by using <Run FontWeight="Bold">TreeViewItem</Run>
+ controls. The following illustration is an example of a <Run FontWeight="Bold">TreeView</Run>
+ control that has nested <Run FontWeight="Bold">TreeViewItem</Run>
+ controls. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Nested TreeViewItems in a TreeView </Run>
+
+    </Paragraph>
+
+    <Paragraph>The following example creates the <Run FontWeight="Bold">TreeView</Run>
+ that appears in the previous illustration. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TreeView Name="myTreeViewEvent" SelectedItemChanged="SelectionChanged"> 
+&lt;TreeViewItem Header="Employee1" IsSelected="True"> 
+&lt;TreeViewItem Header="Jesper Aaberg"/> 
+&lt;TreeViewItem Header="Employee Number"> 
+&lt;TreeViewItem Header="12345"/> 
+&lt;/TreeViewItem> 
+&lt;TreeViewItem Header="Work Days"> 
+&lt;TreeViewItem Header="Monday"/> 
+&lt;TreeViewItem Header="Tuesday"/> 
+&lt;TreeViewItem Header="Thursday"/> 
+&lt;/TreeViewItem> 
+&lt;/TreeViewItem> 
+&lt;TreeViewItem Header="Employee2"> 
+&lt;TreeViewItem Header="Dominik Paiha"/> 
+&lt;TreeViewItem Header="Employee Number"> 
+&lt;TreeViewItem Header="98765"/> 
+&lt;/TreeViewItem> 
+&lt;TreeViewItem Header="Work Days"> 
+&lt;TreeViewItem Header="Tuesday"/> 
+&lt;TreeViewItem Header="Wednesday"/> 
+&lt;TreeViewItem Header="Friday"/> 
+&lt;/TreeViewItem> 
+&lt;/TreeViewItem> 
+&lt;/TreeView> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Creating a TreeView
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">TreeView</Run>
+ control contains a hierarchy of <Run FontWeight="Bold">TreeViewItem</Run>
+ controls. A <Run FontWeight="Bold">TreeViewItem</Run>
+ control is a HeaderedItemsControl that has a Header and an Items collection. 
+    </Paragraph>
+
+    <Paragraph>If you are defining a <Run FontWeight="Bold">TreeView</Run>
+ by using Extensible Application Markup Language (XAML), you can explicitly define the <Run FontWeight="Bold">Header</Run>
+ content of a <Run FontWeight="Bold">TreeViewItem</Run>
+ control and the items that make up its collection. The previous illustration demonstrates this method. 
+    </Paragraph>
+
+    <Paragraph>You can also specify an ItemsSource as a data source and then specify a HeaderTemplate and ItemTemplate to define the <Run FontWeight="Bold">TreeViewItem</Run>
+ content. For more information about data binding, see Data Binding Overviews.
+    </Paragraph>
+
+    <Paragraph>To define the layout of a <Run FontWeight="Bold">TreeViewItem</Run>
+ control, you can also use HierarchicalDataTemplate objects. For more information and an example, see <Hyperlink NavigateUri="2fc92ad4-f02c-4f89-bbe9-d4978a7af0db.xaml">How to: Use SelectedValue, SelectedValuePath, and SelectedItem</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>If an item is not a <Run FontWeight="Bold">TreeViewItem</Run>
+ control, it is automatically enclosed by a <Run FontWeight="Bold">TreeViewItem</Run>
+ control when the <Run FontWeight="Bold">TreeView</Run>
+ control is displayed.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Expanding and Collapsing a TreeViewItem
+    </Paragraph>
+
+    <Paragraph>If the user expands a <Run FontWeight="Bold">TreeViewItem</Run>
+, the IsExpanded property is set to <Run FontWeight="Bold">true</Run>
+. You can also expand or collapse a <Run FontWeight="Bold">TreeViewItem</Run>
+ without any direct user action by setting the <Run FontWeight="Bold">IsExpanded</Run>
+ property to <Run FontWeight="Bold">true</Run>
+ (expand) or <Run FontWeight="Bold">false</Run>
+ (collapse). When this property changes, an Expanded or Collapsed event occurs.
+    </Paragraph>
+
+    <Paragraph>When the BringIntoView method is called on a <Run FontWeight="Bold">TreeViewItem</Run>
+ control, the <Run FontWeight="Bold">TreeViewItem</Run>
+ and its parent <Run FontWeight="Bold">TreeViewItem</Run>
+ controls expand. If a <Run FontWeight="Bold">TreeViewItem</Run>
+ is not visible or partially visible, the <Run FontWeight="Bold">TreeView</Run>
+ scrolls to make it visible.
+    </Paragraph>
+
+    <Paragraph FontSize="22">TreeViewItem Selection
+    </Paragraph>
+
+    <Paragraph>When a user clicks a <Run FontWeight="Bold">TreeViewItem</Run>
+ control to select it, the Selected event occurs, and its IsSelected property is set to <Run FontWeight="Bold">true</Run>
+. The <Run FontWeight="Bold">TreeViewItem</Run>
+ also becomes the SelectedItem of the <Run FontWeight="Bold">TreeView</Run>
+ control. Conversely, when the selection changes from a <Run FontWeight="Bold">TreeViewItem</Run>
+ control, its Unselected event occurs and its <Run FontWeight="Bold">IsSelected</Run>
+ property is set to <Run FontWeight="Bold">false</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">SelectedItem</Run>
+ property on the <Run FontWeight="Bold">TreeView</Run>
+ control is a read-only property; 
+hence, you cannot explicitly set it. The <Run FontWeight="Bold">SelectedItem</Run>
+ property is set if the user clicks on a <Run FontWeight="Bold">TreeViewItem</Run>
+ control or when the <Run FontWeight="Bold">IsSelected</Run>
+ property is set to <Run FontWeight="Bold">true</Run>
+ on the <Run FontWeight="Bold">TreeViewItem</Run>
+ control.
+    </Paragraph>
+
+    <Paragraph>Use the SelectedValue and SelectedValuePath properties to assign a value to a <Run FontWeight="Bold">SelectedItem</Run>
+. For more information, see <Hyperlink NavigateUri="2fc92ad4-f02c-4f89-bbe9-d4978a7af0db.xaml">How to: Use SelectedValue, SelectedValuePath, and SelectedItem</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>You can register an event handler on the SelectedItemChanged event in order to determine when a selected <Run FontWeight="Bold">TreeViewItem</Run>
+ changes. The RoutedPropertyChangedEventArgs that is provided to the event handler specifies the OldValue, which is the previous selection, and the NewValue, which is the current selection. Either value can be <Run FontWeight="Bold">null</Run>
+ if the application or user has not made a previous or current selection. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">TreeView Style
+    </Paragraph>
+
+    <Paragraph>The default style for a <Run FontWeight="Bold">TreeView</Run>
+ control places it inside a StackPanel object that contains a ScrollViewer control. When you set the Width and Height properties for a <Run FontWeight="Bold">TreeView</Run>
+, these values are used to size the <Run FontWeight="Bold">StackPanel</Run>
+ object that displays the <Run FontWeight="Bold">TreeView</Run>
+. If the content to display is larger than the display area, a <Run FontWeight="Bold">ScrollViewer</Run>
+ automatically displays so that the user can scroll through the <Run FontWeight="Bold">TreeView</Run>
+ content.
+    </Paragraph>
+
+    <Paragraph>To customize the appearance of a <Run FontWeight="Bold">TreeViewItem</Run>
+ control, set the Style property to a custom Style.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to set the Foreground and FontSize property values for a <Run FontWeight="Bold">TreeViewItem</Run>
+ control by using a <Run FontWeight="Bold">Style</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style TargetType="{x:Type TreeViewItem}"> 
+&lt;Setter Property="Foreground" Value="Blue"/> 
+&lt;Setter Property="FontSize" Value="12"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Adding Images and Other Content to TreeView Items
+    </Paragraph>
+
+    <Paragraph>You can include more than one object in the <Run FontWeight="Bold">Header</Run>
+ content of a <Run FontWeight="Bold">TreeViewItem</Run>
+. To include multiple objects in <Run FontWeight="Bold">Header</Run>
+ content, enclose the objects inside a layout control, such as a Panel or <Run FontWeight="Bold">StackPanel</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define the <Run FontWeight="Bold">Header</Run>
+ of a <Run FontWeight="Bold">TreeViewItem</Run>
+ as a CheckBox and TextBlock that are both enclosed in a DockPanel control.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TreeViewItem> 
+&lt;TreeViewItem.Header> 
+&lt;DockPanel> 
+&lt;CheckBox/> 
+&lt;TextBlock> TreeViewItem Text 
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;/TreeViewItem.Header> 
+&lt;/TreeViewItem> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to define a DataTemplate that contains an Image and a <Run FontWeight="Bold">TextBlock</Run>
+ that are enclosed in a <Run FontWeight="Bold">DockPanel</Run>
+ control. You can use a <Run FontWeight="Bold">DataTemplate</Run>
+ to set the <Run FontWeight="Bold">HeaderTemplate</Run>
+ or <Run FontWeight="Bold">ItemTemplate</Run>
+ for a <Run FontWeight="Bold">TreeViewItem</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DataTemplate x:Key="NewspaperTVItem"> 
+&lt;DockPanel> 
+&lt;Image Source="images\icon.jpg"/> 
+&lt;TextBlock VerticalAlignment="center" Text ="{Binding Path=Name}"/> 
+&lt;/DockPanel> 
+&lt;/DataTemplate> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>TreeView
+      <LineBreak/>TreeViewItem
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="7e796a79-4d68-48a8-9703-32c23bcfddf5.xaml">HeaderedItemsControl Content Model Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b9e9790e-7bfd-45d1-8b7a-1e0d125182a8.xaml">TreeView How-to Topics</Hyperlink>
+
+      <LineBreak/>TreeView Samples
+      <LineBreak/>TreeView Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about TreeView Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

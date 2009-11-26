@@ -1,0 +1,653 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_577835be_b145_4226_8570_1d309e9b3901"
+  Tag     ="The Ink Object Model: Windows Forms and COM versus WPF"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>The Ink Object Model: Windows Forms and COM versus WPF</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>There are essentially three platforms that support digital ink: the Tablet PC Windows Forms platform, the Tablet PC COM platform, and the Windows Presentation Foundation (WPF) platform. The Windows Forms and COM platforms share a similar object model, but the object model for the WPF platform is substantially different. This topic discusses the differences at a high-level so that developers that have worked with one object model can better understand the other.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Enabling Ink in an Application
+    </Paragraph>
+
+    <Paragraph>All three platforms ship objects and controls that enable an application to receive input from a tablet pen. The Windows Forms and COM platforms ship with InkPicture, InkEdit, InkOverlay and InkCollector classes. <Run FontWeight="Bold">InkPicture</Run>
+ and <Run FontWeight="Bold">InkEdit</Run>
+ are controls that you can add to an application to collect ink. The <Run FontWeight="Bold">InkOverlay</Run>
+ and <Run FontWeight="Bold">InkCollector</Run>
+ can be attached to an existing window to ink-enable windows and custom controls.
+    </Paragraph>
+
+    <Paragraph>The WPF platform includes the InkCanvas control. You can add an <Run FontWeight="Bold">InkCanvas</Run>
+ to your application and begin collecting ink immediately. With the <Run FontWeight="Bold">InkCanvas</Run>
+, the user can copy, select, and resize ink. You can add other controls to the <Run FontWeight="Bold">InkCanvas</Run>
+, and the user can handwrite over those controls, too. You can create an ink-enabled custom control by adding an InkPresenter to it and collecting its stylus points. 
+    </Paragraph>
+
+    <Paragraph>The following table lists where to learn more about enabling ink in an application:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>To do this… 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>On the WPF Platform… 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>On the Windows Forms/COM Platforms… 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Add an ink-enabled control to an application
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See <Hyperlink NavigateUri="760332dd-594a-475d-865b-01659db8cab7.xaml">Getting Started with Ink</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See Auto Claims Form Sample
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Enable ink on a custom control
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See <Hyperlink NavigateUri="c31f3a67-cb3f-4ded-af9e-ed21f6575b26.xaml">Creating an Ink Input Control</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See Ink Clipboard Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Ink Data
+    </Paragraph>
+
+    <Paragraph>On the Windows Forms and COM platforms, <Run FontWeight="Bold">InkCollector</Run>
+, <Run FontWeight="Bold">InkOverlay</Run>
+, <Run FontWeight="Bold">InkEdit</Run>
+, and <Run FontWeight="Bold">InkPicture</Run>
+ each expose a Microsoft.Ink.Ink object. The <Run FontWeight="Bold">Ink</Run>
+ object contains the data for one or more Microsoft.Ink.Stroke objects and exposes common methods and properties to manage and manipulate those strokes. The <Run FontWeight="Bold">Ink</Run>
+ object manages the lifetime of the strokes it contains; 
+the <Run FontWeight="Bold">Ink</Run>
+ object creates and deletes the strokes that it owns. Each <Run FontWeight="Bold">Stroke</Run>
+ has an identifier that is unique within its parent <Run FontWeight="Bold">Ink</Run>
+ object.
+    </Paragraph>
+
+    <Paragraph>On the WPF platform, the System.Windows.Ink.Stroke class owns and manages its own lifetime. A group of <Run FontWeight="Bold">Stroke</Run>
+ objects can be collected together in a StrokeCollection, which provides methods for common ink data management operations such as hit testing, erasing, transforming, and serializing the ink. A <Run FontWeight="Bold">Stroke</Run>
+ can belong to zero, one, or more <Run FontWeight="Bold">StrokeCollection</Run>
+ objects at any give time. Instead of having a <Run FontWeight="Bold">Microsoft.Ink.Ink</Run>
+ object, the <Run FontWeight="Bold">InkCanvas</Run>
+ and <Run FontWeight="Bold">InkPresenter</Run>
+ contain a <Run FontWeight="Bold">System.Windows.Ink.StrokeCollection</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The following pair of illustrations compares the ink data object models. On the Windows Forms and COM platforms, the <Run FontWeight="Bold">Microsoft.Ink.Ink</Run>
+ object constrains the lifetime of the <Run FontWeight="Bold">Microsoft.Ink.Stroke</Run>
+ objects, and the stylus packets belong to the individual strokes. Two or more strokes can reference the same Microsoft.Ink.DrawingAttributes object, as shown in the following illustration. 
+    </Paragraph>
+
+    <Paragraph>On the WPF, each <Run FontWeight="Bold">System.Windows.Ink.Stroke</Run>
+ is a common language runtime object that exists as long as something has a reference to it. Each <Run FontWeight="Bold">Stroke</Run>
+ references a StylusPointCollection and System.Windows.Ink.DrawingAttributes object, which are also common language runtime objects.
+    </Paragraph>
+
+    <Paragraph>The following table compares how to accomplish some common tasks on the WPF platform and the Windows Forms and COM platforms.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Task 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Windows Presentation Foundation 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Windows Forms and COM 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Save Ink
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Save 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Save 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Load Ink
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Create a <Run FontWeight="Bold">StrokeCollection</Run>
+ with the System.Windows.Ink.StrokeCollection.#ctor(System.IO.Stream) constructor.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Load 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Hit test
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>HitTest 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>HitTest 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Copy Ink
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>CopySelection 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ClipboardCopy 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Paste Ink
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Paste 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ClipboardPaste 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Access custom properties on a collection of strokes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AddPropertyData (the properties are stored internally and accessed via <Run FontWeight="Bold">AddPropertyData</Run>
+, RemovePropertyData, and ContainsPropertyData)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use ExtendedProperties
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Sharing ink between platforms
+    </Paragraph>
+
+    <Paragraph>Although the platforms have different object models for the ink data, sharing the data between the platforms is very easy. The following examples save ink from a Windows Forms application and load the ink into a Windows Presentation Foundation application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports Microsoft.Ink Imports System.Drawing <Run>... </Run>
+ '/ 
+&lt;summary> '/ Saves the digital ink from a Windows Forms application. '/ 
+&lt;/summary> '/ 
+&lt;param name="inkToSave">An Ink object that contains the '/ digital ink.
+&lt;/param> '/ 
+&lt;returns>A MemoryStream containing the digital ink.
+&lt;/returns> Function SaveInkInWinforms(ByVal inkToSave As Ink) As MemoryStream Dim savedInk As Byte() = inkToSave.Save() Return New MemoryStream(savedInk) End Function 'SaveInkInWinforms </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using Microsoft.Ink; 
+using System.Drawing; 
+<Run>... </Run>
+ /// 
+&lt;summary> /// Saves the digital ink from a Windows Forms application. /// 
+&lt;/summary> /// 
+&lt;param name="inkToSave">An Ink object that contains the /// digital ink.
+&lt;/param> /// 
+&lt;returns>A MemoryStream containing the digital ink.
+&lt;/returns> MemoryStream SaveInkInWinforms(Ink inkToSave) { byte[] savedInk = inkToSave.Save(); 
+return (new MemoryStream(savedInk)); 
+} </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports System.Windows.Ink <Run>... </Run>
+ '/ 
+&lt;summary> '/ Loads digital ink into a StrokeCollection, which can be '/ used by a WPF application. '/ 
+&lt;/summary> '/ 
+&lt;param name="savedInk">A MemoryStream containing the digital ink.
+&lt;/param> Public Sub LoadInkInWPF(ByVal inkStream As MemoryStream) strokes = New StrokeCollection(inkStream) End Sub 'LoadInkInWPF </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System.Windows.Ink; 
+<Run>... </Run>
+ /// 
+&lt;summary> /// Loads digital ink into a StrokeCollection, which can be /// used by a WPF application. /// 
+&lt;/summary> /// 
+&lt;param name="savedInk">A MemoryStream containing the digital ink.
+&lt;/param> public void LoadInkInWPF(MemoryStream inkStream) { strokes = new StrokeCollection(inkStream); 
+} </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following examples save ink from a Windows Presentation Foundation application and load the ink into a Windows Forms application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports System.Windows.Ink <Run>... </Run>
+ '/ 
+&lt;summary> '/ Saves the digital ink from a WPF application. '/ 
+&lt;/summary> '/ 
+&lt;param name="inkToSave">A StrokeCollection that contains the '/ digital ink.
+&lt;/param> '/ 
+&lt;returns>A MemoryStream containing the digital ink.
+&lt;/returns> Function SaveInkInWPF(ByVal strokesToSave As StrokeCollection) As MemoryStream Dim savedInk As New MemoryStream() strokesToSave.Save(savedInk) Return savedInk End Function 'SaveInkInWPF </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System.Windows.Ink; 
+<Run>... </Run>
+ /// 
+&lt;summary> /// Saves the digital ink from a WPF application. /// 
+&lt;/summary> /// 
+&lt;param name="inkToSave">A StrokeCollection that contains the /// digital ink.
+&lt;/param> /// 
+&lt;returns>A MemoryStream containing the digital ink.
+&lt;/returns> MemoryStream SaveInkInWPF(StrokeCollection strokesToSave) { MemoryStream savedInk = new MemoryStream(); 
+strokesToSave.Save(savedInk); 
+return savedInk; 
+} </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports Microsoft.Ink Imports System.Drawing <Run>... </Run>
+ '/ 
+&lt;summary> '/ Loads digital ink into a Windows Forms application. '/ 
+&lt;/summary> '/ 
+&lt;param name="savedInk">A MemoryStream containing the digital ink.
+&lt;/param> Public Sub LoadInkInWinforms(ByVal savedInk As MemoryStream) theInk = New Ink() theInk.Load(savedInk.ToArray()) End Sub 'LoadInkInWinforms </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using Microsoft.Ink; 
+using System.Drawing; 
+<Run>... </Run>
+ /// 
+&lt;summary> /// Loads digital ink into a Windows Forms application. /// 
+&lt;/summary> /// 
+&lt;param name="savedInk">A MemoryStream containing the digital ink.
+&lt;/param> public void LoadInkInWinforms(MemoryStream savedInk) { theInk = new Ink(); 
+theInk.Load(savedInk.ToArray()); 
+} </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Events from the Tablet Pen
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">InkOverlay</Run>
+, <Run FontWeight="Bold">InkCollector</Run>
+, and <Run FontWeight="Bold">InkPicture</Run>
+ on the Windows Forms and COM platforms receive events when the user inputs pen data. The <Run FontWeight="Bold">InkOverlay</Run>
+ or <Run FontWeight="Bold">InkCollector</Run>
+ is attached to a window or a control, and can subscribe to the events raised by the tablet input data. The thread on which these events occurs depends on whether the events are raised with a pen, a mouse, or programmatically. For more information about threading in relation to these events, see General Threading Considerations and Threads on Which an Event Can Fire.
+    </Paragraph>
+
+    <Paragraph>On the Windows Presentation Foundation platform, the UIElement class has events for pen input. This means that every control exposes the full set of stylus events. The stylus events have tunneling/bubbling event pairs and always occur on the application thread. For more information, see <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The following diagram shows compares the object models for the classes that raise stylus events. The Windows Presentation Foundation object model shows only the bubbling events, not the tunneling event counterparts.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Pen Data
+    </Paragraph>
+
+    <Paragraph>All three platforms provide you with ways to intercept and manipulate the data that comes in from a tablet pen. On the Windows Forms and COM Platforms, this is achieved by creating a RealTimeStylus, attaching a window or control to it, and creating a class that implements the IStylusSyncPlugin or IStylusAsyncPlugin interface. The custom plug-in is then added to the plug-in collection of the <Run FontWeight="Bold">RealTimeStylus</Run>
+. For more information about this object model, see Architecture of the StylusInput APIs.
+    </Paragraph>
+
+    <Paragraph>On the WPF platform, the <Run FontWeight="Bold">UIElement</Run>
+ class exposes a collection of plug-ins, similar in design to the <Run FontWeight="Bold">RealTimeStylus</Run>
+. To intercept pen data, create a class that inherits from StylusPlugIn and add the object to the StylusPlugIns collection of the <Run FontWeight="Bold">UIElement</Run>
+. For more information about this interaction, see <Hyperlink NavigateUri="791bb2f0-4e5c-4569-ac3c-211996808d44.xaml">Intercepting Input from the Stylus</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>On all platforms, a thread pool receives the ink data via stylus events and sends it to the application thread. For more information about threading on the COM and Windows Platforms, see Threading Considerations for the StylusInput APIs. For more information about threading on the Windows Presentation Software, see <Hyperlink NavigateUri="c85fcad1-cb50-4431-847c-ac4145a35c89.xaml">The Ink Threading Model</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The following illustration compares the object models for the classes that receive pen data on the pen thread pool.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about The Ink Object Model: Windows Forms and COM versus WPF to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

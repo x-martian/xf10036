@@ -1,0 +1,370 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Grid Sample" x:Class="Grid_Samp.Page1" Loaded="OnLoaded">
+    <Page.Resources>
+        <Style x:Key="itemHeaderStyler">
+            <Setter Property="ListBoxItem.Margin" Value="0,2,0,5" />
+            <Setter Property="ListBoxItem.Padding" Value="2" />
+            <Setter Property="ListBoxItem.FontFamily" Value="Verdana" />
+            <Setter Property="ListBoxItem.FontWeight" Value="Bold" />
+            <Setter Property="ListBoxItem.FontSize" Value="12" />
+        </Style>
+        <Style x:Key="imageStyler">
+            <Setter Property="TextBlock.Margin" Value="15" />
+        </Style>
+        <Style x:Key="HeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="20" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="TabStyle">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TabStyle2">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TabItem.Foreground" Value="Black" />
+        </Style>
+        <Style x:Key="SubHeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="16" />
+            <Setter Property="TextBlock.Foreground" Value="DarkSlateBlue" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="DisStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="8" />
+            <Setter Property="TextBlock.Foreground" Value="Gray" />
+            <Setter Property="TextBlock.Margin" Value="5,0,5,0" />
+        </Style>
+        <Style x:Key="mainContentStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="5,10,5,10" />
+        </Style>
+        <Style x:Key="tocStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.Margin" Value="0" />
+        </Style>
+        <Style x:Key="CodeSnippetParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Courier New" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10,0,10,0" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="noteParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="TCStyle">
+            <Setter Property="TabControl.Margin" Value="10" />
+        </Style>
+    </Page.Resources>
+    <TabControl MinHeight="500" MaxHeight="700" MinWidth="400" Style="{StaticResource TCStyle}">
+        <TabItem Style="{StaticResource TabStyle}" Header="Grid Element" IsSelected="true">
+            <StackPanel>
+                <TextBlock Style="{StaticResource HeaderStyle}">Grid Element Sample</TextBlock>
+                <TextBlock Style="{StaticResource mainContentStyle}">Grid defines a flexible grid area consisting of columns and rows. Child elements of a Grid can be positioned precisely using the Margin property.</TextBlock>
+            </StackPanel>
+        </TabItem>
+        <TabItem Name="xaml" Style="{StaticResource TabStyle}" Header="XAML">
+            <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                <TextBlock Name="xamlCheck">
+                    <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+    &lt;Border BorderBrush="Black"&gt;
+
+        &lt;Grid ShowGridLines="false" Background="White"&gt;
+            &lt;Grid.Resources&gt;
+                &lt;Style TargetType="{x:Type ColumnDefinition}"&gt;
+                    &lt;Setter Property="ColumnDefinition.Width" Value="30"/&gt;
+                &lt;/Style&gt;
+                &lt;Style TargetType="{x:Type Rectangle}"&gt;
+                    &lt;Setter Property="Rectangle.RadiusX" Value="6"/&gt;
+                    &lt;Setter Property="Rectangle.RadiusY" Value="6"/&gt;
+                &lt;/Style&gt;
+                &lt;Style x:Key="DayOfWeek"&gt;
+                    &lt;Setter Property="Grid.Row" Value="1"&gt;&lt;/Setter&gt;
+                    &lt;Setter Property="TextBlock.Margin" Value="5"&gt;&lt;/Setter&gt;
+                &lt;/Style&gt;
+                &lt;Style x:Key="OneDate"&gt;
+                    &lt;Setter Property="TextBlock.Margin" Value="5"&gt;&lt;/Setter&gt;
+                &lt;/Style&gt;                
+            &lt;/Grid.Resources&gt;
+
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition Width="*"/&gt;
+            &lt;!-- This column will receive all remaining width --&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+            &lt;RowDefinition Height="Auto"/&gt;
+            &lt;RowDefinition/&gt;
+            &lt;!-- This row will receive all remaining Height --&gt;
+
+            &lt;!-- These Rectangles constitute the backgrounds of the various Rows and Columns --&gt;
+
+            &lt;Rectangle Grid.ColumnSpan="7" Fill="VerticalGradient #73B2F5 #4E87D4"/&gt;
+            &lt;Rectangle Grid.Row="1" Grid.RowSpan="6"  Fill="VerticalGradient #73B2F5 #4E87D4"/&gt;
+            &lt;Rectangle Grid.Column="6" Grid.Row="1" Grid.RowSpan="6" Fill="VerticalGradient #73B2F5 #4E87D4"/&gt;
+            &lt;Rectangle Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="6"
+            Fill="VerticalGradient #efefef #9f9f9f"/&gt;
+
+            &lt;!-- Month row --&gt;
+            &lt;TextBlock Grid.ColumnSpan="7" Margin="0,5,0,5" HorizontalAlignment="Center"&gt;
+                January 2004&lt;/TextBlock&gt;
+
+            &lt;!-- Draws a separator under the days-of-the-week row --&gt;
+
+            &lt;Rectangle Grid.Row="1" Grid.ColumnSpan="7" 
+            Fill="Black" RadiusX="1" RadiusY="1" Height="2" Margin="0,20,0,0"/&gt;
+
+            &lt;!-- Day-of-the-week row --&gt;
+            &lt;TextBlock Grid.Column="0" Style="{StaticResource DayOfWeek}"&gt;Sun&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="1" Style="{StaticResource DayOfWeek}"&gt;Mon&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="2" Style="{StaticResource DayOfWeek}"&gt;Tue&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="3" Style="{StaticResource DayOfWeek}"&gt;Wed&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="4" Style="{StaticResource DayOfWeek}"&gt;Thu&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="5" Style="{StaticResource DayOfWeek}"&gt;Fri&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="6" Style="{StaticResource DayOfWeek}"&gt;Sat&lt;/TextBlock&gt;
+
+            &lt;!-- Dates go here --&gt;
+            &lt;TextBlock Grid.Column="4" Grid.Row="2" Style="{StaticResource OneDate}"&gt;1&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="5" Grid.Row="2" Style="{StaticResource OneDate}"&gt;2&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="6" Grid.Row="2" Style="{StaticResource OneDate}"&gt;3&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="0" Grid.Row="3" Style="{StaticResource OneDate}"&gt;4&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="1" Grid.Row="3" Style="{StaticResource OneDate}"&gt;5&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="2" Grid.Row="3" Style="{StaticResource OneDate}"&gt;6&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="3" Grid.Row="3" Style="{StaticResource OneDate}"&gt;7&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="4" Grid.Row="3" Style="{StaticResource OneDate}"&gt;8&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="5" Grid.Row="3" Style="{StaticResource OneDate}"&gt;9&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="6" Grid.Row="3" Style="{StaticResource OneDate}"&gt;10&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="0" Grid.Row="4" Style="{StaticResource OneDate}"&gt;11&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="1" Grid.Row="4" Style="{StaticResource OneDate}"&gt;12&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="2" Grid.Row="4" Style="{StaticResource OneDate}"&gt;13&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="3" Grid.Row="4" Style="{StaticResource OneDate}"&gt;14&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="4" Grid.Row="4" Style="{StaticResource OneDate}"&gt;15&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="5" Grid.Row="4" Style="{StaticResource OneDate}"&gt;16&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="6" Grid.Row="4" Style="{StaticResource OneDate}"&gt;17&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="0" Grid.Row="5" Style="{StaticResource OneDate}"&gt;18&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="1" Grid.Row="5" Style="{StaticResource OneDate}"&gt;19&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="2" Grid.Row="5" Style="{StaticResource OneDate}"&gt;20&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="3" Grid.Row="5" Style="{StaticResource OneDate}"&gt;21&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="4" Grid.Row="5" Style="{StaticResource OneDate}"&gt;22&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="5" Grid.Row="5" Style="{StaticResource OneDate}"&gt;23&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="6" Grid.Row="5" Style="{StaticResource OneDate}"&gt;24&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="0" Grid.Row="6" Style="{StaticResource OneDate}"&gt;25&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="1" Grid.Row="6" Style="{StaticResource OneDate}"&gt;26&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="2" Grid.Row="6" Style="{StaticResource OneDate}"&gt;27&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="3" Grid.Row="6" Style="{StaticResource OneDate}"&gt;28&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="4" Grid.Row="6" Style="{StaticResource OneDate}"&gt;29&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="5" Grid.Row="6" Style="{StaticResource OneDate}"&gt;30&lt;/TextBlock&gt;
+            &lt;TextBlock Grid.Column="6" Grid.Row="6" Style="{StaticResource OneDate}"&gt;31&lt;/TextBlock&gt;
+        &lt;/Grid&gt;
+    &lt;/Border&gt;
+    </TextBox>
+                </TextBlock>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Name="xamlcsharp" Style="{StaticResource TabStyle}" Header="XAML + C#">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xcsharpCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="C#">
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="xamlvb" Style="{StaticResource TabStyle}" Header="XAML + Visual Basic.NET">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xvbCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="VB.NET">
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="csharp" Style="{StaticResource TabStyle}" Header="C#">
+        </TabItem>
+        <TabItem Name="vb" Style="{StaticResource TabStyle}" Header="Visual Basic.NET">
+        </TabItem>
+        <TabItem Name="managedcpp" Style="{StaticResource TabStyle}" Header="Managed C++">
+        </TabItem>
+        <TabItem Style="{StaticResource TabStyle}" Header="Preview Sample">
+            <Border BorderBrush="Black">
+                <Grid ShowGridLines="false" Background="White">
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type ColumnDefinition}">
+                            <Setter Property="ColumnDefinition.Width" Value="30" />
+                        </Style>
+                        <Style TargetType="{x:Type Rectangle}">
+                            <Setter Property="Rectangle.RadiusX" Value="6" />
+                            <Setter Property="Rectangle.RadiusY" Value="6" />
+                        </Style>
+                        <Style x:Key="DayOfWeek">
+                            <Setter Property="Grid.Row" Value="1">
+                            </Setter>
+                            <Setter Property="TextBlock.Margin" Value="5">
+                            </Setter>
+                        </Style>
+                        <Style x:Key="OneDate">
+                            <Setter Property="TextBlock.Margin" Value="5">
+                            </Setter>
+                        </Style>
+                    </Grid.Resources>
+                    <!-- This column will receive all remaining width -->
+                    <!-- This row will receive all remaining Height -->
+                    <!-- These Rectangles constitute the backgrounds of the various Rows and Columns -->
+                    <Rectangle Grid.ColumnSpan="7">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#73B2F5" Offset="0" />
+                                        <GradientStop Color="#4E87D4" Offset="1" />
+                                    </GradientStopCollection>
+                                </GradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="1" Grid.RowSpan="6">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#73B2F5" Offset="0" />
+                                        <GradientStop Color="#4E87D4" Offset="1" />
+                                    </GradientStopCollection>
+                                </GradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="1" Grid.RowSpan="6">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#73B2F5" Offset="0" />
+                                        <GradientStop Color="#4E87D4" Offset="1" />
+                                    </GradientStopCollection>
+                                </GradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="6">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#efefef" Offset="0" />
+                                        <GradientStop Color="#9f9f9f" Offset="1" />
+                                    </GradientStopCollection>
+                                </GradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <!-- Month row -->
+                    <TextBlock Grid.ColumnSpan="7" Margin="0,5,0,5" HorizontalAlignment="Center">
+                January 2004</TextBlock>
+                    <!-- Draws a separator under the days-of-the-week row -->
+                    <Rectangle Grid.Row="1" Grid.ColumnSpan="7" Fill="Black" RadiusX="1" RadiusY="1" Height="2" Margin="0,20,0,0" />
+                    <!-- Day-of-the-week row -->
+                    <TextBlock Grid.Column="0" Style="{StaticResource DayOfWeek}">Sun</TextBlock>
+                    <TextBlock Grid.Column="1" Style="{StaticResource DayOfWeek}">Mon</TextBlock>
+                    <TextBlock Grid.Column="2" Style="{StaticResource DayOfWeek}">Tue</TextBlock>
+                    <TextBlock Grid.Column="3" Style="{StaticResource DayOfWeek}">Wed</TextBlock>
+                    <TextBlock Grid.Column="4" Style="{StaticResource DayOfWeek}">Thu</TextBlock>
+                    <TextBlock Grid.Column="5" Style="{StaticResource DayOfWeek}">Fri</TextBlock>
+                    <TextBlock Grid.Column="6" Style="{StaticResource DayOfWeek}">Sat</TextBlock>
+                    <!-- Dates go here -->
+                    <TextBlock Grid.Column="4" Grid.Row="2" Style="{StaticResource OneDate}">1</TextBlock>
+                    <TextBlock Grid.Column="5" Grid.Row="2" Style="{StaticResource OneDate}">2</TextBlock>
+                    <TextBlock Grid.Column="6" Grid.Row="2" Style="{StaticResource OneDate}">3</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Style="{StaticResource OneDate}">4</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Style="{StaticResource OneDate}">5</TextBlock>
+                    <TextBlock Grid.Column="2" Grid.Row="3" Style="{StaticResource OneDate}">6</TextBlock>
+                    <TextBlock Grid.Column="3" Grid.Row="3" Style="{StaticResource OneDate}">7</TextBlock>
+                    <TextBlock Grid.Column="4" Grid.Row="3" Style="{StaticResource OneDate}">8</TextBlock>
+                    <TextBlock Grid.Column="5" Grid.Row="3" Style="{StaticResource OneDate}">9</TextBlock>
+                    <TextBlock Grid.Column="6" Grid.Row="3" Style="{StaticResource OneDate}">10</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Style="{StaticResource OneDate}">11</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Style="{StaticResource OneDate}">12</TextBlock>
+                    <TextBlock Grid.Column="2" Grid.Row="4" Style="{StaticResource OneDate}">13</TextBlock>
+                    <TextBlock Grid.Column="3" Grid.Row="4" Style="{StaticResource OneDate}">14</TextBlock>
+                    <TextBlock Grid.Column="4" Grid.Row="4" Style="{StaticResource OneDate}">15</TextBlock>
+                    <TextBlock Grid.Column="5" Grid.Row="4" Style="{StaticResource OneDate}">16</TextBlock>
+                    <TextBlock Grid.Column="6" Grid.Row="4" Style="{StaticResource OneDate}">17</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="5" Style="{StaticResource OneDate}">18</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="5" Style="{StaticResource OneDate}">19</TextBlock>
+                    <TextBlock Grid.Column="2" Grid.Row="5" Style="{StaticResource OneDate}">20</TextBlock>
+                    <TextBlock Grid.Column="3" Grid.Row="5" Style="{StaticResource OneDate}">21</TextBlock>
+                    <TextBlock Grid.Column="4" Grid.Row="5" Style="{StaticResource OneDate}">22</TextBlock>
+                    <TextBlock Grid.Column="5" Grid.Row="5" Style="{StaticResource OneDate}">23</TextBlock>
+                    <TextBlock Grid.Column="6" Grid.Row="5" Style="{StaticResource OneDate}">24</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="6" Style="{StaticResource OneDate}">25</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="6" Style="{StaticResource OneDate}">26</TextBlock>
+                    <TextBlock Grid.Column="2" Grid.Row="6" Style="{StaticResource OneDate}">27</TextBlock>
+                    <TextBlock Grid.Column="3" Grid.Row="6" Style="{StaticResource OneDate}">28</TextBlock>
+                    <TextBlock Grid.Column="4" Grid.Row="6" Style="{StaticResource OneDate}">29</TextBlock>
+                    <TextBlock Grid.Column="5" Grid.Row="6" Style="{StaticResource OneDate}">30</TextBlock>
+                    <TextBlock Grid.Column="6" Grid.Row="6" Style="{StaticResource OneDate}">31</TextBlock>
+                </Grid>
+            </Border>
+        </TabItem>
+    </TabControl>
+</Page>

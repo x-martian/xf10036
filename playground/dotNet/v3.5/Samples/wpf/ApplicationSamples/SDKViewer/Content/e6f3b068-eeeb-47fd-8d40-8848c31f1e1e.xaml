@@ -1,0 +1,175 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e6f3b068_eeeb_47fd_8d40_8848c31f1e1e"
+  Tag     ="Repeat an Animation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Repeat an Animation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the RepeatBehavior property of a Timeline in order to control the repeat behavior of an animation.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">RepeatBehavior</Run>
+ property of a <Run FontWeight="Bold">Timeline</Run>
+ controls how many times an animation repeats its simple duration. By using <Run FontWeight="Bold">RepeatBehavior</Run>
+, you can specify that a <Run FontWeight="Bold">Timeline</Run>
+ repeats for a certain number of times (an iteration count) or for a specified time period. In either case, the animation goes through as many beginning-to-end runs that it needs in order to fill the requested count or duration. 
+    </Paragraph>
+
+    <Paragraph>By default, timelines have a repeat count of 1.0, which means they play one time and do not repeat. However, if you set the <Run FontWeight="Bold">RepeatBehavior</Run>
+ property of a <Run FontWeight="Bold">Timeline</Run>
+ to Forever, the timeline repeats indefinitely.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to use the <Run FontWeight="Bold">RepeatBehavior</Run>
+ property to control the repeat behavior of an animation. The example animates the Width property of five rectangles with each rectangle using a different type of repeat behavior.
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_e6f3b068_eeeb_47fd_8d40_8848c31f1e1e_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;!-- RepeatBehaviorExample.xaml This example shows how to use the RepeatBehavior property to make a timeline repeat. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="RepeatBehavior Example"> 
+&lt;Border HorizontalAlignment="Stretch"> 
+&lt;StackPanel Margin="20"> 
+&lt;!-- Create several rectangles to animate. --> 
+&lt;Rectangle Name="ForeverRepeatingRectangle" Fill="Orange" Width="50" Height="20" /> 
+&lt;Rectangle Name="FourSecondsRepeatingRectangle" Fill="Orange" Width="50" Height="20" /> 
+&lt;Rectangle Name="TwiceRepeatingRectangle" Fill="Orange" Width="50" Height="20" /> 
+&lt;Rectangle Name="HalfRepeatingRectangle" Fill="Orange" Width="50" Height="20" /> 
+&lt;Rectangle Name="OneSecondRepeatingRectangle" Fill="Orange" Width="50" Height="20" /> 
+&lt;!-- Create buttons to restart and stop the animations. --> 
+&lt;StackPanel Orientation="Horizontal" Margin="0,20,0,0"> 
+&lt;Button Name="restartButton">Start Animations
+&lt;/Button> 
+&lt;Button Name="stopButton" Background="#669900FF">Stop
+&lt;/Button> 
+&lt;StackPanel.Triggers> 
+&lt;EventTrigger SourceName="restartButton" RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard Name="myBeginStoryboard"> 
+&lt;Storyboard> 
+&lt;!-- Create an animation that repeats indefinitely. --> 
+&lt;DoubleAnimation Storyboard.TargetName="ForeverRepeatingRectangle" Storyboard.TargetProperty="Width" From="50" To="300" Duration="0:0:2" RepeatBehavior="Forever" /> 
+&lt;!-- Create an animation that repeats for four seconds. As a result, the animation repeats twice. --> 
+&lt;DoubleAnimation Storyboard.TargetName="FourSecondsRepeatingRectangle" Storyboard.TargetProperty="Width" From="50" To="300" Duration="0:0:2" RepeatBehavior="0:0:4" /> 
+&lt;!-- Create an animation that repeats twice. --> 
+&lt;DoubleAnimation Storyboard.TargetName="TwiceRepeatingRectangle" Storyboard.TargetProperty="Width" From="50" To="300" Duration="0:0:2" RepeatBehavior="2x" /> 
+&lt;!-- Create an animation that repeats 0.5 times. The resulting animation plays for one second, half of its Duration. It animates from 50 to 150. --> 
+&lt;DoubleAnimation Storyboard.TargetName="HalfRepeatingRectangle" Storyboard.TargetProperty="Width" From="50" To="300" Duration="0:0:2" RepeatBehavior="0.5x" /> 
+&lt;!-- Create an animation that repeats for one second. The resulting animation plays for one second, half of its Duration. It animates from 50 to 150. --> 
+&lt;DoubleAnimation Storyboard.TargetName="OneSecondRepeatingRectangle" Storyboard.TargetProperty="Width" From="50" To="300" Duration="0:0:2" RepeatBehavior="0:0:1" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;EventTrigger SourceName="stopButton" RoutedEvent="Button.Click"> 
+&lt;StopStoryboard BeginStoryboardName="myBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;/StackPanel.Triggers> 
+&lt;/StackPanel> 
+&lt;/StackPanel> 
+&lt;/Border> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>For the complete sample, see Animation Timing Behavior Sample.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="548df369-c7cc-4dab-b569-08b95ced2e7e.xaml">How to: Accumulate Animation Values During Repeat Cycles</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1648dd90-1bee-409a-ac69-ac729867f557.xaml">How to: Specify Whether a Timeline Automatically Reverses</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="587e36f6-1957-424e-9d89-c43724f26d84.xaml">Animation and Timing How-to Topics</Hyperlink>
+
+      <LineBreak/>Animation and Timing Overviews
+      <LineBreak/>Animation and Timing Samples
+      <LineBreak/>Animation Timing Behavior Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Repeat an Animation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

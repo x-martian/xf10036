@@ -1,0 +1,234 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b688effa_b3e8_4b05_944d_05ed89a245aa"
+  Tag     ="Subscribe to UI Automation Events"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Subscribe to UI Automation Events</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic shows how to subscribe to events raised by <Run>UI Automation providers</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example code registers an event handler for the event that is raised when a control such as a button is invoked, and removes it when the application form closes. The event is identified by an AutomationEvent passed as a parameter to AddAutomationEventHandler.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Member variables. AutomationElement ElementSubscribeButton; 
+AutomationEventHandler UIAeventHandler; 
+/// 
+&lt;summary> /// Register an event handler for InvokedEvent on the specified element. /// 
+&lt;/summary> /// 
+&lt;param name="elementButton">The automation element.
+&lt;/param> public void SubscribeToInvoke(AutomationElement elementButton) { if (elementButton != null) { Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, elementButton, TreeScope.Element, UIAeventHandler = new AutomationEventHandler(OnUIAutomationEvent)); 
+ElementSubscribeButton = elementButton; 
+} } /// 
+&lt;summary> /// AutomationEventHandler delegate. /// 
+&lt;/summary> /// 
+&lt;param name="src">Object that raised the event.
+&lt;/param> /// 
+&lt;param name="e">Event arguments.
+&lt;/param> private void OnUIAutomationEvent(object src, AutomationEventArgs e) { // Make sure the element still exists. Elements such as tooltips // can disappear before the event is processed. AutomationElement sourceElement; 
+try { sourceElement = src as AutomationElement; 
+} catch (ElementNotAvailableException ex) { return; 
+} if (e.EventId == InvokePattern.InvokedEvent) { // TODO Add handling code. } else { // TODO Handle any other events that have been subscribed to. } } private void ShutdownUIA() { if (UIAeventHandler != null) { Automation.RemoveAutomationEventHandler(InvokePattern.InvokedEvent, ElementSubscribeButton, UIAeventHandler); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' Member variables. Private ElementSubscribeButton As AutomationElement Private UIAeventHandler As AutomationEventHandler ''' 
+&lt;summary> ''' Register an event handler for InvokedEvent on the specified element. ''' 
+&lt;/summary> ''' 
+&lt;param name="elementButton">The automation element.
+&lt;/param> Public Sub SubscribeToInvoke(ByVal elementButton As AutomationElement) If (elementButton IsNot Nothing) Then UIAeventHandler = New AutomationEventHandler(AddressOf OnUIAutomationEvent) Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, elementButton, _ TreeScope.Element, UIAeventHandler) ElementSubscribeButton = elementButton End If End Sub 'SubscribeToInvoke ''' 
+&lt;summary> ''' AutomationEventHandler delegate. ''' 
+&lt;/summary> ''' 
+&lt;param name="src">Object that raised the event.
+&lt;/param> ''' 
+&lt;param name="e">Event arguments.
+&lt;/param> Private Sub OnUIAutomationEvent(ByVal src As Object, ByVal e As AutomationEventArgs) ' Make sure the element still exists. Elements such as tooltips can disappear ' before the event is processed. Dim sourceElement As AutomationElement Try sourceElement = DirectCast(src, AutomationElement) Catch ex As ElementNotAvailableException Exit Sub End Try If e.EventId Is InvokePattern.InvokedEvent Then ' TODO Add handling code. Else End If ' TODO Handle any other events that have been subscribed to. Console.WriteLine("Event: " &amp; 
+e.EventId.ProgrammaticName) End Sub 'OnUIAutomationEvent Private Sub ShutdownUIA() If (UIAeventHandler IsNot Nothing) Then Automation.RemoveAutomationEventHandler(InvokePattern.InvokedEvent, ElementSubscribeButton, UIAeventHandler) End If End Sub 'ShutdownUIA </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to use Microsoft UI Automation to subscribe to an event that is raised when the focus changes. The event handler is unregistered in a method that could be called on application shutdown, or when notification of UI events is no longer required.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>AutomationFocusChangedEventHandler focusHandler = null; 
+/// 
+&lt;summary> /// Create an event handler and register it. /// 
+&lt;/summary> public void SubscribeToFocusChange() { focusHandler = new AutomationFocusChangedEventHandler(OnFocusChange); 
+Automation.AddAutomationFocusChangedEventHandler(focusHandler); 
+} /// 
+&lt;summary> /// Handle the event. /// 
+&lt;/summary> /// 
+&lt;param name="src">Object that raised the event.
+&lt;/param> /// 
+&lt;param name="e">Event arguments.
+&lt;/param> private void OnFocusChange(object src, AutomationFocusChangedEventArgs e) { // TODO Add event handling code. // The arguments tell you which elements have lost and received focus. } /// 
+&lt;summary> /// Cancel subscription to the event. /// 
+&lt;/summary> public void UnsubscribeFocusChange() { if (focusHandler != null) { Automation.RemoveAutomationFocusChangedEventHandler(focusHandler); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private focusHandler As AutomationFocusChangedEventHandler = Nothing ''' 
+&lt;summary> ''' Create an event handler and register it. ''' 
+&lt;/summary> Public Sub SubscribeToFocusChange() focusHandler = New AutomationFocusChangedEventHandler(AddressOf OnFocusChange) Automation.AddAutomationFocusChangedEventHandler(focusHandler) End Sub 'SubscribeToFocusChange ''' 
+&lt;summary> ''' Handle the event. ''' 
+&lt;/summary> ''' 
+&lt;param name="src">Object that raised the event.
+&lt;/param> ''' 
+&lt;param name="e">Event arguments.
+&lt;/param> Private Sub OnFocusChange(ByVal src As Object, ByVal e As AutomationFocusChangedEventArgs) End Sub 'OnFocusChange ' TODO Add event handling code. ' The arguments tell you which elements have lost and received focus. ''' 
+&lt;summary> ''' Cancel subscription to the event. ''' 
+&lt;/summary> Public Sub UnsubscribeFocusChange() If (focusHandler IsNot Nothing) Then Automation.RemoveAutomationFocusChangedEventHandler(focusHandler) End If End Sub 'UnsubscribeFocusChange </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>AddAutomationEventHandler
+      <LineBreak/>RemoveAllEventHandlers
+      <LineBreak/>RemoveAutomationEventHandler
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="69eebd8b-39ed-40e7-93cc-4457c4caf746.xaml">UI Automation Events Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Subscribe to UI Automation Events to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

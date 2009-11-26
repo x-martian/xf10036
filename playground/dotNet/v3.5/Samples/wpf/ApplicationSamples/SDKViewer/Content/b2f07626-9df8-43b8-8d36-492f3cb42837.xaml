@@ -1,0 +1,269 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b2f07626_9df8_43b8_8d36_492f3cb42837"
+  Tag     ="Create a Grid Element"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Grid Element</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create and use an instance of Grid by using either Extensible Application Markup Language (XAML) or procedural code. This example uses three ColumnDefinitions and three RowDefinitions to create a grid that has nine cells, such as in a worksheet. Each cell contains a TextBlock element that represents data, and the top row contains a <Run FontWeight="Bold">TextBlock</Run>
+ with the ColumnSpan property applied. To show the boundaries of each cell, the ShowGridLines property is enabled.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the application's main window mainWindow = new Window(); 
+mainWindow.Title = "Grid Sample"; 
+// Create the Grid Grid myGrid = new Grid(); 
+myGrid.Width = 250; 
+myGrid.Height = 100; 
+myGrid.HorizontalAlignment = HorizontalAlignment.Left; 
+myGrid.VerticalAlignment = VerticalAlignment.Top; 
+myGrid.ShowGridLines = true; 
+// Define the Columns ColumnDefinition colDef1 = new ColumnDefinition(); 
+ColumnDefinition colDef2 = new ColumnDefinition(); 
+ColumnDefinition colDef3 = new ColumnDefinition(); 
+myGrid.ColumnDefinitions.Add(colDef1); 
+myGrid.ColumnDefinitions.Add(colDef2); 
+myGrid.ColumnDefinitions.Add(colDef3); 
+// Define the Rows RowDefinition rowDef1 = new RowDefinition(); 
+RowDefinition rowDef2 = new RowDefinition(); 
+RowDefinition rowDef3 = new RowDefinition(); 
+RowDefinition rowDef4 = new RowDefinition(); 
+myGrid.RowDefinitions.Add(rowDef1); 
+myGrid.RowDefinitions.Add(rowDef2); 
+myGrid.RowDefinitions.Add(rowDef3); 
+myGrid.RowDefinitions.Add(rowDef4); 
+// Add the first text cell to the Grid TextBlock txt1 = new TextBlock(); 
+txt1.Text = "2005 Products Shipped"; 
+txt1.FontSize = 20; 
+txt1.FontWeight = FontWeights.Bold; 
+Grid.SetColumnSpan(txt1, 3); 
+Grid.SetRow(txt1, 0); 
+// Add the second text cell to the Grid TextBlock txt2 = new TextBlock(); 
+txt2.Text = "Quarter 1"; 
+txt2.FontSize = 12; 
+txt2.FontWeight = FontWeights.Bold; 
+Grid.SetRow(txt2, 1); 
+Grid.SetColumn(txt2, 0); 
+// Add the third text cell to the Grid TextBlock txt3 = new TextBlock(); 
+txt3.Text = "Quarter 2"; 
+txt3.FontSize = 12; 
+txt3.FontWeight = FontWeights.Bold; 
+Grid.SetRow(txt3, 1); 
+Grid.SetColumn(txt3, 1); 
+// Add the fourth text cell to the Grid TextBlock txt4 = new TextBlock(); 
+txt4.Text = "Quarter 3"; 
+txt4.FontSize = 12; 
+txt4.FontWeight = FontWeights.Bold; 
+Grid.SetRow(txt4, 1); 
+Grid.SetColumn(txt4, 2); 
+// Add the sixth text cell to the Grid TextBlock txt5 = new TextBlock(); 
+Double db1 = new Double(); 
+db1 = 50000; 
+txt5.Text = db1.ToString(); 
+Grid.SetRow(txt5, 2); 
+Grid.SetColumn(txt5, 0); 
+// Add the seventh text cell to the Grid TextBlock txt6 = new TextBlock(); 
+Double db2 = new Double(); 
+db2 = 100000; 
+txt6.Text = db2.ToString(); 
+Grid.SetRow(txt6, 2); 
+Grid.SetColumn(txt6, 1); 
+// Add the final text cell to the Grid TextBlock txt7 = new TextBlock(); 
+Double db3 = new Double(); 
+db3 = 150000; 
+txt7.Text = db3.ToString(); 
+Grid.SetRow(txt7, 2); 
+Grid.SetColumn(txt7, 2); 
+// Total all Data and Span Three Columns TextBlock txt8 = new TextBlock(); 
+txt8.FontSize = 16; 
+txt8.FontWeight = FontWeights.Bold; 
+txt8.Text = "Total Units: " + (db1 + db2 + db3).ToString(); 
+Grid.SetRow(txt8, 3); 
+Grid.SetColumnSpan(txt8, 3); 
+// Add the TextBlock elements to the Grid Children collection myGrid.Children.Add(txt1); 
+myGrid.Children.Add(txt2); 
+myGrid.Children.Add(txt3); 
+myGrid.Children.Add(txt4); 
+myGrid.Children.Add(txt5); 
+myGrid.Children.Add(txt6); 
+myGrid.Children.Add(txt7); 
+myGrid.Children.Add(txt8); 
+// Add the Grid as the Content of the Parent Window Object mainWindow.Content = myGrid; 
+mainWindow.Show (); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub New() WindowTitle = "Grid Sample" 'Create a Grid as the root Panel element Dim myGrid As New Grid() myGrid.Height = 100 myGrid.Width = 250 myGrid.ShowGridLines = True myGrid.HorizontalAlignment = Windows.HorizontalAlignment.Left myGrid.VerticalAlignment = Windows.VerticalAlignment.Top ' Define and Add the Rows and Columns Dim colDef1 As New ColumnDefinition Dim colDef2 As New ColumnDefinition Dim colDef3 As New ColumnDefinition myGrid.ColumnDefinitions.Add(colDef1) myGrid.ColumnDefinitions.Add(colDef2) myGrid.ColumnDefinitions.Add(colDef3) Dim rowDef1 As New RowDefinition Dim rowDef2 As New RowDefinition Dim rowDef3 As New RowDefinition Dim rowDef4 As New RowDefinition myGrid.RowDefinitions.Add(rowDef1) myGrid.RowDefinitions.Add(rowDef2) myGrid.RowDefinitions.Add(rowDef3) myGrid.RowDefinitions.Add(rowDef4) Dim txt1 As New TextBlock txt1.Text = "2004 Products Shipped" txt1.FontSize = 20 txt1.FontWeight = FontWeights.Bold Grid.SetColumnSpan(txt1, 3) Grid.SetRow(txt1, 0) myGrid.Children.Add(txt1) Dim txt2 As New TextBlock txt2.Text = "Quarter 1" txt2.FontSize = 12 txt2.FontWeight = FontWeights.Bold Grid.SetRow(txt2, 1) Grid.SetColumn(txt2, 0) myGrid.Children.Add(txt2) Dim txt3 As New TextBlock txt3.Text = "Quarter 2" txt3.FontSize = 12 txt3.FontWeight = FontWeights.Bold Grid.SetRow(txt3, 1) Grid.SetColumn(txt3, 1) myGrid.Children.Add(txt3) Dim txt4 As New TextBlock txt4.Text = "Quarter 3" txt4.FontSize = 12 txt4.FontWeight = FontWeights.Bold Grid.SetRow(txt4, 1) Grid.SetColumn(txt4, 2) myGrid.Children.Add(txt4) Dim txt5 As New TextBlock txt5.Text = "50,000" Grid.SetRow(txt5, 2) Grid.SetColumn(txt5, 0) myGrid.Children.Add(txt5) Dim txt6 As New Controls.TextBlock txt6.Text = "100,000" Grid.SetRow(txt6, 2) Grid.SetColumn(txt6, 1) myGrid.Children.Add(txt6) Dim txt7 As New TextBlock txt7.Text = "150,000" Grid.SetRow(txt7, 2) Grid.SetColumn(txt7, 2) myGrid.Children.Add(txt7) ' Add the final TextBlock Cell to the Grid Dim txt8 As New TextBlock txt8.FontSize = 16 txt8.FontWeight = FontWeights.Bold txt8.Text = "Total Units: 300000" Grid.SetRow(txt8, 3) Grid.SetColumnSpan(txt8, 3) myGrid.Children.Add(txt8) Me.Content = myGrid End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_b2f07626_9df8_43b8_8d36_492f3cb42837_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="Grid Sample"> 
+&lt;Grid VerticalAlignment="Top" HorizontalAlignment="Left" ShowGridLines="True" Width="250" Height="100"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;TextBlock FontSize="20" FontWeight="Bold" Grid.ColumnSpan="3" Grid.Row="0">2005 Products Shipped
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="12" FontWeight="Bold" Grid.Row="1" Grid.Column="0">Quarter 1
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="12" FontWeight="Bold" Grid.Row="1" Grid.Column="1">Quarter 2
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="12" FontWeight="Bold" Grid.Row="1" Grid.Column="2">Quarter 3
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Row="2" Grid.Column="0">50000
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Row="2" Grid.Column="1">100000
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Row="2" Grid.Column="2">150000
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="16" FontWeight="Bold" Grid.ColumnSpan="3" Grid.Row="3">Total Units: 300000
+&lt;/TextBlock> 
+&lt;/Grid> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Grid
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Building a Complex Grid Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Grid Element to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

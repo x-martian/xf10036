@@ -1,0 +1,110 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_edcce050_0576_4edb_a31a_3f909637b452"
+  Tag     ="Add an Owner Type for a Dependency Property"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Add an Owner Type for a Dependency Property</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to add a class as an owner of a dependency property registered for a different type. By doing this, the parser and property system are both able to recognize the class as an additional owner of the property. Adding as owner optionally allows the class to provide type-specific metadata.
+    </Paragraph>
+
+    <Paragraph>In the following example, <Run>StateProperty</Run>
+ is a property registered by the <Run>MyStateControl</Run>
+ class. The class <Run>UnrelatedStateControl</Run>
+ adds itself as an owner of the <Run>StateProperty</Run>
+ using the AddOwner method, specifically using the signature that allows for new metadata for the dependency property as existing on its new owner type. Notice that you should provide common language runtime (CLR) accessors for the property similar to the example shown in the <Hyperlink NavigateUri="855fd6d7-19ac-493c-bf5e-2f40b57cdc92.xaml">How to: Implement a Dependency Property</Hyperlink>
+ example, as well as re-expose the dependency property identifier on the class being added as owner.
+    </Paragraph>
+
+    <Paragraph>Without wrappers, the dependency property would still work from the perspective of programmatic access using GetValue or SetValue. But you typically want to parallel this property-system behavior with the CLR property wrappers, which make it easier to set programatically, and make it possible to set the properties as XAML attributes.
+    </Paragraph>
+
+    <Paragraph>To find out how to override default metadata, see <Hyperlink NavigateUri="f90f026e-60d8-428a-933d-edf0dba4441f.xaml">How to: Override Metadata for a Dependency Property</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class MyStateControl : ButtonBase { public MyStateControl() : base() { } public Boolean State { get { return (Boolean)this.GetValue(StateProperty); 
+} set { this.SetValue(StateProperty, value); 
+} } public static readonly DependencyProperty StateProperty = DependencyProperty.Register( "State", typeof(Boolean), typeof(MyStateControl),new PropertyMetadata(false)); 
+} ... public class UnrelatedStateControl : Control { public UnrelatedStateControl() { } public static readonly DependencyProperty StateProperty = MyStateControl.StateProperty.AddOwner(typeof(UnrelatedStateControl), new PropertyMetadata(true)); 
+public Boolean State { get { return (Boolean)this.GetValue(StateProperty); 
+} set { this.SetValue(StateProperty, value); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Add an Owner Type for a Dependency Property to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,275 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6bea1014_2555_425c_9f79_3f31a487bab3"
+  Tag     ="TreeViewItem ControlTemplate Example"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>TreeViewItem ControlTemplate Example</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Controls in Windows Presentation Foundation (WPF) have a ControlTemplate that contains the <Run>visual tree</Run>
+ of that control. You can change the structure and appearance of a control by modifying the <Run FontWeight="Bold">ControlTemplate</Run>
+ of that control. There is no way to replace only part of the visual tree of a control; 
+to change the visual tree of a control you must set the Template property of the control to its new and complete <Run FontWeight="Bold">ControlTemplate</Run>
+.
+    </Paragraph>
+
+    <Paragraph>This topic shows the <Run FontWeight="Bold">ControlTemplate</Run>
+ of the WPF TreeViewItem control.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="example">TreeViewItem ControlTemplate Example</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To run the examples in this topic, you should understand how to write WPF applications. For more information, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+. You should also understand how styles are used in WPF. For more information, see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">TreeViewItem ControlTemplate Example
+    </Paragraph>
+
+    <Paragraph>While this example contains all of the elements that are defined in the <Run FontWeight="Bold">ControlTemplate</Run>
+ of a <Run FontWeight="Bold">TreeViewItem</Run>
+ by default, the specific values should be thought of as examples.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!--================================================================= TreeViewItem ==================================================================--> 
+&lt;Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}"> 
+&lt;Setter Property="Focusable" Value="False"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type ToggleButton}"> 
+&lt;Grid Width="15" Height="13" Background="Transparent"> 
+&lt;Path x:Name="ExpandPath" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1,1,1,1" Fill="{StaticResource GlyphBrush}" Data="M 4 0 L 8 4 L 4 8 Z"/> 
+&lt;/Grid> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="IsChecked" Value="True"> 
+&lt;Setter Property="Data" TargetName="ExpandPath" Value="M 0 4 L 8 4 L 4 8 Z"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;Style x:Key="TreeViewItemFocusVisual"> 
+&lt;Setter Property="Control.Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate> 
+&lt;Border> 
+&lt;Rectangle Margin="0,0,0,0" StrokeThickness="5" Stroke="Black" StrokeDashArray="1 2" Opacity="0"/> 
+&lt;/Border> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;Style x:Key="{x:Type TreeViewItem}" TargetType="{x:Type TreeViewItem}"> 
+&lt;Setter Property="Background" Value="Transparent"/> 
+&lt;Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/> 
+&lt;Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/> 
+&lt;Setter Property="Padding" Value="1,0,0,0"/> 
+&lt;Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/> 
+&lt;Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type TreeViewItem}"> 
+&lt;Grid> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition MinWidth="19" Width="Auto"/> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition/> 
+&lt;/Grid.RowDefinitions> 
+&lt;ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" IsChecked="{Binding Path=IsExpanded,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"/> 
+&lt;Border Name="Bd" Grid.Column="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}"> 
+&lt;ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/> 
+&lt;/Border> 
+&lt;ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/> 
+&lt;/Grid> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="IsExpanded" Value="false"> 
+&lt;Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="HasItems" Value="false"> 
+&lt;Setter TargetName="Expander" Property="Visibility" Value="Hidden"/> 
+&lt;/Trigger> 
+&lt;MultiTrigger> 
+&lt;MultiTrigger.Conditions> 
+&lt;Condition Property="HasHeader" Value="false"/> 
+&lt;Condition Property="Width" Value="Auto"/> 
+&lt;/MultiTrigger.Conditions> 
+&lt;Setter TargetName="PART_Header" Property="MinWidth" Value="75"/> 
+&lt;/MultiTrigger> 
+&lt;MultiTrigger> 
+&lt;MultiTrigger.Conditions> 
+&lt;Condition Property="HasHeader" Value="false"/> 
+&lt;Condition Property="Height" Value="Auto"/> 
+&lt;/MultiTrigger.Conditions> 
+&lt;Setter TargetName="PART_Header" Property="MinHeight" Value="19"/> 
+&lt;/MultiTrigger> 
+&lt;Trigger Property="IsSelected" Value="true"> 
+&lt;Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/> 
+&lt;Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/> 
+&lt;/Trigger> 
+&lt;MultiTrigger> 
+&lt;MultiTrigger.Conditions> 
+&lt;Condition Property="IsSelected" Value="true"/> 
+&lt;Condition Property="IsSelectionActive" Value="false"/> 
+&lt;/MultiTrigger.Conditions> 
+&lt;Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/> 
+&lt;Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/> 
+&lt;/MultiTrigger> 
+&lt;Trigger Property="IsEnabled" Value="false"> 
+&lt;Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The above example uses the following resource:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;SolidColorBrush x:Key="GlyphBrush" Color="#444" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Styling with ControlTemplates Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c52dde45-a311-4531-af4c-853371c4d5f4.xaml">Guidelines for Designing Stylable Controls</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="a49adb77-0202-4caa-b94a-8bb110d7fa9a.xaml">TreeView ControlTemplate Example</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c19049bb-5ceb-492d-afd2-751dca0ed8e3.xaml">ControlTemplate Examples</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about TreeViewItem ControlTemplate Example to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

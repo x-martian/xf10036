@@ -1,0 +1,286 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a49fc8d6_7b32_4f28_9122_39b632a19b4b"
+  Tag     ="Make a UIElement Transparent or Semi-Transparent"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Make a UIElement Transparent or Semi-Transparent</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to make a UIElement transparent or semi-transparent. To make an element transparent or semi-transparent, you set its Opacity property. A value of <Run>0.0</Run>
+ makes the element completely transparent, while a value of <Run>1.0</Run>
+ makes the element completely opaque. A value of <Run>0.5</Run>
+ makes the element 50% opaque, and so on. An element's <Run FontWeight="Bold">Opacity</Run>
+ is set to <Run>1.0</Run>
+ by default.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example sets the <Run FontWeight="Bold">Opacity</Run>
+ of a button to <Run>0.25</Run>
+, making it and its contents (in this case, the button's text) 25% opaque.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Both the button and its text are made 25% opaque. --> 
+&lt;Button Opacity="0.25">A Button
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Both the button and its text are made 25% opaque. // Button myTwentyFivePercentOpaqueButton = new Button(); 
+myTwentyFivePercentOpaqueButton.Opacity = new Double(); 
+myTwentyFivePercentOpaqueButton.Opacity = 0.25; 
+myTwentyFivePercentOpaqueButton.Content = "A Button"; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If an element's contents have their own <Run FontWeight="Bold">Opacity</Run>
+ settings, those values are multiplied against the containing elements <Run FontWeight="Bold">Opacity</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following example sets a button's <Run FontWeight="Bold">Opacity</Run>
+ to <Run>0.25</Run>
+, and the <Run FontWeight="Bold">Opacity</Run>
+ of an Image control contained with in the button to <Run>0.5</Run>
+. As a result, the image appears 12.5% opaque: 0.25 * 0.5 = 0.125.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- The image contained within this button has an effective opacity of 0.125 (0.25 * 0.5 = 0.125). --> 
+&lt;Button Opacity="0.25"> 
+&lt;StackPanel Orientation="Horizontal"> 
+&lt;TextBlock VerticalAlignment="Center" Margin="10">A Button
+&lt;/TextBlock> 
+&lt;Image Source="sampleImages\berries.jpg" Width="50" Height="50" Opacity="0.5"/> 
+&lt;/StackPanel> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // The image contained within this button has an // effective opacity of 0.125 (0.25*0.5 = 0.125); 
+// Button myImageButton = new Button(); 
+myImageButton.Opacity = new Double(); 
+myImageButton.Opacity = 0.25; 
+StackPanel myImageStackPanel = new StackPanel(); 
+myImageStackPanel.Orientation = Orientation.Horizontal; 
+TextBlock myTextBlock = new TextBlock(); 
+myTextBlock.VerticalAlignment = VerticalAlignment.Center; 
+myTextBlock.Margin = new Thickness(10); 
+myTextBlock.Text = "A Button"; 
+myImageStackPanel.Children.Add(myTextBlock); 
+Image myImage = new Image(); 
+BitmapImage myBitmapImage = new BitmapImage(); 
+myBitmapImage.BeginInit(); 
+myBitmapImage.UriSource = new Uri("sampleImages/berries.jpg",UriKind.Relative); 
+myBitmapImage.EndInit(); 
+myImage.Source = myBitmapImage; 
+ImageBrush myImageBrush = new ImageBrush(myBitmapImage); 
+myImage.Width = 50; 
+myImage.Height = 50; 
+myImage.Opacity = 0.5; 
+myImageStackPanel.Children.Add(myImage); 
+myImageButton.Content = myImageStackPanel; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Another way to control the opacity of an element is to set the opacity of the Brush that paints the element. This approach enables you to selectively alter the opacity of portions of an element, and provides performance benefits over using the element's <Run FontWeight="Bold">Opacity</Run>
+ property. The following example sets the Opacity of a SolidColorBrush used to paint the button's Background is set to <Run>0.25</Run>
+. As a result, the brush's background is 25% opaque, but its contents (the button's text) remain 100% opaque.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This button's background is made 25% opaque, but its text remains 100% opaque. --> 
+&lt;Button> 
+&lt;Button.Background> 
+&lt;SolidColorBrush Color="Gray" Opacity="0.25" /> 
+&lt;/Button.Background> A Button 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // This button's background is made 25% opaque, // but its text remains 100% opaque. // Button myOpaqueTextButton = new Button(); 
+SolidColorBrush mySolidColorBrush = new SolidColorBrush(Colors.Gray); 
+mySolidColorBrush.Opacity = 0.25; 
+myOpaqueTextButton.Background = mySolidColorBrush; 
+myOpaqueTextButton.Content = "A Button"; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You may also control the opacity of individual colors within a brush. For more information about colors and brushes, see <Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+. For an example showing how to animate an element's opacity, see <Hyperlink NavigateUri="572af23b-39dd-48d1-9db5-4bca56a4b3d3.xaml">How to: Animate the Opacity of an Element or Brush</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Make a UIElement Transparent or Semi-Transparent to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

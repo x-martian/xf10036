@@ -1,0 +1,1158 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_aefbe9d1_2bca_4bbb_9406_796980eeca63"
+  Tag     ="Creating, Building, Deploying, and Launching WPF Applications"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_aefbe9d1_2bca_4bbb_9406_796980eeca63"
+    Tag     ="Creating, Building, Deploying, and Launching WPF Applications"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Creating, Building, Deploying, and Launching WPF Applications</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>This topic walks you through the process of creating a Windows Presentation Foundation application. It shows you how to take a collection of source files, build them into an application, and then deploy and launch the application.     
+      </Paragraph>
+
+      <Paragraph>This topic contains the following sections.    
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>This topic contains the following sections.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="application_types">Project Types</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="writing_an_application">Writing an Application</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="building_an_application">Building an "XAML"-Based Application</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="using_vs.net">Using Visual Studio .NET to Build Windows Presentation Foundation-based Applications</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="command_line_builds">Building from the Command Line</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="deploying_and_launching_an_application">Deploying and Launching an Application</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Project Types    
+      </Paragraph>
+
+      <Paragraph>There are three basic types of Windows Presentation Foundation applications. The main differences between the types are in how they are hosted, what security restrictions they must operate under, what application object they are associated with, and whether they allow you to navigate from page to page. In addition, you can also create libraries of components, such as custom controls, packaged in a DLL. Each type has a corresponding Microsoft Visual Studio 2005 template that you can use to start implementing the application. The following list briefly summarizes the four project types. See <Hyperlink NavigateUri="7d73d005-4281-454e-901b-28afaace1c11.xaml">Hosting and Deploying WPF Applications and Components</Hyperlink>
+ for a more detailed overview of the subject.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>XAML Browser Applications. These applications are deployed from a server with ClickOnce and hosted in the browser. They are not installed on the user's system. They run with Internet zone permissions, which grants only limited access to the user's system resources. This allows them to be deployed without the user clicking on a consent dialog.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Installed application. These applications are installed on the user's system with ClickOnce or MSI and hosted in a standalone window. They have full access to the user's system resources and must have user permission before they can be deployed.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Control library. This type is similar to the installed applications in terms of hosting, deployment and security constraints. However, it is a collection of components packaged in a DLL for use by applications rather than an application to be launched by the user.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>When a user attempts to deploy an installed application, the system displays a dialog box. The user must grant permission to proceed, or the deployment is canceled. See <Hyperlink NavigateUri="55ca384d-fd7d-490e-9846-020b1d032483.xaml">Security</Hyperlink>
+ for a discussion of security.             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Writing an Application    
+      </Paragraph>
+
+      <Paragraph>There are two basic approaches to writing Windows Presentation Foundation applications.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Using XAML with code-behind files. Most applications use XAML to define the user interface (UI). You can then add a code-behind file with procedural code for purposes such as handling events. This topic assumes that you are writing an XAML-based application. For an introduction to XAML-based applications, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Using only procedural code. You can also write applications entirely in procedural code. For details and an introduction to using procedural code, see <Hyperlink NavigateUri="d6c3fb4a-7e0d-46d1-bdf7-a70c777c55d4.xaml">How to: Create a Simple Application with Procedural Code in Windows Presentation Foundation</Hyperlink>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>You can also write parts of your application in procedural code and parts in XAML.     
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Building an "XAML"-Based Application    
+      </Paragraph>
+
+      <Paragraph>An XAML-based application must be built into a deployable package before it can be run. An XAML page is compiled in two basic steps, as follows:    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>The XAML file is parsed and converted into a partial class. For example, a Button tag will become a new <Run FontWeight="Bold">Button</Run>
+ and the attributes of the <Run FontWeight="Bold">Button</Run>
+ will be converted to appropriate objects assigned to the <Run FontWeight="Bold">Button</Run>
+ object's properties. If you have assigned a value to the button's Name attribute, the parser creates a global variable in the partial class, with the name that you assigned to the <Run FontWeight="Bold">Name</Run>
+. This allows you to access the <Run FontWeight="Bold">Button</Run>
+ element's properties, methods, and events in your code-behind file.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>The compiler merges the partial class produced by the parser with the partial class in the code-behind file to produce the final compiled page.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>There are two approaches to building applications.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Visual Studio 2005. This is the simplest approach, because Visual Studio 2005 automates project setup and provides conveniences such as Microsoft IntelliSense and source-level debugging.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Command-line builds. With this approach, you manually create a project file that specifies the build process and use Microsoft build engine (MSBuild) to build the project from the command line.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>You can use MSBuild to build a project that was created by Visual Studio 2005. Both types of project files use the same format. The only significant difference between them is that Visual Studio 2005 project files have some additional elements that are used internally by Visual Studio 2005. MSBuild simply ignores those elements and builds the project based on the standard elements. You can also use Visual Studio 2005 to build a project that you created manually. Visual Studio 2005 simply adds its specialty elements to the project file. However, to be used by Visual Studio 2005, a Windows Presentation Foundation project file must have a .csproj or .vbproj extension, depending on which language you are using.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Using Visual Studio .NET to Build Windows Presentation Foundation-based Applications    
+      </Paragraph>
+
+      <Paragraph>Visual Studio 2005 is the simplest way to build applications that use Windows Presentation Foundation. In addition to automatically setting up your project and handling most of the details of creating the project file and building the application, you also get the convenience of such features as IntelliSense, Object Browser, and source-level debugging.    
+      </Paragraph>
+
+      <Paragraph>There are several project types. The following procedure shows how to start a new C#-based navigation application project. You can start the other project types in much the same way.    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>If you haven't already done so, install Visual Studio 2005 and the Windows Software Development Kit (SDK). Make sure that the versions are compatible. In particular, both Visual Studio 2005 and Windows Presentation Foundation must be based on the same common language runtime (CLR) version.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Open Visual Studio 2005 and on the <Run FontWeight="Bold">File</Run>
+ menu, point to <Run FontWeight="Bold">New</Run>
+, and then click <Run FontWeight="Bold">Project</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>For most Windows Presentation Foundation applications, you can select the <Run FontWeight="Bold">Visual C#</Run>
+ or <Run FontWeight="Bold">Visual Basic</Run>
+ project type, and pick one of the following standard project types. If you want to develop an application that doesn't fit one of these types, such as one written entirely in procedural code, select the <Run FontWeight="Bold">Windows</Run>
+ project type with an <Run FontWeight="Bold">Empty Project</Run>
+ template and implement the project from scratch.         
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph><Run FontWeight="Bold">WinFX Windows Application</Run>
+. An installed Windows Presentation Foundation application.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph><Run FontWeight="Bold">WinFX XAML Browser Application</Run>
+. A Windows Presentation Foundation XAML Browser Application.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph><Run FontWeight="Bold">WinFX Custom Control Library</Run>
+. A Windows Presentation Foundation custom control library.            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>From this point, you can use Visual Studio 2005 to implement your application in much the same way as any other managed application. The primary difference is the addition of several new file types to the <Run FontWeight="Bold">Add New Item</Run>
+ dialog box. When you add one to your project, Visual Studio 2005 creates a XAML file and the associated code-behind file, <Run FontStyle="italic">Filename</Run>
+.xaml and <Run FontStyle="italic">Filename</Run>
+.xaml.cs. You can choose from the following file types.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Flow Document. An XAML file with FlowDocument as its root element.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Page. An XAML file with Page as its root element.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Page Function. An XAML file with PageFunction as its root element.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Window. An XAML file with Window as its root element.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Custom Control. A starting code file that can be used to implement a custom control.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>If none of the file types listed above fit your needs, select a <Run FontWeight="Bold">Code File</Run>
+ type and implement it from scratch.    
+      </Paragraph>
+
+      <Paragraph>The XAML compiler produces one or more intermediate files for each XAML file that contains procedural code. It will be either C# or Microsoft Visual Basic .NET, depending on your project language. By default, these files are placed in the .\obj\Debug or .\obj\Release folders and have a g.cs or g.vb extension. When you debug your application, you can step into these files. They will also be displayed by Visual Studio 2005 if the code in them throws an exception while your application is running in the debugger. These files can sometimes be useful in understanding how your XAML code works. However, they cannot be usefully modified because they are recreated from XAML each time the project is built. The only way to change them is to change the XAML file.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Building from the Command Line    
+      </Paragraph>
+
+      <Paragraph>This section describes how to build a project from the command line. If you use Visual Studio 2005 to create your applications, you can skip to <Hyperlink TargetName="deploying_and_launching_an_application">Deploying and Launching an Application</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph>To build a project, you need four elements.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>The XAML and code-behind source files for your pages.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Standalone procedural code files, if your project uses them.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>A project file that contains the instructions on how to build the project.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>An application definition file.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The last two items on the list are created automatically for Visual Studio 2005 projects. For command-line builds, you have to create these files manually. The following sections provide the information you need to create project and application definition files for the common types of applications.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="using_msbuild">Using Microsoft build engine (MSBuild)</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="creating_a_proj_file">The Project File</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="creating_an_application_definition_file">Creating an Application Definition File</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Using Microsoft build engine (MSBuild)    
+      </Paragraph>
+
+      <Paragraph>MSBuild and its supporting files are part of Microsoft .NET Framework version 3.0. To use MSBuild, however, you must have the correct environment settings. The simplest way to do that is to use the custom console window included in the Windows SDK.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Install the Windows SDK.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Click <Run FontWeight="Bold">Start</Run>
+ and point to <Run FontWeight="Bold">All Programs</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>From the list of programs, select <Run FontWeight="Bold">Microsoft WinFX SDK</Run>
+, <Run FontWeight="Bold">Open Build Environment Window</Run>
+, <Run FontWeight="Bold">WinFX Build Environment</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>This procedure opens a console window that has the necessary environment and path settings to compile with MSBuild.    
+      </Paragraph>
+
+      <Paragraph>To do a simple build, type the following command line. As long as your project file uses a .proj, .csproj, or .vbproj extension, you don't need to explicitly include the file name as an argument.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>MSBuild.exe </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>You can optionally include a number of arguments to modify the build process as well. Here are some of the commonly used ones.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">/help</Run>
+. Display a list of available arguments, with brief explanations. You can also use one of the two short versions of this argument: <Run FontWeight="Bold">/?</Run>
+ or <Run FontWeight="Bold">/h</Run>
+.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">/nologo</Run>
+. Don't display the startup banner or the copyright message.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">/property: </Run>
+<Span FontWeight="Bold"><Run FontStyle="italic">name1</Run>
+</Span>
+<Run FontWeight="Bold">=</Run>
+<Span FontWeight="Bold"><Run FontStyle="italic">value1</Run>
+</Span>
+<Run FontWeight="Bold">[;</Run>
+<Span FontWeight="Bold"><Run FontStyle="italic">name2</Run>
+</Span>
+<Run FontWeight="Bold">=</Run>
+<Span FontWeight="Bold"><Run FontStyle="italic">value2</Run>
+</Span>
+<Run FontWeight="Bold">;...]</Run>
+. Sets or overrides one or more project-level properties. For example:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run/>
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>/property:WarningLevel=2;OutputDir=bin\Debug</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">/target:</Run>
+<Span FontWeight="Bold"><Run FontStyle="italic">target1[;target2;...]</Run>
+</Span>
+. Specifies the list of targets in the project file that should be built. For example:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run/>
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>/target:Clean;Build</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph>The short version of this argument is <Run FontWeight="Bold">/t</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">/verbosity:</Run>
+<Span FontWeight="Bold"><Run FontStyle="italic">level</Run>
+</Span>
+. Display this amount of information in the event log. Individual loggers choose what events to show at a particular verbosity level. A logger may also choose to ignore the verbosity setting. The available verbosity levels are <Run>q[uiet]</Run>
+, <Run>m[inimal]</Run>
+, <Run>n[ormal]</Run>
+, <Run>d[etailed]</Run>
+, and <Run>diag[nostic]</Run>
+.        
+          </Paragraph>
+
+          <Paragraph>For example:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run/>
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>/verbosity:quiet</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph>The short version of this argument is <Run FontWeight="Bold">/v</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">/version</Run>
+. Display only version information. The short version of this argument is <Run FontWeight="Bold">/ver</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>A convenient way to use these arguments is to have the build process run the sample after it is compiled. If you are using the standard Windows Presentation Foundation targets file, as discussed below, the command line is as follows:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>MSBuild myproject.csproj /t:run </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>You can omit the project file name if you have only one in your project folder.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>Another useful target allows you to run a clean build, which rebuilds all your intermediate files. If you change your project's target name, you should run <Run>/t:cleanbuild</Run>
+ to ensure that your build is properly updated.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run/>
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>MSBuild myproject.proj /t:cleanbuild </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">The Project File    
+      </Paragraph>
+
+      <Paragraph>All of the details about how to build a project are contained in an XML-based project file. The extension conventionally used for project files depends on which language you are using. Normally, C# projects use a .csproj extension and Microsoft Visual Basic .NET projects use a .vbproj extension. For convenience, all project files will be referred to generically as "project" files.    
+      </Paragraph>
+
+      <Paragraph>For examples of typical Windows Presentation Foundation project files, see:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink NavigateUri="aef856e6-6777-4a2a-9cac-d397ce217c1e.xaml">A Sample Project File for a Windows Presentation Foundation XAML Browser Application</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink NavigateUri="ce4f0dd6-be58-443a-a006-07868b35e5fe.xaml">A Sample Project File for a Windows Presentation Foundation Standalone Application</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink NavigateUri="6ba7a7a5-ccf3-48ff-bc06-a3ee9cb27b0e.xaml">A Sample Project File for a Code-Only Windows Presentation Foundation Standalone Application</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink NavigateUri="9ad49e48-15f1-4d1f-aac1-e26dfc546da6.xaml">A Sample Project File for a Windows Presentation Foundation Custom Control Library</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The project file format for MSBuild that is described here is essentially the same as that generated automatically by Visual Studio 2005. This allows you to create a project file manually and compile it with Visual Studio 2005 or vice versa. The main difference is that Visual Studio 2005 project files include some extra data that contain information for Visual Studio 2005's internal use. These data are ignored by MSBuild. If you open a manually created project file with Visual Studio 2005, it automatically adds the extra data to the file.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>If you intend to use a manually created project file with Visual Studio 2005, you must use the standard language-dependent extension, .csproj or .vbproj.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>The project file format is quite flexible and can encompass multiple build targets. You specify a particular target with command-line arguments. This section covers only the elements needed to build standard applications. For more information about project files, see <Hyperlink NavigateUri="cd87f7ce-af09-4401-9cfb-ef19b06f7557.xaml">Creating a Project File</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph>These files have several elements. The root element of all project files is Project. The element's <Run FontWeight="Bold">DefaultTargets</Run>
+ attribute is normally set to <Run FontWeight="Bold">Build</Run>
+. This specifies a standard Microsoft Windows build. There are three child elements: PropertyGroup, Import, and ItemGroup. Collectively, these elements define how the build proceeds.    
+      </Paragraph>
+
+      <Paragraph>The PropertyGroup element contains the build's property settings.     
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">AssemblyName</Run>
+. Set this property to the name of your target file. Do not include the extension;it will be added automatically. You should choose a unique target name for each application. If you change your project's target name, run /t:cleanbuild to ensure that your build is properly updated.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">OutputType</Run>
+. Set this property to "Application" to produce an executable target file (.exe), "Library" to produce a dynamic-link library (DLL) (.dll), and "Document" to produce a document package (.package).        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">Configuration</Run>
+. Set this property to "Debug" for a debug build and to "Release" for a release build.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">RootNamespace</Run>
+: Set this property to the default namespace for the classes that will be created from your XAML files.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">ApplicationVersion</Run>
+. Set this property to your version number. A typical version number is "1.0.0.0". When you launch a sample with its .deploy file, the sample is installed in the deployment cache. If you recompile the sample without changing the version number, the cache is not updated, .deploy will launch the original executable, and you will not see your change. If you increment the version number when you recompile, the system will treat your application as a new application, and you can launch it with .deploy.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">OutputPath</Run>
+. The path to the folder that holds the compiled application and related files such as manifests.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The Import element is used to include other project files. For most Windows applications, you will want to import Microsoft.WinFX.targets and either Microsoft.CSharp.targets or Microsoft.VisualBasic.targets, depending on which language you are using. These files contain the detailed information that MSBuild.exe needs to create your specified target file.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>The Import element must come after PropertyGroup, or your project may not compile properly.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>The ItemGroup element typically includes two or more items that specify the project's source files and how they are handled by the build.     
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">ApplicationDefinition</Run>
+. The application definition, which is used to create the application object. All XAML-based programs must have one and only one application definition in their build. If you write your application in procedural code, an application definition is not required. See <Hyperlink NavigateUri="d6c3fb4a-7e0d-46d1-bdf7-a70c777c55d4.xaml">How to: Create a Simple Application with Procedural Code in Windows Presentation Foundation</Hyperlink>
+ for an example of how create an application object in procedural code.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">Page</Run>
+. An XAML page. If you have code-behind files, each of these items must have a corresponding Compile item for the associated code-behind file. XAML pages can also be included as a <Run FontWeight="Bold">Resource</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">Resource</Run>
+. A resource file, such as an image. By default, resources are embedded in the assembly. To store the file outside the assembly, either as linked or loose files, include a 
+&lt;FileStorage> property, set to "Linked" or "Loose", respectively. If the build is localizable, you must indicate whether the resource is localizable by including a <Run FontWeight="Bold">Localizable</Run>
+ property set to "True" or "False". XAML pages can be included as a resource. In that case the page is not compiled but is instead parsed at runtime.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">Reference</Run>
+. A reference to a DLL to be included in the build.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Run FontWeight="Bold">Compile</Run>
+. A procedural code file. If this is a code-behind file, it should have a 
+&lt;DependentUpon> element set to the associated XAML file.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The particular collection of items depends on your project. The example given above includes the four types of items found in simple XAML applications: <Run FontWeight="Bold">ApplicationDefinition</Run>
+, <Run FontWeight="Bold">Page</Run>
+, <Run FontWeight="Bold">Compile</Run>
+, and <Run FontWeight="Bold">Reference</Run>
+. If your application includes resources such as images, you will need to add one or more <Run FontWeight="Bold">Resource</Run>
+ items. On the other hand, if your project is written entirely in procedural code, you can omit <Run FontWeight="Bold">Page</Run>
+ items and the <Run FontWeight="Bold">ApplicationDefinition</Run>
+ item.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Creating an Application Definition File    
+      </Paragraph>
+
+      <Paragraph>MSBuild creates your application by implementing a collection of classes based on the project's XAML files and their associated code-behind files, and then compiling them. One key class that is needed for typical installed and XAML Browser Applications is the application definition. This class implements the application's Application object. See <Hyperlink NavigateUri="32b1c054-5aca-423b-b4b5-ed8dc4dc637d.xaml">Application Object Overview</Hyperlink>
+ for more information about application objects.     
+      </Paragraph>
+
+      <Paragraph>To implement the <Run FontWeight="Bold">Application</Run>
+ object for an XAML-based application, you must create an "application definition." You specify your project's application definition file in the project file by including an <Run FontWeight="Bold">ApplicationDefinition</Run>
+ set to the name of the application definition's .xaml file. If you have a code-behind file, you will need a corresponding <Run FontWeight="Bold">Compile</Run>
+ item. You can only have one application definition in your build.    
+      </Paragraph>
+
+      <Paragraph>The root element of the application definition's XAML file must derive from or be <Run FontWeight="Bold">Application</Run>
+. It must have the same standard attributes required of any root element. A useful optional attribute is StartupUri, which specifies the application's starting XAML page. If you set this attribute, when you launch the application, the <Run FontWeight="Bold">Application</Run>
+ object automatically creates a window and loads the specified starting page.    
+      </Paragraph>
+
+      <Paragraph>It is possible for an application definition to only contain the root <Run FontWeight="Bold">Application</Run>
+ tag. However, like any other XAML page, the application definition can also contain procedural code. You typically put procedural code in the application definition's code-behind file to customize the application object. For example, you can override OnStartup to implement a custom startup procedure, or handle the Exit event to implement a custom shutdown procedure.     
+      </Paragraph>
+
+      <Paragraph>Application definitions can also contain resources such as styles that are global to the entire application.    
+      </Paragraph>
+
+      <Paragraph>The following is a sample application definition file for a navigation application.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Application x:Class="SDKSamples.MyApp" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="Page1.xaml" > 
+&lt;!-- Global style definitions and other resources go here. --> 
+&lt;Application.Resources> 
+&lt;Style TargetType="{x:Type Label}"> 
+&lt;Setter Property="Background"> 
+&lt;Setter.Value> 
+&lt;LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0" Color="White" /> 
+&lt;GradientStop Offset="1" Color="LightSteelBlue" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;/Application.Resources> 
+&lt;/Application> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Deploying and Launching an Application    
+      </Paragraph>
+
+      <Paragraph>The compiler output depends on the project type. When you compile a project, MSBuild produces the following:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>An .exe file that contains the application's entry point. For control libraries, it produces a .dll file.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Any component DLLs from dependent projects.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>An application manifest (.manifest) file.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>A deployment manifest. For installed applications, the deployment manifest has a .application extension. For XAML Browser Applications, the deployment manifest has a .xbap extension.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>Depending on your application, you might also have additional files such as satellite DLLs.    
+      </Paragraph>
+
+      <Paragraph>When you compile a library, the compiler produces a DLL instead of a .exe. When you compile a document, the compiler produces a .package file instead of a .exe.    
+      </Paragraph>
+
+      <Paragraph>One way to deploy Windows Presentation Foundation applications is with ClickOnce. You "publish" your application, including its deployment manifest, on a server. Users deploy the application to their systems by using a browser to navigate to the application's deployment manifest. ClickOnce then handles the download. When you publish an application with ClickOnce, use the Publish wizard to set the deployment manifest properties to appropriate values. If you need to make subsequent changes to those properties, use the Publish pane in the Project Designer. For details, see ClickOnce Overview.    
+      </Paragraph>
+
+      <Paragraph>For ClickOnce installed applications, the files are installed on the user's system and the application runs with full access to system resources. They automatically receive <Run FontStyle="italic">shell presence</Run>
+. This means that the application is added to the <Run FontWeight="Bold">Add or Remove Programs</Run>
+ Control Panel application, and a shortcut that can be used to launch the application is placed on the <Run FontWeight="Bold">Start</Run>
+ menu.    
+      </Paragraph>
+
+      <Paragraph>For ClickOnce XAML Browser Applications, ClickOnce downloads the application to the user's computer and launches it in the browser. The application runs in a <Run FontStyle="italic">sandbox</Run>
+ that limits access to potentially risky system resources such as the file system or registry. No files are installed on the system, and the application does not have shell presence.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>ClickOnce installed applications run with full access to system resources. Before ClickOnce installs the application, a trust dialog box is displayed that queries the user for permission. If permission is not granted, the installation is canceled. XAML Browser Applications have limited access to system resources and do not display a trust dialog. For information about the Windows Presentation Foundation security model, see <Hyperlink NavigateUri="55ca384d-fd7d-490e-9846-020b1d032483.xaml">Security</Hyperlink>
+.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>You can also use Microsoft Installer (MSI) to deploy installed applications, much like you would install a Microsoft Win32 application. XAML Browser Applications can only be deployed with ClickOnce.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Important:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>When you first launch a .application file, the application is put in the application cache and an entry is added to the <Run FontWeight="Bold">Add or Remove Programs</Run>
+ Control Panel application. If you recompile the sample, launching the .application file will still run the original executable unless:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Before you compile, you use the <Run FontWeight="Bold">Add or Remove Programs</Run>
+ Control Panel application to remove your application from the cache.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Increment your application's version number. When you run the .application file, the new version of your application is added to the cache. It also replaces the previous version's entry in <Run FontWeight="Bold">Add or Remove Programs</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Creating, Building, Deploying, and Launching WPF Applications  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

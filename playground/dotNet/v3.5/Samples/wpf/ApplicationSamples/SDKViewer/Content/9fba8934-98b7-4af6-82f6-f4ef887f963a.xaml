@@ -1,0 +1,914 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_9fba8934_98b7_4af6_82f6_f4ef887f963a"
+  Tag     ="Geometry Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Geometry Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This overview describes the Windows Presentation Foundation (WPF) geometry classes. The concepts covered in this overview are the difference between Geometry and Shape, the <Run FontWeight="Bold">Geometry</Run>
+ class and the concrete classes which derive from it, and composite geometries.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wcpsdk_graphics_geometry_introduction">Introduction Section</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wcpsdk_graphics_geometry_geometryandshapes">Geometries vs. Shapes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wcpsdk_graphics_geometry_geometrytypes">Types of Geometries</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Introduction Section
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Geometry</Run>
+ class and the classes which derive from it, such as EllipseGeometry, PathGeometry, and CombinedGeometry, provide a means for rendering 2-D graphics, hit-testing, and clipping. Other uses of <Run FontWeight="Bold">Geometry</Run>
+ objects include defining the region of a Control, or defining the clip region to apply to an Image. <Run FontWeight="Bold">Geometry</Run>
+ objects can be simple regions, such as rectangles and circles, or composite regions created from two or more geometry objects. More complex geometric regions can be created by combining PathSegment objects, such as ArcSegments, BezierSegments, and QuadraticBezierSegments.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Geometries vs. Shapes
+    </Paragraph>
+
+    <Paragraph>On the surface, the <Run FontWeight="Bold">Geometry</Run>
+ class and the <Run FontWeight="Bold">Shape</Run>
+ class are similar. Both are used to render 2-D graphics and both have similar concrete classes which derive from them (<Run FontWeight="Bold">EllipseGeometry</Run>
+ and Ellipse for example), but there are important differences between these classes. For one, the <Run FontWeight="Bold">Geometry</Run>
+ class lacks some of the functionality of the <Run FontWeight="Bold">Shape</Run>
+ class, such as the ability to draw itself. To draw a geometry object, another class such as DrawingContext, Drawing, or a Path (it is worth noting that a Path is a <Run FontWeight="Bold">Shape</Run>
+) must be used to perform the drawing operation. Rendering properties such as fill, stroke, and the stroke thickness are defined by the class which draws the geometry object, while a shape object contains these properties. One way to think of this difference is that a geometry object defines a region, a circle for example, while a shape object defines not only a region, but also how that region is filled and outlined. <Run FontWeight="Bold">Shape</Run>
+ objects also participate in the <Hyperlink NavigateUri="3eecdced-3623-403a-a077-7595453a9221.xaml">The Layout System</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Despite the inability to draw itself, geometries are much more versatile than shapes. While a shape object is used to render 2-D graphics, a geometry object can be used to define the geometric region for 2-D graphics, define a region for clipping, or define a region for hit testing.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Types of Geometries
+    </Paragraph>
+
+    <Paragraph>The base class for all geometries is the abstract class <Run FontWeight="Bold">Geometry</Run>
+. The concrete classes which derive from the <Run FontWeight="Bold">Geometry</Run>
+ class can be roughly grouped into three categories: simple geometries, path geometries, and composite geometries. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Simple Geometries
+    </Paragraph>
+
+    <Paragraph>Simple geometry classes include LineGeometry, RectangleGeometry, and <Run FontWeight="Bold">EllipseGeometry</Run>
+ and are used to create basic geometric regions, such as lines, rectangles, and circles. These same regions, as well as more complex regions, can be created using a <Run FontWeight="Bold">PathGeometry</Run>
+ or by combining geometry objects together, but these classes provide a simpler means for producing these basic geometric regions.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">LineGeometry</Run>
+ is defined by specifying the start point of the line and the end point. A <Run FontWeight="Bold">RectangleGeometry</Run>
+ is defined with a Rect structure which specifies its relative position and its height and width. An <Run FontWeight="Bold">EllipseGeometry</Run>
+ is defined by a center point, an x-radius and a y-radius. The following examples show how to create simple geometries for rendering and for clipping.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create and render a <Run FontWeight="Bold">LineGeometry</Run>
+. As noted above, a geometry object is unable to draw itself, so a <Run FontWeight="Bold">Path</Run>
+ is used to render the line. Since a line has no area, a fill is not used to color the line; 
+instead the Stroke and StrokeThickness properties are used.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1" > 
+&lt;Path.Data> 
+&lt;LineGeometry StartPoint="10,20" EndPoint="100,130" /> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>LineGeometry myLineGeometry = new LineGeometry(); 
+myLineGeometry.StartPoint = new Point(10,20); 
+myLineGeometry.EndPoint = new Point(100,130); 
+Path myPath = new Path(); 
+myPath.Stroke = Brushes.Black; 
+myPath.StrokeThickness = 1; 
+myPath.Data = myLineGeometry; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>The following example shows how to create and render an <Run FontWeight="Bold">EllipseGeometry</Run>
+. The center of the ellipse is set to the point <Run>50,50</Run>
+ and the x-radius and the y-radius are both set to <Run>50</Run>
+, which creates a circle with a diameter of 100. The interior of the ellipse is painted by assigning a value to the Path element's Fill property, in this case Gold.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Fill="Gold" Stroke="Black" StrokeThickness="1"> 
+&lt;Path.Data> 
+&lt;EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50" /> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>EllipseGeometry myEllipseGeometry = new EllipseGeometry(); 
+myEllipseGeometry.Center = new Point(50, 50); 
+myEllipseGeometry.RadiusX = 50; 
+myEllipseGeometry.RadiusY = 50; 
+Path myPath = new Path(); 
+myPath.Fill = Brushes.Gold; 
+myPath.Stroke = Brushes.Black; 
+myPath.StrokeThickness = 1; 
+myPath.Data = myEllipseGeometry; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>The following example shows how to create and render a <Run FontWeight="Bold">RectangleGeometry</Run>
+. The relative position and the dimensions of the rectangle are defined by a <Run FontWeight="Bold">Rect</Run>
+ structure. The relative position is <Run>50,50</Run>
+ and the height and the width are both <Run>25</Run>
+ creating a square. The rectangle's interior is painted with a <Run FontWeight="Bold">Gold</Run>
+ brush and its outline is painted with a Black stroke with a thickness of <Run>1</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Fill="LemonChiffon" Stroke="Black" StrokeThickness="1"> 
+&lt;Path.Data> 
+&lt;RectangleGeometry Rect="50,50,25,25" /> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>RectangleGeometry myRectangleGeometry = new RectangleGeometry(); 
+myRectangleGeometry.Rect = new Rect(50,50,25,25); 
+Path myPath = new Path(); 
+myPath.Fill = Brushes.LemonChiffon; 
+myPath.Stroke = Brushes.Black; 
+myPath.StrokeThickness = 1; 
+myPath.Data = myRectangleGeometry; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>The following example shows how to use an <Run FontWeight="Bold">EllipseGeometry</Run>
+ as the clip region for an image. An <Run FontWeight="Bold">Image</Run>
+ object is defined with a Width of 200 and a Height of 150. An <Run FontWeight="Bold">EllipseGeometry</Run>
+ with a RadiusX value of 100, a RadiusY value of 75, and a Center value of 100,75 is set to the Clip property of the image. Only the part of the image that is within the area of the ellipse will be displayed.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Image Source="sampleImages\Waterlilies.jpg" Width="200" Height="150" HorizontalAlignment="Left"> 
+&lt;Image.Clip> 
+&lt;EllipseGeometry RadiusX="100" RadiusY="75" Center="100,75"/> 
+&lt;/Image.Clip> 
+&lt;/Image> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the image to clip. Image myImage = new Image(); 
+Uri imageUri = new Uri(@"C:\\Documents and Settings\\All Users\\Documents\My Pictures\\Sample Pictures\\Water lilies.jpg", UriKind.Relative); 
+myImage.Source = new BitmapImage(imageUri); 
+myImage.Width = 200; 
+myImage.Height = 150; 
+myImage.HorizontalAlignment = HorizontalAlignment.Left; 
+// Use an EllipseGeometry to define the clip region. EllipseGeometry myEllipseGeometry = new EllipseGeometry(); 
+myEllipseGeometry.Center = new Point(100, 75); 
+myEllipseGeometry.RadiusX = 100; 
+myEllipseGeometry.RadiusY = 75; 
+myImage.Clip = myEllipseGeometry; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="18">Path Geometries
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">PathGeometry</Run>
+ class provides the means to describe complex geometric regions composed of arcs, curves, ellipses, lines, and rectangles. At the heart of a <Run FontWeight="Bold">PathGeometry</Run>
+ is a collection of PathFigure objects. Each <Run FontWeight="Bold">PathFigure</Run>
+ is comprised of one or more <Run FontWeight="Bold">PathSegment</Run>
+ objects, which include LineSegment, ArcSegment, BezierSegment, QuadraticBezierSegment, PolyBezierSegment, PolyLineSegment, and PolyQuadraticBezierSegment. The segments within a <Run FontWeight="Bold">PathFigure</Run>
+ are combined into a single geometric region with the end point of each segment being the start point of the next segment. All the <Run FontWeight="Bold">PathFigure</Run>
+ objects are combined to form the region that the <Run FontWeight="Bold">PathGeometry</Run>
+ as a whole represents.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">PathFigure</Run>
+ object's StartPoint property specifies the point from which the first segment is drawn. Each subsequent segment starts at the end point of the previous segment. For example, a vertical line from <Run>10,50</Run>
+ to <Run>10,150</Run>
+ can be defined by setting the <Run FontWeight="Bold">StartPoint</Run>
+ property to <Run>10,50</Run>
+ and creating a <Run FontWeight="Bold">LineSegment</Run>
+ with a Point property setting of <Run>10,150</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create a simple <Run FontWeight="Bold">PathGeometry</Run>
+ comprised of a single <Run FontWeight="Bold">PathFigure</Run>
+ with a <Run FontWeight="Bold">LineSegment</Run>
+. The <Run FontWeight="Bold">PathGeometry</Run>
+ object's Figures property is set to a PathFigureCollection. Within the <Run FontWeight="Bold">PathFigureCollection</Run>
+, a <Run FontWeight="Bold">PathFigure</Run>
+ is defined with its Segments property set to a PathSegmentCollection. If this were a more complex <Run FontWeight="Bold">PathGeometry</Run>
+, multiple <Run FontWeight="Bold">PathFigure</Run>
+ objects could be added to the <Run FontWeight="Bold">PathFigureCollection</Run>
+. The individual segments which make up the <Run FontWeight="Bold">PathFigure</Run>
+ are then defined within the <Run FontWeight="Bold">PathSegmentCollection</Run>
+. The <Run FontWeight="Bold">PathFigure</Run>
+ object's <Run FontWeight="Bold">StartPoint</Run>
+ is set to <Run>10,20</Run>
+ and a <Run FontWeight="Bold">LineSegment</Run>
+ is defined with an end point of <Run>10,130</Run>
+. A <Run>black</Run>
+ stroke with a thickness of <Run>1</Run>
+ is defined on the Path object.
+    </Paragraph>
+
+    <Paragraph>It is worth contrasting this example with the <Run FontWeight="Bold">LineGeometry</Run>
+ example from above. The syntax used for a <Run FontWeight="Bold">PathGeometry</Run>
+ is much more verbose than that used for a simple <Run FontWeight="Bold">LineGeometry</Run>
+, and it may make more sense to use the <Run FontWeight="Bold">LineGeometry</Run>
+ class in this case, but the verbose syntax of the <Run FontWeight="Bold">PathGeometry</Run>
+ allows for extremely intricate and complex geometric regions.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1"> 
+&lt;Path.Data> 
+&lt;PathGeometry> 
+&lt;PathGeometry.Figures> 
+&lt;PathFigure StartPoint="10,20"> 
+&lt;PathFigure.Segments> 
+&lt;LineSegment Point="100,130"/> 
+&lt;/PathFigure.Segments> 
+&lt;/PathFigure> 
+&lt;/PathGeometry.Figures> 
+&lt;/PathGeometry> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a figure that describes a // line from (10,20) to (100,130). PathFigure myPathFigure = new PathFigure(); 
+myPathFigure.StartPoint = new Point(10,20); 
+myPathFigure.Segments.Add(new LineSegment(new Point(100,130),true)); 
+/// Create a PathGeometry to contain the figure. PathGeometry myPathGeometry = new PathGeometry(); 
+myPathGeometry.Figures.Add(myPathFigure); 
+// Display the PathGeometry. Path myPath = new Path(); 
+myPath.Stroke = Brushes.Black; 
+myPath.StrokeThickness = 1; 
+myPath.Data = myPathGeometry; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>More complex geometries can be created using a combination of <Run FontWeight="Bold">PathSegment</Run>
+ objects. The following example shows how to create a region that is comprised of a <Run FontWeight="Bold">BezierSegment</Run>
+, a <Run FontWeight="Bold">LineSegment</Run>
+, and an <Run FontWeight="Bold">ArcSegment</Run>
+.
+    </Paragraph>
+
+    <Paragraph>A cubic Bezier curve is defined by four points: a start point, which is the end point of the previous segment, an end point (Point3), and two control points (Point1 and Point2). The two control points of a cubic Bezier curve behave like magnets, attracting portions of what would otherwise be a straight line towards themselves, producing a curve. The first control point, Point1, affects the beginning portion of the curve; 
+the second control point, Point2, affects the ending portion of the curve.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">LineSegment</Run>
+ is defined by a start point, which is the end point of the previous segment, and an endpoint.
+    </Paragraph>
+
+    <Paragraph>An <Run FontWeight="Bold">ArcSegment</Run>
+ is defined by a start point, which is the end point of the previous segment, an end point, an x- and y-radius, a rotation factor, a flag indicating how large the angle of the resulting arc should be, and value indicating in which direction the arc is drawn. 
+    </Paragraph>
+
+    <Paragraph>In this example, the <Run FontWeight="Bold">StartPoint</Run>
+ is defined at the point <Run>10,50</Run>
+. The Bezier curve is defined with the two control points at <Run>100,0</Run>
+ and <Run>200,200</Run>
+ and its end point at 300,100. The <Run FontWeight="Bold">LineSegment</Run>
+ is defined with an end point at <Run>400,100</Run>
+. And finally, the arc is defined with a size of <Run>50,50</Run>
+, a rotation of <Run>45</Run>
+ degrees, the IsLargeArc property set to <Run>true</Run>
+, the SweepDirection set to Counterclockwise, and an end point of <Run>200,100</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1" > 
+&lt;Path.Data> 
+&lt;PathGeometry> 
+&lt;PathGeometry.Figures> 
+&lt;PathFigure StartPoint="10,50"> 
+&lt;PathFigure.Segments> 
+&lt;BezierSegment Point1="100,0" Point2="200,200" Point3="300,100"/> 
+&lt;LineSegment Point="400,100" /> 
+&lt;ArcSegment Size="50,50" RotationAngle="45" IsLargeArc="True" SweepDirection="Clockwise" Point="200,100"/> 
+&lt;/PathFigure.Segments> 
+&lt;/PathFigure> 
+&lt;/PathGeometry.Figures> 
+&lt;/PathGeometry> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a figure. PathFigure myPathFigure = new PathFigure(); 
+myPathFigure.StartPoint = new Point(10,50); 
+myPathFigure.Segments.Add( new BezierSegment(new Point(100,0),new Point(200,200),new Point(300,100),true)); 
+myPathFigure.Segments.Add( new LineSegment(new Point(400,100),true)); 
+myPathFigure.Segments.Add( new ArcSegment(new Point(200,100),new Size(50,50),45,true,SweepDirection.Clockwise, true)); 
+/// Create a PathGeometry to contain the figure. PathGeometry myPathGeometry = new PathGeometry(); 
+myPathGeometry.Figures.Add(myPathFigure); 
+// Display the PathGeometry. Path myPath = new Path(); 
+myPath.Stroke = Brushes.Black; 
+myPath.StrokeThickness = 1; 
+myPath.Data = myPathGeometry; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>Even more complex geometries can be created by using multiple <Run FontWeight="Bold">PathFigure</Run>
+ objects within a <Run FontWeight="Bold">PathGeometry</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The following example creates a <Run FontWeight="Bold">PathGeometry</Run>
+ with two <Run FontWeight="Bold">PathFigure</Run>
+ objects, each of which contains multiple <Run FontWeight="Bold">PathSegment</Run>
+ objects. The <Run FontWeight="Bold">PathFigure</Run>
+ from the above example and a <Run FontWeight="Bold">PathFigure</Run>
+ with a <Run FontWeight="Bold">PolyLineSegment</Run>
+ and a <Run FontWeight="Bold">QuadraticBezierSegment</Run>
+ are used. A <Run FontWeight="Bold">PolyLineSegment</Run>
+ is defined with an array of points and the <Run FontWeight="Bold">QuadraticBezierSegment</Run>
+ is defined with a control point and an end point.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1" > 
+&lt;Path.Data> 
+&lt;PathGeometry> 
+&lt;PathGeometry.Figures> 
+&lt;PathFigure StartPoint="10,50"> 
+&lt;PathFigure.Segments> 
+&lt;BezierSegment Point1="100,0" Point2="200,200" Point3="300,100"/> 
+&lt;LineSegment Point="400,100" /> 
+&lt;ArcSegment Size="50,50" RotationAngle="45" IsLargeArc="True" SweepDirection="Clockwise" Point="200,100"/> 
+&lt;/PathFigure.Segments> 
+&lt;/PathFigure> 
+&lt;PathFigure StartPoint="10,100"> 
+&lt;PathFigure.Segments> 
+&lt;PolyLineSegment Points="50,100 50,150" /> 
+&lt;QuadraticBezierSegment Point1="200,200" Point2="300,100"/> 
+&lt;/PathFigure.Segments> 
+&lt;/PathFigure> 
+&lt;/PathGeometry.Figures> 
+&lt;/PathGeometry> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>PathGeometry myPathGeometry = new PathGeometry(); 
+// Create a figure. PathFigure pathFigure1 = new PathFigure(); 
+pathFigure1.StartPoint = new Point(10,50); 
+pathFigure1.Segments.Add( new BezierSegment(new Point(100,0),new Point(200,200),new Point(300,100),true)); 
+pathFigure1.Segments.Add( new LineSegment(new Point(400,100),true)); 
+pathFigure1.Segments.Add( new ArcSegment(new Point(200,100),new Size(50,50),45,true,SweepDirection.Clockwise, true)); 
+myPathGeometry.Figures.Add(pathFigure1); 
+// Create another figure. PathFigure pathFigure2 = new PathFigure(); 
+pathFigure2.StartPoint = new Point(10,100); 
+Point[] polyLinePointArray = new Point[]{ new Point(50, 100), new Point(50, 150)}; 
+PolyLineSegment myPolyLineSegment = new PolyLineSegment(); 
+myPolyLineSegment.Points = new PointCollection(polyLinePointArray); 
+pathFigure2.Segments.Add(myPolyLineSegment); 
+pathFigure2.Segments.Add(new QuadraticBezierSegment(new Point(200,200),new Point(300,100),true)); 
+myPathGeometry.Figures.Add(pathFigure2); 
+// Display the PathGeometry. Path myPath = new Path(); 
+myPath.Stroke = Brushes.Black; 
+myPath.StrokeThickness = 1; 
+myPath.Data = myPathGeometry; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="18">Composite Geometries
+    </Paragraph>
+
+    <Paragraph>Composite geometry objects can be created using a GeometryGroup, a <Run FontWeight="Bold">CombinedGeometry</Run>
+, or by calling the static <Run FontWeight="Bold">Geometry</Run>
+ method Combine. A <Run FontWeight="Bold">CombinedGeometry</Run>
+ creates a composite geometry from exactly two geometry objects. A <Run FontWeight="Bold">GeometryGroup</Run>
+, on the other hand, creates a composite geometry from any number of geometry objects. The static method <Run FontWeight="Bold">Combine</Run>
+ behaves in exactly the same manner as a <Run FontWeight="Bold">CombinedGeometry</Run>
+, but where the <Run FontWeight="Bold">CombinedGeometry</Run>
+ contains the actual composite geometry, the static <Run FontWeight="Bold">Combine</Run>
+ method returns the composite geometry to the calling object.
+    </Paragraph>
+
+    <Paragraph>Besides the number of geometry objects the <Run FontWeight="Bold">CombinedGeometry</Run>
+ class and the <Run FontWeight="Bold">GeometryGroup</Run>
+ class use to create the composite geometry, one other large difference between these classes is in how the geometry objects are combined. The <Run FontWeight="Bold">CombinedGeometry</Run>
+ class has a GeometryCombineMode property which specifies a Boolean operation to use to combine the geometries. The possible values for the <Run FontWeight="Bold">GeometryCombineMode</Run>
+ property are: Union, Intersect, Exclude, and Xor. The <Run FontWeight="Bold">GeometryGroup</Run>
+ class has a FillRule property that specifies how the intersecting areas of the different geometries will be combined. The values for <Run FontWeight="Bold">FillRule</Run>
+ are EvenOdd and Nonzero.
+    </Paragraph>
+
+    <Paragraph>It is worth noting that a GeometryCollection is simply a collection of geometry objects and does not define a geometric region and thus cannot be rendered or used to define a region on its own. One of the primary uses of a <Run FontWeight="Bold">GeometryCollection</Run>
+ is to hold the geometry objects that define a <Run FontWeight="Bold">GeometryGroup</Run>
+.
+    </Paragraph>
+
+    <Paragraph>Following are several examples which show the difference in the behavior the <Run FontWeight="Bold">CombinedGeometry</Run>
+ object's GeometryCombineMode and the <Run FontWeight="Bold">GeometryGroup</Run>
+ objects's <Run FontWeight="Bold">FillRule</Run>
+.
+    </Paragraph>
+
+    <Paragraph>In the following example, a <Run FontWeight="Bold">CombinedGeometry</Run>
+ is defined with a combine mode of Union. Both Geometry1 and the Geometry2 are defined as circles of the same radius, but with centers offset by 50.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"> 
+&lt;Path.Data> 
+&lt;!-- Combines two geometries using the union combine mode. --> 
+&lt;CombinedGeometry GeometryCombineMode="Union"> 
+&lt;CombinedGeometry.Geometry1> 
+&lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" /> 
+&lt;/CombinedGeometry.Geometry1> 
+&lt;CombinedGeometry.Geometry2> 
+&lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" /> 
+&lt;/CombinedGeometry.Geometry2> 
+&lt;/CombinedGeometry> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>In the following example, a <Run FontWeight="Bold">CombinedGeometry</Run>
+ is defined with a combine mode of <Run FontWeight="Bold">Xor</Run>
+. Both <Run FontWeight="Bold">Geometry1</Run>
+ and the <Run FontWeight="Bold">Geometry2</Run>
+ are defined as circles of the same radius, but with centers offset by 50.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"> 
+&lt;Path.Data> 
+&lt;!-- Combines two geometries using the XOR combine mode. --> 
+&lt;CombinedGeometry GeometryCombineMode="Xor"> 
+&lt;CombinedGeometry.Geometry1> 
+&lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" /> 
+&lt;/CombinedGeometry.Geometry1> 
+&lt;CombinedGeometry.Geometry2> 
+&lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="125,75" /> 
+&lt;/CombinedGeometry.Geometry2> 
+&lt;/CombinedGeometry> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>For additional examples, see <Hyperlink NavigateUri="8e5c7ef4-d7ed-4c43-afc9-ca01325c300b.xaml">How to: Create a Composite Shape</Hyperlink>
+ and <Hyperlink NavigateUri="54c3277c-6b6e-4b25-91be-fda0bbc706b4.xaml">How to: Create a Combined Geometry</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Geometry
+      <LineBreak/>Shape
+      <LineBreak/>Brushes
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Geometry Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

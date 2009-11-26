@@ -1,0 +1,274 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_dad08f64_700b_46fb_ad3f_fbfee95f0dfe"
+  Tag     ="Hook Up a Command to a Control with No Command Support"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Hook Up a Command to a Control with No Command Support</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to hook up a RoutedCommand to a Control which does not have built in support for the command. For a complete sample which hooks up commands to multiple sources, see the Create a Custom RoutedCommand sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) provides a library of common commands which application programmers encounter regularly. The classes which comprise the command library are: ApplicationCommands, ComponentCommands, NavigationCommands, MediaCommands, and EditingCommands. 
+    </Paragraph>
+
+    <Paragraph>The static <Run FontWeight="Bold">RoutedCommand</Run>
+ objects which make up these classes do not supply command logic. The logic for the command is associated with the command with a CommandBinding. Some controls have built in CommandBindings for some commands. This mechanism allows the semantics of a command to stay the same, while the actual implementation is can change. A TextBox, for example, handles the Paste command differently than a control designed to support images, but the basic idea of what it means to paste something stays the same. The command logic cannot be supplied by the command, but rather must be supplied by the control or the application.
+    </Paragraph>
+
+    <Paragraph>Many controls in WPF do have built in support for some of the commands in the command library. <Run FontWeight="Bold">TextBox</Run>
+, for example, supports many of the application edit commands such as <Run FontWeight="Bold">Paste</Run>
+, Copy, Cut, Redo, and Undo. The application developer does not have to do anything special to get these commands to work with these controls. If the <Run FontWeight="Bold">TextBox</Run>
+ is the command target when the command is executed, it will handle the command using the <Run FontWeight="Bold">CommandBinding</Run>
+ that is built into the control. 
+    </Paragraph>
+
+    <Paragraph>The following shows how to use a Button as the command source for the Open command. A <Run FontWeight="Bold">CommandBinding</Run>
+ is created that associates the specified CanExecuteRoutedEventHandler and the <Run FontWeight="Bold">CanExecuteRoutedEventHandler</Run>
+ with the <Run FontWeight="Bold">RoutedCommand</Run>
+.
+    </Paragraph>
+
+    <Paragraph>First, the command source is created. A <Run FontWeight="Bold">Button</Run>
+ is used as the command source.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Command="ApplicationCommands.Open" Height="50" Width="200"> Open (KeyBindings: Ctrl-R, Ctrl-0) 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Button used to invoke the command Button CommandButton = new Button(); 
+CommandButton.Command = ApplicationCommands.Open; 
+CommandButton.Content = "Open (KeyBindings: Ctrl-R, Ctrl-0)"; 
+MainStackPanel.Children.Add(CommandButton); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Next, the ExecutedRoutedEventHandler and the <Run FontWeight="Bold">CanExecuteRoutedEventHandler</Run>
+ are created. The <Run FontWeight="Bold">ExecutedRoutedEventHandler</Run>
+ simple opens a MessageBox to signify that the command executed. The <Run FontWeight="Bold">CanExecuteRoutedEventHandler</Run>
+ sets the CanExecute property to <Run FontWeight="Bold">true</Run>
+. Normally, the can execute handler would perform more robust checks to see if the command could execute on the current command target.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void OpenCmdExecuted(object target, ExecutedRoutedEventArgs e) { MessageBox.Show("The command has been invoked."); 
+} void OpenCmdCanExecute(object sender, CanExecuteRoutedEventArgs e) { e.CanExecute = true; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub OpenCmdExecuted(ByVal sender As Object, ByVal e As ExecutedRoutedEventArgs) MessageBox.Show("The Open Command") End Sub Sub OpenCmdCanExecute(ByVal sender As Object, ByVal e As CanExecuteRoutedEventArgs) e.CanExecute = True End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Finally, a <Run FontWeight="Bold">CommandBinding</Run>
+ is created on the root Window of the application that associates the routed events handlers to the <Run FontWeight="Bold">Open</Run>
+ command.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.CommandBindings> 
+&lt;CommandBinding Command="ApplicationCommands.Open" Executed="OpenCmdExecuted" CanExecute="OpenCmdCanExecute"/> 
+&lt;/Window.CommandBindings> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Creating CommandBinding and attaching an Executed and CanExecute handler CommandBinding OpenCmdBinding = new CommandBinding( ApplicationCommands.Open, OpenCmdExecuted, OpenCmdCanExecute); 
+this.CommandBindings.Add(OpenCmdBinding); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8d8592ae-0c91-469e-a1cd-d179c4544548.xaml">How to: Hook Up a Command to a Control with Command Support</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Hook Up a Command to a Control with No Command Support to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

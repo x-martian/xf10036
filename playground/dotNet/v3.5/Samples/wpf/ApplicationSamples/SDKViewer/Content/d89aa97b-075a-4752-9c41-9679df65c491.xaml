@@ -1,0 +1,390 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d89aa97b_075a_4752_9c41_9679df65c491"
+  Tag     ="Slider ControlTemplate Example"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Slider ControlTemplate Example</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Controls in Windows Presentation Foundation (WPF) have a ControlTemplate that contains the <Run>visual tree</Run>
+ of that control. You can change the structure and appearance of a control by modifying the <Run FontWeight="Bold">ControlTemplate</Run>
+ of that control. There is no way to replace only part of the visual tree of a control; 
+to change the visual tree of a control you must set the Template property of the control to its new and complete <Run FontWeight="Bold">ControlTemplate</Run>
+.
+    </Paragraph>
+
+    <Paragraph>This topic shows the <Run FontWeight="Bold">ControlTemplate</Run>
+ of the WPF Slider control.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="example">Slider ControlTemplate Example</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To run the examples in this topic, you should understand how to write WPF applications. For more information, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+. You should also understand how styles are used in WPF. For more information, see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Slider ControlTemplate Example
+    </Paragraph>
+
+    <Paragraph>While this example contains all of the elements that are defined in the <Run FontWeight="Bold">ControlTemplate</Run>
+ of a <Run FontWeight="Bold">Slider</Run>
+ by default, the specific values should be thought of as examples.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="SliderButtonStyle" TargetType="{x:Type RepeatButton}"> 
+&lt;Setter Property="SnapsToDevicePixels" Value="true"/> 
+&lt;Setter Property="OverridesDefaultStyle" Value="true"/> 
+&lt;Setter Property="IsTabStop" Value="false"/> 
+&lt;Setter Property="Focusable" Value="false"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type RepeatButton}"> 
+&lt;Border Background="Transparent" /> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;Style x:Key="SliderThumbStyle" TargetType="{x:Type Thumb}"> 
+&lt;Setter Property="SnapsToDevicePixels" Value="true"/> 
+&lt;Setter Property="OverridesDefaultStyle" Value="true"/> 
+&lt;Setter Property="Height" Value="14"/> 
+&lt;Setter Property="Width" Value="14"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type Thumb}"> 
+&lt;Ellipse Name="Ellipse" Fill="{StaticResource NormalBrush}" Stroke="{StaticResource NormalBorderBrush}" StrokeThickness="1" /> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="IsMouseOver" Value="True"> 
+&lt;Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DarkBrush}"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsEnabled" Value="false"> 
+&lt;Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;ControlTemplate x:Key="HorizontalSlider" TargetType="{x:Type Slider}"> 
+&lt;Grid> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto" MinHeight="{TemplateBinding Slider.MinHeight}"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;TickBar Name="TopTick" SnapsToDevicePixels="True" Placement="Top" Fill="{StaticResource GlyphBrush}" Height="4" Visibility="Collapsed" /> 
+&lt;Border Name="TrackBackground" Margin="0" CornerRadius="2" Height="4" Grid.Row="1" Background="{StaticResource LightBrush}" BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="1" /> 
+&lt;Track Grid.Row="1" Name="PART_Track"> 
+&lt;Track.DecreaseRepeatButton> 
+&lt;RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.DecreaseLarge" /> 
+&lt;/Track.DecreaseRepeatButton> 
+&lt;Track.Thumb> 
+&lt;Thumb Style="{StaticResource SliderThumbStyle}" /> 
+&lt;/Track.Thumb> 
+&lt;Track.IncreaseRepeatButton> 
+&lt;RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.IncreaseLarge" /> 
+&lt;/Track.IncreaseRepeatButton> 
+&lt;/Track> 
+&lt;TickBar Name="BottomTick" SnapsToDevicePixels="True" Grid.Row="2" Fill="{TemplateBinding Foreground}" Placement="Bottom" Height="4" Visibility="Collapsed" /> 
+&lt;/Grid> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="TickPlacement" Value="TopLeft"> 
+&lt;Setter TargetName="TopTick" Property="Visibility" Value="Visible"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="TickPlacement" Value="BottomRight"> 
+&lt;Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="TickPlacement" Value="Both"> 
+&lt;Setter TargetName="TopTick" Property="Visibility" Value="Visible"/> 
+&lt;Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;ControlTemplate x:Key="VerticalSlider" TargetType="{x:Type Slider}"> 
+&lt;Grid> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;ColumnDefinition Width="Auto" MinWidth="{TemplateBinding Slider.MinWidth}"/> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;TickBar Name="TopTick" SnapsToDevicePixels="True" Placement="Left" Fill="{StaticResource GlyphBrush}" Width="4" Visibility="Collapsed" /> 
+&lt;Border Name="TrackBackground" Margin="0" CornerRadius="2" Width="4" Grid.Column="1" Background="{StaticResource HorizontalLightBrush}" BorderBrush="{StaticResource HorizontalNormalBorderBrush}" BorderThickness="1" /> 
+&lt;Track Grid.Column="1" Name="PART_Track"> 
+&lt;Track.DecreaseRepeatButton> 
+&lt;RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.DecreaseLarge" /> 
+&lt;/Track.DecreaseRepeatButton> 
+&lt;Track.Thumb> 
+&lt;Thumb Style="{StaticResource SliderThumbStyle}" /> 
+&lt;/Track.Thumb> 
+&lt;Track.IncreaseRepeatButton> 
+&lt;RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.IncreaseLarge" /> 
+&lt;/Track.IncreaseRepeatButton> 
+&lt;/Track> 
+&lt;TickBar Name="BottomTick" SnapsToDevicePixels="True" Grid.Column="2" Fill="{TemplateBinding Foreground}" Placement="Right" Width="4" Visibility="Collapsed" /> 
+&lt;/Grid> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="TickPlacement" Value="TopLeft"> 
+&lt;Setter TargetName="TopTick" Property="Visibility" Value="Visible"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="TickPlacement" Value="BottomRight"> 
+&lt;Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="TickPlacement" Value="Both"> 
+&lt;Setter TargetName="TopTick" Property="Visibility" Value="Visible"/> 
+&lt;Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;Style TargetType="{x:Type Slider}"> 
+&lt;Setter Property="SnapsToDevicePixels" Value="true"/> 
+&lt;Setter Property="OverridesDefaultStyle" Value="true"/> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="Orientation" Value="Horizontal"> 
+&lt;Setter Property="MinWidth" Value="104" /> 
+&lt;Setter Property="MinHeight" Value="21" /> 
+&lt;Setter Property="Template" Value="{StaticResource HorizontalSlider}" /> 
+&lt;/Trigger> 
+&lt;Trigger Property="Orientation" Value="Vertical"> 
+&lt;Setter Property="MinWidth" Value="21" /> 
+&lt;Setter Property="MinHeight" Value="104" /> 
+&lt;Setter Property="Template" Value="{StaticResource VerticalSlider}" /> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The above example uses one or more of the following resources:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Fill Brushes --> 
+&lt;LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#CCC" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="HorizontalNormalBrush" StartPoint="0,0" EndPoint="1,0"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#CCC" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="HorizontalLightBrush" StartPoint="0,0" EndPoint="1,0"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#AAA" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="PressedBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#BBB" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="0.1"/> 
+&lt;GradientStop Color="#EEE" Offset="0.9"/> 
+&lt;GradientStop Color="#FFF" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" /> 
+&lt;SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" /> 
+&lt;SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" /> 
+&lt;SolidColorBrush x:Key="SelectedBackgroundBrush" Color="#DDD" /> 
+&lt;!-- Border Brushes --> 
+&lt;LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#CCC" Offset="0.0"/> 
+&lt;GradientStop Color="#444" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="HorizontalNormalBorderBrush" StartPoint="0,0" EndPoint="1,0"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#CCC" Offset="0.0"/> 
+&lt;GradientStop Color="#444" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="DefaultedBorderBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#777" Offset="0.0"/> 
+&lt;GradientStop Color="#000" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="PressedBorderBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#444" Offset="0.0"/> 
+&lt;GradientStop Color="#888" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" /> 
+&lt;SolidColorBrush x:Key="SolidBorderBrush" Color="#888" /> 
+&lt;SolidColorBrush x:Key="LightBorderBrush" Color="#AAA" /> 
+&lt;!-- Miscellaneous Brushes --> 
+&lt;SolidColorBrush x:Key="GlyphBrush" Color="#444" /> 
+&lt;SolidColorBrush x:Key="LightColorBrush" Color="#DDD" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Styling with ControlTemplates Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c52dde45-a311-4531-af4c-853371c4d5f4.xaml">Guidelines for Designing Stylable Controls</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c19049bb-5ceb-492d-afd2-751dca0ed8e3.xaml">ControlTemplate Examples</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Slider ControlTemplate Example to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

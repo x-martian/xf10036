@@ -1,0 +1,1356 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_779aac3f_8d41_49d8_8130_768244aa2240"
+  Tag     ="Painting with Images, Drawings, and Visuals"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Painting with Images, Drawings, and Visuals</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how to paint an area with an image, a drawing, or a Visual. It also describes how to paint with patterns of images, drawings, and visuals. 
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="image">Painting an Area with an Image</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="drawingbrushintro">Painting an Area with a Drawing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="visualbrushsection">Painting an Area with a Visual</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="tilebrush">Painting an Area with a Pattern</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="tilestretch">Specifying How Content is Stretched Within a Tile</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="tilealignment">Specifying How Content is Aligned within a Tile</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="tilingmodes">Specifying a Tiling Pattern</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="tilesizes">Specifying Tile Position and Size (Viewport)</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="viewbox">Specifying Content Position and Dimensions (Viewbox)</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Painting an Area with an Image
+    </Paragraph>
+
+    <Paragraph>An ImageBrush paints an area with a bitmap image. It can be used to paint objects such as shapes, panels, controls, and text. It can be used with any property that accepts a Brush as a parameter. The following illustration shows some effects that can be achieved with an <Run FontWeight="Bold">ImageBrush</Run>
+.
+    </Paragraph>
+
+    <Paragraph>By default, an <Run FontWeight="Bold">ImageBrush</Run>
+ stretches its image to fill the entire output area. However, because <Run FontWeight="Bold">ImageBrush</Run>
+ is a type of TileBrush, you can specify exactly how an image brush fills the output area. For example, you can produce a tiled pattern from an image (as shown on the right in the previous image).
+    </Paragraph>
+
+    <Paragraph>The following sections describe how to use an <Run FontWeight="Bold">ImageBrush</Run>
+ in Extensible Application Markup Language (XAML) and code.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Using an ImageBrush in "XAML"
+    </Paragraph>
+
+    <Paragraph>To paint an area with an image in XAML, you use an <Run FontWeight="Bold">ImageBrush</Run>
+ to set a property that accepts a brush. A simple brush that stretches an image to paint an area can be created by specifying only the <Run FontWeight="Bold">ImageBrush</Run>
+ of the brush. The following is an example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas Height="200" Width="300"> 
+&lt;Canvas.Background> 
+&lt;ImageBrush ImageSource="sampleImages\Waterlilies.jpg" /> 
+&lt;/Canvas.Background> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Using an ImageBrush in Code
+    </Paragraph>
+
+    <Paragraph>To paint an area with an image, you complete the following steps.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Load an image using BitmapImage. 
+        </Paragraph>
+
+        <Paragraph>One of the BitmapImage constructor overloads, shown in the following example, accepts a Uri object. Use the Uri parameter to specify the file path of the image to load. 
+        </Paragraph>
+
+        <Paragraph/>
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>BitmapImage theImage = new BitmapImage (new Uri("sampleImages\\Waterlilies.jpg", UriKind.Relative)); 
+</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph/>
+        <Paragraph/>
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Construct a new ImageBrush using the BitmapImage you loaded. 
+        </Paragraph>
+
+        <Paragraph/>
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>ImageBrush myImageBrush = new ImageBrush(theImage); 
+</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph/>
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use the ImageBrush to set a property that accepts a Brush. 
+        </Paragraph>
+
+        <Paragraph/>
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Canvas myCanvas = new Canvas(); 
+myCanvas.Width = 300; 
+myCanvas.Height = 200; 
+myCanvas.Background = myImageBrush; 
+</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph/>
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Painting an Object with an Image
+    </Paragraph>
+
+    <Paragraph>The following example shows how to use an image as the background of a Canvas.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="Microsoft.Samples.BrushExamples.ImageBrushExample" WindowTitle="ImageBrush Example" Background="White"> 
+&lt;StackPanel> 
+&lt;Canvas Height="200" Width="300"> 
+&lt;Canvas.Background> 
+&lt;ImageBrush ImageSource="sampleImages\Waterlilies.jpg" /> 
+&lt;/Canvas.Background> 
+&lt;/Canvas> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Imaging; 
+namespace Microsoft.Samples.BrushExamples { public class ImageBrushExample : Page { public ImageBrushExample() { StackPanel mainPanel = new StackPanel(); 
+canvasBackgroundExample(mainPanel); 
+this.Content = mainPanel; 
+} private void canvasBackgroundExample(Panel mainPanel) { BitmapImage theImage = new BitmapImage (new Uri("sampleImages\\Waterlilies.jpg", UriKind.Relative)); 
+ImageBrush myImageBrush = new ImageBrush(theImage); 
+Canvas myCanvas = new Canvas(); 
+myCanvas.Width = 300; 
+myCanvas.Height = 200; 
+myCanvas.Background = myImageBrush; 
+mainPanel.Children.Add(myCanvas); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Painting an Area with a Drawing
+    </Paragraph>
+
+    <Paragraph>A DrawingBrush enables you to paint an area with shapes, text, images, and video. Shapes inside a drawing brush may themselves be painted with a solid color, gradient, image, or even another drawing brush. The following image demonstrates some uses of a <Run FontWeight="Bold">DrawingBrush</Run>
+.
+    </Paragraph>
+
+    <Paragraph>A drawing brush paints with Drawing objects. Drawings are smaller and faster than Shape objects, because they offer fewer features. Because of their performance benefits, they are suitable for use as clip art and backgrounds. There are several different types of drawing objects, each with a different purpose:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>GeometryDrawing: Draws a shape, described by a Geometry object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ImageDrawing: Draws a bitmap image, described by a BitmapImage object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>GlyphRunDrawing: Draws text, described by a GlyphRun object.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>There's also a DrawingGroup object, which is used to combine multiple drawings. For more information on drawing objects, see the <Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>By default, a drawing brush's drawing is stretched to fill its output area, much like an image brush's image is stretched to fill its output area.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="18">Painting an Object with a Drawing
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The following example shows how to paint an object with a drawing of three ellipses. A GeometryDrawing is used to describe the ellipses.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Content="A Button"> 
+&lt;Button.Background> 
+&lt;DrawingBrush> 
+&lt;DrawingBrush.Drawing> 
+&lt;GeometryDrawing Brush="LightBlue"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;GeometryGroup> 
+&lt;EllipseGeometry RadiusX="12.5" RadiusY="25" Center="25,50" /> 
+&lt;EllipseGeometry RadiusX="12.5" RadiusY="25" Center="50,50" /> 
+&lt;EllipseGeometry RadiusX="12.5" RadiusY="25" Center="75,50" /> 
+&lt;/GeometryGroup> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="1" Brush="Gray" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Button.Background> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a DrawingBrush. DrawingBrush myDrawingBrush = new DrawingBrush(); 
+// Create a drawing. GeometryDrawing myGeometryDrawing = new GeometryDrawing(); 
+myGeometryDrawing.Brush = Brushes.LightBlue; 
+myGeometryDrawing.Pen = new Pen(Brushes.Gray, 1); 
+GeometryGroup ellipses = new GeometryGroup(); 
+ellipses.Children.Add(new EllipseGeometry(new Point(25,50), 12.5, 25)); 
+ellipses.Children.Add(new EllipseGeometry(new Point(50,50), 12.5, 25)); 
+ellipses.Children.Add(new EllipseGeometry(new Point(75,50), 12.5, 25)); 
+myGeometryDrawing.Geometry = ellipses; 
+myDrawingBrush.Drawing = myGeometryDrawing; 
+Button myButton = new Button(); 
+myButton.Content = "A Button"; 
+// Use the DrawingBrush to paint the button's background. myButton.Background = myDrawingBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Painting an Area with a Visual
+    </Paragraph>
+
+    <Paragraph>The most versatile and powerful of all the brushes, the VisualBrush paints an area with a Visual. A Visual is a low-level graphical object that serves as the foundation of many useful graphical components. For example, the Window, FrameworkElement, and Control classes are all types of visuals. Using a VisualBrush, you can paint areas with almost any Windows Presentation Foundation (WPF) graphical object.
+    </Paragraph>
+
+    <Paragraph>In the following example, several controls and a panel are used to paint a rectangle.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="150" Height="150" Stroke="Black" Margin="5,0,5,0"> 
+&lt;Rectangle.Fill> 
+&lt;VisualBrush> 
+&lt;VisualBrush.Visual> 
+&lt;StackPanel Background="White"> 
+&lt;Rectangle Width="25" Height="25" Fill="Red" Margin="2" /> 
+&lt;TextBlock FontSize="10pt" Margin="2">Hello, World!
+&lt;/TextBlock> 
+&lt;Button Margin="2">A Button
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/VisualBrush.Visual> 
+&lt;/VisualBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>VisualBrush myVisualBrush = new VisualBrush(); 
+// Create the visual brush's contents. StackPanel myStackPanel = new StackPanel(); 
+myStackPanel.Background = Brushes.White; 
+Rectangle redRectangle = new Rectangle(); 
+redRectangle.Width = 25; 
+redRectangle.Height =25; 
+redRectangle.Fill = Brushes.Red; 
+redRectangle.Margin = new Thickness(2); 
+myStackPanel.Children.Add(redRectangle); 
+TextBlock someText = new TextBlock(); 
+FontSizeConverter myFontSizeConverter = new FontSizeConverter(); 
+someText.FontSize = (double)myFontSizeConverter.ConvertFrom("10pt"); 
+someText.Text = "Hello, World!"; 
+someText.Margin = new Thickness(2); 
+myStackPanel.Children.Add(someText); 
+Button aButton = new Button(); 
+aButton.Content = "A Button"; 
+aButton.Margin = new Thickness(2); 
+myStackPanel.Children.Add(aButton); 
+// Use myStackPanel as myVisualBrush's content. myVisualBrush.Visual = myStackPanel; 
+// Create a rectangle to paint. Rectangle myRectangle = new Rectangle(); 
+myRectangle.Width = 150; 
+myRectangle.Height = 150; 
+myRectangle.Stroke = Brushes.Black; 
+myRectangle.Margin = new Thickness(5,0,5,0); 
+// Use myVisualBrush to paint myRectangle. myRectangle.Fill = myVisualBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The previous example showed how create a new visual for use as a background. You may also use a VisualBrush to display an existing visual; 
+this capability enables you to produce interesting visual effects, such as reflections and magnification. For examples showing how to magnify portions of the screen and how to create reflections, see the VisualBrush Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="18">VisualBrush and the Layout System
+    </Paragraph>
+
+    <Paragraph>When a VisualBrush's Visual is a UIElement (such as a panel or control), the layout system runs on the UIElement and its children. However, the root UIElement is essentially isolated from the rest of the system; 
+styles, storyboards, and external layout can't permeate this boundary. Therefore, a UIElement inside a VisualBrush cannot automatically size itself to the area being painted.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Painting an Area with a Pattern
+    </Paragraph>
+
+    <Paragraph>Tile brushes provide you with a great deal of control over how an area is painted with an image, drawing, or visual. The ImageBrush, DrawingBrush, and VisualBrush are types of tile brushes. For example, instead of just painting an area with a single stretched image, you can paint an area with a series of image tiles that create a pattern.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>Painting an area with a tile brush involves three components: content, tiles, and the output area. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Content</Run>
+: 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>If the brush is an <Run FontWeight="Bold">ImageBrush</Run>
+, this content is an image (specified by the image brush's ImageSource property). 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>If the brush is a DrawingBrush, this content is a drawing (specified by the drawing brush's Drawing property). 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>If the brush is a <Run FontWeight="Bold">VisualBrush</Run>
+, this content is a visual (specified by the drawing brush's Visual property). 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+        <Paragraph>You can specify the position and dimensions of brush's content using the Viewbox property.
+        </Paragraph>
+
+        <Paragraph/>
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Tiles</Run>
+: 
+        </Paragraph>
+
+        <Paragraph>A tile brush produces one or more tiles. By default, the brush's content is stretched to fill a single tile and that tile is stretched to fill the output area. The Viewport property is used to specify the size and position of the brush's base tile. The ViewportUnits property determines whether the viewport size and position is relative to the output area (the default behavior) or are absolute values. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Output Area</Run>
+: 
+        </Paragraph>
+
+        <Paragraph>The output area is the area being painted, such as the Fill of an Ellipse or the Background of a Button.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following properties enable you to control how your content is displayed:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Stretch: Specifies how content is stretched to fill the brush's tiles.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Viewport: Specifies the position and size of the brush's tiles.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ViewportUnits: Specifies whether the Viewport setting is an absolute size and position, or a relative one.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Viewbox: Specifies the position and size of the brush's content.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ViewboxUnits: Specifies whether the Viewbox setting is an absolute size and position, or a relative one.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Specifying How Content is Stretched Within a Tile
+    </Paragraph>
+
+    <Paragraph>The Stretch property controls how a tile brush's content is stretched to fill its tiles. The <Run FontWeight="Bold">Stretch</Run>
+ property accepts the following values, defined by the Stretch enumeration: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>None: The brush's content is not stretched to fill the tile.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Fill: The brush's content is scaled to fit the tile. Because the content's height and width are scaled independently, the original aspect ratio of the content might not be preserved. That is, the brush's content might be warped in order to completely fill the output tile.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Uniform: The brush's content is scaled so that it fits completely within the tile. The content's aspect ratio is preserved.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UniformToFill: The brush's content is scaled so that it completely fills the output area while preserving the content's original aspect ratio.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following image illustrates the different Stretch settings.
+    </Paragraph>
+
+    <Paragraph>In the following example, the content of an image brush is set so that it does not stretch to fill the output area.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="125" Height="175" Stroke="Black" StrokeThickness="1" Margin="0,0,5,0"> 
+&lt;Rectangle.Fill> 
+&lt;ImageBrush Stretch="None" ImageSource="sampleImages\testImage.gif"/> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a rectangle. Rectangle myRectangle = new Rectangle(); 
+myRectangle.Width = 125; 
+myRectangle.Height = 175; 
+myRectangle.Stroke = Brushes.Black; 
+myRectangle.StrokeThickness = 1; 
+myRectangle.Margin = new Thickness(0,5,0,0); 
+// Load the image. BitmapImage theImage = new BitmapImage( new Uri("sampleImages\\testImage.gif", UriKind.Relative)); 
+ImageBrush myImageBrush = new ImageBrush(theImage); 
+// Configure the brush so that it // doesn't stretch its image to fill // the rectangle. myImageBrush.Stretch = Stretch.None; 
+// Use the ImageBrush to paint the rectangle's background. myRectangle.Fill = myImageBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Specifying How Content is Aligned within a Tile
+    </Paragraph>
+
+    <Paragraph>To control the horizontal and vertical alignment of tile brush's content, you use its AlignmentX and AlignmentY properties. The <Run FontWeight="Bold">AlignmentX</Run>
+ property can be set to Left, Center, or Right, while the <Run FontWeight="Bold">AlignmentY</Run>
+ property can be set to Top, Center, or Bottom.
+    </Paragraph>
+
+    <Paragraph>Note that the brush's content is stretched to fill its tiles by default, so you must change its Stretch property to something other than <Run FontWeight="Bold">Fill</Run>
+ or <Run FontWeight="Bold">UniformToFill</Run>
+ for its <Run FontWeight="Bold">AlignmentX</Run>
+ and <Run FontWeight="Bold">AlignmentY</Run>
+ properties to have an effect.
+    </Paragraph>
+
+    <Paragraph>In the following example, the output of an ImageBrush, a type of TileBrush, is aligned with the top left of the output area.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="150" Height="150" Stroke="LimeGreen" StrokeThickness="1"> 
+&lt;Rectangle.Fill> 
+&lt;ImageBrush Stretch="None" AlignmentX="Left" AlignmentY="Top" ImageSource="sampleImages\triangle.jpg"/> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a rectangle. Rectangle myRectangle = new Rectangle(); 
+myRectangle.Width = 150; 
+myRectangle.Height = 150; 
+myRectangle.Stroke = Brushes.LimeGreen; 
+myRectangle.StrokeThickness = 1; 
+myRectangle.Margin = new Thickness(0,5,0,0); 
+// Load the image. BitmapImage theImage = new BitmapImage( new Uri("sampleImages\\triangle.jpg", UriKind.Relative)); 
+ImageBrush myImageBrush = new ImageBrush(theImage); 
+// Configure the brush so that it // doesn't stretch its image to fill // the rectangle. myImageBrush.Stretch = Stretch.None; 
+// Align the tile to the rectangle's // top left corner. myImageBrush.AlignmentX = AlignmentX.Left; 
+myImageBrush.AlignmentY = AlignmentY.Top; 
+// Use the ImageBrush to paint the rectangle's background. myRectangle.Fill = myImageBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Specifying a Tiling Pattern
+    </Paragraph>
+
+    <Paragraph>A tiled pattern is produced when the brush's base tile does not completely fill the output area and a tiling mode is specified. A brush's base tile does not completely fill the output area only when its size has been set using the Viewport property so that the tile is smaller than the output area.
+    </Paragraph>
+
+    <Paragraph>When a tile brush's tile does not completely fill the output area, its TileMode property specifies how the remaining output area is filled. The TileMode property accepts the following values, defined by the TileMode enumeration: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>None: Only the base tile is drawn.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Tile: The base tile is drawn and the remaining area is filled by repeating the base tile such that the right edge of one tile is adjacent to the left edge of the next, and similarly for bottom and top.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>FlipX: The same as <Run FontWeight="Bold">Tile</Run>
+, but alternate columns of tiles are flipped horizontally.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>FlipY: The same as <Run FontWeight="Bold">Tile</Run>
+, but alternate rows of tiles are flipped vertically.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>FlipXY: A combination of <Run FontWeight="Bold">FlipX</Run>
+ and <Run FontWeight="Bold">FlipY</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following image illustrates the different tiling modes.
+    </Paragraph>
+
+    <Paragraph>In the following example, an image is used to paint a rectangle that is 100 pixels wide and 100 pixels tall. By setting the brush's <Run FontWeight="Bold">Viewport</Run>
+ has been set to 0,0,0.25,0.25, the brush's base tile is made to be 1/4 of the output area. The brush's TileMode is set to <Run FontWeight="Bold">FlipXY</Run>
+. so that it fills the rectangle with rows of tiles. The following illustration shows the brush with and without tiling.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="100" Height="100" > 
+&lt;Rectangle.Fill> 
+&lt;ImageBrush ImageSource="sampleImages\triangle.jpg" Viewport="0,0,0.25,0.25" TileMode="FlipXY" /> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a rectangle. Rectangle myRectangle = new Rectangle(); 
+myRectangle.Width = 100; 
+myRectangle.Height = 100; 
+// Load the image. BitmapImage theImage = new BitmapImage( new Uri("sampleImages\\triangle.jpg", UriKind.Relative)); 
+ImageBrush myImageBrush = new ImageBrush(theImage); 
+// Create tiles that are 1/4 the size of // the output area. myImageBrush.Viewport = new Rect(0,0,0.25,0.25); 
+// Set the tile mode to FlipXY. myImageBrush.TileMode = TileMode.FlipXY; 
+// Use the ImageBrush to paint the rectangle's background. myRectangle.Fill = myImageBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next section describes in more detail how to control tile position and size.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Specifying Tile Position and Size (Viewport)
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Viewport</Run>
+ property determines the size and position of a brush's tiles. By default, a brush has a single tile that fills the entire output area. The <Run FontWeight="Bold">Stretch</Run>
+ controls how the brush's content fits into that tile. You can override this default behavior and specify the brush's tile size using the <Run FontWeight="Bold">Viewport</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>The ViewportUnits property determines whether the <Run FontWeight="Bold">Viewport</Run>
+ is specified using absolute or relative coordinates. If the coordinates are relative, they are relative to the size of the output area. The point (0,0) represents the top left corner of the output area, and (1,1) represents the bottom right corner of the output area. To specify that the <Run FontWeight="Bold">Viewport</Run>
+ property uses absolute coordinates, set the <Run FontWeight="Bold">ViewportUnits</Run>
+ property to Absolute.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows the difference in output between a TileBrush with relative versus absolute <Run FontWeight="Bold">ViewportUnits</Run>
+.
+    </Paragraph>
+
+    <Paragraph>In the following example, an image is used to create a tile that has a width and height of 50%. The base tile is located at (0,0) of the output area.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="50" Height="100"> 
+&lt;Rectangle.Fill> 
+&lt;!-- Paints an area with 4 tiles. --> 
+&lt;ImageBrush ImageSource="sampleImages\cherries_larger.jpg" Viewport="0,0,0.5,0.5" ViewportUnits="RelativeToBoundingBox" TileMode="Tile" /> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a rectangle. Rectangle myRectangle = new Rectangle(); 
+myRectangle.Width = 50; 
+myRectangle.Height = 100; 
+// Load the image. BitmapImage theImage = new BitmapImage( new Uri("sampleImages\\cherries_larger.jpg", UriKind.Relative)); 
+ImageBrush myImageBrush = new ImageBrush(theImage); 
+// Create tiles that are 1/4 the size of // the output area. myImageBrush.Viewport = new Rect(0,0,0.25,0.25); 
+myImageBrush.ViewportUnits = BrushMappingMode.RelativeToBoundingBox; 
+// Set the tile mode to Tile. myImageBrush.TileMode = TileMode.Tile; 
+// Use the ImageBrush to paint the rectangle's background. myRectangle.Fill = myImageBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In the next example, an ImageBrush's tiles are set to 25 by 25 pixels, regardless of the size of the output area.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="50" Height="100"> 
+&lt;Rectangle.Fill> 
+&lt;!-- Paints an area with 25 x 25 tiles. --> 
+&lt;ImageBrush ImageSource="sampleImages\cherries_larger.jpg" Viewport="0,0,25,25" ViewportUnits="Absolute" TileMode="Tile" /> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a rectangle. Rectangle myRectangle = new Rectangle(); 
+myRectangle.Width = 50; 
+myRectangle.Height = 100; 
+// Load the image. BitmapImage theImage = new BitmapImage( new Uri("sampleImages\\cherries_larger.jpg", UriKind.Relative)); 
+ImageBrush myImageBrush = new ImageBrush(theImage); 
+// Create tiles that are 25 x 25, regardless of the size // of the output area. myImageBrush.Viewport = new Rect(0, 0, 25, 25); 
+myImageBrush.ViewportUnits = BrushMappingMode.Absolute; 
+// Set the tile mode to Tile. myImageBrush.TileMode = TileMode.Tile; 
+// Use the ImageBrush to paint the rectangle's background. myRectangle.Fill = myImageBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Specifying Content Position and Dimensions (Viewbox)
+    </Paragraph>
+
+    <Paragraph>The size and position of the brush's content can be specified using the Viewbox property. The ViewboxUnits property determines whether the <Run FontWeight="Bold">Viewbox</Run>
+ value is relative to the bounds of the brush's content or an absolute value. 
+    </Paragraph>
+
+    <Paragraph>The following 100 by 100 pixel image will be used to demonstrate the effects of setting the <Run FontWeight="Bold">Viewbox</Run>
+ property. 
+    </Paragraph>
+
+    <Paragraph>The following illustration shows the output of a <Run FontWeight="Bold">TileBrush</Run>
+ with a <Run FontWeight="Bold">Viewbox</Run>
+ of 0.0,0.0, 0.25,0.5. The brush's <Run FontWeight="Bold">ViewboxUnits</Run>
+ is RelativeToBoundingBox. Other relevant property values:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Viewport</Run>
+: 0,0,1,1
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ViewportUnits</Run>
+: <Run FontWeight="Bold">Absolute</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">AlignmentX</Run>
+, <Run FontWeight="Bold">AlignmentY</Run>
+: <Run FontWeight="Bold">Center</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Several different <Run FontWeight="Bold">Stretch</Run>
+ property settings are shown. As mentioned in a previous section, the <Run FontWeight="Bold">Stretch</Run>
+ property determines how a brush's <Run FontWeight="Bold">Viewbox</Run>
+ is stretched to fill its <Run FontWeight="Bold">Viewport</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The next illustration shows a similar <Run FontWeight="Bold">TileBrush</Run>
+, except with a <Run FontWeight="Bold">Viewbox</Run>
+ of 0.5,0.25, 0.25,0.5.
+    </Paragraph>
+
+    <Paragraph>The next illustration shows the same <Run FontWeight="Bold">TileBrush</Run>
+, except with a <Run FontWeight="Bold">Viewport</Run>
+ of 0.0,0.0, 0.5,0.5 and a <Run FontWeight="Bold">TileMode</Run>
+ of <Run FontWeight="Bold">Tile</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The following example shows the code that creates a tiled <Run FontWeight="Bold">TileBrush</Run>
+ with a <Run FontWeight="Bold">Viewbox</Run>
+ of 0.5,0.25, 0.25,0.5. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="100" Height="100"> 
+&lt;Rectangle.Fill> 
+&lt;ImageBrush ImageSource="sampleImages\testImage.gif" Viewbox="0.5,0.25, 0.25,0.5" ViewboxUnits="RelativeToBoundingBox" Viewport="0,0,0.5,0.5" ViewportUnits="RelativeToBoundingBox" TileMode="Tile" Stretch="Fill" AlignmentX="Center" AlignmentY="Center"/> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a rectangle. Rectangle myRectangle = new Rectangle(); 
+myRectangle.Width = 100; 
+myRectangle.Height = 100; 
+// Load the image. BitmapImage theImage = new BitmapImage( new Uri("sampleImages\\testImage.gif", UriKind.Relative)); 
+ImageBrush myImageBrush = new ImageBrush(theImage); 
+myImageBrush.Viewbox = new Rect(0.5, 0.25, 0.25, 0.5); 
+myImageBrush.ViewboxUnits = BrushMappingMode.RelativeToBoundingBox; 
+myImageBrush.Viewport = new Rect(0,0,0.25,0.25); 
+myImageBrush.ViewportUnits = BrushMappingMode.RelativeToBoundingBox; 
+myImageBrush.TileMode = TileMode.Tile; 
+myImageBrush.Stretch = Stretch.Fill; 
+myImageBrush.AlignmentX = AlignmentX.Center; 
+myImageBrush.AlignmentY = AlignmentY.Center; 
+// Use the ImageBrush to paint the rectangle's background. myRectangle.Fill = myImageBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="22367fab-5f59-4583-abfd-db2bf86eaef7.xaml">Opacity Masks Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Painting with Images, Drawings, and Visuals to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

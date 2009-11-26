@@ -1,0 +1,1605 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1a698c3c_30f1_4b30_ae56_57e8a39811bd"
+  Tag     ="Storyboards Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Storyboards Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic shows how to use Storyboard objects to organize and apply animations. It describes how to interactively manipulate <Run FontWeight="Bold">Storyboard</Run>
+ objects and describes indirect property targeting syntax. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="whatisatimeline">What is a Storyboard?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Where can You Use a Storyboard?</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>How to Apply Animations with a Storyboard</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="targetingelementsandfreezables">Targeting Framework Elements, Framework Content Elements, and Freezables</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="pathsyntaxforchangeable">Indirect Targeting</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="controllable_storyboards">Interactively Controlling a Storyboard in XAML</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="controllable_storyboards_procedural">Interactively Controlling a Storyboard using Code</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="usingstoryboardsinstyles">Animate in a Style</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="defineAStoryboardInAControlTemplateSection">Animate in a ControlTemplate</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="animateWhenAPropertyValueChanges">Animate when a Property Value Changes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To understand this topic, you should be familiar with the different animation types and their basic features. For an introduction to animation, see the <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+. You should also know how to use attached properties. For more information about attached properties, see the <Hyperlink NavigateUri="75928354-dc01-47e8-a018-8409aec1f32d.xaml">Attached Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What is a Storyboard?
+    </Paragraph>
+
+    <Paragraph>Animations are not the only useful type of timeline. Other timeline classes are provided to help you organize sets of timelines, and to apply timelines to properties. Container timelines derive from the TimelineGroup class, and include ParallelTimeline and <Run FontWeight="Bold">Storyboard</Run>
+.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Storyboard</Run>
+ is a type of container timeline that provides targeting information for the timelines it contains. A Storyboard can contain any type of Timeline, including other container timelines and animations. <Run FontWeight="Bold">Storyboard</Run>
+ objects enable you to combine timelines that affect a variety of objects and properties into a single timeline tree, making it easy to organize and control complex timing behaviors. For example, suppose you want a button that does these three things. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Grow and change color when the user selects the button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Shrink away and then grow back to its original size when clicked. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Shrink and fade to 50 percent opacity when it becomes disabled.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In this case, you have multiple sets of animations that apply to the same object, and you want to play at different times, dependent on the state of the button. <Run FontWeight="Bold">Storyboard</Run>
+ objects enable you to organize these objects and apply them in groups.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Where can You Use a Storyboard?
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Storyboard</Run>
+ can be used to animate <Run>dependency properties</Run>
+ of animatable classes (for more information about what makes a class animatable, see the <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+). However, because storyboarding is a framework-level feature, the object must belong to the NameScope of a FrameworkElement or a FrameworkContentElement. 
+    </Paragraph>
+
+    <Paragraph>For example, you could use a <Run FontWeight="Bold">Storyboard</Run>
+ to do the following: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Animate a SolidColorBrush (Non-framework element) that paints the Background of a Button (a type of <Run FontWeight="Bold">FrameworkElement</Run>
+), 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Animate a <Run FontWeight="Bold">SolidColorBrush</Run>
+ (Non-framework element) that paints the fill of a GeometryDrawing (Non-framework element) displayed using an Image (<Run FontWeight="Bold">FrameworkElement</Run>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In code, animate a <Run FontWeight="Bold">SolidColorBrush</Run>
+ declared by a class that also contains a <Run FontWeight="Bold">FrameworkElement</Run>
+, if the <Run FontWeight="Bold">SolidColorBrush</Run>
+ registered its name with that <Run FontWeight="Bold">FrameworkElement</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>However, you could not use a <Run FontWeight="Bold">Storyboard</Run>
+ to animate a <Run FontWeight="Bold">SolidColorBrush</Run>
+ that did not register its name with a <Run FontWeight="Bold">FrameworkElement</Run>
+ or <Run FontWeight="Bold">FrameworkContentElement</Run>
+, or was not used to set a property of a <Run FontWeight="Bold">FrameworkElement</Run>
+ or <Run FontWeight="Bold">FrameworkContentElement</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">How to Apply Animations with a Storyboard
+    </Paragraph>
+
+    <Paragraph>To use a <Run FontWeight="Bold">Storyboard</Run>
+ to organize and apply animations, you add the animations as child timelines of the <Run FontWeight="Bold">Storyboard</Run>
+. The <Run FontWeight="Bold">Storyboard</Run>
+ class provides the System.Windows.Media.Animation.Storyboard.TargetName and System.Windows.Media.Animation.Storyboard.TargetProperty attached properties. You set these properties on an animation to specify its target object and property.
+    </Paragraph>
+
+    <Paragraph>To apply animations to their targets, you begin the <Run FontWeight="Bold">Storyboard</Run>
+ using a trigger action or a method. In XAML, you use a BeginStoryboard object with an EventTrigger or Trigger. In code, you can also use the Begin method.
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">Storyboard</Run>
+ to animate the Width of a Rectangle element and the Color of a <Run FontWeight="Bold">SolidColorBrush</Run>
+ used to paint that <Run FontWeight="Bold">Rectangle</Run>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This example shows how to animate with a storyboard.--> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="Microsoft.Samples.Animation.StoryboardsExample" WindowTitle="Storyboards Example"> 
+&lt;StackPanel Margin="20"> 
+&lt;Rectangle Name="MyRectangle" Width="100" Height="100"> 
+&lt;Rectangle.Fill> 
+&lt;SolidColorBrush x:Name="MySolidColorBrush" Color="Blue" /> 
+&lt;/Rectangle.Fill> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseEnter"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="100" To="200" Duration="0:0:1" /> 
+&lt;ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="Blue" To="Red" Duration="0:0:1" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Data; 
+using System.Windows.Shapes; 
+using System.Windows.Input; 
+namespace Microsoft.Samples.Animation { public class StoryboardsExample : Page { public StoryboardsExample() { this.WindowTitle = "Storyboards Example"; 
+StackPanel myStackPanel = new StackPanel(); 
+myStackPanel.Margin = new Thickness(20); 
+Rectangle myRectangle = new Rectangle(); 
+myRectangle.Name = "MyRectangle"; 
+// Create a name scope for the page. NameScope.SetNameScope(this, new NameScope()); 
+this.RegisterName(myRectangle.Name, myRectangle); 
+myRectangle.Width = 100; 
+myRectangle.Height = 100; 
+SolidColorBrush mySolidColorBrush = new SolidColorBrush(Colors.Blue); 
+this.RegisterName("MySolidColorBrush", mySolidColorBrush); 
+myRectangle.Fill = mySolidColorBrush; 
+DoubleAnimation myDoubleAnimation = new DoubleAnimation(); 
+myDoubleAnimation.From = 100; 
+myDoubleAnimation.To = 200; 
+myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(1)); 
+Storyboard.SetTargetName(myDoubleAnimation, myRectangle.Name); 
+Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Rectangle.WidthProperty)); 
+ColorAnimation myColorAnimation = new ColorAnimation(); 
+myColorAnimation.From = Colors.Blue; 
+myColorAnimation.To = Colors.Red; 
+myColorAnimation.Duration = new Duration(TimeSpan.FromSeconds(1)); 
+Storyboard.SetTargetName(myColorAnimation, "MySolidColorBrush"); 
+Storyboard.SetTargetProperty(myColorAnimation, new PropertyPath(SolidColorBrush.ColorProperty)); 
+Storyboard myStoryboard = new Storyboard(); 
+myStoryboard.Children.Add(myDoubleAnimation); 
+myStoryboard.Children.Add(myColorAnimation); 
+myRectangle.MouseEnter += delegate(object sender, MouseEventArgs e) { myStoryboard.Begin(this); 
+}; 
+myStackPanel.Children.Add(myRectangle); 
+this.Content = myStackPanel; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following sections describe the <Run FontWeight="Bold">TargetName</Run>
+ and <Run FontWeight="Bold">TargetProperty</Run>
+ attached properties in more detail.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Targeting Framework Elements, Framework Content Elements, and Freezables
+    </Paragraph>
+
+    <Paragraph>The previous section mentioned that, for an animation to find its target, it must know the target's name and the property to animate. Specifying the property to animate is straight forward: simply set <Run FontWeight="Bold">System.Windows.Media.Animation.Storyboard.TargetProperty</Run>
+ with the name of the property to animate. You specify the name of the object whose property you want to animate by setting the <Run FontWeight="Bold">System.Windows.Media.Animation.Storyboard.TargetName</Run>
+ property on the animation.
+    </Paragraph>
+
+    <Paragraph>For the TargetName property to work, the targeted object must have a name. Assigning a name to a <Run FontWeight="Bold">FrameworkElement</Run>
+ or a <Run FontWeight="Bold">FrameworkContentElement</Run>
+ in XAML is different than assigning a name to a Freezable object. 
+    </Paragraph>
+
+    <Paragraph>Framework elements are those classes that inherit from the <Run FontWeight="Bold">FrameworkElement</Run>
+ class. Examples of framework elements include Window, DockPanel, Button, and <Run FontWeight="Bold">Rectangle</Run>
+. Essentially all windows, panels, and controls are elements. Framework content elements are those classes that inherit from the <Run FontWeight="Bold">FrameworkContentElement</Run>
+ class. Examples of framework content elements include FlowDocument and Paragraph. If you're not sure whether a type is a framework element or a framework content element, check to see whether it has a Name property. If it does, it's probably a framework element or a framework content element. To be sure, check the <Run FontWeight="Bold">Inheritance Hierarchy</Run>
+ section of its type page.
+    </Paragraph>
+
+    <Paragraph>To enable the targeting of a framework element or a framework content element an in XAML, you set its Name property. In code, you use the RegisterName method to register the element's name with the element for which you've created a <Run FontWeight="Bold">NameScope</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following example, taken from the preceding example, assigns the name <Run>MyRectangle</Run>
+ a <Run FontWeight="Bold">Rectangle</Run>
+, a type of <Run FontWeight="Bold">FrameworkElement</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Name="MyRectangle" Width="100" Height="100"> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Rectangle myRectangle = new Rectangle(); 
+myRectangle.Name = "MyRectangle"; 
+// Create a name scope for the page. NameScope.SetNameScope(this, new NameScope()); 
+this.RegisterName(myRectangle.Name, myRectangle); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>After it has a name, you can animate a property of that element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="100" To="200" Duration="0:0:1" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Storyboard.SetTargetName(myDoubleAnimation, myRectangle.Name); 
+Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Rectangle.WidthProperty)); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Freezable</Run>
+ types are those classes that inherit from the <Run FontWeight="Bold">Freezable</Run>
+ class. Examples of <Run FontWeight="Bold">Freezable</Run>
+ include <Run FontWeight="Bold">SolidColorBrush</Run>
+, RotateTransform, and GradientStop.
+    </Paragraph>
+
+    <Paragraph>To enable the targeting of a <Run FontWeight="Bold">Freezable</Run>
+ by an animation in XAML, you use the <Hyperlink NavigateUri="b7e61222-e8cf-48d2-acd0-6df3b7685d48.xaml">x:Name Attribute</Hyperlink>
+ to assign it a name. In code, you use the <Run FontWeight="Bold">RegisterName</Run>
+ method to register its name with the element for which you've created a <Run FontWeight="Bold">NameScope</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following example assigns a name to a <Run FontWeight="Bold">Freezable</Run>
+ object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;SolidColorBrush x:Name="MySolidColorBrush" Color="Blue" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>SolidColorBrush mySolidColorBrush = new SolidColorBrush(Colors.Blue); 
+this.RegisterName("MySolidColorBrush", mySolidColorBrush); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The object can then be targeted by an animation.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="Blue" To="Red" Duration="0:0:1" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Storyboard.SetTargetName(myColorAnimation, "MySolidColorBrush"); 
+Storyboard.SetTargetProperty(myColorAnimation, new PropertyPath(SolidColorBrush.ColorProperty)); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Storyboard</Run>
+ objects use name scopes to resolve the <Run FontWeight="Bold">TargetName</Run>
+ property. For more information about WPF name scopes, see <Hyperlink NavigateUri="52bbf4f2-15fc-40d4-837b-bb4c21ead7d4.xaml">WPF Namescopes</Hyperlink>
+. If the <Run FontWeight="Bold">TargetName</Run>
+ property is omitted, the animation targets the element on which it is defined, or, in the case of styles, the styled element.
+    </Paragraph>
+
+    <Paragraph>Sometimes a name can't be assigned to a <Run FontWeight="Bold">Freezable</Run>
+ object. For example, if a <Run FontWeight="Bold">Freezable</Run>
+ is declared as a resource or used to set a property value in a style, it can't be given a name. Because it doesn't have a name, it can't be targeted directly—but it can be targeted indirectly. The following sections describe how to use indirect targeting.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Indirect Targeting
+    </Paragraph>
+
+    <Paragraph>There are times a <Run FontWeight="Bold">Freezable</Run>
+ can't be targeted directly by an animation, such as when the <Run FontWeight="Bold">Freezable</Run>
+ is declared as a resource or used to set a property value in a style. In these cases, even though you can't target it directly, you can still animate the <Run FontWeight="Bold">Freezable</Run>
+ object. Instead of setting the <Run FontWeight="Bold">TargetName</Run>
+ property with the name of the <Run FontWeight="Bold">Freezable</Run>
+, you give it the name of the element to which the <Run FontWeight="Bold">Freezable</Run>
+ "belongs." For example, a <Run FontWeight="Bold">SolidColorBrush</Run>
+ used to set the Fill of a rectangle element belongs to that rectangle. To animate the brush, you would set the animation's <Run FontWeight="Bold">TargetProperty</Run>
+ with a chain of properties that starts at the property of the framework element or framework content element the <Run FontWeight="Bold">Freezable</Run>
+ was used to set and ends with the <Run FontWeight="Bold">Freezable</Run>
+ property to animate.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ColorAnimation Storyboard.TargetName="Rectangle01" Storyboard.TargetProperty="Fill.Color" From="Blue" To="AliceBlue" Duration="0:0:1" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DependencyProperty[] propertyChain = new DependencyProperty[] {Rectangle.FillProperty, SolidColorBrush.ColorProperty}; 
+string thePath = "(0).(1)"; 
+PropertyPath myPropertyPath = new PropertyPath(thePath, propertyChain); 
+Storyboard.SetTargetProperty(myColorAnimation, myPropertyPath); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that, if the <Run FontWeight="Bold">Freezable</Run>
+ is frozen, a clone will be made and that clone will be animated. When this happens, the original object's HasAnimatedProperties property continues to return <Run FontWeight="Bold">false</Run>
+, because the original object is not actually animated. For more information about cloning, see the <Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Also note that, when using indirect property targeting, it's possible to target objects that don't exist. For example, you might assume that the Background of a particular button was set with a <Run FontWeight="Bold">SolidColorBrush</Run>
+ and try to animate its Color, when in fact a LinearGradientBrush was used to set the button's Background. In these cases, no exception is thrown; 
+the animation fails silently. 
+    </Paragraph>
+
+    <Paragraph>The following sections describe indirect property targeting syntax in more detail.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Indirectly Targeting a Property of a Freezable in "XAML"
+    </Paragraph>
+
+    <Paragraph>To target a property of a freezable in XAML, use the following syntax.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Paragraph><Run FontStyle="italic">ElementPropertyName</Run>
+<Run>.</Run>
+<Run FontStyle="italic">FreezablePropertyName</Run>
+
+    </Paragraph>
+
+    <Paragraph>Where 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">ElementPropertyName</Run>
+ is the property of the FrameworkElement which the Freezable is used to set, and 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">FreezablePropertyName</Run>
+ is the property of the Freezable to animate. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following code shows how to animate the Color of a SolidColorBrush used to set the 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Fill</Run>
+ of a rectangle element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Name="Rectangle01" Height="100" Width="100" Fill="{StaticResource MySolidColorBrushResource}"> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseEnter"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ColorAnimation Storyboard.TargetName="Rectangle01" Storyboard.TargetProperty="Fill.Color" From="Blue" To="AliceBlue" Duration="0:0:1" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Sometimes you need to target a freezable contained in a collection or array.
+    </Paragraph>
+
+    <Paragraph>To target a freezable contained in a collection, you use the following path syntax.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Paragraph><Run FontStyle="italic">ElementPropertyName</Run>
+<Run>.Children[</Run>
+<Run FontStyle="italic">CollectionIndex</Run>
+<Run>].</Run>
+<Run FontStyle="italic">FreezablePropertyName</Run>
+
+    </Paragraph>
+
+    <Paragraph>Where <Run FontStyle="italic">CollectionIndex</Run>
+ is the index of the object in its array or collection.
+    </Paragraph>
+
+    <Paragraph>For example, suppose that a rectangle has a TransformGroup resource applied to its RenderTransform property, and you want to animate one of the transforms it contains.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TransformGroup x:Key="MyTransformGroupResource" x:Shared="False"> 
+&lt;ScaleTransform /> 
+&lt;RotateTransform /> 
+&lt;/TransformGroup> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code shows how to animate the Angle property of the <Run FontWeight="Bold">RotateTransform</Run>
+ shown in the previous example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Name="Rectangle02" Height="100" Width="100" Fill="Blue" RenderTransform="{StaticResource MyTransformGroupResource}"> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseEnter"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="Rectangle02" Storyboard.TargetProperty="RenderTransform.Children[1].Angle" From="0" To="360" Duration="0:0:1" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Indirectly Targeting a Property of a Freezable in Code
+    </Paragraph>
+
+    <Paragraph>In code, you create a PropertyPath object. When you create the <Run FontWeight="Bold">PropertyPath</Run>
+, you specify a Path and PathParameters.
+    </Paragraph>
+
+    <Paragraph>To create <Run FontWeight="Bold">PathParameters</Run>
+, you create an array of type DependencyProperty that contains a list of dependency property identifier fields. The first identifier field is for the property of the <Run FontWeight="Bold">FrameworkElement</Run>
+ or <Run FontWeight="Bold">FrameworkContentElement</Run>
+ that the <Run FontWeight="Bold">Freezable</Run>
+ is used to set. The next identifier field represents the property of the <Run FontWeight="Bold">Freezable</Run>
+ to target. Think of it as a chain of properties that connects the <Run FontWeight="Bold">Freezable</Run>
+ to the <Run FontWeight="Bold">FrameworkElement</Run>
+ object. 
+    </Paragraph>
+
+    <Paragraph>The following is an example of a dependency property chain that targets the <Run FontWeight="Bold">Color</Run>
+ of a <Run FontWeight="Bold">SolidColorBrush</Run>
+ used to set the <Run FontWeight="Bold">Fill</Run>
+ of a rectangle element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DependencyProperty[] propertyChain = new DependencyProperty[] {Rectangle.FillProperty, SolidColorBrush.ColorProperty}; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You also need to specify a <Run FontWeight="Bold">Path</Run>
+. A <Run FontWeight="Bold">Path</Run>
+ is a String that tells the <Run FontWeight="Bold">Path</Run>
+ how to interpret its <Run FontWeight="Bold">PathParameters</Run>
+. It uses the following syntax. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Paragraph><Run>(</Run>
+<Run FontStyle="italic">OwnerPropertyArrayIndex</Run>
+<Run>).(</Run>
+<Run FontStyle="italic">FreezablePropertyArrayIndex</Run>
+<Run>)</Run>
+
+    </Paragraph>
+
+    <Paragraph>Where 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">OwnerPropertyArrayIndex</Run>
+ is the index of the <Run FontWeight="Bold">DependencyProperty</Run>
+ array that contains the identifier of the <Run FontWeight="Bold">FrameworkElement</Run>
+ object's property that the <Run FontWeight="Bold">Freezable</Run>
+ is used to set, and 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontStyle="italic">FreezablePropertyArrayIndex</Run>
+ is the index of the <Run FontWeight="Bold">DependencyProperty</Run>
+ array that contains the identifier of property to target. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example shows the <Run FontWeight="Bold">Path</Run>
+ that would accompany the <Run FontWeight="Bold">PathParameters</Run>
+ defined in the preceding example.
+    </Paragraph>
+
+    <Paragraph>The following example combines the code in the previous examples to animate the <Run FontWeight="Bold">Color</Run>
+ of a <Run FontWeight="Bold">SolidColorBrush</Run>
+ used to set the <Run FontWeight="Bold">Fill</Run>
+ of a rectangle element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a name scope for the page. NameScope.SetNameScope(this, new NameScope()); 
+Rectangle rectangle01 = new Rectangle(); 
+rectangle01.Name = "Rectangle01"; 
+this.RegisterName(rectangle01.Name, rectangle01); 
+rectangle01.Width = 100; 
+rectangle01.Height = 100; 
+rectangle01.Fill = (SolidColorBrush)this.Resources["MySolidColorBrushResource"]; 
+ColorAnimation myColorAnimation = new ColorAnimation(); 
+myColorAnimation.From = Colors.Blue; 
+myColorAnimation.To = Colors.AliceBlue; 
+myColorAnimation.Duration = new Duration(TimeSpan.FromSeconds(1)); 
+Storyboard.SetTargetName(myColorAnimation, rectangle01.Name); 
+DependencyProperty[] propertyChain = new DependencyProperty[] {Rectangle.FillProperty, SolidColorBrush.ColorProperty}; 
+string thePath = "(0).(1)"; 
+PropertyPath myPropertyPath = new PropertyPath(thePath, propertyChain); 
+Storyboard.SetTargetProperty(myColorAnimation, myPropertyPath); 
+Storyboard myStoryboard = new Storyboard(); 
+myStoryboard.Children.Add(myColorAnimation); 
+BeginStoryboard myBeginStoryboard = new BeginStoryboard(); 
+myBeginStoryboard.Storyboard = myStoryboard; 
+EventTrigger myMouseEnterTrigger = new EventTrigger(); 
+myMouseEnterTrigger.RoutedEvent = Rectangle.MouseEnterEvent; 
+myMouseEnterTrigger.Actions.Add(myBeginStoryboard); 
+rectangle01.Triggers.Add(myMouseEnterTrigger); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Sometimes you need to target a freezable contained in a collection or array. For example, suppose that a rectangle has a <Run FontWeight="Bold">TransformGroup</Run>
+ resource applied to its RenderTransform property, and you want to animate one of the transforms it contains.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TransformGroup x:Key="MyTransformGroupResource" x:Shared="False"> 
+&lt;ScaleTransform /> 
+&lt;RotateTransform /> 
+&lt;/TransformGroup> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To target a <Run FontWeight="Bold">Freezable</Run>
+ contained in a collection, you use the following path syntax.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Paragraph><Run>(</Run>
+<Run FontStyle="italic">OwnerPropertyArrayIndex</Run>
+<Run>).(</Run>
+<Run FontStyle="italic">CollectionChildrenPropertyArrayIndex</Run>
+<Run>)</Run>
+<Run>[</Run>
+<Run FontStyle="italic">CollectionIndex</Run>
+<Run>].(</Run>
+<Run FontStyle="italic">FreezablePropertyArrayIndex</Run>
+<Run>)</Run>
+
+    </Paragraph>
+
+    <Paragraph>Where <Run FontStyle="italic">CollectionIndex</Run>
+ is the index of the object in its array or collection. 
+    </Paragraph>
+
+    <Paragraph>To target the <Run FontWeight="Bold">Angle</Run>
+ property of the <Run FontWeight="Bold">RotateTransform</Run>
+, the second transform in the <Run FontWeight="Bold">TransformGroup</Run>
+, you would use the following <Run FontWeight="Bold">Path</Run>
+ and <Run FontWeight="Bold">PathParameters</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DependencyProperty[] propertyChain = new DependencyProperty[] { Rectangle.RenderTransformProperty, TransformGroup.ChildrenProperty, RotateTransform.AngleProperty }; 
+string thePath = "(0).(1)[1].(2)"; 
+PropertyPath myPropertyPath = new PropertyPath(thePath, propertyChain); 
+Storyboard.SetTargetProperty(myDoubleAnimation, myPropertyPath); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the complete code for animating the <Run FontWeight="Bold">Angle</Run>
+ of a <Run FontWeight="Bold">RotateTransform</Run>
+ contained within a <Run FontWeight="Bold">TransformGroup</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Rectangle rectangle02 = new Rectangle(); 
+rectangle02.Name = "Rectangle02"; 
+this.RegisterName(rectangle02.Name, rectangle02); 
+rectangle02.Width = 100; 
+rectangle02.Height = 100; 
+rectangle02.Fill = Brushes.Blue; 
+rectangle02.RenderTransform = (TransformGroup)this.Resources["MyTransformGroupResource"]; 
+DoubleAnimation myDoubleAnimation = new DoubleAnimation(); 
+myDoubleAnimation.From = 0; 
+myDoubleAnimation.To = 360; 
+myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(1)); 
+Storyboard.SetTargetName(myDoubleAnimation, rectangle02.Name); 
+DependencyProperty[] propertyChain = new DependencyProperty[] { Rectangle.RenderTransformProperty, TransformGroup.ChildrenProperty, RotateTransform.AngleProperty }; 
+string thePath = "(0).(1)[1].(2)"; 
+PropertyPath myPropertyPath = new PropertyPath(thePath, propertyChain); 
+Storyboard.SetTargetProperty(myDoubleAnimation, myPropertyPath); 
+Storyboard myStoryboard = new Storyboard(); 
+myStoryboard.Children.Add(myDoubleAnimation); 
+BeginStoryboard myBeginStoryboard = new BeginStoryboard(); 
+myBeginStoryboard.Storyboard = myStoryboard; 
+EventTrigger myMouseEnterTrigger = new EventTrigger(); 
+myMouseEnterTrigger.RoutedEvent = Rectangle.MouseEnterEvent; 
+myMouseEnterTrigger.Actions.Add(myBeginStoryboard); 
+rectangle02.Triggers.Add(myMouseEnterTrigger); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Indirectly Targeting with a Freezable as the Starting Point
+    </Paragraph>
+
+    <Paragraph>The previous sections described how to indirectly target a <Run FontWeight="Bold">Freezable</Run>
+ by starting with a <Run FontWeight="Bold">FrameworkElement</Run>
+ or <Run FontWeight="Bold">FrameworkContentElement</Run>
+ and creating a property chain to a <Run FontWeight="Bold">Freezable</Run>
+ sub-property. You can also use a <Run FontWeight="Bold">Freezable</Run>
+ as a starting point and indirectly target one of its <Run FontWeight="Bold">Freezable</Run>
+ sub-properties. One additional restriction applies when using a <Run FontWeight="Bold">Freezable</Run>
+ as a starting point for indirect targeting: the starting <Run FontWeight="Bold">Freezable</Run>
+ and every <Run FontWeight="Bold">Freezable</Run>
+ between it and the indirectly targeted sub-property must not be frozen. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Interactively Controlling a Storyboard in XAML
+    </Paragraph>
+
+    <Paragraph>To start a storyboard in Extensible Application Markup Language (XAML), you use a <Run FontWeight="Bold">BeginStoryboard</Run>
+ trigger action. <Run FontWeight="Bold">BeginStoryboard</Run>
+ distributes the animations to the objects and properties they animate, and starts the storyboard. If you give the <Run FontWeight="Bold">BeginStoryboard</Run>
+ a name by specifying its Name property, you make it a controllable storyboard. You can then interactively control the storyboard after it's started. The following is a list of controllable storyboard actions that you use with event triggers to control a storyboard.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>PauseStoryboard: Pauses the storyboard.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ResumeStoryboard: Resumes a paused storyboard.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>SetStoryboardSpeedRatio: Changes the storyboard's speed.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>SkipStoryboardToFill: Advances a storyboard to the end of its fill period, if it has one.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>StopStoryboard: Stops the storyboard.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>RemoveStoryboard: Removes the storyboard.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In the following example, controllable storyboard actions are used to interactively control a storyboard.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="Microsoft.SDK.Animation.ControllableStoryboardExample" WindowTitle="Fading Rectangle Example"> 
+&lt;StackPanel Margin="10"> 
+&lt;Rectangle Name="MyRectangle" Width="100" Height="100" Fill="Blue"> 
+&lt;/Rectangle> 
+&lt;Button Name="BeginButton">Begin
+&lt;/Button> 
+&lt;Button Name="PauseButton">Pause
+&lt;/Button> 
+&lt;Button Name="ResumeButton">Resume
+&lt;/Button> 
+&lt;Button Name="SkipToFillButton">Skip To Fill
+&lt;/Button> 
+&lt;Button Name="StopButton">Stop
+&lt;/Button> 
+&lt;StackPanel.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="BeginButton"> 
+&lt;BeginStoryboard Name="MyBeginStoryboard"> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="1.0" To="0.0" Duration="0:0:5" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="PauseButton"> 
+&lt;PauseStoryboard BeginStoryboardName="MyBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="ResumeButton"> 
+&lt;ResumeStoryboard BeginStoryboardName="MyBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="SkipToFillButton"> 
+&lt;SkipStoryboardToFill BeginStoryboardName="MyBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="StopButton"> 
+&lt;StopStoryboard BeginStoryboardName="MyBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;/StackPanel.Triggers> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Interactively Controlling a Storyboard using Code
+    </Paragraph>
+
+    <Paragraph>The previous examples have shown how to animate using trigger actions. In code, you may also control a storyboard using interactive methods of the <Run FontWeight="Bold">Storyboard</Run>
+ class. For a <Run FontWeight="Bold">Storyboard</Run>
+ to be made interactive in code, you must use the appropriate overload of the storyboard's Begin method and specify <Run FontWeight="Bold">true</Run>
+ to make it controllable. See the <Run FontWeight="Bold">Begin</Run>
+ page for more information.
+    </Paragraph>
+
+    <Paragraph>The following list shows the methods that can be used to manipulate a <Run FontWeight="Bold">Storyboard</Run>
+ after it has started:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Pause 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Resume 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Seek 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>SkipToFill 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Stop 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Remove 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The advantage to using these methods is that you don't need to create <Run FontWeight="Bold">Trigger</Run>
+ or TriggerAction objects; 
+you just need a reference to the controllable <Run FontWeight="Bold">Storyboard</Run>
+ you want to manipulate.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to apply and control animations using the interactive methods of the <Run FontWeight="Bold">Storyboard</Run>
+ class.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Shapes; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+namespace SDKSample { public class ControllableStoryboardExample : Page { private Storyboard myStoryboard; 
+public ControllableStoryboardExample() { // Create a name scope for the page. NameScope.SetNameScope(this, new NameScope()); 
+this.WindowTitle = "Controllable Storyboard Example"; 
+StackPanel myStackPanel = new StackPanel(); 
+myStackPanel.Margin = new Thickness(10); 
+// Create a rectangle. Rectangle myRectangle = new Rectangle(); 
+myRectangle.Name = "myRectangle"; 
+// Assign the rectangle a name by // registering it with the page, so that // it can be targeted by storyboard // animations. this.RegisterName(myRectangle.Name, myRectangle); 
+myRectangle.Width = 100; 
+myRectangle.Height = 100; 
+myRectangle.Fill = Brushes.Blue; 
+myStackPanel.Children.Add(myRectangle); 
+// // Create an animation and a storyboard to animate the // rectangle. // DoubleAnimation myDoubleAnimation = new DoubleAnimation(); 
+myDoubleAnimation.From = 1.0; 
+myDoubleAnimation.To = 0.0; 
+myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(5000)); 
+myDoubleAnimation.AutoReverse = true; 
+// Create the storyboard. myStoryboard = new Storyboard(); 
+myStoryboard.Children.Add(myDoubleAnimation); 
+Storyboard.SetTargetName(myDoubleAnimation, myRectangle.Name); 
+Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Rectangle.OpacityProperty)); 
+// // Create some buttons to control the storyboard // and a panel to contain them. // StackPanel buttonPanel = new StackPanel(); 
+buttonPanel.Orientation = Orientation.Horizontal; 
+Button beginButton = new Button(); 
+beginButton.Content = "Begin"; 
+beginButton.Click += new RoutedEventHandler(beginButton_Clicked); 
+buttonPanel.Children.Add(beginButton); 
+Button pauseButton = new Button(); 
+pauseButton.Content = "Pause"; 
+pauseButton.Click += new RoutedEventHandler(pauseButton_Clicked); 
+buttonPanel.Children.Add(pauseButton); 
+Button resumeButton = new Button(); 
+resumeButton.Content = "Resume"; 
+resumeButton.Click += new RoutedEventHandler(resumeButton_Clicked); 
+buttonPanel.Children.Add(resumeButton); 
+Button skipToFillButton = new Button(); 
+skipToFillButton.Content = "Skip to Fill"; 
+skipToFillButton.Click += new RoutedEventHandler(skipToFillButton_Clicked); 
+buttonPanel.Children.Add(skipToFillButton); 
+Button setSpeedRatioButton = new Button(); 
+setSpeedRatioButton.Content = "Triple Speed"; 
+setSpeedRatioButton.Click += new RoutedEventHandler(setSpeedRatioButton_Clicked); 
+buttonPanel.Children.Add(setSpeedRatioButton); 
+Button stopButton = new Button(); 
+stopButton.Content = "Stop"; 
+stopButton.Click += new RoutedEventHandler(stopButton_Clicked); 
+buttonPanel.Children.Add(stopButton); 
+myStackPanel.Children.Add(buttonPanel); 
+this.Content = myStackPanel; 
+} // Begins the storyboard. private void beginButton_Clicked(object sender, RoutedEventArgs args) { // Specifying "true" as the second Begin parameter // makes this storyboard controllable. myStoryboard.Begin(this, true); 
+} // Pauses the storyboard. private void pauseButton_Clicked(object sender, RoutedEventArgs args) { myStoryboard.Pause(this); 
+} // Resumes the storyboard. private void resumeButton_Clicked(object sender, RoutedEventArgs args) { myStoryboard.Resume(this); 
+} // Advances the storyboard to its fill period. private void skipToFillButton_Clicked(object sender, RoutedEventArgs args) { myStoryboard.SkipToFill(this); 
+} // Updates the storyboard's speed. private void setSpeedRatioButton_Clicked(object sender, RoutedEventArgs args) { // Makes the storyboard progress three times as fast as normal. myStoryboard.SetSpeedRatio(this, 3); 
+} // Stops the storyboard. private void stopButton_Clicked(object sender, RoutedEventArgs args) { myStoryboard.Stop(this); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Animate in a Style
+    </Paragraph>
+
+    <Paragraph>You can use <Run FontWeight="Bold">Storyboard</Run>
+ objects to define animations in a Style. Animating with a <Run FontWeight="Bold">Storyboard</Run>
+ in a <Run FontWeight="Bold">Style</Run>
+ is similar to using a <Run FontWeight="Bold">Storyboard</Run>
+ elsewhere, with the following three exceptions:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>You don't specify a <Run FontWeight="Bold">TargetName</Run>
+; 
+the <Run FontWeight="Bold">Storyboard</Run>
+ always targets the element to which the <Run FontWeight="Bold">Style</Run>
+ is applied. To target <Run FontWeight="Bold">Freezable</Run>
+ objects, you must use indirect targeting. For more information about indirect targeting, see the <Hyperlink TargetName="pathsyntaxforchangeable">Idirect Targeting</Hyperlink>
+ section. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You can't use dynamic resource references or data binding expressions to set <Run FontWeight="Bold">Storyboard</Run>
+ or animation property values. That's because everything inside a <Run FontWeight="Bold">Style</Run>
+ must be thread-safe, and the timing system must Freeze <Run FontWeight="Bold">Storyboard</Run>
+ objects to make them thread-safe. A <Run FontWeight="Bold">Storyboard</Run>
+ cannot be frozen if it or its child timelines contain dynamic resource references or data binding expressions. For more information about freezing and other <Run FontWeight="Bold">Freezable</Run>
+ features, see the <Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In XAML, you can't declare event handlers for <Run FontWeight="Bold">Storyboard</Run>
+ or animation events. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For an example showing how to define a storyboard in a style, see the <Hyperlink NavigateUri="6a791f3d-6b1f-4972-a2f9-35880bcfd954.xaml">How to: Animate Within a Style</Hyperlink>
+ example.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Animate in a ControlTemplate
+    </Paragraph>
+
+    <Paragraph>You can use <Run FontWeight="Bold">Storyboard</Run>
+ objects to define animations in a ControlTemplate. Animating with a <Run FontWeight="Bold">Storyboard</Run>
+ in a <Run FontWeight="Bold">ControlTemplate</Run>
+ is similar to using a <Run FontWeight="Bold">Storyboard</Run>
+ elsewhere, with the following two exceptions:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>You can't use dynamic resource references or data binding expressions to set <Run FontWeight="Bold">Storyboard</Run>
+ or animation property values. That's because everything inside a <Run FontWeight="Bold">ControlTemplate</Run>
+ must be thread-safe, and the timing system must <Run FontWeight="Bold">Freeze</Run>
+<Run FontWeight="Bold">Storyboard</Run>
+ objects to make them thread-safe. A <Run FontWeight="Bold">Storyboard</Run>
+ cannot be frozen if it or its child timelines contain dynamic resource references or data binding expressions. For more information about freezing and other <Run FontWeight="Bold">Freezable</Run>
+ features, see the <Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In XAML, you can't declare event handlers for <Run FontWeight="Bold">Storyboard</Run>
+ or animation events. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For an example showing how to define a storyboard in a <Run FontWeight="Bold">ControlTemplate</Run>
+, see the <Hyperlink NavigateUri="97abb5d9-4dc7-4085-a011-54bd8bcb497b.xaml">How to: Animate Within a ControlTemplate</Hyperlink>
+ example.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Animate when a Property Value Changes
+    </Paragraph>
+
+    <Paragraph>In styles and control templates, you can use Trigger objects to start a storyboard when a property changes. For examples, see <Hyperlink NavigateUri="12399c21-0300-4f4f-9e3a-d92d9907e5f5.xaml">How to: Trigger an Animation When a Property Value Changes</Hyperlink>
+ and <Hyperlink NavigateUri="97abb5d9-4dc7-4085-a011-54bd8bcb497b.xaml">How to: Animate Within a ControlTemplate</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Storyboards Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

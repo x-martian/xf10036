@@ -1,0 +1,147 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f86acc91_2b67_4039_8555_505734491d36"
+  Tag     ="Serialization Limitations of XamlWriter.Save"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Serialization Limitations of XamlWriter.Save</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The API Save can be used to serialize the contents of a Windows Presentation Foundation (WPF) application as a Extensible Application Markup Language (XAML) file. However, there are some notable limitations in exactly what is serialized. These limitations and some general considerations are documented in this topic.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Run_Time__Not_Design_Time_Representation">Run-Time, Not Design-Time Representation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Serialization_is_Self_Contained">Serialization is Self-Contained</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Extension_References_are_Dereferenced">Extension References are Dereferenced</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Event_Handling_is_Not_Preserved">Event Handling is Not Preserved</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Realistic_Scenarios_for_Use_of_XAMLWriter_Save">Realistic Scenarios for Use of XAMLWriter.Save</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Run-Time, Not Design-Time Representation
+    </Paragraph>
+
+    <Paragraph>The basic philosophy of what is serialized by a call to <Run FontWeight="Bold">Save</Run>
+ is that the result will be a representation of the object being serialized, at run-time. Many design-time properties of the original XAML file may already be optimized or lost by the time that the XAML is loaded as in-memory objects, and are not preserved when you call <Run FontWeight="Bold">Save</Run>
+ to serialize. The serialized result is an effective representation of the constructed logical tree of the application, but not necessarily of the original XAML that produced it. These issues make it extremely difficult to use the <Run FontWeight="Bold">Save</Run>
+ serialization as part of an extensive XAML design surface.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Serialization is Self-Contained
+    </Paragraph>
+
+    <Paragraph>The serialized output of <Run FontWeight="Bold">Save</Run>
+ is self-contained; 
+everything that is serialized is contained inside a XAML single page, with a single root element, and no external references other than URIs. For instance, if your page referenced resources from application resources, these will appear as if they were a component of the page being serialized.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Extension References are Dereferenced
+    </Paragraph>
+
+    <Paragraph>Common references to objects made by various markup extension formats, such as <Run FontWeight="Bold">StaticResource</Run>
+ or <Run FontWeight="Bold">Binding</Run>
+, will be dereferenced by the serialization process. These were already dereferenced at the time that in-memory objects were created by the application runtime, and the <Run FontWeight="Bold">Save</Run>
+ logic does not revisit the original XAML to restore such references to the serialized output. This potentially freezes any databound or resource obtained value to be the value last used by the run-time representation, with only limited or indirect ability to distinguish such a value from any other value set locally. Images are also serialized as object references to images as they exist in the project, rather than as original source references, losing whatever filename or URI was originally referenced. Even resources declared within the same page are seen serialized into the point where they were referenced, rather than being preserved as a key of a resource collection.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Event Handling is Not Preserved
+    </Paragraph>
+
+    <Paragraph>When event handlers that are added through XAML are serialized, they are not preserved. XAML without code-behind (and also without the related x:Code mechanism) has no way of serializing runtime procedural logic. Because serialization is self-contained and limited to the logical tree, there is no facility for storing the event handlers. As a result, event handler attributes, both the attribute itself and the string value that names the handler, are removed from the output XAML.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Realistic Scenarios for Use of XAMLWriter.Save
+    </Paragraph>
+
+    <Paragraph>While the limitations listed here are fairly substantial, there are still several appropriate scenarios for using <Run FontWeight="Bold">Save</Run>
+ for serialization.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Vector or graphical output: The output of the rendered area can be used to reproduce the same vector or graphics when reloaded.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Rich text and flow documents: Text and all element formatting and element containment within it is preserved in the output. This can be useful for mechanisms that approximate a clipboard functionality.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Preserving business object data: If you have stored data in custom elements, such as XML data, so long as your business objects follow basic XAML rules such as providing custom constructors and conversion for by-reference property values, these business objects can be perpetuated through serialization.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Serialization Limitations of XamlWriter.Save to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

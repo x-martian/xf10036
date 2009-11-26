@@ -1,0 +1,340 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_4380cad7_e509_448f_b9a5_6de042605fd4"
+  Tag     ="UI Automation and Screen Scaling"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation and Screen Scaling</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Vista enables users to change the dots-per-inch (DPI) setting so that most user interface (UI) elements on the screen appear larger. Although this feature has long been available in Microsoft Windows, in previous versions the scaling had to be implemented by applications. In Windows Vista, the Desktop Window Manager performs default scaling for all applications that do not handle their own scaling. <Run>UI Automation client</Run>
+ applications must take this feature into account.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Scaling_in_Windows_Vista">Scaling in Windows Vista</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Scaling_in_UI_Automation_Clients">Scaling in UI Automation Clients</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Scaling in Windows Vista
+    </Paragraph>
+
+    <Paragraph>The default DPI setting is 96, which means that 96 pixels occupy a width or height of one notional inch. The exact measure of an "inch" depends on the size and physical resolution of the monitor. For example, on a monitor 12 inches wide, at a horizontal resolution of 1280 pixels, a horizontal line of 96 pixels extends about 9/10 of an inch.
+    </Paragraph>
+
+    <Paragraph>Changing the DPI setting is not the same as changing the screen resolution. With DPI scaling, the number of physical pixels on the screen remains the same. However, scaling is applied to the size and location of UI elements. This scaling can be performed automatically by the Desktop Window Manager (DWM) for the desktop and for applications that do not explicitly ask not to be scaled.
+    </Paragraph>
+
+    <Paragraph>In effect, when the user sets the scale factor to 120 DPI, a vertical or horizontal inch on the screen becomes bigger by 25 percent. All dimensions are scaled accordingly. The offset of an application window from the top and left edges of the screen increases by 25 percent. If application scaling is enabled and the application is not DPI-aware, the size of the window increases in the same proportion, along with the offsets and sizes of all UI elements it contains.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>By default, the DWM does not perform scaling for non-DPI-aware applications when the user sets the DPI to 120, but does perform it when the DPI is set to a custom value of 144 or higher. However, the user can override the default behavior.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Screen scaling creates new challenges for applications that are concerned in any way with screen coordinates. The screen now contains two coordinate systems: physical and logical. The physical coordinates of a point are the actual offset in pixels from the top left of the origin. The logical coordinates are the offsets as they would be if the pixels themselves were scaled.
+    </Paragraph>
+
+    <Paragraph>Suppose you design a dialog box with a button at coordinates (100, 48). When this dialog box is displayed at the default 96 DPI, the button is located at physical coordinates of (100, 48). At 120 DPI, it is located at physical coordinates of (125, 60). But the logical coordinates are the same at any DPI setting: (100, 48).
+    </Paragraph>
+
+    <Paragraph>Logical coordinates are important, because they make the behavior of the operating system and applications consistent regardless of the DPI setting. For example, System.Windows.Forms.Cursor.Position normally returns the logical coordinates. If you move the cursor over an element in a dialog box, the same coordinates are returned regardless of the DPI setting. If you draw a control at (100, 100), it is drawn to those logical coordinates, and will occupy the same relative position at any DPI setting.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Scaling in UI Automation Clients
+    </Paragraph>
+
+    <Paragraph>The UI Automation API does not use logical coordinates. The following methods and properties either return physical coordinates or take them as parameters.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>GetClickablePoint 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>TryGetClickablePoint 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ClickablePointProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>FromPoint 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>BoundingRectangle 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>By default, a UI Automation client application running in a non-96-DPI environment will not be able to obtain correct results from these methods and properties. For example, because the cursor position is in logical coordinates, the client cannot simply pass these coordinates to <Run FontWeight="Bold">FromPoint</Run>
+ to obtain the element that is under the cursor. In addition, the application will not be able to correctly place windows outside its client area.
+    </Paragraph>
+
+    <Paragraph>The solution is in two parts.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>First, make the client application DPI-aware. To do this, call the Win32 function <Run FontWeight="Bold">SetProcessDPIAware</Run>
+ at startup. In managed code, the following declaration makes this function available.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[System.Runtime.InteropServices.DllImport("user32.dll")] internal static extern bool SetProcessDPIAware(); 
+</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;System.Runtime.InteropServices.DllImport("user32.dll")> _ Friend Shared Function SetProcessDPIAware() As Boolean End Function </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph>This function makes the entire process DPI-aware, meaning that all windows that belong to the process are unscaled. In the Highlighter Sample, for instance, the four windows that make up the highlight rectangle are located at the physical coordinates obtained from UI Automation, not the logical coordinates. If the sample were not DPI-aware, the highlight would be drawn at the logical coordinates on the desktop, which would result in incorrect placement in a non-96-DPI environment.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>To get cursor coordinates, call the Win32 function <Run FontWeight="Bold">GetPhysicalCursorPos</Run>
+. The following example shows how to declare and use this function.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public struct CursorPoint { public int X; 
+public int Y; 
+} [System.Runtime.InteropServices.DllImport("user32.dll")] internal static extern bool GetPhysicalCursorPos(ref CursorPoint lpPoint); 
+private bool ShowUsage() { CursorPoint cursorPos = new CursorPoint(); 
+try { return GetPhysicalCursorPos(ref cursorPos); 
+} catch (EntryPointNotFoundException) // Not Windows Vista { return false; 
+} } </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Structure CursorPoint Public X As Integer Public Y As Integer End Structure 
+&lt;System.Runtime.InteropServices.DllImport("user32.dll")> _ Friend Shared Function GetPhysicalCursorPos(ByRef lpPoint As CursorPoint) As Boolean End Function Private Function ShowUsage() As Boolean Dim cursorPos As New CursorPoint() Try Return GetPhysicalCursorPos(cursorPos) Catch e As EntryPointNotFoundException ' Not Windows Vista Return False End Try End Function </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Caution: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Do not use <Run FontWeight="Bold">System.Windows.Forms.Cursor.Position</Run>
+. The behavior of this property outside client windows in a scaled environment is undefined.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If your application performs direct cross-process communication with non-DPI-aware applications, you may have convert between logical and physical coordinates by using the Win32 functions <Run FontWeight="Bold">PhysicalToLogicalPoint</Run>
+ and <Run FontWeight="Bold">LogicalToPhysicalPoint</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Highlighter Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation and Screen Scaling to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

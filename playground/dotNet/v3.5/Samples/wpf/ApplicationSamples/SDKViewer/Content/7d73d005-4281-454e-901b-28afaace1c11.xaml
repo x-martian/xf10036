@@ -1,0 +1,1265 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_7d73d005_4281_454e_901b_28afaace1c11"
+  Tag     ="Hosting and Deploying WPF Applications and Components"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_7d73d005_4281_454e_901b_28afaace1c11"
+    Tag     ="Hosting and Deploying WPF Applications and Components"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Hosting and Deploying WPF Applications and Components</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>Your choice of hosting options affects the security settings that apply to your application, and how the application can be deployed. Although they are not applications in the strict sense, the same considerations also apply to Windows Presentation Foundation custom components. There are two primary ways to host Windows Presentation Foundation applications on your user's system.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>XAML Browser Applications are deployed from a server and hosted in the browser, similar to a conventional Web based application.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Installed applications can be deployed from a server or installed with MSI and are hosted in a stand-alone window.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>This document discusses the options for hosting and deploying Windows Presentation Foundation applications. See <Hyperlink NavigateUri="aefbe9d1-2bca-4bbb-9406-796980eeca63.xaml">Creating, Building, Deploying, and Launching WPF Applications</Hyperlink>
+ for the specifics of how to compile and deploy Windows Presentation Foundation applications and components.    
+      </Paragraph>
+
+      <Paragraph>This topic contains the following sections.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="choosing_the_best_host">Choosing Your Application Type</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="express_applications">Windows Presentation Foundation XAML Browser Applications</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="installed_applications">Windows Presentation Foundation Installed Applications</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="installed_components">Windows Presentation Foundation Components</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="deploying_applications">Deploying Installed Applications and Components</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Choosing Your Application Type    
+      </Paragraph>
+
+      <Paragraph>You should consider implementing a XAML Browser Application if:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>You want your users to have a seamless Web-like experience, including the ability to navigate from the application to a web page and back.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Your application can run with Internet Security Zone permissions, which provide only limited access to system resources such as the file system.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>You do not want the user's experience interrupted by a dialog box requesting permission for the deployment to proceed.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Your application does not need to use any of the Windows Presentation Foundation elements that are not allowed in the Internet zone.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Your application does not need to be used offline.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>You should consider implementing an installed application if:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Your application requires full access to system resources such as the file system or registry.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>It is acceptable to have a dialog box request permission from the user before the application can be deployed.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>You need to use Windows Presentation Foundation elements that are not allowed for XAML Browser Applications.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>You want the application to run in a standalone window.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>You want the user to be able to use the application offline.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Windows Presentation Foundation XAML Browser Applications    
+      </Paragraph>
+
+      <Paragraph>XAML Browser Applications are intended to combine the best features of Web applications and rich-client applications. Like a Web application, the user can deploy them from a server to their system with a single click. The application then runs in the browser without any interruptions beyond the time needed to download the application. However, unlike the relatively limited graphics and media capabilities of HTML-based applications, XAML Browser Applications have access to the rich features of the Windows Presentation Foundation runtime. Here are the basic characteristics of XAML Browser Applications.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Hosting. XAML Browser Applications are always hosted in the browser.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Creating and Building. You create and build XAML Browser Applications in much the same way that you do installed applications. The difference is largely a matter of compiler settings. If you stick to those elements that run in the Internet zone, the same code can be switched from one to the other by just changing a few property settings in the project file and recompiling. See <Hyperlink NavigateUri="aefbe9d1-2bca-4bbb-9406-796980eeca63.xaml">Creating, Building, Deploying, and Launching WPF Applications</Hyperlink>
+ and <Hyperlink NavigateUri="0d1b40a7-069c-4832-9764-b1c6bb8900df.xaml">Creating, Building, and Deploying a XAML Browser Application</Hyperlink>
+ for details.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>File extensions. The build process creates three files. The name depends on the project, but they have the following extensions:         
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph>.xbap. The deployment manifest. This is used by ClickOnce to deploy the application.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>.exe.manifest. The application manifest. This contains the standard application metadata that is created for any managed application.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>.exe. The application's executable code.            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Deployment. Users deploy a XAML Browser Application by navigating to the application's .xbap file, which invokes ClickOnce to download the application. XAML Browser Applications can only be deployed with ClickOnce, which automatically handles the process of downloading and running the application. See <Hyperlink NavigateUri="0d1b40a7-069c-4832-9764-b1c6bb8900df.xaml">Creating, Building, and Deploying a XAML Browser Application</Hyperlink>
+ for details on the mechanics of deploying a XAML Browser Application from a server. You can launch a XAML Browser Application from your local system by double-clicking it, and ClickOnce will launch it in your browser. You cannot launch the application's .exe file.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Security. When you deploy a XAML Browser Application from a server with ClickOnce, it runs in a sandbox with Internet zone permissions. This limits the application's access to potentially risky system resources such as the file system or registry. To the extent that potentially risky system access is available, the user will always be informed and have an opportunity to reject the action. For example, you can only store data in the file system by launching the <Run FontWeight="Bold">File Open</Run>
+ dialog box. The user must then explicitly allow the data to be written to the hard drive. If you launch a .xbap file that you have created on your local system, it runs in the browser with local zone permissions. This is useful when developing an application, but you should also deploy it from a server to make sure that the application runs properly with Internet zone permissions.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>User permission. Since XAML Browser Applications run in a sandbox, no user permission is required to run them. The user clicks the link, which is connected to the application's deployment manifest, and the application just runs.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Installation. XAML Browser Applications are not installed. They do not have shell presence. To run them again, the user must navigate to the server and click the link. If the application is still cached, ClickOnce runs it, otherwise, ClickOnce downloads and runs the application as before.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Shell presence. Because they are not installed, XAML Browser Applications are not registered with the shell. They do not appear in the <Run FontWeight="Bold">Start</Run>
+ menu or the <Run FontWeight="Bold">Add or Remove Programs</Run>
+ control panel application.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Persistence and offline use. XAML Browser Applications do not persist once they are closed, so they cannot be used offline. However, they can use isolated storage to store data that can then be accessed by the next instance of the application.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Windows Presentation Foundation features. XAML Browser Applications have access to most Windows Presentation Foundation features. However, some Windows Presentation Foundation features are not available in the Internet zone. See <Hyperlink NavigateUri="55ca384d-fd7d-490e-9846-020b1d032483.xaml">Security</Hyperlink>
+ for details.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Caching. XAML Browser Applications are regularly scavenged from the application cache, much like conventional Web applications.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Windows Presentation Foundation Installed Applications    
+      </Paragraph>
+
+      <Paragraph>Installed applications are full-featured rich-client applications, with full access to system resources. Here are the basic characteristics of installed applications.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Hosting. Installed applications are typically hosted in a window. They cannot run in the browser.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>File extensions. The build process creates three standard files. Additional files such as satellite DLLs may also be created, as needed. The name depends on the project, but the standard files have the following extensions:         
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph>.application. The deployment manifest. This is used by ClickOnce to deploy the application.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>.exe.manifest. The application manifest. This contains the standard application metadata that is created for any managed application.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>.exe. The application's executable code.            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Deployment. Installed applications can be deployed from a server, using either ClickOnce or MSI. They can also be installed from media such as a CD. If you double-click a .application file on your system, ClickOnce installs it, after displaying a trust prompt. If you double-click an .exe file that you have created on your local system, it simply runs. There is no trust prompt. This is useful when developing an application, but you should test the deployed application to ensure that it works properly with the system.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Security. Unlike XAML Browser Applications, installed applications have full access to system resources.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>User permission. Since installed applications have access to potentially risky system resources, the user must explicitly grant permission for the application to be installed. Note that that Windows Presentation Foundation applications running in the context of a service are not supported, for details see <Hyperlink NavigateUri="bf7c18db-fe5d-4f72-81c7-14079aa4ecf4.xaml">Application-Level Programming Overview</Hyperlink>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Installation. An installed application remains on the user's system until they choose to uninstall it.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Shell presence. All installed applications appear on the <Run FontWeight="Bold">Start</Run>
+ menu and in the <Run FontWeight="Bold">Add or Remove Programs</Run>
+ control panel application. If you use MSI to install the application, you can make use of additional shell features.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Persistence and offline use. Installed applications are resident on the system, so they persist between instances and have full offline capabilities. They have full access to system resources, so they can store data in whatever way is most appropriate.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Windows Presentation Foundation features. Unlike XAML Browser Applications, installed applications have access to all Windows Presentation Foundation features.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Creating and Building. You create and build installed applications in much the same way that you do XAML Browser Applications. The difference is largely a matter of compiler settings. If you stick to those elements that run in the Internet zone, the same code can be switched from one to the other by just changing a few property settings in the project file and recompiling. See <Hyperlink NavigateUri="aefbe9d1-2bca-4bbb-9406-796980eeca63.xaml">Creating, Building, Deploying, and Launching WPF Applications</Hyperlink>
+ for details.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Caching. Installed applications remain in the application cache until the user uninstalls them.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Updates. If you use ClickOnce to install the application, you can use the ClickOnce automatic update feature to deploy updates, bug fixes, and so on. If you use MSI, you need to implement your own update solution.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Windows Presentation Foundation Components    
+      </Paragraph>
+
+      <Paragraph>Windows Presentation Foundation components such as custom controls are similar to installed applications in terms of hosting, deployment, and security. There are only a few differences.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Packaging. Components are packaged in a DLL for use by an application, and cannot be launched directly.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Deployment. Components cannot be deployed with ClickOnce. You have to use MSI.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Creating and Building. You create and build Windows Presentation Foundation components in much the same way that you do installed applications. The main differences are:         
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph>Select a "Library" build type to build a DLL rather than a .exe.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>If you are implementing your application with Extensible Application Markup Language (XAML), omit the application definition. This file creates an application object and an entry point for the application, neither of which are needed by components.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>If you are writing your application entirely in procedural code, your class doesn't need to inherit from Application. It doesn't need an entry point.            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>File extensions. The DLL has the usual .dll extension. There is no deployment manifest, since DLLs can only be deployed with MSI.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Application object. Components use the application object of the host application.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Shell presence. Components are added to the <Run FontWeight="Bold">Add or Remove Programs</Run>
+ control panel application but not to the <Run FontWeight="Bold">Start</Run>
+ menu.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Deploying Installed Applications and Components    
+      </Paragraph>
+
+      <Paragraph>Deploying XAML Browser Applications is a fairly straightforward use of ClickOnce. See <Hyperlink NavigateUri="aefbe9d1-2bca-4bbb-9406-796980eeca63.xaml">Creating, Building, Deploying, and Launching WPF Applications</Hyperlink>
+ for details. With installed applications, you have to decide between two deployment options: ClickOnce and MSI. Here's a brief and somewhat oversimplified summary of the two options.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>ClickOnce is the simplest solution, especially for web deployment. It is the only option for XAML Browser Applications. The deployment manifest is essentially a byproduct of compilation. You just need to host it on a server and ClickOnce takes care of the details. ClickOnce has automatic updating built in. However, ClickOnce is limited in what it can install and how it can install it. Also, it cannot be used to install components, and it cannot install applications or components from media such as a CD.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>MSI requires more work on the developers part, and lacks the browser-integration of ClickOnce. However, it provides much more power and flexibility than is possible with ClickOnce. It is the only option for components, and it can be used to install applications or components from media such as a CD.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>As a rule of thumb, MSI is typically the best choice for large, complex applications and the only choice for components. ClickOnce is better-suited to lighter-weight applications that are designed to be deployed from the web. The following table gives a detailed comparison of the two technologies.    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold"/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Machine Impact             
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>ClickOnce             
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>MSI             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Per machine            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Per User            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Specify prerequisites: GAC dependencies            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Specify prerequisites: OS dependencies            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Specify prerequisites: other dependencies            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Install in GAC            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Install other components            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph><Run FontWeight="Bold">Activation</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Browser integration            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>URL activated            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Appear in <Run FontWeight="Bold">Start Menu</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Appear in <Run FontWeight="Bold">Favorites</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph><Run FontWeight="Bold">Setup Functionality</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Custom actions            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>EULA            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Customize setup UI            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Publish with Intellimirror/SMS            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>On-demand installation            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Supported by compiler            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Supports Localization            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph><Run FontWeight="Bold">Security</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Install with partial trust            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Install with full trust            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Display trust dialog            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph><Run FontWeight="Bold">Life Cycle</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Rollback to earlier version            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Always run latest version            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Guarantee clean uninstall            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Add to <Run FontWeight="Bold">Add or Remove Programs</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Scavenging            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Automatic updates            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph><Run FontWeight="Bold">Application Features</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Create file associations            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>State management            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Accepts URL arguments            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Accepts command-line arguments            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Supports browser-hosting            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>Yes            
+              </Paragraph>
+
+            </TableCell>
+
+            <TableCell>
+              <Paragraph>No            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Hosting and Deploying WPF Applications and Components  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

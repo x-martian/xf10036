@@ -1,0 +1,356 @@
+﻿<!--
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//
+// Copyright (C) Microsoft Corporation, 2005.  All rights reserved.
+//
+// File: SdkViewerApplication.xaml
+//
+// Description: This is the markup for SdkViewerApplication which
+//              defines the application object. 
+//
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+<Application
+    xmlns         = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x       = "http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cc      = "clr-namespace:Microsoft.Windows.SdkViewer.Controls"
+    x:Class       = "Microsoft.Windows.SdkViewer.SdkViewerApplication"
+    StartupUri    = "MainPage.xaml"
+    Startup       = "OnStartingUp"
+    LoadCompleted = "OnLoaded">
+    <Application.Resources>
+        <Style TargetType="{x:Type NavigationWindow}">
+            <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+            <Setter Property="Title" Value="Microsoft Windows Presentation Foundation SDK" />
+            <Setter Property="Background" Value="#F0F0F0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type NavigationWindow}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter Margin="5,0,5,5" />
+                            <ResizeGrip HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="24" Width="15" Foreground="Black" IsTabStop="False" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="WebDingsButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="Margin" Value="5,0,0,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Webdings" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Viewbox Stretch="Fill">
+                            <ContentPresenter Margin="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Viewbox>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Brown" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="InvisibleButton" TargetType="{x:Type Button}">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="transparent" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="ContentSite" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="BackButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#ffb1b8ff" Offset="0" />
+                                <GradientStop Color="#ff47484b" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="#ffffffff" Offset="0" />
+                                <GradientStop Color="#ffaaaaaa" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="ToolTip" Value="Back" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Opacity" Value=".5" />
+                            </Trigger>
+                            <EventTrigger RoutedEvent="Mouse.PreviewMouseDown">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)">
+                                            <DoubleAnimation Duration="0:0:0.1" To="1.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Mouse.PreviewMouseUp">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)">
+                                            <DoubleAnimation Duration="0:0:0.1" To="1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                        <Viewbox Margin="{TemplateBinding Margin}" Stretch="Fill">
+                            <Grid>
+                                <!-- Shadow -->
+                                <Path Opacity="0.260000" Fill="#ff000000" Data="
+                                    M 9.334473,15.720703
+                                    C 9.605957,15.601563 9.781738,15.332031 9.781738,15.035156
+                                    C 9.781738,15.035156 9.781738,12.345703 9.781738,11.304688
+                                    C 11.004395,11.304688 16.729004,11.304688 16.729004,11.304688
+                                    C 17.143066,11.304688 17.479004,10.966797 17.479004,10.552734
+                                    L 17.479004,5.848145
+                                    C 17.479004,5.435059 17.143066,5.097168 16.729004,5.097168
+                                    C 16.729004,5.097168 11.004395,5.097168 9.781738,5.097168
+                                    C 9.781738,4.047363 9.781738,1.255371 9.781738,1.255371
+                                    C 9.781738,0.955566 9.602051,0.683105 9.326660,0.565918
+                                    C 9.230957,0.524902 9.131348,0.504395 9.031738,0.504395
+                                    C 8.842285,0.504395 8.654785,0.577637 8.512207,0.713379
+                                    L 1.135254,7.765137
+                                    C 0.988770,7.905762 0.904785,8.103027 0.904785,8.308105
+                                    C 0.904785,8.310059 0.904785,8.313965 0.904785,8.315918
+                                    C 0.906738,8.522949 0.994629,8.720703 1.148926,8.861328
+                                    L 8.525879,15.589844
+                                    C 8.666504,15.716797 8.848145,15.783203 9.031738,15.783203
+                                    C 9.133301,15.783203 9.236816,15.763672 9.334473,15.720703" />
+                                <!-- Border -->
+                                <Path Fill="{TemplateBinding Foreground}" Data="
+                                        M 8.335449,14.972656
+                                        C 8.605957,14.853516 8.782715,14.583984 8.782715,14.287109
+                                        C 8.782715,14.287109 8.782715,11.595703 8.782715,10.554688
+                                        C 10.004395,10.554688 15.729004,10.554688 15.729004,10.554688
+                                        C 16.143066,10.554688 16.479004,10.216797 16.479004,9.802734
+                                        L 16.479004,5.099121
+                                        C 16.479004,4.685059 16.143066,4.347168 15.729004,4.347168
+                                        C 15.729004,4.347168 10.004395,4.347168 8.782715,4.347168
+                                        C 8.782715,3.298340 8.782715,0.505371 8.782715,0.505371
+                                        C 8.782715,0.206543 8.603027,-0.066895 8.327637,-0.184082
+                                        C 8.231934,-0.225098 8.131348,-0.244629 8.032715,-0.244629
+                                        C 7.843262,-0.244629 7.655762,-0.172363 7.513184,-0.035645
+                                        L 0.136230,7.015137
+                                        C -0.011230,7.155762 -0.095215,7.353027 -0.095215,7.558105
+                                        C -0.095215,7.560059 -0.095215,7.563965 -0.095215,7.565918
+                                        C -0.092285,7.772949 -0.004395,7.970215 0.149902,8.110840
+                                        L 7.526855,14.841797
+                                        C 7.667480,14.968750 7.849121,15.035156 8.032715,15.035156
+                                        C 8.134277,15.035156 8.237793,15.015625 8.335449,14.972656" />
+                                <!-- Inner -->
+                                <Path Fill="{TemplateBinding Background}" Data="
+                                        M 0.654785,7.556152
+                                        L 8.032715,0.505371
+                                        L 8.032715,5.099121
+                                        L 15.729004,5.099121
+                                        L 15.729004,9.802734
+                                        L 8.032715,9.802734
+                                        L 8.032715,14.287109
+                                        L 0.654785,7.556152
+                                        Z" />
+                            </Grid>
+                        </Viewbox>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ForwardButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BackButtonStyle}">
+            <Setter Property="ToolTip" Value="Forward" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Foreground" Value="blue" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" Value="white" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="white" />
+                                <Setter Property="Opacity" Value=".5" />
+                            </Trigger>
+                            <EventTrigger RoutedEvent="Mouse.PreviewMouseDown">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)">
+                                            <DoubleAnimation Duration="0:0:0.1" To="1.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Mouse.PreviewMouseUp">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)">
+                                            <DoubleAnimation Duration="0:0:0.1" To="1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                        <Viewbox Margin="{TemplateBinding Margin}" Stretch="Fill">
+                            <Grid>
+                                <!-- Shadow -->
+                                <Path Opacity="0.260000" Fill="#ff000000" Data="
+                                    M 8.517090,2.022461
+                                    C 8.265137,2.132813 8.101074,2.383789 8.101074,2.659180
+                                    C 8.101074,2.659180 8.101074,5.159180 8.101074,6.125977
+                                    C 6.965332,6.125977 1.648926,6.125977 1.648926,6.125977
+                                    C 1.264160,6.125977 0.951660,6.439453 0.951660,6.824219
+                                    L 0.951660,11.191406
+                                    C 0.951660,11.576172 1.264160,11.890625 1.648926,11.890625
+                                    C 1.648926,11.890625 6.965332,11.890625 8.101074,11.890625
+                                    C 8.101074,12.864258 8.101074,15.458984 8.101074,15.458984
+                                    C 8.101074,15.736328 8.269043,15.990234 8.524902,16.098633
+                                    C 8.612793,16.137695 8.706543,16.155273 8.798340,16.155273
+                                    C 8.974121,16.155273 9.147949,16.087891 9.280762,15.960938
+                                    L 16.131836,9.413086
+                                    C 16.268555,9.281250 16.344727,9.098633 16.344727,8.908203
+                                    C 16.344727,8.906250 16.344727,8.902344 16.344727,8.900391
+                                    C 16.344727,8.708008 16.260742,8.525391 16.118164,8.394531
+                                    L 9.267090,2.143555
+                                    C 9.138184,2.026367 8.968262,1.964844 8.798340,1.964844
+                                    C 8.704590,1.964844 8.606934,1.983398 8.517090,2.022461" />
+                                <!-- Border -->
+                                <Path Fill="{TemplateBinding Foreground}" Data="
+                                        M 7.799316,15.217285
+                                        C 7.528809,15.098145 7.352051,14.828613 7.352051,14.531738
+                                        C 7.352051,14.531738 7.352051,11.840332 7.352051,10.799316
+                                        C 6.130371,10.799316 0.404785,10.799316 0.404785,10.799316
+                                        C -0.009277,10.799316 -0.345215,10.461426 -0.345215,10.047363
+                                        L -0.345215,5.344238
+                                        C -0.345215,4.930176 -0.009277,4.592285 0.404785,4.592285
+                                        C 0.404785,4.592285 6.130371,4.592285 7.352051,4.592285
+                                        C 7.352051,3.543457 7.352051,0.750488 7.352051,0.750488
+                                        C 7.352051,0.451660 7.531738,0.178223 7.807129,0.061035
+                                        C 7.902832,0.020020 8.003418,0.000488 8.102051,0.000488
+                                        C 8.291504,0.000488 8.479004,0.072754 8.621582,0.209473
+                                        L 15.999023,7.260254
+                                        C 16.145508,7.400879 16.229492,7.598145 16.229492,7.803223
+                                        C 16.229492,7.805176 16.229492,7.809082 16.229492,7.811035
+                                        C 16.227539,8.018066 16.139648,8.215332 15.985352,8.355957
+                                        L 8.607910,15.086426
+                                        C 8.467285,15.213379 8.285645,15.279785 8.102051,15.279785
+                                        C 8.000488,15.279785 7.896973,15.260254 7.799316,15.217285" />
+                                <!-- Inner -->
+                                <Path Fill="{TemplateBinding Background}" Data="
+                                        M 15.479980,7.801270
+                                        L 8.102051,0.750488
+                                        L 8.102051,5.344238
+                                        L 0.404785,5.344238
+                                        L 0.404785,10.047363
+                                        L 8.102051,10.047363
+                                        L 8.102051,14.531738
+                                        L 15.479980,7.801270
+                                        Z" />
+                            </Grid>
+                        </Viewbox>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GridSplitterStyle" TargetType="{x:Type GridSplitter}">
+            <Setter Property="Opacity" Value=".9" />
+            <Setter Property="Background" Value="white" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border CornerRadius="3" BorderThickness="0" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}" />
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="BoldLabel" TargetType="{x:Type Label}">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        
+        <SolidColorBrush x:Key="CodeBackground" Color="#ccc" />
+        <SolidColorBrush x:Key="TableHeaderBackground" Color="#ccc" />
+        <SolidColorBrush x:Key="TableBodyBackground" Color="#ccc" />
+        <SolidColorBrush x:Key="TableBackground" Color="#fff" />
+        <SolidColorBrush x:Key="RuleBrush" Color="#ccc" />
+        <Style x:Key="HeadingBase" TargetType="{x:Type Paragraph}">
+            <Setter Property="FontFamily" Value="Trebuchet MS, Georgia" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0, 19, 0, 0" />
+            <Setter Property="KeepWithNext" Value="True" />
+        </Style>
+        <Style x:Key="ParagraphBase" TargetType="{x:Type Paragraph}">
+            <Setter Property="FontFamily" Value="Georgia" />
+            <Setter Property="Margin" Value="0, Auto" />
+            <Setter Property="FontSize" Value="15" />
+        </Style>
+        <Style x:Key="NoteContainerBase" TargetType="{x:Type Section}">
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style x:Key="BodyParagraph" TargetType="{x:Type Paragraph}" BasedOn="{StaticResource ParagraphBase}" />
+        <Style x:Key="FirstParagraph" TargetType="{x:Type Paragraph}" BasedOn="{StaticResource BodyParagraph}">
+            <Setter Property="Margin" Value="0, 0, 0, Auto" />
+        </Style>
+        
+    </Application.Resources>
+</Application>

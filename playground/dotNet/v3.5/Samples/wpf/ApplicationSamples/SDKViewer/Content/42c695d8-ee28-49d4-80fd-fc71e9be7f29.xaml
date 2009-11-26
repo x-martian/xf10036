@@ -1,0 +1,207 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_42c695d8_ee28_49d4_80fd_fc71e9be7f29"
+  Tag     ="Raise the ScrollChanged Event"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Raise the ScrollChanged Event</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>This example shows how to raise the ScrollChanged event of a ScrollViewer.
+    </Paragraph>
+
+    <Paragraph>A FlowDocument element with four Paragraphs as defined in Extensible Application Markup Language (XAML). The <Run FontWeight="Bold">FlowDocument</Run>
+ resides within a parent <Run FontWeight="Bold">ScrollViewer</Run>
+, which ensures that a vertical scroll bar will be visible. When the <Run FontWeight="Bold">ScrollChanged</Run>
+ event occurs, a custom method defined in C# is raised, and text is written to a TextBlock indicating that the event has occurred.
+    </Paragraph>
+
+    <Paragraph>The following sample code is abbreviated. For the complete sample, see ScrollChanged Event Sample. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ScrollViewer Name="sv1" CanContentScroll="False" ScrollChanged="sChanged"> 
+&lt;FlowDocument FontFamily="Arial" PageWidth="400"> 
+&lt;Paragraph> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure. 
+&lt;/Paragraph> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>...
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Paragraph> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure. 
+&lt;/Paragraph> 
+&lt;/FlowDocument> 
+&lt;/ScrollViewer> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">ScrollChanged</Run>
+ event is handled in a C# code-behind file. When the <Run FontWeight="Bold">ScrollChanged</Run>
+ event occurs, a MessageBox displays a message indicating that to the user.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void sChanged(object sender, ScrollChangedEventArgs e) { if (sv1.CanContentScroll == true) { tBlock1.Foreground = System.Windows.Media.Brushes.Red; 
+tBlock1.Text = "ScrollChangedEvent just Occurred"; 
+tBlock2.Text = "ExtentHeight is now " + e.ExtentHeight.ToString(); 
+tBlock3.Text = "ExtentWidth is now " + e.ExtentWidth.ToString(); 
+tBlock4.Text = "ExtentHeightChange was " + e.ExtentHeightChange.ToString(); 
+tBlock5.Text = "ExtentWidthChange was " + e.ExtentWidthChange.ToString(); 
+tBlock6.Text = "HorizontalOffset is now " + e.HorizontalOffset.ToString(); 
+tBlock7.Text = "VerticalOffset is now " + e.VerticalOffset.ToString(); 
+tBlock8.Text = "HorizontalChange was " + e.HorizontalChange.ToString(); 
+tBlock9.Text = "VerticalChange was " + e.VerticalChange.ToString(); 
+tBlock10.Text = "ViewportHeight is now " + e.ViewportHeight.ToString(); 
+tBlock11.Text = "ViewportWidth is now " + e.ViewportWidth.ToString(); 
+tBlock12.Text = "ViewportHeightChange was " + e.ViewportHeightChange.ToString(); 
+tBlock13.Text = "ViewportWidthChange was " + e.ViewportWidthChange.ToString(); 
+} else { tBlock1.Text = ""; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub sChanged(ByVal sender As Object, ByVal args As ScrollChangedEventArgs) If (sv1.CanContentScroll = True) Then tBlock1.Foreground = System.Windows.Media.Brushes.Red tBlock1.Text = "ScrollChangedEvent just Occurred" tBlock3.Text = "ExtentWidth is now " + args.ExtentWidth.ToString() tBlock4.Text = "ExtentHeightChange was " + args.ExtentHeightChange.ToString() tBlock5.Text = "ExtentWidthChange was " + args.ExtentWidthChange.ToString() tBlock6.Text = "HorizontalOffset is now " + args.HorizontalOffset.ToString() tBlock7.Text = "VerticalOffset is now " + args.VerticalOffset.ToString() tBlock8.Text = "HorizontalChange was " + args.HorizontalChange.ToString() tBlock9.Text = "VerticalChange was " + args.VerticalChange.ToString() tBlock10.Text = "ViewportHeight is now " + args.ViewportHeight.ToString() tBlock11.Text = "ViewportWidth is now " + args.ViewportWidth.ToString() tBlock12.Text = "ViewportHeightChange was " + args.ViewportHeightChange.ToString() tBlock13.Text = "ViewportWidthChange was " + args.ViewportWidthChange.ToString() Else tBlock1.Text = "" End If </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ScrollViewer
+      <LineBreak/>ScrollChanged
+      <LineBreak/>ScrollChangedEventHandler
+      <LineBreak/>ScrollChangedEventArgs
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Raise the ScrollChanged Event to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

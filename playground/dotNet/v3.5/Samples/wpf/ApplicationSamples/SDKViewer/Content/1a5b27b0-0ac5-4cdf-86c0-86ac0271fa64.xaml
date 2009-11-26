@@ -1,0 +1,1208 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1a5b27b0_0ac5_4cdf_86c0_86ac0271fa64"
+  Tag     ="Drag and Drop Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Drag and Drop Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontStyle="italic">Drag-and-drop</Run>
+ commonly refers to a method of user interface (UI) interaction that involves using a mouse (or some other pointing device) to select one or more objects, dragging these objects over some desired drop target in the UI, and dropping them. Drag-and-drop operations typically involve two parties: a <Run FontStyle="italic">drop source</Run>
+ from which the dragged object originates and a <Run FontStyle="italic">drop target</Run>
+ which receives the dropped object. The drop source and drop target may be the same application or a different application.
+    </Paragraph>
+
+    <Paragraph>The type and number of objects that can be manipulated with drag-and-drop is completely arbitrary; 
+one or more files or folders, and selections of content are some of the more common objects manipulated through drag-and-drop operations. The particular action(s) performed during a drag-and-drop operation are application specific, and often determined by context. For example, dragging a selection of files from one folder to another on the same storage device moves the files by default, whereas dragging files from a Universal Naming Convention (UNC) share to a local folder copies the files by default. The drag-and-drop facilities provided by the Windows Presentation Foundation (WPF) are designed to be highly flexible and customizable to support a wide variety of drag-and-drop scenarios. Drag-and-drop supports manipulating objects within a single application, or between different applications; 
+dragging-and-dropping between WPF applications and other Windows applications is also fully supported. Drag-and-drop falls under the more general area of <Run FontStyle="italic">data transfer</Run>
+; 
+in addition to drag-and-drop, data transfer also includes using the system clipboard for copy and paste operations.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Data_and_Data_Objects">Data and Data Objects</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Drag_and_Drop_Events">Drag-and-Drop Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Working_with_Data_Objects">Working with Data Objects</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Data and Data Objects
+    </Paragraph>
+
+    <Paragraph>Data that is transferred as part of a drag-and-drop operation is stored in a <Run FontStyle="italic">data object</Run>
+. Conceptually, a data object consists of one or more pairs of: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>an Object that contains the actual data, and
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>a corresponding data format specifier.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The data itself can consist of anything that can be represented as a base <Run FontWeight="Bold">Object</Run>
+. The corresponding data format is a string or Type that provides a hint about what format the data is in. Data objects support hosting multiple data-data format pairs; 
+this enables a single data object to provide data in multiple formats.
+    </Paragraph>
+
+    <Paragraph>All data objects must implement the IDataObject interface, which provides the following standard set of methods that enable and facilitate data transfer:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Method 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Summary 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>GetData 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Retrieves a data object in a specified data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>GetDataPresent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Checks to see whether the data is available in, or can be converted to, a specified format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>GetFormats 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Returns a list of formats that the data in this data object is stored in, or can be converted to.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>SetData 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Stores the specified data in this data object.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>WPF provides a basic implementation of <Run FontWeight="Bold">IDataObject</Run>
+ in the DataObject class; 
+the stock <Run FontWeight="Bold">DataObject</Run>
+ class is sufficient for many common data transfer scenarios.
+    </Paragraph>
+
+    <Paragraph>WPF also provides the following set of pre-defined data formats in the DataFormats class:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Data Format 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Bitmap 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies a Windows bitmap data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>CommaSeparatedValue 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies a comma-separated value (CSV) data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Dib 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the device-independent bitmap (DIB) data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Dif 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Windows Data Interchange Format (DIF) data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EnhancedMetafile 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Microsoft Windows enhanced metafile format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>FileDrop 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Microsoft Windows file drop format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Html 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the HTML data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Locale 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the locale (culture) data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>MetafilePicture 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Microsoft Windows metafile picture data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>OemText 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the standard Microsoft Windows OEM text data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Palette 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Microsoft Windows palette data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>PenData 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Microsoft Windows pen data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Riff 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Resource Interchange File Format (RIFF) audio data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Rtf 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Rich Text Format (RTF) data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Serializable 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies a data format that encapsulates any type of serializable data objects.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>StringFormat 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the common language runtime string class data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>SymbolicLink 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Microsoft Windows symbolic link data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Text 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the ANSI text data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Tiff 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Tagged Image File Format (TIFF) data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>UnicodeText 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the Unicode text data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>WaveAudio 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the wave audio data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Xaml 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Specifies the "Extensible Application Markup Language" ("XAML") data format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Data objects commonly include a facility for automatically converting data stored in one format to a different format while extracting data; 
+this facility is commonly referred to as <Run FontStyle="italic">auto-convert</Run>
+.
+    </Paragraph>
+
+    <Paragraph>When querying for the data formats available in a data object, auto-convertible data formats can be filtered from native data formats by calling the GetFormats or GetDataPresent method and specifying the <Run>autoConvert</Run>
+ parameter as <Run FontWeight="Bold">false</Run>
+. When adding data to a data object with the SetData method, auto-conversion of data can be prohibited by setting the <Run>autoConvert</Run>
+ parameter to false.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Drag-and-Drop Events
+    </Paragraph>
+
+    <Paragraph>Drag-and-drop operations are fairly event-centric. Both the drag source and the drop target use a standard set of events to handle drag-and-drop operations. The following tables summarize the standard drag-and-drop events.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Drag Source Events
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Event 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Summary 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>GiveFeedback 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This event fires when a drag-and-drop operation is started, and enables the drop target to send feedback information to the drag source; 
+this feedback is commonly used by the drag source to dynamically adjust the appearance of the mouse pointer to provide feedback to the user. This is a <Run>bubbling</Run>
+ event.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>QueryContinueDrag 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This event fires when there is a change in the keyboard or mouse button states during a drag-and-drop operation, and enables the drop source to cancel the drag-and-drop operation depending on the key/button states. This is a bubbling event.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>PreviewGiveFeedback 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>Tunneling</Run>
+ version of <Run FontWeight="Bold">GiveFeedback</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>PreviewQueryContinueDrag 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tunneling version of <Run FontWeight="Bold">QueryContinueDrag</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Drop Target Events
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Event 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Summary 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DragEnter 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This event fires when an object is dragged into the drop target's boundary. This is a bubbling event.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DragLeave 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This event fires when an object is dragged out of the drop target's boundary. This is a bubbling event.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DragOver 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This event fires when an object is dragged (moves) within the drop target's boundary. This is a bubbling event.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Drop 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This event fires when an object is dropped on the drop target. This is a bubbling event.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>PreviewDragEnter 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tunneling version of <Run FontWeight="Bold">DragEnter</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>PreviewDragLeave 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tunneling version of <Run FontWeight="Bold">DragLeave</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>PreviewDragOver 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tunneling version of <Run FontWeight="Bold">DragOver</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>PreviewDrop 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tunneling version of <Run FontWeight="Bold">Drop</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Working with Data Objects
+    </Paragraph>
+
+    <Paragraph>This section describes common techniques for creating and working with data objects.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Using the DataObject Constructors
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">DataObject</Run>
+ class provides several overloaded constructors that facilitate populating a new <Run FontWeight="Bold">DataObject</Run>
+ instance with a single data-data format pair.
+    </Paragraph>
+
+    <Paragraph>The following table summarizes the <Run FontWeight="Bold">DataObject</Run>
+ constructors:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Constructor 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Summary 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DataObject 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Initializes a new, empty instance of the <Run FontWeight="Bold">DataObject</Run>
+ class, which can store arbitrary data in multiple formats.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DataObject 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Initializes a new instance of the <Run FontWeight="Bold">DataObject</Run>
+ class, containing the specified data.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DataObject 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Initializes a new instance of the <Run FontWeight="Bold">DataObject</Run>
+ class, containing the specified data and its associated format; 
+the data format is specified by a string.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DataObject 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Initializes a new instance of the <Run FontWeight="Bold">DataObject</Run>
+ class, containing the specified data and its associated format; 
+the data format is specified by a Type object.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DataObject 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Initializes a new instance of the <Run FontWeight="Bold">DataObject</Run>
+ class, containing the specified data and its associated format; 
+the data format is specified by a string. This overload includes a Boolean flag to indicate whether the data may be converted to another format on retrieval.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example code creates a new data object and uses one of the overloaded constructors (<Run FontWeight="Bold">DataObject</Run>
+) to initialize the data object with a string and a specified data format. In this case the data format is specified by a string; 
+the <Run FontWeight="Bold">DataFormats</Run>
+ class provides a set of pre-defined type strings. Auto-converting of the stored data is allowed by default.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>string stringData = "Some string data to store..."; 
+string dataFormat = DataFormats.UnicodeText; 
+DataObject dataObject = new DataObject(dataFormat, stringData); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more examples of code that creates a data object, see <Hyperlink NavigateUri="022fa142-717d-4fea-a53c-3b52e9d91aff.xaml">How to: Create a Data Object</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Storing Data in Multiple Formats
+    </Paragraph>
+
+    <Paragraph>A single data object is able to store data in multiple formats. Strategic use of multiple data formats within a single data object potentially makes the data object consumable by a wider variety of drop targets than if only a single data format could be represented. Note that, in general, a drop source must be agnostic about the data formats that are consumable by potential drop targets.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The following example shows how to use the SetData method to add data to a data object in multiple formats.
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DataObject dataObject = new DataObject(); 
+string sourceData = "Some string data to store..."; 
+// Encode the source string into Unicode byte arrays. byte[] unicodeText = Encoding.Unicode.GetBytes(sourceData); 
+// UTF-16 byte[] utf8Text = Encoding.UTF8.GetBytes(sourceData); 
+byte[] utf32Text = Encoding.UTF32.GetBytes(sourceData); 
+// The DataFormats class does not provide data format fields for denoting // UTF-32 and UTF-8, which are seldom used in practice; 
+the following strings // will be used to identify these "custom" data formats. string utf32DataFormat = "UTF-32"; 
+string utf8DataFormat = "UTF-8"; 
+// Store the text in the data object, letting the data object choose // the data format (which will be DataFormats.Text in this case). dataObject.SetData(sourceData); 
+// Store the Unicode text in the data object. Text data can be automatically // converted to Unicode (UTF-16 / UCS-2) format on extraction from the data object; 
+// Therefore, explicitly converting the source text to Unicode is generally unnecessary, and // is done here as an exercise only. dataObject.SetData(DataFormats.UnicodeText, unicodeText); 
+// Store the UTF-8 text in the data object... dataObject.SetData(utf8DataFormat, utf8Text); 
+// Store the UTF-32 text in the data object... dataObject.SetData(utf32DataFormat, utf32Text); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Querying a Data Object for Available Formats
+    </Paragraph>
+
+    <Paragraph>Because a single data object can contain an arbitrary number of data formats, data objects include facilities for retrieving a list of available data formats.
+    </Paragraph>
+
+    <Paragraph>The following example code uses the GetFormats overload to get an array of strings denoting all data formats available in a data object (both native and auto-convertible).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DataObject dataObject = new DataObject("Some string data to store..."); 
+// Get an array of strings, each string denoting a data format // that is available in the data object. This overload of GetDataFormats // returns all available data formats, native and auto-convertible. string[] dataFormats = dataObject.GetFormats(); 
+// Get the number of data formats present in the data object, including both // auto-convertible and native data formats. int numberOfDataFormats = dataFormats.Length; 
+// To enumerate the resulting array of data formats, and take some action when // a particular data format is found, use a code structure similar to the following. foreach (string dataFormat in dataFormats) { if (dataFormat == DataFormats.Text) { // Take some action if/when data in the Text data format is found. break; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more examples of code that queries a data object for available data formats, see <Hyperlink NavigateUri="18e7ba4b-ccef-4815-ae2d-3a32891010c0.xaml">How to: List the Data Formats in a Data Object</Hyperlink>
+. For examples of querying a data object for the presence of a particular data format, see <Hyperlink NavigateUri="e487a454-c9fc-4e53-aeaa-c458d059ad4c.xaml">How to: Determine if a Data Format is Present in a Data Object</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Retrieving Data from a Data Object
+    </Paragraph>
+
+    <Paragraph>Retrieving data from a data object in a particular format simply involves calling one of the GetData methods and specifying the desired data format. One of the GetDataPresent methods can be used to check for the presence of a particular data format. <Run FontWeight="Bold">GetData</Run>
+ returns the data in a <Run FontWeight="Bold">Object</Run>
+; 
+depending on the data format, this object can be cast to a more type-specific container.
+    </Paragraph>
+
+    <Paragraph>The following example code uses the GetDataPresent overload to first check if a specified data format is available (natively or by auto-convert); 
+if the specified format is available, the example retrieves the data by using the GetData method.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DataObject dataObject = new DataObject("Some string data to store..."); 
+string desiredFormat = DataFormats.UnicodeText; 
+byte[] data = null; 
+// Use the GetDataPresent method to check for the presence of a desired data format. // This particular overload of GetDataPresent looks for both native and auto-convertible // data formats. if (dataObject.GetDataPresent(desiredFormat)) { // If the desired data format is present, use one of the GetData methods to retrieve the // data from the data object. data = dataObject.GetData(desiredFormat) as byte[]; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more examples of code that retrieves data from a data object, see <Hyperlink NavigateUri="a625acf3-1144-44cd-add7-456aefc3859f.xaml">How to: Retrieve Data in a Particular Data Format</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Removing Data From a Data Object
+    </Paragraph>
+
+    <Paragraph>Data cannot be directly removed from a data object. To effectively remove data from a data object, follow these suggested steps:
+    </Paragraph>
+
+    <Paragraph/>
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a new data object that will contain only the data you want to retain.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>"Copy" the desired data from the old data object to the new data object. To copy the data, use one of the <Run FontWeight="Bold">GetData</Run>
+ methods to retrieve an <Run FontWeight="Bold">Object</Run>
+ that contains the raw data, and then use one of the SetData methods to add the data to the new data object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Replace the old data object with the new one.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The <Run FontWeight="Bold">SetData</Run>
+ methods only add data to a data object; 
+they do not replace data, even if when called with data and data format that are exactly the same as a previous call. So, calling <Run FontWeight="Bold">SetData</Run>
+ twice for the same data &amp; 
+data format will result in the data-data format being present twice in the data object.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Drag and Drop Samples
+      <LineBreak/><Hyperlink NavigateUri="559c0804-c62a-4640-b6b9-cbd2aa9fb99c.xaml">Drag and Drop How-to Topics</Hyperlink>
+
+      <LineBreak/>Clipboard
+      <LineBreak/>Drag and Drop
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Drag and Drop Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,252 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_aef856e6_6777_4a2a_9cac_d397ce217c1e"
+  Tag     ="Create a Sample Project File for a WPF XAML Browser Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Sample Project File for a Windows Presentation Foundation XAML Browser Application</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example project file is for a Windows Presentation Foundation (WPF) Extensible Application Markup Language (XAML) Browser Application (XBAP) application, with an application definition file, App, that is configured to automatically open a page, HomePage, which is defined with XAML and code-behind. Key configuration details include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run>OutputType</Run>
+. Set to <Run>winexe</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>HostInBrowser</Run>
+. This is must be set to <Run FontWeight="Bold">true</Run>
+ because XAML browser applications (XBAPs) must be browser-hosted.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Install</Run>
+. This is must be set to <Run FontWeight="Bold">false</Run>
+ because XAML browser applications (XBAPs) are not installed.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>TargetZone</Run>
+. This must be set to "Internet", because XAML browser applications (XBAPs) run in the Internet security zone.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>StartAction</Run>
+. This must be set to "Program".
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>StartProgram</Run>
+. This must be set to the program that handles the process of hosting the application in the browser.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>StartArguments</Run>
+. This must be set to the path to the applications manifest, which has an .XBAP extension.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>App.xaml. The application definition file being configured as an <Run>ApplicationDefinition</Run>
+ element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>HomePage.xaml. A XAML file that is declared as a <Run>Page</Run>
+ element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>HomePage.xaml.cs. A code-behind file that is declared as a <Run>Compile</Run>
+ element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>WinFxBrowserApplication_TemporaryKey.pfx. A temporary manifest key file required by applications deployed using ClickOnce, including XBAPs.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>You can reuse or modify this project file to suit your needs, as long as the files you reference are in the location you're referencing them from. Alternatively, you can have a project file for an XBAP application automatically generated for you by using the <Run FontWeight="Bold">WinFX Web Browser Application</Run>
+ project template in Microsoft Visual Studio 2005.
+    </Paragraph>
+
+    <Paragraph>This project file is for a C# project and consequently includes the <Run FontWeight="Bold">Microsoft.CSharp.targets</Run>
+<Run>Import</Run>
+ element. Microsoft Visual Studio 2005 gives C# project files a <Run FontWeight="Bold">.csproj</Run>
+ extension. A Microsoft Visual Basic .NET created in Microsoft Visual Studio 2005 would typically have the <Run FontWeight="Bold">.vbproj</Run>
+ extension, and would include the <Run FontWeight="Bold">Microsoft.VisualBasic.targets</Run>
+<Run>Import</Run>
+ element.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> 
+&lt;PropertyGroup> 
+&lt;Configuration Condition=" '$(Configuration)' == '' ">Debug
+&lt;/Configuration> 
+&lt;Platform Condition=" '$(Platform)' == '' ">AnyCPU
+&lt;/Platform> 
+&lt;RootNamespace>WinFxBrowserApplication
+&lt;/RootNamespace> 
+&lt;AssemblyName>WinFxBrowserApplication
+&lt;/AssemblyName> 
+&lt;WarningLevel>4
+&lt;/WarningLevel> 
+&lt;OutputType>winexe
+&lt;/OutputType> 
+&lt;EnableSecurityDebugging>false
+&lt;/EnableSecurityDebugging> 
+&lt;ApplicationVersion>1.0.0.*
+&lt;/ApplicationVersion> 
+&lt;MapFileExtensions>False
+&lt;/MapFileExtensions> 
+&lt;HostInBrowser>True
+&lt;/HostInBrowser> 
+&lt;Install>False
+&lt;/Install> 
+&lt;TargetZone>Internet
+&lt;/TargetZone> 
+&lt;StartAction>Program
+&lt;/StartAction> 
+&lt;StartProgram>$(WINDIR)\System32\PresentationHost.exe
+&lt;/StartProgram> 
+&lt;ApplicationExtension>.xbap
+&lt;/ApplicationExtension> 
+&lt;StartArguments>-debug "$(MSBuildProjectDirectory)\bin\$(Configuration)\$(AssemblyName)$(ApplicationExtension)"
+&lt;/StartArguments> 
+&lt;SignManifests>True
+&lt;/SignManifests> 
+&lt;BootstrapperEnabled>false
+&lt;/BootstrapperEnabled> 
+&lt;ManifestKeyFile>WinFxBrowserApplication_TemporaryKey.pfx
+&lt;/ManifestKeyFile> 
+&lt;ManifestCertificateThumbprint>F2E49D0E8A6FE749DE85D224F5557B875DFD5577
+&lt;/ManifestCertificateThumbprint> 
+&lt;/PropertyGroup> 
+&lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "> 
+&lt;DebugSymbols>true
+&lt;/DebugSymbols> 
+&lt;DebugType>full
+&lt;/DebugType> 
+&lt;Optimize>false
+&lt;/Optimize> 
+&lt;OutputPath>.\bin\Debug\
+&lt;/OutputPath> 
+&lt;DefineConstants>DEBUG;TRACE
+&lt;/DefineConstants> 
+&lt;/PropertyGroup> 
+&lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' "> 
+&lt;DebugSymbols>false
+&lt;/DebugSymbols> 
+&lt;Optimize>true
+&lt;/Optimize> 
+&lt;OutputPath>.\bin\Release\
+&lt;/OutputPath> 
+&lt;DefineConstants>TRACE
+&lt;/DefineConstants> 
+&lt;/PropertyGroup> 
+&lt;ItemGroup> 
+&lt;Reference Include="System" /> 
+&lt;Reference Include="WindowsBase" /> 
+&lt;Reference Include="PresentationCore" /> 
+&lt;Reference Include="PresentationFramework" /> 
+&lt;/ItemGroup> 
+&lt;ItemGroup> 
+&lt;ApplicationDefinition Include="App.xaml" /> 
+&lt;Page Include="HomePage.xaml" /> 
+&lt;Compile Include="HomePage.xaml.cs" /> 
+&lt;/ItemGroup> 
+&lt;ItemGroup> 
+&lt;None Include="WinFxBrowserApplication_TemporaryKey.pfx" /> 
+&lt;/ItemGroup> 
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /> 
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" /> 
+&lt;/Project></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Sample Project File for a Windows Presentation Foundation XAML Browser Application to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

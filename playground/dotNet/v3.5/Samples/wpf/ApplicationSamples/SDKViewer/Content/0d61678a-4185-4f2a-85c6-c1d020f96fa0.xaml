@@ -1,0 +1,307 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0d61678a_4185_4f2a_85c6_c1d020f96fa0"
+  Tag     ="Apply Transforms to Text"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Apply Transforms to Text</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Transforms can alter the display of text in your application. The following examples use different types of rendering transforms to affect the display of text in a TextBlock control.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows text rotated about a specified point in the two-dimensional x-y plane.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of text rotated 90 degrees</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The following code example uses a RotateTransform to rotate text. An Angle value of 90 rotates the element 90 degrees clockwise.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Rotate the text 90 degrees using a RotateTransform. --> 
+&lt;TextBlock FontFamily="Arial Black" FontSize="64" Foreground="Moccasin" Margin ="80, 10, 0, 0"> Text Transforms 
+&lt;TextBlock.RenderTransform> 
+&lt;RotateTransform Angle="90" /> 
+&lt;/TextBlock.RenderTransform> 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the second line of text scaled by 150% along the x-axis, and the third line of text scaled by 150% along the y-axis.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of scaled text</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The following code example uses a ScaleTransform to scale text from its original size.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Scale the text using a ScaleTransform. --> 
+&lt;TextBlock Name="textblockScaleMaster" FontSize="32" Foreground="SteelBlue" Text="Scaled Text" Margin="100, 0, 0, 0" Grid.Column="0" Grid.Row="0"> 
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="32" FontWeight="Bold" Foreground="SteelBlue" Text="{Binding Path=Text, ElementName=textblockScaleMaster}" Margin="100, 0, 0, 0" Grid.Column="0" Grid.Row="1"> 
+&lt;TextBlock.RenderTransform> 
+&lt;ScaleTransform ScaleX="1.5" ScaleY="1.0" /> 
+&lt;/TextBlock.RenderTransform> 
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="32" FontWeight="Bold" Foreground="SteelBlue" Text="{Binding Path=Text, ElementName=textblockScaleMaster}" Margin="100, 0, 0, 0" Grid.Column="0" Grid.Row="2"> 
+&lt;TextBlock.RenderTransform> 
+&lt;ScaleTransform ScaleX="1.0" ScaleY="1.5" /> 
+&lt;/TextBlock.RenderTransform> 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Scaling text is not the same as increasing the font size of text. Font sizes are calculated independently of each other in order to provide the best resolution at different sizes. Scaled text, on the other hand, preserves the proportions of the original-sized text.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows text skewed along the x-axis.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of skewed text</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The following code example uses a SkewTransform to skew text. A skew, also known as a shear, is a transformation that stretches the coordinate space in a non-uniform manner. In this example, the two text strings are skewed -30° and 30° along the x-coordinate.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Skew the text using a SkewTransform. --> 
+&lt;TextBlock Name="textblockSkewMaster" FontSize="32" FontWeight="Bold" Foreground="Maroon" Text="Skewed Text" Margin="125, 0, 0, 0" Grid.Column="0" Grid.Row="0"> 
+&lt;TextBlock.RenderTransform> 
+&lt;SkewTransform AngleX="-30" AngleY="0" /> 
+&lt;/TextBlock.RenderTransform> 
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="32" FontWeight="Bold" Foreground="Maroon" Text="{Binding Path=Text, ElementName=textblockSkewMaster}" Margin="100, 0, 0, 0" Grid.Column="0" Grid.Row="1"> 
+&lt;TextBlock.RenderTransform> 
+&lt;SkewTransform AngleX="30" AngleY="0" /> 
+&lt;/TextBlock.RenderTransform> 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows text translated, or moved, along the x- and y-axis.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of translated text</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The following code example uses a TranslateTransform to offset text. In this example, a slightly offset copy of text below the primary text creates a shadow effect.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Skew the text using a TranslateTransform. --> 
+&lt;TextBlock FontSize="32" FontWeight="Bold" Foreground="Black" Text="{Binding Path=Text, ElementName=textblockTranslateMaster}" Margin="100, 0, 0, 0" Grid.Column="0" Grid.Row="0"> 
+&lt;TextBlock.RenderTransform> 
+&lt;TranslateTransform X="2" Y="2" /> 
+&lt;/TextBlock.RenderTransform> 
+&lt;/TextBlock> 
+&lt;TextBlock Name="textblockTranslateMaster" FontSize="32" FontWeight="Bold" Foreground="Coral" Text="Translated Text" Margin="100, 0, 0, 0" Grid.Column="0" Grid.Row="0"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The DropShadowBitmapEffect provides a rich set of features for providing shadow effects. For more information, see <Hyperlink NavigateUri="6ab9c754-6001-4708-b479-5367f2fd1a35.xaml">How to: Create Text with a Shadow</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="eec3d26c-0a21-420f-8012-671621c47089.xaml">How to: Apply Animations to Text</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Apply Transforms to Text to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

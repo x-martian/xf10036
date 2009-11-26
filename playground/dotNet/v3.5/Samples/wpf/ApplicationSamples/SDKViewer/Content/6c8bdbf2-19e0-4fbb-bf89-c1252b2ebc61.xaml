@@ -1,0 +1,158 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6c8bdbf2_19e0_4fbb_bf89_c1252b2ebc61"
+  Tag     ="Hit Test Using Geometry as a Parameter"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Hit Test Using Geometry as a Parameter</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to perform a hit test on a visual object using a Geometry as a hit test parameter.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows how to set up a hit test using GeometryHitTestParameters for the HitTest method. The Point value that is passed to the <Run>OnMouseDown</Run>
+ method is used to create a <Run FontWeight="Bold">Geometry</Run>
+ object in order to expand the range of the hit test.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Respond to the mouse button down event by setting up a hit test results callback. public void OnMouseDown(object sender, MouseButtonEventArgs e) { // Retrieve the coordinate of the mouse position. Point pt = e.GetPosition((UIElement)sender); 
+// Expand the hit test area by creating a geometry centered on the hit test point. EllipseGeometry expandedHitTestArea = new EllipseGeometry(pt, 10.0, 10.0); 
+// Clear the contents of the list used for hit test results. hitResultsList.Clear(); 
+// Set up a callback to receive the hit test result enumeration. VisualTreeHelper.HitTest(myControl, null, new HitTestResultCallback(MyHitTestResultCallback), new GeometryHitTestParameters(expandedHitTestArea)); 
+// Perform actions on the hit test results list. if (hitResultsList.Count > 0) { ProcessHitTestResultsList(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The IntersectionDetail property of GeometryHitTestResult provides information about the results of a hit test that uses a <Run FontWeight="Bold">Geometry</Run>
+ as a hit test parameter. The following illustration shows the relationship between the hit test geometry (the blue circle) and the target object (the red square).
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Intersection between hit test geometry and target object</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The following example shows how to implement a hit test callback when a <Run FontWeight="Bold">Geometry</Run>
+ is used as a hit test parameter. The <Run>result</Run>
+ parameter is cast to a <Run FontWeight="Bold">GeometryHitTestResult</Run>
+ in order to retrieve the value of the <Run FontWeight="Bold">IntersectionDetail</Run>
+ property. The property value allows you to determine if the <Run FontWeight="Bold">Geometry</Run>
+ hit test parameter is fully or partially contained within the hit test target.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Return the result of the hit test to the callback. public HitTestResultBehavior MyHitTestResultCallback(HitTestResult result) { // Retrieve the results of the hit test. IntersectionDetail intersectionDetail = ((GeometryHitTestResult)result).IntersectionDetail; 
+switch (intersectionDetail) { case IntersectionDetail.FullyContains: // Add the hit test result to the list that will be processed after the enumeration. hitResultsList.Add(result.VisualHit); 
+return HitTestResultBehavior.Stop; 
+case IntersectionDetail.Intersects: // Set the behavior to return visuals at all z-order levels. return HitTestResultBehavior.Continue; 
+case IntersectionDetail.FullyInside: // Set the behavior to return visuals at all z-order levels. return HitTestResultBehavior.Continue; 
+case IntersectionDetail.Empty: return HitTestResultBehavior.Stop; 
+default: return HitTestResultBehavior.Stop; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8bf2643f-d7f9-4cb4-9ea6-5b893c23200d.xaml">How to: Hit Test Geometry in a Visual</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b1a64b61-14be-4d75-b89a-5c67bebb2c7b.xaml">Hit Testing in the Visual Layer</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Hit Test Using Geometry as a Parameter to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

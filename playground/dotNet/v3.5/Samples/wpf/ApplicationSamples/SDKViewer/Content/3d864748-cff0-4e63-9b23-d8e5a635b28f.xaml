@@ -1,0 +1,729 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3d864748_cff0_4e63_9b23_d8e5a635b28f"
+  Tag     ="Control Authoring Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Control Authoring Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The extensibility of the Windows Presentation Foundation (WPF) control model greatly reduces the need to create a new control. However, in certain cases you may still need to create a custom control. This topic discusses the features that minimize your need to create a custom control and the different control authoring models in Windows Presentation Foundation (WPF). This topic also demonstrates how to create a new control.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="when_to_write_a_new_control">When to Write a New Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="models_for_control_authoring">Models for Control Authoring</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_a_usercontrol">Creating a UserControl</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="control_authoring_basics">Control Authoring Basics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_a_custom_control">Creating a Custom Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">When to Write a New Control
+    </Paragraph>
+
+    <Paragraph>Historically, if you wanted to get a customized experience from an existing control, you were limited to changing the standard properties of the control, such as background color, border width, and font size. If you wished to extend the appearance or behavior of a control beyond these predefined parameters, you would need to create a new control.
+    </Paragraph>
+
+    <Paragraph>Controls in WPF support rich content, Styles, Triggers, and templates. In many cases, these features allow you to create custom and consistent experiences without having to create a new control.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Rich Content</Run>
+. Many of the standard WPF controls support rich content. These controls support the display of arbitrary content, including both WPF visual elements and arbitrary data, reducing the need to create a new control or to modify an existing control to support a complex visualization. For more information, see User Interface-ContentModel.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Styles</Run>
+. A <Run FontWeight="Bold">Style</Run>
+ is a collection of values that represent properties for a control. By using styles, you can create a reusable representation of a desired control appearance and behavior without writing a new control. For more information, see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Triggers</Run>
+. <Run FontWeight="Bold">Trigger</Run>
+s allow you to apply property values to change the appearance and behavior of a control in a declarative manner, again without creating a new control. For more information, see "Triggers" in <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Templates</Run>
+. Many controls in WPF support templating. A template allows a control to provide extensibility for its visual representation without requiring an application author to write proceduaral code. A template is simply a representation of the visual elements that the control is composed of. For more information, see Control Customization Overviews and <Hyperlink NavigateUri="0f4d9f8c-0230-4013-bd7b-e8e7fed01b4a.xaml">Data Templating Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>These features minimize the need for you to create a new control. However, if there is a need to create a new control, it is important to understand the different control authoring models in WPF, which is discussed in the next section.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Models for Control Authoring
+    </Paragraph>
+
+    <Paragraph>WPF provides three general models for creating a control, each of which provides a different set of features and level of flexibility. It is important to understand these models before you begin writing a new control.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Subclassing UserControl
+    </Paragraph>
+
+    <Paragraph>The simplest way to create a control in WPF is to subclass UserControl. The development model for a <Run FontWeight="Bold">UserControl</Run>
+ is very similar to the model used for application development in WPF: create visual elements, give them names and reference event handlers in Extensible Application Markup Language (XAML). You can then reference the named elements in procedural code.
+    </Paragraph>
+
+    <Paragraph>If built correctly, a <Run FontWeight="Bold">UserControl</Run>
+ can take advantage of the benefits of rich content, styles, and triggers. However, in order to support templates, it is necessary to subclass Control to create a custom <Run FontWeight="Bold">Control</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Subclassing Control
+    </Paragraph>
+
+    <Paragraph>Subclassing the <Run FontWeight="Bold">Control</Run>
+ class is the model used by most of the existing WPF controls. A custom <Run FontWeight="Bold">Control</Run>
+ is designed to separate the operational logic from the visual representation by using templates. Although building a custom <Run FontWeight="Bold">Control</Run>
+ is not as simple as building a <Run FontWeight="Bold">UserControl</Run>
+, custom <Run FontWeight="Bold">Control</Run>
+s provide the most flexibility.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Benefits of Subclassing Control
+    </Paragraph>
+
+    <Paragraph>Consider subclassing <Run FontWeight="Bold">Control</Run>
+ instead of using the <Run FontWeight="Bold">UserControl</Run>
+ class if one or more of the following applies to you:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>You would like to maximize the flexibility and reusability of your control.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Your control will be used in many applications.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You would like your control to support different themes.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You would like the appearance of your control to be customizable.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Creating a UserControl
+    </Paragraph>
+
+    <Paragraph>The simplest way to create a control in WPF is to subclass <Run FontWeight="Bold">UserControl</Run>
+. The following example shows the XAML that defines the user interface (UI) of a <Run FontStyle="italic">NumericUpDown</Run>
+<Run FontWeight="Bold">UserControl</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;UserControl x:Class="MyUserControl.NumericUpDown" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Grid Margin="3"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Border BorderThickness="1" BorderBrush="Gray" Margin="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"> 
+&lt;TextBlock Name="valueText" Width="60" TextAlignment="Right" Padding="5"/> 
+&lt;/Border> 
+&lt;RepeatButton Name="upButton" Click="upButton_Click" Grid.Column="1" Grid.Row="0">Up
+&lt;/RepeatButton> 
+&lt;RepeatButton Name="downButton" Click="downButton_Click" Grid.Column="1" Grid.Row="1">Down
+&lt;/RepeatButton> 
+&lt;/Grid> 
+&lt;/UserControl> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the logic of this <Run FontWeight="Bold">UserControl</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+namespace MyUserControl { public partial class NumericUpDown : System.Windows.Controls.UserControl { /// 
+&lt;summary> /// Initializes a new instance of the NumericUpDownControl. /// 
+&lt;/summary> public NumericUpDown() { InitializeComponent(); 
+UpdateTextBlock(); 
+} /// 
+&lt;summary> /// Gets or sets the value assigned to the control. /// 
+&lt;/summary> public decimal Value { get { return _value; 
+} set { if (value != _value) { if (MinValue 
+&lt;= value &amp;&amp; 
+value 
+&lt;= MaxValue) { _value = value; 
+UpdateTextBlock(); 
+OnValueChanged(EventArgs.Empty); 
+} } } } private decimal _value = MinValue; 
+/// 
+&lt;summary> /// Occurs when the Value property changes. /// 
+&lt;/summary> public event EventHandler
+&lt;EventArgs> ValueChanged; 
+/// 
+&lt;summary> /// Raises the ValueChanged event. /// 
+&lt;/summary> /// 
+&lt;param name="args">An EventArgs that contains the event data.
+&lt;/param> protected virtual void OnValueChanged(EventArgs args) { EventHandler
+&lt;EventArgs> handler = ValueChanged; 
+if (handler != null) { handler(this, args); 
+} } private void upButton_Click(object sender, EventArgs e) { if (Value 
+&lt; 
+MaxValue) { Value++; 
+} } private void downButton_Click(object sender, EventArgs e) { if (Value > MinValue) { Value--; 
+} } private void UpdateTextBlock() { valueText.Text = Value.ToString(); 
+} private const decimal MinValue = 0, MaxValue = 100; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As demonstrated by this example, the development model for a custom <Run FontWeight="Bold">UserControl</Run>
+ is very similar to the model used for application development.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Control Authoring Basics
+    </Paragraph>
+
+    <Paragraph>The properties and events defined by the <Run FontWeight="Bold">UserControl</Run>
+ example in the previous section are standard common language runtime (CLR) properties and events, which do not take advantage of functionalities of the platform. This section discusses the general guidelines for a WPF control regardless of the control authoring model.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Back Properties with DependencyProperty
+    </Paragraph>
+
+    <Paragraph>In general, it is good practice to back all the properties in your new control by a DependencyProperty. For more information, see <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Use RoutedEvent
+    </Paragraph>
+
+    <Paragraph>Similar to <Run>dependency properties</Run>
+, which extend the notion of CLR properties with additional functionalities, <Run>routed events</Run>
+ extend the notion of standard CLR events. When you create a new WPF control, it is also good practice to implement your events as RoutedEvents. For more information, see <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+ and <Hyperlink NavigateUri="b79f459a-1c3f-4045-b2d4-1659cc8eaa3c.xaml">How to: Create a Custom Routed Event</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Changing the UserControl to use DependencyProperty and RoutedEvent
+    </Paragraph>
+
+    <Paragraph>You can change the previous <Run FontWeight="Bold">UserControl</Run>
+ example to use <Run FontWeight="Bold">DependencyProperty</Run>
+ and <Run FontWeight="Bold">RoutedEvent</Run>
+, as shown in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+namespace MyUserControl { public partial class NumericUpDown : System.Windows.Controls.UserControl { /// 
+&lt;summary> /// Initializes a new instance of the NumericUpDownControl. /// 
+&lt;/summary> public NumericUpDown() { InitializeComponent(); 
+UpdateTextBlock(); 
+} /// 
+&lt;summary> /// Gets or sets the value assigned to the control. /// 
+&lt;/summary> public decimal Value { get { return (decimal)GetValue(ValueProperty); 
+} set { SetValue(ValueProperty, value); 
+} } /// 
+&lt;summary> /// Identifies the Value dependency property. /// 
+&lt;/summary> public static readonly DependencyProperty ValueProperty = DependencyProperty.Register( "Value", typeof(decimal), typeof(NumericUpDown), new FrameworkPropertyMetadata(MinValue,new PropertyChangedCallback(OnValueChanged))); 
+private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args) { NumericUpDown control = (NumericUpDown)obj; 
+control.UpdateTextBlock(); 
+RoutedPropertyChangedEventArgs
+&lt;decimal> e = new RoutedPropertyChangedEventArgs
+&lt;decimal>( (decimal)args.OldValue, (decimal)args.NewValue, ValueChangedEvent); 
+control.OnValueChanged(e); 
+} /// 
+&lt;summary> /// Identifies the ValueChanged routed event. /// 
+&lt;/summary> public static readonly RoutedEvent ValueChangedEvent = EventManager.RegisterRoutedEvent( "ValueChanged", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler
+&lt;decimal>), typeof(NumericUpDown)); 
+/// 
+&lt;summary> /// Occurs when the Value property changes. /// 
+&lt;/summary> public event RoutedPropertyChangedEventHandler
+&lt;decimal> ValueChanged { add { AddHandler(ValueChangedEvent, value); 
+} remove { RemoveHandler(ValueChangedEvent, value); 
+} } /// 
+&lt;summary> /// Raises the ValueChanged event. /// 
+&lt;/summary> /// 
+&lt;param name="args">Arguments associated with the ValueChanged event.
+&lt;/param> protected virtual void OnValueChanged(RoutedPropertyChangedEventArgs
+&lt;decimal> args) { RaiseEvent(args); 
+} private void upButton_Click(object sender, EventArgs e) { if (Value 
+&lt; 
+MaxValue) { Value++; 
+} } private void downButton_Click(object sender, EventArgs e) { if (Value > MinValue) { Value--; 
+} } private void UpdateTextBlock() { valueText.Text = Value.ToString(); 
+} private const decimal MinValue = 0, MaxValue = 100; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the full example, see NumericUpDown UserControl with DependencyProperty and RoutedEvent Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating a Custom Control
+    </Paragraph>
+
+    <Paragraph FontSize="18">Building a Control to Support Templates
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">UserControl</Run>
+ offers a simple way to build a reusable piece of functionality in WPF, but to take advantage of templating and to support different themes, subclassing <Run FontWeight="Bold">Control</Run>
+ is the model to use. This section converts the <Run FontWeight="Bold">UserControl</Run>
+ example in the previous section to a custom <Run FontWeight="Bold">Control</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Changing the Base Class
+    </Paragraph>
+
+    <Paragraph>First, replace the <Run FontWeight="Bold">UserControl</Run>
+ base class with <Run FontWeight="Bold">Control</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Moving to Templates
+    </Paragraph>
+
+    <Paragraph>Once you have updated the base class, you need to move the content of the control into a template. The template is defined in a style that can reside in a number of places in the application. For this example, it is placed in the application resources.
+    </Paragraph>
+
+    <Paragraph>In the <Run FontWeight="Bold">UserControl</Run>
+ example, the TextBlock and the RepeatButtons were assigned names. The <Run FontWeight="Bold">RepeatButton</Run>
+s also referred to event handlers defined in the procedural code. You can remove them in this custom <Run FontWeight="Bold">Control</Run>
+ because you will instead use binding and commands to get the same behavior, but in a more loosely-coupled manner.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Application x:Class="MyCustomControl.MyApp" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="Window1.xaml" xmlns:local="clr-namespace:MyCustomControl"> 
+&lt;Application.Resources> 
+&lt;Style TargetType="{x:Type local:NumericUpDown}"> 
+&lt;Setter Property="HorizontalAlignment" Value="Center"/> 
+&lt;Setter Property="VerticalAlignment" Value="Center"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type local:NumericUpDown}"> 
+&lt;Grid Margin="3"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Border BorderThickness="1" BorderBrush="Gray" Margin="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"> 
+&lt;TextBlock Width="60" TextAlignment="Right" Padding="5"/> 
+&lt;/Border> 
+&lt;RepeatButton Grid.Column="1" Grid.Row="0">Up
+&lt;/RepeatButton> 
+&lt;RepeatButton Grid.Column="1" Grid.Row="1">Down
+&lt;/RepeatButton> 
+&lt;/Grid> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;/Application.Resources> 
+&lt;/Application> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Changing the Value Property
+    </Paragraph>
+
+    <Paragraph>The <Run FontStyle="italic">UpdateTextBlock</Run>
+ method in the <Run FontWeight="Bold">UserControl</Run>
+ example changes the context of the <Run FontWeight="Bold">TextBlock</Run>
+ in the UI when the Value property changes. You can remove this method. Instead, you can bind the <Run FontWeight="Bold">TextBlock</Run>
+ to the Value of the control directly. This separation allows the template to be changed without affecting the control implementation. The following example shows the <Run FontWeight="Bold">TextBlock</Run>
+ with the Binding declaration:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Value}" Width="60" TextAlignment="Right" Padding="5"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information about data binding, see the <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Handling Input
+    </Paragraph>
+
+    <Paragraph>In the <Run FontWeight="Bold">UserControl</Run>
+ example, the <Run FontWeight="Bold">RepeatButton</Run>
+s referred directly to event handlers defined in code. For a custom <Run FontWeight="Bold">Control</Run>
+, a command is a more flexible way to accomplish the same behavior. A control can define commands, as in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public static RoutedCommand IncreaseCommand { get { return _increaseCommand; 
+} } public static RoutedCommand DecreaseCommand { get { return _decreaseCommand; 
+} } private static void InitializeCommands() { _increaseCommand = new RoutedCommand("IncreaseCommand", typeof(NumericUpDown)); 
+CommandManager.RegisterClassCommandBinding(typeof(NumericUpDown), new CommandBinding(_increaseCommand, OnIncreaseCommand)); 
+CommandManager.RegisterClassInputBinding(typeof(NumericUpDown), new InputBinding(_increaseCommand, new KeyGesture(Key.Up))); 
+_decreaseCommand = new RoutedCommand("DecreaseCommand", typeof(NumericUpDown)); 
+CommandManager.RegisterClassCommandBinding(typeof(NumericUpDown), new CommandBinding(_decreaseCommand, OnDecreaseCommand)); 
+CommandManager.RegisterClassInputBinding(typeof(NumericUpDown), new InputBinding(_decreaseCommand, new KeyGesture(Key.Down))); 
+} private static void OnIncreaseCommand(object sender, ExecutedRoutedEventArgs e) { NumericUpDown control = sender as NumericUpDown; 
+if (control != null) { control.OnIncrease(); 
+} } private static void OnDecreaseCommand(object sender, ExecutedRoutedEventArgs e) { NumericUpDown control = sender as NumericUpDown; 
+if (control != null) { control.OnDecrease(); 
+} } protected virtual void OnIncrease() { if (this.Value 
+&lt; 
+MaxValue) { this.Value += 1; 
+} } protected virtual void OnDecrease() { if (this.Value > MinValue) { this.Value -= 1; 
+} } private static RoutedCommand _increaseCommand; 
+private static RoutedCommand _decreaseCommand; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The elements in the template can then reference the commands, as in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;RepeatButton Command="{x:Static local:NumericUpDown.IncreaseCommand}" Grid.Column="1" Grid.Row="0">Up
+&lt;/RepeatButton> 
+&lt;RepeatButton Command="{x:Static local:NumericUpDown.DecreaseCommand}" Grid.Column="1" Grid.Row="1">Down
+&lt;/RepeatButton> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information about commands, see <Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>By defining a template and using binding and commands, you have changed the <Run FontStyle="italic">NumericUpDown</Run>
+ control from a static <Run FontWeight="Bold">UserControl</Run>
+ with a fixed visualization to a custom <Run FontWeight="Bold">Control</Run>
+ that is flexible and customizable.
+    </Paragraph>
+
+    <Paragraph>For the complete example, see NumericUpDown Custom Control in One Project Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="18">External Control Library
+    </Paragraph>
+
+    <Paragraph>The final step is to package the <Run FontStyle="italic">NumericUpDown</Run>
+ control into its own assembly to make it easy to reuse.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Creating a Theme File
+    </Paragraph>
+
+    <Paragraph>Once you have moved the <Run FontStyle="italic">NumericUpDown</Run>
+ class the library assembly, you need to move the style definition. First, you need to create a "themes" folder to store all of the theme files. Next, create a file with the name generic.xaml. This file will serve as the fallback for all resource look-ups for this assembly.
+    </Paragraph>
+
+    <Paragraph>Define a ResourceDictionary in generic.xaml and place the style for the <Run FontStyle="italic">NumericUpDown</Run>
+ control within the <Run FontWeight="Bold">ResourceDictionary</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Defining the ThemeInfo Attribute
+    </Paragraph>
+
+    <Paragraph>In order for the <Run FontWeight="Bold">Style</Run>
+ in generic.xaml to be found, the hosting application needs to know that the assembly contains control-specific resources. You can accomplish that by adding an assembly attribute to the class. Because the assembly only contains generic resources, set the GenericDictionaryLocation property SourceAssembly. The following shows the content of the AssemblyInfo.cs file:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[assembly: ThemeInfo( ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located //(used if a resource is not found in the page, // or application resource dictionaries) ResourceDictionaryLocation.SourceAssembly //where the generic resource dictionary is located //(used if a resource is not found in the page, // app, or any theme specific resource dictionaries) )] </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete example, see NumericUpDown Custom Control in an External Library Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>NumericUpDown Custom Control with Theme and Automation Support Sample
+      <LineBreak/>Control Customization Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Control Authoring Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

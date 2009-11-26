@@ -1,0 +1,249 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6f5b8b47_6c32_4b8e_98ee_fdf6515ec843"
+  Tag     ="Animate the Position or Color of a Gradient Stop"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate the Position or Color of a Gradient Stop</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to animate the Color and Offset of GradientStop objects.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example animates three gradient stops inside a LinearGradientBrush. The example uses three animations, each of which animates a different gradient stop:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The first animation, a DoubleAnimation, animates the first gradient stop's <Run FontWeight="Bold">Offset</Run>
+ from 0.0 to 1.0 and then back to 0.0. As a result, the first color in the gradient shifts from the left side to the right side of the rectangle and then back to the left side.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The second animation, a ColorAnimation, animates the second gradient stop's <Run FontWeight="Bold">Color</Run>
+ from Purple to Yellow and then back to <Run FontWeight="Bold">Purple</Run>
+. As a result, the middle color in the gradient changes from purple to yellow and back to purple.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The third animation, another <Run FontWeight="Bold">ColorAnimation</Run>
+, animates the opacity of the third gradient stop's <Run FontWeight="Bold">Color</Run>
+ by -1 and then back. As a result, the third color in the gradient fades away and then becomes opaque again.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Input; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+namespace BrushesIntroduction { public class GradientStopAnimationExample : Page { public GradientStopAnimationExample() { Title = "GradientStop Animation Example"; 
+Background = Brushes.White; 
+// Create a NameScope for the page so that // Storyboards can be used. NameScope.SetNameScope(this, new NameScope()); 
+// Create a rectangle. This rectangle will // be painted with a gradient. Rectangle aRectangle = new Rectangle(); 
+aRectangle.Width = 200; 
+aRectangle.Height = 100; 
+aRectangle.Stroke = Brushes.Black; 
+aRectangle.StrokeThickness = 1; 
+// Create a LinearGradientBrush to paint // the rectangle's fill. LinearGradientBrush gradientBrush = new LinearGradientBrush(); 
+// Create gradient stops for the brush. GradientStop stop1 = new GradientStop(Colors.MediumBlue, 0.0); 
+GradientStop stop2 = new GradientStop(Colors.Purple, 0.5); 
+GradientStop stop3 = new GradientStop(Colors.Red, 1.0); 
+// Register a name for each gradient stop with the // page so that they can be animated by a storyboard. this.RegisterName("GradientStop1", stop1); 
+this.RegisterName("GradientStop2", stop2); 
+this.RegisterName("GradientStop3", stop3); 
+// Add the stops to the brush. gradientBrush.GradientStops.Add(stop1); 
+gradientBrush.GradientStops.Add(stop2); 
+gradientBrush.GradientStops.Add(stop3); 
+// Apply the brush to the rectangle. aRectangle.Fill = gradientBrush; 
+// // Animate the first gradient stop's offset from // 0.0 to 1.0 and then back to 0.0. // DoubleAnimation offsetAnimation = new DoubleAnimation(); 
+offsetAnimation.From = 0.0; 
+offsetAnimation.To = 1.0; 
+offsetAnimation.Duration = TimeSpan.FromSeconds(1.5); 
+offsetAnimation.AutoReverse = true; 
+Storyboard.SetTargetName(offsetAnimation, "GradientStop1"); 
+Storyboard.SetTargetProperty(offsetAnimation, new PropertyPath(GradientStop.OffsetProperty)); 
+// // Animate the second gradient stop's color from // Purple to Yellow and then back to Purple. // ColorAnimation gradientStopColorAnimation = new ColorAnimation(); 
+gradientStopColorAnimation.From = Colors.Purple; 
+gradientStopColorAnimation.To = Colors.Yellow; 
+gradientStopColorAnimation.Duration = TimeSpan.FromSeconds(1.5); 
+gradientStopColorAnimation.AutoReverse = true; 
+Storyboard.SetTargetName(gradientStopColorAnimation, "GradientStop2"); 
+Storyboard.SetTargetProperty(gradientStopColorAnimation, new PropertyPath(GradientStop.ColorProperty)); 
+// Set the animation to begin after the first animation // ends. gradientStopColorAnimation.BeginTime = TimeSpan.FromSeconds(3); 
+// // Animate the third gradient stop's color so // that it becomes transparent. // ColorAnimation opacityAnimation = new ColorAnimation(); 
+// Reduces the target color's alpha value by 1, // making the color transparent. opacityAnimation.By = Color.FromScRgb(-1.0F, 0F, 0F, 0F); 
+opacityAnimation.Duration = TimeSpan.FromSeconds(1.5); 
+opacityAnimation.AutoReverse = true; 
+Storyboard.SetTargetName(opacityAnimation, "GradientStop3"); 
+Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(GradientStop.ColorProperty)); 
+// Set the animation to begin after the first two // animations have ended. opacityAnimation.BeginTime = TimeSpan.FromSeconds(6); 
+// Create a Storyboard to apply the animations. Storyboard gradientStopAnimationStoryboard = new Storyboard(); 
+gradientStopAnimationStoryboard.Children.Add(offsetAnimation); 
+gradientStopAnimationStoryboard.Children.Add(gradientStopColorAnimation); 
+gradientStopAnimationStoryboard.Children.Add(opacityAnimation); 
+// Begin the storyboard when the left mouse button is // pressed over the rectangle. aRectangle.MouseLeftButtonDown += delegate(object sender, MouseButtonEventArgs e) { gradientStopAnimationStoryboard.Begin(this); 
+}; 
+StackPanel mainPanel = new StackPanel(); 
+mainPanel.Margin = new Thickness(10); 
+mainPanel.Children.Add(aRectangle); 
+Content = mainPanel; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_6f5b8b47_6c32_4b8e_98ee_fdf6515ec843_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="GradientStop Animation Example" Background="White"> 
+&lt;StackPanel Margin="10"> 
+&lt;Rectangle Width="200" Height="100" Stroke="Black" StrokeThickness="1"> 
+&lt;Rectangle.Fill> 
+&lt;LinearGradientBrush> 
+&lt;GradientStop x:Name="GradientStop1" Color="MediumBlue" Offset="0.0" /> 
+&lt;GradientStop x:Name="GradientStop2" Color="Purple" Offset="0.5" /> 
+&lt;GradientStop x:Name="GradientStop3" Color="Red" Offset="1.0" /> 
+&lt;/LinearGradientBrush> 
+&lt;/Rectangle.Fill> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseLeftButtonDown"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="GradientStop1" Storyboard.TargetProperty="Offset" From="0.0" To="1.0" Duration="0:0:1.5" AutoReverse="True" /> 
+&lt;ColorAnimation Storyboard.TargetName="GradientStop2" Storyboard.TargetProperty="Color" From="Purple" To="Yellow" Duration="0:0:1.5" AutoReverse="True" BeginTime="0:0:3" /> 
+&lt;ColorAnimation Storyboard.TargetName="GradientStop3" Storyboard.TargetProperty="Color" Duration="0:0:1.5" AutoReverse="True" BeginTime="0:0:6"> 
+&lt;ColorAnimation.By> 
+&lt;Color ScA="-1" ScR="0" ScB="0" ScG="0" /> 
+&lt;/ColorAnimation.By> 
+&lt;/ColorAnimation> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Although this example uses a <Run FontWeight="Bold">LinearGradientBrush</Run>
+, the process is the same for animating <Run FontWeight="Bold">GradientStop</Run>
+ objects inside a RadialGradientBrush.
+    </Paragraph>
+
+    <Paragraph>For additional examples, see the Brushes Sample. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>GradientStop
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate the Position or Color of a Gradient Stop to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

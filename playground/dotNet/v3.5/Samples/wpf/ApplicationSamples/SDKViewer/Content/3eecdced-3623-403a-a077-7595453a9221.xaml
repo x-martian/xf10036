@@ -1,0 +1,563 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3eecdced_3623_403a_a077_7595453a9221"
+  Tag     ="The Layout System"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>The Layout System</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes the Windows Presentation Foundation (WPF) layout system. Understanding how and when layout calculations occur is essential in crafting great looking, high performance user interfaces.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="LayoutSystem_Overview">The Layout System</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="LayoutSystem_BoundingBox">Element Bounding Boxes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="LayoutSystem_Measure_Arrange">Measuring and Arranging Children</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="LayoutSystem_PanelsCustom">Panel Elements and Custom Layout Behaviors</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="LayoutSystem_Performance">Layout Performance Considerations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="LayoutSystem_whatsnext">What's Next?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">The Layout System
+    </Paragraph>
+
+    <Paragraph>The term "layout" describes the process of measuring and arranging the members of a Panel element's Children collection then drawing them onscreen. This is an intensive process, and the larger the <Run FontWeight="Bold">Children</Run>
+ collection, the greater the number of calculations made. Complexity can also be introduced based upon the layout behavior defined by the <Run FontWeight="Bold">Panel</Run>
+ element that owns the collection. A relatively simple layout such as Canvas can yield excellent performance when a more complex <Run FontWeight="Bold">Panel</Run>
+ such as Grid is not required.
+    </Paragraph>
+
+    <Paragraph>Each time a child UIElement changes its position it has the potential to trigger a new pass by the layout system. As such, it's important to understand the events that can invoke the layout system, as unnecessary invocation can lead to poor application performance.
+    </Paragraph>
+
+    <Paragraph>At its simplest, layout is a recursive system that leads to an element being sized, positioned, and drawn onscreen. The layout system completes two passes for each member of the <Run FontWeight="Bold">Children</Run>
+ collection, a measure pass and an arrange pass. Each child <Run FontWeight="Bold">Panel</Run>
+ provides its own MeasureOverride and ArrangeOverride methods in order to achieve its own specific layout behavior. This is the series of events that occurs whenever the layout system is invoked.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>A child <Run FontWeight="Bold">UIElement</Run>
+ begins layout process by first having its core properties measured.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Sizing properties defined on FrameworkElement are evaluated, such as Width, Height and Margin.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Panel</Run>
+ specific logic is applied, such as Dock direction or stacking Orientation.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Content is arranged after all children have been measured.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Children</Run>
+ collection is drawn to the screen.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The process is invoked again if additional <Run FontWeight="Bold">Children</Run>
+ are added to the collection, a LayoutTransform is applied, or the UpdateLayout method is called.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This process, and the means by which it is invoked, are defined in greater detail in the sections that follow.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Element Bounding Boxes
+    </Paragraph>
+
+    <Paragraph>When thinking about application layout in Windows Presentation Foundation (WPF), it is important to understand the bounding box that surrounds all elements. This abstraction assists in comprehending the behavior of the layout system. Each <Run FontWeight="Bold">FrameworkElement</Run>
+ consumed by the layout system can be thought of as a rectangle that is slotted into a layout partition. A class, LayoutInformation, is exposed that can return the geometric boundaries of an element's layout allocation, or slot. The size of that rectangle is determined by the system, by calculating the available screen space, the size of any constraints, layout specific properties like margin and padding, and the individual behavior of the parent <Run FontWeight="Bold">Panel</Run>
+ element. Processing this data, the system is able to calculate the position of all the children of a given <Run FontWeight="Bold">Panel</Run>
+. It is important to remember that sizing characteristics defined on the parent element (such as a Border) affect its children.
+    </Paragraph>
+
+    <Paragraph>As an example, consider the following simple layout scenario.
+    </Paragraph>
+
+    <Paragraph>This layout can be achieved using the following Extensible Application Markup Language (XAML).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Grid Name="myGrid" Background="LightSteelBlue" Height="150"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="250"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;TextBlock Name="txt1" Margin="5" FontSize="16" FontFamily="Verdana" Grid.Column="0" Grid.Row="0">Hello World!
+&lt;/TextBlock> 
+&lt;Button Click="getLayoutSlot1" Width="125" Height="25" Grid.Column="0" Grid.Row="1">Show Bounding Box
+&lt;/Button> 
+&lt;TextBlock Name="txt2" Grid.Column="1" Grid.Row="2"/> 
+&lt;/Grid> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The lone TextBlock element is hosted within a <Run FontWeight="Bold">Grid</Run>
+, and while the text fills only the upper left corner of the column in which it has been placed, the allocated space for the <Run FontWeight="Bold">TextBlock</Run>
+ is actually much larger. The bounding box of any <Run FontWeight="Bold">FrameworkElement</Run>
+ can be retrieved using the GetLayoutSlot method. Using this method, the bounding box of the <Run FontWeight="Bold">TextBlock</Run>
+ element is superimposed (this is possible because the <Run FontWeight="Bold">TextBlock</Run>
+ is hosted within a <Run FontWeight="Bold">Grid</Run>
+, a <Run FontWeight="Bold">Panel</Run>
+ element that permits sharing of layout coordinates).
+    </Paragraph>
+
+    <Paragraph>As is now apparent by the white line that surrounds it, the partition allocated to the <Run FontWeight="Bold">TextBlock</Run>
+ element is actually much larger than the space it fills. As additional elements are added to the <Run FontWeight="Bold">Grid</Run>
+, this allocation could shrink or expand, depending on the type and size of elements that are added.
+    </Paragraph>
+
+    <Paragraph>The layout slot of the <Run FontWeight="Bold">TextBlock</Run>
+ is returned and translated into a Path using the <Run FontWeight="Bold">GetLayoutSlot</Run>
+ method, a technique which can be useful for displaying the bounding box of an element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void getLayoutSlot1(object sender, System.Windows.RoutedEventArgs e) { RectangleGeometry myRectangleGeometry = new RectangleGeometry(); 
+myRectangleGeometry.Rect = LayoutInformation.GetLayoutSlot(txt1); 
+GeometryDrawing myGeometryDrawing = new GeometryDrawing(); 
+Path myPath = new Path(); 
+myPath.Data = myRectangleGeometry; 
+myPath.Stroke = Brushes.LightGoldenrodYellow; 
+myPath.StrokeThickness = 5; 
+Grid.SetColumn(myPath, 0); 
+Grid.SetRow(myPath, 0); 
+myGrid.Children.Add(myPath); 
+txt2.Text = "LayoutSlot is equal to " + LayoutInformation.GetLayoutSlot(txt1).ToString(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub getLayoutSlot1(ByVal sender As Object, ByVal e As RoutedEventArgs) Dim myRectangleGeometry As New RectangleGeometry myRectangleGeometry.Rect = LayoutInformation.GetLayoutSlot(txt1) Dim myGeometryDrawing As New GeometryDrawing Dim myPath As New Path myPath.Data = myRectangleGeometry myPath.Stroke = Brushes.LightGoldenrodYellow myPath.StrokeThickness = 5 Grid.SetColumn(myPath, 0) Grid.SetRow(myPath, 0) myGrid.Children.Add(myPath) txt2.Text = "LayoutSlot is equal to " + LayoutInformation.GetLayoutSlot(txt1).ToString() End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Measuring and Arranging Children
+    </Paragraph>
+
+    <Paragraph>When the content of a Window object is rendered, the layout system is automatically invoked. In order to display content, the Content of the window must define a root <Run FontWeight="Bold">Panel</Run>
+ which serves to define a framework by which <Run FontWeight="Bold">Children</Run>
+ are organized on the screen. See <Hyperlink TargetName="LayoutSystem_PanelsCustom">Panel Elements and Custom Layout Behaviors</Hyperlink>
+ for a list of available <Run FontWeight="Bold">Panel</Run>
+ elements and information on creating custom layout elements.
+    </Paragraph>
+
+    <Paragraph>The first pass of layout is the measure pass, wherein each member of the <Run FontWeight="Bold">Children</Run>
+ collection is evaluated. The process begins with a call to the Measure method. This method is called within the implementation of the parent <Run FontWeight="Bold">Panel</Run>
+ element, and does not need to be called explicitly for layout to occur.
+    </Paragraph>
+
+    <Paragraph>First, native size properties of the <Run FontWeight="Bold">UIElement</Run>
+ are evaluated, such as Clip and Visibility are processed. This generates a value called <Run>constraintSize</Run>
+ which is passed to MeasureCore.
+    </Paragraph>
+
+    <Paragraph>Secondly, framework properties defined on <Run FontWeight="Bold">FrameworkElement</Run>
+ are processed, affecting the value of <Run>constraintSize</Run>
+. These properties tend to describe the sizing characteristics of the underlying <Run FontWeight="Bold">UIElement</Run>
+, such as its <Run FontWeight="Bold">Height</Run>
+, <Run FontWeight="Bold">Width</Run>
+, <Run FontWeight="Bold">Margin</Run>
+, and Style. Each of these properties can alter the space necessary to display the element. <Run FontWeight="Bold">MeasureOverride</Run>
+ is then called with <Run>constraintSize</Run>
+ as a parameter.
+    </Paragraph>
+
+    <Paragraph>The ultimate goal of the measure pass is for the child to determine its DesiredSize, which happens during the <Run FontWeight="Bold">MeasureCore</Run>
+ call. This value is stored by <Run FontWeight="Bold">Measure</Run>
+ for use during the content arrange process.
+    </Paragraph>
+
+    <Paragraph>The arrange process begins with a call to the Arrange method. During the arrange pass, the parent <Run FontWeight="Bold">Panel</Run>
+ element generates a rectangle that represents the bounds of the child. This value is passed to the ArrangeCore method for processing.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ArrangeCore</Run>
+ method evaluates the <Run FontWeight="Bold">DesiredSize</Run>
+ of the child and evaluates any additional margins that may affect the rendered size of the element and generates an <Run>arrangeSize</Run>
+, which is passed on to the <Run FontWeight="Bold">ArrangeOverride</Run>
+ of the Panel as a parameter. <Run FontWeight="Bold">ArrangeOverride</Run>
+ generates the <Run>finalSize</Run>
+ of the child, and finally the <Run FontWeight="Bold">ArrangeCore</Run>
+ method does a final evaluation of offset properties such as margin and alignment and places the child within its layout slot. The child does not need to (and frequently won't) fill the entire allocated space. Control is then returned to the parent <Run FontWeight="Bold">Panel</Run>
+ and the layout process is complete.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Panel Elements and Custom Layout Behaviors
+    </Paragraph>
+
+    <Paragraph>The Windows Presentation Foundation (WPF) includes a derived suite of <Run FontWeight="Bold">Panel</Run>
+ elements that enable many complex layouts. Common scenarios, such as stacking elements can easily be achieved using the StackPanel element, while more complex and free flowing layouts are possible using a <Run FontWeight="Bold">Canvas</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following table summarizes the available layout elements.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Panel Name</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Description</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Canvas</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Defines an area within which you can explicitly position child elements by coordinates relative to the <Run FontWeight="Bold">Canvas</Run>
+ area.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DockPanel 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Defines an area within which you can arrange child elements either horizontally or vertically, relative to each other.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Grid</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Defines a flexible grid area consisting of columns and rows.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">StackPanel</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Arranges child elements into a single line that can be oriented horizontally or vertically.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>VirtualizingPanel 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Provides a framework for <Run FontWeight="Bold">Panel</Run>
+ elements that "virtualize" their child data collection. This is an abstract class.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>WrapPanel 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box. Subsequent ordering happens sequentially from top to bottom or right to left, depending on the value of the Orientation property.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For code samples showing usage for each of these elements, see Layout Samples.
+    </Paragraph>
+
+    <Paragraph>For scenarios that require application layout that is not possible using any of the predefined <Run FontWeight="Bold">Panel</Run>
+ elements, custom layout behaviors can be achieved by inheriting from <Run FontWeight="Bold">Panel</Run>
+ and overriding the <Run FontWeight="Bold">MeasureOverride</Run>
+ and <Run FontWeight="Bold">ArrangeOverride</Run>
+ methods. For an example, see RadialPanel Custom Panel Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Layout Performance Considerations
+    </Paragraph>
+
+    <Paragraph>Layout is a recursive process. Each child element in a <Run FontWeight="Bold">Children</Run>
+ collection gets processed during each invocation of the system. As a result, triggering the system should be avoided when it is not necessary. The following tips can help you achieve higher performance.
+    </Paragraph>
+
+    <Paragraph>Dependency properties whose values can cause the layout system to be initialized are marked with public flags. AffectsMeasure and AffectsArrange provide useful clues as to which property value changes will force a recursive update by the layout system. In general, any property that can affect the size of an element's bounding box should set the <Run FontWeight="Bold">AffectsMeasure</Run>
+ flag to true. For more information, please see <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">LayoutTransform</Run>
+ can be a very useful way to affect the content of a user interface (UI). However, if the effect of the transform does not need to impact the position of other elements, it is best to use a RenderTransform instead, as <Run FontWeight="Bold">RenderTransform</Run>
+ does not invoke the layout system. <Run FontWeight="Bold">LayoutTransform</Run>
+ applies its transformation and forces a recursive layout update to account for the new position of the affected element.
+    </Paragraph>
+
+    <Paragraph>Avoid unnecessary calls to <Run FontWeight="Bold">UpdateLayout</Run>
+. This method forces a recursive layout update, and is frequently not necessary. Unless you're certain that a full update is required, rely on the layout system to call this method for you.
+    </Paragraph>
+
+    <Paragraph>When dealing with a large <Run FontWeight="Bold">Children</Run>
+ collection, consider using the VirtualizingStackPanel rather than a regular <Run FontWeight="Bold">StackPanel</Run>
+. By "virtualizing" the child collection, the <Run FontWeight="Bold">VirtualizingStackPanel</Run>
+ only keeps objects in memory that are currently within the parent's <Run>ViewPort</Run>
+. As a result, performance is substantially improved in most scenarios.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What's Next?
+    </Paragraph>
+
+    <Paragraph>Understanding how elements are measured and arranged is the first step in understanding layout as a system. For a deeper understanding of the available <Run FontWeight="Bold">Panel</Run>
+ elements, see <Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+. To better understand the various positioning properties that can affect layout, see <Hyperlink NavigateUri="9c6a2009-9b86-4e40-8605-0a2664dc3973.xaml">Alignment, Margins, and Padding Overview</Hyperlink>
+. For an example of a custom Panel element, see RadialPanel Custom Panel Sample. When you're ready to put it all together in a light-weight application, see Integrate Data, Layout, and Components in a Simple Application.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>FrameworkElement
+      <LineBreak/>UIElement
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9c6a2009-9b86-4e40-8605-0a2664dc3973.xaml">Alignment, Margins, and Padding Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>XAMLPad
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about The Layout System to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

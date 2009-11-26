@@ -1,0 +1,673 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c52dde45_a311_4531_af4c_853371c4d5f4"
+  Tag     ="Guidelines for Designing Stylable Controls"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Guidelines for Designing Stylable Controls</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This document summarizes a set of best practices to consider when designing a control which you intend to be easily stylable. We came to this set of best practices through a lot of trial and error while working on the theme control styles for the built-in WPF control set. We learned that successful styling is as much a function of a well-designed object model as it is of the style itself.  The intended audience for this document is the control author, not the style author. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Terminology
+    </Paragraph>
+
+    <Paragraph>"Styling" is definitely an overloaded term. We mean it in its broadest sense, referring to the suite of technologies that enable a control author to defer the visual aspects of the control to the control’s style and template. This suite of technologies includes:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Styles (including property setters, triggers, storyboards, and so on) 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Resources 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Control Templates
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Before You Start: Understanding Your Control
+    </Paragraph>
+
+    <Paragraph>Before you jump into these guidelines, it is important to understand and have defined the common usage of your control. Styling exposes an often unruly set of possibilities. Controls that are written to be used broadly (in many apps, by many developers) face the challenge that styling can be used to make far-reaching changes to the visual appearance of the control. In fact, the styled control may not even resemble the control author’s intentions. Since the flexibility offered by styling is essentially boundless, you can use the idea of common usage to help you scope your decisions.
+    </Paragraph>
+
+    <Paragraph>To understand your control’s common usage, it’s good to think about the value proposition of the control. What does your control bring to the table that no other control can offer? Common usage does not imply any specific visual appearance, but rather the philosophy of the control and a reasonable set of expectations about its usage. This understanding allows you to make some assumptions about the composition model and the style-defined behaviors of the control in the common case. In the case of ComboBox, for example, understanding the common usage wouldn’t give you any insight about whether a particular <Run FontWeight="Bold">ComboBox</Run>
+ has rounded corners but it would give you insight into the fact that the <Run FontWeight="Bold">ComboBox</Run>
+ probably needs a pop-up window and some way of toggling whether it is open.
+    </Paragraph>
+
+    <Paragraph FontSize="22">General Guidelines
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Do not strictly enforce template contracts.</Run>
+ The template contract of a control might consist of elements, commands, bindings, triggers or even property settings that are required or expected for a control to function properly. 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Minimize contracts as much as possible. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Design around the expectation that during design-time (that is, when using a design tool) it is common for a control template to be in an incomplete state. WPF does not offer a “composing” state infrastructure, so controls have to be built with the expectation that such a state might be valid. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Do not throw exceptions when any aspect of a template contract is not followed. Along these lines, panels should not throw exceptions if they have too many or too few children. 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Factor peripheral functionality into template helper elements.</Run>
+ Each control should be focused on its core functionality and true value proposition and defined by the control’s common usage. To that end, use composition and helper elements within the template to enable peripheral behaviors and visualizations, that is, those behaviors and visualizations that do not contribute to the core functionality of the control. Helper elements fall into three categories. 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">Standalone</Run>
+ helper types are public and reusable controls or primitives that are used “anonymously” in a template, meaning that neither the helper element nor the styled control is aware of one another. Technically, any element could be an anonymous type, but in this context the term describes those types that encapsulate specialized functionality to enable targeted scenarios.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">Type-based</Run>
+ helper elements are new types that encapsulate specialized functionality. These elements are typically designed with a narrower range of functionality than common controls or primitives. Unlike standalone helper elements, type-based helper elements are aware of the context in which they are used and typically must share data with the control to whose template they belong.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">Named</Run>
+ helper elements are common controls or primitives that a control expects to find within its template by name. These elements are given a well-known name within the template, making it possible for a control to find the element and interact with it programmatically. There can only be one element with a given name in any template.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following chart shows helper elements employed by control styles today (this list is not exhaustive):
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Element
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Type
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Used By
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ContentPresenter 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Type-Based
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Button, CheckBox, RadioButton, Frame, and so on (all ContentControls)
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ItemsPresenter 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Type-Based
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ListBox, <Run FontWeight="Bold">ComboBox</Run>
+, Menu, and so on (all ItemsControls)
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ToolBarOverflowPanel 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Named
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ToolBar 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Popup 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Standalone
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ComboBox</Run>
+, <Run FontWeight="Bold">ToolBar</Run>
+, <Run FontWeight="Bold">Menu</Run>
+, ToolTip, and so on
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RepeatButton 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Named
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Slider, ScrollBar, and so on
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ScrollBar</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Standalone
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ScrollViewer 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ScrollViewer</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Standalone
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ListBox</Run>
+, <Run FontWeight="Bold">ComboBox</Run>
+, <Run FontWeight="Bold">Menu</Run>
+, <Run FontWeight="Bold">Frame</Run>
+, and so on
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TabPanel 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Standalone
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TabControl 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextBox 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Named
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ComboBox</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Thumb 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Named
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ToolBar</Run>
+, <Run FontWeight="Bold">Slider</Run>
+, <Run FontWeight="Bold">ScrollBar</Run>
+, and so on
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TickBar 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Type-Based
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Slider</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ToolBarPanel 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Named
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ToolBar</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Minimize required user-specified bindings or property settings on helper elements</Run>
+. It is common for a helper element to require certain bindings or property settings in order to function properly within the control template. The helper element and templated control should, as much as possible, establish these settings. When setting properties or establishing bindings, care should be taken to not override values set by the user. Specific best practices are as follows: 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Named helper elements should be identified by the parent and the parent should establish any required settings on the helper element. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Type-based helper elements should establish any required settings directly on itself. Doing this may require the helper element to query for information context in which it is being used, including its <Run FontWeight="Bold">TemplatedParent</Run>
+ (the control type of the template in which it is being used) (for example, <Run FontWeight="Bold">ContentPresenter</Run>
+ automatically binds the <Run FontWeight="Bold">Content</Run>
+ property of its <Run FontWeight="Bold">TemplatedParent</Run>
+ to its Content property when used in a <Run FontWeight="Bold">ContentControl</Run>
+ derived type). 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Standalone helper elements cannot be optimized in this way because, by definition, neither the helper element nor the parent knows about the other.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Use the Name property to flag elements within a template</Run>
+. A control which needs to find an element in its style in order to access it programmatically should do so using the <Run FontWeight="Bold">Name</Run>
+ property and the <Run FontWeight="Bold">FindName</Run>
+ paradigm. A control should not throw an exception when an element is not found, but silently and gracefully disable the functionality which required that element. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Use best practices for expressing control state and behavior in a style.</Run>
+ The following is an ordered list of best practices for expressing control state changes and behavior in a style. You should use the first item on the list that enables your scenario. 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Property binding (example: binding between <Run FontWeight="Bold">ComboBox</Run>
+.IsDropDownOpen and ToggleButton.IsChecked) 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Triggered property changes or property animations (example: the hover state of a <Run FontWeight="Bold">Button</Run>
+) 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Command (example: LineUpCommand / LineDownCommand in <Run FontWeight="Bold">ScrollBar</Run>
+) 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Standalone helper elements (example: <Run FontWeight="Bold">TabPanel</Run>
+ in <Run FontWeight="Bold">TabControl</Run>
+) 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Type-based helper types (example: <Run FontWeight="Bold">ContentPresenter</Run>
+ in <Run FontWeight="Bold">Button</Run>
+, <Run FontWeight="Bold">TickBar</Run>
+ in <Run FontWeight="Bold">Slider</Run>
+) 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Named helper elements (example: <Run FontWeight="Bold">TextBox</Run>
+ in <Run FontWeight="Bold">ComboBox</Run>
+) 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Bubbled events from named helper types (if you listen for bubbled events from a style element, you should require that the element generating the event can be uniquely identified. (example: <Run FontWeight="Bold">Thumb</Run>
+ in <Run FontWeight="Bold">ToolBar</Run>
+) 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Custom <Run FontWeight="Bold">OnRender</Run>
+ behavior (example: ButtonChrome in <Run FontWeight="Bold">Button</Run>
+)
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Use style triggers (as opposed to template triggers) sparingly</Run>
+. Triggers that affect properties on elements in the template must be declared in the template. Triggers that affect properties on the control (no <Run FontWeight="Bold">TargetName</Run>
+) may be declared in the style unless you know that changing the template should also destroy the trigger. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Be consistent with existing styling patterns.</Run>
+ Many times there are multiple ways to solve a problem. Be aware of and, when possible, consistent with existing control styling patterns. This is especially important for controls that derive from the same base type (for example, <Run FontWeight="Bold">ContentControl</Run>
+s, <Run FontWeight="Bold">ItemsControl</Run>
+s, RangeBase, and so on). 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Expose properties to enable common customization scenarios without restyling</Run>
+. In this release, we will not support pluggable/customizable parts so a control user is left with only two methods of customization: properties and styling. With that in mind, it is appropriate to surface a limited number of properties targeted at very common, high priority customization scenarios which would otherwise require restyling. Here are best practices for when and how to enable customization scenarios: 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Very common customizations should be exposed as properties on the control and consumed by the style. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Less common (though not rare) customizations should be exposed as attached properties and consumed by the style. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>It is acceptable for known but rare customizations to require restyling.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Compose styles to enable colorization</Run>
+. Changing the color of a control has emerged as a common and difficult customization scenario for many controls.  In order to correctly alias a brush property (like <Run FontWeight="Bold">Background</Run>
+) on a control (such as <Run FontWeight="Bold">Button</Run>
+) which has a highly visual appearance, the template must be created with the brush property aliased to a background element—an element that sits in the back of the style. The visual appearance of the control should be created by layering shapes with semi-transparent fills on top of the background element, allowing the brush on the background element to "shine" through. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Theme Considerations
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Theme styles should attempt to have consistent property semantics across all themes, but make no guarantee</Run>
+. As part of its documentation, your control should have a document describing the control’s property semantics, that is, the "meaning" of a property for a control. For example, the <Run FontWeight="Bold">ComboBox</Run>
+ control should define the meaning of the Background property within <Run FontWeight="Bold">ComboBox</Run>
+. The default styles for your control should attempt to follow the semantics defined in that document across all themes. Control users, on the other hand, should be aware that property semantics can change from theme to theme. In certain cases, a given property may not be expressible under the visual constraints required by a particular theme. (The Classic theme, for example, does not have a single border to which <Run FontWeight="Bold">Thickness</Run>
+ can be applied for many controls.) 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Theme styles do not need to have consistent trigger semantics across all themes</Run>
+. The behavior exposed by a control style through triggers or animations may vary from theme to theme. Control users should be aware that a control will not necessarily employ the same mechanism to achieve a particular behavior across all themes. One theme, for example, may use an animation to express hover behavior where another theme uses a trigger. This can result in inconsistencies in behavior preservation on customized controls. (Changing the background property, for example, might not affect the hover state of the control if that state is expressed using a trigger. However, if the hover state is implemented using an animation, changing to background could irreparably break the animation and therefore the state transition).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Theme styles do not need to have consistent “layout” semantics across all themes</Run>
+. For example, the default style does not need to guarantee that a control will occupy the same amount of size in all themes or guarantee that a control will have the same content margins / padding across all themes.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="3d864748-cff0-4e63-9b23-d8e5a635b28f.xaml">Control Authoring Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Control Customization Overviews
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Guidelines for Designing Stylable Controls to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,405 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_26649544_c28c_4e56_869f_4953410f305a"
+  Tag     ="Slider Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Slider Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Slider class enables a user to select from a range of values by moving a value indicator, or Thumb, along a Track. For example, you typically create a volume control by using a <Run FontWeight="Bold">Slider</Run>
+ control. This topic introduces the <Run FontWeight="Bold">Slider</Run>
+ class. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="what_is_a_slider">What Is a Slider Control?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="slider_markup_syntax_and_sample">Creating a Simple Slider</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="using_tickbar_with_sliders">Creating a Slider That Has a TickBar with Tick Marks</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="slider_styling">Slider Styling</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What Is a Slider Control?
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Slider</Run>
+ control has a minimum, a maximum, and an increment value. You can use the Value of a <Run FontWeight="Bold">Slider</Run>
+ to modify another adjustable value. For example, a <Run FontWeight="Bold">Slider</Run>
+ control can enable users to gradually modify volume. When users move the <Run FontWeight="Bold">Thumb</Run>
+ in one direction, the volume increases; 
+when users move it the other direction, the volume decreases.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows an example of a horizontal <Run FontWeight="Bold">Slider</Run>
+ control.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows an example of a vertical <Run FontWeight="Bold">Slider</Run>
+ control.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating a Simple Slider
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create both a horizontal and vertical <Run FontWeight="Bold">Slider</Run>
+ control by using XAML.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Slider Value="0" Orientation="Horizontal" HorizontalAlignment="Left"/> 
+&lt;Slider Width="100" Height="30" Value="0" Orientation="Vertical"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to create a horizontal <Run FontWeight="Bold">Slider</Run>
+ that is added as the child element of a Canvas.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Slider hslider = new Slider(); 
+hslider.Orientation = Orientation.Horizontal; 
+hslider.AutoToolTipPlacement = AutoToolTipPlacement.TopLeft; 
+hslider.AutoToolTipPrecision = 2; 
+hslider.IsDirectionReversed = true; 
+hslider.Width = 100; 
+hslider.IsMoveToPointEnabled = false; 
+hslider.SelectionStart = 1.1; 
+hslider.SelectionEnd = 3; 
+hslider.IsSelectionRangeEnabled = false; 
+hslider.IsSnapToTickEnabled = false; 
+hslider.TickFrequency = 3; 
+hslider.TickPlacement = TickPlacement.Both; 
+cv1.Children.Add(hslider); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>cv1.Children.Clear() Dim hslider As New Slider() hslider.Orientation = Controls.Orientation.Horizontal hslider.AutoToolTipPlacement = AutoToolTipPlacement.TopLeft hslider.AutoToolTipPrecision = 2 hslider.IsDirectionReversed = True hslider.Width = 100 hslider.IsMoveToPointEnabled = False hslider.SelectionStart = 1.1 hslider.SelectionEnd = 3 hslider.IsSelectionRangeEnabled = False hslider.TickFrequency = 3 hslider.TickPlacement = TickPlacement.Both hslider.Value = 0 cv1.Children.Add(hslider) </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Slider Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating a Slider That Has a TickBar with Tick Marks
+    </Paragraph>
+
+    <Paragraph>When you create a <Run FontWeight="Bold">Slider</Run>
+, the default style provides a <Run FontWeight="Bold">Thumb</Run>
+, which is used to change the value, and a TickBar that has tick marks. Primary tick marks are displayed at the minimum and maximum values; 
+secondary marks are displayed at positions that are determined by the value of the TickFrequency property.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to add tick marks and tooltips that display the value of the <Run FontWeight="Bold">Slider</Run>
+ as you move the <Run FontWeight="Bold">Thumb</Run>
+ control.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Slider Width="100" Value="50" Orientation="Horizontal" HorizontalAlignment="Left" IsSnapToTickEnabled="True" Maximum="9" TickPlacement="BottomRight" AutoToolTipPlacement="BottomRight" TickFrequency="3" AutoToolTipPrecision="2" IsDirectionReversed="False" IsMoveToPointEnabled="False"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to use the Ticks property to place tick marks at non-uniform positions. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Slider Width="100" Value="50" Orientation="Horizontal" HorizontalAlignment="Left" IsSnapToTickEnabled="True" Maximum="3" TickPlacement="BottomRight" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" Ticks="0, 1.1, 2.5, 3"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Slider Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Slider Styling
+    </Paragraph>
+
+    <Paragraph>You can use styles to change the behavior and the appearance, such as the layout, of a <Run FontWeight="Bold">Slider</Run>
+ control. The following example demonstrates several ways to add styles to a <Run FontWeight="Bold">Slider</Run>
+ control. 
+    </Paragraph>
+
+    <Paragraph>The first example defines a style called <Run>Horizontal</Run>
+ that changes the background of a horizontal <Run FontWeight="Bold">Slider</Run>
+ and adds tick marks and tooltips.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Horizontal" TargetType="{x:Type Slider}"> 
+&lt;Setter Property = "Background" Value = "Red"/> 
+&lt;Setter Property = "IsSnapToTickEnabled" Value ="True"/> 
+&lt;Setter Property = "TickPlacement" Value ="BottomRight"/> 
+&lt;Setter Property = "AutoToolTipPlacement" Value ="BottomRight"/> 
+&lt;Setter Property = "TickFrequency" Value ="1"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example uses Triggers that change the appearance of a <Run FontWeight="Bold">Slider</Run>
+ in response to a mouse-over event that is raised on the <Run FontWeight="Bold">Slider</Run>
+ control. When a user moves the mouse pointer over the <Run FontWeight="Bold">Slider</Run>
+, the background color changes and tick marks appear.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Triggers" TargetType="{x:Type Slider}"> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="Slider.IsMouseOver" Value="True"> 
+&lt;Setter Property = "Background" Value="Green"/> 
+&lt;Setter Property = "IsSnapToTickEnabled" Value ="True"/> 
+&lt;Setter Property = "TickPlacement" Value ="TopLeft"/> 
+&lt;Setter Property = "TickFrequency" Value ="1"/> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Slider Styles Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Slider
+      <LineBreak/>Track
+      <LineBreak/>Thumb
+      <LineBreak/>TickBar
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="534be86c-afb2-425d-8186-631278a9925e.xaml">Slider How-to Topics</Hyperlink>
+
+      <LineBreak/>Slider Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Slider Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

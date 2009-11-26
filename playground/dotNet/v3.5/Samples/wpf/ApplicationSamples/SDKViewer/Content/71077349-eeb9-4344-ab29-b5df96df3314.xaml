@@ -1,0 +1,279 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_71077349_eeb9_4344_ab29_b5df96df3314"
+  Tag     ="Create a Custom View Mode for a ListView"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Custom View Mode for a ListView</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create a custom View mode for a ListView control.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>You must use the ViewBase class when you create a custom view for the <Run FontWeight="Bold">ListView</Run>
+ control. The following example shows a view mode that is called <Run>PlainView</Run>
+, which is derived from the <Run FontWeight="Bold">ViewBase</Run>
+ class. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class PlainView : ViewBase { public static readonly DependencyProperty ItemContainerStyleProperty = ItemsControl.ItemContainerStyleProperty.AddOwner(typeof(PlainView)); 
+public Style ItemContainerStyle { get { return (Style)GetValue(ItemContainerStyleProperty); 
+} set { SetValue(ItemContainerStyleProperty, value); 
+} } public static readonly DependencyProperty ItemTemplateProperty = ItemsControl.ItemTemplateProperty.AddOwner(typeof(PlainView)); 
+public DataTemplate ItemTemplate { get { return (DataTemplate)GetValue(ItemTemplateProperty); 
+} set { SetValue(ItemTemplateProperty, value); 
+} } public static readonly DependencyProperty ItemWidthProperty = WrapPanel.ItemWidthProperty.AddOwner(typeof(PlainView)); 
+public double ItemWidth { get { return (double)GetValue(ItemWidthProperty); 
+} set { SetValue(ItemWidthProperty, value); 
+} } public static readonly DependencyProperty ItemHeightProperty = WrapPanel.ItemHeightProperty.AddOwner(typeof(PlainView)); 
+public double ItemHeight { get { return (double)GetValue(ItemHeightProperty); 
+} set { SetValue(ItemHeightProperty, value); 
+} } protected override object DefaultStyleKey { get { return new ComponentResourceKey(GetType(), "myPlainViewDSK"); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To apply a style to the custom view, use the Style class. The following example defines a <Run FontWeight="Bold">Style</Run>
+ for the <Run>PlainView</Run>
+ view mode. In the previous example, this style is set as the value of the DefaultStyleKey property that is defined for <Run>PlainView</Run>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type l:PlainView}, ResourceId=myPlainViewDSK}" TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListBox}}" > 
+&lt;Setter Property="HorizontalContentAlignment" Value="Center"/> 
+&lt;Setter Property="ItemContainerStyle" Value="{Binding (ListView.View).ItemContainerStyle, RelativeSource={RelativeSource Self}}"/> 
+&lt;Setter Property="ItemTemplate" Value="{Binding (ListView.View).ItemTemplate, RelativeSource={RelativeSource Self}}"/> 
+&lt;Setter Property="ItemsPanel"> 
+&lt;Setter.Value> 
+&lt;ItemsPanelTemplate> 
+&lt;WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}" ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}" MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}" ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"/> 
+&lt;/ItemsPanelTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To define the layout of data in a custom view mode, define a DataTemplate object. The following example defines a <Run FontWeight="Bold">DataTemplate</Run>
+ that can be used to display data in the <Run>PlainView</Run>
+ view mode.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DataTemplate x:Key="centralTile"> 
+&lt;StackPanel Height="100" Width="90"> 
+&lt;Grid Width="70" Height="70" HorizontalAlignment="Center"> 
+&lt;Image Source="{Binding XPath=@Image}" Margin="6,6,6,9"/> 
+&lt;/Grid> 
+&lt;TextBlock Text="{Binding XPath=@Name}" FontSize="13" HorizontalAlignment="Center" Margin="0,0,0,1" /> 
+&lt;TextBlock Text="{Binding XPath=@Type}" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,1" /> 
+&lt;/StackPanel> 
+&lt;/DataTemplate> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to define a ResourceKey for the <Run>PlainView</Run>
+ view mode that uses the <Run FontWeight="Bold">DataTemplate</Run>
+ that is defined in the previous example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;l:PlainView x:Key="tileView" ItemTemplate="{StaticResource centralTile}" ItemWidth="100"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A <Run FontWeight="Bold">ListView</Run>
+ control can use a custom view if you set the <Run FontWeight="Bold">View</Run>
+ property to the resource key. The following example shows how to specify <Run>PlainView</Run>
+ as the view mode for a <Run FontWeight="Bold">ListView</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//Set the ListView View property to the tileView custom view lv.View = lv.FindResource("tileView") as ViewBase; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ListView with Multiple Views Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ListView
+      <LineBreak/>GridView
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="989e12b0-260e-4570-95c6-489284003ce2.xaml">ListView Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b2d02267-32b3-40ce-8e9f-06972d8749d9.xaml">GridView Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="aafce40c-9bfe-45ec-86a3-599616a11276.xaml">ListView How-to Topics</Hyperlink>
+
+      <LineBreak/>GridView How-to Topics
+      <LineBreak/>ListView Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Custom View Mode for a ListView to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,958 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_89247491_d617_4222_bb33_42c78554d4fe"
+  Tag     ="Use Styling to Create a Visually Compelling Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_89247491_d617_4222_bb33_42c78554d4fe"
+    Tag     ="Use Styling to Create a Visually Compelling Application"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Tutorial: Use Styling to Create a Visually Compelling Application</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>This topic shows you how to use resources, styles, and templates (collectively referred to as <Run FontStyle="italic">styling</Run>
+) to transform the functional user interface (UI) of the Basic Photo Store Application into a visually compelling application, without having to edit any of the application logic. This tutorial is a continuation of <Hyperlink NavigateUri="bbbad2c9-d0dd-45b0-afba-10aee278f3d6.xaml">Tutorial: Create a Basic Photo Store Application for Styling</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph>This tutorial uses excerpts from the Photo Store Demo with Styling as examples;please refer to the sample for the complete code.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Summary    
+      </Paragraph>
+
+      <Paragraph>The Photo Store Demo with Basic User Interface sample is the starting point of this tutorial. If you did not work through <Hyperlink NavigateUri="bbbad2c9-d0dd-45b0-afba-10aee278f3d6.xaml">Tutorial: Create a Basic Photo Store Application for Styling</Hyperlink>
+, you can download the Photo Store Demo with Basic User Interface sample and start from there.    
+      </Paragraph>
+
+      <Paragraph>The following is a screenshot of the completed basic photo store application:    
+      </Paragraph>
+
+      <Paragraph>Tasks illustrated in this tutorial include:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Run>Summary</Run>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="stylesetters">Using Style Setters to Change the Appearance of the Text Blocks</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="controltemplates">Using Control Templates to Redefine the Visual Tree of a Control</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="datatemplates">Using Data Templates to Determine How the Data Appears</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="styletriggers">Using Triggers to Create Dynamic user interface (UI)</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="nextsteps">What's Next</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Using Style Setters to Change the Appearance of the Text Blocks    
+      </Paragraph>
+
+      <Paragraph>This section demonstrates how to use style setters to apply properties on the text blocks.    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open Window1.xaml.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Add the following Style to the 
+&lt;Window.Resources> section. A style is a way to specify a collection of properties and values that can be named and applied to specific objects, or objects of a given type. Setting the TargetType property on a style indicates that the style should be applied to all elements of that type. The following example defines a style that will be applied to every TextBlock element. This particular style contains Setters, which specify the value to be applied to a particular property.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Style TargetType="{x:Type TextBlock}"> 
+&lt;Setter Property="FontFamily" Value="Segoe Black" /> 
+&lt;Setter Property="HorizontalAlignment" Value="Center" /> 
+&lt;Setter Property="FontSize" Value="12pt" /> 
+&lt;Setter Property="Foreground" Value="#777777" /> 
+&lt;/Style> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If you want to create a style for the title text "<Run FontStyle="italic">PhotoStore</Run>
+" that is similar to the one defined in the last step but with some different or additional property values, you can use the BasedOn property to create a style based on the previous one. Note that in the following example, the <Run FontWeight="Bold">BasedOn</Run>
+ value is set to the StaticResource reference to the current style defined for <Run FontWeight="Bold">TextBlock</Run>
+. By setting x:Key to <Run FontStyle="italic">TitleText</Run>
+ we are giving the style a name so we can directly refer to it later. Add the following style to the 
+&lt;Windows.Resources> section:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Style x:Key="TitleText" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}"> 
+&lt;Setter Property="FontSize" Value="32pt" /> 
+&lt;Setter Property="Foreground"> 
+&lt;Setter.Value> 
+&lt;LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0.0" Color="#90C117" /> 
+&lt;GradientStop Offset="1.0" Color="#5C9417" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Setter Property="RenderTransform"> 
+&lt;Setter.Value> 
+&lt;TranslateTransform X="0" Y="10"/> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>To make the title text block use the style you just defined, you need to set the Style property on that text block. Go to the text block that contains the text "<Run FontStyle="italic">PhotoStore</Run>
+" and set the <Run FontWeight="Bold">Style</Run>
+ property so it looks like the following:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TitleText}"> PhotoStore 
+&lt;/TextBlock> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Values set directly on an element override those specified in a style. While the style for <Run FontWeight="Bold">TextBlock</Run>
+ uses a HorizontalAlignment value of Center, you may want the <Run FontStyle="italic">Photo Tray</Run>
+ text block to be left-aligned. You can set the <Run FontWeight="Bold">HorizontalAlignment</Run>
+ property value to Left directly on the <Run FontWeight="Bold">TextBlock</Run>
+ with the text <Run FontStyle="italic">Photo Tray</Run>
+ as in the following example:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"> Photo Tray 
+&lt;/TextBlock> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Compile and run the application. You will see the generic <Run FontWeight="Bold">TextBlock</Run>
+ style applied to all text blocks, the style for the title text is applied specifically to the title <Run FontStyle="italic">PhotoStore</Run>
+, and the <Run FontStyle="italic">Photo Tray</Run>
+ text block is left-aligned.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Using Control Templates to Redefine the Visual Tree of a Control    
+      </Paragraph>
+
+      <Paragraph>Controls in Windows Presentation Foundation have a ControlTemplate that contains the <Run>visual tree</Run>
+ of that control. This section demonstrates how to redefine the visual tree of a control by setting the value of the Template property using the <Run FontWeight="Bold">Setter</Run>
+ element.    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Add the following Style to the Window’s Resources. As shown in this example, the <Run FontWeight="Bold">Template</Run>
+ property on a style takes a <Run FontWeight="Bold">ControlTemplate</Run>
+ object. You can set the TargetType property on the <Run FontWeight="Bold">ControlTemplate</Run>
+ to specify which control the control template applies to. The content of the <Run FontWeight="Bold">ControlTemplate</Run>
+ will become the visual tree. Note that when you redefine a part of the visual tree you have to specify all the pieces of the visual tree. See <Hyperlink NavigateUri="62f21039-ca2d-4df2-8bf5-5d1b7130f637.xaml">Control Customization Overviews</Hyperlink>
+ for examples of other control templates.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Style TargetType="{x:Type ListBox}"> 
+&lt;Setter Property="Foreground" Value="White" /> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type ListBox}" > 
+&lt;Border Height="100" Padding="5" BorderThickness="0.5" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center"> 
+&lt;Border.BorderBrush> 
+&lt;LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0.0" Color="#88000000" /> 
+&lt;GradientStop Offset="1.0" Color="#DDFFFFFF" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Border.BorderBrush> 
+&lt;Border.Background> 
+&lt;LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0.0" Color="#CCFFFFFF" /> 
+&lt;GradientStop Offset="1.0" Color="#55FFFFFF" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Border.Background> 
+&lt;StackPanel IsItemsHost="true" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" /> 
+&lt;/Border> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph>This example defines the control template of ListBox to be a Border containing a StackPanel. The IsItemsHost property is used to indicate in the template of an ItemsControl (such as <Run FontWeight="Bold">ListBox</Run>
+) where generated elements should go. Setting the property to true on the <Run FontWeight="Bold">StackPanel</Run>
+ means that any items added to the <Run FontWeight="Bold">ListBox</Run>
+ will go into that <Run FontWeight="Bold">StackPanel</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Next, you may want to define a similar style to be used for the photo tray. The biggest difference between the following style and the previous one is that the previous one lays the items out in a line horizontally, whereas the following style uses a WrapPanel. Add the following style to the resources section:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Style x:Key="TrayItemsControl" TargetType="{x:Type ItemsControl}"> 
+&lt;Setter Property="Foreground" Value="White" /> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type ItemsControl}" > 
+&lt;Border Height="250" Width="200" Padding="10" BorderThickness="0.5" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center"> 
+&lt;Border.BorderBrush> 
+&lt;LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0.0" Color="#88000000" /> 
+&lt;GradientStop Offset="1.0" Color="#DDFFFFFF" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Border.BorderBrush> 
+&lt;Border.Background> 
+&lt;LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0.0" Color="#CCFFFFFF" /> 
+&lt;GradientStop Offset="1.0" Color="#55FFFFFF" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Border.Background> 
+&lt;WrapPanel ItemHeight="75" ItemWidth="75" IsItemsHost="true" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" /> 
+&lt;/Border> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>To use the style, set the <Run FontWeight="Bold">Style</Run>
+ property on the <Run FontWeight="Bold">ItemsControl</Run>
+ in the photo tray as in the following example:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;ItemsControl Grid.Row="4" Grid.Column="1" Style="{StaticResource TrayItemsControl}" Name="PhotoTrayItemsControl" DataContext="{Binding Source={StaticResource PhotoTray}}" ItemsSource="{Binding}" /> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>If you compile and run the project at this point, you will see that the list box and the photo tray appear differently.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Using Data Templates to Determine How the Data Appears    
+      </Paragraph>
+
+      <Paragraph>Currently, the photos are displayed as filenames. A DataTemplate defines how data should be displayed. In this task, you will define a data template so that each photo is displayed as the actual image instead of a filename. A <Run FontWeight="Bold">DataTemplate</Run>
+ is similar to a <Run FontWeight="Bold">ControlTemplate</Run>
+ in that its content becomes the visual tree for the object. It has a property similar to <Run FontWeight="Bold">TargetType</Run>
+, but it is called DataType.    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Create a <Run FontWeight="Bold">DataTemplate</Run>
+ that targets the <Run FontStyle="italic">Photo</Run>
+ object by adding the following example to the resources section. This data template contains an Image, of which the Source property is bound to the <Run FontStyle="italic">Source</Run>
+ property of the <Run FontStyle="italic">Photo</Run>
+ class.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;DataTemplate DataType="{x:Type ps:Photo}"> 
+&lt;Border VerticalAlignment="Center" HorizontalAlignment="Center" Padding="4" Margin="2" Background="White"> 
+&lt;Image Source="{Binding Source}" /> 
+&lt;/Border> 
+&lt;/DataTemplate> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Next, add the following example to the resources section. This example defines two additional data templates, one for the display of prints and one named <Run FontStyle="italic">ReflectedPhoto</Run>
+, which will be used to create a reflection of the photo.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;DataTemplate DataType="{x:Type ps:Print}"> 
+&lt;Grid> 
+&lt;Border VerticalAlignment="Center" HorizontalAlignment="Center" Padding="3" Margin="1,4,1,12" Background="White" BorderBrush="#AAAAAA" BorderThickness="1" > 
+&lt;Image Source="{Binding Photo.Source}" /> 
+&lt;/Border> 
+&lt;TextBlock Text="{Binding PrintType.Description}" Foreground="#999999" FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Bottom" /> 
+&lt;/Grid> 
+&lt;/DataTemplate> 
+&lt;DataTemplate x:Key="ReflectedPhoto" > 
+&lt;Grid HorizontalAlignment="Center"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="250" /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;!-- reflection--> 
+&lt;Border Grid.Row="1" VerticalAlignment="Top" Width="{Binding ElementName=MainBorder, Path=ActualWidth}" Background="White" BorderBrush="#EEEEEE" BorderThickness="1"> 
+&lt;Border.LayoutTransform> 
+&lt;ScaleTransform ScaleX="1" ScaleY="-0.5"/> 
+&lt;/Border.LayoutTransform> 
+&lt;Border.OpacityMask> 
+&lt;LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0.0" Color="Transparent" /> 
+&lt;GradientStop Offset="1.0" Color="#50000000" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Border.OpacityMask> 
+&lt;Image Margin="7" Width="{Binding ElementName=MainImage, Path=ActualWidth}" Source="{Binding Source}"/> 
+&lt;/Border> 
+&lt;!-- shadow --> 
+&lt;Rectangle Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="{Binding ElementName=MainBorder, Path=ActualWidth}" Height="30"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform X="0" Y="15" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Fill> 
+&lt;RadialGradientBrush> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0.0" Color="#B0000000" /> 
+&lt;GradientStop Offset="1.0" Color="Transparent" /> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> 
+&lt;!-- main image --> 
+&lt;Border Grid.Row="0" x:Name="MainBorder" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" > 
+&lt;Image Margin="7" x:Name="MainImage" Source="{Binding Source}" /> 
+&lt;/Border> 
+&lt;/Grid> 
+&lt;/DataTemplate> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>To use the <Run FontStyle="italic">ReflectedPhoto</Run>
+ data template, set the ContentTemplate property on the ContentControl element as in the following example:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;ContentControl Grid.Row="4" Grid.RowSpan="4" Grid.Column="0" Margin="0" Content="{Binding ElementName=PhotosListBox, Path=SelectedItem}" ContentTemplate="{StaticResource ReflectedPhoto}"/> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Compile and run, and you will see that the user interface (UI) is beginning to look very compelling.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Using Triggers to Create Dynamic user interface (UI)    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">Style</Run>
+s, <Run FontWeight="Bold">DataTemplate</Run>
+s, and <Run FontWeight="Bold">ControlTemplate</Run>
+s all have a <Run FontWeight="Bold">Triggers</Run>
+ property that can contain a collection of triggers. A trigger sets properties or starts actions such as animation when a property value changes or when an event is raised. In this task you will add triggers to make your dynamic.    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Currently, the only visual that indicates a photo is selected is the border around the photo. The following example defines a style for ListBoxItem so that each item (a photo) is partially transparent, with the Opacity value being 0.5. The style also defines a control template with a Trigger that sets the <Run FontWeight="Bold">Opacity</Run>
+ to 1.0 when the IsSelected value is true. This means that a photo becomes fully opaque when it is selected. Add the following to the resources section:        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Style x:Key="{x:Type ListBoxItem}" TargetType="{x:Type ListBoxItem}"> 
+&lt;Setter Property="FocusVisualStyle" Value="{x:Null}" /> 
+&lt;Setter Property="Opacity" Value="0.5" /> 
+&lt;Setter Property="MaxHeight" Value="75" /> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type ListBoxItem}"> 
+&lt;Border x:Name="ContentBorder" BorderThickness="1" BorderBrush="Transparent"> 
+&lt;ContentPresenter /> 
+&lt;/Border> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="IsSelected" Value="True"> 
+&lt;Trigger.Setters> 
+&lt;Setter Property="Opacity" Value="1.0" /> 
+&lt;/Trigger.Setters> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;/Style> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>An EventTrigger is a trigger that applies changes when an event is raised. The RoutedEvent property of an event trigger specifies the event upon which to react to. Add the following example to the <Run FontWeight="Bold">ListBoxItem</Run>
+ style you created in the previous step so that a Storyboard begins when the mouse cursor enters or leaves the list box item. This example specifies that when the mouse cursor enters the list box item, the MaxHeight property animates to a value of 90 over a 0.2 second period. When the mouse moves away from the item, the property returns to the original value over a period of 1 second. Note how it is not necessary to specify a To value for the MouseLeaveEvent animation. This is because the animation is able to keep track of the original value.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Style.Triggers> 
+&lt;EventTrigger RoutedEvent="Mouse.MouseEnter"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="MaxHeight" To="90" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Mouse.MouseLeave"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Duration="0:0:1" Storyboard.TargetProperty="MaxHeight" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;/Style.Triggers> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Compile and run the application. Your application should look like the following. Notice when you select a photo it becomes fully opaque, and if you point the mouse cursor on a photo in the selection area it becomes larger.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">What's Next    
+      </Paragraph>
+
+      <Paragraph>In this application all of the styles and templates have been placed in the resources section of the window in Window1.xaml. The Application object in MyApp.xaml also has a Resources section. When a style is placed there, it can be accessed by any Extensible Application Markup Language (XAML) page or window in the entire application. If you want to define an application-wide font, for example, you can place the style in the application resource section. For an example of an application resource, see <Hyperlink NavigateUri="507ea937-5191-406b-8797-0a3d9f94156d.xaml">How to: Use Application Resources</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph>Additionally, it is possible to import styles by having the ResourceDictionary element point to another Extensible Application Markup Language (XAML) file. For example, if you have a file named ExternalResourceDictionary.xaml and it has a root element of <Run FontWeight="Bold">ResourceDictionary</Run>
+, which contains styles for different controls used in this application, you can add it to the <Run FontStyle="italic">Resources</Run>
+ folder of your project and then use it by adding the following to the 
+&lt;Application.Resources> section of MyApp.xaml. Note that the line is commented out in the following example because it is only for illustration purposes.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Application.Resources> 
+&lt;!--
+&lt;ResourceDictionary Source="Resources\ExternalResourceDictionary.xaml" />--> 
+&lt;/Application.Resources> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>If you want to get a more in-depth view of the topics discussed in this tutorial, see <Hyperlink NavigateUri="0f4d9f8c-0230-4013-bd7b-e8e7fed01b4a.xaml">Data Templates Overview</Hyperlink>
+ and the topics under <Hyperlink NavigateUri="a3d9930e-5597-470e-a636-dcf65eac500b.xaml">Control Customization</Hyperlink>
+ and <Hyperlink NavigateUri="7d83765b-d5ae-41b1-b423-80206e1124aa.xaml">Animation and Timing</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styles Overview</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph>Data Binding Demo      
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Tutorial: Use Styling to Create a Visually Compelling Application  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

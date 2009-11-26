@@ -1,0 +1,198 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ad4eb9aa_3afc_4a71_8cf6_add3fbea54a1"
+  Tag     ="Visual Basic and WPF Event Handling"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic and WPF Event Handling</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the Microsoft Visual Basic .NET language specifically, you can use the language-specific <Run FontWeight="Bold">Handles</Run>
+ keyword to associate event handlers with instances, instead of attaching event handlers with attributes, or using the AddHandler method. However, the <Run FontWeight="Bold">Handles</Run>
+ technique for attaching handlers to instances does have some limitations, because the <Run FontWeight="Bold">Handles</Run>
+ syntax cannot support some of the specific <Run>routed event</Run>
+ features of the WPF event system.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using "Handles" In a WPF Application
+    </Paragraph>
+
+    <Paragraph>The event handlers that are connected to instances and events with <Run FontWeight="Bold">Handles</Run>
+ must all be defined within the partial class declaration of the instance, which is also a requirement for event handlers that are assigned through attribute values on elements. You can only specify <Run FontWeight="Bold">Handles</Run>
+ for an element on the page that has a Name property value (or <Hyperlink NavigateUri="b7e61222-e8cf-48d2-acd0-6df3b7685d48.xaml">x:Name Attribute</Hyperlink>
+ declared). This is because the <Run FontWeight="Bold">Name</Run>
+ in XAML creates the instance reference that is necessary to support the <Span FontWeight="Bold"><Run FontStyle="italic">Instance</Run>
+</Span>
+.<Span FontWeight="Bold"><Run FontStyle="italic">Event</Run>
+</Span>
+ reference format required by the <Run FontWeight="Bold">Handles</Run>
+ syntax. The only element that can be used for <Run FontWeight="Bold">Handles</Run>
+ without a <Run FontWeight="Bold">Name</Run>
+ reference is the root element instance that defines the partial class.
+    </Paragraph>
+
+    <Paragraph>You can assign the same handler to multiple elements by separating <Span FontWeight="Bold"><Run FontStyle="italic">Instance</Run>
+</Span>
+.<Span FontWeight="Bold"><Run FontStyle="italic">Event</Run>
+</Span>
+ references after <Run FontWeight="Bold">Handles</Run>
+ with commas.
+    </Paragraph>
+
+    <Paragraph>You can use <Run FontWeight="Bold">Handles</Run>
+ to assign more than one handler to the same <Span FontWeight="Bold"><Run FontStyle="italic">Instance</Run>
+</Span>
+.<Span FontWeight="Bold"><Run FontStyle="italic">Event</Run>
+</Span>
+ reference. Do not assign any importance to the order in which handlers are given in the <Run FontWeight="Bold">Handles</Run>
+ reference; 
+you should assume that handlers that handle the same event can be invoked in any order.
+    </Paragraph>
+
+    <Paragraph>To remove a handler that was added with <Run FontWeight="Bold">Handles</Run>
+ in the declaration, you can call RemoveHandler.
+    </Paragraph>
+
+    <Paragraph>You can use <Run FontWeight="Bold">Handles</Run>
+ to attach handlers for routed events, so long as you attach handlers to instances that define the event being handled in their members tables. For routed events, handlers that are attached with <Run FontWeight="Bold">Handles</Run>
+ follow the same routing rules as do handlers that are attached as XAML attributes, or with the common signature of <Run FontWeight="Bold">AddHandler</Run>
+. This means that if the event is already marked handled (the Handled property in the event data is <Run FontWeight="Bold">True</Run>
+), then handlers attached with <Run FontWeight="Bold">Handles</Run>
+ are not invoked in response to that event instance. The event could be marked handled by instance handlers another element in the route, or by class handling either on the current element or earlier elements along the route. For input events that support paired tunnel/bubble events, the tunneling route may have marked the event pair handled. For more information about routed events, see <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Limitations of Handles for Adding Handlers
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Handles</Run>
+ cannot reference handlers for <Run>attached events</Run>
+. You must use the add accessor method for that attached event, or <Span FontWeight="Bold"><Run FontStyle="italic">typename</Run>
+</Span>
+.<Span FontWeight="Bold"><Run FontStyle="italic">eventname</Run>
+</Span>
+ event attributes in XAML. For details, see <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>For routed events, you can only use <Run FontWeight="Bold">Handles</Run>
+ to assign handlers for instances where that event exists in the instance members table. However, with routed events in general, a parent element can be a listener for an event from child elements, even if the parent element does not have that event in its members table. In attribute syntax, you can specify this through a <Span FontWeight="Bold"><Run FontStyle="italic">typename</Run>
+</Span>
+.<Span FontWeight="Bold"><Run FontStyle="italic">membername</Run>
+</Span>
+ attribute form that qualifies which type actually defines the event you want to handle. For instance, a parent <Run>Page</Run>
+ (with no <Run>Clic</Run>
+k event defined) can listen for button-click events by assigning an attribute handler in the form <Run>Button.Click</Run>
+. But <Run FontWeight="Bold">Handles</Run>
+ does not support the <Span FontWeight="Bold"><Run FontStyle="italic">typename</Run>
+</Span>
+.<Span FontWeight="Bold"><Run FontStyle="italic">membername</Run>
+</Span>
+ form, because it must support a conflicting <Span FontWeight="Bold"><Run FontStyle="italic">Instance</Run>
+</Span>
+.<Span FontWeight="Bold"><Run FontStyle="italic">Event</Run>
+</Span>
+ form. For details, see <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Handles</Run>
+ cannot attach handlers that are invoked for events that are already marked handled. In order to attach handlers that are invoked for events that are already marked handled, you must use code and call the <Run>handledEventsToo</Run>
+ signature of <Run FontWeight="Bold">AddHandler</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">How WPF Implements Handles Functionality
+    </Paragraph>
+
+    <Paragraph>When a Extensible Application Markup Language (XAML) page is compiled, that the intermediate file declares <Run FontWeight="Bold">Friend</Run>
+<Run FontWeight="Bold">WithEvents</Run>
+ references to every element on the page that has a <Run FontWeight="Bold">Name</Run>
+ property set (or <Hyperlink NavigateUri="b7e61222-e8cf-48d2-acd0-6df3b7685d48.xaml">x:Name Attribute</Hyperlink>
+ declared). Each named instance is potentially an element that can be assigned to a handler through <Run FontWeight="Bold">Handles</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Intellisense can show you completion for which elements are available for a <Run FontWeight="Bold">Handles</Run>
+ reference in a page. However, this might take one compile pass so that the intermediate file can populate all the <Run FontWeight="Bold">Friends</Run>
+ references. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>AddHandler
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="5e745508-4861-4b48-b5f6-5fc7ce5289d2.xaml">Marking Routed Events as Handled, and Class Handling</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Visual Basic and WPF Event Handling to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

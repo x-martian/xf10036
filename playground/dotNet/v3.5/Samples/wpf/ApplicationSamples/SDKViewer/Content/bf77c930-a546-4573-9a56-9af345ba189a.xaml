@@ -1,0 +1,129 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_bf77c930_a546_4573_9a56_9af345ba189a"
+  Tag     ="Position a Custom Context Menu in a RichTextBox"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Position a Custom Context Menu in a RichTextBox</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to position a custom context menu for a RichTextBox.
+    </Paragraph>
+
+    <Paragraph>When you implement a custom context menu for a <Run FontWeight="Bold">RichTextBox</Run>
+, you are responsible for handling the placement of the context menu. By default, a custom context menu is opened at the center of the <Run FontWeight="Bold">RichTextBox</Run>
+.
+    </Paragraph>
+
+    <Paragraph>For a working sample that demonstrate this example, see Position a Custom Context Menu in a RichTextBox Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>To override the default placement behavior, add a listener for the ContextMenuOpening event. The following example shows how to do this programmatically.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>richTextBox.ContextMenuOpening += new ContextMenuEventHandler(richTextBox_ContextMenuOpening); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows an implementation the corresponding <Run FontWeight="Bold">ContextMenuOpening</Run>
+ event listener.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// This method is intended to listen for the ContextMenuOpening event from a RichTextBox. // It will position the custom context menu at the end of the current selection. void richTextBox_ContextMenuOpening(object sender, ContextMenuEventArgs e) { // Sender must be RichTextBox. RichTextBox rtb = sender as RichTextBox; 
+if (rtb == null) return; 
+ContextMenu contextMenu = rtb.ContextMenu; 
+contextMenu.PlacementTarget = rtb; 
+// This uses HorizontalOffset and VerticalOffset properties to position the menu, // relative to the upper left corner of the parent element (RichTextBox in this case). contextMenu.Placement = PlacementMode.RelativePoint; 
+// Compute horizontal and vertical offsets to place the menu relative to selection end. TextPointer position = rtb.Selection.End; 
+if (position == null) return; 
+Rect positionRect = position.GetCharacterRect(LogicalDirection.Forward); 
+contextMenu.HorizontalOffset = positionRect.X; 
+contextMenu.VerticalOffset = positionRect.Y; 
+// Finally, mark the event has handled. contextMenu.IsOpen = true; 
+e.Handled = true; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Position a Custom Context Menu in a RichTextBox to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

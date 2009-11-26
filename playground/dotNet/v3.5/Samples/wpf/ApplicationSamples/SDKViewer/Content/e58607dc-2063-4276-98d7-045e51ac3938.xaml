@@ -1,0 +1,292 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e58607dc_2063_4276_98d7_045e51ac3938"
+  Tag     ="StatusBar Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>StatusBar Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A StatusBar is a horizontal area at the bottom of an application window where an application can display various types of status information. You can divide a <Run FontWeight="Bold">StatusBar</Run>
+ into sections so that it can better display more than one type of information. This topic introduces the <Run FontWeight="Bold">StatusBar</Run>
+ control and shows how to create one.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Status_Bar_Control">What Is a StatusBar?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Creating_a_Status_Bar">Creating a StatusBar</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="StylingaStatusBar">Styling a StatusBar</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="HandlingEvents">Handling Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What Is a StatusBar?
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">StatusBar</Run>
+ is a visual indicator of the operational status of an application and its components. A <Run FontWeight="Bold">StatusBar</Run>
+ control consists of a series of StatusBarItem controls that can display text, graphics, and other content. The control can group items to show relational similarities and can separate groups of items by using Separator controls.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows an example of a <Run FontWeight="Bold">StatusBar</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating a StatusBar
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define a <Run FontWeight="Bold">StatusBar</Run>
+ by using Extensible Application Markup Language (XAML) and how to add a ProgressBar by using code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StatusBar Name="sbar" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Background="Beige" > 
+&lt;StatusBarItem> 
+&lt;TextBlock>Ready
+&lt;/TextBlock> 
+&lt;/StatusBarItem> 
+&lt;StatusBarItem> 
+&lt;Separator Style="{StaticResource StatusBarSeparatorStyle}"/> 
+&lt;/StatusBarItem> 
+&lt;/StatusBar> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void MakeProgressBar(object sender, RoutedEventArgs e) { sbar.Items.Clear(); 
+TextBlock txtb = new TextBlock(); 
+txtb.Text = "Progress of download."; 
+sbar.Items.Add(txtb); 
+ProgressBar progressbar = new ProgressBar(); 
+Duration duration = new Duration(TimeSpan.FromSeconds(10)); 
+DoubleAnimation doubleanimation = new DoubleAnimation(100.0, duration); 
+progressbar.BeginAnimation(ProgressBar.ValueProperty, doubleanimation); 
+ToolTip ttprogbar = new ToolTip(); 
+ttprogbar.Content = "Shows the progress of a download."; 
+progressbar.ToolTip = (ttprogbar); 
+sbar.Items.Add(progressbar); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see StatusBar Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Styling a StatusBar
+    </Paragraph>
+
+    <Paragraph>You can apply a Style to a group of related <Run FontWeight="Bold">StatusBarItem</Run>
+ objects by applying a GroupStyle. To show divisions between groups of related <Run FontWeight="Bold">StatusBarItem</Run>
+ objects, add a <Run FontWeight="Bold">Separator</Run>
+ control to the <Run FontWeight="Bold">StatusBarItem</Run>
+ collection. You can also set the style for the <Run FontWeight="Bold">Separator</Run>
+ by specifying a SeparatorStyleKey.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to add Items that are separated by a <Run FontWeight="Bold">Separator</Run>
+ in a <Run FontWeight="Bold">StatusBar</Run>
+ that is named <Run>sbar</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Image helpImage = new Image(); 
+helpImage.Width = 16; 
+helpImage.Height = 16; 
+BitmapImage bi = new BitmapImage(); 
+bi.BeginInit(); 
+bi.UriSource = new Uri(@"pack://application:,,,/images/help.bmp"); 
+bi.EndInit(); 
+helpImage.Source = bi; 
+ToolTip ttp = new ToolTip(); 
+ttp.Content = "HELP"; 
+helpImage.ToolTip = (ttp); 
+sbar.Items.Add(helpImage); 
+Separator sp = new Separator(); 
+sp.Style = (Style)FindResource("StatusBarSeparatorStyle"); 
+sbar.Items.Add(sp); 
+Image printImage = new Image(); 
+printImage.Width = 16; 
+printImage.Height = 16; 
+BitmapImage bi_print = new BitmapImage(); 
+bi_print.BeginInit(); 
+bi_print.UriSource = new Uri(@"pack://application:,,,/images/print.bmp"); 
+bi_print.EndInit(); 
+printImage.Source = bi_print; 
+ToolTip ttp_print = new ToolTip(); 
+ttp.Content = "Sent to printer."; 
+printImage.ToolTip = (ttp_print); 
+sbar.Items.Add(printImage); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you do not set the Width on a <Run FontWeight="Bold">StatusBarItem</Run>
+, its content determines its size. 
+    </Paragraph>
+
+    <Paragraph>To place a <Run FontWeight="Bold">StatusBar</Run>
+ at the bottom of your application window, set the VerticalAlignment to Bottom. To define horizontal placement, set the HorizontalAlignment property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Handling Events
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">StatusBar</Run>
+ and its <Run FontWeight="Bold">StatusBarItem</Run>
+ objects cannot receive keyboard focus. However, a <Run FontWeight="Bold">StatusBarItem</Run>
+ object can receive mouse events that occur when the mouse pauses over it.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0790baa8-db43-43c9-9b6f-1a7566b0ac89.xaml">How to: Create a StatusBar</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>StatusBar
+      <LineBreak/>StatusBarItem
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about StatusBar Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,830 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3a29d185_65d8_42e3_bcc3_7f43e96f40c5"
+  Tag     ="UI Automation Support for the Spinner Control Type"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation Support for the Spinner Control Type</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic provides information about UI Automation support for the Spinner control type. In UI Automation, a control type is a set of conditions that a control must meet in order to use the ControlTypeProperty property. The conditions include specific guidelines for UI Automation tree structure, UI Automation property values and <Run>control patterns</Run>
+.
+    </Paragraph>
+
+    <Paragraph>Spinner controls are used to select from a domain of items or a range of numbers. 
+    </Paragraph>
+
+    <Paragraph>The following sections define the required UI Automation tree structure, properties, control patterns, and events for the Spinner control type. The UI Automation requirements apply to all spinner controls, whether Windows Presentation Foundation (WPF), Win32, or Windows Forms. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Required_UI_Automation_Tree_Structure">Required UI Automation Tree Structure</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Required_UI_Automation_Properties">Required UI Automation Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Required_UI_Automation_Control_Patterns">Required UI Automation Control Patterns</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Required_UI_Automation_Events">Required UI Automation Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Required UI Automation Tree Structure
+    </Paragraph>
+
+    <Paragraph>The following table depicts the <Run>Control View</Run>
+ and the <Run>Content View</Run>
+ of the UI Automation tree that pertain to spinner controls when they support the Range Value and Selection control patterns and describes what can be contained in each view. For more information on the UI Automation tree, see <Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Range Value control pattern</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Control View 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Content View 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Spinner
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Edit (0 or 1)
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Button (2)
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Spinner
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph><Run FontWeight="Bold">Selection control pattern</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Control View 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Content View 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Spinner
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Edit (0 or 1)
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Button (2)
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>List Item (2 or more)
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Spinner
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>ListItem (2 or more)
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>To ensure that the two buttons in the control view subtree can be distinguished by automated test tools, assign the SmallIncrement or SmallDecrement AutomationId as appropriate.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Required UI Automation Properties
+    </Paragraph>
+
+    <Paragraph>The following table lists the UI Automation properties whose value or definition is especially relevant to spinner controls. For more information on UI Automation properties, see <Hyperlink NavigateUri="255905af-0b17-485c-93d4-8a2db2a6524b.xaml">UI Automation Properties for Clients</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>UI Automation Property 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Value 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AutomationIdProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See notes.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The value of this property needs to be unique across all controls in an application.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>BoundingRectangleProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See notes.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The outermost rectangle that contains the whole control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ClickablePointProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See notes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The spinner control's clickable point gives focus to the edit portion of the control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsKeyboardFocusableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See notes.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>If the control can receive keyboard focus, it must support this property.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>NameProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See notes.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The spinner control typically gets its name from a static text label.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>LabeledByProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See notes.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Spinner controls have a static text label.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ControlTypeProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>"spinner"
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This value is the same for all UI frameworks.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>LocalizedControlTypeProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>"spinner"
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Localized string corresponding to the Spinner control type.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsContentElementProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>True
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The spinner control must always be content.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsControlElementProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>True
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The Spinner control must always be a control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Required UI Automation Control Patterns
+    </Paragraph>
+
+    <Paragraph>The following table lists the UI Automation control patterns required to be supported by spinner controls. For more information about control patterns, see <Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Control Pattern/Pattern Property 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Support/Value 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ISelectionProvider 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Depends
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Spinner controls that have a list of items to be selected must support this pattern.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>CanSelectMultiple 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>False
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Spinner controls are always single selection containers.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IRangeValueProvider 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Depends
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Spinner controls that span a numeric range must support this pattern.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Required UI Automation Events
+    </Paragraph>
+
+    <Paragraph>The following table lists the UI Automation events required to be supported by all spinner controls. For more information on events, see <Hyperlink NavigateUri="69eebd8b-39ed-40e7-93cc-4457c4caf746.xaml">UI Automation Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>UI Automation Event 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Support 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>InvalidatedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Depends
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">BoundingRectangleProperty</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Required
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsOffscreenProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Required
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsEnabledProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Required
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ValueProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Depends
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ValueProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Depends
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AutomationFocusChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Required
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>StructureChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Required
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Spinner
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="75159ef8-bd43-4d13-acb7-1f1fe9253160.xaml">UI Automation Control Types Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="65847654-9994-4a9e-b36d-2dd5d998770b.xaml">UI Automation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation Support for the Spinner Control Type to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

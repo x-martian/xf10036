@@ -1,0 +1,1043 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_10028f97_bb63_41fc_b8ad_663dac7ea203"
+  Tag     ="Key-Frame Animations Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Key-Frame Animations Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces you to key frame animations. Key frame animations enable you to animate more than two target property values, and control an animation's interpolation method.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="keyframeanimations">Using Key-Frame Animations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To understand this overview, you should be familiar with Windows Presentation Foundation (WPF) animations and timelines. For an introduction to animations, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using Key-Frame Animations
+    </Paragraph>
+
+    <Paragraph>One way to get interesting animation effects is to specify a set of values (key frames) for the animation, rather than just a starting and ending value. Key-frame animations enable you to specify a number of destination values, and even to control the interpolation method used by the animation.
+    </Paragraph>
+
+    <Paragraph>Key-frame animations are represented by different classes than non key-frame animations, or "from/to/by" animations. For example, there is a DoubleAnimationUsingKeyFrames and a DoubleAnimation class, each of which animates Double values. Unlike a from/to/by animation, a key frame animation has no from, to, or by properties with which to set its target values. Instead, you create key frame objects and add them to the animation's KeyFrames collection. When the animation runs, it transitions between the frames you specified.
+    </Paragraph>
+
+    <Paragraph>In the following example, a DoubleAnimationUsingKeyFrames is given four destination values by specifying four key frames.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="Microsoft.Samples.KeyFrameAnimations.KeyFramesIntroduction" WindowTitle="KeyFrame Animations"> 
+&lt;Border Width="400" BorderBrush="Black"> 
+&lt;Rectangle Fill="Blue" Width="50" Height="50" HorizontalAlignment="Left"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="MyAnimatedTranslateTransform" X="0" Y="0" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.MouseLeftButtonDown"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Animate the TranslateTransform's X property from 0 to 350, then 50, then 200 over 10 seconds. --> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="MyAnimatedTranslateTransform" Storyboard.TargetProperty="X" Duration="0:0:10"> 
+&lt;LinearDoubleKeyFrame Value="0" KeyTime="0:0:0" /> 
+&lt;LinearDoubleKeyFrame Value="350" KeyTime="0:0:2" /> 
+&lt;LinearDoubleKeyFrame Value="50" KeyTime="0:0:7" /> 
+&lt;LinearDoubleKeyFrame Value="200" KeyTime="0:0:10" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> 
+&lt;/Border> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When creating a key frame animation, you do the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Provide the animation with a Duration, just like you would for a from/to/by animation.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>For each key frame, select the appropriate key frame type, sets its value and KeyTime, and add it to the animation's KeyFrames collection. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Associate the animation with a property, just like you would with a from/to/by animation. For more information about applying an animation to a property using a storyboard, see <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>There are different types of key frame objects. Each key frame animation has its own type of key frame; 
+for example, the DoubleAnimationUsingKeyFrames class uses DoubleKeyFrame objects, while the StringAnimationUsingKeyFrames class uses StringKeyFrame objects.
+    </Paragraph>
+
+    <Paragraph>There are additional types of key frames for different interpolation types supported by that class. For example, a DoubleAnimationUsingKeyFrames supports linear, discrete, and splined interpolation, so it has three different types of key frames you can use: DiscreteDoubleKeyFrame, LinearDoubleKeyFrame, and SplineDoubleKeyFrame. A StringAnimationUsingKeyFrames only supports discrete interpolation, so has just a DiscreteStringKeyFrame.
+    </Paragraph>
+
+    <Paragraph>The following section describes the different interpolation methods and their corresponding key frames.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="18">Interpolation Methods
+    </Paragraph>
+
+    <Paragraph>An animation's interpolation describes how an animation transitions between values over its duration. By selecting which key frame type you use with your animation, you can define the interpolation method for that key frame segment. There are three different types of interpolation methods: linear, discrete, and splined.
+    </Paragraph>
+
+    <Paragraph>With <Run>linear interpolation</Run>
+, the animation progresses at a constant rate of the segment duration. For example, if a key frame segment transitions from 0 to 10 over a duration of 5 seconds, the animation will output the following values at the specified times: 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Time 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Output value 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>1
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>2
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>2
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>4
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>3
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>6
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>4
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>8
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>4.25
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>8.5
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>4.5
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>9
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>5
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>10
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following is an example of a DoubleAnimationUsingKeyFrames whose key frames use linear interpolation.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This rectangle is animated using a key frame animation with linear interpolation. --> 
+&lt;Rectangle Width="50" Height="50" Fill="Blue"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="LinearAnimatedTranslateTransform" X="0" Y="0" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Animate the TranslateTransform's X property from its base value (0) to 350, then 50, then 200 over 10 seconds. --> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="LinearAnimatedTranslateTransform" Storyboard.TargetProperty="X" Duration="0:0:15" RepeatBehavior="Forever"> 
+&lt;LinearDoubleKeyFrame Value="500" KeyTime="0:0:7" /> 
+&lt;LinearDoubleKeyFrame Value="200" KeyTime="0:0:10" /> 
+&lt;LinearDoubleKeyFrame Value="350" KeyTime="0:0:15" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>With <Run>discrete interpolation</Run>
+, the animation function jumps from one value to the next without interpolation. If a key frame segment transitions from 0 to 10 over a duration of 5 seconds, the animation will output the following values at the specified times:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Time 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Output value 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>1
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>2
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>3
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>4
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>4.25
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>4.5
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>5
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>10
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Notice how the animation does not change its output value until the very end of the segment duration.
+    </Paragraph>
+
+    <Paragraph>The following is an example of a DoubleAnimationUsingKeyFrames whose key frames use discrete interpolation.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This rectangle is animated using a key frame animation with discrete interpolation. --> 
+&lt;Rectangle Width="50" Height="50" Fill="Red"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="DiscreteAnimatedTranslateTransform" X="0" Y="0" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Animate the TranslateTransform's X property from its base value (0) to 350, then 50, then 200 over 10 seconds. --> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="DiscreteAnimatedTranslateTransform" Storyboard.TargetProperty="X" Duration="0:0:15" RepeatBehavior="Forever"> 
+&lt;DiscreteDoubleKeyFrame Value="500" KeyTime="0:0:7" /> 
+&lt;DiscreteDoubleKeyFrame Value="200" KeyTime="0:0:10" /> 
+&lt;DiscreteDoubleKeyFrame Value="350" KeyTime="0:0:15" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run>Splined interpolation</Run>
+ is more complex. It is described in the next section.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Splined Interpolation
+    </Paragraph>
+
+    <Paragraph>Splined interpolation can be used to achieve more realistic timing effects. Because animations are so often used to imitate effects that occur in the real world, developers may need fine control of the acceleration and deceleration of objects, and close manipulation of timing segments. Spline key frames enable you to animate with splined interpolation. With other key frames, you specify a value and a KeyTime. With a spline key frame, you also specify a KeySpline. The following example shows a single spline key frame for a DoubleAnimationUsingKeyFrames.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;SplineDoubleKeyFrame Value="500" KeyTime="0:0:7" KeySpline="0.25,0.5 0.75,1" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To understand how a KeySpline works, it is helpful to understand cubic Bezier curves. A cubic Bezier curve is defined by a start point, an end point, and two control points. The two coordinates in the KeySpline defines those two control points. When describing key splines, the start point of the Bezier curve is always <Run>0</Run>
+, and the end point is always <Run>1</Run>
+, which is why you define only the two control points. The resulting curve specifies how an animation is interpolated during a time segment; 
+that is, the curve represents the rate of change in the animation's target attribute over the time segment.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>You might use KeySpline to simulate physical trajectories like falling water or bouncing balls, or apply other "ease in" and "ease out" effects to motion animations. For user interaction effects like background fades or control button rebound, you might apply splined interpolation to speed up or slow down the rate of change for an animation in a specific way.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Combining Interpolation Methods
+    </Paragraph>
+
+    <Paragraph>You can use key frames with different interpolation types in a single key frame animation. In the following example, a DoubleAnimationUsingKeyFrames is created that uses linear, splined, and discrete interpolation.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This rectangle is animated using a key frame animation with a combination of interpolation methods. --> 
+&lt;Rectangle Width="50" Height="50" Fill="Orange"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="ComboAnimatedTranslateTransform" X="0" Y="0" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Animate the TranslateTransform's X property from its base value (0) to 350, then 50, then 200 over 10 seconds. --> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="ComboAnimatedTranslateTransform" Storyboard.TargetProperty="X" Duration="0:0:15" RepeatBehavior="Forever"> 
+&lt;DiscreteDoubleKeyFrame Value="500" KeyTime="0:0:7" /> 
+&lt;LinearDoubleKeyFrame Value="200" KeyTime="0:0:10" /> 
+&lt;SplineDoubleKeyFrame Value="350" KeyTime="0:0:15" KeySpline="0.25,0.5 0.75,1" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Duration and Key Times
+    </Paragraph>
+
+    <Paragraph>Like other animations, key-frame animations have a Duration property. In addition to specifying the animation's Duration, you need to specify what portion of that duration is given to each key frame. You do so by describing a a KeyTime for each of the animation's key frames.
+    </Paragraph>
+
+    <Paragraph>Each key frame's KeyTime specifies when that key frame ends. It does not specify how long the key time plays. The amount of time a key frame plays is determined by when the key frame ends, when the previous key frame ended, and the animation's duration.
+    </Paragraph>
+
+    <Paragraph>Key times may be specified as a time value, a percentage, or as the special values Uniform or Paced.
+    </Paragraph>
+
+    <Paragraph>When specifying time or percentage key times, the key time of each successive key frame must be greater than the key time of the preceding frame, because the animation processes the key frames in the order they are added to the key frame collection.
+    </Paragraph>
+
+    <Paragraph>The following list describes the different ways of specifying key times.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Use TimeSpan values: Specifies that the key frame ends some amount of time after the animation begins. In Extensible Application Markup Language (XAML), you specify the time using the following format: 
+        </Paragraph>
+
+        <Paragraph><Run FontStyle="italic">hours</Run>
+<Run>:</Run>
+<Run FontStyle="italic">minutes</Run>
+<Run>:</Run>
+<Run FontStyle="italic">seconds</Run>
+
+        </Paragraph>
+
+        <Paragraph>In procedural code, you use the FromTimeSpan method and pass it a TimeSpan. The value must be greater than or equal to 0 and less than or equal to the animation's duration. The following example shows an animation with a duration of 10 seconds and four key frames whose key times are specified as time values. 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>The first key frame animates from the base value to 100 over the first 3 seconds, ending at time = 0:0:03.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The second key frame animates from 100 to 200. It starts after the first key frame ends (at time = 3 seconds) and plays for 5 seconds, ending at time = 0:0:8.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The third key frame animates from 200 to 500. It starts when the second key frame ends (at time = 8 seconds) and plays for 1 second, ending at time = 0:0:9. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The fourth key frame animates from 500 to 600. It starts when the third key frame ends (at time = 9 seconds) and plays for 1 second, ending at time = 0:0:10.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This rectangle is animated with KeyTimes using TimeSpan values. Goes to 100 in the first 3 seconds, 100 to 200 in the next 5 seconds, and 300 to 500 in the last 2 seconds. --> 
+&lt;Rectangle Width="50" Height="50" Fill="Blue"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="TranslateTransform01" X="10" Y="30" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="TranslateTransform01" Storyboard.TargetProperty="X" Duration="0:0:10" RepeatBehavior="Forever"> 
+&lt;!-- KeyTime properties are expressed as TimeSpan values which are in the form of "hours:minutes:seconds". --> 
+&lt;LinearDoubleKeyFrame Value="100" KeyTime="0:0:3" /> 
+&lt;LinearDoubleKeyFrame Value="200" KeyTime="0:0:8" /> 
+&lt;LinearDoubleKeyFrame Value="500" KeyTime="0:0:9" /> 
+&lt;LinearDoubleKeyFrame Value="600" KeyTime="0:0:10" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Use percentage values: Specifies that the key frame ends at some percentage of the animation's duration. In XAML, you specify the percentage as a number followed by the <Run>%</Run>
+ symbol. In code, you use the FromPercent method and pass it a Double indicating the percentage. The value must be greater than or equal to 0 and less than or equal to 100 percent. The following example shows an animation with a duration of 10 seconds and four key frames whose key times are specified as percentages. 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>The first key frame animates from the base value to 100 over the first 3 seconds, ending at time = 0:0:3.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The second key frame animates from 100 to 200. It starts after the first key frame ends (at time = 3 seconds) and plays for 5 seconds, ending at time = 0:0:8 (0.8 * 10 = 8).
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The third key frame animates from 200 to 500. It starts when the second key frame ends (at time = 8 seconds) and plays for 1 second, ending at time = 0:0:9 (0.9 * 10 = 9). 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The fourth key frame animates from 500 to 600. It starts when the third key frame ends (at time = 9 seconds) and plays for 1 second, ending at time = 0:0:10 (1 * 10 = 10).
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Identical animation behavior to the previous rectangle but using percentage values for KeyTimes rather then TimeSpan. --> 
+&lt;Rectangle Height="50" Width="50" Fill="Purple"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="TranslateTransform02" X="10" Y="110" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="TranslateTransform02" Storyboard.TargetProperty="X" Duration="0:0:10" RepeatBehavior="Forever"> 
+&lt;!-- KeyTime properties are expressed as Percentages. --> 
+&lt;LinearDoubleKeyFrame Value="100" KeyTime="30%" /> 
+&lt;LinearDoubleKeyFrame Value="200" KeyTime="80%" /> 
+&lt;LinearDoubleKeyFrame Value="500" KeyTime="90%" /> 
+&lt;LinearDoubleKeyFrame Value="600" KeyTime="100%" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Use the special value, Uniform: Divides the available time equally by the number of key frames to determine the end time of each key frame. The following example shows an animation with a duration of 10 seconds and four key frames whose key times are specified as Uniform. 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>The first key frame animates from the base value to 100 over the first 2.5 seconds, ending at time = 0:0:2.5.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The second key frame animates from 100 to 200. It starts after the first key frame ends (at time = 2.5 seconds) and plays for approximately 2.5 seconds, ending at time = 0:0:5.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The third key frame animates from 200 to 500. It starts when the second key frame ends (at time = 5 seconds) and plays for 2.5 seconds, ending at time = 0:0:7.5. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The fourth key frame animates from 500 to 600. It starts when the second key frame ends (at time = 7.5 seconds) and plays for 2.5 seconds, ending at time = 0:0:1. 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This rectangle is animated with KeyTimes using Uniform values. Goes to 100 in the first 3.3 seconds, 100 to 200 in the next 3.3 seconds, 200 to 500 in the last 3.3 seconds. --> 
+&lt;Rectangle Height="50" Width="50" Fill="Red"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="TranslateTransform03" X="10" Y="190" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="TranslateTransform03" Storyboard.TargetProperty="X" Duration="0:0:10" RepeatBehavior="Forever"> 
+&lt;!-- KeyTime properties are expressed with values of Uniform. When a key time is set to "Uniform" the total allotted time of the animation is divided evenly between key frames. In this example, the total duration of the animation is ten seconds and there are four key frames each of which are set to "Uniform", therefore, the duration of each key frame is 3.3 seconds (10/3). --> 
+&lt;LinearDoubleKeyFrame Value="100" KeyTime="Uniform" /> 
+&lt;LinearDoubleKeyFrame Value="200" KeyTime="Uniform" /> 
+&lt;LinearDoubleKeyFrame Value="500" KeyTime="Uniform" /> 
+&lt;LinearDoubleKeyFrame Value="600" KeyTime="Uniform" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Use the special value, Paced: Allocates the available time according to the length of each of the key frames to determine the duration of each frame. This will provide the behavior that the velocity or pace of the animation remains constant. The following example shows an animation with a duration of 10 seconds and three key frames whose key times are specified as Paced. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Using Paced Values. Rectangle moves between key frames at uniform rate except for first key frame because using a Paced value on the first KeyFrame in a collection of frames gives a time of zero. --> 
+&lt;Rectangle Height="50" Width="50" Fill="Orange"> 
+&lt;Rectangle.RenderTransform> 
+&lt;TranslateTransform x:Name="TranslateTransform04" X="10" Y="270" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;Rectangle.Triggers> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="TranslateTransform04" Storyboard.TargetProperty="X" Duration="0:0:10" RepeatBehavior="Forever"> 
+&lt;!-- KeyTime properties are expressed with values of Paced. Paced values are used when a constant rate is desired. The time allocated to a key frame with a KeyTime of "Paced" is determined by the time allocated to the other key frames of the animation. This time is calculated to attempt to give a "paced" or "constant velocity" for the animation. --> 
+&lt;LinearDoubleKeyFrame Value="100" KeyTime="Paced" /> 
+&lt;LinearDoubleKeyFrame Value="200" KeyTime="Paced" /> 
+&lt;LinearDoubleKeyFrame Value="500" KeyTime="Paced" /> 
+&lt;LinearDoubleKeyFrame Value="600" KeyTime="Paced" /> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that, if the last key frame's key time is Paced or Uniform, its resolved key time will be set to 100 percent. If the first key frame in a multiframe animation is paced, its resolved key time will be set to 0. (If the key frame collection contains only a single key frame and it is a paced key frame, its resolved key time will be set to 100 percent.)
+    </Paragraph>
+
+    <Paragraph>Different key frames within a single key frame animation may use different key time types.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Key Spline Animation Sample
+      <LineBreak/>Key Frame Animation Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Key-Frame Animations Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

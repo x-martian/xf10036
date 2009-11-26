@@ -1,0 +1,172 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c326ad2b_2144_4f64_ae4c_d850c74f95c5"
+  Tag     ="Find a UI Automation Element for a List Item"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Find a UI Automation Element for a List Item</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic shows how to retrieve an AutomationElement for an item within a list when the index of the item is known.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows two ways of retrieving a specified item from a list, one using TreeWalker and the other using FindAll. 
+    </Paragraph>
+
+    <Paragraph>The first technique tends to be faster for Win32 controls, but the second is faster for Windows Presentation Foundation (WPF) controls.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Retrieves an element in a list, using TreeWalker. /// 
+&lt;/summary> /// 
+&lt;param name="parent">The list element.
+&lt;/param> /// 
+&lt;param name="index">The index of the element to find.
+&lt;/param> /// 
+&lt;returns>The list item.
+&lt;/returns> AutomationElement FindChildAt(AutomationElement parent, int index) { if (index 
+&lt; 
+0) { throw new ArgumentOutOfRangeException(); 
+} TreeWalker walker = TreeWalker.ControlViewWalker; 
+AutomationElement child = walker.GetFirstChild(parent); 
+for (int x = 1; 
+x 
+&lt;= index; 
+x++) { child = walker.GetNextSibling(child); 
+if (child == null) { throw new ArgumentOutOfRangeException(); 
+} } return child; 
+} /// 
+&lt;summary> /// Retrieves an element in a list, using FindAll. /// 
+&lt;/summary> /// 
+&lt;param name="parent">The list element.
+&lt;/param> /// 
+&lt;param name="index">The index of the element to find.
+&lt;/param> /// 
+&lt;returns>The list item.
+&lt;/returns> AutomationElement FindChildAtB(AutomationElement parent, int index) { Condition findCondition = new PropertyCondition(AutomationElement.IsControlElementProperty, true); 
+AutomationElementCollection found = parent.FindAll(TreeScope.Children, findCondition); 
+if ((index 
+&lt; 
+0) || (index >= found.Count)) { throw new ArgumentOutOfRangeException(); 
+} return found[index]; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Retrieves an element in a list, using TreeWalker. ''' 
+&lt;/summary> ''' 
+&lt;param name="parent">The list element.
+&lt;/param> ''' 
+&lt;param name="index">The index of the element to find.
+&lt;/param> ''' 
+&lt;returns>The list item.
+&lt;/returns> Function FindChildAt(ByVal parent As AutomationElement, ByVal index As Integer) As AutomationElement If (index 
+&lt; 
+0) Then Throw New ArgumentOutOfRangeException() End If Dim walker As TreeWalker = TreeWalker.ControlViewWalker Dim child As AutomationElement = walker.GetFirstChild(parent) For x As Integer = 1 To (index - 1) child = walker.GetNextSibling(child) If child = Nothing Then Throw New ArgumentOutOfRangeException() End If Next x Return child End Function ''' 
+&lt;summary> ''' Retrieves an element in a list, using FindAll. ''' 
+&lt;/summary> ''' 
+&lt;param name="parent">The list element.
+&lt;/param> ''' 
+&lt;param name="index">The index of the element to find.
+&lt;/param> ''' 
+&lt;returns>The list item.
+&lt;/returns> Function FindChildAtB(ByVal parent As AutomationElement, ByVal index As Integer) As AutomationElement Dim findCondition As Condition = _ New PropertyCondition(AutomationElement.IsControlElementProperty, True) Dim found As AutomationElementCollection = parent.FindAll(TreeScope.Children, findCondition) If (index 
+&lt; 
+0) Or (index >= found.Count) Then Throw New ArgumentOutOfRangeException() End If Return found(index) End Function </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c2caaf45-e59c-42a1-bc9b-77a6de520171.xaml">Obtaining UI Automation Elements</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Find a UI Automation Element for a List Item to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

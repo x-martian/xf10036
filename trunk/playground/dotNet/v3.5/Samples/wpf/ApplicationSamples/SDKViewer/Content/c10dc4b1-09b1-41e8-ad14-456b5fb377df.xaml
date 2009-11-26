@@ -1,0 +1,324 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c10dc4b1_09b1_41e8_ad14_456b5fb377df"
+  Tag     ="Paint an Area with a Drawing"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Paint an Area with a Drawing</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to paint an area with a drawing. To paint an area with a drawing, you use a DrawingBrush and one or more Drawing objects. The following example uses a <Run FontWeight="Bold">DrawingBrush</Run>
+ to paint an object with a drawing of two ellipses.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_c10dc4b1_09b1_41e8_ad14_456b5fb377df_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;!-- Demonstrates the use of DrawingBrush. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="White"> 
+&lt;StackPanel Margin="20"> 
+&lt;Rectangle Width="150" Height="150" Stroke="Black" StrokeThickness="1"> 
+&lt;Rectangle.Fill> 
+&lt;DrawingBrush> 
+&lt;DrawingBrush.Drawing> 
+&lt;GeometryDrawing Brush="MediumBlue"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;GeometryGroup> 
+&lt;EllipseGeometry RadiusX="20" RadiusY="45" Center="50,50" /> 
+&lt;EllipseGeometry RadiusX="45" RadiusY="20" Center="50,50" /> 
+&lt;/GeometryGroup> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="10"> 
+&lt;Pen.Brush> 
+&lt;LinearGradientBrush> 
+&lt;GradientStop Offset="0.0" Color="Black" /> 
+&lt;GradientStop Offset="1.0" Color="Gray" /> 
+&lt;/LinearGradientBrush> 
+&lt;/Pen.Brush> 
+&lt;/Pen> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Media.Imaging; 
+using System.Windows.Shapes; 
+namespace Microsoft.Samples.DrawingBrushExamples { /// 
+&lt;summary> /// Paints a Rectangle element with a DrawingBrush. /// 
+&lt;/summary> public class DrawingBrushExample : Page { public DrawingBrushExample() { Background = Brushes.White; 
+StackPanel mainPanel = new StackPanel(); 
+// Create a drawing of two ellipses. GeometryDrawing aDrawing = new GeometryDrawing(); 
+// Use geometries to describe two overlapping ellipses. EllipseGeometry ellipse1 = new EllipseGeometry(); 
+ellipse1.RadiusX = 20; 
+ellipse1.RadiusY = 45; 
+ellipse1.Center = new Point(50, 50); 
+EllipseGeometry ellipse2 = new EllipseGeometry(); 
+ellipse2.RadiusX = 45; 
+ellipse2.RadiusY = 20; 
+ellipse2.Center = new Point(50, 50); 
+GeometryGroup ellipses = new GeometryGroup(); 
+ellipses.Children.Add(ellipse1); 
+ellipses.Children.Add(ellipse2); 
+// Add the geometry to the drawing. aDrawing.Geometry = ellipses; 
+// Specify the drawing's fill. aDrawing.Brush = Brushes.Blue; 
+// Specify the drawing's stroke. Pen stroke = new Pen(); 
+stroke.Thickness = 10.0; 
+stroke.Brush = new LinearGradientBrush( Colors.Black, Colors.Gray, new Point(0, 0), new Point(1, 1)); 
+aDrawing.Pen = stroke; 
+// Create a DrawingBrush DrawingBrush myDrawingBrush = new DrawingBrush(); 
+myDrawingBrush.Drawing = aDrawing; 
+// Create a Rectangle element. Rectangle aRectangle = new Rectangle(); 
+aRectangle.Width = 150; 
+aRectangle.Height = 150; 
+aRectangle.Stroke = Brushes.Black; 
+aRectangle.StrokeThickness = 1.0; 
+// Use the DrawingBrush to paint the rectangle's // background. aRectangle.Fill = myDrawingBrush; 
+mainPanel.Children.Add(aRectangle); 
+this.Content = mainPanel; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the example's output.
+    </Paragraph>
+
+    <Paragraph>(The center of the shape is white for reasons described in <Hyperlink NavigateUri="c1c94575-9eca-48a5-a49a-2ec65259f229.xaml">How to: Control the Fill of a Composite Shape</Hyperlink>
+.)
+    </Paragraph>
+
+    <Paragraph>By setting a <Run FontWeight="Bold">DrawingBrush</Run>
+ object's Viewport and TileMode properties, you can create a repeating pattern. The following example paints an object with a pattern created from a drawing of two ellipses. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_c10dc4b1_09b1_41e8_ad14_456b5fb377df_1">
+                <cc:SnippetViewer.SnippetText>
+&lt;!-- Demonstrates the use of DrawingBrush. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="White"> 
+&lt;StackPanel Margin="20"> 
+&lt;Rectangle Width="150" Height="150" Stroke="Black" StrokeThickness="1"> 
+&lt;Rectangle.Fill> 
+&lt;DrawingBrush Viewport="0,0,0.25,0.25" TileMode="Tile"> 
+&lt;DrawingBrush.Drawing> 
+&lt;GeometryDrawing Brush="MediumBlue"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;GeometryGroup> 
+&lt;EllipseGeometry RadiusX="20" RadiusY="45" Center="50,50" /> 
+&lt;EllipseGeometry RadiusX="45" RadiusY="20" Center="50,50" /> 
+&lt;/GeometryGroup> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="10"> 
+&lt;Pen.Brush> 
+&lt;LinearGradientBrush> 
+&lt;GradientStop Offset="0.0" Color="Black" /> 
+&lt;GradientStop Offset="1.0" Color="Gray" /> 
+&lt;/LinearGradientBrush> 
+&lt;/Pen.Brush> 
+&lt;/Pen> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Media.Imaging; 
+using System.Windows.Shapes; 
+namespace Microsoft.Samples.DrawingBrushExamples { /// 
+&lt;summary> /// Paints a Rectangle element with a tiled DrawingBrush. /// 
+&lt;/summary> public class TiledDrawingBrushExample : Page { public TiledDrawingBrushExample() { Background = Brushes.White; 
+StackPanel mainPanel = new StackPanel(); 
+// Create a drawing of two ellipses. GeometryDrawing aDrawing = new GeometryDrawing(); 
+// Use geometries to describe two overlapping ellipses. EllipseGeometry ellipse1 = new EllipseGeometry(); 
+ellipse1.RadiusX = 20; 
+ellipse1.RadiusY = 45; 
+ellipse1.Center = new Point(50, 50); 
+EllipseGeometry ellipse2 = new EllipseGeometry(); 
+ellipse2.RadiusX = 45; 
+ellipse2.RadiusY = 20; 
+ellipse2.Center = new Point(50, 50); 
+GeometryGroup ellipses = new GeometryGroup(); 
+ellipses.Children.Add(ellipse1); 
+ellipses.Children.Add(ellipse2); 
+// Add the geometry to the drawing. aDrawing.Geometry = ellipses; 
+// Specify the drawing's fill. aDrawing.Brush = Brushes.Blue; 
+// Specify the drawing's stroke. Pen stroke = new Pen(); 
+stroke.Thickness = 10.0; 
+stroke.Brush = new LinearGradientBrush( Colors.Black, Colors.Gray, new Point(0, 0), new Point(1, 1)); 
+aDrawing.Pen = stroke; 
+// Create a DrawingBrush DrawingBrush myDrawingBrush = new DrawingBrush(); 
+myDrawingBrush.Drawing = aDrawing; 
+// Set the DrawingBrush's Viewport and TileMode // properties so that it generates a pattern. myDrawingBrush.Viewport = new Rect(0, 0, 0.25, 0.25); 
+myDrawingBrush.TileMode = TileMode.Tile; 
+// Create a Rectangle element. Rectangle aRectangle = new Rectangle(); 
+aRectangle.Width = 150; 
+aRectangle.Height = 150; 
+aRectangle.Stroke = Brushes.Black; 
+aRectangle.StrokeThickness = 1.0; 
+// Use the DrawingBrush to paint the rectangle's // background. aRectangle.Fill = myDrawingBrush; 
+mainPanel.Children.Add(aRectangle); 
+this.Content = mainPanel; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the tiled <Run FontWeight="Bold">DrawingBrush</Run>
+ output.
+    </Paragraph>
+
+    <Paragraph>For more information about drawing brushes, see <Hyperlink NavigateUri="779aac3f-8d41-49d8-8130-768244aa2240.xaml">Painting with Images, Drawings, and Visuals</Hyperlink>
+. For additional examples, see the DrawingBrush Sample. For more information about Drawing objects, see the <Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Paint an Area with a Drawing to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

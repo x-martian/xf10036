@@ -1,0 +1,144 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a47c832f_dc84_48f2_96d5_cde18fc4284b"
+  Tag     ="Use XML Namespaces in Data Binding"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Use XML Namespaces in Data Binding</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>This example shows how to handle namespaces specified in your XML <Run>binding source</Run>
+.
+    </Paragraph>
+
+    <Paragraph>If your XML data has the following XML namespace definition:
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"></Run>
+
+    </Paragraph>
+
+    <Paragraph>You can use the XmlNamespaceMapping element to map the namespace to a Prefix, as in the following example. You can then use the <Run FontWeight="Bold">Prefix</Run>
+ to refer to the XML namespace. The ListBox in this example displays the <Run FontStyle="italic">title</Run>
+ and <Run FontStyle="italic">dc:date</Run>
+ of each <Run FontStyle="italic">item</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel.Resources> 
+&lt;XmlNamespaceMappingCollection x:Key="mapping"> 
+&lt;XmlNamespaceMapping Uri="http://purl.org/dc/elements/1.1/" Prefix="dc" /> 
+&lt;/XmlNamespaceMappingCollection> 
+&lt;XmlDataProvider Source="http://msdn.microsoft.com/subscriptions/rss.xml" XmlNamespaceManager="{StaticResource mapping}" XPath="rss/channel/item" x:Key="provider"/> 
+&lt;DataTemplate x:Key="dataTemplate"> 
+&lt;Border BorderThickness="1" BorderBrush="Gray"> 
+&lt;Grid Width="600" Height="50"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="25"/> 
+&lt;RowDefinition Height="25"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;TextBlock Grid.Row="0" Text="{Binding XPath=title}" /> 
+&lt;TextBlock Grid.Row="1" Text="{Binding XPath=dc:date}" /> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;/DataTemplate> 
+&lt;/StackPanel.Resources> 
+&lt;ListBox Width="600" Height="600" Background="Honeydew" ItemsSource="{Binding Source={StaticResource provider}}" ItemTemplate="{StaticResource dataTemplate}"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that the <Run FontWeight="Bold">Prefix</Run>
+ you specify does not have to match the one used in the XML source; 
+if the prefix changes in the XML source your mapping still works.
+    </Paragraph>
+
+    <Paragraph>In this particular example, the XML data comes from a web service, but the <Run FontWeight="Bold">XmlNamespaceMapping</Run>
+ element also works with inline XML or XML data in an embedded file.
+    </Paragraph>
+
+    <Paragraph>For the complete example, see Binding Using XML Namespaces Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="7dcd018f-16aa-4870-8e47-c1b4ea31e574.xaml">How to: Bind to XML Data Using an XMLDataProvider and XPath Queries</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Use XML Namespaces in Data Binding to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

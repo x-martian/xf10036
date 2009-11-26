@@ -1,0 +1,751 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_db15ee48_4d24_49f5_8b9d_a64460865286"
+  Tag     ="Packaging Fonts with Applications"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Packaging Fonts with Applications</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic provides an overview of how to package fonts with your Windows Presentation Foundation (WPF) application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>As with most types of software, font files are licensed, rather than sold. Licenses that govern the use of fonts vary from vendor to vendor but in general most licenses, including those covering the fonts Microsoft supplies with applications and Windows, do not allow the fonts to be embedded within applications or otherwise redistributed. Therefore, as a developer it is your responsibility to ensure that you have the required license rights for any font you embed within an application or otherwise redistribute.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="introduction_to_packaging_fonts">Introduction to Packaging Fonts</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adding_fonts_as_content_items">Adding Fonts as Content Items</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adding_fonts_as_resource_items">Adding Fonts as Resource Items</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_a_font_resource_library">Creating a Font Resource Library</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="limitations_on_font_usage">Limitations on Font Usage</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Introduction to Packaging Fonts
+    </Paragraph>
+
+    <Paragraph>You can easily package fonts as resources within your WPF applications to display user interface text and other types of text based content. The fonts can be separate from or embedded within the application's assembly files. You can also can create a resource-only font library, which your application can reference.
+    </Paragraph>
+
+    <Paragraph>OpenType and TrueType® fonts contain a type flag, <Run FontWeight="Bold">fsType</Run>
+, that indicates font embedding licensing rights for the font. However, this type flag only refers to embedded fonts stored in a document–it does not refer to fonts embedded in an application. You can retrieve the font embedding rights for a font by creating a GlyphTypeFace object and referencing its EmbeddingRights property. Refer to the "OS/2 and Windows Metrics" section of the <Hyperlink NavigateUri="http://www.microsoft.com/typography/otspec/os2.xaml">OpenType Specification</Hyperlink>
+ for more information on the fsType flag.
+    </Paragraph>
+
+    <Paragraph>The <Hyperlink NavigateUri="http://www.microsoft.com/typography/links/">Microsoft Typography</Hyperlink>
+ Web site includes contact information that can help you locate a particular font vendor or find a font vendor for custom work.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Adding Fonts as Content Items
+    </Paragraph>
+
+    <Paragraph>You can add fonts to your application as project content items that are separate from the application's assembly files. This means that content items are not embedded as resources within an assembly. The following project file example shows how to define content items.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> 
+&lt;!-- Other project build settings ... --> 
+&lt;ItemGroup> 
+&lt;Content Include="Peric.ttf" /> 
+&lt;Content Include="Pericl.ttf" /> 
+&lt;/ItemGroup> 
+&lt;/Project></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In order to ensure that the application can use the fonts at run time, the fonts must be accessible in the application's deployment directory. The <Run>
+&lt;CopyToOutputDirectory></Run>
+ element in the application's project file allows you to automatically copy the fonts to the application deployment directory during the build process. The following project file example shows how to copy fonts to the deployment directory.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ItemGroup> 
+&lt;Content Include="Peric.ttf"> 
+&lt;CopyToOutputDirectory>PreserveNewest
+&lt;/CopyToOutputDirectory> 
+&lt;/Content> 
+&lt;Content Include="Pericl.ttf"> 
+&lt;CopyToOutputDirectory>PreserveNewest
+&lt;/CopyToOutputDirectory> 
+&lt;/Content> 
+&lt;/ItemGroup></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code example shows how to reference the application's font as a content item—the referenced content item must be in the same directory as the application's assembly files.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock FontFamily="./#Pericles Light"> Aegean Sea 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Adding Fonts as Resource Items
+    </Paragraph>
+
+    <Paragraph>You can add fonts to your application as project resource items that are embedded within the application's assembly files. Using a separate subdirectory for resources helps to organize the application's project files. The following project file example shows how to define fonts as resource items in a separate subdirectory.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> 
+&lt;!-- Other project build settings ... --> 
+&lt;ItemGroup> 
+&lt;Resource Include="resources\Peric.ttf" /> 
+&lt;Resource Include="resources\Pericl.ttf" /> 
+&lt;/ItemGroup> 
+&lt;/Project></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>When you add fonts as resources to your application, make sure you are setting the <Run>
+&lt;Resource></Run>
+ element, and not the <Run>
+&lt;EmbeddedResource></Run>
+ element in your application's project file. The <Run>
+&lt;EmbeddedResource></Run>
+ element for the build action is not supported.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following markup example shows how to reference the application's font resources.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock FontFamily="./resources/#Pericles Light"> Aegean Sea 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Referencing Font Resource Items from Code
+    </Paragraph>
+
+    <Paragraph>In order to reference font resource items from procedural code, you must supply a two-part font resource reference: the base uniform resource identifier (URI); 
+and the font location reference. These values are used as the parameters for the FontFamily method. The following code example shows how to reference the application's font resources in the project subdirectory called <Run>resources</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The font resource reference includes the base URI reference (application directory level), // and a relative URI reference. myTextBlock.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#Pericles Light"); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The base uniform resource identifier (URI) can include the application subdirectory where the font resource resides. In this case, the font location reference would not need to specify a directory, but would have to include a leading "<Run>./</Run>
+", which indicates the font resource is in the same directory specified by the base uniform resource identifier (URI). The following code example shows an alternate way of referencing the font resource item—it is equivalent to the previous code example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The base URI reference can include an application subdirectory. myTextBlock.FontFamily = new FontFamily(new Uri("pack://application:,,,/resources/"), "./#Pericles Light"); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Referencing Fonts from the Same Application Subdirectory
+    </Paragraph>
+
+    <Paragraph>You can place both application content and resource files within the same user-defined subdirectory of your application project. The following project file example shows a content page and font resources defined in the same subdirectory.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ItemGroup> 
+&lt;Page Include="pages\HomePage.xaml" /> 
+&lt;/ItemGroup> 
+&lt;ItemGroup> 
+&lt;Resource Include="pages\Peric.ttf" /> 
+&lt;Resource Include="pages\Pericl.ttf" /> 
+&lt;/ItemGroup></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Since the application content and font are in the same subdirectory, the font reference is relative to the application content. The following examples show how to reference the application's font resource when the font is in the same directory as the application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock FontFamily="./#Pericles Light"> Aegean Sea 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The font resource reference includes the base Uri (application directory level), // and the file resource location, which is relative to the base Uri. myTextBlock.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "/pages/#Pericles Light"); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Enumerating Fonts in an Application
+    </Paragraph>
+
+    <Paragraph>To enumerate fonts as resource items in your application, use either the GetFontFamilies or GetTypefaces method. The following example shows how to use the <Run FontWeight="Bold">GetFontFamilies</Run>
+ method to return the collection of FontFamily objects from the application font location. In this case, the application contains a subdirectory named "resources".
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>foreach (FontFamily fontFamily in Fonts.GetFontFamilies(new Uri("pack://application:,,,/"), "./resources/")) { // Perform action. } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to use the <Run FontWeight="Bold">GetTypefaces</Run>
+ method to return the collection of Typeface objects from the application font location. In this case, the application contains a subdirectory named "resources".
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>foreach (Typeface typeface in Fonts.GetTypefaces(new Uri("pack://application:,,,/"), "./resources/")) { // Perform action. } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Creating a Font Resource Library
+    </Paragraph>
+
+    <Paragraph>You can create a resource-only library that contains only fonts—no code is part of this type of library project. Creating a resource-only library is a common technique for decoupling resources from the application code that uses them. This also allows the library assembly to be included with multiple application projects. The following project file example shows the key portions of a resource-only library project.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;PropertyGroup> 
+&lt;AssemblyName>FontLibrary
+&lt;/AssemblyName> 
+&lt;OutputType>library
+&lt;/OutputType> ... 
+&lt;/PropertyGroup> ... 
+&lt;ItemGroup> 
+&lt;Resource Include="Kooten.ttf" /> 
+&lt;Resource Include="Pesca.ttf" /> 
+&lt;/ItemGroup</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Referencing a Font in a Resource Library
+    </Paragraph>
+
+    <Paragraph>To reference a font in a resource library from your application, you must prefix the font reference with the name of the library assembly. In this case, the font resource assembly is "FontLibrary". To separate the assembly name from the reference within the assembly, use a ';' character. Adding the "Component" keyword followed by the reference to the font name completes the full reference to the font library's resource. The following code example shows how to reference a font in a resource library assembly.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Run FontFamily="/FontLibrary;Component/#Kootenay" FontSize="36"> ABCDEFGHIJKLMNOPQRSTUVWXYZ 
+&lt;/Run> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>This SDK contains a set of sample OpenType fonts that you can use with WPF applications. The fonts are defined in a resource-only library. For more information, see <Hyperlink NavigateUri="56b46fa1-a44e-419b-8f14-25ad51c715c3.xaml">Sample OpenType Font Pack</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Limitations on Font Usage
+    </Paragraph>
+
+    <Paragraph>The following list describes several limitations on the packaging and use of fonts in WPF applications:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Font embedding permission bits</Run>
+: WPF applications do not check or enforce any font embedding permission bits. See the <Hyperlink TargetName="introduction_to_packaging_fonts">Introduction_to_Packing Fonts</Hyperlink>
+ section for more information.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Site of origin fonts</Run>
+: WPF applications do not allow a font reference to an http or ftp uniform resource identifier (URI).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Absolute URI using the pack: notation</Run>
+: WPF applications do not allow you to create a <Run FontWeight="Bold">FontFamily</Run>
+ object programmatically using "pack:" as part of the absolute URI reference to a font. For example, <Run>"pack://application:,,,/resources/#Pericles Light"</Run>
+ is an invalid font reference.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Automatic font embedding</Run>
+: During design time, there is no support for searching an application's use of fonts and automatically embedding the fonts in the application's resources.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Font subsets</Run>
+: WPF applications do not support the creation of font subsets for non-fixed documents.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In cases where there is an incorrect reference, the application falls back to using an available font.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>FontFamily
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="4061a9d1-fe8b-4921-9e17-18ec7d2e3ea2.xaml">OpenType Font Features</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="56b46fa1-a44e-419b-8f14-25ad51c715c3.xaml">Sample OpenType Font Pack</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="http://www.microsoft.com/typography/links/">http://www.microsoft.com/typography/links/</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://www.microsoft.com/typography/otspec/">http://www.microsoft.com/typography/otspec/</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Packaging Fonts with Applications to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

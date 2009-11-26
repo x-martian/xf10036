@@ -1,0 +1,369 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_791bb2f0_4e5c_4569_ac3c_211996808d44"
+  Tag     ="Intercepting Input from the Stylus"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Intercepting Input from the Stylus</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The System.Windows.Input.StylusPlugIns architecture provides a mechanism for implementing low-level control over Stylus input and the creation of digital ink Stroke objects. The StylusPlugIn class provides a mechanism for you to implement custom behavior and apply it to the stream of data coming from the stylus device for the optimal performance. 
+    </Paragraph>
+
+    <Paragraph>This topic contains the following subsections:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Architecture">Architecture</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="ImplementingStylusPlugins">Implementing StylusPlugins</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="AddingYourPluginToAnInkCanvas">Adding Your Plugin to an InkCanvas</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Conclusion">Conclusion</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Architecture
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">StylusPlugIn</Run>
+ is the evolution of the <Hyperlink NavigateUri="http://go.microsoft.com/fwlink/?LinkId=50753&amp;clcid=0x409">StylusInput</Hyperlink>
+ APIs, described in <Hyperlink NavigateUri="http://go.microsoft.com/fwlink/?LinkId=50752&amp;clcid=0x409">Accessing and Manipulating Pen Input</Hyperlink>
+, in the <Hyperlink NavigateUri="http://go.microsoft.com/fwlink/?linkid=11782&amp;clcid=0x409">Microsoft Windows XP Tablet PC Edition Software Development Kit 1.7</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Each UIElement has a StylusPlugIns property that is a StylusPlugInCollection. You can add a <Run FontWeight="Bold">StylusPlugIn</Run>
+ to an element's <Run FontWeight="Bold">StylusPlugIns</Run>
+ property to manipulate StylusPoint data as it is generated. <Run FontWeight="Bold">StylusPoint</Run>
+ data consists of all the properties supported by the system digitizer, including the X and Y point data, as well as PressureFactor data. 
+    </Paragraph>
+
+    <Paragraph>Your <Run FontWeight="Bold">StylusPlugIn</Run>
+ objects are inserted directly into the stream of data coming from the <Run FontWeight="Bold">Stylus</Run>
+ device when you add the <Run FontWeight="Bold">StylusPlugIn</Run>
+ to the <Run FontWeight="Bold">StylusPlugIns</Run>
+ property. The order in which plug-ins are added to the <Run FontWeight="Bold">StylusPlugIns</Run>
+ collection dictates the order in which they will receive <Run FontWeight="Bold">StylusPoint</Run>
+ data. For example, if you add a filter plug-in that restricts input to a particular region, and then add a plug-in that recognizes gestures as they are written, the plug-in that recognizes gestures will receive filtered <Run FontWeight="Bold">StylusPoint</Run>
+ data. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Implementing Stylus Plug-ins
+    </Paragraph>
+
+    <Paragraph>To implement a plug-in, derive a class from <Run FontWeight="Bold">StylusPlugIn</Run>
+. This class is applied o the stream of data as it comes in from the <Run FontWeight="Bold">Stylus</Run>
+. In this class you can modify the values of the <Run FontWeight="Bold">StylusPoint</Run>
+ data.
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates a plug-in that restricts the stylus input by modifying the <Run FontWeight="Bold">X</Run>
+ and <Run FontWeight="Bold">Y</Run>
+ values in the <Run FontWeight="Bold">StylusPoint</Run>
+ data as it comes in from the <Run FontWeight="Bold">Stylus</Run>
+ device.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports System Imports System.Windows.Media Imports System.Windows Imports System.Windows.Input.StylusPlugIns Imports System.Windows.Input Imports System.Windows.Ink <Run>... </Run>
+' A StylusPlugin that restricts the input area. Class FilterPlugin Inherits StylusPlugIn Protected Overrides Sub OnStylusDown(ByVal rawStylusInput As RawStylusInput) ' Call the base class before modifying the data. MyBase.OnStylusDown(rawStylusInput) ' Restrict the stylus input. Filter(rawStylusInput) End Sub 'OnStylusDown Protected Overrides Sub OnStylusMove(ByVal rawStylusInput As RawStylusInput) ' Call the base class before modifying the data. MyBase.OnStylusMove(rawStylusInput) ' Restrict the stylus input. Filter(rawStylusInput) End Sub 'OnStylusMove Protected Overrides Sub OnStylusUp(ByVal rawStylusInput As RawStylusInput) ' Call the base class before modifying the data. MyBase.OnStylusUp(rawStylusInput) ' Restrict the stylus input Filter(rawStylusInput) End Sub 'OnStylusUp Private Sub Filter(ByVal rawStylusInput As RawStylusInput) ' Get the StylusPoints that have come in. Dim stylusPoints As StylusPointCollection = rawStylusInput.GetStylusPoints() ' Modify the (X,Y) data to move the points ' inside the acceptable input area, if necessary. Dim i As Integer For i = 0 To stylusPoints.Count - 1 Dim sp As StylusPoint = stylusPoints(i) If sp.X 
+&lt; 
+50 Then sp.X = 50 End If If sp.X > 250 Then sp.X = 250 End If If sp.Y 
+&lt; 
+50 Then sp.Y = 50 End If If sp.Y > 250 Then sp.Y = 250 End If stylusPoints(i) = sp Next i ' Copy the modified StylusPoints back to the RawStylusInput. rawStylusInput.SetStylusPoints(stylusPoints) End Sub 'Filter End Class 'FilterPlugin </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System; 
+using System.Windows.Media; 
+using System.Windows; 
+using System.Windows.Input.StylusPlugIns; 
+using System.Windows.Input; 
+using System.Windows.Ink; 
+<Run>... </Run>
+ // A StylusPlugin that restricts the input area. class FilterPlugin : StylusPlugIn { protected override void OnStylusDown(RawStylusInput rawStylusInput) { // Call the base class before modifying the data. base.OnStylusDown(rawStylusInput); 
+// Restrict the stylus input. Filter(rawStylusInput); 
+} protected override void OnStylusMove(RawStylusInput rawStylusInput) { // Call the base class before modifying the data. base.OnStylusMove(rawStylusInput); 
+// Restrict the stylus input. Filter(rawStylusInput); 
+} protected override void OnStylusUp(RawStylusInput rawStylusInput) { // Call the base class before modifying the data. base.OnStylusUp(rawStylusInput); 
+// Restrict the stylus input Filter(rawStylusInput); 
+} private void Filter(RawStylusInput rawStylusInput) { // Get the StylusPoints that have come in. StylusPointCollection stylusPoints = rawStylusInput.GetStylusPoints(); 
+// Modify the (X,Y) data to move the points // inside the acceptable input area, if necessary. for (int i = 0; 
+i 
+&lt; 
+stylusPoints.Count; 
+i++) { StylusPoint sp = stylusPoints[i]; 
+if (sp.X 
+&lt; 
+50) sp.X = 50; 
+if (sp.X > 250) sp.X = 250; 
+if (sp.Y 
+&lt; 
+50) sp.Y = 50; 
+if (sp.Y > 250) sp.Y = 250; 
+stylusPoints[i] = sp; 
+} // Copy the modified StylusPoints back to the RawStylusInput. rawStylusInput.SetStylusPoints(stylusPoints); 
+} } </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Adding Your Plug-in to an InkCanvas
+    </Paragraph>
+
+    <Paragraph>The easiest way to use your custom plug-in is to implement a class that derives from InkCanvas and add it to the <Run FontWeight="Bold">StylusPlugIns</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates a custom InkCanvas that filters the ink.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class FilterInkCanvas : InkCanvas { FilterPlugin filter = new FilterPlugin(); 
+public FilterInkCanvas() : base() { this.StylusPlugIns.Add(filter); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Class FilterInkCanvas Inherits InkCanvas Private filter As New FilterPlugin() Public Sub New() Me.StylusPlugIns.Add(filter) End Sub 'New End Class 'FilterInkCanvas </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you add a <Run>FilterInkCanvas</Run>
+ to your application and run it, you will notice that the ink isn't restricted to a region until after the user completes a stroke. This is because the <Run FontWeight="Bold">InkCanvas</Run>
+ has a DynamicRenderer property, which is a <Run FontWeight="Bold">StylusPlugIn</Run>
+ and is already a member of the <Run FontWeight="Bold">StylusPlugIns</Run>
+ collection. The custom <Run FontWeight="Bold">StylusPlugIn</Run>
+ you added to the <Run FontWeight="Bold">StylusPlugIns</Run>
+ collection receives the <Run FontWeight="Bold">StylusPoint</Run>
+ data after DynamicRenderer receives data. As a result, the <Run FontWeight="Bold">StylusPoint</Run>
+ data will not be filtered until after the user lifts the pen to end a stroke. To filter the ink as the user draws it, you must insert the <Run>FilterPlugin</Run>
+ before the <Run FontWeight="Bold">DynamicRenderer</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following C# code demonstrates a custom <Run FontWeight="Bold">InkCanvas</Run>
+ that filters the ink as it is drawn.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class DynamicallyFilteredInkCanvas : InkCanvas { FilterPlugin filter = new FilterPlugin(); 
+public DynamicallyFilteredInkCanvas() : base() { int dynamicRenderIndex = this.StylusPlugIns.IndexOf(this.DynamicRenderer); 
+this.StylusPlugIns.Insert(dynamicRenderIndex, filter); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Class DynamicallyFilteredInkCanvas Inherits InkCanvas Private filter As New FilterPlugin() Public Sub New() Dim dynamicRenderIndex As Integer = Me.StylusPlugIns.IndexOf(Me.DynamicRenderer) Me.StylusPlugIns.Insert(dynamicRenderIndex, filter) End Sub 'New End Class 'DynamicallyFilteredInkCanvas </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Conclusion
+    </Paragraph>
+
+    <Paragraph>By deriving your own <Run FontWeight="Bold">StylusPlugIn</Run>
+ classes and inserting them into <Run FontWeight="Bold">StylusPlugInCollection</Run>
+ collections, you can greatly enhance the behavior of your digital ink. You have access to the <Run FontWeight="Bold">StylusPoint</Run>
+ data as it is generated, giving you the opportunity to customize the <Run FontWeight="Bold">Stylus</Run>
+ input. Because you have such low-level access to the <Run FontWeight="Bold">StylusPoint</Run>
+ data, you can implement ink collection and rendering with optimal performance for your application.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="abc8481a-f983-416f-b051-9168ac8b2ba3.xaml">Advanced Ink Handling</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://go.microsoft.com/fwlink/?LinkId=50752&amp;clcid=0x409">Accessing and Manipulating Pen Input</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Intercepting Input from the Stylus to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

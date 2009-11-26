@@ -1,0 +1,796 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b1a64b61_14be_4d75_b89a_5c67bebb2c7b"
+  Tag     ="Hit Testing in the Visual Layer"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Hit Testing in the Visual Layer</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic provides an overview of hit testing functionality provided by the visual layer. Hit testing support allows you to determine whether a geometry or point value falls within the boundary of a visual object, allowing you to implement user interface behavior such as drag and drop.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="hit_testing_scenarios">Hit Testing Scenarios</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="hit_testing_support">Hit Testing Support</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="hit_testing_and_z-order">Hit Testing and Z-Order</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="using_default_hit_testing">Using Default Hit Testing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="using_a_hit_test_result_callback">Using a Hit Test Result Callback</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="using_a_hit_test_filter_callback">Using a Hit Test Filter Callback</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="overriding_default_hit_testing">Overriding Default Hit Testing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="using_transparent_objects_with_hit_testing">Using Transparent Objects with Hit Testing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Hit Testing Scenarios
+    </Paragraph>
+
+    <Paragraph>The UIElement class provides the InputHitTest method, which allows you to hit test against an element using a given coordinate value. In many cases, the <Run FontWeight="Bold">InputHitTest</Run>
+ method provides the desired functionality for implementing hit testing of elements. However, there are several scenarios in which you may need to implement hit testing at the visual layer.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Hit testing against non-<Run FontWeight="Bold">UIElement</Run>
+ objects: This applies if you are hit testing non-<Run FontWeight="Bold">UIElement</Run>
+ objects, such as DrawingVisual or graphics objects.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Hit testing against the geometry of objects: This applies if you need to hit test against the geometry of an object rather than the coordinate value of a point.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Hit testing against multiple objects: This applies when you need to hit test against multiple objects, such as overlapping objects.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Ignoring <Run FontWeight="Bold">UIElement</Run>
+ hit testing policy: This applies when you need to ignore the <Run FontWeight="Bold">UIElement</Run>
+ hit testing policy, which takes into consideration such factors as whether an element is disabled or invisible.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For a complete code sample illustrating hit testing at the visual layer, see Using DrawingVisuals Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Hit Testing Support
+    </Paragraph>
+
+    <Paragraph>The purpose of the HitTest methods in the VisualTreeHelper class is to determine whether a geometry or point coordinate value is within the boundary of a given object, such as a control or graphic element. For example, you could use hit testing to determine whether a mouse click within the bounding rectangle of a object falls within the geometry of a circle You can also choose to override the default implementation of hit testing to perform your own custom hit test calculations.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows the relationship between a non-rectangular object's region and its bounding rectangle.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Hit Testing and Z-Order
+    </Paragraph>
+
+    <Paragraph>The Windows Presentation Foundation (WPF) visual layer supports hit testing for objects at all <Run>z-order</Run>
+ levels. This means you can hit test against the top-most z-order object as well as all objects at lower z-order levels. However, the visual object that you pass as the parameter to the HitTest method determines which portion of the <Run>visual tree</Run>
+ that will be hit test. You can hit test against the entire visual tree, or any portion of it.
+    </Paragraph>
+
+    <Paragraph>In the following illustration, the circle object is on top of the square and triangle objects. If you are only interested in hit testing the visual object whose z-order value is top-most, you can set the visual hit test enumeration to stop at the top-most z-order value, even though the specified coordinate value is contained within the geometry of two lower z-order objects. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>If you want to enumerate all visual objects at a particular coordinate regardless of z-order, you can set the visual hit test enumeration to return all visual objects regardless of z-order. This means you can hit test for visual objects that are beneath other objects, even if they are wholly obscured. See the sample code in the section "Using a Hit Test Results Callback" for more information.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>A visual object that is transparent can also be hit test.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using Default Hit Testing
+    </Paragraph>
+
+    <Paragraph>You can identify whether a point is within the geometry of a visual object, by using the <Run FontWeight="Bold">HitTest</Run>
+ method to specify a visual object and a point coordinate value to test against. The visual object parameter identifies the starting point in the visual tree for the hit test search. If a visual object is found in the visual tree whose geometry contains the coordinate, it is set to the VisualHit property of a returned HitTestResult object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Default hit testing always returns the top-most object in the z-order. In order to return occluded objects, use a hit test result callback.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The coordinate value you pass as the point parameter for the <Run FontWeight="Bold">HitTest</Run>
+ method has to be relative to the coordinate space of the visual object you are hit testing against. For example, if you have nested visual objects defined at (100, 100) in the parent's coordinate space, then hit testing a child visual at (0, 0) is equivalent to hit testing at (100, 100) in the parent's coordinate space.
+    </Paragraph>
+
+    <Paragraph>The following code shows how to set up mouse event handlers for a <Run FontWeight="Bold">UIElement</Run>
+ object that is used to capture events used for hit testing.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Respond to the left mouse button down event by initiating the hit test. public void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) { // Retrieve the coordinate of the mouse position. Point pt = e.GetPosition((UIElement)sender); 
+// Perform the hit test against a given portion of the visual object tree. HitTestResult result = VisualTreeHelper.HitTest(myCanvas, pt); 
+if (result != null) { // Perform action on hit visual object. } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">How the Visual Tree Affects Hit Testing
+    </Paragraph>
+
+    <Paragraph>The starting point in the visual tree determines which objects are returned during the hit test enumeration of objects. If you have multiple objects you want to hit test, the visual object used as the starting point in the visual tree must be the common ancestor of all objects of interest. For example, if you were interested in hit testing both the button element and drawing visual in the following diagram, you would have to set the starting point in the visual tree to the common ancestor of both. In this case, the canvas element is the common ancestor of both the button element and the drawing visual.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using a Hit Test Result Callback
+    </Paragraph>
+
+    <Paragraph>You can enumerate all visual objects in a visual tree whose geometry contains a specified coordinate value. This allows you to identify all visual objects, even those that may be partly or wholly obscured by other visual objects. To enumerate visual objects in a visual tree use the <Run FontWeight="Bold">HitTest</Run>
+ method with a hit test callback function. The hit test callback function is called by the system when the coordinate value you specify is contained in a visual object.
+    </Paragraph>
+
+    <Paragraph>During the hit test results enumeration, you should not perform any operation that modifies the visual tree. Adding or removing an object from the visual tree while it is being traversed can result in unpredictable behavior. You can safely modify the visual tree after the <Run FontWeight="Bold">HitTest</Run>
+ method returns. You may want to provide a data structure, such as an ArrayList, to store values during the hit test results enumeration.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Respond to the right mouse button down event by setting up a hit test results callback. public void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e) { // Retrieve the coordinate of the mouse position. Point pt = e.GetPosition((UIElement)sender); 
+// Clear the contents of the list used for hit test results. hitResultsList.Clear(); 
+// Set up a callback to receive the hit test result enumeration. VisualTreeHelper.HitTest(myCanvas, null, new HitTestResultCallback(MyHitTestResult), new PointHitTestParameters(pt)); 
+// Perform actions on the hit test results list. if (hitResultsList.Count > 0) { ProcessHitTestResultsList(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The hit test callback method defines the actions you perform when a hit test is identified on a particular visual object in the visual tree. After you perform the actions, you return a HitTestResultBehavior value that determines whether to continue the enumeration of any other visual objects or not.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Return the result of the hit test to the callback. public HitTestResultBehavior MyHitTestResult(HitTestResult result) { // Add the hit test result to the list that will be processed after the enumeration. hitResultsList.Add(result.VisualHit); 
+// Set the behavior to return visuals at all z-order levels. return HitTestResultBehavior.Continue; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The order of enumeration of hit visual objects is by z-order. The visual object at the top-most z-order level is the first object enumerated. Any other visual objects enumerated are at decreasing z-order level. This order of enumeration corresponds to the rendering order of the visuals.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can stop the enumeration of visual objects at any time in the hit test callback function by returning Stop.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Set the behavior to stop enumerating visuals. return HitTestResultBehavior.Stop; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using a Hit Test Filter Callback
+    </Paragraph>
+
+    <Paragraph>You can use an optional hit test filter to restrict the objects that are passed on to the hit test results. This allows you to ignore parts of the visual tree that you are not interested in processing in your hit test results. To implement a hit test filter, you define a hit test filter callback function and pass it as a parameter value when you call the <Run FontWeight="Bold">HitTest</Run>
+ method.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Respond to the mouse wheel event by setting up a hit test filter and results enumeration. public void OnMouseWheel(object sender, MouseWheelEventArgs e) { // Retrieve the coordinate of the mouse position. Point pt = e.GetPosition((UIElement)sender); 
+// Clear the contents of the list used for hit test results. hitResultsList.Clear(); 
+// Set up a callback to receive the hit test result enumeration. VisualTreeHelper.HitTest(myCanvas, new HitTestFilterCallback(MyHitTestFilter), new HitTestResultCallback(MyHitTestResult), new PointHitTestParameters(pt)); 
+// Perform actions on the hit test results list. if (hitResultsList.Count > 0) { ProcessHitTestResultsList(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you do not want to supply the optional hit test filter callback function, pass a <Run FontWeight="Bold">null</Run>
+ value as its parameter for the HitTest method.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Set up a callback to receive the hit test result enumeration, // but no hit test filter enumeration. VisualTreeHelper.HitTest(myCanvas, null, // No hit test filtering. new HitTestResultCallback(MyHitTestResult), new PointHitTestParameters(pt)); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The hit test filter callback function allows you to enumerate through all the visuals whose geometry contains the coordinates you specify. However, you may want to ignore certain branches of the visual tree that you are not interested in processing in your hit test results callback function. The return value of the hit test filter callback function determines what type of action the enumeration of the visual objects should take. For example, if you return the value, ContinueSkipSelfAndChildren, you can remove the current visual object and its children from the hit test results enumeration. This means that the hit test results callback function will not see these objects in its enumeration. Pruning the visual tree of objects decreases the amount of processing during the hit test results enumeration pass.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Filter the hit test values for each object in the enumeration. public HitTestFilterBehavior MyHitTestFilter(DependencyObject o) { // Test for the object value you want to filter. if (o.GetType() == typeof(Label)) { // Visual object is part of hit test results enumeration. return HitTestFilterBehavior.Continue; 
+} else { // Visual object and descendants are NOT part of hit test results enumeration. return HitTestFilterBehavior.ContinueSkipSelfAndChildren; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The hit test filter callback will sometimes be called in cases where the hit test results callback is not called.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Overriding Default Hit Testing
+    </Paragraph>
+
+    <Paragraph>You can override a visual object’s default hit testing support by overriding the HitTestCore method. This means that when you invoke the <Run FontWeight="Bold">HitTest</Run>
+ method, your overridden implementation of <Run FontWeight="Bold">HitTestCore</Run>
+ is called. Your overridden method is called when a hit test falls within the bounding rectangle of the visual object, even if the coordinate falls outside the geometry of the visual object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Override default hit test support in visual object. protected override HitTestResult HitTestCore(PointHitTestParameters hitTestParameters) { Point pt = hitTestParameters.HitPoint; 
+// Perform custom actions during the hit test processing. // Return hit on bounding rectangle of visual object. return new PointHitTestResult(this, pt); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>There may be times when you want to hit test against both the bounding rectangle and the geometry of a visual object. By using the <Run>PointHitTestParameters</Run>
+ parameter value in your overridden <Run FontWeight="Bold">HitTestCore</Run>
+ method as the parameter to the base method <Run FontWeight="Bold">HitTestCore</Run>
+, you can perform actions based on a hit of the bounding rectangle of a visual object, and then perform a second hit test against the geometry of the visual object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Override default hit test support in visual object. protected override HitTestResult HitTestCore(PointHitTestParameters hitTestParameters) { // Perform actions based on hit test of bounding rectangle. // ... // Return results of base class hit testing, // which only returns hit on the geometry of visual objects. return base.HitTestCore(hitTestParameters); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using Transparent Objects with Hit Testing
+    </Paragraph>
+
+    <Paragraph>A common technique for capturing events used for hit testing is to overlay a transparent light-weight <Run FontWeight="Bold">UIElement</Run>
+ object over all the objects you are interested in hit testing. This allows you to hit test graphical objects, such as Ellipse and Polygon objects. A transparent <Run FontWeight="Bold">UIElement</Run>
+ can capture events, such as mouse clicks. For example, a transparent Border object can be used as the <Run FontWeight="Bold">UIElement</Run>
+ object for capturing events used for hit testing.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows the relationship between a transparent <Run FontWeight="Bold">UIElement</Run>
+ object and the visual objects of interest.
+    </Paragraph>
+
+    <Paragraph>The following markup shows how to define a transparent <Run FontWeight="Bold">Border</Run>
+ object for use with hit testing. Notice that the <Run FontWeight="Bold">Border</Run>
+ object must be the last element defined in the Canvas, so that it will be the top-most object in the drawing order.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas Height="400"> 
+&lt;Polygon Fill="Yellow" Stroke="Black" Width="80" Height="80" Stretch="Fill" Points="9,2 11,7 17,7 12,10 14,15 9,12 4,15 6,10 1,7 7,7" /> 
+&lt;Rectangle Canvas.Top="80" Width="100" Height="40" Fill="Maroon" /> 
+&lt;Ellipse Canvas.Top="120" Fill="Teal" Width="100" Height="40" /> 
+&lt;!-- Border object must be defined last so that it overlays all other objects in the StackPanel. --> 
+&lt;Border Name="myBorder" MouseDown="OnMouseDown" Background="Transparent" Height="400" Width="800"/> 
+&lt;/Canvas> 
+&lt;TextBlock Name="myTextBlock" FontSize="24" Width="800">Click any object
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that the default position of the <Run FontWeight="Bold">Border</Run>
+ object within its parent <Run FontWeight="Bold">Canvas</Run>
+ object is 0, 0. This means the <Run FontWeight="Bold">Border</Run>
+ object overlays the other objects in the <Run FontWeight="Bold">Canvas</Run>
+.
+    </Paragraph>
+
+    <Paragraph>Once the <Run FontWeight="Bold">Border</Run>
+ object is properly sized and positioned over the other objects, it can respond to mouse down events and perform hit testing. The following code shows how to implement hit testing for a transparent <Run FontWeight="Bold">Border</Run>
+ object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void OnMouseDown(object sender, MouseButtonEventArgs e) { // Retrieve the coordinate of the mouse position. Point pt = e.GetPosition((UIElement)sender); 
+// Get the parent of the Border object, since it is also the parent of the other objects. DependencyObject parent = VisualTreeHelper.GetParent((DependencyObject)sender); 
+// Set up a callback to receive the hit test result enumeration. VisualTreeHelper.HitTest(((Visual)parent), null, new HitTestResultCallback(MyHitTestResult), new PointHitTestParameters(pt)); 
+} // Return the result of the hit test to the callback. public HitTestResultBehavior MyHitTestResult(HitTestResult result) { Visual visual = (Visual)result.VisualHit; 
+// Ignore the transparent Border object. if (visual.GetType() == typeof(Border)) { // Set the behavior to return visuals at all z-order levels. return HitTestResultBehavior.Continue; 
+} // Display the type value of the object hit. myTextBlock.Text = visual.GetType().ToString() + " clicked"; 
+// Stop the hit test enumeration of the visual tree. return HitTestResultBehavior.Stop; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Transparent versus Invisible Objects
+    </Paragraph>
+
+    <Paragraph>For a transparent object to be used in hit testing, its visibility state must be set to Visible. This allows a transparent object to receive input events—an invisible object cannot receive input events. A transparent object can be defined in several ways either by using a transparent Brush or by setting the value of the Opacity property to 0. The following code shows equivalent ways of creating a transparent object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Create transparent object using a transparent brush. --> 
+&lt;Border Background="Transparent" Height="50" /> 
+&lt;!-- Create transparent object using a brush with an Opacity value of 0. --> 
+&lt;Border Background="Aqua" Opacity="0" Height="50" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Setting the visibility state of a transparent object to Hidden prevents the object from receiving input events, such as mouse clicks. The following code shows a transparent object that will not be able to receive input events, since its visibility is set to <Run FontWeight="Bold">Hidden</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- This is an invisible object, and cannot receive input focus. --> 
+&lt;Border Background="Transparent" Visibility="Hidden" Height="50" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8bf2643f-d7f9-4cb4-9ea6-5b893c23200d.xaml">How to: Hit Test Geometry in a Visual</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9491f7f3-d8ba-4573-a888-2f064d1349dc.xaml">How to: Hit Test Using a Win32 Host Container</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Hit Testing in the Visual Layer to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,200 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d8016266_58d9_48f7_8298_a86b7ed49fbd"
+  Tag     ="Enable a Command"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Enable a Command</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example demonstrates how to use commanding in Windows Presentation Foundation (WPF). 
+    </Paragraph>
+
+    <Paragraph>The example shows how to associate a RoutedCommand to a command source, create a CommandBinding, and create the event handlers which implement the <Run FontWeight="Bold">RoutedCommand</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The first section of code creates the user interface (UI), which consists of a Button and a StackPanel, and creates a <Run FontWeight="Bold">CommandBinding</Run>
+ that associates the command handlers with the <Run FontWeight="Bold">RoutedCommand</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The Command property of the <Run FontWeight="Bold">Button</Run>
+ is associated with the Close command. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">CommandBinding</Run>
+ is added to the CommandBindingCollection of the root Window. The Executed and CanExecute event handlers are attached to this binding and associated with the <Run FontWeight="Bold">Close</Run>
+ command. 
+    </Paragraph>
+
+    <Paragraph>Without the <Run FontWeight="Bold">CommandBinding</Run>
+ there is no command logic, only a mechanism to invoke the command. When the <Run FontWeight="Bold">Button</Run>
+ is clicked, the PreviewExecuted RoutedEvent is raised on the command target followed by the Executed <Run FontWeight="Bold">RoutedEvent</Run>
+. These events traverse the element tree looking for a <Run FontWeight="Bold">CommandBinding</Run>
+ for that particular command. It is worth noting that because <Run FontWeight="Bold">RoutedEvent</Run>
+ tunnel and bubble through the element tree, care must be taken in where the <Run FontWeight="Bold">CommandBinding</Run>
+ is put. If the <Run FontWeight="Bold">CommandBinding</Run>
+ is on a sibling of the command target or another node that is not on the route of the <Run FontWeight="Bold">RoutedEvent</Run>
+, the <Run FontWeight="Bold">CommandBinding</Run>
+ will not be accessed.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="WCSamples.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="CloseCommand" Name="RootWindow" > 
+&lt;Window.CommandBindings> 
+&lt;CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandHandler" CanExecute="CanExecuteHandler" /> 
+&lt;/Window.CommandBindings> 
+&lt;StackPanel Name="MainStackPanel"> 
+&lt;Button Command="ApplicationCommands.Close" Content="Close File" /> 
+&lt;/StackPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// create ui elements StackPanel CloseCmdStackPanel = new StackPanel(); 
+Button CloseCmdButton = new Button(); 
+CloseCmdStackPanel.Children.Add(CloseCmdButton); 
+// set Button properties CloseCmdButton.Content = "Close File"; 
+CloseCmdButton.Command = ApplicationCommands.Close; 
+// create the CommandBinding CommandBinding CloseCommandBinding = new CommandBinding( ApplicationCommands.Close, CloseCommandHandler, CanExecuteHandler); 
+// add the CommandBinding to the root window RootWindow.CommandBindings.Add(CloseCommandBinding); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next section of code implements the <Run FontWeight="Bold">Executed</Run>
+ and <Run FontWeight="Bold">CanExecute</Run>
+ event handlers.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Executed</Run>
+ handler calls a method to close the open file. The <Run FontWeight="Bold">CanExecute</Run>
+ handler calls a method to determine whether a file is open. If a file is open, CanExecute is set to <Run FontWeight="Bold">true</Run>
+; 
+otherwise, it is set to <Run FontWeight="Bold">false</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Executed event handler public void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e) { // calls a method to close the file and release resources CloseFile(); 
+} // CanExecute event handler public void CanExecuteHandler(object sender, CanExecuteRoutedEventArgs e) { // Call a method to determine if there is a file open // If there is a file open, then set CanExecute to true if (IsFileOpened()) { e.CanExecute = true; 
+} // if there is not a file open, then set CanExecute to false else { e.CanExecute = false; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Enable a Command to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

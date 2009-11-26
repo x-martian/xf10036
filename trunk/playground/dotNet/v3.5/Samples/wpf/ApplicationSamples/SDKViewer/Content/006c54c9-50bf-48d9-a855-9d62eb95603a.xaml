@@ -1,0 +1,182 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_006c54c9_50bf_48d9_a855_9d62eb95603a"
+  Tag     ="Get Supported UI Automation Control Patterns"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Get Supported UI Automation Control Patterns</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic shows how to retrieve control pattern objects from Microsoft UI Automation elements.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Obtain a Specific Control Pattern
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Get the AutomationElement whose control patterns you are interested in.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Call GetCurrentPattern or TryGetCurrentPattern to query for a specific pattern. These methods are similar, but if the pattern is not found, <Run FontWeight="Bold">GetCurrentPattern</Run>
+ raises an exception, and <Run FontWeight="Bold">TryGetCurrentPattern</Run>
+ returns <Run FontWeight="Bold">false</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Obtain All Control Patterns
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Get the <Run FontWeight="Bold">AutomationElement</Run>
+ whose control patterns you are interested in.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Call GetSupportedPatterns to get all control patterns from the element.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example retrieves an <Run FontWeight="Bold">AutomationElement</Run>
+ for a list item and retrieves SelectionItemPattern.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Sets the focus to a list and selects a string item in that list. /// 
+&lt;/summary> /// 
+&lt;param name="listElement">The list element.
+&lt;/param> /// 
+&lt;param name="itemText">The text to select.
+&lt;/param> /// 
+&lt;remarks> /// This deselects any currently selected items. To add the item to the current selection /// in a multiselect list, use AddToSelection instead of Select. /// 
+&lt;/remarks> public void SelectListItem(AutomationElement listElement, String itemText) { if ((listElement == null) || (itemText == "")) { throw new ArgumentException("Argument cannot be null or empty."); 
+} listElement.SetFocus(); 
+Condition cond = new PropertyCondition( AutomationElement.NameProperty, itemText, PropertyConditionFlags.IgnoreCase); 
+AutomationElement elementItem = listElement.FindFirst(TreeScope.Children, cond); 
+if (elementItem != null) { SelectionItemPattern pattern; 
+try { pattern = elementItem.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern; 
+} catch (InvalidOperationException ex) { Console.WriteLine(ex.Message); 
+// Most likely "Pattern not supported." return; 
+} pattern.Select(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Sets the focus to a list and selects a string item in that list. ''' 
+&lt;/summary> ''' 
+&lt;param name="listElement">The list element.
+&lt;/param> ''' 
+&lt;param name="itemText">The text to select.
+&lt;/param> ''' 
+&lt;remarks> ''' This deselects any currently selected items. To add the item to the current selection ''' in a multiselect list, use AddToSelection instead of Select. ''' 
+&lt;/remarks> Public Sub SelectListItem(ByVal listElement As AutomationElement, ByVal itemText As String) If listElement Is Nothing OrElse itemText = "" Then Throw New ArgumentException("Argument cannot be null or empty.") End If listElement.SetFocus() Dim cond As New PropertyCondition(AutomationElement.NameProperty, itemText, PropertyConditionFlags.IgnoreCase) Dim elementItem As AutomationElement = listElement.FindFirst(TreeScope.Children, cond) If Not (elementItem Is Nothing) Then Dim pattern As SelectionItemPattern Try pattern = DirectCast(elementItem.GetCurrentPattern(SelectionItemPattern.Pattern), _ SelectionItemPattern) Catch ex As InvalidOperationException Console.WriteLine(ex.Message) ' Most likely "Pattern not supported." Return End Try pattern.Select() End If End Sub 'SelectListItem </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="571561d8-5f49-43a9-a054-87735194e013.xaml">UI Automation Control Patterns for Clients</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Get Supported UI Automation Control Patterns to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

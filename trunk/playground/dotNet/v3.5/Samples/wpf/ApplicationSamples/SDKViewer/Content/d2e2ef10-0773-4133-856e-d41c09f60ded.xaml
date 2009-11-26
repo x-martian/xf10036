@@ -1,0 +1,235 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d2e2ef10_0773_4133_856e_d41c09f60ded"
+  Tag     ="Animate a Point by Using Key Frames"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate a Point by Using Key Frames</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the PointAnimationUsingKeyFrames class to animate a Point.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example moves an ellipse along a triangular path. The example uses the <Run FontWeight="Bold">PointAnimationUsingKeyFrames</Run>
+ class to animate the Center property of an EllipseGeometry. This animation uses three key frames in the following manner:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>During the first half second, uses an instance of the LinearPointKeyFrame class to move the ellipse along a path at a steady rate from its starting position. Linear key frames like <Run FontWeight="Bold">LinearPointKeyFrame</Run>
+ create a smooth linear interpolation between values.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>During the end of the next half second, uses an instance of the DiscretePointKeyFrame class to suddenly move the ellipse along the path to the next position. Discrete key frames like <Run FontWeight="Bold">DiscretePointKeyFrame</Run>
+ create sudden jumps between values.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>During the final two seconds, uses an instance of the SplinePointKeyFrame class to move the ellipse back to its starting position. <Run>Spline</Run>
+ key frames like <Run FontWeight="Bold">SplinePointKeyFrame</Run>
+ create a variable transition between values according to the values of the KeySpline property. In this example, the animation begins slowly and speeds up exponentially toward the end of the time segment.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Shapes; 
+using System.Windows.Media.Animation; 
+using System.Windows.Media; 
+namespace Microsoft.Samples.KeyFrameExamples { /// 
+&lt;summary> /// This example shows how to use the PointAnimationUsingKeyFrames class /// to animate the position of an object. /// 
+&lt;/summary> public class PointAnimationUsingKeyFramesExample : Page { public PointAnimationUsingKeyFramesExample() { Title = "PointAnimationUsingKeyFrames Example"; 
+Background = Brushes.White; 
+Margin = new Thickness(20); 
+// Create a NameScope for this page so that // Storyboards can be used. NameScope.SetNameScope(this, new NameScope()); 
+// Create an EllipseGeometry. EllipseGeometry myAnimatedEllipseGeometry = new EllipseGeometry(new Point(200,100), 15, 15); 
+// Assign the EllipseGeometry a name so that // it can be targeted by a Storyboard. this.RegisterName( "MyAnimatedEllipseGeometry", myAnimatedEllipseGeometry); 
+// Create a Path element to display the geometry. Path aPath = new Path(); 
+aPath.Fill = Brushes.Blue; 
+aPath.Data = myAnimatedEllipseGeometry; 
+// Create a Canvas to contain the path. Canvas containerCanvas = new Canvas(); 
+containerCanvas.Width = 500; 
+containerCanvas.Height = 400; 
+containerCanvas.Children.Add(aPath); 
+// Create a PointAnimationUsingKeyFrames to // animate the EllipseGeometry. PointAnimationUsingKeyFrames centerPointAnimation = new PointAnimationUsingKeyFrames(); 
+centerPointAnimation.Duration = TimeSpan.FromSeconds(5); 
+// Animate from the starting position to (100,300) // over the first half-second using linear // interpolation. centerPointAnimation.KeyFrames.Add( new LinearPointKeyFrame( new Point(100, 300), // Target value (KeyValue) KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.5))) // KeyTime ); 
+// Animate from (100,300) (the value of the previous key frame) // to (400,300) at 1 second using discrete interpolation. // Because the interpolation is discrete, the ellipse will appear // to "jump" to (400,300) at 1 second. centerPointAnimation.KeyFrames.Add( new DiscretePointKeyFrame( new Point(400, 300), // Target value (KeyValue) KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1))) // KeyTime ); 
+// Animate from (400,300) (the value of the previous key frame) to (200,100) // over two seconds, starting at 1 second (the key time of the // last key frame) and ending at 3 seconds. centerPointAnimation.KeyFrames.Add( new SplinePointKeyFrame( new Point(200, 100), // Target value (KeyValue) KeyTime.FromTimeSpan(TimeSpan.FromSeconds(3)), // KeyTime new KeySpline(0.6, 0.0, 0.9, 0.0) // KeySpline ) ); 
+// Set the animation to repeat forever. centerPointAnimation.RepeatBehavior = RepeatBehavior.Forever; 
+// Set the animation to target the X property // of the object named "AnimatedTranslateTransform." Storyboard.SetTargetName(centerPointAnimation, "MyAnimatedEllipseGeometry"); 
+Storyboard.SetTargetProperty( centerPointAnimation, new PropertyPath(EllipseGeometry.CenterProperty)); 
+// Create a storyboard to apply the animation. Storyboard ellipseStoryboard = new Storyboard(); 
+ellipseStoryboard.Children.Add(centerPointAnimation); 
+// Start the storyboard when the Path loads. aPath.Loaded += delegate(object sender, RoutedEventArgs e) { ellipseStoryboard.Begin(this); 
+}; 
+Content = containerCanvas; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_d2e2ef10_0773_4133_856e_d41c09f60ded_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="White" Margin="20"> 
+&lt;Canvas Width="400" Height="400"> 
+&lt;Path Fill="Blue"> 
+&lt;Path.Data> 
+&lt;!-- Describes an ellipse. --> 
+&lt;EllipseGeometry x:Name="MyAnimatedEllipseGeometry" Center="200,100" RadiusX="15" RadiusY="15" /> 
+&lt;/Path.Data> 
+&lt;Path.Triggers> 
+&lt;EventTrigger RoutedEvent="Path.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Animating the Center property uses 3 KeyFrames, which animate the ellipse allong a triangular path. --> 
+&lt;PointAnimationUsingKeyFrames Storyboard.TargetProperty="Center" Storyboard.TargetName="MyAnimatedEllipseGeometry" Duration="0:0:5" RepeatBehavior="Forever"> 
+&lt;!-- Over the first half second, Using a LinearPointKeyFrame, the ellipse moves steadily from its starting position along the first line of the trianglar path. --> 
+&lt;LinearPointKeyFrame KeyTime="0:0:0.5" Value="100,300" /> 
+&lt;!-- Using a DiscretePointKeyFrame, the ellipse suddenly changes position after the first second of the animation. --> 
+&lt;DiscretePointKeyFrame KeyTime="0:0:1" Value="400,300" /> 
+&lt;!-- Using a SplinePointKeyFrame, the ellipse moves back to its starting position. It moves slowly at first and then speeds up. This key frame takes 2 seconds to complete. --> 
+&lt;SplinePointKeyFrame KeySpline="0.6,0.0 0.9,0.00" KeyTime="0:0:3" Value="200,100" /> 
+&lt;/PointAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Path.Triggers> 
+&lt;/Path> 
+&lt;/Canvas> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see KeyFrame Animation Sample.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>For consistency with other animation examples, the code versions of this example use a Storyboard object to apply the <Run FontWeight="Bold">PointAnimationUsingKeyFrames</Run>
+. However, when applying a single animation in code, it's simpler to use the BeginAnimation method instead of using a <Run FontWeight="Bold">Storyboard</Run>
+. For an example, see <Hyperlink NavigateUri="d411db70-4df7-487d-82bc-95a7c1b2e7f8.xaml">How to: Apply a Local (Non-Storyboard) Animation to a Property</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>PointAnimationUsingKeyFrames
+      <LineBreak/>Center
+      <LineBreak/>EllipseGeometry
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a5f9ab1a-d14c-4816-8540-3c5b8c8143d5.xaml">Key-Frame Animation How-to Topics</Hyperlink>
+
+      <LineBreak/>KeyFrame Animation Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate a Point by Using Key Frames to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

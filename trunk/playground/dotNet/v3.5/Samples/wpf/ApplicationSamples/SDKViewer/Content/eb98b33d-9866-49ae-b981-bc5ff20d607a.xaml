@@ -1,0 +1,233 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_eb98b33d_9866_49ae_b981_bc5ff20d607a"
+  Tag     ="Implement Binding Validation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Implement Binding Validation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use an ErrorTemplate and a style trigger to provide visual feedback to inform the user when an invalid value is entered, based on a custom validation rule.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The text content of the TextBox in the following example is bound to the <Run FontStyle="italic">Age</Run>
+ property (of type int) of a <Run>binding source</Run>
+ object named <Run FontStyle="italic">ods</Run>
+. The binding is set up to use a validation rule named <Run FontStyle="italic">AgeRangeRule</Run>
+ so that if the user enters non-numeric characters or a value that is smaller than 21 or greater than 130, a red exclamation mark appears next to the text box and a tool tip with the error message appears when the user moves the mouse over the text box.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBox Name="textBox1" Width="50" FontSize="15" Validation.ErrorTemplate="{StaticResource validationTemplate}" Style="{StaticResource textBoxInError}" Grid.Row="1" Grid.Column="1" Margin="2"> 
+&lt;TextBox.Text> 
+&lt;Binding Path="Age" Source="{StaticResource ods}" UpdateSourceTrigger="PropertyChanged" > 
+&lt;Binding.ValidationRules> 
+&lt;c:AgeRangeRule Min="21" Max="130"/> 
+&lt;/Binding.ValidationRules> 
+&lt;/Binding> 
+&lt;/TextBox.Text> 
+&lt;/TextBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the implementation of <Run FontStyle="italic">AgeRangeRule</Run>
+, which inherits from ValidationRule and overrides the Validate method. The Int32.Parsed() method is called on the value to make sure that it does not contain any invalid characters. The <Run FontWeight="Bold">Validate</Run>
+ method returns a ValidationResult that indicates if the value is valid based on whether an exception is caught during the parsing and whether the age value is outside of the lower and upper bounds.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class AgeRangeRule : ValidationRule { private int _min; 
+private int _max; 
+public AgeRangeRule() { } public int Min { get { return _min; 
+} set { _min = value; 
+} } public int Max { get { return _max; 
+} set { _max = value; 
+} } public override ValidationResult Validate(object value, CultureInfo cultureInfo) { int age = 0; 
+try { if (((string)value).Length > 0) age = Int32.Parse((String)value); 
+} catch (Exception e) { return new ValidationResult(false, "Illegal characters or " + e.Message); 
+} if ((age 
+&lt; 
+Min) || (age > Max)) { return new ValidationResult(false, "Please enter an age in the range: " + Min + " - " + Max + "."); 
+} else { return new ValidationResult(true, null); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the custom ControlTemplate <Run FontStyle="italic">validationTemplate</Run>
+ that creates a red exclamation mark to notify the user of a validation error. Control templates are used to redefine the appearance of a control.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ControlTemplate x:Key="validationTemplate"> 
+&lt;DockPanel> 
+&lt;TextBlock Foreground="Red" FontSize="20">!
+&lt;/TextBlock> 
+&lt;AdornedElementPlaceholder/> 
+&lt;/DockPanel> 
+&lt;/ControlTemplate> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As shown in the following example, the ToolTip that shows the error message is created using the style trigger named <Run FontStyle="italic">tbInError</Run>
+. If the value of HasError is true, the trigger sets the tool tip of the current <Run FontWeight="Bold">TextBox</Run>
+ to its first validation error. The RelativeSource is set to Self, referring to the current element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="textBoxInError" TargetType="{x:Type TextBox}"> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="Validation.HasError" Value="true"> 
+&lt;Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete example, see Binding Validation Sample.
+    </Paragraph>
+
+    <Paragraph>Note that if you do not provide a custom <Run FontWeight="Bold">ErrorTemplate</Run>
+ the default error template appears to provide visual feedback to the user when there is a validation error. See "Data Validation" in <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+ for more information. Also, WPF provides a built-in validation rule that catches exceptions that are thrown during the update of the binding source property. For more information, see ExceptionValidationRule.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Demo
+      <LineBreak/>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Implement Binding Validation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

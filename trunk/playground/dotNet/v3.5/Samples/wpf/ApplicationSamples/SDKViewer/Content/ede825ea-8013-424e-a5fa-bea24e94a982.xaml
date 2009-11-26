@@ -1,0 +1,204 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ede825ea_8013_424e_a5fa_bea24e94a982"
+  Tag     ="How to: Host a Windows Presentation Foundation Control in Windows Forms by Using ElementHost"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Host a Windows Presentation Foundation Control in Windows Forms by Using ElementHost</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The ElementHost class allows you to host a Windows Presentation Foundation (WPF) control in Windows Forms. When you host the control, you can receive events and access the control's exposed properties. The simplest way to host a WPF control is to add a Panel control to your form, and then host the WPF control in the <Run FontWeight="Bold">Panel</Run>
+. You typically do this in your form's Load event handler. 
+    </Paragraph>
+
+    <Paragraph>The following code example demonstrates how to use the <Run FontWeight="Bold">ElementHost</Run>
+ control to host a WPF control in Windows Forms. It also shows how to attach handlers to two of the control's custom <Run>OnButtonClick</Run>
+ events. See Hosting a Windows Presentation Foundation Control in Windows Forms Sample for the complete sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The hosted control is not fully initialized at the time of the form's <Run FontWeight="Bold">Load</Run>
+ event. The control's Loaded event, which occurs later, indicates that the control has been initialized. The example attaches a handler to the control's <Run FontWeight="Bold">Loaded</Run>
+ event because it needs to acquire the initial values of several properties that are not defined at the time of the form's <Run FontWeight="Bold">Load</Run>
+ event.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Collections.Generic; 
+using System.ComponentModel; 
+using System.Windows; 
+using System.Windows.Forms; 
+using System.Windows.Controls; 
+using System.Windows.Forms.Integration; 
+using System.Windows.Media; 
+namespace WFHost { partial class Form1 : Form { private ElementHost ctrlHost; 
+private MyControls.Page1 avAddressCtrl; 
+System.Windows.FontWeight initFontWeight; 
+double initFontSize; 
+System.Windows.FontStyle initFontStyle; 
+System.Windows.Media.SolidColorBrush initBackBrush; 
+System.Windows.Media.SolidColorBrush initForeBrush; 
+FontFamily initFontFamily; 
+public Form1() { InitializeComponent(); 
+} private void Form1_Load(object sender, EventArgs e) { ctrlHost = new ElementHost(); 
+ctrlHost.Dock = DockStyle.Fill; 
+panel1.Controls.Add(ctrlHost); 
+avAddressCtrl = new MyControls.Page1(); 
+avAddressCtrl.InitializeComponent(); 
+ctrlHost.Child = avAddressCtrl; 
+avAddressCtrl.OnButtonClick += new MyControls.Page1.MyControlEventHandler( avAddressCtrl_OnButtonClick); 
+avAddressCtrl.Loaded += new RoutedEventHandler( avAddressCtrl_Loaded); 
+} void avAddressCtrl_Loaded(object sender, EventArgs e) { initBackBrush = (SolidColorBrush)avAddressCtrl.MyControl_Background; 
+initForeBrush = avAddressCtrl.MyControl_Foreground; 
+initFontFamily = avAddressCtrl.MyControl_FontFamily; 
+initFontSize = avAddressCtrl.MyControl_FontSize; 
+initFontWeight = avAddressCtrl.MyControl_FontWeight; 
+initFontStyle = avAddressCtrl.MyControl_FontStyle; 
+} void avAddressCtrl_OnButtonClick( object sender, MyControls.MyControlEventArgs args) { if (args.IsOK) { lblAddress.Text = "Street Address: " + args.MyStreetAddress; 
+lblCity.Text = "City: " + args.MyCity; 
+lblName.Text = "Name: " + args.MyName; 
+lblState.Text = "State: " + args.MyState; 
+lblZip.Text = "Zip: " + args.MyZip; 
+} else { lblAddress.Text = "Street Address: "; 
+lblCity.Text = "City: "; 
+lblName.Text = "Name: "; 
+lblState.Text = "State: "; 
+lblZip.Text = "Zip: "; 
+} } private void radioBackgroundOriginal_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_Background = initBackBrush; 
+} private void radioBackgroundLightGreen_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_Background = new SolidColorBrush(Colors.LightGreen); 
+} private void radioBackgroundLightSalmon_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_Background = new SolidColorBrush(Colors.LightSalmon); 
+} private void radioForegroundOriginal_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_Foreground = initForeBrush; 
+} private void radioForegroundRed_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_Foreground = new System.Windows.Media.SolidColorBrush(Colors.Red); 
+} private void radioForegroundYellow_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_Foreground = new System.Windows.Media.SolidColorBrush(Colors.Yellow); 
+} private void radioFamilyOriginal_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontFamily = initFontFamily; 
+} private void radioFamilyTimes_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontFamily = new FontFamily("Times New Roman"); 
+} private void radioFamilyWingDings_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontFamily = new FontFamily("WingDings"); 
+} private void radioSizeOriginal_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontSize = initFontSize; 
+} private void radioSizeTen_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontSize = 10; 
+} private void radioSizeTwelve_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontSize = 12; 
+} private void radioStyleOriginal_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontStyle = initFontStyle; 
+} private void radioStyleItalic_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontStyle = System.Windows.FontStyles.Italic; 
+} private void radioWeightOriginal_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontWeight = initFontWeight; 
+} private void radioWeightBold_CheckedChanged(object sender, EventArgs e) { avAddressCtrl.MyControl_FontWeight = FontWeights.Bold; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="486369a9-606a-4a3b-b086-a06f2119c7b0.xaml">Walkthrough: Hosting a Windows Presentation Foundation Composite Control in Windows Forms</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9cb88415-39b0-4c46-80c4-ff325b674286.xaml">Walkthrough: Hosting a Windows Forms Control in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ElementHost
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0ac41286-4c1b-4b17-9196-d985cb844ce1.xaml">Walkthrough: Hosting a Windows Presentation Foundation Control in Windows Forms</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Hosting a Windows Presentation Foundation Control in Windows Forms Sample
+      <LineBreak/><Hyperlink NavigateUri="619f9fcd-a71b-4db5-b3e4-da99ec3b5c41.xaml">Migration and Interoperability How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Host a Windows Presentation Foundation Control in Windows Forms by Using ElementHost to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

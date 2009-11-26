@@ -1,0 +1,1421 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ef2c0810_1dbf_4511_babd_1fab95b523b5"
+  Tag     ="WPF Partial Trust Security"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Presentation Foundation Partial Trust Security</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In general, Internet applications should be restricted from having direct access to critical system resources, to prevent malicious damage. By default, HTML and client-side scripting languages are not able to access critical system resources. Because Windows Presentation Foundation (WPF) browser-hosted applications can be launched from the Internet, they should conform to a similar set of restrictions. To enforce these restrictions, WPF relies on both Code Access Security (CAS) and ClickOnce (see <Hyperlink NavigateUri="2a39a054-3e2a-4659-bcb7-8bcea490ba31.xaml">Windows Presentation Foundation Security Strategy - Platform Security</Hyperlink>
+). By default, browser-hosted applications run within the Internet zone CAS permission set, irrespective of whether they are launched from the Internet, the local intranet, or the local machine. Applications that run with anything less than the full set of permissions are said to be running with partial trust.
+    </Paragraph>
+
+    <Paragraph>WPF provides a wide variety of support to ensure that as much functionality as possible can be used safely in partial trust, and along with CAS, provides additional support for partial trust programming.
+    </Paragraph>
+
+    <Paragraph FontSize="22">WPF Feature Security Requirements
+    </Paragraph>
+
+    <Paragraph>The following list lists the high level features of Windows Presentation Foundation (WPF), and delineates between those that can be safely used from partial trust (default Internet zone permission set), and those that require full trust.
+    </Paragraph>
+
+    <Paragraph>Table SEQ Table \* ARABIC 1: WPF Feature Security Requirements
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Feature Area 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Feature 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Partial Trust 
+            </Paragraph>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Internet zone
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>LocalIntranet zone
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Trusted Sites zone
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>General
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Browser Window
+            </Paragraph>
+
+            <Paragraph>Site of Origin Access
+            </Paragraph>
+
+            <Paragraph>IsolatedStorage (512KB Limit)
+            </Paragraph>
+
+            <Paragraph>UIAutomation Providers
+            </Paragraph>
+
+            <Paragraph>Commanding
+            </Paragraph>
+
+            <Paragraph>In Memory Editors (IMEs)
+            </Paragraph>
+
+            <Paragraph>Tablet Stylus and Ink
+            </Paragraph>
+
+            <Paragraph>Simulated Drag/Drop using Mouse Capture and Move Events
+            </Paragraph>
+
+            <Paragraph>OpenFileDialog
+            </Paragraph>
+
+            <Paragraph>XAML Deserialization (via XamlReader.Load)
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Window (Application Defined Windows and Dialog Boxes)</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">SaveFileDialog</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">File System</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Registry Access</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Drag and Drop</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">XAML Serialization (via XamlWriter.Save)</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">UIAutomation Clients</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">HwndHost</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Full Speech Support</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Windows Forms Interoperability</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Web Integration
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Browser Download Dialog
+            </Paragraph>
+
+            <Paragraph>Top-Level User-Initiated Navigation
+            </Paragraph>
+
+            <Paragraph>mailto:links
+            </Paragraph>
+
+            <Paragraph>Uniform Resource Identifier Parameters
+            </Paragraph>
+
+            <Paragraph>HTTPWebRequest
+            </Paragraph>
+
+            <Paragraph>WPF Content Hosted in an IFRAME
+            </Paragraph>
+
+            <Paragraph>Hosting of Same-Site HTML Pages
+            </Paragraph>
+
+            <Paragraph>Web Services (ASMX)
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Web Services (using Windows Communication Foundation)</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Scripting</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Document Object Model</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Visuals
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>2D and 3D
+            </Paragraph>
+
+            <Paragraph>Animation
+            </Paragraph>
+
+            <Paragraph>Media (Site Or Origin and Cross-Domain)
+            </Paragraph>
+
+            <Paragraph>Imaging/Audio/Video
+            </Paragraph>
+
+            <Paragraph>Image Encoding
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Bitmap Effects</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Reading
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>FlowDocuments
+            </Paragraph>
+
+            <Paragraph>XPS Documents
+            </Paragraph>
+
+            <Paragraph>Embedded &amp; 
+System Fonts
+            </Paragraph>
+
+            <Paragraph>CFF &amp; 
+TrueType Fonts
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Editing
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Spell Checking
+            </Paragraph>
+
+            <Paragraph>RichTextBox
+            </Paragraph>
+
+            <Paragraph>Plaintext and Ink Clipboard Support
+            </Paragraph>
+
+            <Paragraph>User-Initiated Paste
+            </Paragraph>
+
+            <Paragraph>Copying Selected Content
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Rich Text Format Clipboard</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">Full XAML support</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontStyle="italic">No</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Controls
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>All Basic Controls (see list below)
+            </Paragraph>
+
+            <Paragraph>Popup Controls Bound to Window
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>This table covers the WPF features at a high level. For more detailed information, the Windows Software Development Kit (SDK) documents the permissions that are required by each member in WPF.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The set of basic controls that can be safely used from partial trust (default Internet zone permission set), are listed in the following table:
+    </Paragraph>
+
+    <Paragraph>Table SEQ Table \* ARABIC 2: Controls that can Safely be used in Partial Trust
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Control Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Control 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Standard Controls
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Button 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>ComboBox 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Label 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Menu 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>TextBox 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Thumb 
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Navigation Controls
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Frame 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Hyperlink 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Page 
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Adornment Controls
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Popup 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Border 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>ScrollBar 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>ScrollViewer 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>ToolTip 
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Partial Trust Programming
+    </Paragraph>
+
+    <Paragraph>For XBAP applications, code that exceeds the default Internet zone permission set will be detected by CAS and will result in a security exception being raised and the application ending. While this protects users, it does not provide the best user experience. WPF developers have several tools and techniques they can use to isolate issues through debugging, and to handle issues by proactively detecting and responding to issues.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Debugging a Partial Trust Application from Visual Studio
+    </Paragraph>
+
+    <Paragraph>When you debug an XBAP project using Microsoft Visual Studio, you can configure Microsoft Visual Studio to debug your application in zone - that is, with the debug the application with the same set of permissions that it expects when launched.
+    </Paragraph>
+
+    <Paragraph>You configure debugging in zone from Microsoft Visual Studio by:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Right-clicking the project in Solution Explore and choosing <Run FontWeight="Bold">Properties | Security</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Checking <Run FontWeight="Bold">Enable ClickOnce Security Settings</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Selecting <Run FontWeight="Bold">This is a partial trust application</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Pressing <Run FontWeight="Bold">Advanced</Run>
+ to open the <Run FontWeight="Bold">Advanced Security Settings</Run>
+ dialog box.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Checking <Run FontWeight="Bold">Debug this application with the selected permission set</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This configuration causes the Microsoft Visual Studio debugger to detect when code that requires more permissions than are allowed attempts to execute. When this happens, the debugger breaks on the unsafe line of code before displaying a security exception dialog box. On some cases, the debugger suggests the actual permission that is required to run the unsafe code.
+    </Paragraph>
+
+    <Paragraph>When you find code in your XBAP that generates a security exception, you can either remove it, or programmatically determine whether your code has the appropriate permissions.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Detecting Permissions using CAS
+    </Paragraph>
+
+    <Paragraph>In some situations, it is possible for shared code in library assemblies to be used by both standalone applications and XBAPs. In these cases, code may execute functionality that could require more permissions than the application's awarded permission set allows. Your application can detect whether or not it has a certain permission by using Microsoft .NET Framework version 3.0 security. Specifically, it can test whether it has a specific permission by calling the Demand method on the instance of the desired permission. This is shown in the following example, which has code that queries for whether it has the ability to save a file to the local disk:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class SharedClass { ... public static void Save() if( IsPermissionGranted(new FileIOPermission(FileIOPermissionAccess.Write, @"c:\newfile.txt") ) ) { // Write to local disk using (FileStream stream = File.Create(@"c:\newfile.txt")) using (StreamWriter writer = new StreamWriter(stream)) { writer.WriteLine("I can write to local disk."); 
+} } else { MessageBox.Show("I can't write to local disk."); 
+} } // Detect whether or not this application has the requested permission bool IsPermissionGranted(CodeAccessPermission requestedPermission) { try { // Try and get this permission requestedPermission.Demand(); 
+return true; 
+} catch { return false; 
+} } }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If an application doesn't have the desired permission, the call to <Run FontWeight="Bold">Demand</Run>
+ will throw a security exception. Otherwise, the permission has been granted. IsPermissionGranted encapsulates this behavior and returns <Run FontWeight="Bold">true</Run>
+ or <Run FontWeight="Bold">false</Run>
+ as appropriate.
+    </Paragraph>
+
+    <Paragraph>This technique allows you to detect on a per-permission basis, although depends on catching exceptions as a part of normal processing, which is not recommended and reduces performance. In most cases, though, all you need to know is whether your application is running from within a browser, which is always true for XBAPs.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Graceful Degradation of Functionality
+    </Paragraph>
+
+    <Paragraph>Being able to detect whether code has the permission to do what it needs to do is interesting for code that can be executed from different zones. Although, while detecting the zone is one thing, it is far better to provide an alternative for the user, if possible. For example, a full trust application typically enables users to create files anywhere they want, while a partial trust application can only create files in isolated storage. If the code to create a file exists in an assembly (.dll) that is shared by both full trust (standalone applications) and partial trust (browser-hosted applications), and both applications want users to be able to create files, the shared code should detect whether it is running in partial or full trust before creating a file in the appropriate location. The following code demonstrates both:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class SharedClass { public static void Save() { if( IsPermissionGranted(new FileIOPermission(FileIOPermissionAccess.Write, @"c:\newfile.txt") ) ) { // Write to local disk using (FileStream stream = File.Create(@"c:\newfile.txt")) using (StreamWriter writer = new StreamWriter(stream)) { writer.WriteLine("I can write to local disk."); 
+} } else { // Persist application-scope property to // isolated storage IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication(); 
+using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream( "newfile.txt", FileMode.Create, storage)) using (StreamWriter writer = new StreamWriter(stream)) { writer.WriteLine( "I can write to Isolated Storage"); 
+} } } // Detect whether or not this application has the requested permission bool IsPermissionGranted(CodeAccessPermission requestedPermission) { try { // Try and get this permission requestedPermission.Demand(); 
+return true; 
+} catch { return false; 
+} } }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In many cases, you should be able to find a partial trust alternative.
+    </Paragraph>
+
+    <Paragraph>In a controlled environment, such as an intranet, custom managed frameworks can be installed across the client base into the global assembly cache (GAC). These libraries can execute code that requires full trust, and be referenced from applications that are only allowed partial trust by using AllowPartiallyTrustedCallersAttribute (see <Hyperlink NavigateUri="ee1baea0-3611-4e36-9ad6-fcd5205376fb.xaml">Windows Presentation Foundation Security</Hyperlink>
+ and <Hyperlink NavigateUri="2a39a054-3e2a-4659-bcb7-8bcea490ba31.xaml">Windows Presentation Foundation Security Strategy - Platform Security</Hyperlink>
+ for more information).
+    </Paragraph>
+
+    <Paragraph FontSize="22">Managing Permissions
+    </Paragraph>
+
+    <Paragraph>By default XBAPs run with partial trust (default Internet zone permission set). However, depending on the requirements of the application, it is possible to change the set of permissions from the default. For example, if an XBAPs is launched from a local intranet, it can take advantage of an increased permission set, which is shown in the following table.
+    </Paragraph>
+
+    <Paragraph>Table SEQ Table \* ARABIC 3: LocalIntranet and Internet Permissions
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Permission 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Attribute 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>LocalIntranet 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Internet 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DNS
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Access DNS servers
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Environment Variables
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Read
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>File Dialogs
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Open
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>File Dialogs
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Unrestricted
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Isolated Storage
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Assembly isolation by user
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Isolated Storage
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Unknown isolation
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Isolated Storage
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Unlimited user quota
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Media
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Safe audio, video, and images
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Printing
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Default printing
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Printing
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Safe printing
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Reflection
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Emit
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Security
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Managed code execution
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Security
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Assert granted permissions
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>User Interface
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Unrestricted
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>User Interface
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Safe top level windows
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>User Interface
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Own Clipboard
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Web Browser
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Safe frame navigation to HTML
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Yes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you need to increase permissions, you can use one of the following tools:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/acz3y3te.aspx">Manifest Generation and Editing Tool (Mage.exe)</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/xhctdw55.aspx">Manifest Generation and Editing Tool, Graphical Client (MageUI.exe)</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/76e4d2xw.aspx">Visual Studio</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If your XBAP requires full trust, you can use the same tools to increase the requested permissions, although an XBAP will only receive full trust if it is installed on and launched from the local machine. This means you do not retain the automatic update support you get when you publish XBAPs to web servers.
+    </Paragraph>
+
+    <Paragraph>However, in the enterprise, you can use CAS to pre-configure the client base to give full trust to certain applications, irrespective of where they are launched from (see <Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/cb6t8dtz.aspx">Code Access Security Policy Tool (Caspol.exe)</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ee1baea0-3611-4e36-9ad6-fcd5205376fb.xaml">Windows Presentation Foundation Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="2a39a054-3e2a-4659-bcb7-8bcea490ba31.xaml">Windows Presentation Foundation Security Strategy - Platform Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0fc04394-4e47-49ca-b0cf-8cd1161d95b9.xaml">Windows Presentation Foundation Security Strategy - Security Engineering</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Partial Trust Security to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

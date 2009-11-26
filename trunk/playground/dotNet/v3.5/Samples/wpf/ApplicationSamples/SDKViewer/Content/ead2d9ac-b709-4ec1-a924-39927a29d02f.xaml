@@ -1,0 +1,410 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ead2d9ac_b709_4ec1_a924_39927a29d02f"
+  Tag     ="Localization Attributes and Comments"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Localization Attributes and Comments</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Presentation Foundation (WPF) localization comments are properties, inside XAML source code, supplied by developers to provide rules and hints for localization. Windows Presentation Foundation (WPF) localization comments contain two sets of information: localizability attributes and free-form localization comments. Localizability attributes are used by the WPF Localization API to indicate which resources are to be localized. Free-form comments are any information that the application author wants to include.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Localizer_Comments_">Localizer Comments</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Localization_Comments">Localization Comments</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Localizer Comments
+    </Paragraph>
+
+    <Paragraph>If markup application authors have requirements for specific elements in XAML, such as constraints on text length, font family, or font size, they can convey this information to localizers with comments in the XAML code. The process for adding comments to source code is as follows:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Application developer adds localization comments to XAML source code.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>During the build process, you can specify in the .proj file whether to leave the free-form localization comments in the assembly, strip out part of the comments, or strip out all the comments. The stripped-out comments are placed in a separate file. You specify your option in a 
+&lt;LocalizationPropertyStorage><Run FontStyle="italic">value</Run>
+
+&lt;/LocalizationPropertyStorage> tag. The values that can be assigned are: 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Assembly - Both comments and attributes stay inside the assembly and no separate file is generated.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>CommentsInLocFile - Strips only the comments from the assembly and places them in the separate LocFile.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>LocFile - Strips both the comments and the attributes from the assembly and places them both in a separate LocFile. 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When localizable resources are extracted from BAML, the localizability attributes are respected by the BAML Localization API.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Localization comment files, containing only free-form comments, are incorporated into the localization process at a later time.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example shows how to add localization comments to a XAML file.
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;TextBlock x:Id = "text01"</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>FontFamily = "Microsoft Sans Serif"</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>FontSize = "12"</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>Localization.Attributes = "$Content (Unmodifiable Readable Text)</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>FontFamily (Unmodifiable Readable)"</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>Localization.Comments = "$Content (Trademark)</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>FontSize (Trademark font size)" ></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>Microsoft</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;/TextBlock></Run>
+
+    </Paragraph>
+
+    <Paragraph>In the previous sample the Localization.Attributes section contains the localization attributes and the Localization.Comments section the free-form comments. The following tables show the attributes and comments and their meaning to the localizer.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Localization attributes 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Meaning 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>$Content (Unmodifiable Readable Text)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contents of the TextBlock element cannot be modified. Localizers cannot change the word "Microsoft". The content is visible (Readable) to the localizer. The category of the content is text. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>FontFamily (Unmodifiable Readable)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The font family property of the TextBlock element cannot be changed but it is visible to the localizer.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Localization free-form comments 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Meaning 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>$Content (Trademark)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The application author tells the localizer that the content in the TextBlock element is a trademark.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>FontSize (Trademark font size)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The application author indicates that the font size property should follow the standard trademark size.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Localization Attributes
+    </Paragraph>
+
+    <Paragraph>The information in Localization.Attributes contains a list of pairs: the targeted value name and the associated localizability values. The target name can be a property name or the special $Content name. If it is a property name, the targeted value is the value of the property. If it is $Content, the target value is the content of the element.
+    </Paragraph>
+
+    <Paragraph>The three types of attributes, Modifiability, Readability, and Category can be specified in any order delimited by a space. In case duplicate attributes are specified, the last attribute will override former ones. For example, Localization.Attributes = "Unmodifiable Modifiable" sets Modifiability to Modifiable because it is the last value.
+    </Paragraph>
+
+    <Paragraph>Modifiability and Readability are self-explanatory. The Category attribute provides predefined categories that help the localizer when translating text. Categories, such as, Text, Label, and Title give the localizer information about how to translate the text. There are also special categories: None, Inherit, Ignore, and NeverLocalize. 
+    </Paragraph>
+
+    <Paragraph>The following table shows the meaning of the special categories.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Category 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Meaning 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Targeted value has no defined category.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Inherit
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Targeted value inherits its category from its parent.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Ignore
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Targeted value is ignored in the localization process. Ignore affects only the current value. It will not affect child nodes.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>NeverLocalize
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Current value cannot be localized. This category is inherited by the children of an element. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Localization Comments
+    </Paragraph>
+
+    <Paragraph>Localization.Comments contains free-form strings concerning the targeted value. Application developers can add information to give localizers hints about how the applications text should be translated. The format of the comments can be any string surrounded by "()". Use '\' to escape characters.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="96c206d0-9e77-4784-9d2d-5045aed2021c.xaml">How to: Use Automatic Layout to Create a Button</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ab9de407-e0c1-4047-bdf0-24951bf73879.xaml">How to: Use a Grid for Automatic Layout</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="4571ccfe-8a60-4f06-9b37-7ac0b1c2d10f.xaml">Globalization for the Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Localization Attributes and Comments to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

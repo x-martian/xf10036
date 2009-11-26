@@ -1,0 +1,166 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b89a82be_b03d_481e_a8d3_cc513d09ca00"
+  Tag     ="Add an Animation Output Value to an Animation Starting Value"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Add an Animation Output Value to an Animation Starting Value</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to add an animation output value to an animation starting value.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The IsAdditive property specifies whether you want the output value of an animation added to the starting value (base value) of an animated property. You can use the <Run FontWeight="Bold">IsAdditive</Run>
+ property with most basic animations and most key frame animations. For more information, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+ and <Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The following example shows the effect of using the <Run FontWeight="Bold">System.Windows.Media.Animation.DoubleAnimation.IsAdditive</Run>
+ property with DoubleAnimation and using the System.Windows.Media.Animation.DoubleAnimationUsingKeyFrames.IsAdditive property with DoubleAnimationUsingKeyFrames.
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_b89a82be_b03d_481e_a8d3_cc513d09ca00_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;StackPanel Margin="20" > 
+&lt;!-- This rectangle is animated with DoubleAnimation and IsAdditive set to "True". --> 
+&lt;Rectangle Name="withIsAdditive" Width="100" Height="20" Margin="12,0,0,5" Fill="#AA3333FF" HorizontalAlignment="Left" /> 
+&lt;!-- This rectangle is animated with DoubleAnimation and IsAdditive set to "False". --> 
+&lt;Rectangle Name="withoutIsAdditive" Width="100" Height="20" Margin="12,0,0,5" Fill="#AA3333FF" HorizontalAlignment="Left" /> 
+&lt;!-- This rectangle is animated with DoubleAnimationUsingKeyFrames and IsAdditive set to "True". --> 
+&lt;Rectangle Name="withIsAdditiveUsingKeyFrames" Width="100" Height="20" Margin="12,0,0,5" Fill="#AA3333FF" HorizontalAlignment="Left" /> 
+&lt;!-- This rectangle is animated with DoubleAnimationUsingKeyFrames and IsAdditive set to "False". --> 
+&lt;Rectangle Name="withoutIsAdditiveUsingKeyFrames" Width="100" Height="20" Margin="12,0,0,5" Fill="#AA3333FF" HorizontalAlignment="Left" /> 
+&lt;!-- Create a button to restart the animations. --> 
+&lt;Button Margin="0,30,0,0" HorizontalAlignment="Left"> Restart Animations 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- DoubleAnimation with IsAdditive set to "True". Because IsAdditive is set to "True" the actual starting value of the animation is equal to the sum of the default starting value of 100 (From="100)and the animation output value of 100 (From="100" To="200") Therefore the animation begins at 200 pixels. Notice that each time the button is clicked and the animation is initiated, the animation starting value builds upon the preceeding ending value. --> 
+&lt;DoubleAnimation Storyboard.TargetName="withIsAdditive" Storyboard.TargetProperty="Width" Duration="0:0:3" From="100" To="200" IsAdditive="True" /> 
+&lt;!-- DoubleAnimation with IsAdditive set to "False". The starting value is the default starting value of 100 pixels and subsequent animations do not build on earlier ones. --> 
+&lt;DoubleAnimation Storyboard.TargetName="withoutIsAdditive" Storyboard.TargetProperty="Width" Duration="0:0:3" From="100" To="200" IsAdditive="False" /> 
+&lt;!-- DoubleAnimationUsingKeyFrames with IsAdditive set to "True". Similar to the DoubleAnimation above, this animation adds its output value to its starting value. Note that the output value is the total output value from all the key frames for a total output of 100 pixels. --> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="withIsAdditiveUsingKeyFrames" Storyboard.TargetProperty="Width" IsAdditive="True" > 
+&lt;DoubleAnimationUsingKeyFrames.KeyFrames> 
+&lt;LinearDoubleKeyFrame Value="100" KeyTime="0:0:0" /> 
+&lt;LinearDoubleKeyFrame Value="130" KeyTime="0:0:1" /> 
+&lt;SplineDoubleKeyFrame KeySpline="0.6,0.0 0.9,0.00" Value="200" KeyTime="0:0:3" /> 
+&lt;/DoubleAnimationUsingKeyFrames.KeyFrames> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;!-- DoubleAnimationUsingKeyFrames with IsAdditive set to "False". The starting value is the default starting value of 100 pixels and subsequent animations do not build on earlier ones. --> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="withoutIsAdditiveUsingKeyFrames" Storyboard.TargetProperty="Width" IsAdditive="False" > 
+&lt;DoubleAnimationUsingKeyFrames.KeyFrames> 
+&lt;LinearDoubleKeyFrame Value="100" KeyTime="0:0:0" /> 
+&lt;LinearDoubleKeyFrame Value="130" KeyTime="0:0:1" /> 
+&lt;SplineDoubleKeyFrame KeySpline="0.6,0.0 0.9,0.00" Value="200" KeyTime="0:0:3" /> 
+&lt;/DoubleAnimationUsingKeyFrames.KeyFrames> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="548df369-c7cc-4dab-b569-08b95ced2e7e.xaml">How to: Accumulate Animation Values During Repeat Cycles</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Animation and Timing Overviews
+      <LineBreak/><Hyperlink NavigateUri="587e36f6-1957-424e-9d89-c43724f26d84.xaml">Animation and Timing How-to Topics</Hyperlink>
+
+      <LineBreak/>Animation and Timing Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Add an Animation Output Value to an Animation Starting Value to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

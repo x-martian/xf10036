@@ -1,0 +1,559 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_774f53ca_bff8_470e_9ce9_3928b4cf3d4c"
+  Tag     ="Popup Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Popup Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Popup control provides a way to display content in a separate window that floats over the current application window relative to a designated element or screen coordinate. This topic introduces the <Run FontWeight="Bold">Popup</Run>
+ control and provides information about its use.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="What_Is_a_Popup_">What Is a Popup?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="APopupExample">Creating a Popup</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="PopupUses">Controls That Implement a Popup</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="PopupBehaviorandAppearance">Popup Behavior and Appearance</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="DefiningPopupPosition">Defining the Popup Position</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="PopupandtheVisualTree">Popup and the Visual Tree</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What Is a Popup?
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Popup</Run>
+ control displays content in a separate window relative to an element or point on the screen. When the <Run FontWeight="Bold">Popup</Run>
+ is visible, the IsOpen property is set to <Run FontWeight="Bold">true</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows a <Run FontWeight="Bold">Popup</Run>
+ control that is positioned with respect to a Button that is its parent.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>A <Run FontWeight="Bold">Popup</Run>
+ does not automatically open when the mouse pointer moves over its parent object. If you want a <Run FontWeight="Bold">Popup</Run>
+ to automatically open, use the ToolTip or ToolTipService class. For more information, see <Hyperlink NavigateUri="f06c1603-e9cb-4809-8a62-234607fc52f7.xaml">ToolTip Overview</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Creating a Popup
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define a <Run FontWeight="Bold">Popup</Run>
+ control that is the child element of a <Run FontWeight="Bold">Button</Run>
+ control. Because a <Run FontWeight="Bold">Button</Run>
+ can have only one child element, this example places the text for the <Run FontWeight="Bold">Button</Run>
+ and the <Run FontWeight="Bold">Popup</Run>
+ controls in a StackPanel. The content of the <Run FontWeight="Bold">Popup</Run>
+ appears in a TextBlock control, which displays its text in a separate window that floats over the application window nearby the related <Run FontWeight="Bold">Button</Run>
+ control. For the complete sample, see Popup Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button HorizontalAlignment="Left" Click="DisplayPopup" Width="150" Margin="20,10,0,0"> 
+&lt;StackPanel> 
+&lt;TextBlock>Display Your Popup Text
+&lt;/TextBlock> 
+&lt;Popup Name="myPopup"> 
+&lt;Border BorderBrush="Beige" BorderThickness="1"> 
+&lt;TextBlock Name="myPopupText" Width="150" Background="LightBlue" Foreground="Blue" TextWrapping="Wrap" /> 
+&lt;/Border> 
+&lt;/Popup> 
+&lt;/StackPanel> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Controls That Implement a Popup
+    </Paragraph>
+
+    <Paragraph>You can build <Run FontWeight="Bold">Popup</Run>
+ controls into other controls. The following controls implement the <Run FontWeight="Bold">Popup</Run>
+ control for specific uses: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ToolTip</Run>
+<Run FontWeight="Bold">-</Run>
+ If you want to create a tooltip for an element, use the <Run FontWeight="Bold">ToolTip</Run>
+ and <Run FontWeight="Bold">ToolTipService</Run>
+ classes. For more information, see <Hyperlink NavigateUri="f06c1603-e9cb-4809-8a62-234607fc52f7.xaml">ToolTip Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ContextMenu <Run FontWeight="Bold">-</Run>
+ If you want to create a context menu for an element, use the <Run FontWeight="Bold">ContextMenu</Run>
+ control. For more information, see the <Hyperlink NavigateUri="16909c42-799a-4561-91e0-7d69dcfeea91.xaml">ContextMenu Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ComboBox <Run FontWeight="Bold">-</Run>
+ If you want to create a selection control that has a drop-down list box that can be shown or hidden, use the <Run FontWeight="Bold">ComboBox</Run>
+ control. For more information, see <Hyperlink NavigateUri="e76a58d9-ef0e-461e-9cb7-4adebdca71a1.xaml">ComboBox Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Expander <Run FontWeight="Bold">-</Run>
+ If you want to create a control that displays a header with a collapsible area that displays content, use the <Run FontWeight="Bold">Expander</Run>
+ control. For more information, see <Hyperlink NavigateUri="877bf425-0e54-49ec-8fd2-13a211377abb.xaml">Expander Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Popup Behavior and Appearance
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Popup</Run>
+ control provides functionality that enables you to customize its behavior and appearance. For example, you can set open and close behavior; 
+animation; 
+opacity and bitmap effects; 
+and <Run FontWeight="Bold">Popup</Run>
+ size and position.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Open and Close Behavior
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Popup</Run>
+ control displays its content when the <Run FontWeight="Bold">IsOpen</Run>
+ property is set to <Run FontWeight="Bold">true</Run>
+. By default, <Run FontWeight="Bold">Popup</Run>
+ stays open until the <Run FontWeight="Bold">IsOpen</Run>
+ property is set to <Run FontWeight="Bold">false</Run>
+. However, you can change the default behavior by setting the StaysOpen property to <Run FontWeight="Bold">false</Run>
+. When you set this property to <Run FontWeight="Bold">false</Run>
+, the <Run FontWeight="Bold">Popup</Run>
+ content window has mouse capture. The <Run FontWeight="Bold">Popup</Run>
+ loses mouse capture and the window closes when a mouse event occurs outside the <Run FontWeight="Bold">Popup</Run>
+ window.
+    </Paragraph>
+
+    <Paragraph>The Opened and Closed events are raised when the <Run FontWeight="Bold">Popup</Run>
+ content window is open or closed. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Animation
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Popup</Run>
+ control has built-in support for the animations that are typically associated with behaviors like fade-in and slide-in. You can turn on these animations by setting the PopupAnimation property to a PopupAnimation enumeration value. For <Run FontWeight="Bold">Popup</Run>
+ animations to work correctly, you must set the AllowsTransparency property to <Run FontWeight="Bold">true</Run>
+.
+    </Paragraph>
+
+    <Paragraph>You can also apply animations like Storyboard to the <Run FontWeight="Bold">Popup</Run>
+ control. For an example, see the Animated Popup Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Opacity and Bitmap Effects
+    </Paragraph>
+
+    <Paragraph>The Opacity property for a <Run FontWeight="Bold">Popup</Run>
+ control has no affect on its content. By default, the <Run FontWeight="Bold">Popup</Run>
+ content window is opaque. To create a transparent <Run FontWeight="Bold">Popup</Run>
+, set the <Run FontWeight="Bold">AllowsTransparency</Run>
+ property to <Run FontWeight="Bold">true</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The content of a <Run FontWeight="Bold">Popup</Run>
+ does not inherit bitmap effects, such as DropShadowBitmapEffect, that you directly set on the <Run FontWeight="Bold">Popup</Run>
+ control or on any other element in the parent window. For bitmap effects to appear on the content of a <Run FontWeight="Bold">Popup</Run>
+, you must set the bitmap effect directly on its content. For example, if the child of a <Run FontWeight="Bold">Popup</Run>
+ is a <Run FontWeight="Bold">StackPanel</Run>
+, set the bitmap effect on the <Run FontWeight="Bold">StackPanel</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Popup Size
+    </Paragraph>
+
+    <Paragraph>By default, a <Run FontWeight="Bold">Popup</Run>
+ is automatically sized to its content. When auto-sizing occurs, some bitmap effects may be hidden because the default size of the screen area that is defined for the <Run FontWeight="Bold">Popup</Run>
+ content does not provide enough space for the bitmap effects to display. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Popup</Run>
+ content can also be obscured when you set a RenderTransform on the content. In this scenario, some content might be hidden if the content of the transformed <Run FontWeight="Bold">Popup</Run>
+ extends beyond the area of the original Popup. If a bitmap effect or transform requires more space, you can define a margin around the <Run FontWeight="Bold">Popup</Run>
+ content in order to provide more area for the control. For more information, which includes an example, see Animated Popup Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Defining the Popup Position
+    </Paragraph>
+
+    <Paragraph>The position of the <Run FontWeight="Bold">Popup</Run>
+ control is determined by the values of the Placement, PlacementTarget, and PlacementRectangle properties. Use the HorizontalOffset and VerticalOffset properties for fine-tuning.
+    </Paragraph>
+
+    <Paragraph>The value of the <Run FontWeight="Bold">Placement</Run>
+ property defines the origin and orientation of the <Run FontWeight="Bold">Popup</Run>
+ control when it opens. The property value also specifies how the <Run FontWeight="Bold">Popup</Run>
+ control repositions itself when its initial placement overlaps screen boundaries. The Placement property uses the PlacementMode enumeration to define its options. For more information about the <Run FontWeight="Bold">PlacementMode</Run>
+ enumeration values, see <Hyperlink NavigateUri="8bb1c96f-3907-40c7-be2d-40c7b6c730ff.xaml">How to: Set the Placement Property for a Popup or Tooltip</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">PlacementTarget</Run>
+ property defines the parent UIElement, such as a Window or a <Run FontWeight="Bold">Button</Run>
+ control. When you set this property to <Run FontWeight="Bold">null</Run>
+, the <Run FontWeight="Bold">Popup</Run>
+ control is placed relative to its parent in the <Run>visual tree</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">PlacementRectangle</Run>
+ property specifies a rectangle that the <Run FontWeight="Bold">Popup</Run>
+ control uses to position itself when it opens. If you set the <Run FontWeight="Bold">PlacementTarget</Run>
+ property to a <Run FontWeight="Bold">UIElement</Run>
+, the rectangle is defined relative to the element. Otherwise, the rectangle is defined relative to the upper-left corner of the computer screen. If you set the <Run FontWeight="Bold">Placement</Run>
+ property to Mouse, the value of the <Run FontWeight="Bold">PlacementRectangle</Run>
+ property has no effect.
+    </Paragraph>
+
+    <Paragraph>You can apply the <Run FontWeight="Bold">HorizontalOffset</Run>
+ and <Run FontWeight="Bold">VerticalOffset</Run>
+ properties to fine-tune the position of the <Run FontWeight="Bold">Popup</Run>
+ control. For more information about how to position a <Run FontWeight="Bold">Popup</Run>
+, see <Hyperlink NavigateUri="d8617e27-db1a-4487-8cce-3db5daf31349.xaml">How to: Position a Popup</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows how you can use the placement properties to define the position of a <Run FontWeight="Bold">Popup</Run>
+ control.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>When you create a <Run FontWeight="Bold">Popup</Run>
+ control, make sure that you define the placement of the <Run FontWeight="Bold">Popup</Run>
+ before you specify that the <Run FontWeight="Bold">Popup</Run>
+ is open. The following example sets the <Run FontWeight="Bold">IsOpen</Run>
+ property to <Run FontWeight="Bold">true</Run>
+ after the <Run FontWeight="Bold">Popup</Run>
+ named <Run>codePopup</Run>
+ is added to the <Run FontWeight="Bold">StackPanel</Run>
+ control named <Run>aStackPanel</Run>
+. When <Run>codePopup</Run>
+ is added to <Run>aStackPanel</Run>
+, <Run>aStackPanel</Run>
+ becomes the logical parent of <Run>codePopup</Run>
+. The <Run>codePopup</Run>
+ control opens when <Run FontWeight="Bold">IsOpen</Run>
+ is set to <Run FontWeight="Bold">true</Run>
+. For the complete example, see Popup Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void CreatePopup(object sender, RoutedEventArgs e) { Popup codePopup = new Popup(); 
+TextBlock popupText = new TextBlock(); 
+popupText.Text = "Popup Text"; 
+popupText.Background = Brushes.LightBlue; 
+popupText.Foreground = Brushes.Blue; 
+codePopup.Child = popupText; 
+aStackPanel.Children.Add(codePopup); 
+codePopup.IsOpen = true; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private Sub CreatePopup(ByVal Sender As Object, ByVal e As RoutedEventArgs) Dim codePopup As Popup = New Popup() Dim popupText As TextBlock = New TextBlock() popupText.Text = "Popup Text" popupText.Background = Brushes.LightBlue popupText.Foreground = Brushes.Blue codePopup.Child = popupText aStackPanel.Children.Add(codePopup) codePopup.IsOpen = True End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you change the previous example so that the <Run FontWeight="Bold">IsOpen</Run>
+ property is set to <Run FontWeight="Bold">true</Run>
+ and then you add <Run>codePopup</Run>
+ to <Run>aStackPanel</Run>
+, <Run>codePopup</Run>
+ opens in the upper-left corner of the computer screen. This behavior occurs because the computer screen is the default logical parent when the <Run FontWeight="Bold">IsOpen</Run>
+ property is set to <Run FontWeight="Bold">true</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Customizing Popup Placement
+    </Paragraph>
+
+    <Paragraph>You can customize the placement of a <Run FontWeight="Bold">Popup</Run>
+ control by specifying a set of coordinates that are relative to the <Run FontWeight="Bold">PlacementTarget</Run>
+ where you want the <Run FontWeight="Bold">Popup</Run>
+ to appear. 
+    </Paragraph>
+
+    <Paragraph>To customize placement, set the <Run FontWeight="Bold">Placement</Run>
+ property to Custom. Then define a CustomPopupPlacementCallback delegate that returns a set of possible placement points and primary axes (in order of preference) for the <Run FontWeight="Bold">Popup</Run>
+. The point that shows the largest part of the <Run FontWeight="Bold">Popup</Run>
+ is automatically selected. Also, to provide maximum visibility, the position of the <Run FontWeight="Bold">Popup</Run>
+ is automatically adjusted by moving it along the PrimaryAxis that is associated with the chosen point.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>When you set the <Run FontWeight="Bold">Placement</Run>
+ property to <Run FontWeight="Bold">Custom</Run>
+, the <Run FontWeight="Bold">PlacementRectangle</Run>
+, <Run FontWeight="Bold">HorizontalOffset</Run>
+, and <Run FontWeight="Bold">VerticalOffset</Run>
+ properties have no effect.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Popup and the Visual Tree
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Popup</Run>
+ control does not have its own visual tree; 
+it instead returns a size of 0 (zero) when the MeasureOverride method for <Run FontWeight="Bold">Popup</Run>
+ is called. However, when you set the <Run FontWeight="Bold">IsOpen</Run>
+ property of <Run FontWeight="Bold">Popup</Run>
+ to <Run FontWeight="Bold">true</Run>
+, a new window with its own visual tree is created. The new window contains the Child content of <Run FontWeight="Bold">Popup</Run>
+. The width and height of the new window cannot be larger than 75 percent of the width or height of the screen. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Popup</Run>
+ control maintains a reference to its <Run FontWeight="Bold">Child</Run>
+ content as a logical child. When the new window is created, the content of <Run FontWeight="Bold">Popup</Run>
+ becomes a visual child of the window and remains the logical child of <Run FontWeight="Bold">Popup</Run>
+. Conversely, <Run FontWeight="Bold">Popup</Run>
+ remains the logical parent of its <Run FontWeight="Bold">Child</Run>
+ content.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="81172cfe-162b-4c86-9e08-e257f2a9ac59.xaml">How to: Create a Popup</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Popup
+      <LineBreak/>PopupPrimaryAxis
+      <LineBreak/>PlacementMode
+      <LineBreak/>CustomPopupPlacement
+      <LineBreak/>CustomPopupPlacementCallback
+      <LineBreak/>ToolTip
+      <LineBreak/>ToolTipService
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9488a245-0168-4650-b9ab-d075a108cc8f.xaml">Popup How-to Topics</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="2aa88347-c4cb-48d3-951d-a7072643283b.xaml">ToolTip How-to Topics</Hyperlink>
+
+      <LineBreak/>Popup Samples
+      <LineBreak/>ToolTip Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Popup Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

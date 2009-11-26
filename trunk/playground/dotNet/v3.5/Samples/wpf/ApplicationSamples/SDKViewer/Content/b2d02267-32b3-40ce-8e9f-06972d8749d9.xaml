@@ -1,0 +1,490 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b2d02267_32b3_40ce_8e9f_06972d8749d9"
+  Tag     ="GridView Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>GridView Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>GridView view mode is one of the view modes for a ListView control. The <Run FontWeight="Bold">GridView</Run>
+ class and its supporting classes enable you and your users to view item collections in a table that typically uses buttons as interactive column headers. This topic introduces the <Run FontWeight="Bold">GridView</Run>
+ class and outlines its use.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="DefiningaListViewthatusesGridViewView">What Is a GridView View?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="GridViewLayoutandStyle">GridView Layout and Style</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="InteractingwithaGridViewControl">User Interactions with a GridView</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Obtaining_Other_Custom_Views">Obtaining Other Custom Views</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="GridViewSupportingClasses">GridView Supporting Classes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What Is a GridView View?
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">GridView</Run>
+ view mode displays a list of data items by binding data fields to columns and by displaying a column header to identify the field. The default <Run FontWeight="Bold">GridView</Run>
+ style implements buttons as column headers. By using buttons for column headers, you can implement important user interaction capabilities; 
+for example, users can click the column header to sort <Run FontWeight="Bold">GridView</Run>
+ data according to the contents of a specific column.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The button controls that <Run FontWeight="Bold">GridView</Run>
+ uses for column headers are derived from ButtonBase.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows a <Run FontWeight="Bold">GridView</Run>
+ view of <Run FontWeight="Bold">ListView</Run>
+ content.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">GridView view of ListView content </Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">GridView</Run>
+ columns are represented by GridViewColumn objects, which can automatically size to their content. Optionally, you can explicitly set a <Run FontWeight="Bold">GridViewColumn</Run>
+ to a specific width. You can resize columns by dragging the gripper between column headers. You can also dynamically add, remove, replace, and reorder columns because this functionality is built into <Run FontWeight="Bold">GridView</Run>
+. However, <Run FontWeight="Bold">GridView</Run>
+ cannot directly update the data that it displays.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define a <Run FontWeight="Bold">GridView</Run>
+ that displays employee data. In this example, <Run FontWeight="Bold">ListView</Run>
+ defines the <Run>EmployeeInfoDataSource</Run>
+ as the ItemsSource. The property definitions of DisplayMemberBinding bind <Run FontWeight="Bold">GridViewColumn</Run>
+ content to <Run>EmployeeInfoDataSource</Run>
+ data categories. For the complete sample, see ListView That Uses a GridView Sample.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView ItemsSource="{Binding Source= {StaticResource EmployeeInfoDataSource}}"> 
+&lt;ListView.View> 
+&lt;GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information"> 
+&lt;GridViewColumn DisplayMemberBinding= "{Binding Path=FirstName}" Header="First Name" Width="100"/> 
+&lt;GridViewColumn DisplayMemberBinding= "{Binding Path=LastName}" Header="Last Name" Width="100"/> 
+&lt;GridViewColumn DisplayMemberBinding= "{Binding Path=EmployeeNumber}" Header="Employee No." Width="100"/> 
+&lt;/GridView> 
+&lt;/ListView.View> 
+&lt;/ListView> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the table that the previous example creates.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">GridView that displays data from an ItemsSource </Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="22">GridView Layout and Style
+    </Paragraph>
+
+    <Paragraph>The column cells and the column header of a <Run FontWeight="Bold">GridViewColumn</Run>
+ have the same width. By default, each column sizes its width to fit its content. Optionally, you can set a column to a fixed width. 
+    </Paragraph>
+
+    <Paragraph>Related data content displays in horizontal rows. For example, in the previous illustration, each employee's last name, first name, and ID number are displayed as a set because they appear in a horizontal row.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Defining and Styling Columns in a GridView
+    </Paragraph>
+
+    <Paragraph>When defining the data field to display in a <Run FontWeight="Bold">GridViewColumn</Run>
+, use the <Run FontWeight="Bold">DisplayMemberBinding</Run>
+, CellTemplate, or CellTemplateSelector properties. The <Run FontWeight="Bold">DisplayMemberBinding</Run>
+ property takes precedence over either of the template properties. 
+    </Paragraph>
+
+    <Paragraph>To specify the alignment of content in a column of a <Run FontWeight="Bold">GridView</Run>
+, define a <Run FontWeight="Bold">CellTemplate</Run>
+. Do not use the HorizontalContentAlignment and VerticalContentAlignment properties for <Run FontWeight="Bold">ListView</Run>
+ content that is displayed by using a <Run FontWeight="Bold">GridView</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>To specify template and style properties for column headers, use the <Run FontWeight="Bold">GridView</Run>
+, <Run FontWeight="Bold">GridViewColumn</Run>
+, and GridViewColumnHeader classes. For more information, see <Hyperlink NavigateUri="74835674-a39e-4ab5-9418-ad7f6ab7b956.xaml">GridView Column Header Styles and Templates Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Adding Visual Elements to a GridView
+    </Paragraph>
+
+    <Paragraph>To add visual elements, such as CheckBox and Button controls, to a <Run FontWeight="Bold">GridView</Run>
+ view mode, use templates or styles. 
+    </Paragraph>
+
+    <Paragraph>If you explicitly define a visual element as a data item, it can appear only one time in a <Run FontWeight="Bold">GridView</Run>
+. This limitation exists because an element can have only one parent and therefore, can appear only one time in the <Run>visual tree</Run>
+. For an example of how to add a <Run FontWeight="Bold">CheckBox</Run>
+ to a column in a <Run FontWeight="Bold">GridView</Run>
+ view mode, see ListView with GridView and CheckBoxes Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Styling Rows in a GridView
+    </Paragraph>
+
+    <Paragraph>Use the GridViewRowPresenter and GridViewHeaderRowPresenter classes to format and display the rows of a <Run FontWeight="Bold">GridView</Run>
+. For an example of how to style rows in a <Run FontWeight="Bold">GridView</Run>
+ view mode, see <Hyperlink NavigateUri="2e406ba2-70a0-4e62-841f-0934859de76e.xaml">How to: Style a Row in a ListView That Implements a GridView</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Alignment Issues When You Use ItemContainerStyle
+    </Paragraph>
+
+    <Paragraph>To prevent alignment issues between column headers and cells, do not set a property or specify a template that affects the width of an item in an ItemContainerStyle. For example, do not set the Margin property or specify a ControlTemplate that adds a <Run FontWeight="Bold">CheckBox</Run>
+ to an <Run FontWeight="Bold">ItemContainerStyle</Run>
+ that is defined on a <Run FontWeight="Bold">ListView</Run>
+ control. Instead, specify the properties and templates that affect column width directly on classes that define a <Run FontWeight="Bold">GridView</Run>
+ view mode. 
+    </Paragraph>
+
+    <Paragraph>For example, to add a <Run FontWeight="Bold">CheckBox</Run>
+ to the rows in <Run FontWeight="Bold">GridView</Run>
+ view mode, add the <Run FontWeight="Bold">CheckBox</Run>
+ to a DataTemplate, and then set the <Run FontWeight="Bold">CellTemplate</Run>
+ property to that <Run FontWeight="Bold">DataTemplate</Run>
+. For an example of how to add a <Run FontWeight="Bold">CheckBox</Run>
+ to a column in a <Run FontWeight="Bold">GridView</Run>
+ view mode, see ListView with GridView and CheckBoxes Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">User Interactions with a GridView
+    </Paragraph>
+
+    <Paragraph>When you use a <Run FontWeight="Bold">GridView</Run>
+ in your application, users can interact with and modify the formatting of the <Run FontWeight="Bold">GridView</Run>
+. For example, users can reorder columns, resize a column, select items in a table, and scroll through content. You can also define an event handler that responds when a user clicks the column header button. The event handler can perform operations like sorting the data that is displayed in the <Run FontWeight="Bold">GridView</Run>
+ according to the contents of a column. 
+    </Paragraph>
+
+    <Paragraph>The following list discusses in more detail the capabilities of using <Run FontWeight="Bold">GridView</Run>
+ for user interaction:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Reorder columns by using the drag-and-drop method. </Run>
+
+        </Paragraph>
+
+        <Paragraph>Users can reorder columns in a <Run FontWeight="Bold">GridView</Run>
+ by pressing the left mouse button while it is over a column header and then dragging that column to a new position. While the user drags the column header, a floating version of the header is displayed as well as a solid black line that shows where to insert the column. 
+        </Paragraph>
+
+        <Paragraph>If you want to modify the default style for the floating version of a header, specify a <Run FontWeight="Bold">ControlTemplate</Run>
+ for a <Run FontWeight="Bold">GridViewColumnHeader</Run>
+ type that is triggered when the Role property is set to Floating. For more information, see <Hyperlink NavigateUri="0b999645-0313-4b33-80b9-19ece08b5459.xaml">How to: Create a Style for a Dragged GridView Column Header</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Resize a column to its content. </Run>
+
+        </Paragraph>
+
+        <Paragraph>Users can double-click the gripper to the right of a column header in order to resize a column to fit its content. 
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph>Note: 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph>You can set the Width property to <Run FontWeight="Bold">Double.NaN</Run>
+ to produce the same effect.
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Select row items. </Run>
+
+        </Paragraph>
+
+        <Paragraph>Users can select one or more items in a <Run FontWeight="Bold">GridView</Run>
+.
+        </Paragraph>
+
+        <Paragraph>If you want to change the Style of a selected item, see <Hyperlink NavigateUri="1e2bdce0-afe8-4507-9b18-f33de43de25a.xaml">How to: Use Triggers to Style Selected Items in a ListView</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Scroll to view content that is not initially visible on the screen. </Run>
+
+        </Paragraph>
+
+        <Paragraph>If the size of the <Run FontWeight="Bold">GridView</Run>
+ is not large enough to display all the items, users can scroll horizontally or vertically by using scrollbars, which are provided by a ScrollViewer control. A ScrollBar is hidden if all the content is visible in a specific direction. Column headers do not scroll with a vertical scroll bar, but do scroll horizontally.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Interact with columns by clicking the column header buttons. </Run>
+
+        </Paragraph>
+
+        <Paragraph>When users click a column header button, they can sort the data that is displayed in the column if you have provided a sorting algorithm. 
+        </Paragraph>
+
+        <Paragraph>You can handle the Click event for column header buttons in order to provide functionality like a sorting algorithm. To handle the <Run FontWeight="Bold">Click</Run>
+ event for a single column header, set an event handler on the <Run FontWeight="Bold">GridViewColumnHeader</Run>
+. To set an event handler that handles the <Run FontWeight="Bold">Click</Run>
+ event for all column headers, set the handler on the <Run FontWeight="Bold">ListView</Run>
+ control. For more information and an example, see ListView That Sorts Data Sample.
+        </Paragraph>
+
+        <Paragraph/>
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Obtaining Other Custom Views
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">GridView</Run>
+ class, which is derived from the ViewBase abstract class, is just one of the possible view modes for the <Run FontWeight="Bold">ListView</Run>
+ class. You can create other custom views for <Run FontWeight="Bold">ListView</Run>
+ by deriving from the <Run FontWeight="Bold">ViewBase</Run>
+ class. For an example of a custom view mode, see <Hyperlink NavigateUri="71077349-eeb9-4344-ab29-b5df96df3314.xaml">How to: Create a Custom View Mode for a ListView</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">GridView Supporting Classes
+    </Paragraph>
+
+    <Paragraph>The following classes support the <Run FontWeight="Bold">GridView</Run>
+ view mode.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">GridViewColumn</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">GridViewColumnHeader</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">GridViewRowPresenter</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">GridViewHeaderRowPresenter</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>GridViewColumnCollection 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>GridViewColumnHeaderRole 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="4865d720-d147-40ed-83a7-af7587f8aad8.xaml">How to: Sort a GridView Column When a Header Is Clicked</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ListView
+      <LineBreak/>ListViewItem
+      <LineBreak/>GridViewColumn
+      <LineBreak/>GridViewColumnHeader
+      <LineBreak/>GridViewRowPresenter
+      <LineBreak/>GridViewHeaderRowPresenter
+      <LineBreak/>ViewBase
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="989e12b0-260e-4570-95c6-489284003ce2.xaml">ListView Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>ListView Samples
+      <LineBreak/><Hyperlink NavigateUri="aafce40c-9bfe-45ec-86a3-599616a11276.xaml">ListView How-to Topics</Hyperlink>
+
+      <LineBreak/>GridView Overviews
+      <LineBreak/>GridView How-to Topics
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about GridView Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

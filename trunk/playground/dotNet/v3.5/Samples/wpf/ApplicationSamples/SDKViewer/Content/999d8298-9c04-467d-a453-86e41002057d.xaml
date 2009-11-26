@@ -1,0 +1,1255 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_999d8298_9c04_467d_a453_86e41002057d"
+  Tag     ="Windows Forms and WPF Property Mapping"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Forms and WPF Property Mapping</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Windows Forms and WPF technologies have two similar but different property models. <Run FontStyle="italic">Property mapping</Run>
+ supports interoperation between the two architectures and provides the following capabilities:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Makes it easy to map relevant property changes in the host environment to the hosted control or element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Provides default handling for mapping the most commonly used properties.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Allows easy removal, overriding, or extending of default properties.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Ensures that property value changes on the host are automatically detected and translated to the hosted control or element.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property-change events are not propagated up the hosting control or element hierarchy. Property translation is not performed if the local value of a property does not change because of direct setting, styles, inheritance, data binding, or other mechanisms that change the value of the property.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Use the PropertyMap property on the WindowsFormsHost element and the PropertyMap property on ElementHost control to access property mapping. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Property Mapping with the WindowsFormsHost Element
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element translates default WPF properties to their Windows Forms equivalents using the following translation table.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Windows Presentation Foundation hosting 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Windows Forms 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Interoperation behavior 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Background 
+            </Paragraph>
+
+            <Paragraph>(System.Windows.Media.Brush)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>BackColor 
+            </Paragraph>
+
+            <Paragraph>(System.Drawing.Color)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element sets the <Run FontWeight="Bold">BackColor</Run>
+ property of the hosted control and the BackgroundImage property of the hosted control. Mapping is performed by using the following rules:
+            </Paragraph>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>If <Run FontWeight="Bold">Background</Run>
+ is a solid color, it is converted and used to set the <Run FontWeight="Bold">BackColor</Run>
+ property of the hosted control. The <Run FontWeight="Bold">BackColor</Run>
+ property is not set on the hosted control, because the hosted control can inherit the value of the <Run FontWeight="Bold">BackColor</Run>
+ property.
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+            <Table CellSpacing="5">
+              <TableRowGroup>
+                <TableRow>
+                  <TableCell>
+                    <Paragraph>Note: 
+                    </Paragraph>
+
+                  </TableCell>
+
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <Paragraph>The hosted control does not support transparency. Any color assigned to <Run FontWeight="Bold">BackColor</Run>
+ must be fully opaque, with an alpha value of 0xFF.
+                    </Paragraph>
+
+                  </TableCell>
+
+                </TableRow>
+
+              </TableRowGroup>
+
+            </Table>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>If <Run FontWeight="Bold">Background</Run>
+ is not a solid color, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control creates a bitmap from the <Run FontWeight="Bold">Background</Run>
+ property. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control assigns this bitmap to the <Run FontWeight="Bold">BackgroundImage</Run>
+ property of the hosted control. This provides an effect which is similar to transparency. 
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+            <Table CellSpacing="5">
+              <TableRowGroup>
+                <TableRow>
+                  <TableCell>
+                    <Paragraph>Note: 
+                    </Paragraph>
+
+                  </TableCell>
+
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <Paragraph>You can override this behavior or you can remove the <Run FontWeight="Bold">Background</Run>
+ property mapping.
+                    </Paragraph>
+
+                  </TableCell>
+
+                </TableRow>
+
+              </TableRowGroup>
+
+            </Table>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Cursor 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Cursor 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>If the default mapping has not been reassigned, <Run FontWeight="Bold">WindowsFormsHost</Run>
+ control traverses its ancestor hierarchy until it finds an ancestor with its <Run FontWeight="Bold">Cursor</Run>
+ property set. This value is translated to the closest corresponding Windows Forms cursor. 
+            </Paragraph>
+
+            <Paragraph>If the default mapping for the ForceCursor property has not been reassigned, the traversal stops on the first ancestor with <Run FontWeight="Bold">ForceCursor</Run>
+ set to <Run FontWeight="Bold">true</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>FlowDirection 
+            </Paragraph>
+
+            <Paragraph>(System.Windows.FlowDirection)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>RightToLeft 
+            </Paragraph>
+
+            <Paragraph>(System.Windows.Forms.RightToLeft)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>LeftToRight maps to No.
+            </Paragraph>
+
+            <Paragraph>RightToLeft maps to Yes.
+            </Paragraph>
+
+            <Paragraph>Inherit is not mapped. 
+            </Paragraph>
+
+            <Paragraph><Run FontWeight="Bold">System.Windows.FlowDirection.RightToLeft</Run>
+ maps to <Run FontWeight="Bold">System.Windows.Forms.RightToLeft.Yes</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>FontStyle 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Style on the hosted control's System.Drawing.Font 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The set of WPF properties is translated into a corresponding <Run FontWeight="Bold">Font</Run>
+. When one of these properties changes, a new <Run FontWeight="Bold">Font</Run>
+ is created. For Normal: Italic is disabled. For Italic or Oblique: <Run FontWeight="Bold">Italic</Run>
+ is enabled.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>FontWeight 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Style</Run>
+ on the hosted control's <Run FontWeight="Bold">System.Drawing.Font</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The set of WPF properties is translated into a corresponding <Run FontWeight="Bold">Font</Run>
+. When one of these properties changes, a new <Run FontWeight="Bold">Font</Run>
+ is created. For Black, Bold, DemiBold, ExtraBold, Heavy, Medium, SemiBold, or UltraBold: Bold is enabled. For ExtraLight, Light, Normal, Regular, Thin, or UltraLight: <Run FontWeight="Bold">Bold</Run>
+ is disabled.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>FontFamily 
+            </Paragraph>
+
+            <Paragraph>FontSize 
+            </Paragraph>
+
+            <Paragraph>FontStretch 
+            </Paragraph>
+
+            <Paragraph><Run FontWeight="Bold">FontStyle</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontWeight="Bold">FontWeight</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Font 
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">System.Drawing.Font</Run>
+)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The set of WPF properties is translated into a corresponding <Run FontWeight="Bold">Font</Run>
+. When one of these properties changes, a new <Run FontWeight="Bold">Font</Run>
+ is created. The hosted Windows Forms control resizes based on the font size.
+            </Paragraph>
+
+            <Paragraph>Font size in WPF is expressed as one ninety-sixth of an inch, and in Windows Forms as one seventy-second of an inch. The corresponding conversion is:
+            </Paragraph>
+
+            <Paragraph>Windows Forms font size = WPF font size * 72.0 / 96.0.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Foreground 
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">System.Windows.Media.Brush</Run>
+)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ForeColor 
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">System.Drawing.Color</Run>
+)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The <Run FontWeight="Bold">Foreground</Run>
+ property mapping is performed by using the following rules:
+            </Paragraph>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>If <Run FontWeight="Bold">Foreground</Run>
+ is a SolidColorBrush, use Color for <Run FontWeight="Bold">ForeColor</Run>
+.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>If <Run FontWeight="Bold">Foreground</Run>
+ is a GradientBrush, use the color of the GradientStop with the lowest offset value for <Run FontWeight="Bold">ForeColor</Run>
+.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>For any other <Run FontWeight="Bold">Brush</Run>
+ type, leave <Run FontWeight="Bold">ForeColor</Run>
+ unchanged. This means the default is used.
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IsEnabled 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Enabled 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>When <Run FontWeight="Bold">IsEnabled</Run>
+ is set, <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element sets the <Run FontWeight="Bold">Enabled</Run>
+ property on the hosted control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Padding 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Padding 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>All four values of the <Run FontWeight="Bold">Padding</Run>
+ property on the hosted Windows Forms control are set to the same Thickness value.
+            </Paragraph>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Values greater than MaxValue are set to <Run FontWeight="Bold">MaxValue</Run>
+.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Values less than MinValue are set to <Run FontWeight="Bold">MinValue</Run>
+.
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Visibility 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Visible 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Visible maps to <Run FontWeight="Bold">Visible</Run>
+ = <Run FontWeight="Bold">true</Run>
+. The hosted Windows Forms control is visible. Explicitly setting the <Run FontWeight="Bold">Visible</Run>
+ property on the hosted control to <Run FontWeight="Bold">false</Run>
+ is not recommended.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Collapsed maps to <Run FontWeight="Bold">Visible</Run>
+ = <Run FontWeight="Bold">true</Run>
+ or <Run FontWeight="Bold">false</Run>
+. The hosted Windows Forms control is not drawn, and its area is collapsed. 
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Hidden: The hosted Windows Forms control occupies space in the layout, but is not visible. In this case, the <Run FontWeight="Bold">Visible</Run>
+ property is set to <Run FontWeight="Bold">true</Run>
+. Explicitly setting the <Run FontWeight="Bold">Visible</Run>
+ property on the hosted control to <Run FontWeight="Bold">false</Run>
+ is not recommended.
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Attached properties on container elements are fully supported by the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element.
+    </Paragraph>
+
+    <Paragraph>For more information, see <Hyperlink NavigateUri="74809167-bf8e-48b7-a2e7-b4ea08bc7d8c.xaml">Walkthrough: Mapping Properties Using the WindowsFormsHost Element</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Updates to Parent Properties
+    </Paragraph>
+
+    <Paragraph>Changes to most parent properties cause notifications to the hosted child control. The following list describes properties which do not cause notifications when their values change. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Background</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Cursor</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ForceCursor</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Visibility</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For example, if you change the value of the <Run FontWeight="Bold">Background</Run>
+ property of the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element, the <Run FontWeight="Bold">BackColor</Run>
+ property of the hosted control does not change.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Property Mapping with the ElementHost Control
+    </Paragraph>
+
+    <Paragraph>The following properties provide built-in change notification. Do not call the OnPropertyChanged method when you are mapping these properties:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>AutoSize
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>BackColor
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>BackgroundImage
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>BackgroundImageLayout
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>BindingContext
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>CausesValidation
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ContextMenu
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ContextMenuStrip
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Cursor
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Dock
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Enabled
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Font
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ForeColor
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Location
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Margin
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Padding
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Parent
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Region
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>RightToLeft
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Size
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>TabIndex
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>TabStop
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Text
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Visible
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The <Run FontWeight="Bold">ElementHost</Run>
+ control translates default Windows Forms properties to their WPF equivalents by using the following translation table.
+    </Paragraph>
+
+    <Paragraph>For more information, see <Hyperlink NavigateUri="bccd6e0d-2272-4924-9107-ff8ed58b88aa.xaml">Walkthrough: Mapping Properties Using the ElementHost Control</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Windows Forms hosting 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Windows Presentation Foundation 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Interoperation behavior 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">BackColor</Run>
+
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">System.Drawing.Color</Run>
+)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Background</Run>
+
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">System.Windows.Media.Brush</Run>
+) on the hosted element 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Setting this property forces a repaint with an ImageBrush. If the BackColorTransparent property is set to <Run FontWeight="Bold">false</Run>
+ (the default value), this <Run FontWeight="Bold">ImageBrush</Run>
+ is based on the appearance of the <Run FontWeight="Bold">ElementHost</Run>
+ control, including its <Run FontWeight="Bold">BackColor</Run>
+, <Run FontWeight="Bold">BackgroundImage</Run>
+, BackgroundImageLayout properties, and any attached paint handlers. 
+            </Paragraph>
+
+            <Paragraph>If the <Run FontWeight="Bold">BackColorTransparent</Run>
+ property is set to <Run FontWeight="Bold">true</Run>
+, the <Run FontWeight="Bold">ImageBrush</Run>
+ is based on the appearance of the <Run FontWeight="Bold">ElementHost</Run>
+ control's parent, including the parent's <Run FontWeight="Bold">BackColor</Run>
+, <Run FontWeight="Bold">BackgroundImage</Run>
+, <Run FontWeight="Bold">BackgroundImageLayout</Run>
+ properties, and any attached paint handlers.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">BackgroundImage</Run>
+
+            </Paragraph>
+
+            <Paragraph>(System.Drawing.Image)
+            </Paragraph>
+
+            <Paragraph/>
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Background</Run>
+
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">System.Windows.Media.Brush</Run>
+) on the hosted element 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Setting this property causes the same behavior described for the <Run FontWeight="Bold">BackColor</Run>
+ mapping.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">BackgroundImageLayout</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Background</Run>
+
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">System.Windows.Media.Brush</Run>
+) on the hosted element 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Setting this property causes the same behavior described for the <Run FontWeight="Bold">BackColor</Run>
+ mapping.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Cursor</Run>
+
+            </Paragraph>
+
+            <Paragraph>(System.Windows.Forms.Cursor)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Cursor</Run>
+
+            </Paragraph>
+
+            <Paragraph>(System.Windows.Input.Cursor)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The Windows Forms standard cursor is translated to the corresponding WPF standard cursor. If the Windows Forms is not a standard cursor, the default is assigned.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Enabled</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">IsEnabled</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>When <Run FontWeight="Bold">Enabled</Run>
+ is set, the <Run FontWeight="Bold">ElementHost</Run>
+ control sets the <Run FontWeight="Bold">IsEnabled</Run>
+ property on the hosted element.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Font</Run>
+
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">System.Drawing.Font</Run>
+)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">FontFamily</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontWeight="Bold">FontSize</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontWeight="Bold">FontStretch</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontWeight="Bold">FontStyle</Run>
+
+            </Paragraph>
+
+            <Paragraph><Run FontWeight="Bold">FontWeight</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The <Run FontWeight="Bold">Font</Run>
+ value is translated into a corresponding set of WPF font properties.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Bold 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">FontWeight</Run>
+ on hosted element
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>If <Run FontWeight="Bold">Bold</Run>
+ is <Run FontWeight="Bold">true</Run>
+, <Run FontWeight="Bold">FontWeight</Run>
+ is set to <Run FontWeight="Bold">Bold</Run>
+.
+            </Paragraph>
+
+            <Paragraph>If <Run FontWeight="Bold">Bold</Run>
+ is <Run FontWeight="Bold">false</Run>
+, <Run FontWeight="Bold">FontWeight</Run>
+ is set to <Run FontWeight="Bold">Normal</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Italic 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">FontStyle</Run>
+ on hosted element
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>If <Run FontWeight="Bold">Italic</Run>
+ is <Run FontWeight="Bold">true</Run>
+, <Run FontWeight="Bold">FontStyle</Run>
+ is set to <Run FontWeight="Bold">Italic</Run>
+.
+            </Paragraph>
+
+            <Paragraph>If <Run FontWeight="Bold">Italic</Run>
+ is <Run FontWeight="Bold">false</Run>
+, <Run FontWeight="Bold">FontStyle</Run>
+ is set to <Run FontWeight="Bold">Normal</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Strikeout 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TextDecorations on hosted element
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Applies only when hosting a TextBlock control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Underline 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">TextDecorations</Run>
+ on hosted element
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Applies only when hosting a <Run FontWeight="Bold">TextBlock</Run>
+ control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">RightToLeft</Run>
+
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">System.Windows.Forms.RightToLeft</Run>
+)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">FlowDirection</Run>
+
+            </Paragraph>
+
+            <Paragraph>(<Run FontWeight="Bold">FlowDirection</Run>
+)
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">No</Run>
+ maps to <Run FontWeight="Bold">LeftToRight</Run>
+.
+            </Paragraph>
+
+            <Paragraph><Run FontWeight="Bold">Yes</Run>
+ maps to <Run FontWeight="Bold">RightToLeft</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Visible</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Visibility</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The <Run FontWeight="Bold">ElementHost</Run>
+ control sets the <Run FontWeight="Bold">Visibility</Run>
+ property on the hosted element by using the following rules:
+            </Paragraph>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph><Run FontWeight="Bold">Visible</Run>
+ = <Run FontWeight="Bold">true</Run>
+ maps to <Run FontWeight="Bold">Visible</Run>
+.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Run FontWeight="Bold">Visible</Run>
+ = <Run FontWeight="Bold">false</Run>
+ maps to <Run FontWeight="Bold">Hidden</Run>
+.
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="74809167-bf8e-48b7-a2e7-b4ea08bc7d8c.xaml">Walkthrough: Mapping Properties Using the WindowsFormsHost Element</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="bccd6e0d-2272-4924-9107-ff8ed58b88aa.xaml">Walkthrough: Mapping Properties Using the ElementHost Control</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ElementHost
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9e8aa6b6-112c-4579-98d1-c974917df499.xaml">Supported Scenarios in Windows Presentation Foundation and Windows Forms Interoperation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation Migration and Interoperation Architecture
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Forms and WPF Property Mapping to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

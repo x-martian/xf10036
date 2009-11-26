@@ -1,0 +1,1047 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_7ad2943b_3961_41d3_8fc6_1582d43f5d99"
+  Tag     ="WPF Application Data Files"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Presentation Foundation Application Data Files</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Microsoft Windows applications often depend on files that contain non-executable data, such as Extensible Application Markup Language (XAML), images, video, and audio. Windows Presentation Foundation (WPF) offers special support for configuring, identifying, and using these types of data files, which are called application data files. This support revolves around a specific set of application data file types, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Resource Files</Run>
+: Data files that are compiled into either an executable or library WPF assembly.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Content Files</Run>
+: Standalone data files that have an explicit association with an executable XAML assembly.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Site of Origin Files</Run>
+: Standalone data files that have no association with an executable XAML assembly.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>One important distinction to make between these three types of files is that resource files and content files are known at build time; 
+an assembly has explicit knowledge of them. For site of origin files, however, an assembly may have no knowledge of them at all, or implicit knowledge through a pack uniform resource identifier (URI) reference; 
+the case of the latter, there is no guarantee that the referenced site of origin file actually exists.
+    </Paragraph>
+
+    <Paragraph>To reference application data files, Windows Presentation Foundation (WPF) uses the Pack uniform resource identifier (URI) Scheme, which is described in detail in <Hyperlink NavigateUri="43adb517-21a7-4df3-98e8-09e9cdf764c4.xaml">Pack URIs in Windows Presentation Foundation</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph>This topic describes how to configure and use application data files.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Resource Files
+    </Paragraph>
+
+    <Paragraph>If an application data file must always be available to an application, the only way to guarantee availability is to compile it into an application's main executable assembly or one of its referenced assemblies. This type of application data file is known as a <Run FontStyle="italic">resource file</Run>
+.
+    </Paragraph>
+
+    <Paragraph>You should use resource files when:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>You don't need to update the resource file's content after it is compiled into an assembly.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You want to simplify application distribution complexity by reducing the number of file dependencies.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Your application data file needs to be localizable (see <Hyperlink NavigateUri="56e5a5c8-6c96-4d19-b8e1-a5be1dc564af.xaml">WPF Globalization and Localization Overview</Hyperlink>
+).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resource dictionaries (XAML files with <Run FontWeight="Bold">ResourceDictionary</Run>
+ as their top-level element) are not WPF resource files; 
+while WPF resource files can be resource dictionaries, a resource dictionary does not have to be a resource file (see ResourceDictionary).
+            </Paragraph>
+
+            <Paragraph>Furthermore, WPF resource files, are not the same as the embedded or linked type of resources that can be configured using the core Microsoft .NET Framework version 3.0 support for assembly resources (see ). While WPF resource files do leverage the core Microsoft .NET Framework version 3.0 embedded resource support, the ability to access WPF resource files is far easier than using namespaces.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Configuring Resource Files
+    </Paragraph>
+
+    <Paragraph>In WPF, a resource file is a file that is included in an Microsoft build engine (MSBuild) project as a <Run FontWeight="Bold">Resource</Run>
+ item:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ... > ... 
+&lt;ItemGroup> <Run FontWeight="Bold">
+&lt;Resource Include="ResourceFile.xaml" /></Run>
+ 
+&lt;/ItemGroup> ... 
+&lt;/Project></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>In Microsoft Visual Studio 2005, you create a resource file by adding a file to a project and setting its <Run FontWeight="Bold">Build Action</Run>
+ to <Run FontWeight="Bold">Resource</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the project is built, MSBuild compiles the resource into the assembly.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Using Resource Files
+    </Paragraph>
+
+    <Paragraph>To load a resource file, you can call the GetResourceStream method of the Application class, passing a pack URI that identifies the desired resource file. <Run FontWeight="Bold">GetResourceStream</Run>
+ returns a StreamResourceInfo object, which exposes the resource file as a Stream and describes its content type.
+    </Paragraph>
+
+    <Paragraph>As an example, the following code shows how to use <Run FontWeight="Bold">GetResourceStream</Run>
+ to load a Page resource file and set it as the content of a Frame:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Navigate to xaml page Uri uri = new Uri("/PageResourceFile.xaml", UriKind.Relative); 
+StreamResourceInfo info = Application.GetResourceStream(uri); 
+System.Windows.Markup.XamlReader reader = new System.Windows.Markup.XamlReader(); 
+Page page = (Page)reader.LoadAsync(info.Stream); 
+this.pageFrame.Content = page; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>While calling <Run FontWeight="Bold">GetResourceStream</Run>
+ gives you access to the <Run FontWeight="Bold">Stream</Run>
+, you need to perform the additional work of converting it to the type of the property that you'll be setting it with. Instead, you can let WPF take care of opening and converting the <Run FontWeight="Bold">Stream</Run>
+ by loading a resource file directly into the property of a type using code.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to load a <Run FontWeight="Bold">Page</Run>
+ directly into a <Run FontWeight="Bold">Frame</Run>
+ using code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Uri pageUri = new Uri("/PageResourceFile.xaml", UriKind.Relative); 
+this.pageFrame.Source = pageUri; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example is the markup equivalent of the preceding example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Frame Name="pageFrame" Source="PageResourceFile.xaml" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Application Code Files as Resource Files
+    </Paragraph>
+
+    <Paragraph>A special set of WPF application code files can be referenced using pack URIs, including windows, pages, flow documents, and resource dictionaries. For example, you can set the StartupUri property with a pack URI that references the window or page that you would like to load when an application starts:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" StartupUri="MainWindow.xaml"> 
+&lt;/Application> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can do this when a XAML file is included in an Microsoft build engine (MSBuild) project as a <Run FontWeight="Bold">Page</Run>
+ item:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ... > ... 
+&lt;ItemGroup> 
+&lt;Page Include="MainWindow.xaml" /> 
+&lt;/ItemGroup> ... 
+&lt;/Project></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>In Microsoft Visual Studio 2005, you add a new Window, NavigationWindow, <Run FontWeight="Bold">Page</Run>
+, FlowDocument, or <Run FontWeight="Bold">ResourceDictionary</Run>
+ to a project, the <Run FontWeight="Bold">Build Action</Run>
+ for the markup file will default to <Run FontWeight="Bold">Page</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When a project with <Run FontWeight="Bold">Page</Run>
+ items is compiled, the XAML items are converted to binary format and compiled into the associated assembly. Consequently, these files can be used in the same way as typical resource files.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>If a XAML file is configured as a <Run FontWeight="Bold">Resource</Run>
+ item, and does not have a code-behind file, the raw XAML is compiled into an assembly rather than a binary version of the raw XAML.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Content Files
+    </Paragraph>
+
+    <Paragraph>A <Run FontStyle="italic">content file</Run>
+ is distributed as a loose file alongside an executable assembly. Although they are not compiled into an assembly, assemblies are compiled with metadata that establishes an association with each content file.
+    </Paragraph>
+
+    <Paragraph>You should use content files when your application requires a specific set of application data files that you want to be able to update without recompiling the assembly that consumes them.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Configuring Content Files
+    </Paragraph>
+
+    <Paragraph>To add a content file to a project, an application data file must be included a <Run FontWeight="Bold">Content</Run>
+ item. Furthermore, because a content file is not compiled directly into the assembly, you need to set the MSBuild<Run/><Run FontWeight="Bold">CopyToOutputDirectory</Run>
+ metadata element to specify that the content file is copied to a location that is relative to the built assembly. If you want the resource to be copied to the build output folder every time a project is built, you set the <Run FontWeight="Bold">CopyToOutputDirectory</Run>
+ metadata element with the <Run FontWeight="Bold">Always</Run>
+ value. Otherwise, you can ensure that only the newest version of the resource is copied to the build output folder by using the <Run FontWeight="Bold">PreserveNewest</Run>
+ value.
+    </Paragraph>
+
+    <Paragraph>The following shows a file that is configured as a content file which is copied to the build output folder only when a new version of the resource is added to the project:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ... > ... 
+&lt;ItemGroup> 
+&lt;Content Include="ContentFile.xaml"> 
+&lt;CopyToOutputDirectory>PreserveNewest
+&lt;/CopyToOutputDirectory> 
+&lt;/Content> 
+&lt;/ItemGroup> ... 
+&lt;/Project></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>In Microsoft Visual Studio 2005, you create a content file by adding a file to a project and setting its <Run FontWeight="Bold">Build Action</Run>
+ to <Run FontWeight="Bold">Content</Run>
+, and set its <Run FontWeight="Bold">Copy to Output Directory</Run>
+ to <Run FontWeight="Bold">Copy always</Run>
+ (same as <Run FontWeight="Bold">Always</Run>
+) and <Run FontWeight="Bold">Copy if newer</Run>
+ (same as <Run FontWeight="Bold">PreserveNewest</Run>
+).
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the project is built, an AssemblyAssociatedContentFileAttribute attribute is compiled into the metadata of the assembly for each content file:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[assembly: AssemblyAssociatedContentFile("ContentFile.xaml")]</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The value of the <Run FontWeight="Bold">AssemblyAssociatedContentFileAttribute</Run>
+ implies the path to the content file relative to its position in the project. For example, if a content file was located in a project subfolder, the additional path information would be incorporated into the <Run FontWeight="Bold">AssemblyAssociatedContentFileAttribute</Run>
+ value:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[assembly: AssemblyAssociatedContentFile("Resources/ContentFile.xaml")]</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">AssemblyAssociatedContentFileAttribute</Run>
+ value is also the value of the path to the content file in the build output folder.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Using Content Files
+    </Paragraph>
+
+    <Paragraph>To load a content file, you can call the GetContentStream method of the <Run FontWeight="Bold">Application</Run>
+ class, passing a pack URI that identifies the desired content file. <Run FontWeight="Bold">GetContentStream</Run>
+ returns a <Run FontWeight="Bold">StreamResourceInfo</Run>
+ object, which exposes the content file as a <Run FontWeight="Bold">Stream</Run>
+ and describes its content type.
+    </Paragraph>
+
+    <Paragraph>As an example, the following code shows how to use <Run FontWeight="Bold">GetContentStream</Run>
+ to load a <Run FontWeight="Bold">Page</Run>
+ content file and set it as the content of a <Run FontWeight="Bold">Frame</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Navigate to xaml page Uri uri = new Uri("/PageContentFile.xaml", UriKind.Relative); 
+StreamResourceInfo info = Application.GetContentStream(uri); 
+System.Windows.Markup.XamlReader reader = new System.Windows.Markup.XamlReader(); 
+Page page = (Page)reader.LoadAsync(info.Stream); 
+this.pageFrame.Content = page; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>While calling <Run FontWeight="Bold">GetContentStream</Run>
+ gives you access to the <Run FontWeight="Bold">Stream</Run>
+, you need to perform the additional work of converting it to the type of the property that you'll be setting it with. Instead, you can let WPF take care of opening and converting the <Run FontWeight="Bold">Stream</Run>
+ by loading a resource file directly into the property of a type using code.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to load a <Run FontWeight="Bold">Page</Run>
+ directly into a <Run FontWeight="Bold">Frame</Run>
+ using code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Uri pageUri = new Uri("/PageContentFile.xaml", UriKind.Relative); 
+this.pageFrame.Source = pageUri; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example is the markup equivalent of the preceding example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Frame Name="pageFrame" Source="PageContentFile.xaml" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Site of Origin Files
+    </Paragraph>
+
+    <Paragraph>Resource files have an explicit relationship with the assemblies that they are distributed alongside, as defined by the <Run FontWeight="Bold">AssemblyAssociatedContentFileAttribute</Run>
+. But, there are times when you may want to establish either an implicit or non-existent relationship between an assembly and an application data file, including when:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A file doesn't exist when at compile time.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You don't what files your assembly will require until run time.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You want to be able to update files without recompiling the assembly that they are associated with.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Your application uses large data files, such as audio and video, and you only want users to download them if they choose to.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>It is possible to load these types of files by using traditional URI schemes, such as <Run FontWeight="Bold">file:///</Run>
+ and <Run FontWeight="Bold">http://</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Image Source="file:///C:/DataFile.bmp">
+&lt;/Image> 
+&lt;Image Source="http://www.datafilewebsite.com/DataFile.bmp">
+&lt;/Image> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>However, the <Run FontWeight="Bold">file:///</Run>
+ and <Run FontWeight="Bold">http://</Run>
+ schemes require your application to have full trust. If your application is an XAML browser application (XBAP) that was launched from the Internet or intranet, and it requests only the set of permissions that are allowed for applications launched from those locations, loose files can only be loaded from the application's site of origin (launch location). Such files are known as <Run FontStyle="italic">site of origin</Run>
+ files.
+    </Paragraph>
+
+    <Paragraph>Site of origin files are the only option for partial trust applications, although are not limited to partial trust applications. Full trust applications may still need to load application data files that they do not know about at build time; 
+while full trust applications could use <Run FontWeight="Bold">file:///</Run>
+, it is likely that the application data files will be installed in the same folder as, or a subfolder of, the application assembly. In this case, using site of origin referencing is easier than using <Run FontWeight="Bold">file:///</Run>
+, because using <Run FontWeight="Bold">file:///</Run>
+ requires you to work out the full path the file.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Site of origin files are not cached with an XAML browser application (XBAP) on a client machine, while content files are. Consequently, they are only downloaded when specifically requested. If an XAML browser application (XBAP) application has large media files, configuring them as site of origin files means the initial application launch is much faster, and are only downloaded on demand.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Configuring Site of Origin Files
+    </Paragraph>
+
+    <Paragraph>If your site of origin files are either non-existent or unknown at compile time, you need to use traditional deployment mechanisms for ensuring the required files are available at run time, including using either the <Run FontWeight="Bold">XCopy</Run>
+ command line program or the Microsoft Windows Installer.
+    </Paragraph>
+
+    <Paragraph>If you do know at compile time the files that you would like to be located at the site of origin, but still want to avoid an explicit dependency, you can add those files to an Microsoft build engine (MSBuild) project as <Run FontWeight="Bold">None</Run>
+ item. As with content files, you need to set the MSBuild <Run FontWeight="Bold">CopyToOutputDirectory</Run>
+ attribute to specify that the site of origin file is copied to a location that is relative to the built assembly, by specifying either the <Run FontWeight="Bold">Always</Run>
+ value or the <Run FontWeight="Bold">PreserveNewest</Run>
+ value.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ... > ... 
+&lt;None Include="PageSiteOfOriginFile.xaml"> 
+&lt;CopyToOutputDirectory>Always
+&lt;/CopyToOutputDirectory> 
+&lt;/None> ... 
+&lt;/Project></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>In Microsoft Visual Studio 2005, you create a site of origin file by adding a file to a project and setting its <Run FontWeight="Bold">Build Action</Run>
+ to <Run FontWeight="Bold">None</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the project is built, MSBuild copies the specified files to the build output folder
+    </Paragraph>
+
+    <Paragraph FontSize="18">Using Site of Origin Files
+    </Paragraph>
+
+    <Paragraph>To load a site of origin file, you can call the GetRemoteStream method of the <Run FontWeight="Bold">Application</Run>
+ class, passing a pack URI that identifies the desired site of origin file. <Run FontWeight="Bold">GetRemoteStream</Run>
+ returns a <Run FontWeight="Bold">StreamResourceInfo</Run>
+ object, which exposes the site of origin file as a <Run FontWeight="Bold">Stream</Run>
+ and describes its content type.
+    </Paragraph>
+
+    <Paragraph>As an example, the following code shows how to use <Run FontWeight="Bold">GetRemoteStream</Run>
+ to load a <Run FontWeight="Bold">Page</Run>
+ site of origin file and set it as the content of a <Run FontWeight="Bold">Frame</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Navigate to xaml page Uri uri = new Uri("/SiteOfOriginFile.xaml", UriKind.Relative); 
+StreamResourceInfo info = Application.GetRemoteStream(uri); 
+System.Windows.Markup.XamlReader reader = new System.Windows.Markup.XamlReader(); 
+Page page = (Page)reader.LoadAsync(info.Stream); 
+this.pageFrame.Content = page; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>While calling <Run FontWeight="Bold">GetRemoteStream</Run>
+ gives you access to the <Run FontWeight="Bold">Stream</Run>
+, you need to perform the additional work of converting it to the type of the property that you'll be setting it with. Instead, you can let WPF take care of opening and converting the <Run FontWeight="Bold">Stream</Run>
+ by loading a resource file directly into the property of a type using code.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to load a <Run FontWeight="Bold">Page</Run>
+ directly into a <Run FontWeight="Bold">Frame</Run>
+ using code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Uri pageUri = new Uri("pack://siteoforigin:,,,/Subfolder/SiteOfOriginFile.xaml", UriKind.Absolute); 
+this.pageFrame.Source = pageUri; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example is the markup equivalent of the preceding example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Frame Name="pageFrameSOO" Source="pack://siteoforigin:,,,/PageContentFile.xaml" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Frame Name="pageFrame" Source="pack://siteoforigin:,,,/SiteOfOriginFile.xaml" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="43adb517-21a7-4df3-98e8-09e9cdf764c4.xaml">Pack URIs in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Application Data Files to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

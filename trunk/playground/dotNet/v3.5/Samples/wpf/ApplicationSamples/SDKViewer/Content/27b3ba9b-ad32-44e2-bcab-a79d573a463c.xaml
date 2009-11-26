@@ -1,0 +1,229 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_27b3ba9b_ad32_44e2_bcab_a79d573a463c"
+  Tag     ="Position the Child Elements of a Grid"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Position the Child Elements of a Grid</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the get and set methods that are defined on Grid to position child elements. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example defines a parent <Run FontWeight="Bold">Grid</Run>
+ element (<Run>grid1</Run>
+) that has three columns and three rows. A child Rectangle element (<Run>rect1</Run>
+) is added to the <Run FontWeight="Bold">Grid</Run>
+ in column position zero, row position zero. Button elements represent methods that can be called to reposition the Rectangle element within the <Run FontWeight="Bold">Grid</Run>
+. When a user clicks a button, the related method is activated.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical"> 
+&lt;Button Click="setCol0">Move Rectangle to Column 0
+&lt;/Button> 
+&lt;Button Click="setCol1">Move Rectangle to Column 1
+&lt;/Button> 
+&lt;Button Click="setCol2" Margin="0,0,0,10">Move Rectangle to Column 2
+&lt;/Button> 
+&lt;Button Click="setRow0">Move Rectangle to Row 0
+&lt;/Button> 
+&lt;Button Click="setRow1">Move Rectangle to Row 1
+&lt;/Button> 
+&lt;Button Click="setRow2" Margin="0,0,0,10">Move Rectangle to Row 2
+&lt;/Button> 
+&lt;Button Click="setColspan">Span All Columns
+&lt;/Button> 
+&lt;Button Click="setRowspan">Span All Rows
+&lt;/Button> 
+&lt;Button Click="clearAll">Clear All
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Grid> 
+&lt;Grid DockPanel.Dock="Top" Margin="0,10,15,0" HorizontalAlignment="Left" Name="grid1" ShowGridLines="True" Width="400" Height="400" Background="LightSteelBlue"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;RowDefinition/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Rectangle Name="rect1" Fill="Silver" Grid.Column="0" Grid.Row="0"/> 
+&lt;TextBlock FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="0" Margin="5">Column 0, Row 0
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="0" Margin="5">Column 1, Row 0
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="0" Margin="5">Column 2, Row 0
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="1" Margin="5">Column 0, Row 1
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Margin="5">Column 1, Row 1
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Margin="5">Column 2, Row 1
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="2" Margin="5">Column 0, Row 2
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" Margin="5">Column 1, Row 2
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="2" Margin="5">Column 2, Row 2
+&lt;/TextBlock> 
+&lt;/Grid> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>The following code-behind example handles the methods that the button Click events raise. The example writes these method calls to TextBlock elements that use related get methods to output the new property values as strings.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void setCol0(object sender, RoutedEventArgs e) { Grid.SetColumn(rect1, 0); 
+txt1.Text = "Rectangle is in Column " + Grid.GetColumn(rect1).ToString(); 
+} private void setCol1(object sender, RoutedEventArgs e) { Grid.SetColumn(rect1, 1); 
+txt1.Text = "Rectangle is in Column " + Grid.GetColumn(rect1).ToString(); 
+} private void setCol2(object sender, RoutedEventArgs e) { Grid.SetColumn(rect1, 2); 
+txt1.Text = "Rectangle is in Column " + Grid.GetColumn(rect1).ToString(); 
+} private void setRow0(object sender, RoutedEventArgs e) { Grid.SetRow(rect1, 0); 
+txt2.Text = "Rectangle is in Row " + Grid.GetRow(rect1).ToString(); 
+} private void setRow1(object sender, RoutedEventArgs e) { Grid.SetRow(rect1, 1); 
+txt2.Text = "Rectangle is in Row " + Grid.GetRow(rect1).ToString(); 
+} private void setRow2(object sender, RoutedEventArgs e) { Grid.SetRow(rect1, 2); 
+txt2.Text = "Rectangle is in Row " + Grid.GetRow(rect1).ToString(); 
+} private void setColspan(object sender, RoutedEventArgs e) { Grid.SetColumnSpan(rect1, 3); 
+txt3.Text = "ColumnSpan is set to " + Grid.GetColumnSpan(rect1).ToString(); 
+} private void setRowspan(object sender, RoutedEventArgs e) { Grid.SetRowSpan(rect1, 3); 
+txt4.Text = "RowSpan is set to " + Grid.GetRowSpan(rect1).ToString(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub setCol0(ByVal sender As Object, ByVal e As RoutedEventArgs) Grid.SetColumn(rect1, 0) txt1.Text = "Rectangle is in Column " + Grid.GetColumn(rect1).ToString() End Sub Public Sub setCol1(ByVal sender As Object, ByVal e As RoutedEventArgs) Grid.SetColumn(rect1, 1) txt1.Text = "Rectangle is in Column " + Grid.GetColumn(rect1).ToString() End Sub Public Sub setCol2(ByVal sender As Object, ByVal e As RoutedEventArgs) Grid.SetColumn(rect1, 2) txt1.Text = "Rectangle is in Column " + Grid.GetColumn(rect1).ToString() End Sub Public Sub setRow0(ByVal sender As Object, ByVal e As RoutedEventArgs) Grid.SetRow(rect1, 0) txt2.Text = "Rectangle is in Row " + Grid.GetRow(rect1).ToString() End Sub Public Sub setRow1(ByVal sender As Object, ByVal e As RoutedEventArgs) Grid.SetRow(rect1, 1) txt2.Text = "Rectangle is in Row " + Grid.GetRow(rect1).ToString() End Sub Public Sub setRow2(ByVal sender As Object, ByVal e As RoutedEventArgs) Grid.SetRow(rect1, 2) txt2.Text = "Rectangle is in Row " + Grid.GetRow(rect1).ToString() End Sub Public Sub setColspan(ByVal sender As Object, ByVal e As RoutedEventArgs) Grid.SetColumnSpan(rect1, 3) txt3.Text = "ColumnSpan is set to " + Grid.GetColumnSpan(rect1).ToString() End Sub Public Sub setRowspan(ByVal sender As Object, ByVal e As RoutedEventArgs) Grid.SetRowSpan(rect1, 3) txt4.Text = "RowSpan is set to " + Grid.GetRowSpan(rect1).ToString() End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Grid Positioning Methods Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Grid
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Position the Child Elements of a Grid to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

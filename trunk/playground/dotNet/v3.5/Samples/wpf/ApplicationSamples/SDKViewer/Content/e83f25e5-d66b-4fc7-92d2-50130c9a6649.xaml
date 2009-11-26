@@ -1,0 +1,282 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e83f25e5_d66b_4fc7_92d2_50130c9a6649"
+  Tag     ="Element Tree"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Element Tree</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In many technologies, elements and components are organized in a <Run>tree</Run>
+ structure where developers directly manipulate the tree to affect the rendering of an application. Windows Presentation Foundation (WPF) also uses a tree structure metaphor to define relationships between program elements.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="element_tree">Element Trees in WPF</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="logical_tree">The Logical Tree</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="two_trees">The Visual Tree</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="tree_property_inheritance_event_routing">The Purpose of the Logical Tree</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="tree_traversal">Tree Traversal</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="tree_nesting">Tree Nesting Limits</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="override_logical_tree">Overriding the Logical Tree</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Element Trees in WPF
+    </Paragraph>
+
+    <Paragraph>The tree structures in WPF are known as the element tree. If you create an application page in XAML, then the tree structure is created based on the nesting relationships of the elements in the markup. If you create an application in code, then the tree structure is created based on how you assign property values for properties that implement the content model for a given element. In Windows Presentation Foundation (WPF), there are really two types of element trees: the <Run>logical tree</Run>
+ and the <Run>visual tree</Run>
+. In most cases, it is the logical tree that provides the intuitive view of the element relationships in an application, and it is this tree that you typically are creating when writing markup or code. But occasionally it is the visual tree that controls or defines a tree-related behavior.
+    </Paragraph>
+
+    <Paragraph>Even though you do not always manipulate either the logical tree or the visual tree directly, understanding the concepts is a way to understand how property inheritance and event routing work in WPF.
+    </Paragraph>
+
+    <Paragraph FontSize="22">The Logical Tree
+    </Paragraph>
+
+    <Paragraph>In WPF, you add content to elements using properties. For example, you add items to a ListBox control using its Items property. By doing this, you are placing items into the ItemCollection of the <Run FontWeight="Bold">ListBox</Run>
+ control. To add elements to a DockPanel, you use its Children property. Here, you are adding elements to the UIElementCollection of the <Run FontWeight="Bold">DockPanel</Run>
+. For a code example, see <Hyperlink NavigateUri="d00f258a-7973-4de7-bc54-a3fc1f638419.xaml">How to: Add an Element Dynamically</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>In Extensible Application Markup Language (XAML), when you place list items in a <Run FontWeight="Bold">ListBox</Run>
+ or controls or other elements in a <Run FontWeight="Bold">DockPanel</Run>
+, you also use the <Run FontWeight="Bold">Items</Run>
+ and <Run FontWeight="Bold">Children</Run>
+ properties, either explicitly or implicitly, as in the following example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_e83f25e5_d66b_4fc7_92d2_50130c9a6649_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;DockPanel Name="ParentElement" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;!--implicit: 
+&lt;DockPanel.Children>--> 
+&lt;ListBox DockPanel.Dock="Top"> 
+&lt;!--implicit: 
+&lt;ListBox.Items>--> 
+&lt;ListItem> 
+&lt;Paragraph>Dog
+&lt;/Paragraph> 
+&lt;/ListItem> 
+&lt;ListItem> 
+&lt;Paragraph>Cat
+&lt;/Paragraph> 
+&lt;/ListItem> 
+&lt;ListItem> 
+&lt;Paragraph>Fish
+&lt;/Paragraph> 
+&lt;/ListItem> 
+&lt;!--implicit: 
+&lt;/ListBox.Items>--> 
+&lt;/ListBox> 
+&lt;Button Height="20" Width="100" DockPanel.Dock="Top">Buy a Pet
+&lt;/Button> 
+&lt;!--implicit: 
+&lt;/DockPanel.Children>--> 
+&lt;/DockPanel> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that the property element tags are not explicitly needed because the XAML loader infers the property elements when it creates the objects that create the executable's runtime object representation of the application. For more information about how XAML syntax maps to the created logical tree, and inferred tags, see <Hyperlink NavigateUri="67cce290-ca26-4c41-a797-b68aabc45479.xaml">XAML Syntax Terminology</Hyperlink>
+ or <Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+. The following graphic provides a conceptual view of the logical tree that is constructed at run time (the branch for the button is omitted from the graphic).
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Schematic of what the generic logical tree looks like</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">The Visual Tree
+    </Paragraph>
+
+    <Paragraph>In addition to the concept of the logical tree, there is also the concept of the visual tree in WPF. The visual tree describes the structure of visuals represented by the Visual base class. The visual tree is of greatest interest to developers who want lower-level control over drawing for performance and optimization reasons, and generally is not a concept that is exposed to developers working primarily with existing controls and with Extensible Application Markup Language (XAML). One exposure of the visual tree as part of conventional WPF application programming is that event routes for a <Run>routed event</Run>
+ actually travel along the visual tree, not the logical tree. This sublety of routed event behavior might not be immediately apparent unless you are a control author. Routing through the visual tree enables controls that implement at the visual level to handle events or run event setters or triggers, even if the element is only defined as part of a visual tree.
+    </Paragraph>
+
+    <Paragraph>Another interesting aspect of routed events routing through the visual tree is that a ContentElement is not part of the visual tree; 
+its rendering is owned by a content host that is typically a FrameworkElement. By default, the <Run FontWeight="Bold">ContentElement</Run>
+ base class and <Run FontWeight="Bold">FrameworkElement</Run>
+ base class as host include implementation code that adds any hosted <Run FontWeight="Bold">ContentElement</Run>
+ to the event route, even though it is not part of the true visual tree.
+    </Paragraph>
+
+    <Paragraph FontSize="22">The Purpose of the Logical Tree
+    </Paragraph>
+
+    <Paragraph>Understanding the concept of the logical tree will help you understand how property inheritance works in WPF. Consider a <Run FontWeight="Bold">DockPanel</Run>
+ that contains a Button control and a TextBlock control. If you set the FontWeight property on the <Run FontWeight="Bold">DockPanel</Run>
+, the <Run FontWeight="Bold">TextBlock</Run>
+ control inherits the <Run FontWeight="Bold">FontWeight</Run>
+ property value from the parent <Run FontWeight="Bold">DockPanel</Run>
+ element. A property is inherited through either its logical parent or visual parent, but the logical parent is used if both parents are present.
+    </Paragraph>
+
+    <Paragraph>In addition, resource references are resolved by looking upwards through the logical tree for Resources collections. Similar to property value inheritance, the logical tree is used for resource lookup when both the logical tree and the visual tree are present. For more information on resources, see <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The logical tree is relevant for routed events, but the visual tree influences the event route also. Through <Run>event routing</Run>
+, parent elements participate in events directed to their child elements. Unlike property value inheritance and resource lookup behavior, a routed event is routed through the visual parent element if both a logical parent element and a visual parent element exist. However, it is uncommon that elements that exist only in the visual tree actually handle routed events using instance handlers. This is because visual tree elements are created out of template evaluation or lower-level visual programming. They are not created out of markup or conventional application code. Therefore it is difficult to get references to the visual tree elements that are available at runtime, either before or after the control is otherwise ready for user interaction. The exception to this statement about the visual tree and routed events is if you are the control author, and you are defining the template. For more information on event routing, see <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Tree Traversal
+    </Paragraph>
+
+    <Paragraph>The LogicalTreeHelper class provides the GetChildren, GetParent, and FindLogicalNode methods for tree traversal. In most cases, you should not have to traverse the logical tree of existing controls, because these controls almost always expose their logical child elements as a dedicated collection property, which will support collection such as Add, an indexer, and so on. Tree traversal is mainly a scenario that is used by control authors who choose not to subclass from intended control patterns such as ItemsControl or Panel where collection properties are already defined, and who intend to provide their own collection property support.
+    </Paragraph>
+
+    <Paragraph>The visual tree also supports a helper class for tree traversal, VisualTreeHelper. The visual tree is not exposed as conveniently through control-specific properties, so the <Run FontWeight="Bold">VisualTreeHelper</Run>
+ class is the recommended way to traverse the visual tree if that is necessary for your programming scenario. For more information, see <Hyperlink NavigateUri="6dec9657-4d8c-4e46-8c54-40fb80008265.xaml">Windows Presentation Foundation Graphics Rendering Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Tree Nesting Limits
+    </Paragraph>
+
+    <Paragraph>In order to maintain reasonable performance, WPF establishes a nested element limit for both the logical and visual trees. This limit is a requirement because of several operations such as property value determination that must walk the trees all the way to each node end.
+    </Paragraph>
+
+    <Paragraph>The nesting limit is established at 253 elements, counting from the root. Going beyond this limit can raise a run-time exception.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Overriding the Logical Tree
+    </Paragraph>
+
+    <Paragraph>Advanced control authors can override the logical tree by overriding several that define how a general object or content model adds or removes elements within the logical tree. For an example of how to override the logical tree, see <Hyperlink NavigateUri="0ae4d074-8113-4b06-b4fa-e0f39d4967a6.xaml">How to: Override the Logical Tree</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6dec9657-4d8c-4e46-8c54-40fb80008265.xaml">Windows Presentation Foundation Graphics Rendering Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Element Tree to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

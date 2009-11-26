@@ -1,0 +1,150 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3cb6092a_58c9_4ca0_84a5_0e54d5d00a0d"
+  Tag     ="Enable Navigation in a UI Automation Fragment Provider"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Enable Navigation in a UI Automation Fragment Provider</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic contains example code that shows how to enable navigation in a <Run>UI Automation provider</Run>
+ for an element that is within a <Run>fragment</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example code implements Navigate for a list item within a list. The parent element is the list box element, and the sibling elements are other items in the list collection. The method returns <Run FontWeight="Bold">null</Run>
+ (<Run FontWeight="Bold">Nothing</Run>
+ in Visual Basic) for directions that are not valid; 
+in this case, FirstChild and LastChild, because the element has no children.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Navigate to adjacent elements in the automation tree. /// 
+&lt;/summary> /// 
+&lt;param name="direction">Direction to navigate.
+&lt;/param> /// 
+&lt;returns>The element in that direction, or null.
+&lt;/returns> /// 
+&lt;remarks> /// parentControl is the provider for the list box. /// parentItems is the collection of list item providers. /// 
+&lt;/remarks> public IRawElementProviderFragment Navigate(NavigateDirection direction) { int myIndex = parentItems.IndexOf(this); 
+if (direction == NavigateDirection.Parent) { return (IRawElementProviderFragment)parentControl; 
+} else if (direction == NavigateDirection.NextSibling) { if (myIndex 
+&lt; 
+parentItems.Count - 1) { return (IRawElementProviderFragment)parentItems[myIndex + 1]; 
+} else { return null; 
+} } else if (direction == NavigateDirection.PreviousSibling) { if (myIndex > 0) { return (IRawElementProviderFragment)parentItems[myIndex - 1]; 
+} else return null; 
+} else return null; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Navigate to adjacent elements in the automation tree. ''' 
+&lt;/summary> ''' 
+&lt;param name="direction">Direction to navigate.
+&lt;/param> ''' 
+&lt;returns>The element in that direction, or null.
+&lt;/returns> ''' 
+&lt;remarks> ''' parentControl is the provider for the list box. ''' parentItems is the collection of list item providers. ''' 
+&lt;/remarks> Public Function Navigate(ByVal direction As NavigateDirection) As IRawElementProviderFragment _ Implements IRawElementProviderFragment.Navigate Dim myIndex As Integer = parentItems.IndexOf(Me) If direction = NavigateDirection.Parent Then Return DirectCast(parentControl, IRawElementProviderFragment) ElseIf direction = NavigateDirection.NextSibling Then If myIndex 
+&lt; 
+parentItems.Count - 1 Then Return DirectCast(parentItems((myIndex + 1)), IRawElementProviderFragment) Else Return Nothing End If ElseIf direction = NavigateDirection.PreviousSibling Then If myIndex > 0 Then Return DirectCast(parentItems((myIndex - 1)), IRawElementProviderFragment) Else Return Nothing End If Else Return Nothing End If End Function 'Navigate </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="859557b8-51e1-4d15-92e8-318d2dcdb2f7.xaml">UI Automation Providers Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6acc6d08-bd67-4e2e-915c-9c1d34eb86fe.xaml">Server-Side UI Automation Provider Implementation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Enable Navigation in a UI Automation Fragment Provider to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

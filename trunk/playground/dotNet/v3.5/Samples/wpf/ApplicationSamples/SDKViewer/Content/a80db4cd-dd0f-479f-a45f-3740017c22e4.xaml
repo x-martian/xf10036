@@ -1,0 +1,1322 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a80db4cd_dd0f_479f_a45f_3740017c22e4"
+  Tag     ="XAML Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes the features of the Extensible Application Markup Language (XAML) language and demonstrates how you can use XAML to write Windows Presentation Foundation (WPF) applications. This topic specifically describes XAML as implemented by Windows Presentation Foundation (WPF). XAML itself is a larger language concept than Windows Presentation Foundation (WPF).
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="used_for_ui">XAML is a Declarative Language With Flow Control Support</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="elements">XAML Object Elements</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="properties">Setting Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="markupextensions">Markup Extensions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="typeconverterenabled">Typeconverter-Enabled Attribute Values</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="collection_properties">Collection Types and XAML Collection Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="contentmodels">XAML Content Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="casewhitespace">Case and Whitespace in XAML</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="moreabout">More about XAML Syntax</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="xaml_files">XAML Root Elements and xmlns</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adding_code">Events and XAML Code-Behind</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="nameprop">x:Name</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="apae">Attached Properties and Attached Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="uielement">Base Classes and XAML</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="security">XAML Security</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="whatsnext">What's Next</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">XAML is a Declarative Language With Flow Control Support
+    </Paragraph>
+
+    <Paragraph>XAML simplifies creating a UI for the .NET Framework 3.0 programming model. You can create visible UI elements in the declarative XAML markup, and then separate the UI definition from the run-time logic by using code-behind files, joined to the markup through partial class definitions. The ability to mix code with markup in XAML is important because XML by itself is declarative, and does not really suggest a model for flow control. An XML based declarative language is very intuitive for creating interfaces ranging from prototype to production, especially for people with a background in web design and technologies. Unlike most other markup languages, XAML directly represents the instantiation of managed objects. This general design principle enables simplified code and debugging access for objects that are created in XAML.
+    </Paragraph>
+
+    <Paragraph>XAML files are XML files that generally have the <Run>.xaml</Run>
+ extension.
+    </Paragraph>
+
+    <Paragraph>The following XAML example shows how little markup is necessary to create a button as part of a UI. The created button has default visual presentation through theme styles, and default behaviors through its class design.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Button Content="Click Me"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">XAML Object Elements
+    </Paragraph>
+
+    <Paragraph>XAML has a set of rules that map object elements into classes or structures, attributes into properties or events, and XML namespaces to CLR namespaces. XAML elements map to Microsoft .NET types as defined in referenced assemblies, and the attributes map to members of those types.
+    </Paragraph>
+
+    <Paragraph>The preceding example specified two object elements: <Run>
+&lt;StackPanel></Run>
+ (with a closing tag), and <Run>
+&lt;Button /></Run>
+ (which also had several attributes; 
+attributes are discussed in an upcoming section). The strings <Run>StackPanel</Run>
+ and <Run>Button</Run>
+ each map to the name of a class that is defined by WPF and is part of the WPF assemblies. When you specify an object element tag, you create an instruction for the XAML loader to create a new instance of the named class when your XAML page is either compiled or interpreted. Each instance is created by calling the default constructor of the underlying class or struct and storing the result. To be usable as an object element in XAML, the class must expose a public default (parameterless) constructor.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Setting Properties
+    </Paragraph>
+
+    <Paragraph>Properties in XAML are set by setting properties on an object element, using a variety of possible syntaxes. Which syntaxes can be used for a given property will vary, based on the characteristics of the property that you are setting.
+    </Paragraph>
+
+    <Paragraph>By setting values of properties, you add features or characteristics to object elements. The initial state of the underlying object instance for an object element is based on the default constructor behavior. Typically, you want something other than a completely default class instance.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Attribute Syntax
+    </Paragraph>
+
+    <Paragraph>In XAML, properties can often be expressed as attributes. Attribute syntax is the most streamlined property setting syntax and will be the most intuitive syntax to use for developers that have used markup languages in the past. For example, the following markup creates a button that has red text and a blue background, as well as display text specified as <Run>Content</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Background="Blue" Foreground="Red" Content="This is a button"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Property Element Syntax
+    </Paragraph>
+
+    <Paragraph>For some properties of an object element, attribute syntax is not possible, because the object or information necessary to provide the property value cannot be adequately expressed as a simple string. For these cases, a different syntax known as property element syntax can be used. Property element syntax sets the referenced property of the containing element with a new instance of the type that the property takes as its value (with the value-setting instance typically specified as another object element). The syntax for a property element is <Run>
+&lt;TypeName.Property></Run>
+. For properties where both attribute and property element syntax are supported, the two syntaxes generally have the same result, although subleties such as whitespace handling can vary slightly between syntaxes. If an attribute syntax is possible, using the attribute syntax is typically more convenient and enables a more compact markup, but that is just a matter of style, not a technical limitation. The following example shows the same properties being set as in the previous attribute syntax example, but this time by using property element syntax for all properties of the <Run>Button</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button> 
+&lt;Button.Background> 
+&lt;SolidColorBrush Color="Blue"/> 
+&lt;/Button.Background> 
+&lt;Button.Foreground> 
+&lt;SolidColorBrush Color="Red"/> 
+&lt;/Button.Foreground> 
+&lt;Button.Content> This is a button 
+&lt;/Button.Content> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Properties and Class Inheritance
+    </Paragraph>
+
+    <Paragraph>Properties as they appear as XAML attributes on a WPF element are often inherited from base classes. For example, in the previous example, the Background property is not an immediately declared property on the Button class if you were to look at the class definition. Instead, <Run FontWeight="Bold">Background</Run>
+ is inherited from the base Control class.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Markup Extensions
+    </Paragraph>
+
+    <Paragraph>When properties take a reference type value, these properties will often require either property element syntax (which always creates a new instance), or an object reference through a markup extension. A markup extension usage can potentially return an existing instance, and thus can be more versatile or might incur less object overhead. Markup extensions are a XAML concept. In attribute syntax, curly braces (<Run FontWeight="Bold">{</Run>
+ and <Run FontWeight="Bold">}</Run>
+) indicate a markup extension usage. This usage directs the XAML loader to escape from the general treatment of attribute values as either a literal string or a directly string-convertible value. The attribute value should instead be provided by the logic within the backing class for the relevant markup extension. The most commonly used markup extensions for application programming are <Hyperlink NavigateUri="83d6e2a4-1b0c-4fc8-bd96-b5e98800ab63.xaml">Binding Markup Extension</Hyperlink>
+, used for data binding expressions, and the resource references <Hyperlink NavigateUri="97af044c-71f1-4617-9a94-9064b68185d2.xaml">StaticResource Markup Extension</Hyperlink>
+ and <Hyperlink NavigateUri="7324f243-03af-4c2b-b0db-26ac6cdfcbe4.xaml">DynamicResource Markup Extension</Hyperlink>
+. By using markup extensions, you can use attribute syntax to provide reference values for properties even if that property does not support an attribute syntax for direct object instantiation.
+    </Paragraph>
+
+    <Paragraph>For instance, the following example sets the value of the Style property using attribute syntax. The <Run FontWeight="Bold">Style</Run>
+ property takes an instance of the Style class, a by-reference type that by default could not be specified within an attribute syntax string. But in this case, the attribute references a particular markup extension, <Hyperlink NavigateUri="97af044c-71f1-4617-9a94-9064b68185d2.xaml">StaticResource</Hyperlink>
+. When that markup extension is processed, it returns a reference to a style that was previously instantiated as a keyed resource in a resource dictionary.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page.Resources> 
+&lt;SolidColorBrush x:Key="MyBrush" Color="Gold"/> 
+&lt;Style TargetType="{x:Type Border}" x:Key="PageBackground"> 
+&lt;Setter Property="Background" Value="Blue"/> 
+&lt;/Style> ... 
+&lt;/Page.Resources> 
+&lt;StackPanel> 
+&lt;Border Style="{StaticResource PageBackground}"> ... 
+&lt;/Border> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Resources are just one markup extension usage enabled by either WPF or XAML. For a reference listing of markup extensions, see <Hyperlink NavigateUri="5e1d60e8-9403-47d0-98e4-b49aec871ee7.xaml">WPF Namespace XAML Extensions</Hyperlink>
+ or <Hyperlink NavigateUri="e1f47225-9996-4fbf-ab86-62d2e955f3fc.xaml">XAML Namespace (x:) Language Features</Hyperlink>
+. For more information about markup extensions, see <Hyperlink NavigateUri="618dc745-8b14-4886-833f-486d2254bb78.xaml">Markup Extensions and XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Typeconverter-Enabled Attribute Values
+    </Paragraph>
+
+    <Paragraph>In the Attribute Syntax section, it was stated that the attribute value must be able to be set by a string. The basic, native handling of how strings are converted into other object types or primitive values is based on the String type itself. But many WPF types or members of those types extend the basic string attribute processing behavior, such that instances of more complex object types can be specified as attribute values through a string. At the code level, this processing is accomplished by specifying a CLR type converter that processes the string attribute value. The Thickness structure type, commonly used to indicate measurements of a rectangular area such as a Margin, is an example of a type that has a special typeconverter-enabled attribute syntax exposed for all properties that take that type, to provide ease of use in XAML markup. The following example uses a typeconverter-enabled attribute syntax to provide a value for a <Run FontWeight="Bold">Margin</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Margin="10,20,10,30" Content="Click me"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The preceding attribute syntax example is equivalent to the following more verbose syntax example, where the <Run FontWeight="Bold">Margin</Run>
+ is instead set through property element syntax containing a <Run FontWeight="Bold">Thickness</Run>
+ object element, and four key properties of <Run FontWeight="Bold">Thickness</Run>
+ are set as attributes on the new isntance:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Content="Click me"> 
+&lt;Button.Margin> 
+&lt;Thickness Left="10" Top="20" Right="10" Bottom="30"/> 
+&lt;/Button.Margin> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Again, whether to use the typeconverter-enabled syntax or a more verbose equivalent syntax is a coding style choice, but the typeconverter-enabled syntax promotes more streamlined markup.
+    </Paragraph>
+
+    <Paragraph>For more information on how typeconverter-enabled attribute syntax is supported, see <Hyperlink NavigateUri="f6313e4d-e89d-497d-ac87-b43511a1ae4b.xaml">TypeConverters and XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Collection Types and XAML Collection Properties
+    </Paragraph>
+
+    <Paragraph>XAML specifies a language feature whereby the object element that represents a collection type can be deliberately omitted from markup. When a XAML loader processes a property that takes a collection type, an instance of the appropriate collection type is created implicitly, even if the object element for that collection is not present in the markup. In the SDK reference pages for collection types, this syntax with the deliberate omission of the object element for a collection is occasionally noted in the XAML syntax sections as Implicit Collection Syntax.
+    </Paragraph>
+
+    <Paragraph>Implicit collection syntax is available for types that implement IList or IDictionary, or for arrays.
+    </Paragraph>
+
+    <Paragraph>You have already seen an example of an implicit collection syntax without it being called out, in the XAML resources example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page.Resources> 
+&lt;SolidColorBrush x:Key="MyBrush" Color="Gold"/> 
+&lt;Style TargetType="{x:Type Border}" x:Key="PageBackground"> 
+&lt;Setter Property="Background" Value="Blue"/> 
+&lt;/Style> ... 
+&lt;/Page.Resources> 
+&lt;StackPanel> 
+&lt;Border Style="{StaticResource PageBackground}"> ... 
+&lt;/Border> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>With the exception of the root element, every object element on a page that is nested as a child element of another element is really an element that is one or both of the following cases: a member of an implicit collection property of its parent element, or an element that specifies the value of the XAML content property for the parent element (XAML content properties will be discussed in an upcoming section). In other words, the relationship of parent elements and child elements in a markup page is really a single object at the root, and every object element beneath the root is either a single instance that provides a property value, or one of the items within a collection. In the case of the resources example, the Resources property takes an object of type ResourceDictionary. The following example is equivalent syntax with the object element for the <Run FontWeight="Bold">ResourceDictionary</Run>
+ specified explicitly.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Page.Resources> 
+&lt;ResourceDictionary> 
+&lt;SolidColorBrush x:Key="MyBrush" Color="Gold"/> 
+&lt;Style TargetType="{x:Type Border}" x:Key="PageBackground"> 
+&lt;Setter Property="Background" Value="Blue"/> 
+&lt;/Style> <Run>... </Run>
+ 
+&lt;/ResourceDictionary> 
+&lt;/Page.Resources> 
+&lt;StackPanel> 
+&lt;Border Style="{StaticResource PageBackground}"> <Run>... </Run>
+ 
+&lt;/Border> 
+&lt;/StackPanel> 
+&lt;/Page> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">Resources</Run>
+ collection is an example of a collection property that is present on all framework-level elements. Setting this property in XAML requires the property element syntax. Each enclosed object element within the property element becomes an item of the collection (an <Run FontWeight="Bold">IDictionary</Run>
+ implementation). Although the collection type itself typically does have a property or indexer that contains the items, that property cannot be specified in markup; 
+it is entirely implied. For the <Run FontWeight="Bold">ResourceDictionary</Run>
+, that property is the Item indexer. 
+    </Paragraph>
+
+    <Paragraph>For a more complete resource dictionary usage example, see <Hyperlink NavigateUri="b86b876b-0a10-489b-9a5d-581ea9b32406.xaml">How to: Define and Reference a Resource</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">XAML Content Properties
+    </Paragraph>
+
+    <Paragraph>XAML specifies a language feature whereby any class that can be used as a XAML object element can designate exactly one of its properties to be the XAML content property for instances of the class. When a XAML loader processes an object element that has a XAML content property, any XML child elements of that object element are processed as if they were contained within an implicit property element tag representing that content property. Within your markup, property element syntax for the XAML content property can be omitted. Any child elements you specify in markup will become the value of the XAML content property.
+    </Paragraph>
+
+    <Paragraph>You have already seen an example of a XAML content property without it being called out: the very first example in this topic.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Button Content="Click Me"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Here, <Run FontWeight="Bold">Button</Run>
+ is a child element of StackPanel. This is a streamlined and intuitive markup, that omits two tags for two different reasons.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Omitted StackPanel.Children property element:</Run>
+<Run FontWeight="Bold">StackPanel</Run>
+ derives from Panel. <Run FontWeight="Bold">Panel</Run>
+ defines Panel.Children as its XAML content property. All derived classes of <Run FontWeight="Bold">Panel</Run>
+ thus have that XAML content property, and the property element for Panel.Children can be omitted.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Omitted UIElementCollection object element:</Run>
+ The Panel.Children property takes the type UIElementCollection, which implements <Run FontWeight="Bold">IList</Run>
+. Therefore the <Run FontWeight="Bold">UIElementCollection</Run>
+ object element tag can be omitted, based on the XAML defined rules for collections. In this case, <Run FontWeight="Bold">UIElementCollection</Run>
+ actually cannot be instantiated as an object element. You do not even have the option of declaring that collection object explicitly. This is because <Run FontWeight="Bold">UIElementCollection</Run>
+ does not expose a default constructor. Several other WPF collection types also do not expose constructors for object element usage, because the XAML collection syntax handling still allows them to work in XAML implicitly. That is why the <Run FontWeight="Bold">UIElementCollection</Run>
+ object element is shown commented in the example; 
+if uncommented, the example would not compile. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;StackPanel.Children> 
+&lt;!--
+&lt;UIElementCollection>--> 
+&lt;Button> 
+&lt;Button.Content> Click Me 
+&lt;/Button.Content> 
+&lt;/Button> 
+&lt;!--
+&lt;/UIElementCollection>--> 
+&lt;/StackPanel.Children> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Inner Text and XAML Content Properties
+    </Paragraph>
+
+    <Paragraph>The <Run>StackPanel</Run>
+ / <Run>Button</Run>
+ example has still another variation. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Button>Click Me
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Notice the change in how the display text for the <Run FontWeight="Bold">Button</Run>
+ is specified. The Content property was specified in attribute syntax before; 
+this time the display string is the inner text within a <Run FontWeight="Bold">Button</Run>
+ object element. This syntax works because <Run FontWeight="Bold">Content</Run>
+ is the XAML content property of the <Run FontWeight="Bold">Button</Run>
+ base class ContentControl. The string within the element is evaluated based on the property type of the <Run FontWeight="Bold">Content</Run>
+ property, which is Object. <Run FontWeight="Bold">Object</Run>
+ does not attempt any string type conversion, therefore the value of the <Run FontWeight="Bold">Content</Run>
+ property becomes the literal string value. Alternatively, the content within the <Run FontWeight="Bold">Button</Run>
+ could have been any single <Run FontWeight="Bold">Object</Run>
+. Controls such as <Run FontWeight="Bold">Button</Run>
+ generally define the XAML content property for the class such that the XAML content property can be used for UI and display text, for control compositing, or both.
+    </Paragraph>
+
+    <Paragraph>The ability to place strings within the element as content to produce markup that resembles other common markup languages is particularly important for the flow document model (for details, see <Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+) and for localization (see <Hyperlink NavigateUri="4571ccfe-8a60-4f06-9b37-7ac0b1c2d10f.xaml">Globalization for the Windows Presentation Foundation</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph FontSize="18">XAML Content Property Values Must Be Contiguous
+    </Paragraph>
+
+    <Paragraph>The value of a XAML content property must be given either entirely before or entirely after any other property elements on that object element. This is true whether the value of a XAML content property is specified as a string, or as one or more objects. For instance, the following markup does not compile:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button>I am a 
+&lt;Button.Background>Blue
+&lt;/Button.Background> blue button
+&lt;/Button></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This is illegal essentially because if this syntax were explicit by using property element syntax for the content property, then the content property would be set twice:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button> 
+&lt;Button.Content>I am a 
+&lt;/Button.Content> 
+&lt;Button.Background>Blue
+&lt;/Button.Background> 
+&lt;Button.Content> blue button
+&lt;/Button.Content> 
+&lt;/Button></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A similarly illegal example is if the content property is a collection, and child elements are interspersed with property elements:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Button>This example
+&lt;/Button> 
+&lt;StackPanel.Resources> 
+&lt;SolidColorBrush x:Key="BlueBrush" Color="Blue"/> 
+&lt;/StackPanel.Resources> 
+&lt;Button>... is illegal XAML
+&lt;/Button> 
+&lt;/StackPanel></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Content Models
+    </Paragraph>
+
+    <Paragraph>A class might support a usage as a XAML element in terms of the syntax, but that element will only function properly in an application or page when it is placed in an expected position of an overall content model or element tree. For example, a MenuItem should typically only be placed as a child of a MenuBase derived class such as Menu. Content models for specific elements are documented as part of the remarks on the class pages for controls and other WPF classes that can be used as XAML elements. For some controls that have more complex content models, the content model is documented as a separate conceptual topic. See <Hyperlink NavigateUri="9912af80-f6e3-4687-a79b-7e99ecd26f86.xaml">Content Models</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Case and Whitespace in XAML
+    </Paragraph>
+
+    <Paragraph>XAML is case sensitive. Object elements, property elements, and attribute names must all be specified by using the proper casing when compared by name to the underlying type in the assembly, or to a member of a type. The values for attributes are not always case sensitive. Case sensitivity for values will depend on the type converter behavior associated with the property that takes the value, or the property value type. For instance, properties that take the Boolean type can take either <Run FontWeight="Bold">true</Run>
+ or <Run FontWeight="Bold">True</Run>
+ as equivalent values, but only because the default string type conversion for <Run FontWeight="Bold">Boolean</Run>
+ already permits these as equivalents.
+    </Paragraph>
+
+    <Paragraph>XAML loaders and serializers will ignore or drop all nonsignificant whitespace, and will normalize any significant whitespace. This behavior is generally only of consequence when you specify strings within XAML content properties. In simplest terms, XAML converts space, linefeed and tab characters into spaces, and then preserves one space if found at either end of a contiguous string. The full explanation of XAML whitespace handling is not covered in this topic. For details, see <Hyperlink NavigateUri="cc9cc377-7544-4fd0-b65b-117b90bb0b23.xaml">Whitespace Processing in XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">More about XAML Syntax
+    </Paragraph>
+
+    <Paragraph>Implicit collection syntax and XAML content properties are both features of the XAML language that enable omission of certain inferred tags. The goal of these features is to make the parent-child relationships of elements on a page more apparent when authoring or examining the markup.
+    </Paragraph>
+
+    <Paragraph>For more information about attribute syntax and property element syntax, as well as other terms that are used when describing XAML syntax throughout the SDK documentation, see <Hyperlink NavigateUri="67cce290-ca26-4c41-a797-b68aabc45479.xaml">XAML Syntax Terminology</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">XAML Root Elements and xmlns
+    </Paragraph>
+
+    <Paragraph>XAML files must have only one root element, in order to be a both well-formed XML file and a valid XAML file. Typically you should choose an element that is part of the application model (for example, Window or Page for a page, <Run FontWeight="Bold">ResourceDictionary</Run>
+ for an external dictionary, or Application for the application definition root). The following example shows the root element of a typical XAML file for a WPF page, with the root element <Run FontWeight="Bold">Page</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" <Run>... </Run>
+
+&lt;/Page> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The root element also contains the attributes <Run FontWeight="Bold">xmlns</Run>
+ and <Run FontWeight="Bold">xmlns:x</Run>
+. These attributes indicate to the XAML loader which namespaces contain the element definitions. The <Run FontWeight="Bold">xmlns</Run>
+ attribute specifically indicates the default <Run FontWeight="Bold">xmlns</Run>
+ namespace. Within the default xmlns namespace, object elements in the markup can be specified without a prefix. For most WPF application scenarios, and for virtually all of the examples given in the WPF sections of the SDK, the default <Run FontWeight="Bold">xmlns</Run>
+ namespace is mapped to the WPF namespace. The <Run FontWeight="Bold">xmlns:x</Run>
+ attribute indicates an additional <Run FontWeight="Bold">xmlns</Run>
+ namespace, which maps the XAML language namespace. Required language components defined by the XAML specification are prefixed by <Run FontWeight="Bold">x:</Run>
+ when referenced in the markup of a file with this mapping. This usage of <Run FontWeight="Bold">xmlns</Run>
+ to define a scope for usage and mapping is consistent with the XML 1.0 specification. Note that the <Run FontWeight="Bold">xmlns</Run>
+ attributes are only strictly necessary on the root element of the page or application. <Run FontWeight="Bold">xmlns</Run>
+ definitions will apply to all child elements of the root (this behavior is again consistent with the XML 1.0 specification for <Run FontWeight="Bold">xmlns</Run>
+.) <Run FontWeight="Bold">xmlns</Run>
+ attributes are also permitted on other elements beneath the root, and would apply to any child elements of the defining element. However, this usage is not typical, because frequent definition or redefinition of <Run FontWeight="Bold">xmlns</Run>
+ namespaces can result in a markup style that is difficult to read.
+    </Paragraph>
+
+    <Paragraph>The WPF assemblies are known to contain the WPF namespaces because of configuration that is part of your project build file. Assemblies are also mapped in the targets files. Therefore, mapping the <Run FontWeight="Bold">xmlns</Run>
+ is all that is necessary in order to reference XAML elements that come from WPF assemblies. For your own custom assemblies, or for assemblies outside of WPF, you can specify the assembly as part of the <Run FontWeight="Bold">xmlns</Run>
+ mapping. For more information about how <Run FontWeight="Bold">xmlns</Run>
+ namespaces and the namespaces of the backing code in assemblies are related, see <Hyperlink NavigateUri="5c0854e3-7470-435d-9fe2-93eec9d3634e.xaml">XAML Namespaces and Namespace Mapping</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Events and XAML Code-Behind
+    </Paragraph>
+
+    <Paragraph>Most WPF applications consist of both markup and code-behind. Within a project, the XAML is written as a .xaml file. and a CLR language such as Microsoft Visual Basic .NET or C# is used to write a code-behind file. When a XAML file is compiled, the location of the XAML code-behind file for each XAML page is identified by specifying a namespace and class as the <Run FontWeight="Bold">x:Class</Run>
+ attribute of the root element of the XAML page.
+    </Paragraph>
+
+    <Paragraph>In the examples so far, you have seen several buttons, but none of these buttons had any logical behavior associated with them yet. The primary application-level mechanism for adding a behavior for an object element is to use an existing event of the element class, and to write a specific handler for that event that is invoked when that event is raised at runtime. The event name and the name of the handler to use are specified in the markup, whereas the code that implements your handler is defined in the code-behind.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="MyNamespace.MyPageCode"> 
+&lt;Button Click="ClickHandler" >Click Me!
+&lt;/Button> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>namespace MyNamespace { public partial class MyPageCode { void ClickHandler(object sender, RoutedEventArgs e) { Button b = e.Source as Button; 
+b.Background = Brushes.Red; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Notice that the code-behind file uses the namespace <Run>MyNamespace</Run>
+ and declares <Run>MyPageCode</Run>
+ as a partial class within that namespace. This parallels the <Run FontWeight="Bold">x:Class</Run>
+ attribute value of <Run>MyNamespace</Run>
+.<Run>MyPageCode</Run>
+ that was provided in the markup root. The compiler will automatically create a partial class for any compiled XAML page, by deriving a class from the root element type. When you provide code-behind that also defines the same partial class, the resulting code is combined within the same namespace and class of the compiled application.
+    </Paragraph>
+
+    <Paragraph>For more information about requirements for code-behind programming, see the Code-behind, Event Handler, and Partial Class Requirements section of <Hyperlink NavigateUri="9df6d3c9-aed3-471c-af36-6859b19d999f.xaml">Code-Behind and XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>If you do not want to create a separate code-behind file, you can also inline your code within a XAML file. However, inline code is a less versatile technique that has quite a few limitations. For details, see <Hyperlink NavigateUri="9df6d3c9-aed3-471c-af36-6859b19d999f.xaml">Code-Behind and XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Event Attribute Syntax
+    </Paragraph>
+
+    <Paragraph>When you specify behaviors through events in markup, you typically use attribute syntax to attach handlers. The object element where the event attribute is specified becomes the instance that listens for the event and calls the handler. The name of the specific event you want to handle is the attribute name. The attribute value is the method name of the handler you will define. You must then provide the handler implementation of the delegate for that event in code-behind, in a language such as Microsoft Visual Basic .NET or C#.
+    </Paragraph>
+
+    <Paragraph>Each WPF event will report event data when the event is raised. Event handlers can use this event data. In the preceding example, the handler obtains the reported event source through the event data, and then sets properties on that source.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Routed Events
+    </Paragraph>
+
+    <Paragraph>A particular event feature that is unique to WPF is a <Run>routed event</Run>
+. Routed events enable an element to handle an event that was raised by a different element. When specifying event handling with a XAML attribute, the routed event can be listened for and handled on any element, including elements that do not list that particular event in the class members table. This is accomplished by qualifying the event name attribute with the owning class name. For instance, the parent <Run>StackPanel</Run>
+ in the ongoing <Run>StackPanel</Run>
+ / <Run>Button</Run>
+ example could register a handler for the child element button's Click event by specifying the attribute <Run>Button.Click</Run>
+ on the <Run>StackPanel</Run>
+ object element, with your handler name as the attribute value. For more information, see <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">x:Name
+    </Paragraph>
+
+    <Paragraph>By default, the object instance that is created by processing an object element does not possess a unique identifier or an inherent object reference that you can use in your code. If you call a constructor in code, you almost always use the constructor result to set a variable to the constructed instance, so that you can reference the instance later in your code. In order to provide easy access to objects that were created through a markup definition, XAML defines the <Run FontWeight="Bold">x:Name</Run>
+ attribute. You can set the value of the <Run FontWeight="Bold">x:Name</Run>
+ attribute on any object element. In your code-behind, the identifier you choose is equivalent to an instance variable that refers to the constructed instance. In all respects, named elements function as if they were object instances, and your code-behind can reference the named elements to handle run-time interactions within the application.
+    </Paragraph>
+
+    <Paragraph>Framework-level XAML elements inherit a Name property, which is equivalent to the XAML defined <Run FontWeight="Bold">x:Name</Run>
+ attribute. Certain other non-framework classes also provide property-level equivalents for <Run FontWeight="Bold">x:Name</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following example sets <Run FontWeight="Bold">Name</Run>
+ on a <Run FontWeight="Bold">StackPanel</Run>
+ element. Then, a handler on a <Run FontWeight="Bold">Button</Run>
+ within that <Run FontWeight="Bold">StackPanel</Run>
+ references the <Run FontWeight="Bold">StackPanel</Run>
+ through its instance reference <Run>buttonContainer</Run>
+ as set by <Run FontWeight="Bold">Name</Run>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel Name="buttonContainer"> ... 
+&lt;Button Click="RemoveThis">Click to remove this button
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Just like a variable, the name for an instance is governed by a concept of scope, so that names can be enforced to be unique. The primary markup that defines a page denotes one unique namescope. However, other markup sources can interact with a page at runtime, such as styles, or templates within styles. For more information on <Run FontWeight="Bold">x:Name</Run>
+ and namescopes, see <Run FontWeight="Bold">Name</Run>
+, <Hyperlink NavigateUri="b7e61222-e8cf-48d2-acd0-6df3b7685d48.xaml">x:Name Attribute</Hyperlink>
+, or <Hyperlink NavigateUri="52bbf4f2-15fc-40d4-837b-bb4c21ead7d4.xaml">WPF Namescopes</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Attached Properties and Attached Events
+    </Paragraph>
+
+    <Paragraph>XAML specifies a language feature that enables certain properties or events to be specified on any element, regardless of whether the property or element exists in the members table for the element it is being set on. The properties version of this feature is called an <Run>attached property</Run>
+, the events version is called an <Run>attached event</Run>
+. Conceptually, you can think of attached properties and attached events as global members that can be set on any element/class.
+    </Paragraph>
+
+    <Paragraph>Attached properties in XAML are typically used through attribute syntax. In attribute syntax, you specify an attached property in the form <Span FontWeight="Bold"><Run FontStyle="italic">OwnerType</Run>
+</Span>
+.<Span FontWeight="Bold"><Run FontStyle="italic">PropertyName</Run>
+</Span>
+. Superficially, this resembles a property element usage, but in this case the <Span FontWeight="Bold"><Run FontStyle="italic">OwnerType</Run>
+</Span>
+ you specify is always a different type than the object element where the attached property is being set. <Span FontWeight="Bold"><Run FontStyle="italic">OwnerType</Run>
+</Span>
+ is the type that provides the accessor methods that are required by a loader in order to get or set the attached property value. The most common scenario for attached properties is to enable child elements to report a property value to their parent element.
+    </Paragraph>
+
+    <Paragraph>The following example illustrates the DockPanel.Dock attached property. The DockPanel class defines the accessors for DockPanel.Dock and therefore owns the attached property. The <Run FontWeight="Bold">DockPanel</Run>
+ class also includes logic that iterates its child elements and specifically checks each element for a set value of DockPanel.Dock. If a value is found, that value is used during layout to position the child elements. Use of the DockPanel.Dock attached property and this positioning capability is in fact the motivating scenario for the <Run FontWeight="Bold">DockPanel</Run>
+ class.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DockPanel> 
+&lt;Button DockPanel.Dock="Left" Width="100" Height="20">I am on the left
+&lt;/Button> 
+&lt;Button DockPanel.Dock="Right" Width="100" Height="20">I am on the right
+&lt;/Button> 
+&lt;/DockPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In Windows Presentation Foundation (WPF), all attached properties are also implemented as <Run>dependency properties</Run>
+. For details, see <Hyperlink NavigateUri="75928354-dc01-47e8-a018-8409aec1f32d.xaml">Attached Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Attached events use a similar <Span FontWeight="Bold"><Run FontStyle="italic">OwnerType</Run>
+</Span>
+.<Span FontWeight="Bold"><Run FontStyle="italic">EventName</Run>
+</Span>
+ form of attribute syntax. Just like the non-attached events, the attribute value for an attached event in XAML specifies the name of the handler method that is invoked when the event is handled on the element. 
+    </Paragraph>
+
+    <Paragraph>One scenario where attached events are used is for device input events that can be handled on any element, such as mouse buttons. An example of such an attached event is Mouse.MouseDown. However, most framework-level elements can use this event without the attached event usage. This is because the base element class UIElement creates an alias for the Mouse.MouseDown attached event and exposes that alias in the <Run FontWeight="Bold">UIElement</Run>
+ members table (as MouseDown). As a result, you usually do not need to specify attached event syntax in page or application programming, unless you are using custom elements, or object elements that do not derive from <Run FontWeight="Bold">UIElement</Run>
+ but still have a visual representation (these are rare). In WPF, all attached events are also implemented as routed events. For details, see <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Anatomy of a XAML Page Root Element
+    </Paragraph>
+
+    <Paragraph>The following table shows a typical XAML page root element broken down, showing the specific attributes of a root element identified in this topic:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>
+&lt;Page</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Opening object element of the root element
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The default (WPF) namespace
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The XAML namespace
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>x:Class="MyNamespace.MyPageCode"</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The partial class declaration that connects markup to any code-behind defined into this same partial class
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>End of object element for the root, not closed yet because the page contains child elements
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Base Classes and XAML
+    </Paragraph>
+
+    <Paragraph>Underlying XAML and its schemas is a collection of classes that correspond to CLR objects as well as markup elements to be used in XAML. However, not all classes can be mapped to elements. Abstract classes, such as ButtonBase, and certain nonabstract base classes, are used for inheritance in the CLR objects model and do not have corresponding XAML markup tags. Base classes are still important to XAML development because each of the practical XAML elements inherits members from the base class. Often these members includes properties that can be set as attributes on the element, or events that can be handled. FrameworkElement is the practical base UI class of .NET Framework 3.0 for the framework. When designing UI, you will use various shape, panel, decorator, or control classes, which all derive from <Run FontWeight="Bold">FrameworkElement</Run>
+. A related base class, FrameworkContentElement, supports document-oriented elements that work well for a flow layout presentation, using APIs that deliberately mirror the APIs in <Run FontWeight="Bold">FrameworkElement</Run>
+. The combination of attributes at the element level and a CLR object model provides you with a set of common properties that are settable on the majority of practical XAML elements, regardless of the exact element type and its underlying class.
+    </Paragraph>
+
+    <Paragraph FontSize="22">XAML Security
+    </Paragraph>
+
+    <Paragraph>XAML is a markup language that directly represents object instantiation and execution. Therefore, elements created in XAML have the same ability to interact with system resources (network access, file system IO, for instance) as the equivalent generated code does.
+    </Paragraph>
+
+    <Paragraph>WPF supports the .NET security framework Code Access Security (CAS). This means that WPF content running in the internet zone has reduced execution permissions. "Loose XAML" (pages of XAML interpreted at load time by a XAML viewer) and XAML browser application (XBAP) are usually run in this internet zone and use the same permission set. However, XAML loaded in to a fully trusted application has the same access to the system resources as the hosting application does. For more information, see <Hyperlink NavigateUri="ef2c0810-1dbf-4511-babd-1fab95b523b5.xaml">Windows Presentation Foundation Partial Trust Security</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What's Next
+    </Paragraph>
+
+    <Paragraph>This topic provides a basic introduction to XAML syntax concepts and terminology. For more information on the terms used here, see <Hyperlink NavigateUri="67cce290-ca26-4c41-a797-b68aabc45479.xaml">XAML Syntax Terminology</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>If you have not done so already, try the <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+ tuturial. When you actually create the markup application described by the tutorial, the exercise will help reinforce many of the concepts described in this topic.
+    </Paragraph>
+
+    <Paragraph>WPF uses a particular application model that is based on the <Run FontWeight="Bold">Application</Run>
+ class. For details, see <Hyperlink NavigateUri="32b1c054-5aca-423b-b4b5-ed8dc4dc637d.xaml">Application Management Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+ gives you more details about how to build XAML inclusive applications from the command line and with Microsoft Visual Studio.
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+ gives more information about the versatility of properties in Windows Presentation Foundation (WPF), and introduces the concept of dependency properties.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e7313137-581e-4a64-8453-d44e15a6164a.xaml">XAML and Custom Classes</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="2c997092-72c6-4767-bc84-74267f4eee72.xaml">Base Elements Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e1f47225-9996-4fbf-ab86-62d2e955f3fc.xaml">XAML Namespace (x:) Language Features</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="5e1d60e8-9403-47d0-98e4-b49aec871ee7.xaml">WPF Namespace XAML Extensions</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9885121d-cbb1-43ca-88ec-867c2789d8b2.xaml">WPF Fundamentals: Content Models</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about XAML Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,1116 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_08dd1606_02a2_4122_9351_c0afd2ec3a70"
+  Tag     ="Graphics Rendering Tiers"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Graphics Rendering Tiers</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A rendering tier defines a level of graphics hardware capability and performance for a device that runs a WPF application.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="graphics_hardware">Graphics Hardware</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="rendering_tier_definitions">Rendering Tier Definitions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Graphics Hardware
+    </Paragraph>
+
+    <Paragraph>The features of the graphics hardware that most impact the rendering tier levels are:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Video RAM</Run>
+ The amount of video memory on the graphics hardware determines the size and number of buffers that can be used for compositing graphics.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Pixel Shader</Run>
+ A pixel shader is a graphics processing function that calculates effects on a per-pixel basis. Depending on the resolution of the displayed graphics, there could be several million pixels that need to be processed for each display frame.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Vertex Shader</Run>
+ A vertex shader is a graphics processing function that performs mathematical operations on the vertex data of the object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Multitexture Support</Run>
+ Multitexture support refers to the ability to apply two or more distinct textures during a blending operation on a 3D graphics object. The degree of multitexture support is determined by the number of multitexture units on the graphics hardware.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The pixel shader, vertex shader, and multitexture features are used to define specific DirectX version levels, which, in turn, are used to define the different rendering tiers in WPF. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Rendering Tier Definitions
+    </Paragraph>
+
+    <Paragraph>The features of the graphics hardware determine the rendering capability of a WPF application. The WPF system defines three rendering tiers:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Rendering Tier 0</Run>
+ No graphics hardware acceleration. The DirectX version level is less than version 7.0.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Rendering Tier 1</Run>
+ Partial graphics hardware acceleration. The DirectX version level is greater than or equal to version 7.0, and lesser than version 9.0.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Rendering Tier 2</Run>
+ Most graphics features use graphics hardware acceleration. The DirectX version level is greater than or equal to version 9.0.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The Tier property allows you to retrieve the rendering tier at application run time, which allows developers to determine whether the device can support certain hardware-accelerated graphics features. Your application can then take different code paths at run time depending on the rendering tier supported by the device.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Rendering Tier 0
+    </Paragraph>
+
+    <Paragraph>A rendering tier value of 0 means that there is no graphics hardware acceleration available for the application on the device. At this tier level, developers should assume that all graphics will be rendered by software with no hardware acceleration. This tier's functionality corresponds to a DirectX version that is less than 7.0.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Rendering Tier 1
+    </Paragraph>
+
+    <Paragraph>A rendering tier value of 1 means that there is partial graphics hardware acceleration available on the video card. This corresponds to a DirectX version that is greater than or equal to 7.0 and less than 9.0.
+    </Paragraph>
+
+    <Paragraph>The following features and capabilities are hardware accelerated for rendering tier 1:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Feature 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>2D rendering
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Most 2D rendering is supported.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>3D rasterization
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Most 3D rasterization is supported. However, WPF will use software to calculate vertex light intensities, which are then passed to the hardware as a vertex color. This means that lighting is much slower on tier 1.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>3D anisotrophic filtering
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>3D anisotrophic filtering is available in tier 1, but not in tier 0. Anisotropic filtering refers to enhancing the image quality of textures on surfaces that are far away and steeply angled with respect to the camera.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>3D mip mapping
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>3D mip mapping is available in tier 1, but not in tier 0. Mip mapping enhances the rendering speed of textures.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Opacity masks
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The OpacityMask property is set for the object.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following features and capabilities are <Run FontWeight="Bold">not</Run>
+ hardware accelerated for rendering tier 1:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Feature 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Bitmap effects
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The BitmapEffect property is set for the object.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Printed content
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>All printed content is rendered using the WPF software pipeline.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Rasterized content using a RenderTargetBitmap object
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>All content rendered using the Render method of <Run FontWeight="Bold">RenderTargetBitmap</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Tiled content that uses TileBrush
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Any tiled content in which the TileMode property of the <Run FontWeight="Bold">TileBrush</Run>
+ is set to Tile.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Surfaces that exceed the maximum texture size of the graphics hardware
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>For most graphics hardware, large surfaces are 2048x2048 or 4096x4096 pixels in size.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Any operation whose video RAM requirement exceeds the memory of the graphics hardware
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>You can monitor application video RAM usage by using the Perforator tool that is included with the Windows SDK.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Layered windows with and without per-pixel alpha
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Per-pixel alpha allows you to create "non-rectangular" windows by making the non-rectangular part transparent. Without per-pixel alpha support, your entire window is still rectangular, but uniformly transparent.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Radial gradients
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Any use of RadialGradientBrush.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>3D lighting calculations
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WPF performs per-vertex lighting, which means a light intensity must be calculated at each vertex for each material applied to a mesh. In tier 1, the calculations are performed by software. In tier 2, the calculations are performed in hardware.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Text rendering
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Sub-pixel font rendering uses available pixel shaders on the graphics hardware.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>3D anti-aliasing
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Any use of 3D anti-aliasing.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following graphics hardware features define rendering tier 1: 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Feature 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DirectX version
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Must be greater than or equal to 7.0 and less than 9.0.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Video RAM
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Must be greater than or equal to 30MB.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Multitexture units
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Number of units must greater than or equal to 2.0.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following table lists common graphics cards that support rendering tier 1: 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Manufacturer 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Model 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ATI
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Radeon models: 256, 7000, 7500, 8500, 9000, 9100, 9200, and 9250
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Intel
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Intel Extreme Graphics models: 845G, 845GE, 845GL, and 845GV 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Intel
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Intel Extreme Graphics II models: 852GME, 855GM, 855GME, 865G, and 865GV 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>NVidia
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GeForce 256
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>NVidia
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GeForce2 models: GTS, MX, MX100, MX200, MX400, Pro, Ti, and Ultra
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>NVidia
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GeForce3 models: Ti200 and Ti500
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>NVidia
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>GeForce4 models: MX420, MX440, MX460, MX4000, Ti4200, Ti4400, Ti4600, and Ti4800
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Rendering Tier 2
+    </Paragraph>
+
+    <Paragraph>A rendering tier value of 2 means that most of the graphics features of WPF should use hardware acceleration provided the necessary system resources have not been exhausted. This corresponds to DirectX version that is greater than or equal to 9.0.
+    </Paragraph>
+
+    <Paragraph>The following features and capabilities are hardware accelerated for rendering tier 2:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Feature 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Tier 1 features
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Includes all tier 1 features.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Radial gradients
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>While supported, avoid the use of <Run FontWeight="Bold">RadialGradientBrush</Run>
+ on large objects.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>3D lighting calculations
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WPF performs per-vertex lighting, which means a light intensity must be calculated at each vertex for each material applied to a mesh. In tier 1, the calculations are performed by software. In tier 2, the calculations are performed in hardware.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Text rendering
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Sub-pixel font rendering uses available pixel shaders on the graphics hardware.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>3D anti-aliasing
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>3D anti-aliasing is only supported on Windows Vista.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following features and capabilities are <Run FontWeight="Bold">not</Run>
+ hardware accelerated for rendering tier 2:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Feature 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Bitmap effects
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The object's <Run FontWeight="Bold">BitmapEffect</Run>
+ property is set.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Printed content
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>All printed content is rendered using the WPF software pipeline.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Rasterized content that uses <Run FontWeight="Bold">RenderTargetBitmap</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Any content rendered using the <Run FontWeight="Bold">Render</Run>
+ method of <Run FontWeight="Bold">RenderTargetBitmap</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Tiled content that uses <Run FontWeight="Bold">TileBrush</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Any tiled content in which the <Run FontWeight="Bold">TileMode</Run>
+ property of the <Run FontWeight="Bold">TileBrush</Run>
+ is set to <Run FontWeight="Bold">Tile</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Surfaces that exceed the maximum texture size of the graphics hardware
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>For most graphics hardware, large surfaces are 2048x2048 or 4096x4096 pixels in size.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Any operation whose video RAM requirement exceeds the memory of the graphics hardware
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>You can monitor application video RAM usage by using the Perforator tool that is included with the Windows SDK.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Layered windows with and without per-pixel alpha
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Per-pixel alpha allows you to create "non-rectangular" windows by making the non-rectangular part transparent. Without per-pixel alpha support, your entire window is still rectangular, but uniformly transparent.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following graphics hardware features define rendering tier 2:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Feature 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DirectX version
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Must be greater than or equal to 9.0.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Video RAM
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Must be greater than or equal to 120MB.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Pixel shader
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Version level must greater than or equal to 2.0.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Vertex shader
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Version level must greater than or equal to 2.0.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Multitexture units
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Number of units must greater than or equal to 4.0.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following table lists common graphics cards that support rendering tier 2:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Manufacturer 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Model 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ATI
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Radeon models: 9550, 9600, 9800, and X-series
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Intel
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Intel GMA900 models: 915G
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Intel
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Intel GMA950 models: 945G
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>NVidia
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Geforce FX-series, 6xxx-series, and 7xxx-series
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>RenderCapability
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Perforator
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Graphics Rendering Tiers to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

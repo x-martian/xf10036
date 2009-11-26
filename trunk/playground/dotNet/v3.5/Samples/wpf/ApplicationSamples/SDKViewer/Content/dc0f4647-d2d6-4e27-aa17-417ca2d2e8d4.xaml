@@ -1,0 +1,212 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_dc0f4647_d2d6_4e27_aa17_417ca2d2e8d4"
+  Tag     ="Absolutely Position Elements in a Canvas"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Absolutely Position Elements in a Canvas</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the Canvas control to absolutely position content.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example produces three Rectangle elements, each element 100 <Run>pixels</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The first <Run FontWeight="Bold">Rectangle</Run>
+ is red, and its upper-left (<Run FontStyle="italic">x, y</Run>
+) position is specified as (0, 0). The second <Run FontWeight="Bold">Rectangle</Run>
+ is green, and its upper-left position is (100, 100), which is just below, and to the right of, the first square. The third <Run FontWeight="Bold">Rectangle</Run>
+ is blue, and its upper-left position is (50, 50). Hence, the third <Run FontWeight="Bold">Rectangle</Run>
+ covers the lower-right quadrant of the first <Run FontWeight="Bold">Rectangle</Run>
+ and the upper-left quadrant of the second. 
+    </Paragraph>
+
+    <Paragraph>Because the third <Run FontWeight="Bold">Rectangle</Run>
+ is laid out last, it appears to be on top of the other two squares—that is, the overlapping portions assume the color of the third <Run FontWeight="Bold">Rectangle</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the application's main window mainWindow = new Window (); 
+mainWindow.Title = "Canvas Sample"; 
+// Create the Canvas myParentCanvas = new Canvas(); 
+myParentCanvas.Width = 400; 
+myParentCanvas.Height = 400; 
+// Define child Canvas elements myCanvas1 = new Canvas(); 
+myCanvas1.Background = Brushes.Red; 
+myCanvas1.Height = 100; 
+myCanvas1.Width = 100; 
+Canvas.SetTop(myCanvas1, 0); 
+Canvas.SetLeft(myCanvas1, 0); 
+myCanvas2 = new Canvas(); 
+myCanvas2.Background = Brushes.Green; 
+myCanvas2.Height = 100; 
+myCanvas2.Width = 100; 
+Canvas.SetTop(myCanvas2, 100); 
+Canvas.SetLeft(myCanvas2, 100); 
+myCanvas3 = new Canvas(); 
+myCanvas3.Background = Brushes.Blue; 
+myCanvas3.Height = 100; 
+myCanvas3.Width = 100; 
+Canvas.SetTop(myCanvas3, 50); 
+Canvas.SetLeft(myCanvas3, 50); 
+// Add child elements to the Canvas' Children collection myParentCanvas.Children.Add(myCanvas1); 
+myParentCanvas.Children.Add(myCanvas2); 
+myParentCanvas.Children.Add(myCanvas3); 
+// Add the parent Canvas as the Content of the Window Object mainWindow.Content = myParentCanvas; 
+mainWindow.Show (); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>WindowTitle = "Canvas Sample" 'Create a Canvas as the root Panel Dim myParentCanvas As New Canvas() myParentCanvas.Width = 400 myParentCanvas.Height = 400 ' Define child Canvas elements Dim myCanvas1 As New Canvas() myCanvas1.Background = Brushes.Red myCanvas1.Height = 100 myCanvas1.Width = 100 Canvas.SetTop(myCanvas1, 0) Canvas.SetLeft(myCanvas1, 0) Dim myCanvas2 As New Canvas() myCanvas2.Background = Brushes.Green myCanvas2.Height = 100 myCanvas2.Width = 100 Canvas.SetTop(myCanvas2, 100) Canvas.SetLeft(myCanvas2, 100) Dim myCanvas3 As New Canvas() myCanvas3.Background = Brushes.Blue myCanvas3.Height = 100 myCanvas3.Width = 100 Canvas.SetTop(myCanvas3, 50) Canvas.SetLeft(myCanvas3, 50) ' Add child elements to the Canvas' Children collection myParentCanvas.Children.Add(myCanvas1) myParentCanvas.Children.Add(myCanvas2) myParentCanvas.Children.Add(myCanvas3) ' Add the parent Canvas as the Content of the Window Object Me.Content = myParentCanvas </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_dc0f4647_d2d6_4e27_aa17_417ca2d2e8d4_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page WindowTitle="Canvas Sample" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"> 
+&lt;Canvas Height="400" Width="400"> 
+&lt;Canvas Height="100" Width="100" Top="0" Left="0" Background="Red"/> 
+&lt;Canvas Height="100" Width="100" Top="100" Left="100" Background="Green"/> 
+&lt;Canvas Height="100" Width="100" Top="50" Left="50" Background="Blue"/> 
+&lt;/Canvas> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Canvas
+      <LineBreak/>Rectangle
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="5c8f5bca-7ba9-4526-a9bf-0852351dbe8a.xaml">Canvas How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Absolutely Position Elements in a Canvas to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

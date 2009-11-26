@@ -1,0 +1,251 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_903bab5c_80c1_44d7_bdc2_0a418893b987"
+  Tag     ="Implementing the UI Automation ScrollItem Control Pattern"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Implementing the UI Automation ScrollItem Control Pattern</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces the ScrollItemPattern <Run>control pattern</Run>
+. It contains guidelines and conventions for implementing the IScrollItemProvider interface and includes information about <Run FontWeight="Bold">ScrollItemPattern</Run>
+ properties, methods, and events. Links to additional references are listed at the end of the topic.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ScrollItemPattern</Run>
+ control pattern is used to support individual child controls of containers that implement IScrollProvider. This control pattern acts as a communication channel between a child control and its container to ensure that the container can change the currently visible content (or region) within its <Run>viewport</Run>
+ to display the child control. For examples of controls that implement this control pattern, see <Hyperlink NavigateUri="8b81645b-8be3-4e26-9c98-4fb0fceca06b.xaml">Control Pattern Mapping for UI Automation Clients</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Implementation_Guidelines_and_Conventions">Implementation Guidelines and Conventions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Required_Members_for_IScrollItemProvider">Required Members for IScrollItemProvider</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Exceptions">Exceptions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Implementation Guidelines and Conventions
+    </Paragraph>
+
+    <Paragraph>When implementing the Scroll Item control pattern, note the following guidelines and conventions:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Items contained within a Window or Canvas control are not required to implement the IScrollItemProvider interface. As an alternative, however, they must expose a valid location for the BoundingRectangleProperty. This will allow a <Run>UI Automation client</Run>
+ application to use the ScrollPattern control pattern methods on the container to display the child item.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Required Members for IScrollItemProvider
+    </Paragraph>
+
+    <Paragraph>The following method is required for implementing the IScrollProvider interface.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Required members 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Member type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ScrollIntoView 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Method
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This control pattern has no associated properties or events.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Exceptions
+    </Paragraph>
+
+    <Paragraph>Providers must throw the following exceptions.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Exception Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Condition 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>InvalidOperationException 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>If an item cannot be scrolled into view:
+            </Paragraph>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>ScrollIntoView 
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0d635c35-ffa8-4dc8-bbc9-12fcd5445776.xaml">Support Control Patterns in a UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ec722dff-6009-4279-b86a-e18d3fa94ebf.xaml">Use Caching in UI Automation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="571561d8-5f49-43a9-a054-87735194e013.xaml">UI Automation Control Patterns for Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Implementing the UI Automation ScrollItem Control Pattern to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,297 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5aa46632_3527_4668_9d8d_0375c8af28aa"
+  Tag     ="Create Different Tile Patterns with a TileBrush"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create Different Tile Patterns with a TileBrush</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the TileMode property of a TileBrush to create a pattern. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">TileMode</Run>
+ property enables you to specify how the content of a <Run FontWeight="Bold">TileBrush</Run>
+ is repeated, that is, tiled to fill an output area. To create a pattern, you set the <Run FontWeight="Bold">TileMode</Run>
+ to Tile, FlipX, FlipY, or FlipXY. You must also set the Viewport of the <Run FontWeight="Bold">TileBrush</Run>
+ so that it is smaller than the area that you are painting; 
+otherwise, only a single tile is produced, regardless which <Run FontWeight="Bold">TileMode</Run>
+ setting you use. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates five DrawingBrush objects, gives them each a different <Run FontWeight="Bold">TileMode</Run>
+ setting, and uses them to paint five rectangles. Although this example uses the <Run FontWeight="Bold">DrawingBrush</Run>
+ class to demonstrate <Run FontWeight="Bold">TileMode</Run>
+ behavior, the <Run FontWeight="Bold">TileMode</Run>
+ property works identically for all the <Run FontWeight="Bold">TileBrush</Run>
+ objects, that is, for ImageBrush, VisualBrush, and <Run FontWeight="Bold">DrawingBrush</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows the output that this example produces.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Tile patterns created with the TileMode property</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Input; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+namespace BrushesIntroduction { public class TileModeExample : Page { public TileModeExample() { Background = Brushes.White; 
+Margin = new Thickness(20); 
+StackPanel mainPanel = new StackPanel(); 
+mainPanel.HorizontalAlignment = HorizontalAlignment.Left; 
+// // Create a Drawing. This will be the DrawingBrushes' content. // PolyLineSegment triangleLinesSegment = new PolyLineSegment(); 
+triangleLinesSegment.Points.Add(new Point(50, 0)); 
+triangleLinesSegment.Points.Add(new Point(0, 50)); 
+PathFigure triangleFigure = new PathFigure(); 
+triangleFigure.IsClosed = true; 
+triangleFigure.StartPoint = new Point(0, 0); 
+triangleFigure.Segments.Add(triangleLinesSegment); 
+PathGeometry triangleGeometry = new PathGeometry(); 
+triangleGeometry.Figures.Add(triangleFigure); 
+GeometryDrawing triangleDrawing = new GeometryDrawing(); 
+triangleDrawing.Geometry = triangleGeometry; 
+triangleDrawing.Brush = new SolidColorBrush(Color.FromArgb(255, 204, 204, 255)); 
+Pen trianglePen = new Pen(Brushes.Black, 2); 
+triangleDrawing.Pen = trianglePen; 
+trianglePen.MiterLimit = 0; 
+triangleDrawing.Freeze(); 
+// // Create the first TileBrush. Its content is not tiled. // DrawingBrush tileBrushWithoutTiling = new DrawingBrush(); 
+tileBrushWithoutTiling.Drawing = triangleDrawing; 
+tileBrushWithoutTiling.TileMode = TileMode.None; 
+// Create a rectangle and paint it with the DrawingBrush. Rectangle noTileExampleRectangle = createExampleRectangle(); 
+noTileExampleRectangle.Fill = tileBrushWithoutTiling; 
+// Add a header and the rectangle to the main panel. mainPanel.Children.Add(createExampleHeader("None")); 
+mainPanel.Children.Add(noTileExampleRectangle); 
+// // Create another TileBrush, this time with tiling. // DrawingBrush tileBrushWithTiling = new DrawingBrush(); 
+tileBrushWithTiling.Drawing = triangleDrawing; 
+tileBrushWithTiling.TileMode = TileMode.Tile; 
+// Specify the brush's Viewport. Otherwise, // a single tile will be produced that fills // the entire output area and its TileMode will // have no effect. // This setting uses realtive values to // creates four tiles. tileBrushWithTiling.Viewport = new Rect(0, 0, 0.5, 0.5); 
+// Create a rectangle and paint it with the DrawingBrush. Rectangle tilingExampleRectangle = createExampleRectangle(); 
+tilingExampleRectangle.Fill = tileBrushWithTiling; 
+mainPanel.Children.Add(createExampleHeader("Tile")); 
+mainPanel.Children.Add(tilingExampleRectangle); 
+// // Create a TileBrush with FlipX tiling. // The brush's content is flipped horizontally as it is // tiled in this example // DrawingBrush tileBrushWithFlipXTiling = new DrawingBrush(); 
+tileBrushWithFlipXTiling.Drawing = triangleDrawing; 
+tileBrushWithFlipXTiling.TileMode = TileMode.FlipX; 
+// Specify the brush's Viewport. tileBrushWithFlipXTiling.Viewport = new Rect(0, 0, 0.5, 0.5); 
+// Create a rectangle and paint it with the DrawingBrush. Rectangle flipXTilingExampleRectangle = createExampleRectangle(); 
+flipXTilingExampleRectangle.Fill = tileBrushWithFlipXTiling; 
+mainPanel.Children.Add(createExampleHeader("FlipX")); 
+mainPanel.Children.Add(flipXTilingExampleRectangle); 
+// // Create a TileBrush with FlipY tiling. // The brush's content is flipped vertically as it is // tiled in this example // DrawingBrush tileBrushWithFlipYTiling = new DrawingBrush(); 
+tileBrushWithFlipYTiling.Drawing = triangleDrawing; 
+tileBrushWithFlipYTiling.TileMode = TileMode.FlipX; 
+// Specify the brush's Viewport. tileBrushWithFlipYTiling.Viewport = new Rect(0, 0, 0.5, 0.5); 
+// Create a rectangle and paint it with the DrawingBrush. Rectangle flipYTilingExampleRectangle = createExampleRectangle(); 
+flipYTilingExampleRectangle.Fill = tileBrushWithFlipYTiling; 
+mainPanel.Children.Add(createExampleHeader("FlipY")); 
+mainPanel.Children.Add(flipYTilingExampleRectangle); 
+// // Create a TileBrush with FlipXY tiling. // The brush's content is flipped vertically as it is // tiled in this example // DrawingBrush tileBrushWithFlipXYTiling = new DrawingBrush(); 
+tileBrushWithFlipXYTiling.Drawing = triangleDrawing; 
+tileBrushWithFlipXYTiling.TileMode = TileMode.FlipXY; 
+// Specify the brush's Viewport. tileBrushWithFlipXYTiling.Viewport = new Rect(0, 0, 0.5, 0.5); 
+// Create a rectangle and paint it with the DrawingBrush. Rectangle flipXYTilingExampleRectangle = createExampleRectangle(); 
+flipXYTilingExampleRectangle.Fill = tileBrushWithFlipXYTiling; 
+mainPanel.Children.Add(createExampleHeader("FlipXY")); 
+mainPanel.Children.Add(flipXYTilingExampleRectangle); 
+Content = mainPanel; 
+} // // Helper method that creates rectangle elements. // private static Rectangle createExampleRectangle() { Rectangle exampleRectangle = new Rectangle(); 
+exampleRectangle.Width = 50; 
+exampleRectangle.Height = 50; 
+exampleRectangle.Stroke = Brushes.Black; 
+exampleRectangle.StrokeThickness = 1; 
+return exampleRectangle; 
+} // // Helper method that creates headers for the examples. // private static TextBlock createExampleHeader(String text) { TextBlock header = new TextBlock(); 
+header.Margin = new Thickness(0, 10, 0, 0); 
+header.Text = text; 
+return header; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_5aa46632_3527_4668_9d8d_0375c8af28aa_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;!-- Demonstrates TileMode values. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="PresentationOptions" Background="White" Margin="20"> 
+&lt;Page.Resources> 
+&lt;!-- Define a Drawing as a resource that it can be easily used as content for all the DrawingBrush objects in this example. --> 
+&lt;GeometryDrawing x:Key="TriangleDrawing" Geometry="M0,0 L50,0 0,50Z" Brush="#CCCCFF" PresentationOptions:Freeze="True" > 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="2" Brush="Black" MiterLimit="0" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/Page.Resources> 
+&lt;StackPanel HorizontalAlignment="Left"> 
+&lt;TextBlock Margin="0,10,0,0">None
+&lt;/TextBlock> 
+&lt;Rectangle Width="50" Height="50" Stroke="Black" StrokeThickness="1"> 
+&lt;Rectangle.Fill> 
+&lt;!-- The DrawingBrush's content is not tiled in this example. --> 
+&lt;DrawingBrush TileMode="None" Drawing="{StaticResource TriangleDrawing}" /> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> 
+&lt;TextBlock Margin="0,10,0,0">Tile
+&lt;/TextBlock> 
+&lt;Rectangle Width="50" Height="50" Stroke="Black" StrokeThickness="1"> 
+&lt;Rectangle.Fill> 
+&lt;!-- The DrawingBrush's content is tiled in this example. The Viewport property is set to create four tiles. --> 
+&lt;DrawingBrush TileMode="Tile" Viewport="0,0,0.5,0.5" Drawing="{StaticResource TriangleDrawing}"/> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> 
+&lt;TextBlock Margin="0,10,0,0">FlipX
+&lt;/TextBlock> 
+&lt;Rectangle Width="50" Height="50" Stroke="Black" StrokeThickness="1"> 
+&lt;Rectangle.Fill> 
+&lt;!-- The DrawingBrush's content is flipped horizontally as it is tiled in this example. --> 
+&lt;DrawingBrush TileMode="FlipX" Viewport="0,0,0.5,0.5" Drawing="{StaticResource TriangleDrawing}" /> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> 
+&lt;TextBlock Margin="0,10,0,0">FlipY
+&lt;/TextBlock> 
+&lt;Rectangle Width="50" Height="50" Stroke="Black" StrokeThickness="1"> 
+&lt;Rectangle.Fill> 
+&lt;!-- The DrawingBrush's content is flipped vertically as it is tiled in this example. --> 
+&lt;DrawingBrush TileMode="FlipY" Viewport="0,0,0.5,0.5" Drawing="{StaticResource TriangleDrawing}" /> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> 
+&lt;TextBlock Margin="0,10,0,0">FlipXY
+&lt;/TextBlock> 
+&lt;Rectangle Width="50" Height="50" Stroke="Black" StrokeThickness="1"> 
+&lt;Rectangle.Fill> 
+&lt;!-- The DrawingBrush's content is flipped horizontally and vertically as it is tiled in this example. --> 
+&lt;DrawingBrush TileMode="FlipXY" Viewport="0,0,0.5,0.5" Drawing="{StaticResource TriangleDrawing}" /> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="04f41090-1b46-4e36-832f-d27d28708b8c.xaml">How to: Set the Tile Size for a TileBrush</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="779aac3f-8d41-49d8-8130-768244aa2240.xaml">Painting with Images, Drawings, and Visuals</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>ImageBrush Sample
+      <LineBreak/>ImageBrush Sample
+      <LineBreak/>VisualBrush Sample
+      <LineBreak/>DrawingBrush Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create Different Tile Patterns with a TileBrush to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

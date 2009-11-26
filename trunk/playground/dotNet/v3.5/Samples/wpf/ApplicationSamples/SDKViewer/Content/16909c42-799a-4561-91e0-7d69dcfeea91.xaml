@@ -1,0 +1,319 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_16909c42_799a_4561_91e0_7d69dcfeea91"
+  Tag     ="ContextMenu Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>ContextMenu Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The ContextMenu class represents the element that exposes functionality by using a context-specific Menu. Typically, a user exposes the <Run FontWeight="Bold">ContextMenu</Run>
+ in the user interface (UI) by right-clicking the mouse button. This topic introduces the <Run FontWeight="Bold">ContextMenu</Run>
+ element and provides examples of how to use it in Extensible Application Markup Language (XAML) and code.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="contextmenu_control">ContextMenu Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_contextmenus">Creating ContextMenus</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="applying_styles_to_contextmenu">Applying Styles to a ContextMenu</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">ContextMenu Control
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">ContextMenu</Run>
+ is attached to a specific control. The <Run FontWeight="Bold">ContextMenu</Run>
+ element enables you to present users with a list of items that specify commands or options that are associated with a particular control, for example, a Button. Users right-click the control to make the menu appear. Typically, clicking a MenuItem opens a submenu or causes an application to carry out a command. 
+    </Paragraph>
+
+    <Paragraph>The following figure illustrates a <Run FontWeight="Bold">ContextMenu</Run>
+ in two different states: the default state and the pressed state. In the default state the control is collapsed, when the right mouse button is pressed over the parent of the menu the control expands and displays the menu items.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ContextMenu in different states</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating ContextMenus
+    </Paragraph>
+
+    <Paragraph>The following examples show how to create a <Run FontWeight="Bold">ContextMenu</Run>
+ with submenus. The <Run FontWeight="Bold">ContextMenu</Run>
+ controls are attached to button controls.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Name="cmButton" Height="30">Button with Context Menu 
+&lt;Button.ContextMenu> 
+&lt;ContextMenu Name="cm" Opened="OnOpened" Closed="OnClosed" StaysOpen="true"> 
+&lt;MenuItem Header="File"/> 
+&lt;MenuItem Header="Save"/> 
+&lt;MenuItem Header="SaveAs"/> 
+&lt;MenuItem Header="Recent Files"> 
+&lt;MenuItem Header="ReadMe.txt"/> 
+&lt;MenuItem Header="Schedule.xls"/> 
+&lt;/MenuItem> 
+&lt;/ContextMenu> 
+&lt;/Button.ContextMenu> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>btn = new Button(); 
+btn.Content = "Created with C#"; 
+contextmenu = new ContextMenu(); 
+btn.ContextMenu = contextmenu; 
+mi = new MenuItem(); 
+mi.Header = "File"; 
+mia = new MenuItem(); 
+mia.Header = "New"; 
+mi.Items.Add(mia); 
+mib = new MenuItem(); 
+mib.Header = "Open"; 
+mi.Items.Add(mib); 
+mib1 = new MenuItem(); 
+mib1.Header = "Recently Opened"; 
+mib.Items.Add(mib1); 
+mib1a = new MenuItem(); 
+mib1a.Header = "Text.xaml"; 
+mib1.Items.Add(mib1a); 
+contextmenu.Items.Add(mi); 
+cv2.Children.Add(btn); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ContextMenu Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Applying Styles to a ContextMenu
+    </Paragraph>
+
+    <Paragraph>By using control Styles, you can dramatically change the appearance and behavior of a <Run FontWeight="Bold">ContextMenu</Run>
+ without writing a custom control. In addition to setting visual properties, you can also apply styles to parts of a control. For example, you can change the behavior of parts of the control through properties; 
+or add parts to, or change the layout of, a <Run FontWeight="Bold">ContextMenu</Run>
+. The following examples show several ways to add styles to <Run FontWeight="Bold">ContextMenu</Run>
+ controls. 
+    </Paragraph>
+
+    <Paragraph>The first example defines a style called <Run>SimpleSysResources</Run>
+, which shows how to use the current system settings in your style. The example assigns MenuHighlightBrushKey as the Background color and MenuTextBrushKey as the Foreground color of the <Run FontWeight="Bold">ContextMenu</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="SimpleSysResources" TargetType="{x:Type MenuItem}"> 
+&lt;Setter Property = "Background" Value= "{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/> 
+&lt;Setter Property = "Foreground" Value= "{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example uses the Trigger element to change the appearance of a <Run FontWeight="Bold">Menu</Run>
+ in response to events that are raised on the <Run FontWeight="Bold">ContextMenu</Run>
+. When a user moves the mouse over the menu, the appearance of the <Run FontWeight="Bold">ContextMenu</Run>
+ items changes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Triggers" TargetType="{x:Type MenuItem}"> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="MenuItem.IsMouseOver" Value="true"> 
+&lt;Setter Property = "FontSize" Value="16"/> 
+&lt;Setter Property = "FontStyle" Value="Italic"/> 
+&lt;Setter Property = "Foreground" Value="Red"/> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ContextMenu Styles Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ContextMenu
+      <LineBreak/>Style
+      <LineBreak/>Menu
+      <LineBreak/>MenuItem
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="342d1f17-c406-4f94-8f55-867c5f3ea511.xaml">ContextMenu ControlTemplate Example</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="2f40b2bb-b702-4706-9fc4-10bcfd7cc35d.xaml">ContextMenu</Hyperlink>
+
+      <LineBreak/>Windows Presentation Foundation Controls Gallery
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about ContextMenu Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

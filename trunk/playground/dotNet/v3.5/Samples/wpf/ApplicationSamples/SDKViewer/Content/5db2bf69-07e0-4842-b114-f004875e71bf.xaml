@@ -1,0 +1,1216 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5db2bf69_07e0_4842_b114_f004875e71bf"
+  Tag     ="WPF Windows Media Center-Hosted Applications Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Presentation Foundation Windows Media Center-Hosted Applications Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Microsoft Windows Media Center (WMC) is a digital media entertainment application that is installed with Windows Vista and with Microsoft Windows XP Media Center Edition 2005. WMC allows users to manage and use a wide variety of media, including television (digital and high-definition), DVDs, music, video, radio, and photos.
+    </Paragraph>
+
+    <Paragraph>Out of the box, a WMC personal computer (PC) can be used to view and play digital media. This is known as the <Run FontStyle="italic">2' user experience</Run>
+, because users operate WMC at the PC, using mouse, keyboard, and monitor.
+    </Paragraph>
+
+    <Paragraph>However, home entertainment devices such as televisions can be connected to a WMC PC to view and play digital media. In this arrangement, a WMC PC can be configured to be operated using a remote control or remote keyboard, to be consistent with traditional home entertainment experiences. This is known as the <Run FontStyle="italic">10' user experience</Run>
+ because users don't have to be physically located at the PC to use WMC.
+    </Paragraph>
+
+    <Paragraph>The core functionality that is offered by WMC is composed of a set of applications for managing and playing digital media. However, you can use to create your own custom applications for WMC (for Windows Vista only).
+    </Paragraph>
+
+    <Paragraph>This topic provides an introduction to the development of applications for WMC, and covers the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Building and deploying a simple WPF game application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Targeting both 2' and 10' WMC user experiences.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Customizing controls to support WMC.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using new WMC -specific controls for .
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Leveraging support in the .NET Framework 3.0.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Integrating with WMC through managed APIs.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using Visual Studio 2005 to enhance the development process.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For comprehensive information on developing applications for WMC, see the WMC software development kit (SDK).
+    </Paragraph>
+
+    <Paragraph FontSize="22">Hosting WPF Applications in WMC
+    </Paragraph>
+
+    <Paragraph>allows the development of two types of applications: standalone and browser-hosted. Standalone applications provide their own windows and dialog boxes to host application content. There are two types of browser-hosted applications, loose XAML applications and XBAPs, and both are hosted by Internet Explorer 7. Whereas windows and dialog boxes are also built using WPF and, consequently, have explicit knowledge of hosting content, Internet Explorer 7 doesn't know anything about . To enable the ability for Internet Explorer 7 to host content, provides applications like a hosting proxy. This proxy can host content on behalf of other applications, and is built using the same common infrastructure that itself knows how to host.
+    </Paragraph>
+
+    <Paragraph>is also capable of hosting this proxy and, consequently, can host browser-hosted applications. This means that you can take advantage of the application development platform, in general, and the navigation and security features of browser-hosted applications, specifically. 
+    </Paragraph>
+
+    <Paragraph>The rest of this topic uses the <Run FontWeight="Bold">WordGame!</Run>
+ XBAP from <Hyperlink NavigateUri="3a7a86a8-75d5-4898-96b9-73da151e5e16.xaml">Windows Presentation Foundation Browser-Hosted Applications Overview</Hyperlink>
+ as the foundation for demonstrating the development of WMC applications using WPF.
+    </Paragraph>
+
+    <Paragraph>For the complete version of <Run FontWeight="Bold">WordGame!</Run>
+ for , see WordGame! for Windows Media Center Demo.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Launching a WPF Application for WMC
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">WordGame!</Run>
+ application consists of the following three files (the minimum for all The XBAPs):
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">wordgamewmc.exe</Run>
+. The XBAP.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">wordgamewmc.exe.manifest</Run>
+. The ClickOnce application manifest.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">wordgamewmc.xbap</Run>
+. The ClickOnce deployment manifest.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>XBAPs are launched using ClickOnce, which requires the application to be configured with the application and deployment manifest files (see <Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+). Specifically, an XBAP is launched when its .xbap file is browsed to or double-clicked. When launched, the default behavior is for ClickOnce to download the application on behalf of , after which launches Internet Explorer and navigates it to the application, as shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>To launch a WMC application, however, users browse to or double-click a WMC link file (.mcl). A .mcl file is an XML configuration file that is configured in Windows to be opened by the WMC host, (ehshell.exe) when either browsed to or double-clicked (see 
+&lt;TODO: WMC SDK>).
+    </Paragraph>
+
+    <Paragraph>When a .mcl file is opened, the WMC host will parse and process the configuration instructions contained by the .mcl file, the most important of which is the name of the application to open. You use this mechanism to create a .mcl file that is configured to launch an XBAP:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;application> url="http://localhost/wordgamewmc/wordgamewmc.xbap" 
+&lt;/application></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the host processes this .mcl file, host will navigate to the .xbap file. This causes ClickOnce to launch the application into the host itself, as shown in the following figure:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>If you wanted to host a loose XAML application, you would configure the .mcl file with a .xaml file, like so:
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;application> url="http://localhost/loosexamlapplication/loosexamlpage.xaml" 
+&lt;/application></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Without any change to the XBAP itself, and with the addition of a single configuration file, a WPF browser-hosted application can be hosted by , as is.
+    </Paragraph>
+
+    <Paragraph>However, the user experience is quite specific and, for consistency and style, XBAP applications should be designed to integrate with the user experience. The rest of this topic covers the key aspects of the user experience and how to build XBAPs to be sensitive to it.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Integrating with the WMC User Experience
+    </Paragraph>
+
+    <Paragraph>Providing a consistent user experience is a core part of any application development. With respect to users, an application should attempt to be consistent in the following ways:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Theme</Run>
+. The overall style of an application's user interface.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Layout</Run>
+. Control positioning and size.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Navigation</Run>
+. Using the keyboard, mouse, and remote control to navigate an application's user interface.
+    </Paragraph>
+
+    <Paragraph>While a detailed discussion on user experience can be found in the 
+&lt;TODO: WMC SDK>, the following topics provide a high-level overview.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Theme
+    </Paragraph>
+
+    <Paragraph>As you can see from the following figure, the theme has several distinct elements:
+    </Paragraph>
+
+    <Paragraph>The most distinct of these include a blue, glassy background, and large rounded fonts that are light in color. The result is to create an appearance that can be easily discerned by both 2' users, who are right in front of a monitor, and 10' users who may be any distance away from a television. While WPF applications should follow this general approach to appearance, doesn't natively expose this information for WPF applications to use. Fortunately, WPF does provide a rich infrastructure for styling and theming that can be leveraged to replicate the appearance (see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph>For example, to create a -style background for pages, you could do the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="HomePage.xaml"> 
+&lt;Application.Resources> 
+&lt;!-- WMC Page Blue Glassy Background --> 
+&lt;LinearGradientBrush x:Key="PageGlassyBackground" StartPoint="0,0.5" EndPoint="1,0.5"> 
+&lt;GradientStop Color="#ff2B6680" Offset="1.5" /> 
+&lt;GradientStop Color="#569dc2" Offset="0" /> 
+&lt;/LinearGradientBrush> 
+&lt;/Application.Resources> 
+&lt;/Application> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:src="clr-namespace:WordGameWMC" x:Class="WordGameWMC.HomePage" WindowTitle="WordGame!" Background="{StaticResource PageGlassyBackground}"> <Run>... </Run>
+
+&lt;/Page> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Because themes are typically composed of more than one element, you should consider using a custom resource dictionary to encapsulate the styles of the theme:
+    </Paragraph>
+
+    <Paragraph>To incorporate a resource dictionary into an application, you configure the <Run FontWeight="Bold">Application.Resources</Run>
+ element of your application definition to refer to the resource dictionary .xaml file:
+    </Paragraph>
+
+    <Paragraph>The following figure shows <Run FontWeight="Bold">WordGame!</Run>
+ updated with a full complement of styles and resources for the theme.
+    </Paragraph>
+
+    <Paragraph>doesn't restrict you from developing application themes that incorporate application-specific and brand-specific elements. However, there several aspects of an application's theme should be considered when designing any application for the user experience, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Television-safe colors</Run>
+: Do not use bright colors that may be susceptible to bleeding (eg, green, red).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Contrast</Run>
+: To keep text visually distinct from the background, ensure that the choice of foreground and background colors for your visual elements have an appropriate level of contrast.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Fonts</Run>
+: You can enhance readability by using larger sized fonts without serifs. Additionally, removing unnecessary wording from your content can help to create text areas that are easier to read.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Buttons</Run>
+: Keep the appearance of your buttons simple.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Images</Run>
+: When creating images, consider display quality and size and download size.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Animation</Run>
+: Use animation when appropriate.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>See the 
+&lt;TODO: WMC SDK> for detailed information regarding application themes.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Layout
+    </Paragraph>
+
+    <Paragraph>One issue that may not be readily apparent occurs when a user hovers the mouse over the host, which causes the host to display additional navigation UI elements for mouse-driven navigation, as shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>From this figure, you can see the top-left and bottom-right portions of the application's UI are covered by the navigation chrome. In this situation, you can update the layout of your UI to take the navigation UI into account. For <Run FontWeight="Bold">WordGame!</Run>
+, this involved moving the application title to the right of the UI, and adding a 50 pixel high row to the bottom of the Grid element that hosts the content on the home page:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Grid> ... 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="5" /> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition Height="20" /> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition /> <Run FontWeight="Bold">
+&lt;RowDefinition Height="50" /></Run>
+ 
+&lt;/Grid.RowDefinitions> 
+&lt;!-- Game title --> 
+&lt;TextBlock ... <Run FontWeight="Bold">TextAlignment="Right"</Run>
+>Word Game!
+&lt;/TextBlock> ... 
+&lt;/Grid></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The effect of adding these rows is shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>For this reason, XBAPs for need to be sensitive to the various layout behaviors and consistencies of .
+    </Paragraph>
+
+    <Paragraph>Key layout considerations that you should make include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Application Layout</Run>
+: The layout of your applications should be simple and consistent, to make it easier for users to develop and retain familiarity with your application's user interface.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">WMC Layout</Run>
+: The layout of your applications should, where pragmatic, retain consistency with the general user experience. This allows users who are familiar with to more quickly become comfortable with your application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Video</Run>
+: If your application displays video using the managed APIs, will play the video in the bottom-left of the screen. Consequently, your user interface should be laid out to take this into account.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Resolution</Run>
+: Your application's user interface and layout should target a resolution of 1024x768. WPF offers layout support to assist you in both laying out your user interface to target 1024x768 and ensuring the layout is retained as the user interface is resized (See <Hyperlink NavigateUri="3eecdced-3623-403a-a077-7595453a9221.xaml">The Layout System</Hyperlink>
+ for more information).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>See the 
+&lt;TODO: WMC SDK> for detailed information regarding layout.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Navigation
+    </Paragraph>
+
+    <Paragraph>Essentially, theme and layout dictate how the controls that comprise your application's user interface are arranged. Navigation, on the other hand, dictates how your users get to and move between those controls.
+    </Paragraph>
+
+    <Paragraph>The control that is currently receiving user input is said to have the focus. To place the focus on a specific control when a page in your XBAP application is displayed, you can use markup:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Set focus on guess character text box --> 
+&lt;Page ... FocusManager.FocusedElement="{Binding ElementName=guessedChar}"> ... 
+&lt;/Page></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To enable users to navigate your controls in a application in both 2' and 10' modes, your application must handle navigation using a mouse, a keyboard (attached or remote), and a remote control. By default, navigation with a mouse and keyboard is the same as it is for any WPF application, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Clicking controls to shift the focus to them.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Tabbing through controls to move the focus.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using the IsDefault property of a button to specify it is clicked by default when the Return key is pressed.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using the IsCancel property of a button to specify it is clicked by default when the Escape key is pressed.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>To support remote controls, you need to support directional navigation, which means to allow users to move control focus by clicking the up, down, left, and right buttons on the remote control. You don't have to write any special code to support directional navigation, as long as you use a specific subset of WPF controls.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Updating WPF Controls for WMC
+    </Paragraph>
+
+    <Paragraph>Although WPF offers a host of controls, only a subset of those controls is suitable for use in applications by default. The determining factor is whether or not they can be navigated to, manipulated, and navigated from using a remote control. The subset of WPF controls that intrinsically support the remote control are shown in the following figure (using styles):
+    </Paragraph>
+
+    <Paragraph>These limitations don't preclude the use of other WPF control, although you will need to perform additional work to make them work for . For example, consider the Slider control, which is shown hosted in in the following figure:
+    </Paragraph>
+
+    <Paragraph>By default, a <Run FontWeight="Bold">Slider</Run>
+ can be displayed and navigated to using the mouse, the keyboard, or the remote control. However, a <Run FontWeight="Bold">Slider</Run>
+ cannot be navigated from using the remote control - <Run FontWeight="Bold">Slider</Run>
+ interprets Up, Down, Left, and Right remote control button clicks as attempts to increase or decrease the value of the <Run FontWeight="Bold">Slider</Run>
+.
+    </Paragraph>
+
+    <Paragraph>In these situations, one solution is to create a composite control that contains the desired control plus additional remote control-friendly controls to manipulate it. For example, the <Run FontWeight="Bold">Slider</Run>
+ can still be used with two buttons, one to decrement the value of the <Run FontWeight="Bold">Slider</Run>
+, and one to increment the value of the <Run FontWeight="Bold">Slider</Run>
+, using the following code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="CSharp.SliderPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;!-- Custom Slider --> 
+&lt;StackPanel Margin="50" Orientation="Horizontal" VerticalAlignment="Top"> 
+&lt;Button Name="decrementButton" Click="decrementButton_Click" Margin="10" FontSize="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40" Height="40"> - 
+&lt;/Button> 
+&lt;Slider Name="slider" Focusable="False" Width="100" Margin="0,15,0,0" Minimum="0" Maximum="10" Value="50" Interval="1" TickFrequency="1" TickPlacement="BottomRight" /> 
+&lt;Button Name="incrementButton" Click="incrementButton_Click" Margin="10" FontSize="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40" Height="40"> + 
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class SliderPage : System.Windows.Controls.Page { ... void decrementButton_Click(object sender, RoutedEventArgs e) { this.slider.Value--; 
+} void incrementButton_Click(object sender, RoutedEventArgs e) { this.slider.Value++; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The result is shown in the following figure.
+    </Paragraph>
+
+    <Paragraph FontSize="22">WPF Controls for WMC
+    </Paragraph>
+
+    <Paragraph>Another problematic control is the TextBox, shown in the following figure. Using a remote control, it is not possible to actually enter characters into the <Run FontWeight="Bold">TextBox</Run>
+. What's needed is a control that allows a remote control user to select one or more characters. A common technique already in use in mobile devices whose form factor prevents them from having a full keyboard is to display a keyboard in the user interface and allow them to select the characters they need.
+    </Paragraph>
+
+    <Paragraph>Microsoft ships such a control for WPF applications that are targeting , <Run FontWeight="Bold">SoftKeyboardTextBox</Run>
+, which is included with the <Run FontWeight="Bold">MCEControls</Run>
+ library.
+    </Paragraph>
+
+    <Paragraph>
+&lt;TODO: Where from? We need a common, single location>
+    </Paragraph>
+
+    <Paragraph>To add the <Run FontWeight="Bold">SoftKeyboardTextBox</Run>
+ to your application, you need to:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Add a reference to the <Run FontWeight="Bold">Keyboard</Run>
+ assembly that comes with the <Run FontWeight="Bold">MCEControls</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Add an XML namespace declaration to the assembly in your content.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Add the XAML to declare and configure a <Run FontWeight="Bold">SoftKeyboardTextBox</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The result is shown in the following code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page ... xmlns:MCEControls="clr-namespace:MCEControls;assembly=Keyboard" > ... 
+&lt;MCEControls:SoftKeyboardTextBox Name="guessedChar" Grid.Column="0" Margin="0,0,5,0" Width="80" MaxLength="1" /> ... 
+&lt;/Page></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following figure illustrates how the <Run FontWeight="Bold">SoftKeyboardTextBox</Run>
+ control appears when hosted in :
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">MCEControls</Run>
+ library also contains the following controls:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">DomainSpinner</Run>
+: Domain list selection using the remote control.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">NumericSpinner</Run>
+: Numeric list selection using the remote control.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ListScroller</Run>
+: List that can be scrolled using the remote control.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using the .NET Framework 3.0 Class Libraries
+    </Paragraph>
+
+    <Paragraph>A WPF application for is not limited to controls. A WPF application can also leverage the breadth of the .NET Framework 3.0 for additional functionality, allowing you to use the same code you would for standalone or browser-hosted WPF applications.
+    </Paragraph>
+
+    <Paragraph>For example, the code to save and load data from an application that is hosted by is the same as for non- applications, and likewise for security constraints (see Windows Presentation Foundation Security); 
+depending on where the application is launched from depends on whether or not a -hosted application can write to the local disk.
+    </Paragraph>
+
+    <Paragraph>To be safe, an application can use isolated storage to persist files:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System; 
+using System.ComponentModel; 
+using System.IO; 
+using System.IO.IsolatedStorage; 
+using System.Xml; 
+using System.Xml.Serialization; 
+<Run>... </Run>
+[Serializable] public class PlayerScore : INotifyPropertyChanged { <Run>... </Run>
+ #region Isolated Storage Persistence public static PlayerScore Load() { try { // Load the playerscore.xml file from isolated storage using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication()) using (Stream stream = new IsolatedStorageFileStream("playerscore.xml", FileMode.Open, isf)) { XmlSerializer xmlSerializer = new XmlSerializer(typeof(PlayerScore)); 
+return (PlayerScore)xmlSerializer.Deserialize(stream); 
+} } catch (FileNotFoundException ex) { return new PlayerScore(); 
+} } public static void Save(PlayerScore playerScore) { // Save the playerscore.xml file to isolated storage using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication()) using (Stream stream = new IsolatedStorageFileStream("playerscore.xml", FileMode.Create, isf)) { XmlSerializer xmlSerializer = new XmlSerializer(typeof(PlayerScore)); 
+xmlSerializer.Serialize(stream, playerScore); 
+} } #endregion } </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Integrating with the WMC Managed APIs
+    </Paragraph>
+
+    <Paragraph>WPF applications for can also integrate with the capabilities of itself through a set of managed APIs that are installed with the operating system, and located in two assemblies: <Run FontWeight="Bold">Microsoft.MediaCenter.dll</Run>
+, and <Run FontWeight="Bold">Microsoft.MediaCenter.UI.dll</Run>
+.
+    </Paragraph>
+
+    <Paragraph>Using these APIs, you can integrate with a wide range of services, including inspecting, configuring, and playing media content. More information on these can be found in the 
+&lt;TODO: Get SDK URL>.
+    </Paragraph>
+
+    <Paragraph>One aspect of these capabilities is to further integrate the user experience of your application with . For example, if a WPF application needs to notify the user with a message box, they could display something like the following:
+    </Paragraph>
+
+    <Paragraph>However, the appearance of a standard WPF message box is inconsistent with the experience of . Fortunately, though, the managed APIs provide their own, -style message box that you can use with code like the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>//using Microsoft.MediaCenter; 
+<Run>... </Run>
+//// Get media center host and show dialog box //MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment; 
+//mce.Dialog(msg, "WordGame!", DialogButtons.Ok, 1000, true); 
+</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This will cause an dialog box like the following to be displayed:
+    </Paragraph>
+
+    <Paragraph>The 
+&lt;TODO: Get SDK URL> should be referred to for in-depth understanding of the Managed APIs.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>You cannot run an XBAP that references the Managed APIs unless the XBAP is hosted by from .
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Developing with Visual Studio
+    </Paragraph>
+
+    <Paragraph>So far, this topic has covered the breadth of the core programming issues you'll need to address when building XBAPs for , including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Create a typical XBAP application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Using a .mcl file to launch an XBAP into .
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Creating a theme for an XBAP.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Referencing the managed APIs.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>These are issues that you'll likely need to address with each XBAP you build for . Rather than recreate these elements yourself each time you build an XBAP for , you can use the Media Center Application (WPF) project template for Microsoft Visual Studio 2005 that is installed with the Windows Media Center SDK. The Media Center Application (WPF) project template will create a Visual Studio 2005 project that has these elements included, by default.
+    </Paragraph>
+
+    <Paragraph>To create a new Media Center Application (WPF):
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Open Visual Studio 2005.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Choose <Run FontWeight="Bold">Microsoft Visual Studio | File | New | Project | Visual C# | .NET Framework 3.0 | Media Center Application (WPF)</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following list shows the key items that are generated by the project template by default:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A readme.txt file includes some helpful text about building and debugging XBAPs for WPF.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>References to the managed assemblies.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A MediaCenterTheme.xaml file is a resource dictionary that contains a complete set of styles that are, by default, applied to the default page, Page1.xaml.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A .mcl file that is generated along with the standard XBAP output.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Debugging a Project
+    </Paragraph>
+
+    <Paragraph>To debug an XBAP within the host from Visual Studio 2005, you need to do the following:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Right-click the project in <Run FontWeight="Bold">Solution Explorer </Run>
+and <Run FontWeight="Bold">Properties | Debug</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Set <Run FontWeight="Bold">Start Program</Run>
+ to <Run FontWeight="Bold">c:\windows\system32\presentationhost.exe</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Set <Run FontWeight="Bold">Command Line Arguments</Run>
+ to <Run FontWeight="Bold">-debug</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Run the application by choosing <Run FontWeight="Bold">Microsoft Visual Studio | Debug | Start Debugging (or by pressing F5)</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Double-click the <Run FontWeight="Bold">.mcl</Run>
+ file that is generated during the build process (<Run FontWeight="Bold">\bin\debug\assemblyname.mcl</Run>
+).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The application specified in the .mcl file will be launched and hosted in .
+    </Paragraph>
+
+    <Paragraph FontSize="22">Installing a WPF Application for WMC
+    </Paragraph>
+
+    <Paragraph>One of the advantages of using is its ability to help create Microsoft Windows Installer applications (.msi files). .msi files are a useful way to distribute your WPF application to client machines.
+    </Paragraph>
+
+    <Paragraph>The following steps were followed to create a simple Windows Installer application for <Run FontWeight="Bold">WordGame!</Run>
+:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>In Visual Studio 2005, right-click on the XBAP solution in <Run FontWeight="Bold">Solution Explorer</Run>
+, and choose <Run FontWeight="Bold">Add | New Project</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In the <Run FontWeight="Bold">Project types</Run>
+ list, select <Run FontWeight="Bold">Other Project Types | Setup and Deployment</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In the <Run FontWeight="Bold">Templates</Run>
+ list, select either <Run FontWeight="Bold">Setup Project</Run>
+ or <Run FontWeight="Bold">Setup Wizard</Run>
+ (the latter guides you through the initial configuration of the Windows Installer setup project that is created).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Right-click the new Windows Installer project, and choose <Run FontWeight="Bold">Add | File</Run>
+, and choose the following files:
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>WordGameWMC.mcl
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>WordGameWMC.exe
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>WordGameWMC.exe.manifest
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>WordGameWMC.xbap
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>WordList.txt
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In the <Run FontWeight="Bold">File System</Run>
+ tab, choose <Run FontWeight="Bold">User's Desktop</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In the file list, right-click and select <Run FontWeight="Bold">Create New Shortcut</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Select <Run FontWeight="Bold">Application Folder | WordGameWMC.mcl</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Rebuild the Windows Installer project.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When the Windows Installer project is built, a .msi file is generated to the build output folder. This is then copied to the client machine and run to install the application. The default installation is to create a folder that conforms to the following format:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>C:\program files\CompanyName\ApplicationName\Application Files</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>All the files that were selected during the configuration of the Windows Installer project are copied to this folder, along with any dependent assemblies that were selected by the Windows Installer project.
+    </Paragraph>
+
+    <Paragraph>Additionally, a shortcut icon to WordGameWMC.mcl is placed on the desktop, and can be double-clicked or browsed to start the application inside .
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The project file for the application itself needs to be manually updated to ensure the path to the .xbap file that is added to the generated .mcl file is accurate for installation.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This installation is a demonstration that you can use to see the basics of creating a Windows Installer for a WPF application for . For real-world WPF applications for , however, the most likely installation configuration will be to install only an .mcl file onto the client machine, and configure the .mcl file to refer to an application that is published to a Web server. This way, new versions of the application can be created, published, and picked up by the client machine without the user having to re-install the application.
+    </Paragraph>
+
+    <Paragraph>There are several approaches to installing WPF applications for , and are described in the 
+&lt;TODO: MCE SDK link?>.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="http://www.microsoft.com/windowsxp/mediacenter/default.mspx">http://www.microsoft.com/windowsxp/mediacenter/default.mspx</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Windows Media Center-Hosted Applications Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

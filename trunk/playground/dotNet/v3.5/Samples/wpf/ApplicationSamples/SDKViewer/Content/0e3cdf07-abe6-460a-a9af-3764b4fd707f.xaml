@@ -1,0 +1,371 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0e3cdf07_abe6_460a_a9af_3764b4fd707f"
+  Tag     ="PropertyPath XAML Syntax"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>PropertyPath XAML Syntax</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The PropertyPath object supports a complex XAML syntax when setting various properties that take the <Run FontWeight="Bold">PropertyPath</Run>
+ type as their value. Prominent properties that take a <Run FontWeight="Bold">PropertyPath</Run>
+ include System.Windows.Data.Binding.Path, and System.Windows.Media.Animation.Storyboard.TargetProperty. <Run FontWeight="Bold">PropertyPath</Run>
+ enables a "drill-down" syntax that can describe a property by relationships in string form without requiring specific objects such as Type, a TypeDescriptor, or DependencyProperty identifiers. The syntax is capable of indexing into collections or arrays, of specifying attached properties or properties that are out of current name scope, and of specifying an XPath query when the path of a binding is intended to be such a query into an XML data source.
+    </Paragraph>
+
+    <Paragraph>The various syntaxes are listed here by their forms, going from simplest to most complex.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>XAML Syntaxes</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">Single Property, Current Namescope
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;object property="<Run FontStyle="italic">propertyName</Run>
+" .../></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontStyle="italic">propertyName</Run>
+ must resolve to be the Name of a <Run FontWeight="Bold">DependencyProperty</Run>
+ that is in the property namescope. "Property namescope" is defined as one of the following, depending on the property path type being set:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The current DataContext for a <Run FontWeight="Bold">System.Windows.Data.Binding.Path</Run>
+ usage.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The type of the specified System.Windows.Media.Animation.Storyboard.TargetName object in a <Run FontWeight="Bold">System.Windows.Media.Animation.Storyboard.TargetProperty</Run>
+ usage.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The TargetType of the Style in a usage that specifies System.Windows.Trigger.Property or System.Windows.Setter.Property.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Multiple Property (Indirect Property Targeting)
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;object property="<Run FontStyle="italic">propertyName</Run>
+.<Run FontStyle="italic">propertyName2</Run>
+" .../></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontStyle="italic">propertyName</Run>
+ must resolve to be the <Run FontWeight="Bold">Name</Run>
+ of a <Run FontWeight="Bold">DependencyProperty</Run>
+ that is in the property namescope. "Property namescope" is defined as one of the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The current <Run FontWeight="Bold">DataContext</Run>
+ for a <Run FontWeight="Bold">System.Windows.Data.Binding.Path</Run>
+ usage
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The type of the specified <Run FontWeight="Bold">System.Windows.Media.Animation.Storyboard.TargetName</Run>
+ object in a <Run FontWeight="Bold">System.Windows.Media.Animation.Storyboard.TargetProperty</Run>
+ usage.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">TargetType</Run>
+ of the <Run FontWeight="Bold">Style</Run>
+ in a usage that specifies <Run FontWeight="Bold">System.Windows.Trigger.Property</Run>
+ or <Run FontWeight="Bold">System.Windows.Setter.Property</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontStyle="italic">propertyName2</Run>
+ must then resolve to be the <Run FontWeight="Bold">Name</Run>
+ of a <Run FontWeight="Bold">DependencyProperty</Run>
+ that is registered to or inherited by the <Run FontWeight="Bold">Type</Run>
+ of <Run FontStyle="italic">propertyName</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Single Property, Out of Namescope, Runtime Reflection
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;object property="<Run FontStyle="italic">ownerType</Run>
+.<Run FontStyle="italic">propertyName</Run>
+" .../></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontStyle="italic">propertyName</Run>
+ must resolve to be the name of a property existing on the <Run FontStyle="italic">ownerType</Run>
+. This need not be a <Run FontWeight="Bold">DependencyProperty</Run>
+. <Run FontStyle="italic">ownerType</Run>
+ is expected to be some type that can be found based on runtime reflection. As such, it is NOT legal to qualify with an xmlns prefix, because such a prefix has no meaning to reflection, only to compile time XAML. See next section.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Single Property, Attached or Out of Namescope, Compile Time Parser Context
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;object property="(<Run FontStyle="italic">ownerType</Run>
+.<Run FontStyle="italic">propertyName</Run>
+)" .../></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The parentheses indicate that this <Run FontWeight="Bold">PropertyPath</Run>
+ should be constructed based on the parser context at compile time, and thus uses xmlns namespace considerations. <Run FontStyle="italic">propertyName</Run>
+ must resolve to be the name of a property existing on the <Run FontStyle="italic">ownerType</Run>
+. This need not be a <Run FontWeight="Bold">DependencyProperty</Run>
+. The <Run FontStyle="italic">ownerType</Run>
+.<Run FontStyle="italic">propertyName </Run>
+combination might also reference an <Run>attached property</Run>
+. <Run FontStyle="italic">ownerType</Run>
+ is expected to be some other type accessible in the overall default WPF xmlns namespace, or can also be qualified by an xmlns prefix (see <Hyperlink NavigateUri="5c0854e3-7470-435d-9fe2-93eec9d3634e.xaml">XAML Namespaces and Namespace Mapping</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph FontSize="18">Index of a Collection Property, Simplest Form
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;object property="<Run FontStyle="italic">propertyName</Run>
+[<Run FontStyle="italic">index</Run>
+]" .../></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontStyle="italic">propertyName</Run>
+ must resolve to current property namescope in this simplest example. <Run FontStyle="italic">index</Run>
+ is the index into the enumerable collection or array that is the value of that property. You can also specify the index of any collection property, but only if the property itself resolves as expected per the more complex syntaxes for specifying a property; 
+for instance, a usage such as <Run>Storyboard.TargetProperty="(DockPanel.Children[0])</Run>
+" is permissible.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Source Traversal (Binding Specific)
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;object Path="<Run FontStyle="italic">propertyName</Run>
+/<Run FontStyle="italic">propertyNameX</Run>
+" .../></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The / in this syntax is used to traverse within a hierarchical data source object, and supports multiple steps into the hierarchy with successive / characters. For details on binding with hierarchical data source objects, see <Hyperlink NavigateUri="11429b9e-058d-4084-bfb6-2cf209c8ddf7.xaml">How to: Implement the Master-Detail Scenario</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Superficially, this syntax resembles XPath but a true XPath is not used as a <Run FontWeight="Bold">Path</Run>
+ value and should instead be used for the effectively mutually exclusive XPath property.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>Remarks</Run>
+
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about PropertyPath XAML Syntax to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,953 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0d23d544_a393_4a02_a3aa_d8cd5d3d6511"
+  Tag     ="Dialog Boxes Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Dialog Boxes Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In general, standalone applications have a main window that they use to visualize data, and to expose functionality to interact with the data. As an example, a word processor application visualizes a document, and exposes file management and editing functionality to interact with the document.
+    </Paragraph>
+
+    <Paragraph>As part of the typical lifecycle of a non-trivial application, a main window may display one or more secondary windows to display information to users, to gather information from users, or to do both. Secondary windows are known as <Run FontStyle="italic">dialog boxes</Run>
+, and there are two types: modal and modeless.
+    </Paragraph>
+
+    <Paragraph>A <Run FontStyle="italic">modal</Run>
+ dialog box is one that is displayed to ask the user for additional information that is needed to complete a task, and commonly prevents users from activating other windows while it remains open. For example, if a user wants to open a document into a word processor, the application will ask the user for the name of the file that they would like to open. Because a document can't be opened until a user provides a name, the dialog box forces users to either accept the dialog by providing a file name, or cancel the dialog, typically by pressing a <Run FontWeight="Bold">Cancel</Run>
+ button.
+    </Paragraph>
+
+    <Paragraph>A <Run FontStyle="italic">modeless</Run>
+ dialog box, on the other hand, does not prevent users from activating other windows while it is open. For example, if the user wants to find occurrences of a particular word in a document, a main window will open a dialog box to ask a user what word they are looking for. But, because finding a word doesn't prevent users from editing the document, it doesn't need to be modal. A modeless dialog box is usually closed by clicking a <Run FontWeight="Bold">Close</Run>
+ button.
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) allows you to create several types of dialog boxes, including message boxes, common dialog boxes, and custom dialog boxes. This topic discusses each, and the .Dialog Box Sample provides matching examples.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Message Boxes
+    </Paragraph>
+
+    <Paragraph>A message box is a simple dialog box that can be used to both display information and allow users to make a decision. The following figure illustrates a message box that both displays information and elicits a response from the user:
+    </Paragraph>
+
+    <Paragraph>To create message boxes, you use the MessageBox class. <Run FontWeight="Bold">MessageBox</Run>
+ allows you to configure the message box text, title, icon, and buttons, using the following code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Configure the message box string messageBoxText = "This document needs to be saved ... ."; 
+string caption = "Word Processor"; 
+MessageBoxButton button = MessageBoxButton.YesNoCancel; 
+MessageBoxImage icon = MessageBoxImage.Warning;</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To show a message box, you call the <Run FontWeight="Bold">static</Run>
+ Show method:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Display message box MessageBox.Show(messageBoxText, caption, button, icon);</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To detect which button a user clicked, and to respond accordingly, you can retrieve and process the message box result:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>// Display message box <Run FontWeight="Bold">MessageBoxResult messageBoxResult = </Run>
+MessageBox.Show(messageBoxText, caption, button, icon); 
+<Run FontWeight="Bold">// Process message box results</Run>
+<Run FontWeight="Bold">switch (messageBoxResult)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">case MessageBoxResult.Yes: // Save document and exit</Run>
+<Run FontWeight="Bold">SaveDocument();</Run>
+<Run FontWeight="Bold">break;</Run>
+<Run FontWeight="Bold">case MessageBoxResult.No: // Exit without saving</Run>
+<Run FontWeight="Bold">break;</Run>
+<Run FontWeight="Bold">case MessageBoxResult.Cancel: // Don't exit</Run>
+<Run FontWeight="Bold">e.Cancel = true;</Run>
+<Run FontWeight="Bold">break;</Run>
+<Run FontWeight="Bold">}</Run>
+</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>One important capability of <Run FontWeight="Bold">MessageBox</Run>
+ is that it can be shown by XAML browser applications (XBAPs) that are running with partial trust (see Windows Presentation Foundation Security Overview).
+    </Paragraph>
+
+    <Paragraph>For in-depth discussion of message box configuration, see <Run FontWeight="Bold">MessageBox</Run>
+, the MessageBox Sample, or the Dialog Box Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Common Dialogs
+    </Paragraph>
+
+    <Paragraph>While message boxes are useful for displaying information and allowing users to make decisions, most dialog boxes typically need to capture more information from the user than which button was clicked.
+    </Paragraph>
+
+    <Paragraph>Windows implements a variety of dialog boxes that are to all applications, including dialog boxes for opening files, saving files, and printing. These are known as common dialog boxes because all applications can use them, which is especially good for providing a consistent user experience from across applications.
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) encapsulates the common open file, save file, and print dialogs as managed classes for you to use in standalone applications. This topic provides a brief overview of each.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Open File Dialog
+    </Paragraph>
+
+    <Paragraph>The open file dialog, shown in the following figure, is used by file opening functionality to retrieve the name of the file that a user wants to open.
+    </Paragraph>
+
+    <Paragraph>The common open file dialog is implemented as the OpenFileDialog class, and the following code shows how to create, configure, and show one, and how to process the result:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void OpenDocument() { // Configure open file dialog OpenFileDialog dlg = new OpenFileDialog(); 
+dlg.FileName = "Document"; 
+// Default file name dlg.DefaultExt = ".wpf"; 
+// Default file extension dlg.Filter = "Word Processor Files (.wpf)|*.wpf"; 
+// Filter files by extension // Show open file dialog Nullable
+&lt;bool> result = dlg.ShowDialog(); 
+// Process open file dialog results if (result == true) { // Open document string filename = dlg.FileName; 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information on the open file dialog, see <Run FontWeight="Bold">OpenFileDialog</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">OpenFileDialog</Run>
+ can be used to safely retrieve file names by applications running with partial trust (see Windows Presentation Foundation Security Overview). See the Safe File Upload from an XBAP Sample for a demonstration.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Save File Dialog
+    </Paragraph>
+
+    <Paragraph>The save file dialog, shown in the following figure, is used by file saving functionality to retrieve the name of the file that a user wants to save.
+    </Paragraph>
+
+    <Paragraph>The common save file dialog is implemented as the SaveFileDialog class, and the following code shows how to create, configure, and show one, and how to process the result:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void SaveDocument() { // Configure save file dialog SaveFileDialog dlg = new SaveFileDialog(); 
+dlg.FileName = "Document"; 
+// Default file name dlg.DefaultExt = ".wpf"; 
+// Default file extension dlg.Filter = "Word Processor Files (.wpf)|*.wpf"; 
+// Filter files by extension // Show save file dialog Nullable
+&lt;bool> result = dlg.ShowDialog(); 
+// Process save file dialog results if (result == true) { // Save document string filename = dlg.FileName; 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information on the save file dialog, see <Run FontWeight="Bold">SaveFileDialog</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Print Dialog
+    </Paragraph>
+
+    <Paragraph>The print dialog, shown in the following figure, is used by printing functionality to choose and configure the printer that a user would like to print a file to.
+    </Paragraph>
+
+    <Paragraph>The common print dialog is implemented as the PrintDialog class, and the following code shows how to create, configure, and show one:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void PrintDocument() { // Configure printer dialog PrintDialog dlg = new PrintDialog(); 
+dlg.PageRangeSelection = PageRangeSelection.AllPages; 
+dlg.UserPageRangeEnabled = true; 
+// Show save file dialog Nullable
+&lt;bool> result = dlg.ShowDialog(); 
+// Process save file dialog results if (result == true) { // Print document } }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information on the print dialog, see <Run FontWeight="Bold">PrintDialog</Run>
+. For detailed discussion of printing in WPF, see <Hyperlink NavigateUri="0de8ac41-9aa6-413d-a121-7aa6f41539b1.xaml">Printing Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Custom Dialog Boxes
+    </Paragraph>
+
+    <Paragraph>When you need a dialog box that is more complex than a message box, and is not supported by the common dialog boxes, you need to create your own dialog box. WPF allows you to create both modal and modeless dialog boxes using Window.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Creating a Modal Custom Dialog Box
+    </Paragraph>
+
+    <Paragraph>A modal dialog box like the Font dialog shown in the following figure has a specific set of visual requirements and behaviors:
+    </Paragraph>
+
+    <Paragraph>This topic describes those and illustrates the fundamental elements of dialog box implementation.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Configuring a Modal Dialog Box
+    </Paragraph>
+
+    <Paragraph>The user interface for a typical dialog has several key elements, including
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A Button that users click to close the dialog and keep processing (<Run FontWeight="Bold">OK</Run>
+). This button should also have its IsDefault property set to <Run FontWeight="Bold">true</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A <Run FontWeight="Bold">Button</Run>
+ that users click to close the dialog and cancel the function (<Run FontWeight="Bold">Cancel</Run>
+). This button should have its IsCancel property set to <Run FontWeight="Bold">true</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A <Run FontWeight="Bold">Close</Run>
+ button in the title bar.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>An Icon.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Minimize, maximize, and restore buttons.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A system menu to minimize, maximize, restore, and close the dialog box.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Dialog boxes should be resizable where possible so, to prevent the dialog box from being too small, and to provide the user with a useful default size, you need to set both default and a minimum dimensions respectively.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A dialog box typically does not have a task bar button.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>You can create a dialog box with configuration using <Run FontWeight="Bold">Window</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="CSharp.FontDialogBox" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Format Font Dialog Box" Height="300" Width="350" MinHeight="300" MinWidth="350" ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" > 
+&lt;Grid> 
+&lt;!-- Controls --> ... 
+&lt;!-- Buttons --> 
+&lt;StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" Margin="0,5,0,0" Orientation="Horizontal" HorizontalAlignment="Right"> 
+&lt;Button Height="25" Width="70" Name="okButton" Click="okButton_Click" Margin="0,0,5,0" IsDefault="True">OK
+&lt;/Button> 
+&lt;Button Height="25" Width="70" Name="cancelButton" Click="cancelButton_Click" IsCancel="True">Cancel
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Grid > 
+&lt;/Window></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The user experience for a dialog box also extends into the menu bar. When a function that shows a dialog box to collect user information, the menu item that exposes that function will have an ellipses in its header, as shown here:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window ... > ... 
+&lt;MenuItem Name="formatFontMenuItem" Header="_Font..." Click="formatFontMenuItem_Click" /> ... 
+&lt;/Window></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When a dialog box that only displays information is opened, such as an <Run FontWeight="Bold">About</Run>
+ dialog box, the corresponding menu item does not need an ellipses.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Opening a Modal Dialog Box
+    </Paragraph>
+
+    <Paragraph>When a user chooses a menu item that causes a dialog box to be displayed, the dialog box needs to be instantiated, configured, and opened, much like the message box and common dialogs.
+    </Paragraph>
+
+    <Paragraph>The following code shows how to instantiate a dialog box:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void formatFontMenuItem_Click(object sender, RoutedEventArgs e) { // Instantiate the dialog box FontDialogBox dlg = new FontDialogBox(); 
+}</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Next, the dialog needs to be configured before being used:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void formatFontMenuItem_Click(object sender, RoutedEventArgs e) { // Instantiate the dialog box FontDialogBox dlg = new FontDialogBox(); 
+// Configure the dialog box dlg.FontFamily = this.documentTextBox.FontFamily; 
+dlg.FontSize = this.documentTextBox.FontSize; 
+dlg.FontWeight = this.documentTextBox.FontWeight; 
+dlg.FontStyle = this.documentTextBox.FontStyle; 
+dlg.Owner = this; 
+}</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Here, the code is passing default information to the dialog box. It is also setting the Owner property with a reference to the window that is showing the dialog box. While this is not required in all cases, there are some situations where a dialog box must have an owner, including supporting user interface (UI) automation (see <Hyperlink NavigateUri="65847654-9994-4a9e-b36d-2dd5d998770b.xaml">UI Automation Overview</Hyperlink>
+). In general, it is recommended that you set this property to avoid any issues.
+    </Paragraph>
+
+    <Paragraph>Once a dialog box is configured, it is ready to be shown. Modal dialogs are shown by calling the ShowDialog method:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void formatFontMenuItem_Click(object sender, RoutedEventArgs e) { // Instantiate the dialog box FontDialogBox dlg = new FontDialogBox(); 
+... // Open the dialog box modally dlg.ShowDialog(); 
+}</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">ShowDialog</Run>
+ opens the dialog box modally, after which the user enters data before either accepting or canceling the dialog box.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Setting the Modal Dialog Result
+    </Paragraph>
+
+    <Paragraph>Opening a dialog box using <Run FontWeight="Bold">ShowDialog</Run>
+ is fundamentally like a method call: the code in the calling code waits until <Run FontWeight="Bold">ShowDialog</Run>
+ returns. When <Run FontWeight="Bold">ShowDialog</Run>
+ does return, the calling code needs to first determine whether the user accepted or canceled the dialog box, which determines whether or not the data collected by the dialog box is applied. To report whether a user accepted or canceled the dialog box, the dialog box must return a dialog result value. To do this, the dialog box sets the DialogResult property when the <Run FontWeight="Bold">OK</Run>
+ or <Run FontWeight="Bold">Cancel</Run>
+ buttons are clicked:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class FontDialogBox : Window { ... void okButton_Click(object sender, RoutedEventArgs e) { // Dialog box accepted this.DialogResult = true; 
+} void cancelButton_Click(object sender, RoutedEventArgs e) { // Dialog box canceled this.DialogResult = false; 
+} ... }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The dialog box sets <Run FontWeight="Bold">DialogResult</Run>
+ to <Run FontWeight="Bold">true</Run>
+ when a user accepts the dialog box; 
+otherwise, <Run FontWeight="Bold">false</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Processing Data Returned from a Modal Dialog Box
+    </Paragraph>
+
+    <Paragraph>When <Run FontWeight="Bold">DialogResult</Run>
+ is set by a dialog box, the calling code can get the dialog result by inspecting the <Run FontWeight="Bold">DialogResult</Run>
+ property when the <Run FontWeight="Bold">ShowDialog</Run>
+ method returns:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void formatFontMenuItem_Click(object sender, RoutedEventArgs e) { // Instantiate the dialog box FontDialogBox dlg = new FontDialogBox(); 
+... // Process data entered by user if dialog is accepted if (dlg.DialogResult == true) { // Update fonts this.documentTextBox.FontFamily = dlg.FontFamily; 
+this.documentTextBox.FontSize = dlg.FontSize; 
+this.documentTextBox.FontWeight = dlg.FontWeight; 
+this.documentTextBox.FontStyle = dlg.FontStyle; 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If the user accepted the dialog box, the calling code uses that as a cue to retrieve and process the values that were entered by the user into the dialog box.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Once <Run FontWeight="Bold">ShowDialog</Run>
+ has returned, a dialog box cannot be reopened. Instead, you need to create a new instance.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If a user cancels a dialog box, the calling code should not process data that is provided by the user.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Creating a Modeless Custom Dialog Box
+    </Paragraph>
+
+    <Paragraph>A modeless dialog box, like the Find dialog box shown in the following figure, has the same fundamental appearance as the modal dialog box.
+    </Paragraph>
+
+    <Paragraph>However, the behavior is slightly different, as described in the following topics.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Opening a Modeless Dialog Box
+    </Paragraph>
+
+    <Paragraph>A modeless dialog box needs to be opened by calling its Show method:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void editFindMenuItem_Click(object sender, RoutedEventArgs e) { // Instantiate the dialog box FindDialogBox dlg = new FindDialogBox(this.documentTextBox.Text); 
+// Open the dialog box modally dlg.Show(); 
+}</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When called, <Run FontWeight="Bold">Show</Run>
+ returns straightaway without waiting for the dialog box to be closed by the user. For this reason, the dialog box becomes modeless.
+    </Paragraph>
+
+    <Paragraph>If a modeless dialog box gathers information from the user that needs to be applied to the window that showed it, it can't use <Run FontWeight="Bold">DialogResult</Run>
+ to return a value because the method that opened it has finished running.
+    </Paragraph>
+
+    <Paragraph>Instead, the dialog box needs to create an alternative way to return data to the calling window for processing.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Processing Data Returned from a Modeless Dialog
+    </Paragraph>
+
+    <Paragraph>In this example, the <Run FontWeight="Bold">FindDialogBox</Run>
+ may return one or more find results to the main window, depending on the text being searched for without any specific frequency. Consequently, one way to return search result data from the dialog box to calling window is with an event.
+    </Paragraph>
+
+    <Paragraph>This event needs to be implemented by <Run FontWeight="Bold">FindDialogBox</Run>
+, as shown here:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public delegate void TextFoundEventHandler(object sender, TextFoundEventArgs e); 
+public class TextFoundEventArgs { int index; 
+int length; 
+public TextFoundEventArgs(int index, int length) { this.index = index; 
+this.length = length; 
+} public int Index { get { return this.index; 
+} } public int Length { get { return this.length; 
+} } } public partial class FindDialogBox : Window { ... public event TextFoundEventHandler TextFound; 
+... }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Then, the <Run FontWeight="Bold">FindDialogBox</Run>
+ raises the event when it needs to return data to the calling window, which is the text being searched for is found:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class FindDialogBox : Window { ... void findButton_Click(object sender, RoutedEventArgs e) { // Case sensitive? StringComparison stringComparison = ((bool)this.caseSensitiveCheckBox.IsChecked ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase); 
+// Try and find word int index = this.textToSearch.IndexOf(this.findWhatTextBox.Text, this.startIndex, stringComparison); 
+if( index >= 0 ) { // Word found if( TextFound != null ) TextFound(this, new TextFoundEventArgs(index, this.findWhatTextBox.Text.Length)); 
+this.startIndex = index + 1; 
+} else { // Word not found MessageBoxResult result = MessageBox.Show("'" + this.findWhatTextBox.Text + "' not found.\n\nStart at beginning?", "Find", MessageBoxButton.YesNo); 
+if( result == MessageBoxResult.Yes ) this.startIndex = 0; 
+} } }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The calling window then needs to register with and handle this event:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class DocumentWindow : Window { ... void editFindMenuItem_Click(object sender, RoutedEventArgs e) { // Instantiate the dialog box FindDialogBox dlg = new FindDialogBox(this.documentTextBox.Text); 
+// Configure the dialog box dlg.Owner = this; 
+dlg.TextFound += new TextFoundEventHandler(dlg_TextFound); 
+// Open the dialog box modally dlg.Show(); 
+} void dlg_TextFound(object sender, TextFoundEventArgs e) { // Get find results and select found text this.documentTextBox.Select(e.Index, e.Length); 
+this.documentTextBox.Focus(); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Closing a Modeless Dialog Box
+    </Paragraph>
+
+    <Paragraph>Since <Run FontWeight="Bold">DialogResult</Run>
+ does not need to be set, a modeless dialog can be closed using system provide mechanisms, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Clicking the <Run FontWeight="Bold">Close</Run>
+ button in the title bar
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Pressing <Run FontWeight="Bold">ALT+F4</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Choosing <Run FontWeight="Bold">System Menu | Close</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Alternatively, your code can call Close when the cancel button is clicked:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class FindDialogBox : Window { ... void cancelButton_Click(object sender, RoutedEventArgs e) { // Close dialog box this.Close(); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="774f53ca-bff8-470e-9ce9-3928b4cf3d4c.xaml">Popup Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Dialog Box Sample
+      <LineBreak/>ColorPicker Custom Control Sample
+      <LineBreak/>Font Dialog Box Demo
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Dialog Boxes Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

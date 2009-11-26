@@ -1,0 +1,474 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_955cc6b9_53eb_4026_ae93_0f875eb5558c"
+  Tag     ="Alternate the Background Color for Rows in a ListView"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Alternate the Background Color for Rows in a ListView</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows three methods that you can use to alternate the Background color for rows in a ListView.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following sections provide three methods to create a <Run FontWeight="Bold">ListView</Run>
+ with rows that alternate in <Run FontWeight="Bold">Background</Run>
+ color. The example also discusses a method for updating the view when you add or remove rows.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Method 1: Define a Style That Uses an IValueConverter to Alternate Background Color</Run>
+
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define a Style for a ListViewItem control that binds the value of the <Run FontWeight="Bold">Background</Run>
+ property to an IValueConverter.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="myItemStyle" TargetType="{x:Type ListViewItem}"> 
+&lt;Setter Property="Background"> 
+&lt;Setter.Value> 
+&lt;Binding RelativeSource="{RelativeSource Self}" Converter="{StaticResource myConverter}"/> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example defines a ResourceKey for the <Run FontWeight="Bold">IValueConverter</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;namespc:BackgroundConverter x:Key="myConverter"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the definition of the <Run FontWeight="Bold">IValueConverter</Run>
+ that sets the <Run FontWeight="Bold">Background</Run>
+ property according to the row index.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public sealed class BackgroundConverter : IValueConverter { public object Convert(object value, Type targetType, object parameter, CultureInfo culture) { ListViewItem item = (ListViewItem)value; 
+ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView; 
+// Get the index of a ListViewItem int index = listView.ItemContainerGenerator.IndexFromContainer(item); 
+if (index % 2 == 0) { return Brushes.LightBlue; 
+} else { return Brushes.Beige; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to define a <Run FontWeight="Bold">ListView</Run>
+ that uses <Run FontWeight="Bold">Style</Run>
+ as its ItemContainerStyle in order to provide the required layout.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView Name="theListView" ItemsSource="{Binding Source={StaticResource EmployeeData}, XPath=Employee}" ItemContainerStyle="{StaticResource myItemStyle}" > 
+&lt;ListView.View> 
+&lt;GridView> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding XPath=FirstName}" Header="First Name" Width="120"/> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding XPath=LastName}" Header="Last Name" Width="120"/> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding XPath=FavoriteCity}" Header="Favorite City" Width="120"/> 
+&lt;/GridView> 
+&lt;/ListView.View> 
+&lt;/ListView> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Method 2: Derive a New Class from ListView to Alternate Background Color</Run>
+
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define a class that derives from <Run FontWeight="Bold">ListView</Run>
+. This class overrides the PrepareContainerForItemOverride method in order to create rows that have alternating <Run FontWeight="Bold">Background</Run>
+ colors.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class SubListView : ListView { protected override void PrepareContainerForItemOverride(DependencyObject element, object item) { base.PrepareContainerForItemOverride(element, item); 
+if (View is GridView) { int index = ItemContainerGenerator.IndexFromContainer(element); 
+ListViewItem lvi = element as ListViewItem; 
+if (index % 2 == 0) { lvi.Background = Brushes.LightBlue; 
+} else { lvi.Background = Brushes.Beige; 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to create an instance of this class. The <Run>namespc</Run>
+ prefix maps to a common language runtime (CLR) namespace and the corresponding assembly where the StyleSelector is defined.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;namespc:SubListView ItemsSource="{Binding Source={StaticResource EmployeeData}, XPath=Employee}"> 
+&lt;namespc:SubListView.View> 
+&lt;GridView> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding XPath=FirstName}" Header="First Name" Width="120"/> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding XPath=LastName}" Header="Last Name" Width="120"/> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding XPath=FavoriteCity}" Header="Favorite City" Width="120"/> 
+&lt;/GridView> 
+&lt;/namespc:SubListView.View> 
+&lt;/namespc:SubListView> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Method 3: Use a StyleSelector to Alternate Background Color</Run>
+
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define a <Run FontWeight="Bold">StyleSelector</Run>
+ that defines a <Run FontWeight="Bold">Style</Run>
+ for a row. This example defines the <Run FontWeight="Bold">Background</Run>
+ color according to the row index.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class ListViewItemStyleSelector : StyleSelector { public override Style SelectStyle(object item, DependencyObject container) { Style st = new Style(); 
+st.TargetType = typeof(ListViewItem); 
+Setter backGroundSetter = new Setter(); 
+backGroundSetter.Property = ListViewItem.BackgroundProperty; 
+ListView listView = ItemsControl.ItemsControlFromItemContainer(container) as ListView; 
+int index = listView.ItemContainerGenerator.IndexFromContainer(container); 
+if (index % 2 == 0) { backGroundSetter.Value = Brushes.LightBlue; 
+} else { backGroundSetter.Value = Brushes.Beige; 
+} st.Setters.Add(backGroundSetter); 
+return st; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to define a <Run FontWeight="Bold">ResourceKey</Run>
+ for the <Run FontWeight="Bold">StyleSelector</Run>
+. The <Run>namespc</Run>
+ prefix maps to a CLR namespace and the corresponding assembly where the <Run FontWeight="Bold">StyleSelector</Run>
+ is defined. For more information, see <Hyperlink NavigateUri="5c0854e3-7470-435d-9fe2-93eec9d3634e.xaml">XAML Namespaces and Namespace Mapping</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;namespc:ListViewItemStyleSelector x:Key="myStyleSelector"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to set the ItemContainerStyleSelector property of a <Run FontWeight="Bold">ListView</Run>
+ to this <Run FontWeight="Bold">StyleSelector</Run>
+ resource.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView ItemsSource="{Binding Source={StaticResource EmployeeData}, XPath=Employee}" ItemContainerStyleSelector="{DynamicResource myStyleSelector}" > 
+&lt;ListView.View> 
+&lt;GridView> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding XPath=FirstName}" Header="First Name" Width="120"/> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding XPath=LastName}" Header="Last Name" Width="120"/> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding XPath=FavoriteCity}" Header="Favorite City" Width="120"/> 
+&lt;/GridView> 
+&lt;/ListView.View> 
+&lt;/ListView> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Update the ListView After a Change in the ListViewItem Collection</Run>
+
+    </Paragraph>
+
+    <Paragraph>If you add or remove a <Run FontWeight="Bold">ListViewItem</Run>
+ from a <Run FontWeight="Bold">ListView</Run>
+ control, you must update the <Run FontWeight="Bold">ListViewItem</Run>
+ controls in order to recreate the alternating <Run FontWeight="Bold">Background</Run>
+ color. The following example shows how to update the <Run FontWeight="Bold">ListViewItem</Run>
+ controls.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>ICollectionView dataView = CollectionViewSource.GetDefaultView(theListView.ItemsSource); 
+dataView.Refresh(); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>GridView
+      <LineBreak/>ListView
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="989e12b0-260e-4570-95c6-489284003ce2.xaml">ListView Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b2d02267-32b3-40ce-8e9f-06972d8749d9.xaml">GridView Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>ListView Samples
+      <LineBreak/><Hyperlink NavigateUri="aafce40c-9bfe-45ec-86a3-599616a11276.xaml">ListView How-to Topics</Hyperlink>
+
+      <LineBreak/>GridView How-to Topics
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Alternate the Background Color for Rows in a ListView to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

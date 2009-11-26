@@ -1,0 +1,244 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_4ce3040a_a156_4364_9596_98ca1eca5550"
+  Tag     ="Create a Complex Grid"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Complex Grid</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use a Grid to create layout that looks like a monthly calendar.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example defines eight rows and eight columns by using the RowDefinition and ColumnDefinition classes. It uses the ColumnSpan and RowSpan properties, together with Rectangle elements, which fill the backgrounds of various columns and rows. This design is possible because more than one element can exist in each cell in a <Run FontWeight="Bold">Grid</Run>
+, a principle difference between <Run FontWeight="Bold">Grid</Run>
+ and Table.
+    </Paragraph>
+
+    <Paragraph>The example uses vertical gradients to Fill the columns and rows in order to improve the visual presentation and readability of the calendar. Styled TextBlock elements represent the dates and days of the week. TextBlock elements are absolutely positioned within their cells by using the Margin property and alignment properties that are defined within the Style for the application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_4ce3040a_a156_4364_9596_98ca1eca5550_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Complex Grid Example"> 
+&lt;Border BorderBrush="Black"> 
+&lt;Grid ShowGridLines="false" Background="White"> 
+&lt;Grid.Resources> 
+&lt;Style TargetType="{x:Type ColumnDefinition}"> 
+&lt;Setter Property="Width" Value="30"/> 
+&lt;/Style> 
+&lt;Style TargetType="{x:Type Rectangle}"> 
+&lt;Setter Property="RadiusX" Value="6"/> 
+&lt;Setter Property="RadiusY" Value="6"/> 
+&lt;/Style> 
+&lt;Style x:Key="DayOfWeek"> 
+&lt;Setter Property="Grid.Row" Value="1">
+&lt;/Setter> 
+&lt;Setter Property="TextBlock.Margin" Value="5">
+&lt;/Setter> 
+&lt;/Style> 
+&lt;Style x:Key="OneDate"> 
+&lt;Setter Property="TextBlock.Margin" Value="5">
+&lt;/Setter> 
+&lt;/Style> 
+&lt;/Grid.Resources> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;!-- This column will receive all remaining width --> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;!-- This row will receive all remaining Height --> 
+&lt;RowDefinition/> 
+&lt;/Grid.RowDefinitions> 
+&lt;!-- These Rectangles constitute the backgrounds of the various Rows and Columns --> 
+&lt;Rectangle Grid.ColumnSpan="7" Fill="#73B2F5"/> 
+&lt;Rectangle Grid.Row="1" Grid.RowSpan="6" Fill="#73B2F5"/> 
+&lt;Rectangle Grid.Column="6" Grid.Row="1" Grid.RowSpan="6" Fill="#73B2F5"/> 
+&lt;Rectangle Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="6" Fill="#efefef"/> 
+&lt;!-- Month row --> 
+&lt;TextBlock Grid.ColumnSpan="7" Margin="0,5,0,5" HorizontalAlignment="Center"> January 2004 
+&lt;/TextBlock> 
+&lt;!-- Draws a separator under the days-of-the-week row --> 
+&lt;Rectangle Grid.Row="1" Grid.ColumnSpan="7" Fill="Black" RadiusX="1" RadiusY="1" Height="2" Margin="0,20,0,0"/> 
+&lt;!-- Day-of-the-week row --> 
+&lt;TextBlock Grid.Column="0" Style="{StaticResource DayOfWeek}">Sun
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Style="{StaticResource DayOfWeek}">Mon
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="2" Style="{StaticResource DayOfWeek}">Tue
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="3" Style="{StaticResource DayOfWeek}">Wed
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="4" Style="{StaticResource DayOfWeek}">Thu
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="5" Style="{StaticResource DayOfWeek}">Fri
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="6" Style="{StaticResource DayOfWeek}">Sat
+&lt;/TextBlock> 
+&lt;!-- Dates go here --> 
+&lt;TextBlock Grid.Column="4" Grid.Row="2" Style="{StaticResource OneDate}">1
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="5" Grid.Row="2" Style="{StaticResource OneDate}">2
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="6" Grid.Row="2" Style="{StaticResource OneDate}">3
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="0" Grid.Row="3" Style="{StaticResource OneDate}">4
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="3" Style="{StaticResource OneDate}">5
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="2" Grid.Row="3" Style="{StaticResource OneDate}">6
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="3" Grid.Row="3" Style="{StaticResource OneDate}">7
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="4" Grid.Row="3" Style="{StaticResource OneDate}">8
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="5" Grid.Row="3" Style="{StaticResource OneDate}">9
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="6" Grid.Row="3" Style="{StaticResource OneDate}">10
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="0" Grid.Row="4" Style="{StaticResource OneDate}">11
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="4" Style="{StaticResource OneDate}">12
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="2" Grid.Row="4" Style="{StaticResource OneDate}">13
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="3" Grid.Row="4" Style="{StaticResource OneDate}">14
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="4" Grid.Row="4" Style="{StaticResource OneDate}">15
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="5" Grid.Row="4" Style="{StaticResource OneDate}">16
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="6" Grid.Row="4" Style="{StaticResource OneDate}">17
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="0" Grid.Row="5" Style="{StaticResource OneDate}">18
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="5" Style="{StaticResource OneDate}">19
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="2" Grid.Row="5" Style="{StaticResource OneDate}">20
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="3" Grid.Row="5" Style="{StaticResource OneDate}">21
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="4" Grid.Row="5" Style="{StaticResource OneDate}">22
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="5" Grid.Row="5" Style="{StaticResource OneDate}">23
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="6" Grid.Row="5" Style="{StaticResource OneDate}">24
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="0" Grid.Row="6" Style="{StaticResource OneDate}">25
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="6" Style="{StaticResource OneDate}">26
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="2" Grid.Row="6" Style="{StaticResource OneDate}">27
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="3" Grid.Row="6" Style="{StaticResource OneDate}">28
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="4" Grid.Row="6" Style="{StaticResource OneDate}">29
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="5" Grid.Row="6" Style="{StaticResource OneDate}">30
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="6" Grid.Row="6" Style="{StaticResource OneDate}">31
+&lt;/TextBlock> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Grid
+      <LineBreak/>TableCell
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="5e1105f4-8fc4-473a-ba55-88c8e71386e6.xaml">Table Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Complex Grid to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

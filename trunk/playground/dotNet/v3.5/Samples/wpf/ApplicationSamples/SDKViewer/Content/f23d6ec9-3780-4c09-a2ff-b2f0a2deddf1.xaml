@@ -1,0 +1,159 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f23d6ec9_3780_4c09_a2ff_b2f0a2deddf1"
+  Tag     ="Read-Only Dependency Properties"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Read-Only Dependency Properties</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes read-only dependency properties, including existing read-only dependency properties and the scenarios and techniques for creating a custom read-only dependency property. 
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="existing">Existing Read-Only Dependency Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="new">Creating Custom Read-only Dependency Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you understand the basic scenarios of implementing a dependency property, and how metadata is applied to a custom dependency property. See <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+ and <Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+ for context.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Existing Read-Only Dependency Properties
+    </Paragraph>
+
+    <Paragraph>Some of the dependency properties defined in the Windows Presentation Foundation (WPF) framework are read-only. The typical reason for specifying a read-only dependency property is that these are properties that should be used for state determination, but where that state is influenced by a multitude of factors, but just setting the property to that state isn't desirable from a user interface design perspective. For example, the property IsMouseOver is really just surfacing state as determined from the mouse input. Any attempt to set this value programmatically by circumventing the true mouse input would be unpredictable and would cause inconsistency. 
+    </Paragraph>
+
+    <Paragraph>By virtue of not being settable, read-only dependency properties aren't appropriate for many of the scenarios for which dependency properties normally offer a solution (namely: databinding, directly stylable to a value, validation, animation, inheritance). Despite not being settable, read-only dependency properties still have some of the additional capabilities supported by dependency properties in the property system. The most important remaining capability is that the read-only dependency property can still be used as a property trigger in a style. You can't enable triggers with a normal common language runtime (CLR) property; 
+it needs to be a dependency property. The aforementioned <Run FontWeight="Bold">IsMouseOver</Run>
+ property is a perfect example of a scenario where it might be quite useful to define a style for a control, where some visible property such as a background, foreground, or similar properties of composited elements within the control will change when the user places a mouse over some defined region of your control. Changes in a read-only dependency property can also be detected and reported by the property system's inherent invalidation processes, and this in fact supports the property trigger functionality internally.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating Custom Read-only Dependency Properties
+    </Paragraph>
+
+    <Paragraph>Make sure to read the section above regarding why read-only dependency properties won't work for many typical dependency property scenarios. But if you have an appropriate scenario, you may wish to create your own read-only dependency property.
+    </Paragraph>
+
+    <Paragraph>Much of the process of creating a read-only dependency property is the same as is described in the <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+ and <Hyperlink NavigateUri="855fd6d7-19ac-493c-bf5e-2f40b57cdc92.xaml">How to: Implement a Dependency Property</Hyperlink>
+ topics. There are three important differences:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>When registering your property, call the RegisterReadOnly method instead of the normal Register method for property registration.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When implementing the CLR "wrapper" property, make sure that the wrapper too doesn't have a set implementation, so that there is no inconsistency in read-only state for the public wrapper you expose.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The object returned by the read-only registration is DependencyPropertyKey rather than DependencyProperty. You should still store this field as a member but typically you would not make it a public member of the type.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Whatever private field or value you have backing your read-only dependency property can of course be fully writable using whatever logic you decide. However, the most straightforward way to set the property either initially or as part of runtime logic is to use the property system's APIs, rather than circumventing the property system and setting the private backing field directly. In particular, there is a signature of SetValue that accepts a parameter of type <Run FontWeight="Bold">DependencyPropertyKey</Run>
+. How and where you set this value programmatically within your application logic will affect how you may wish to set access on the <Run FontWeight="Bold">DependencyPropertyKey</Run>
+ created when you first registered the dependency property. If you handle this logic all within the class you could make it private, or if you require it to be set from other portions of the assembly you might set it internal. One approach is to call <Run FontWeight="Bold">SetValue</Run>
+ within a class event handler of a relevant event that informs a class instance that the stored property value needs to be changed. Another approach is to tie dependency properties together by using paired PropertyChangedCallback and CoerceValueCallback callbacks as part of those properties' metadata during registration.
+    </Paragraph>
+
+    <Paragraph>Because the <Run FontWeight="Bold">DependencyPropertyKey</Run>
+ is private, and is not propagated by the property system outside of your code, a read-only dependency property does have better setting security than a read-write dependency property. For a read-write dependency property, the identifying field is explicitly or implicitly public and thus the property is widely settable. For more specifics, see <Hyperlink NavigateUri="d10150ec-90c5-4571-8d35-84bafa2429a4.xaml">Dependency Property Security</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Read-Only Dependency Properties to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,1301 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ee1baea0_3611_4e36_9ad6_fcd5205376fb"
+  Tag     ="WPF Security"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Presentation Foundation Security</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic discusses the specific security features that WPF implements for both standalone and browser-hosted applications. For the particulars of WPF partial trust security, see <Hyperlink NavigateUri="ef2c0810-1dbf-4511-babd-1fab95b523b5.xaml">Windows Presentation Foundation Partial Trust Security</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">WPF Standalone Application Security
+    </Paragraph>
+
+    <Paragraph>A WPF standalone application is a standard Windows application (see Windows Presentation Foundation Standalone Applications Overview).
+    </Paragraph>
+
+    <Paragraph>By default, WPF standalone applications execute with full trust (CAS <Run FontWeight="Bold">FullTrust</Run>
+ permission set), which is due to a combination of deployment mechanisms and permission requirements:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>WPF standalone applications that are deployed using either a Windows Installer (.msi) or the DOS XCopy command are installed onto and launched from the local machine. By default, applications launched from the local machine (the <Run FontWeight="Bold">MyComputer</Run>
+ zone) are granted full trust.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>WPF standalone applications that are deployed using ClickOnce from the intranet or the Internet will request full trust, by default. ClickOnce will display the <Run FontWeight="Bold">Security Warning</Run>
+ dialog box in these cases. If users allow the application to be launched, the application will be consequently granted full trust.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>It is possible to change the default permissions that are granted by to a WPF standalone application using CAS and ClickOnce. The minimum set of permissions that a WPF standalone application requires are listed in the following table:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Permission 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Enumerations 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>SecurityPermission 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Execution 
+            </Paragraph>
+
+            <Paragraph>UnmanagedCode 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>UIPermission 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AllClipboard 
+            </Paragraph>
+
+            <Paragraph>AllWindows 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The actual permissions that your WPF standalone application requires may exceed these, depending on which system resources it requires access to.
+    </Paragraph>
+
+    <Paragraph FontSize="22">WPF Browser-Hosted Application Security
+    </Paragraph>
+
+    <Paragraph>A Windows Presentation Foundation (WPF) browser-hosted application is hosted by Windows Internet Explorer, and can be either an XBAP or consist of loose Extensible Application Markup Language (XAML) (see <Hyperlink NavigateUri="3a7a86a8-75d5-4898-96b9-73da151e5e16.xaml">Windows Presentation Foundation Browser-Hosted Applications Overview</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph>The goal for WPF browser-hosted applications is to provide an equivalent security experience to that provided by HTML-based Web applications. WPF browser-hosted application meets and improves on HTML-based security experience in a number of ways, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Deployment.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Safe navigation.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Internet Explorer security settings.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Disabling APTCA assemblies for partially trusted client applications.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Loose XAML content sandboxing.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following topics expand on each of these.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Deployment
+    </Paragraph>
+
+    <Paragraph>WPF browser-hosted applications execute within a partial trust security sandbox, by default. Specifically, the security sandbox is limited to the default CAS <Run FontWeight="Bold">Internet</Run>
+ permission set.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Partially trusted security and programming considerations are discussed in <Hyperlink NavigateUri="ef2c0810-1dbf-4511-babd-1fab95b523b5.xaml">Windows Presentation Foundation Partial Trust Security</Hyperlink>
+, including changing the permissions that are requested by WPF browser-hosted applications.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The minimum set of permissions that a WPF browser-hosted application requires are listed in the following table:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Permission 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Enumerations 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">SecurityPermission</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Execution</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>MediaPermission 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>SafeAudio 
+            </Paragraph>
+
+            <Paragraph>SafeVideo 
+            </Paragraph>
+
+            <Paragraph>SafeImage 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>WebBrowserPermission 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Safe 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The actual permissions that your WPF browser-hosted application requires may exceed these, depending on which system resources it requires access to.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Safe Top-Level Navigation
+    </Paragraph>
+
+    <Paragraph>For XBAPs, WPF distinguishes two navigation scopes: application-scope navigation and browser-scope navigation.
+    </Paragraph>
+
+    <Paragraph><Run FontStyle="italic">Application-Scope Navigation</Run>
+ is application-initiated navigation to content within the XBAP application itself. Application-scope navigation results in the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The content that is hosted by the XBAP changes.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The XBAP remains the content that is hosted by the browser.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The navigation is recorded in the application's navigation history.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontStyle="italic">Browser-Scope Navigation</Run>
+, on the other hand, is application-initiated navigation to content that is located somewhere other than within the application. Browser-scope navigation results in the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The navigation is recorded in the browser's navigation history.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Browsing back to the XBAP with navigation history causes the XBAP to be reloaded.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The relationship between application-scope and browser-scope navigation is shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>The type of content that is considered safe for an XBAP to navigate to is primarily determined by whether a navigation is application-scoped or browser-scoped.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Application-Scope Navigation Security
+    </Paragraph>
+
+    <Paragraph>Application-Scope navigation is considered safe if it can be identified with a pack URI, which supports four types of content:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Resource files</Run>
+, which are files that are added to a project with a build type of <Run FontWeight="Bold">Resource</Run>
+, and can be identified with a URI like the following:
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/MyResourceFile.xaml</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Content files</Run>
+, which are files that are added to a project with a build type of <Run FontWeight="Bold">Content</Run>
+, and can be identified with a URI like the following:
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/MyContentFile.xaml</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Site of Origin files</Run>
+, which are files that are added to a project with a build type of <Run FontWeight="Bold">None</Run>
+, and can be identified with a URI like the following:
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://siteoforigin:,,,/MySiteOfOriginFile.xaml</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Application Code files</Run>
+, which are files that are added to a project with a build type of <Run FontWeight="Bold">Page</Run>
+, and can be identified with a URI like the following:
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>pack://application:,,,/MyResourceFile.xaml</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For more information on application data files and pack URIs, see <Hyperlink NavigateUri="7ad2943b-3961-41d3-8fc6-1582d43f5d99.xaml">Windows Presentation Foundation Application Data Files</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Files of these content types can be navigated to using one of the following techniques:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">User-Initiated</Run>
+. The user caused the navigation by clicking a Hyperlink element:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- User-Initiated Navigation --> 
+&lt;Hyperlink NavigateUri="pack://application:,,,/MyContentFile.xaml"> Navigate to Content 
+&lt;/Hyperlink></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Application-Initiated</Run>
+. The application caused the navigation without involving the user:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class ApplicationInitiatedNavigationPage : Page { DispatcherTimer timer = new DispatcherTimer(); 
+public ApplicationInitiatedNavigationPage () { InitializeComponent(); 
+// Initiate navigation this.timer.Interval = new TimeSpan(0, 0, 60); 
+this.timer.IsEnabled = true; 
+timer.Tick += new EventHandler(timer_Tick); 
+} void timer_Tick(object sender, EventArgs e) { timer.IsEnabled = false; 
+// Application-initiated navigation this.NavigationService.Navigate( new Uri( "http://avalontest.members.winisp.net/micwein/bob.xamll", UriKind.Absolute)); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Browser-Scope Navigation Security
+    </Paragraph>
+
+    <Paragraph>Browser-Scope navigation is considered safe only in under the following conditions:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">User-Initiated</Run>
+. The user caused the navigation by clicking a <Run FontWeight="Bold">Hyperlink</Run>
+ element:
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- User-Initiated Navigation --> 
+&lt;Hyperlink NavigateUri="pack://application:,,,/MyContentFile.xaml"> Navigate to Content 
+&lt;/Hyperlink></Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Zone</Run>
+. The content being navigated to is located on the Internet or the local intranet.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Protocol</Run>
+. The protocol being used to is either <Run FontWeight="Bold">http:</Run>
+, <Run FontWeight="Bold">https:</Run>
+, <Run FontWeight="Bold">file:</Run>
+, or <Run FontWeight="Bold">mailto:</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If an XBAP attempts to navigate to content in a manner that does not comply with these conditions, a SecurityException is raised.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Internet Explorer Security Settings
+    </Paragraph>
+
+    <Paragraph>Internet Explorer provides a mechanism by which you can configure the functionality that is allowed to be executed by or from Internet Explorer, including the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>.NET Framework-reliant components
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ActiveX controls and plug-ins
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Downloads
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Scripting
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>User Authentication
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Whether a piece of functionality can run, and how it runs, is determined by a security setting. You can configure the security setting to either enable a disable a piece of functionality entirely, or to prompt the user to decide each time a piece of functionality attempts to run.
+    </Paragraph>
+
+    <Paragraph>The collection of functionality that can be secured in this way is configured on a per-zone basis for the Internet, Intranet, Trusted Sites, and Untrusted Sites zones. You can configure the security settings by:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Opening <Run FontWeight="Bold">Internet Explorer</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>From the <Run FontWeight="Bold">Tools</Run>
+ menu, click <Run FontWeight="Bold">Options | Security</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Select the zone to configure the security settings for.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click the <Run FontWeight="Bold">Custom Level </Run>
+button
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This opens the <Run FontWeight="Bold">Security Settings</Run>
+ dialog box to configure the security settings for the selected zone.
+    </Paragraph>
+
+    <Paragraph>Windows Internet Explorer 7 includes the following four security settings specifically for .NET Framework 3.0:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Loose XAML</Run>
+. Controls whether Internet Explorer 7 can navigate to and loose XAML files. (Enable, Disable, and Prompt options).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">XAML browser applications</Run>
+. Controls whether Internet Explorer 7 can navigate to and run XBAPs. (Enable, Disable, and Prompt options).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">XPS documents</Run>
+. Controls whether Internet Explorer 7 can navigate to and load XML Paper Specification (XPS) documents. (Enable, Disable, and Prompt options).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Enable .NET Framework setup</Run>
+. Controls whether the .NET Framework 3.0 can be installed via Internet Explorer 7. (Enable or Disable options only).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>By default, these settings are all enabled for the <Run FontWeight="Bold">Internet</Run>
+, <Run FontWeight="Bold">Local intranet</Run>
+, and <Run FontWeight="Bold">Trusted sites</Run>
+ zones, and disabled for the <Run FontWeight="Bold">Untrusted sites</Run>
+ zone.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="16pt">Security Settings for IE6 and Below
+    </Paragraph>
+
+    <Paragraph>For versions of Internet Explorer other than Internet Explorer, security settings for various .NET Framework 3.0-related security settings can be configured from the Registry, under the following key:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\Windows Presentation Foundation\Features</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following table lists the values that can be set.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Value Name 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Value Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Value Data 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>XBAPDisallow
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>REG_DWORD
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1 to disallow; 
+0 to allow.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>LooseXamlDisallow
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>REG_DWORD
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1 to disallow; 
+0 to allow.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>WebBrowserDisallow
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>REG_DWORD
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1 to disallow; 
+0 to allow.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>XPSDocumentsDisallow
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>REG_DWORD
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1 to disallow; 
+0 to allow.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>MediaAudioDisallow
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>REG_DWORD
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1 to disallow; 
+0 to allow.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>MediaImageDisallow
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>REG_DWORD
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1 to disallow; 
+0 to allow.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>MediaVideoDisallow
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>REG_DWORD
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1 to disallow; 
+0 to allow.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Of these settings, <Run FontWeight="Bold">XBAPDisallow</Run>
+ and <Run FontWeight="Bold">WebBrowserDisallow</Run>
+ work for all versions of Internet Explorer.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Disabling APTCA Assemblies for Partially Trusted Client Applications
+    </Paragraph>
+
+    <Paragraph>When managed assemblies are installed into the global assembly cache (GAC), they become fully trusted because the user must provide explicit permission to install them. Because they are fully trusted, only fully trusted managed client applications can use them. To allow partially trusted applications to use them, they must be marked with the AllowPartiallyTrustedCallersAttribute (APTCA). Only assemblies that have been tested to be safe for execution in partial trust should be marked with this attribute.
+    </Paragraph>
+
+    <Paragraph>However, it is possible for an APTCA assembly to exhibit a security flaw after being installed into the GAC. Once a security flaw is discovered, the publishers of the assembly can produce a patch to fix the problem. One option for the patch is to uninstall the assembly, although that may break other fully trusted client applications that use the assembly.
+    </Paragraph>
+
+    <Paragraph>WPF provides a mechanism by which an APTCA assembly can be disabled for partially trusted WPF applications, including XBAPs, without uninstalling the APTCA assembly.
+    </Paragraph>
+
+    <Paragraph>To disable an APTCA assembly, you need to create a special key under the following Registry key:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\policy\APTCA\
+&lt;AssemblyFullName>, FileVersion=
+&lt;AssemblyFileVersion></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following shows an example key:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\policy\APTCA\aptcagac, Version=1.0.0.0, Culture=neutral, PublicKeyToken=215e3ac809a0fea7, FileVersion=1.0.0.0</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This establishes an entry for the APTCA assembly, although you also need to create a value underneath this key that enables/disables the assembly. The following are the details of the value you need to create:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Value Name: <Run FontWeight="Bold">APTCA_FLAG</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Value Type: <Run FontWeight="Bold">REG_DWORD</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Value Data: <Run FontWeight="Bold">1</Run>
+ to disable; 
+<Run FontWeight="Bold">0</Run>
+ to enable.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Publishers of an assembly that needs to be disabled for partially trusted client applications in this way can write a patch to create Registry key and value entries for the assembly. The advantage of patching using this technique is that fully trusted client applications that use the assembly can still use it. Also, the Registry key and value entries are effective even if they are created before the assembly is installed; 
+this allows publishers to protect users in the future.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Loose XAML Content Sandboxing
+    </Paragraph>
+
+    <Paragraph>Loose XAML files are standalone files with the .xaml file extension that cannot be identified by a pack URI (see <Hyperlink NavigateUri="43adb517-21a7-4df3-98e8-09e9cdf764c4.xaml">Pack URIs in Windows Presentation Foundation</Hyperlink>
+). This means that they are not resource, content, or site of origin files (see <Hyperlink NavigateUri="7ad2943b-3961-41d3-8fc6-1582d43f5d99.xaml">Windows Presentation Foundation Application Data Files</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph>When loose XAML files are navigated to directly from Internet Explorer, they security sandboxed by the default Internet zone permission set.
+    </Paragraph>
+
+    <Paragraph>However, the security behavior is different when loose XAML files are navigated to from one of the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A standalone application (using NavigationWindow or Frame).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>An application (using <Run FontWeight="Bold">Frame</Run>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A loose XAML file hosted directly from Internet Explorer (using <Run FontWeight="Bold">Frame</Run>
+).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>By default, the loose XAML file is provided the same set of permissions as the hosting application or loose XAML file. In some situations, though, this behavior may be undesirable from a security perspective, particularly if a loose XAML file was produced by an unknown entity. This type of content is known as <Run FontStyle="italic">external content</Run>
+, and both <Run FontWeight="Bold">Frame</Run>
+ and <Run FontWeight="Bold">NavigationWindow</Run>
+ can be configured to isolate it when navigated to by setting their <Run FontWeight="Bold">SandboxExternalContent</Run>
+ property appropriately, like so:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Sandboxing external content using Frame --> 
+&lt;Frame NavigateUri="ExternalContentPage.xaml" SandboxExternalContent="True"> 
+&lt;/Frame></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Sandboxing external content using NavigationWindow--> 
+&lt;NavigationWindow Source="ExternalContentPage.xaml" SandboxExternalContent="True"> 
+&lt;/NavigationWindow></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>With this setting, external content will be loaded into a process that is separate from the process that is hosting the application. This process is restricted to the default Internet zone permission set, effectively isolating it from the hosting application and the client machine.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Best Practices for Developing Secure WPF Applications
+    </Paragraph>
+
+    <Paragraph>Building applications for WPF that are secure requires applying best practices for the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Managed code: see <Hyperlink NavigateUri="https://msdn.microsoft.com/library/en-us/dnpag2/html/SecurityGuidanceIndex.asp?frame=true">Patterns and Practices Security Guidance for Applications</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>CAS: see <Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconcodeaccesssecurity.asp">Securing Applications</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ClickOnce: see <Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/142dbbz4.aspx">ClickOnce Deployment Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>WPF: see <Hyperlink NavigateUri="ef2c0810-1dbf-4511-babd-1fab95b523b5.xaml">Windows Presentation Foundation Partial Trust Security</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ef2c0810-1dbf-4511-babd-1fab95b523b5.xaml">Windows Presentation Foundation Partial Trust Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="2a39a054-3e2a-4659-bcb7-8bcea490ba31.xaml">Windows Presentation Foundation Security Strategy - Platform Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0fc04394-4e47-49ca-b0cf-8cd1161d95b9.xaml">Windows Presentation Foundation Security Strategy - Security Engineering</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="https://msdn.microsoft.com/library/en-us/dnpag2/html/SecurityGuidanceIndex.asp?frame=true">Patterns and Practices Security Guidance for Applications</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconcodeaccesssecurity.asp">Securing Applications</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/142dbbz4.aspx">ClickOnce Deployment Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Security to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

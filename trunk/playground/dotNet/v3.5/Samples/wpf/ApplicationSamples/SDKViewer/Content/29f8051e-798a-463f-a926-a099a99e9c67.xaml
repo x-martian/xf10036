@@ -1,0 +1,192 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_29f8051e_798a_463f_a926_a099a99e9c67"
+  Tag     ="Create a PathGeometry Animation for Text"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a PathGeometry Animation for Text</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can convert formatted text to a PathGeometry object, and use the object for highlighting the text. For example, you could apply an animation to the <Run FontWeight="Bold">PathGeometry</Run>
+ object so that the animation follows the outline of the formatted text.
+    </Paragraph>
+
+    <Paragraph>The following example shows formatted text that has been converted to a <Run FontWeight="Bold">PathGeometry</Run>
+ object. An animated ellipse follows the outline, or strokes, of the rendered text.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of formatted text rendered as a geometry with an animated highlight</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For the complete code sample from which the following code examples were extracted, see Text Using PathGeometry Highlight Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Legacy Code Example
+    </Paragraph>
+
+    <Paragraph>The following code example uses a Path object to display the geometry of the formatted text. The <Run FontWeight="Bold">Path</Run>
+ object can draw closed or open shapes, multiple shapes, and curved shapes. An animated Ellipse is created that will follow the outline, or strokes, of the formatted text.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Top-left starting point should be half the width of the ellipse so the text strokes align to the center of circle. --> 
+&lt;Path Canvas.Top="15" Canvas.Left="15" Stroke="SteelBlue" StrokeThickness="3" Fill="LightSteelBlue" Name="path" /> 
+&lt;Ellipse Canvas.Top="0" Canvas.Left="0" Width="30" Height="30"> 
+&lt;Ellipse.Fill> 
+&lt;RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5"> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Color="Yellow" Offset="0.25" /> 
+&lt;GradientStop Color="Transparent" Offset="1" /> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/Ellipse.Fill> 
+&lt;Ellipse.RenderTransform> 
+&lt;MatrixTransform /> 
+&lt;/Ellipse.RenderTransform> 
+&lt;Ellipse.Triggers> 
+&lt;EventTrigger RoutedEvent="FrameworkElement.Loaded"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard x:Name="storyboard"> 
+&lt;MatrixAnimationUsingPath x:Name="matrixAnimation" Duration="0:00:40" RepeatBehavior="Forever" Storyboard.TargetProperty="RenderTransform.Matrix" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;/Ellipse.Triggers> 
+&lt;/Ellipse> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code example shows how to create a <Run FontWeight="Bold">PathGeometry</Run>
+ object. The object is assigned to the Data property of a <Run FontWeight="Bold">Path</Run>
+ object, which renders the converted formatted text as a geometry. The <Run FontWeight="Bold">PathGeometry</Run>
+ object is then assigned to the PathGeometry property of a MatrixAnimationUsingPath object, which provides the path for the animated ellipse to follow.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Display the text string and animate the ellipse to trace the text character outlines. public void DisplayText(string textToDisplay) { // Create a formatted text string. FormattedText formattedText = new FormattedText( textToDisplay, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Verdana"), 96, Brushes.Black); 
+// Set the font weight to Bold for the formatted text. formattedText.SetFontWeight(FontWeights.Bold); 
+// Build a geometry out of the formatted text. Geometry geometry = formattedText.BuildGeometry(new Point(0, 0)); 
+// Create a set of polygons by flattening the Geometry object. PathGeometry pathGeometry = geometry.GetFlattenedPathGeometry(); 
+// Supply the empty Path element in XAML with the PathGeometry in order to render the polygons. path.Data = pathGeometry; 
+// Use the PathGeometry for the matrix animation, // allowing the ellipse to follow the path of the polygons. matrixAnimation.PathGeometry = pathGeometry; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b1d851c1-331c-4814-9964-6fe769db6f1f.xaml">Drawing Formatted Text</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a PathGeometry Animation for Text to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

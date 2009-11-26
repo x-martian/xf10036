@@ -1,0 +1,956 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d119d00c_3afb_48d6_87a0_c4da4f83dee5"
+  Tag     ="Dependency Properties Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Dependency Properties Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Presentation Foundation (WPF) provides a set of services that can be used to extend the functionality of a common language runtime (CLR) property. Collectively, these services are typically referred to as the WPF property system. A property that is backed by the WPF property system is known as a <Run>dependency property</Run>
+. This overview describes the WPF property system and the capabilities of a dependency property. This includes how to use existing dependency properties in Extensible Application Markup Language (XAML) and in procedural code. This overview also introduces specialized aspects of dependency properties, such as dependency property metadata, and how to create your own dependency property in a custom class.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="why_dependency_properties">Dependency Properties and CLR Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="back_dependency_properties">Dependency Properties Back CLR Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="setting_property_values">Setting Property Values</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="functionality">Property Functionality Provided by a Dependency Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="value_determination">Dependency Property Value Precedence</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="dp_implement_roadmap">Learning More About Dependency Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you have some basic knowledge of the CLR and object-oriented programming. In order to follow the examples in this topic, you should also understand XAML and know how to write WPF applications. For more information, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dependency Properties and CLR Properties
+    </Paragraph>
+
+    <Paragraph>In WPF, properties are typically exposed as common language runtime (CLR) properties. At a basic level, you could interact with these properties directly and never know that they are implemented as a dependency property. However, you should become familiar with some or all of the features of the WPF property system, so that you can take advantage of these features.
+    </Paragraph>
+
+    <Paragraph>The purpose of dependency properties is to provide a way to compute the value of a property based on the value of other inputs. These other inputs might include system properties such as themes and user preference, just-in-time property determination mechanisms such as databinding and animations/storyboards, multiple-use templates such as resources and styles, or values known through parent-child relationships with other elements in the element tree. In addition, a dependency property can be implemented to provide self-contained validation, default values, callbacks that monitor changes to other properties, and a system that can coerce property values based on potentially runtime information. Derived classes can also change some specific characteristics of an existing property by overriding dependency property metadata, rather than overriding the actual implementation of existing properties or creating new properties.
+    </Paragraph>
+
+    <Paragraph>In the SDK reference, you can identify which property is a dependency property by the presence of the Dependency Property Information section on the managed reference page for that property. The Dependency Property Information section includes a link to the DependencyProperty identifier field for that dependency property, and also includes a list of the metadata options that are set for that property, per-class override information, and other details.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dependency Properties Back CLR Properties
+    </Paragraph>
+
+    <Paragraph>Dependency properties and the WPF property system extend property functionality by providing a type that backs a property, as an alternative implementation to the standard pattern of backing the property with a private field. The name of this type is <Run FontWeight="Bold">DependencyProperty</Run>
+. The other important type that defines the WPF property system is DependencyObject. <Run FontWeight="Bold">DependencyObject</Run>
+ defines the base class that can register and own a dependency property. 
+    </Paragraph>
+
+    <Paragraph>Following is a summation of the terminology that is used in this software development kit (SDK) documentation when discussing dependency properties:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Dependency property</Run>
+: A property that is backed by a <Run FontWeight="Bold">DependencyProperty</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Dependency property identifier:</Run>
+ A <Run FontWeight="Bold">DependencyProperty</Run>
+ instance, which is obtained as a return value when registering a dependency property, and then stored as a member of a class. This identifier is used as a parameter in many of the APIs that interact with the WPF property system.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">CLR "wrapper": </Run>
+The actual get and set implementations for the property. These implementations incorporate the dependency property identifier by using it in the GetValue and SetValue calls, thus providing the backing for the property using the WPF property system.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example defines the <Run>IsSpinning</Run>
+ dependency property, and shows the relationship of the <Run FontWeight="Bold">DependencyProperty</Run>
+ identifier to the property that it backs.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public static readonly DependencyProperty IsSpinningProperty = DependencyProperty.Register( ... ); 
+public bool IsSpinning { get { return (bool)GetValue(IsSpinningProperty); 
+} set { SetValue(IsSpinningProperty, value); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The naming convention of the property and its backing <Run FontWeight="Bold">DependencyProperty</Run>
+ field is important. The name of the field is always the name of the property, with the suffix <Run>Property</Run>
+ appended. For more information about this convention and the reasons for it, see <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Setting Property Values
+    </Paragraph>
+
+    <Paragraph>You can set properties either in code or in XAML.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Setting Property Values in XAML
+    </Paragraph>
+
+    <Paragraph>The following XAML example specifies the background color of a button as red. This example illustrates a case where the simple string value for a XAML attribute is type-converted by the XAML loader into a WPF type (a Color, by way of a SolidColorBrush) in the generated code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Background="Red" Content="Button!"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>XAML supports a variety of syntax forms for setting properties. Which syntax to use for a particular property will depend on the value type that a property uses, as well as other factors such as the presence of a type converter. For more information on XAML syntax for property setting, see <Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+ and <Hyperlink NavigateUri="67cce290-ca26-4c41-a797-b68aabc45479.xaml">XAML Syntax Terminology</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>As an example of a non-attribute syntax, the following XAML example shows another button background. This time rather than setting a simple solid color, the background is set to an image, with an element representing that image and the source of that image specified as an attribute of the nested element. This is an example of property element syntax.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Content="Button!"> 
+&lt;Button.Background> 
+&lt;ImageBrush ImageSource="wavy.jpg"/> 
+&lt;/Button.Background> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Setting Properties in Code
+    </Paragraph>
+
+    <Paragraph>Setting dependency property values in code is typically just a call to the set implementation exposed by the CLR "wrapper". 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Button myButton = new Button(); 
+myButton.Width = 200.0; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Getting a property value is also essentially a call to the get "wrapper" implementation:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>double whatWidth; 
+whatWidth = myButton.Width; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can also call the property system APIs <Run FontWeight="Bold">GetValue</Run>
+ and <Run FontWeight="Bold">SetValue</Run>
+ directly. This is not typically necessary if you are using existing properties (the wrappers are more convenient, and provide better exposure of the property for developer tools), but calling the APIs directly is appropriate for certain scenarios.
+    </Paragraph>
+
+    <Paragraph>Properties can be also set in XAML and then accessed later in code, through code-behind. For details, see <Hyperlink NavigateUri="9df6d3c9-aed3-471c-af36-6859b19d999f.xaml">Code-Behind and XAML</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Property Functionality Provided by a Dependency Property
+    </Paragraph>
+
+    <Paragraph>A dependency property provides functionality that extends the functionality of a property as opposed to a property that is backed by a field. Often, each such functionality represents or supports a specific feature of the overall WPF set of features.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Resources
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Data binding
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Styles
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Animations
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Metadata overrides
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Property value inheritance
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Resources
+    </Paragraph>
+
+    <Paragraph>A dependency property value can be set by referencing a resource. Resources are typically specified as child elements of a page root element, or of the application (these locations enable the most convenient access to the resource). The following example shows how to define a <Run FontWeight="Bold">SolidColorBrush</Run>
+ resource.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DockPanel.Resources> 
+&lt;SolidColorBrush x:Key="MyBrush" Color="Gold"/> 
+&lt;/DockPanel.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Once the resource is defined, you can reference the resource and use it to provide a property value:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Background="{DynamicResource MyBrush}" Content="I am gold" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This particular resource is referenced as a <Hyperlink NavigateUri="7324f243-03af-4c2b-b0db-26ac6cdfcbe4.xaml">DynamicResource Markup Extension</Hyperlink>
+ (in XAML, you can use either a static or dynamic resource reference). To use a dynamic resource reference, you must be setting to a dependency property, so it is specifically the dynamic resource reference usage that is enabled by the WPF property system. For more information, see <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Resources are treated as a local value, which means that if you set another local value, you will eliminate the resource reference. For details, see <Hyperlink NavigateUri="1fbada8e-4867-4ed1-8d97-62c07dad7ebc.xaml">Dependency Property Value Precedence</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Data Binding
+    </Paragraph>
+
+    <Paragraph>A dependency property can reference a value through data binding. Data binding works through a specific markup extension syntax in XAML, or the Binding object in code. With data binding, the final property value determination is defered until run time, at which time the value is obtained from a data source.
+    </Paragraph>
+
+    <Paragraph>The following example sets the Content property for a Button, using a binding in XAML. The binding uses an inherited data context and an XmlDataProvider data source (not shown). The binding itself specifies the desired source property by XPath within the data source.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Content="{Binding XPath=Team/@TeamName}"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Bindings are treated as a local value, which means that if you set another local value, you will eliminate the binding. For details, see <Hyperlink NavigateUri="1fbada8e-4867-4ed1-8d97-62c07dad7ebc.xaml">Dependency Property Value Precedence</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Styles
+    </Paragraph>
+
+    <Paragraph>Styles and templates are two of the chief motivating scenarios for using dependency properties. Styles are particularly useful for setting properties that define application user interface (UI). Styles are typically defined as resources in XAML. Styles interact with the property system because they typically contain "setters" for particular properties, as well as "triggers" that change a property value based on the real-time value for another property. 
+    </Paragraph>
+
+    <Paragraph>The following example creates a very simple style (which would be defined inside a Resources dictionary, not shown), then applies that style directly to the Style property for a <Run FontWeight="Bold">Button</Run>
+. The setter within the style sets the Background property for a styled <Run FontWeight="Bold">Button</Run>
+ to green.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="GreenButtonStyle"> 
+&lt;Setter Property="Control.Background" Value="Green"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Style="{StaticResource GreenButtonStyle}">I am green!
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information. see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Animations
+    </Paragraph>
+
+    <Paragraph>Dependency properties can be animated. When an animation is applied and is running, the animated value operates at a higher precedence than any value (such as a local value) that the property otherwise has.
+    </Paragraph>
+
+    <Paragraph>The following example animates the <Run FontWeight="Bold">Background</Run>
+ on a <Run FontWeight="Bold">Button</Run>
+ property (technically, the <Run FontWeight="Bold">Background</Run>
+ is animated by using property element syntax to specify a blank <Run FontWeight="Bold">SolidColorBrush</Run>
+ as the <Run FontWeight="Bold">Background</Run>
+, then the Color property of that <Run FontWeight="Bold">SolidColorBrush</Run>
+ is the property that is directly animated). 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button>I am animated 
+&lt;Button.Background> 
+&lt;SolidColorBrush x:Name="AnimBrush"/> 
+&lt;/Button.Background> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ColorAnimation Storyboard.TargetName="AnimBrush" Storyboard.TargetProperty="(SolidColorBrush.Color)" From="Red" To="Green" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information on animating properties, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.and <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Metadata Overrides
+    </Paragraph>
+
+    <Paragraph>You can change certain behaviors of a dependency property by overriding the metadata for that property when you derive from the class that originally registers the dependency property. Overriding metadata relies on the <Run FontWeight="Bold">DependencyProperty</Run>
+ identifier. Overriding metadata does not require re-implementing the property. The metadata change is handled natively by the property system; 
+each class potentially holds individual metadata for all properties that are inherited from base classes, on a per-type basis.
+    </Paragraph>
+
+    <Paragraph>The following example overrides metadata for a dependency property DefaultStyleKey. Overriding this particular dependency property metadata is part of an implementation pattern that creates controls that can use default styles from themes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class SpinnerControl : ItemsControl { static SpinnerControl() { DefaultStyleKeyProperty.OverrideMetadata( typeof(SpinnerControl), new FrameworkPropertyMetadata(typeof(SpinnerControl)) ); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information about overriding or obtaining property metadata, see <Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Property Value Inheritance
+    </Paragraph>
+
+    <Paragraph>An element can inherit the value of a dependency property from its parent in the <Run>tree</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property value inheritance behavior is not globally enabled for all dependency properties, because the calculation time for inheritance does have some performance impact. Property value inheritance is typically only enabled for properties where a particular scenario suggests that property value inheritance is appropriate. You can determine whether a dependency property inherits by looking at the Dependency Property Information section for that dependency property in the SDK reference.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows a binding, and sets the DataContext property that specifies the source of the binding, which was not shown in the earlier binding example. The value of the <Run FontWeight="Bold">DataContext</Run>
+ property inherits, therefore any subsequent bindings in child elements do not need to respecify the source that is specified as the <Run FontWeight="Bold">DataContext</Run>
+ in the parent StackPanel element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel Canvas.Top="50" DataContext="{Binding Source={StaticResource XmlTeamsSource}}"> 
+&lt;Button Content="{Binding XPath=Team/@TeamName}"/> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information,see <Hyperlink NavigateUri="d7c338f9-f2bf-48ed-832c-7be58ac390e4.xaml">Property Value Inheritance</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dependency Property Value Precedence
+    </Paragraph>
+
+    <Paragraph>When you get the value of a dependency property, you are potentially obtaining a value that was set on that property through any one of the other property-based inputs that participate in the WPF property system. Dependency property value precedence exists so that a variety of scenarios for how properties obtain their values can interact in a predictable way.
+    </Paragraph>
+
+    <Paragraph>Consider the following example. The example includes a style that applies to all buttons and their <Run FontWeight="Bold">Background</Run>
+ properties, but then also specifies one button with a locally set <Run FontWeight="Bold">Background</Run>
+ value.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The SDK documentation uses the terms "local value" or "locally set value" occasionally when discussing dependency properties. A locally set value is a property value that is set directly on an object instance in code, or as an attribute on an element in XAML.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Effectively, for the first button, the property is set twice, but only one value applies: the value with the highest precedence. A locally set value has the highest precedence (except for a running animation, but no animation applies in this example) and thus the locally set value is used instead of the style setter value for the background on the first button. The second button has no local value (and no other value with higher precedence than a style setter) and thus the background in that button comes from the style setter.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;StackPanel.Resources> 
+&lt;Style x:Key="{x:Type Button}" TargetType="{x:Type Button}"> 
+&lt;Setter Property="Background" Value="Red"/> 
+&lt;/Style> 
+&lt;/StackPanel.Resources> 
+&lt;Button Background="Green">I am NOT red!
+&lt;/Button> 
+&lt;Button>I am styled red
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Why Does Dependency Property Precedence Exist?
+    </Paragraph>
+
+    <Paragraph>Typically, you would not want styles to always apply and to obscure even a locally set value of an individual element (otherwise, it would be very difficult to use either styles or elements in general). Therefore, the values that come from styles operate at a lower precedent than a locally set value. For a more thorough listing of dependency properties and where a dependency property effective value might come from, see <Hyperlink NavigateUri="1fbada8e-4867-4ed1-8d97-62c07dad7ebc.xaml">Dependency Property Value Precedence</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>There are a number of properties defined on WPF elements that are not dependency properties. By and large, properties were implemented as dependency properties only when there were needs to support at least one of the scenarios enabled by the property system: databinding, styling, animation, default value support, inheritance, attached properties, or invalidation. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Learning More About Dependency Properties
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>An <Run>attached property</Run>
+ is a type of property that supports a specialized syntax in XAML. An attached property often does not have a 1:1 correspondence with a common language runtime (CLR) property, and is not necessarily a dependency property. The typical purpose of a attached property is to allow child elements to report property values to a parent element, even if the parent element and child element do not both possess that property as part of the class members listings. One primary scenario is to enable child elements to inform the parent how they should be presented in UI; 
+for an example, see Dock or Left. See <Hyperlink NavigateUri="75928354-dc01-47e8-a018-8409aec1f32d.xaml">Attached Properties Overview</Hyperlink>
+ for details.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Component developers or application developers may wish to create their own dependency property, in order to enable capabilities such as databinding or styles support, or for invalidation and value coercion support. See <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+ for details.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Dependency properties should generally be considered to be public properties, accessible or at least discoverable by any caller that has access to an instance. See <Hyperlink NavigateUri="d10150ec-90c5-4571-8d35-84bafa2429a4.xaml">Dependency Property Security</Hyperlink>
+ for details.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="f23d6ec9-3780-4c09-a2ff-b2f0a2deddf1.xaml">Read-Only Dependency Properties</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="8579c10b-76ab-4c52-9691-195ce02333c8.xaml">WPF Architecture</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Dependency Properties Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

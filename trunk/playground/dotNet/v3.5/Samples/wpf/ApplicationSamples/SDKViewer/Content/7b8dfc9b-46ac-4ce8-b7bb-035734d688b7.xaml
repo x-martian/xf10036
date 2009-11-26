@@ -1,0 +1,167 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_7b8dfc9b_46ac_4ce8_b7bb_035734d688b7"
+  Tag     ="Element Initialization For Elements Not in a Tree"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Element Initialization For Elements Not in a Tree</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Some aspects of Windows Presentation Foundation (WPF) element initialization are deferred to processes that typically rely on that element being connected to either the <Run>logical tree</Run>
+ or <Run>visual tree</Run>
+. This topic describes the steps that may be necessary in order to initialize an element that is not connected to either tree.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run>Elements and the Logical Tree</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Elements and the Logical Tree
+    </Paragraph>
+
+    <Paragraph>When you create an instance of a Windows Presentation Foundation (WPF) class programmatically, where that class is also typically created in Extensible Application Markup Language (XAML) as part of an application page, you should be aware that several aspects of object initialization for the Windows Presentation Foundation (WPF) class are deliberately not a part of the code that is executed when calling the class constructor. Particularly for a control class, most of the visual representation of that control is not defined by the constructor. Instead, the visual representation is defined by the control's template. The template potentially comes from a variety of sources, but most often that template is obtained from theme styles. Templates are effectively late-binding; 
+the necessary template is not attached to the control in question until that control becomes part of a logical tree that terminates at the root level of a XAML page in a Windows Presentation Foundation (WPF) application. It is that root level page that initiates the rendering of all of its child elements as defined in the logical tree.
+    </Paragraph>
+
+    <Paragraph>The visual tree also participates in this process. Elements that are part of the visual tree through the templates are also not fully instantiated until connected.
+    </Paragraph>
+
+    <Paragraph>The consequences of this behavior are that certain operations that rely on the completed visual characteristics of an element will require additional steps if you are attempting to get the visual characteristics of a class that was constructed but not yet attached to a tree. For instance, if you wanted to call Render on a RenderTargetBitmap and the visual you were passing was an element not connected to a tree, that element is not visually complete without running the additional initialization steps.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Using BeginInit and EndInit to Initialize the Element
+    </Paragraph>
+
+    <Paragraph>Elements intended for rendering implement the ISupportInitialize interface. You use the BeginInit and EndInit methods of the interface to denote a region in your code where initialization steps (such as setting property values that affect render) are contained within. After <Run FontWeight="Bold">EndInit</Run>
+ is called in the sequence, the remainder of an element's template will be constructed even if the element remains disconnected from a logical or visual tree.
+    </Paragraph>
+
+    <Paragraph>If the element you are setting properties on is a FrameworkElement or FrameworkContentElement subclass, then you can call the class versions of BeginInit and EndInit rather than casting to <Run FontWeight="Bold">ISupportInitialize</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Sample Code
+    </Paragraph>
+
+    <Paragraph>The following is sample code for a console application that uses rendering APIs and System.Windows.Markup.XamlReader.Load(System.IO.Stream) of a loose XAML file to illustrate the proper placement of <Run FontWeight="Bold">BeginInit</Run>
+ and <Run FontWeight="Bold">EndInit</Run>
+ around other API calls that adjust properties that affect rendering.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[STAThread] static void Main(string[] args) { UIElement e; 
+string file = Directory.GetCurrentDirectory() + "\\starting.xaml"; 
+using (Stream stream = File.Open(file, FileMode.Open)) { // loading files from current directory, project settings take care of copying the file ParserContext pc = new ParserContext(); 
+pc.BaseUri = new Uri(file, UriKind.Absolute); 
+e = (UIElement)XamlReader.Load(stream, pc); 
+} Size paperSize = new Size(8.5 * 96, 11 * 96); 
+e.Measure(paperSize); 
+e.Arrange(new Rect(paperSize)); 
+e.UpdateLayout(); 
+/* * Render effect at normal dpi, indicator is the original RED rectangle */ RenderTargetBitmap image1 = Rasterize(e, paperSize.Width, paperSize.Height, 96, 96); 
+Save(image1, "render1.png"); 
+Button b = new Button(); 
+b.BeginInit(); 
+b.Background = Brushes.Blue; 
+b.Width = b.Height = 200; 
+b.EndInit(); 
+b.Measure(paperSize); 
+b.Arrange(new Rect(paperSize)); 
+b.UpdateLayout(); 
+// now render the altered version, with the element built up and initialized RenderTargetBitmap image2 = Rasterize(b, paperSize.Width, paperSize.Height, 96, 96); 
+Save(image2, "render2.png"); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The example illustrates the main function only. The functions <Run>Rasterize</Run>
+ and <Run>Save</Run>
+ (not shown) are utility functions that take care of image processing and IO.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6dec9657-4d8c-4e46-8c54-40fb80008265.xaml">Windows Presentation Foundation Graphics Rendering Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Element Initialization For Elements Not in a Tree to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

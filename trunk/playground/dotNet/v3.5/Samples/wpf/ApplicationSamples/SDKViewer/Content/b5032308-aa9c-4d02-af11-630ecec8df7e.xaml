@@ -1,0 +1,86 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b5032308_aa9c_4d02_af11_630ecec8df7e"
+  Tag     ="Preview Events"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Preview Events</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Preview events, also known as tunneling events, are routed events where the direction of the route travels from the application root towards the element that raised the event and is reported as the source in event data. Not all event scenarios support or require preview events; 
+this topic describes the situations where preview events exist, how applications or components should handle them, and where creating preview events in custom components or classes might be appropriate.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Preview Events and Input
+    </Paragraph>
+
+    <Paragraph>When you handle Preview events in general, be cautious about marking the events handled in the arguments. Handling a Preview event on any element other than the element that raised it has the effect of not allowing an element to handle its own event.
+    </Paragraph>
+
+    <Paragraph>For input events specifically, Preview events also share event arguments instances with the equivalent bubbling event. This means that if you use a Preview event class handler to mark the input event handled, the bubbling input event class handler will not be invoked. Or, if you use a Preview event instance handler to mark the event handled, a general-purpose handler for the bubbling event will not be invoked. Class handlers or instance handlers can register themselves with an option to be invoked even if the event is marked handled, but that technique is not commonly used.
+    </Paragraph>
+
+    <Paragraph>For more information about class handling and how it relates to Preview events see <Hyperlink NavigateUri="5e745508-4861-4b48-b5f6-5fc7ce5289d2.xaml">Marking Routed Events as Handled, and Class Handling</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Working Around Event Suppression by Controls
+    </Paragraph>
+
+    <Paragraph>One scenario where Preview events are used is for input events and controls. Sometimes, the author of the control suppresses a certain event from originating from their control, perhaps in order to substitute a component-defined event that carries more information or implies a more specific behavior. For instance, a Windows Presentation Foundation (WPF) Button suppresses normal MouseLeftButtonDown bubbling events raised by the <Run FontWeight="Bold">Button</Run>
+ or its composite elements in favor of raising a Click event that is always raised by the <Run FontWeight="Bold">Button</Run>
+ itself. If other elements towards the root of your application still wanted an opportunity to handle a suppressed event, one alternative is to attach handlers in code with <Run>handledEventsToo</Run>
+ specified as <Run FontWeight="Bold">true</Run>
+. But often a simpler technique is to change the routing direction you handle to be the Preview equivalent of an input event. For instance, if a suppresses <Run FontWeight="Bold">MouseLeftButtonDown</Run>
+, try attaching a handler for PreviewMouseLeftButtonDown instead. This technique only works for input events such as <Run FontWeight="Bold">MouseLeftButtonDown</Run>
+, that use tunnel/bubble pairs, raise both events, and share the event data.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="5e745508-4861-4b48-b5f6-5fc7ce5289d2.xaml">Marking Routed Events as Handled, and Class Handling</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Preview Events to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

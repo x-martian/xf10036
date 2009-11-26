@@ -1,0 +1,282 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1b99b8e7_bc6d_4299_9bc5_47cfb4c0b4db"
+  Tag     ="Create a Custom ScrollBar Template"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Custom ScrollBarTemplate</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to define a custom ScrollBar template.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define a custom <Run FontWeight="Bold">ScrollBar</Run>
+ template.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- GRADIENTS --> 
+&lt;LinearGradientBrush x:Key="ButtonGradient" StartPoint="0,0" EndPoint="0,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="#FDB6CADF" Offset="0" /> 
+&lt;GradientStop Color="#FCC3C5FF" Offset="0.1" /> 
+&lt;GradientStop Color="#FCC4D0EF" Offset="0.3" /> 
+&lt;GradientStop Color="#FDB7C2DF" Offset="0.6" /> 
+&lt;GradientStop Color="#FE95B3CF" Offset="0.8" /> 
+&lt;GradientStop Color="#FE96AACF" Offset="1" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="VerticalScrollGradient" StartPoint="0,0" EndPoint="1,0"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="#FDB6CADF" Offset="0" /> 
+&lt;GradientStop Color="#FCC3C5FF" Offset="0.1" /> 
+&lt;GradientStop Color="#FCC4D0EF" Offset="0.3" /> 
+&lt;GradientStop Color="#FDB7C2DF" Offset="0.6" /> 
+&lt;GradientStop Color="#FE95B3CF" Offset="0.8" /> 
+&lt;GradientStop Color="#FE96AACF" Offset="1" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;!-- SCROLLBAR TEMPLATES --> 
+&lt;Style x:Key="Scrollbar_LineButton" TargetType="{x:Type RepeatButton}"> 
+&lt;Setter Property="OverridesDefaultStyle" Value="true"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type RepeatButton}"> 
+&lt;Border BorderBrush="Transparent" BorderThickness="1" CornerRadius="6" Background="{DynamicResource ButtonGradient}"> 
+&lt;ContentPresenter x:Name="ContentSite" /> 
+&lt;/Border> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Setter Property="Height" Value="12" /> 
+&lt;Setter Property="Width" Value="12" /> 
+&lt;Setter Property="Foreground" Value="Gray" /> 
+&lt;Setter Property="FontSize" Value="6pt" /> 
+&lt;Setter Property="FontWeight" Value="Bold" /> 
+&lt;Setter Property="FontFamily" Value="Lucida Sans" /> 
+&lt;Setter Property="VerticalAlignment" Value="Center" /> 
+&lt;Setter Property="HorizontalAlignment" Value="Center" /> 
+&lt;/Style> 
+&lt;Style x:Key="ScrollBar_TrackRepeater" TargetType="{x:Type RepeatButton}"> 
+&lt;Setter Property="OverridesDefaultStyle" Value="true"/> 
+&lt;Setter Property="IsTabStop" Value="false" /> 
+&lt;Setter Property="Focusable" Value="false" /> 
+&lt;Setter Property="Command" Value="ScrollBar.PageUpCommand" /> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type RepeatButton}"> 
+&lt;Rectangle Fill="Transparent" /> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;Style x:Key="ScrollBar_UpTrack" BasedOn="{StaticResource ScrollBar_TrackRepeater}" TargetType="{x:Type RepeatButton}"> 
+&lt;Setter Property="Command" Value="ScrollBar.PageUpCommand" /> 
+&lt;/Style> 
+&lt;Style x:Key="ScrollBar_DownTrack" BasedOn="{StaticResource ScrollBar_TrackRepeater}" TargetType="{x:Type RepeatButton}"> 
+&lt;Setter Property="Command" Value="ScrollBar.PageDownCommand" /> 
+&lt;/Style> 
+&lt;Style x:Key="ScrollBar_LeftTrack" BasedOn="{StaticResource ScrollBar_TrackRepeater}" TargetType="{x:Type RepeatButton}"> 
+&lt;Setter Property="Command" Value="ScrollBar.PageLeftCommand" /> 
+&lt;/Style> 
+&lt;Style x:Key="ScrollBar_RightTrack" BasedOn="{StaticResource ScrollBar_TrackRepeater}" TargetType="{x:Type RepeatButton}"> 
+&lt;Setter Property="Command" Value="ScrollBar.PageRightCommand" /> 
+&lt;/Style> 
+&lt;Style x:Key="ScrollBar_VerticalThumb" TargetType="{x:Type Thumb}"> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type Thumb}"> 
+&lt;Border CornerRadius="6" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource VerticalScrollGradient}" /> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Setter Property="MinHeight" Value="10" /> 
+&lt;Setter Property="MinWidth" Value="10" /> 
+&lt;/Style> 
+&lt;Style x:Key="ScrollBar_HorizontalThumb" TargetType="{x:Type Thumb}"> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type Thumb}"> 
+&lt;Border CornerRadius="6" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonGradient}" /> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;Style TargetType="{x:Type ScrollBar}"> 
+&lt;Setter Property="Background" Value="Transparent" /> 
+&lt;Setter Property="MinWidth" Value="10" /> 
+&lt;!--Define a default vertical ScrollBar template with 2 RepeatButtons and Track--> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type ScrollBar}"> 
+&lt;Grid> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="12"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="12" /> 
+&lt;RowDefinition Height="*"/> 
+&lt;RowDefinition Height="12" /> 
+&lt;/Grid.RowDefinitions> 
+&lt;Border Grid.Row="1" BorderThickness="0" Background="Transparent" CornerRadius="4"/> 
+&lt;RepeatButton Grid.Row="0" Style="{DynamicResource Scrollbar_LineButton}" Command="ScrollBar.LineUpCommand" Content=" ^" /> 
+&lt;!--IsDirectionReversed set to true draws a ScrollBar with a Track whose lowest value is at the bottom. The default orientation of a ScrollBar is for the Track values to decrease from top to bottom.--> 
+&lt;Track Grid.Row="1" Name="PART_Track" IsDirectionReversed="true"> 
+&lt;Track.DecreaseRepeatButton> 
+&lt;RepeatButton Style="{DynamicResource ScrollBar_UpTrack}"/> 
+&lt;/Track.DecreaseRepeatButton> 
+&lt;Track.Thumb> 
+&lt;Thumb Style="{DynamicResource ScrollBar_HorizontalThumb}"/> 
+&lt;/Track.Thumb> 
+&lt;Track.IncreaseRepeatButton> 
+&lt;RepeatButton Style="{DynamicResource ScrollBar_DownTrack}"/> 
+&lt;/Track.IncreaseRepeatButton> 
+&lt;/Track> 
+&lt;RepeatButton Grid.Row="2" Style="{DynamicResource Scrollbar_LineButton}" Command="ScrollBar.LineDownCommand" Content=" v" /> 
+&lt;/Grid> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="Orientation" Value="Horizontal" > 
+&lt;Setter Property="Background" Value="Transparent" /> 
+&lt;Setter Property="MinHeight" Value="10" /> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type ScrollBar}"> 
+&lt;Grid> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="12"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="12" /> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;ColumnDefinition Width="12" /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Border Grid.Column="1" BorderThickness="0" Background="Transparent" CornerRadius="4"/> 
+&lt;RepeatButton Grid.Column="0" Style="{DynamicResource Scrollbar_LineButton}" Command="ScrollBar.LineLeftCommand" Content=" 
+&lt;" /> 
+&lt;Track Grid.Column="1" Name="PART_Track"> 
+&lt;Track.DecreaseRepeatButton> 
+&lt;RepeatButton Style="{DynamicResource ScrollBar_LeftTrack}"/> 
+&lt;/Track.DecreaseRepeatButton> 
+&lt;Track.Thumb> 
+&lt;Thumb Style="{DynamicResource ScrollBar_HorizontalThumb}"/> 
+&lt;/Track.Thumb> 
+&lt;Track.IncreaseRepeatButton> 
+&lt;RepeatButton Style="{DynamicResource ScrollBar_RightTrack}"/> 
+&lt;/Track.IncreaseRepeatButton> 
+&lt;/Track> 
+&lt;RepeatButton Grid.Column="2" Style="{DynamicResource Scrollbar_LineButton}" Command="ScrollBar.LineRightCommand" Content=" &gt;" /> 
+&lt;/Grid> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> 
+&lt;!-- BUTTON TEMPLATE --> 
+&lt;Style TargetType="{x:Type Button}"> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type Button}"> 
+&lt;Border x:Name="OuterBorder" CornerRadius="3" Background="{DynamicResource ButtonGradient}"> 
+&lt;Border x:Name="InnerBorder" CornerRadius="3" Background="VerticalGradient Transparent #33000000" Padding="{TemplateBinding Padding}"> 
+&lt;ContentPresenter x:Name="ContentSite" HorizontalAlignment="Center" VerticalAlignment="Center" /> 
+&lt;/Border> 
+&lt;/Border> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="IsPressed" Value="true"> 
+&lt;Setter TargetName="InnerBorder" Property="Background" Value="VerticalGradient #10000000 #20000000" /> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsEnabled" Value="false"> 
+&lt;Setter TargetName="InnerBorder" Property="Background" Value="VerticalGradient #50302A90 #40201040" /> 
+&lt;Setter Property="BorderBrush" Value="Silver" /> 
+&lt;Setter Property="Foreground" Value="SlateGray" /> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Setter Property="Height" Value="18" /> 
+&lt;Setter Property="Foreground" Value="MidnightBlue" /> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Custom Template for a Scrollbar Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ScrollBar
+      <LineBreak/>Track
+      <LineBreak/>RepeatButton
+      <LineBreak/>Thumb
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Custom ScrollBarTemplate to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

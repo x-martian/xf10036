@@ -1,0 +1,575 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_33d4c5c2_2daf_4e45_ba9a_5b673e2b8280"
+  Tag     ="Adorners Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Adorners Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Adorners are a special type of FrameworkElement, used to provide visual cues to a user. Among other uses, Adorners can be used to add functional handles to elements or provide state information about a control.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="about_Adorners">About Adorners</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="implement_custom_Adorner">Implementing a Custom Adorner</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="rendering_behavior_for_Adorners">Rendering Behavior for Adorners</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adorner_events_hittest">Events and Hit Testing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adorn_single_element">Adorning a Single UIElement</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adorn_children_panel">Adorning the Children of a Panel</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">About Adorners
+    </Paragraph>
+
+    <Paragraph>An Adorner is a custom <Run FontWeight="Bold">FrameworkElement</Run>
+ that is bound to a UIElement. Adorners are rendered in an AdornerLayer, which is a rendering surface that is always on top of the adorned element or a collection of adorned elements. Rendering of an adorner is independent from rendering of the <Run FontWeight="Bold">UIElement</Run>
+ that the adorner is bound to. An adorner is typically positioned relative to the element to which it is bound, using the standard 2-D coordinate origin located at the upper-left of the adorned element.
+    </Paragraph>
+
+    <Paragraph>Common applications for adorners include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Adding functional handles to a <Run FontWeight="Bold">UIElement</Run>
+ that enable a user to manipulate the element in some way (resize, rotate, reposition, etc.).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Provide visual feedback to indicate various states, or in response to various events.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Overlay visual decorations on a <Run FontWeight="Bold">UIElement</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Visually mask or override part or all of a <Run FontWeight="Bold">UIElement</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Windows Presentation Foundation (WPF) provides a basic framework for adorning visual elements. The following table lists the primary types used when adorning objects, and their purpose. Several usage examples follow.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Adorner</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>An abstract base class from which all concrete adorner implementations inherit.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AdornerLayer</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>A class representing a rendering layer for the adorner(s) of one or more adorned elements.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AdornerDecorator 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>A class that enables an adorner layer to be associated with a collection of elements.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Implementing a Custom Adorner
+    </Paragraph>
+
+    <Paragraph>The adorners framework provided by Windows Presentation Foundation (WPF) is intended primarily to support the creation of custom adorners. A custom adorner is created by implementing a class that inherits from the abstract <Run FontWeight="Bold">Adorner</Run>
+ class.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The parent of an <Run FontWeight="Bold">Adorner</Run>
+ is the <Run FontWeight="Bold">AdornerLayer</Run>
+ that renders the <Run FontWeight="Bold">Adorner</Run>
+, not the element being adorned.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows a class that implements a simple adorner. The example adorner simply adorns the corners of a <Run FontWeight="Bold">UIElement</Run>
+ with circles.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Adorners must subclass the abstract base class Adorner. public class SimpleCircleAdorner : Adorner { // Be sure to call the base class constructor. public SimpleCircleAdorner(UIElement adornedElement) : base(adornedElement) { } // A common way to implement an adorner's rendering behavior is to override the OnRender // method, which is called by the layout system as part of a rendering pass. protected override void OnRender(DrawingContext drawingContext) { Rect adornedElementRect = new Rect(this.AdornedElement.DesiredSize); 
+// Some arbitrary drawing implements. SolidColorBrush renderBrush = new SolidColorBrush(Colors.Green); 
+renderBrush.Opacity = 0.2; 
+Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5); 
+double renderRadius = 5.0; 
+// Draw a circle at each corner. drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopLeft, renderRadius, renderRadius); 
+drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopRight, renderRadius, renderRadius); 
+drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomLeft, renderRadius, renderRadius); 
+drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius, renderRadius); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Class SimpleCircleAdorner Inherits Adorner Sub New(ByVal adornedElement As UIElement) MyBase.New(adornedElement) End Sub Protected Overrides Sub OnRender(ByVal drawingContext As System.Windows.Media.DrawingContext) MyBase.OnRender(drawingContext) Dim adornedElementRect As New Rect(AdornedElement.DesiredSize) Dim renderBrush As New SolidColorBrush(Colors.Green) renderBrush.Opacity = 0.2 Dim renderPen As New Pen(New SolidColorBrush(Colors.Navy), 1.5) Dim renderRadius As Double renderRadius = 5.0 'Draw a circle at each corner. drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopLeft, renderRadius, renderRadius) drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopRight, renderRadius, renderRadius) drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomLeft, renderRadius, renderRadius) drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius, renderRadius) End Sub End Class </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following image shows the SimpleCircleAdorner applied to a TextBox.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Rendering Behavior for Adorners
+    </Paragraph>
+
+    <Paragraph>It is important to note that adorners do not include any inherent rendering behavior; 
+ensuring that an adorner renders is the responsibility of the adorner implementer. A common way of implementing rendering behavior is to override the OnRenderSizeChanged method and use one or more DrawingContext objects to render the adorner's visuals as needed (as shown in the example above). 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Anything placed in the adorner layer is rendered on top of the rest of any styles you have set. In other words, adorners are always visually on top and cannot be overridden using <Run>z-order</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Events and Hit Testing
+    </Paragraph>
+
+    <Paragraph>Adorners receive input events just like any other <Run FontWeight="Bold">FrameworkElement</Run>
+. Because an adorner always has a higher z-order than the element it adorns, the adorner receives input events (such as Drop or MouseMove) that may be intended for the underlying adorned element. An adorner can listen for certain input events and pass these on to the underlying adorned element by re-raising the event. 
+    </Paragraph>
+
+    <Paragraph>To enable pass-through hit testing of elements under an adorner, set the hit test IsHitTestVisible property to <Run FontWeight="Bold">false</Run>
+ on the adorner. For more information about hit testing, see
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b1a64b61-14be-4d75-b89a-5c67bebb2c7b.xaml">Hit Testing in the Visual Layer</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Adorning a Single UIElement
+    </Paragraph>
+
+    <Paragraph>To bind an adorner to a particular <Run FontWeight="Bold">UIElement</Run>
+, follow these steps:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Call the static method GetAdornerLayer to get an <Run FontWeight="Bold">AdornerLayer</Run>
+ object for the <Run FontWeight="Bold">UIElement</Run>
+ to be adorned. <Run FontWeight="Bold">GetAdornerLayer</Run>
+ walks up the visual tree, starting at the specified <Run FontWeight="Bold">UIElement</Run>
+, and returns the first adorner layer it finds. (If no adorner layers are found, the method returns null.) 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Call the Add method to bind the adorner to the target <Run FontWeight="Bold">UIElement</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example binds a SimpleCircleAdorner (shown above) to a <Run FontWeight="Bold">TextBox</Run>
+ named <Run FontStyle="italic">myTextBox</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myAdornerLayer = AdornerLayer.GetAdornerLayer(myTextBox); 
+myAdornerLayer.Add(new SimpleCircleAdorner(myTextBox)); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myAdornerLayer = AdornerLayer.GetAdornerLayer(myTextBox) myAdornerLayer.Add(New SimpleCircleAdorner(myTextBox)) </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Using Extensible Application Markup Language (XAML) to bind an adorner to another element is currently not supported.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Adorning the Children of a Panel
+    </Paragraph>
+
+    <Paragraph>To bind an adorner to the children of a Panel, follow these steps:
+    </Paragraph>
+
+    <Paragraph/>
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Call the <Run FontWeight="Bold">static</Run>
+ method <Run FontWeight="Bold">GetAdornerLayer</Run>
+ to find an adorner layer for the element whose children are to be adorned.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Enumerate through the children of the parent element and call the <Run FontWeight="Bold">Add</Run>
+ method to bind an adorner to each child element.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example binds a SimpleCircleAdorner (shown above) to the children of a StackPanel named <Run FontStyle="italic">myStackPanel</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>foreach (UIElement toAdorn in myStackPanel.Children) myAdornerLayer.Add(new SimpleCircleAdorner(toAdorn)); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>For Each toAdorn As UIElement In myStackPanel.Children myAdornerLayer.Add(New SimpleCircleAdorner(toAdorn)) Next </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>AdornerHitTestResult
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="66d7a6d6-e3b6-47bc-8dfe-8a1b26f7d901.xaml">Shapes and Basic Drawing in WPF Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="779aac3f-8d41-49d8-8130-768244aa2240.xaml">Painting with Images, Drawings, and Visuals</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e29d7516-d5e6-4500-bd4f-775e6f830984.xaml">Adorners How-to Topics</Hyperlink>
+
+      <LineBreak/>Adorners Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Adorners Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

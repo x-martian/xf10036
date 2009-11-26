@@ -1,0 +1,58 @@
+﻿<!--
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//
+// Copyright (C) Microsoft Corporation, 2005.  All rights reserved.
+//
+// File: BrowserTabItem.xaml
+//
+// Description: This file contains the XAML for BrowserTabControl's TabItem.
+//
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+
+<TabItem
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:CC="clr-namespace:Microsoft.Windows.SdkViewer.Controls"
+    x:Class="Microsoft.Windows.SdkViewer.Controls.BrowserTabItem"
+    Name="ROOT" xmlns:MappingPIGen1="clr-namespace:Microsoft.Windows.SdkViewer.Controls">
+    <TabItem.Resources>
+        <TextBlock x:Key="HeaderTextBlock" x:Shared="false" TextTrimming="WordEllipsis" MaxWidth="200" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+    </TabItem.Resources>
+    
+    <Grid>
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*" />
+            <ColumnDefinition Width="40*" />
+            <ColumnDefinition Width="30*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="40*" />
+            </Grid.RowDefinitions>
+
+        
+        <!-- TabItem Content -->
+        <Frame
+            Name="InnerFrame"
+            Grid.RowSpan="3"
+            Grid.ColumnSpan="3"
+            JournalOwnership="OwnsJournal"
+            NavigationUIVisibility="Hidden"
+            Source="{Binding ElementName=ROOT, Path=Source, Mode=TwoWay}" />
+            
+        <!-- ProgressBar overlay -->
+        <Border
+            Name="NavigationProgressOverlay"
+            Grid.Column="1"
+            Grid.Row="1"
+            Background="#AAFFFFFF"
+            CornerRadius="10"
+            Opacity=".8"
+            Visibility="Hidden">
+            <ProgressBar Name="NavigationProgressBar" Margin="10" Height="10" />
+        </Border>
+    </Grid>
+</TabItem>

@@ -1,0 +1,319 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_422f6ab5_cf13_4b4b_84a1_e4a0020fcc75"
+  Tag     ="Create a ListView with Editable Cells"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a ListView with Editable Cells</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create a ListView control in a GridView view mode that has editable cells.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>To edit the cells of a GridViewColumn in a <Run FontWeight="Bold">GridView</Run>
+, define a custom control to use as the CellTemplate of the column. 
+    </Paragraph>
+
+    <Paragraph>The following example shows a custom control that is named <Run>EditBox</Run>
+, which implements two <Run>dependency properties</Run>
+, <Run>Value</Run>
+ and <Run>IsEditing</Run>
+. The <Run>Value</Run>
+ property stores the value of a cell. The <Run>IsEditing</Run>
+ property specifies whether the cell is currently editable. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class EditBox : Control { ... public static readonly DependencyProperty ValueProperty = DependencyProperty.Register( "Value", typeof(object), typeof(EditBox), new FrameworkPropertyMetadata(null)); 
+... public static DependencyProperty IsEditingProperty = DependencyProperty.Register( "IsEditing", typeof(bool), typeof(EditBox), new FrameworkPropertyMetadata(false)); 
+... } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example creates a Style for the <Run>EditBox</Run>
+ control.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="{x:Type l:EditBox}" TargetType="{x:Type l:EditBox}" > 
+&lt;Setter Property="HorizontalAlignment" Value="Left" /> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type l:EditBox}"> 
+&lt;TextBlock x:Name="PART_TextBlockPart" Text="{Binding Path=Value,RelativeSource = {RelativeSource TemplatedParent}}"> 
+&lt;/TextBlock> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To create a TextBox control to edit a cell, implement an Adorner. The following example shows the constructor for the <Run>EditBoxAdorner</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>internal sealed class EditBoxAdorner : Adorner { ... public EditBoxAdorner(UIElement adornedElement, UIElement adorningElement): base(adornedElement) { _textBox = adorningElement as TextBox; 
+Debug.Assert(_textBox != null, "No TextBox!"); 
+_visualChildren = new VisualCollection(this); 
+BuildTextBox(); 
+} ... } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To control when the <Run>EditBox</Run>
+ is editable, use events like MouseUp, MouseLeave, or MouseEnter. The following example shows how the first <Run FontWeight="Bold">MouseUp</Run>
+ event that is received by an <Run>EditBox</Run>
+ selects the <Run>EditBox</Run>
+, and the second <Run FontWeight="Bold">MouseUp</Run>
+ event puts the <Run>EditBox</Run>
+ in editing mode.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class EditBox : Control { ... protected override void OnMouseUp(MouseButtonEventArgs e) { base.OnMouseUp(e); 
+if (e.ChangedButton == MouseButton.Right || e.ChangedButton == MouseButton.Middle) return; 
+if (!IsEditing) { if (!e.Handled &amp;&amp; 
+(_canBeEdit || _isMouseWithinScope)) { IsEditing = true; 
+} //If the first MouseUp event selects the parent ListViewItem, //then the second MouseUp event puts the EditBox in editing //mode if (IsParentSelected) _isMouseWithinScope = true; 
+} } ... } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how you use the <Run FontWeight="Bold">MouseEnter</Run>
+ and <Run FontWeight="Bold">MouseLeave</Run>
+ events to determine if a cell is eligible for editing.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class EditBox : Control { ... protected override void OnMouseEnter(MouseEventArgs e) { base.OnMouseEnter(e); 
+if (!IsEditing &amp;&amp; 
+IsParentSelected) { _canBeEdit = true; 
+} } ... protected override void OnMouseLeave(MouseEventArgs e) { base.OnMouseLeave(e); 
+_isMouseWithinScope = false; 
+_canBeEdit = false; 
+} ... } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To define a <Run FontWeight="Bold">GridViewColumn</Run>
+ that permits editing, set the <Run FontWeight="Bold">CellTemplate</Run>
+ property to an <Run>EditBox</Run>
+ control. The following example specifies the <Run FontWeight="Bold">CellTemplate</Run>
+ property of a <Run FontWeight="Bold">GridViewColumn</Run>
+ as an <Run>EditBox</Run>
+ control.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;GridViewColumn Header="ID" Width="50" > 
+&lt;GridViewColumn.CellTemplate> 
+&lt;DataTemplate> 
+&lt;l:EditBox Height="25" Value="{Binding Path=EmployeeNumber}" /> 
+&lt;/DataTemplate> 
+&lt;/GridViewColumn.CellTemplate> 
+&lt;/GridViewColumn> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ListView with Editing Capability Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Control
+      <LineBreak/>ListView
+      <LineBreak/>GridView
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b2d02267-32b3-40ce-8e9f-06972d8749d9.xaml">GridView Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>ListView Samples
+      <LineBreak/><Hyperlink NavigateUri="aafce40c-9bfe-45ec-86a3-599616a11276.xaml">ListView How-to Topics</Hyperlink>
+
+      <LineBreak/>GridView How-to Topics
+      <LineBreak/>GridView Overviews
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a ListView with Editable Cells to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,858 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c31f3a67_cb3f_4ded_af9e_ed21f6575b26"
+  Tag     ="Creating an Ink Input Control"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Creating an Ink Input Control</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can create a custom control that dynamically and statically renders ink. That is, render ink as a user draws a stroke, causing the ink to appear to "flow" from the tablet pen, and display ink after it is added to the control, either via the tablet pen, pasted from the Clipboard, or loaded from a file. To dynamically render ink, your control must use a DynamicRenderer. To statically render ink, you must override the stylus event methods (OnStylusDown, OnStylusMove, and OnStylusUp) to collect StylusPoint data, create strokes, and add them to an InkPresenter (which renders the ink on the control).
+    </Paragraph>
+
+    <Paragraph>This topic contains the following subsections:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="CollectingStylusPointDataAndCreatingInkStrokes">How to: Collect Stylus Point Data and Create Ink Strokes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="EnablingYourControlToAcceptInputTromTheMouse">How to: Enable Your Control to Accept Input from the Mouse</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="PuttingItTogether">Putting it Together</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="UsingAdditionalPluginsAndDynamicRenderers">Using Additional Plugins and DynamicRenderers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="AdvancedInkHandling_Conclusion">Conclusion</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">How to: Collect Stylus Point Data and Create Ink Strokes
+    </Paragraph>
+
+    <Paragraph>To create a control that collects and manages ink strokes do the following:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Derive a class from Control or one of the classes derived from <Run FontWeight="Bold">Control</Run>
+, such as Label.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports System Imports System.Collections.Generic Imports System.Text Imports System.Windows.Ink Imports System.Windows.Input Imports System.Windows.Input.StylusPlugIns Imports System.Windows.Controls Imports System.Windows <Run>... </Run>
+ Class InkControl Inherits Label <Run>... </Run>
+ End Class 'StylusControl </Span>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System; 
+using System.Windows.Ink; 
+using System.Windows.Input; 
+using System.Windows.Input.StylusPlugIns; 
+using System.Windows.Controls; 
+using System.Windows; 
+<Run>... </Run>
+ class InkControl : Label { <Run>... </Run>
+ } </Span>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Add an <Run FontWeight="Bold">InkPresenter</Run>
+ to the class and set the Content property to the new <Run FontWeight="Bold">InkPresenter</Run>
+. 
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>InkPresenter ip; 
+public InkControl() { // Add an InkPresenter for drawing. ip = new InkPresenter(); 
+this.Content = ip; 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private ip As InkPresenter Public Sub New() ' Add an InkPresenter for drawing. ip = New InkPresenter() Me.Content = ip End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Attach the RootVisual of the <Run FontWeight="Bold">DynamicRenderer</Run>
+ to the <Run FontWeight="Bold">InkPresenter</Run>
+ by calling the AttachVisuals method, and add the <Run FontWeight="Bold">DynamicRenderer</Run>
+ to the StylusPlugIns collection. This allows the <Run FontWeight="Bold">InkPresenter</Run>
+ to display the ink as the stylus point data is collected by your control.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub New() ... ' Add a dynamic renderer that ' draws ink as it "flows" from the stylus. dr = New DynamicRenderer() ip.AttachVisuals(dr.RootVisual, dr.DrawingAttributes) Me.StylusPlugIns.Add(dr) End Sub </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public InkControl() { ... // Add a dynamic renderer that // draws ink as it "flows" from the stylus. dr = new DynamicRenderer(); 
+ip.AttachVisuals(dr.RootVisual, dr.DrawingAttributes); 
+this.StylusPlugIns.Add(dr); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Override the <Run FontWeight="Bold">OnStylusDown</Run>
+ method. In this method, capture the stylus with a call to Capture. By capturing the stylus, your control will to continue to receive StylusMove and StylusUp events even if the stylus leaves the control's boundaries. This is not strictly mandatory, but almost always desired for a good user experience. Create a new StylusPointCollection to gather <Run FontWeight="Bold">StylusPoint</Run>
+ data. Finally, add the initial set of <Run FontWeight="Bold">StylusPoint</Run>
+ data to the <Run FontWeight="Bold">StylusPointCollection</Run>
+.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override void OnStylusDown(StylusDownEventArgs e) { // Capture the stylus so all stylus input is routed to this control. Stylus.Capture(this); 
+// Allocate memory for the StylusPointsCollection and // add the StylusPoints that have come in so far. stylusPoints = new StylusPointCollection(); 
+StylusPointCollection eventPoints = e.GetStylusPoints(this, stylusPoints.Description); 
+stylusPoints.Add(eventPoints); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Protected Overrides Sub OnStylusDown(ByVal e As StylusDownEventArgs) ' Capture the stylus so all stylus input is routed to this control. Stylus.Capture(Me) ' Allocate memory for the StylusPointsCollection and ' add the StylusPoints that have come in so far. stylusPoints = New StylusPointCollection() Dim eventPoints As StylusPointCollection = e.GetStylusPoints(Me, stylusPoints.Description) stylusPoints.Add(eventPoints) End Sub 'OnStylusDown </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Override the <Run FontWeight="Bold">OnStylusMove</Run>
+ method and add the <Run FontWeight="Bold">StylusPoint</Run>
+ data to the <Run FontWeight="Bold">StylusPointCollection</Run>
+ object that you created earlier.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override void OnStylusMove(StylusEventArgs e) { if (stylusPoints == null) { return; 
+} // Add the StylusPoints that have come in since the // last call to OnStylusMove. StylusPointCollection newStylusPoints = e.GetStylusPoints(this, stylusPoints.Description); 
+stylusPoints.Add(newStylusPoints); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Protected Overrides Sub OnStylusMove(ByVal e As StylusEventArgs) If stylusPoints Is Nothing Then Return End If ' Add the StylusPoints that have come in since the ' last call to OnStylusMove. Dim newStylusPoints As StylusPointCollection = e.GetStylusPoints(Me, stylusPoints.Description) stylusPoints.Add(newStylusPoints) End Sub 'OnStylusMove </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Override the <Run FontWeight="Bold">OnStylusUp</Run>
+ method and create a new Stroke with the <Run FontWeight="Bold">StylusPointCollection</Run>
+ data. Add the new <Run FontWeight="Bold">Stroke</Run>
+ you created to the Strokes collection of the <Run FontWeight="Bold">InkPresenter</Run>
+ and release stylus capture.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override void OnStylusUp(StylusEventArgs e) { if (stylusPoints == null) { return; 
+} // Add the StylusPoints that have come in since the // last call to OnStylusMove. StylusPointCollection newStylusPoints = e.GetStylusPoints(this, stylusPoints.Description); 
+stylusPoints.Add(newStylusPoints); 
+// Create a new stroke from all the StylusPoints since OnStylusDown. Stroke stroke = new Stroke(stylusPoints); 
+// Add the new stroke to the Strokes collection of the InkPresenter. ip.Strokes.Add(stroke); 
+// Clear the StylusPointsCollection. stylusPoints = null; 
+// Release stylus capture. Stylus.Capture(null); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Protected Overrides Sub OnStylusUp(ByVal e As StylusEventArgs) ' Allocate memory for the StylusPointsCollection, if necessary. If stylusPoints Is Nothing Then Return End If ' Add the StylusPoints that have come in since the ' last call to OnStylusMove. Dim newStylusPoints As StylusPointCollection = e.GetStylusPoints(Me, stylusPoints.Description) stylusPoints.Add(newStylusPoints) ' Create a new stroke from all the StylusPoints since OnStylusDown. Dim stroke As New Stroke(stylusPoints) ' Add the new stroke to the Strokes collection of the InkPresenter. ip.Strokes.Add(stroke) ' Clear the StylusPointsCollection. stylusPoints = Nothing ' Release stylus capture. Stylus.Capture(Nothing) End Sub 'OnStylusUp </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">How to: Enable Your Control to Accept Input from the Mouse
+    </Paragraph>
+
+    <Paragraph>If you add the preceding control to your application, run it, and use the mouse as an input device, you will notice that the strokes are not persisted. To persist the strokes when the mouse is used as the input device do the following:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Override the OnMouseLeftButtonDown and create a new <Run FontWeight="Bold">StylusPointCollection</Run>
+ Get the position of the mouse when the event occurred and create a <Run FontWeight="Bold">StylusPoint</Run>
+ using the point data and add the <Run FontWeight="Bold">StylusPoint</Run>
+ to the <Run FontWeight="Bold">StylusPointCollection</Run>
+.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) { base.OnMouseLeftButtonDown(e); 
+// If a stylus generated this event, return. if (e.StylusDevice != null) { return; 
+} // Start collecting the points. stylusPoints = new StylusPointCollection(); 
+Point pt = e.GetPosition(this); 
+stylusPoints.Add(new StylusPoint(pt.X, pt.Y)); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Protected Overrides Sub OnMouseLeftButtonDown(ByVal e As MouseButtonEventArgs) MyBase.OnMouseLeftButtonDown(e) ' If a stylus generated this event, return. If Not (e.StylusDevice Is Nothing) Then Return End If ' Start collecting the points. stylusPoints = New StylusPointCollection() Dim pt As Point = e.GetPosition(Me) stylusPoints.Add(New StylusPoint(pt.X, pt.Y)) End Sub 'OnMouseLeftButtonDown </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Override the OnMouseMove method. Get the position of the mouse when the event occurred and create a <Run FontWeight="Bold">StylusPoint</Run>
+ using the point data. Add the <Run FontWeight="Bold">StylusPoint</Run>
+ to the <Run FontWeight="Bold">StylusPointCollection</Run>
+ object that you created earlier.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override void OnMouseMove(MouseEventArgs e) { base.OnMouseMove(e); 
+// If a stylus generated this event, return. if (e.StylusDevice != null) { return; 
+} // Don't collect points unless the left mouse button // is down. if (e.LeftButton == MouseButtonState.Released || stylusPoints == null) { return; 
+} Point pt = e.GetPosition(this); 
+stylusPoints.Add(new StylusPoint(pt.X, pt.Y)); 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Protected Overrides Sub OnMouseMove(ByVal e As MouseEventArgs) MyBase.OnMouseMove(e) ' If a stylus generated this event, return. If Not (e.StylusDevice Is Nothing) Then Return End If ' Don't collect points unless the left mouse button ' is down. If e.LeftButton = MouseButtonState.Released Then Return End If If stylusPoints Is Nothing Then Return End If Dim pt As Point = e.GetPosition(Me) stylusPoints.Add(New StylusPoint(pt.X, pt.Y)) End Sub 'OnMouseMove </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Override the OnMouseLeftButtonUp method. Create a new <Run FontWeight="Bold">Stroke</Run>
+ with the <Run FontWeight="Bold">StylusPointCollection</Run>
+ data, and add the new <Run FontWeight="Bold">Stroke</Run>
+ you created to the <Run FontWeight="Bold">Strokes</Run>
+ collection of the <Run FontWeight="Bold">InkPresenter</Run>
+.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>C# </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e) { base.OnMouseLeftButtonUp(e); 
+// If a stylus generated this event, return. if (e.StylusDevice != null) { return; 
+} if (stylusPoints == null) { return; 
+} Point pt = e.GetPosition(this); 
+stylusPoints.Add(new StylusPoint(pt.X, pt.Y)); 
+// Create a stroke and add it to the InkPresenter. Stroke stroke = new Stroke(stylusPoints); 
+stroke.DrawingAttributes = dr.DrawingAttributes; 
+ip.Strokes.Add(stroke); 
+stylusPoints = null; 
+} </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Protected Overrides Sub OnMouseLeftButtonUp(ByVal e As MouseButtonEventArgs) MyBase.OnMouseLeftButtonUp(e) ' If a stylus generated this event, return. If Not (e.StylusDevice Is Nothing) Then Return End If If stylusPoints Is Nothing Then stylusPoints = New StylusPointCollection() End If Dim pt As Point = e.GetPosition(Me) stylusPoints.Add(New StylusPoint(pt.X, pt.Y)) ' Create a stroke and add it to the InkPresenter. Dim stroke As New Stroke(stylusPoints) stroke.DrawingAttributes = dr.DrawingAttributes ip.Strokes.Add(stroke) stylusPoints = Nothing End Sub 'OnMouseLeftButtonUp </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Putting it together
+    </Paragraph>
+
+    <Paragraph>The following example is a custom control that collects ink when the user uses either the mouse or the pen.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports System Imports System.Collections.Generic Imports System.Text Imports System.Windows.Ink Imports System.Windows.Input Imports System.Windows.Input.StylusPlugIns Imports System.Windows.Controls Imports System.Windows <Run>... </Run>
+' A control for managing ink input Class InkControl Inherits Label Private ip As InkPresenter Private dr As DynamicRenderer ' The StylusPointsCollection that gathers points ' before Stroke from is created. Private stylusPoints As StylusPointCollection = Nothing Public Sub New() ' Add an InkPresenter for drawing. ip = New InkPresenter() Me.Content = ip ' Add a dynamic renderer that ' draws ink as it "flows" from the stylus. dr = New DynamicRenderer() ip.AttachVisuals(dr.RootVisual, dr.DrawingAttributes) Me.StylusPlugIns.Add(dr) Dim cdr As New CustomDynamicRenderer() ip.AttachVisuals(cdr.RootVisual, cdr.DrawingAttributes) Me.StylusPlugIns.Add(cdr) End Sub 'New Shared Sub New() ' Allow ink to be drawn only within the bounds of the control. Dim owner As Type = GetType(InkControl) ClipToBoundsProperty.OverrideMetadata(owner, New FrameworkPropertyMetadata(True)) End Sub 'New Protected Overrides Sub OnStylusDown(ByVal e As StylusDownEventArgs) ' Capture the stylus so all stylus input is routed to this control. Stylus.Capture(Me) ' Allocate memory for the StylusPointsCollection and ' add the StylusPoints that have come in so far. stylusPoints = New StylusPointCollection() Dim eventPoints As StylusPointCollection = e.GetStylusPoints(Me, stylusPoints.Description) stylusPoints.Add(eventPoints) End Sub 'OnStylusDown Protected Overrides Sub OnStylusMove(ByVal e As StylusEventArgs) If stylusPoints Is Nothing Then Return End If ' Add the StylusPoints that have come in since the ' last call to OnStylusMove. Dim newStylusPoints As StylusPointCollection = e.GetStylusPoints(Me, stylusPoints.Description) stylusPoints.Add(newStylusPoints) End Sub 'OnStylusMove Protected Overrides Sub OnStylusUp(ByVal e As StylusEventArgs) ' Allocate memory for the StylusPointsCollection, if necessary. If stylusPoints Is Nothing Then Return End If ' Add the StylusPoints that have come in since the ' last call to OnStylusMove. Dim newStylusPoints As StylusPointCollection = e.GetStylusPoints(Me, stylusPoints.Description) stylusPoints.Add(newStylusPoints) ' Create a new stroke from all the StylusPoints since OnStylusDown. Dim stroke As New Stroke(stylusPoints) ' Add the new stroke to the Strokes collection of the InkPresenter. ip.Strokes.Add(stroke) ' Clear the StylusPointsCollection. stylusPoints = Nothing ' Release stylus capture. Stylus.Capture(Nothing) End Sub 'OnStylusUp Protected Overrides Sub OnMouseLeftButtonDown(ByVal e As MouseButtonEventArgs) MyBase.OnMouseLeftButtonDown(e) ' If a stylus generated this event, return. If Not (e.StylusDevice Is Nothing) Then Return End If ' Start collecting the points. stylusPoints = New StylusPointCollection() Dim pt As Point = e.GetPosition(Me) stylusPoints.Add(New StylusPoint(pt.X, pt.Y)) End Sub 'OnMouseLeftButtonDown Protected Overrides Sub OnMouseMove(ByVal e As MouseEventArgs) MyBase.OnMouseMove(e) ' If a stylus generated this event, return. If Not (e.StylusDevice Is Nothing) Then Return End If ' Don't collect points unless the left mouse button ' is down. If e.LeftButton = MouseButtonState.Released Then Return End If If stylusPoints Is Nothing Then Return End If Dim pt As Point = e.GetPosition(Me) stylusPoints.Add(New StylusPoint(pt.X, pt.Y)) End Sub 'OnMouseMove Protected Overrides Sub OnMouseLeftButtonUp(ByVal e As MouseButtonEventArgs) MyBase.OnMouseLeftButtonUp(e) ' If a stylus generated this event, return. If Not (e.StylusDevice Is Nothing) Then Return End If If stylusPoints Is Nothing Then stylusPoints = New StylusPointCollection() End If Dim pt As Point = e.GetPosition(Me) stylusPoints.Add(New StylusPoint(pt.X, pt.Y)) ' Create a stroke and add it to the InkPresenter. Dim stroke As New Stroke(stylusPoints) stroke.DrawingAttributes = dr.DrawingAttributes ip.Strokes.Add(stroke) stylusPoints = Nothing End Sub 'OnMouseLeftButtonUp End Class 'StylusControl </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System; 
+using System.Windows.Ink; 
+using System.Windows.Input; 
+using System.Windows.Input.StylusPlugIns; 
+using System.Windows.Controls; 
+using System.Windows; 
+<Run>... </Run>
+ // A control for managing ink input class InkControl : Label { InkPresenter ip; 
+DynamicRenderer dr; 
+// The StylusPointsCollection that gathers points // before Stroke from is created. StylusPointCollection stylusPoints = null; 
+public InkControl() { // Add an InkPresenter for drawing. ip = new InkPresenter(); 
+this.Content = ip; 
+// Add a dynamic renderer that // draws ink as it "flows" from the stylus. dr = new DynamicRenderer(); 
+ip.AttachVisuals(dr.RootVisual, dr.DrawingAttributes); 
+this.StylusPlugIns.Add(dr); 
+} static InkControl() { // Allow ink to be drawn only within the bounds of the control. Type owner = typeof(InkControl); 
+ClipToBoundsProperty.OverrideMetadata(owner, new FrameworkPropertyMetadata(true)); 
+} protected override void OnStylusDown(StylusDownEventArgs e) { // Capture the stylus so all stylus input is routed to this control. Stylus.Capture(this); 
+// Allocate memory for the StylusPointsCollection and // add the StylusPoints that have come in so far. stylusPoints = new StylusPointCollection(); 
+StylusPointCollection eventPoints = e.GetStylusPoints(this, stylusPoints.Description); 
+stylusPoints.Add(eventPoints); 
+} protected override void OnStylusMove(StylusEventArgs e) { if (stylusPoints == null) { return; 
+} // Add the StylusPoints that have come in since the // last call to OnStylusMove. StylusPointCollection newStylusPoints = e.GetStylusPoints(this, stylusPoints.Description); 
+stylusPoints.Add(newStylusPoints); 
+} protected override void OnStylusUp(StylusEventArgs e) { if (stylusPoints == null) { return; 
+} // Add the StylusPoints that have come in since the // last call to OnStylusMove. StylusPointCollection newStylusPoints = e.GetStylusPoints(this, stylusPoints.Description); 
+stylusPoints.Add(newStylusPoints); 
+// Create a new stroke from all the StylusPoints since OnStylusDown. Stroke stroke = new Stroke(stylusPoints); 
+// Add the new stroke to the Strokes collection of the InkPresenter. ip.Strokes.Add(stroke); 
+// Clear the StylusPointsCollection. stylusPoints = null; 
+// Release stylus capture. Stylus.Capture(null); 
+} protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) { base.OnMouseLeftButtonDown(e); 
+// If a stylus generated this event, return. if (e.StylusDevice != null) { return; 
+} // Start collecting the points. stylusPoints = new StylusPointCollection(); 
+Point pt = e.GetPosition(this); 
+stylusPoints.Add(new StylusPoint(pt.X, pt.Y)); 
+} protected override void OnMouseMove(MouseEventArgs e) { base.OnMouseMove(e); 
+// If a stylus generated this event, return. if (e.StylusDevice != null) { return; 
+} // Don't collect points unless the left mouse button // is down. if (e.LeftButton == MouseButtonState.Released || stylusPoints == null) { return; 
+} Point pt = e.GetPosition(this); 
+stylusPoints.Add(new StylusPoint(pt.X, pt.Y)); 
+} protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e) { base.OnMouseLeftButtonUp(e); 
+// If a stylus generated this event, return. if (e.StylusDevice != null) { return; 
+} if (stylusPoints == null) { return; 
+} Point pt = e.GetPosition(this); 
+stylusPoints.Add(new StylusPoint(pt.X, pt.Y)); 
+// Create a stroke and add it to the InkPresenter. Stroke stroke = new Stroke(stylusPoints); 
+stroke.DrawingAttributes = dr.DrawingAttributes; 
+ip.Strokes.Add(stroke); 
+stylusPoints = null; 
+} } </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using Additional Plug-ins and DynamicRenderers
+    </Paragraph>
+
+    <Paragraph>Like the InkCanvas, your custom control can have custom StylusPlugIn and additional <Run FontWeight="Bold">DynamicRenderer</Run>
+ objects. Add these to the <Run FontWeight="Bold">StylusPlugIns</Run>
+ collection. The order of the <Run FontWeight="Bold">StylusPlugIn</Run>
+ objects in the StylusPlugInCollection affects the appearance of the ink when it is rendered. Suppose you have a <Run FontWeight="Bold">DynamicRenderer</Run>
+ called <Run>dynamicRenderer</Run>
+ and a custom <Run FontWeight="Bold">StylusPlugIn</Run>
+ called <Run>translatePlugin</Run>
+ that offsets the ink from the tablet pen. If <Run>translatePlugin</Run>
+ is the first <Run FontWeight="Bold">StylusPlugIn</Run>
+ in the <Run FontWeight="Bold">StylusPlugInCollection</Run>
+, and <Run>dynamicRenderer</Run>
+ is the second, the ink that "flows" will be offset as the user moves the pen. If <Run>dynamicRenderer</Run>
+ is first, and <Run>translatePlugin</Run>
+ is second, the ink will not be offset until the user lifts the pen.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Conclusion
+    </Paragraph>
+
+    <Paragraph>You can create a control that collects and renders ink by overriding the stylus event methods. By creating your own control, deriving your own <Run FontWeight="Bold">StylusPlugIn</Run>
+ classes, and inserting them the into <Run FontWeight="Bold">StylusPlugInCollection</Run>
+, you can implement virtually any behavior imaginable with digital ink. You have access to the <Run FontWeight="Bold">StylusPoint</Run>
+ data as it is generated, giving you the opportunity to customize Stylus input and render it on the screen as appropriate for your application. Because you have such low-level access to the <Run FontWeight="Bold">StylusPoint</Run>
+ data, you can implement ink collection and render it with optimal performance for your application.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="abc8481a-f983-416f-b051-9168ac8b2ba3.xaml">Advanced Ink Handling</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://go.microsoft.com/fwlink/?LinkId=50752&amp;clcid=0x409">Accessing and Manipulating Pen Input</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Creating an Ink Input Control to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

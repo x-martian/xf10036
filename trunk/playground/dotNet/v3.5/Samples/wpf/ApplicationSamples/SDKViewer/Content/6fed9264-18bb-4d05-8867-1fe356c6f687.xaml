@@ -1,0 +1,682 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6fed9264_18bb_4d05_8867_1fe356c6f687"
+  Tag     ="Use Automatic Layout Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Use Automatic Layout Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces guidelines for developers on how to write Windows Presentation Foundation (WPF) applications with localizable user interfaces (UIs). In the past, localization of a UI was an expensive, time consuming process. Each language that the UI was adapted for required a pixel by pixel adjustment. Today with the right design and right coding standards, UIs can be constructed so that localizers have less resizing and repositioning to do. The approach to writing applications that can be more easily resized and repositioned is called <Run FontStyle="italic">automatic layout</Run>
+ and can be achieved by using WPF application design. 
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="advantages_of_autolayout">Advantages of Using Automatic Layout</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="autolayout_controls">Automatic Layout and Controls</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="autolayout_coding">Automatic Layout and Coding Standards</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="autolay_grids">Automatic Layout and Grids</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="autolay_grids_issharedsizescope">Automatic Layout and Grids Using the IsSharedSizeScope Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Advantages of Using Automatic Layout
+    </Paragraph>
+
+    <Paragraph>Because the WPF presentation system is powerful and flexible, it provides the ability to layout elements in an application that can be adjusted to fit the requirements of different languages. The following list points out some of the advantages of automatic layout. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>UI displays well in any language.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Reduces the need to readjust position and size of controls after text is translated.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Reduces the need to readjust window size.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UI layout renders properly in any language.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Localization can be reduced to the point that it is little more than string translation.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Automatic Layout and Controls
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>Automatic layout enables an application to adjust the size of a control automatically. For example, a control can change to accommodate the length of a string. This capability enables localizers to translate the string; 
+they no longer need to resize the control to fit the translated text. The following example creates a button with English content.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ButtonLoc.Pane1" Name="myWindow" SizeToContent="WidthAndHeight" > 
+&lt;DockPanel> 
+&lt;Button FontSize="28" Height="50">My name is Hope.
+&lt;/Button> 
+&lt;/DockPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In the example all you have to do to make a Spanish button is change the text. For example, 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ButtonLoc.Pane1" Name="myWindow" SizeToContent="WidthAndHeight" > 
+&lt;DockPanel> 
+&lt;Button FontSize="28" Height="50">Me llamo Esperanza.
+&lt;/Button> 
+&lt;/DockPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following graphic shows the output of the code samples.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Auto Resizable Button</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For the complete sample from which the preceding examples were extracted, see: Use Automatic Layout to Create a Button.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Automatic Layout and Coding Standards
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>Using the automatic layout approach requires a set of coding and design standards and rules to produce a fully localizable UI. The following guidelines will aid your automatic layout coding. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Coding Standards 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Do not use absolute positions.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Do not use Canvas because it positions elements absolutely.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Use DockPanel, StackPanel, and Grid to position controls.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>For a discussion about various types of panels, see <Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+.
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Do not set a fixed size for a window.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Use SizeToContent.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>For example: 
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+            <Table CellSpacing="5">
+              <TableRowGroup>
+                <TableRow>
+                  <TableCell>
+                    <Paragraph FontSize="22"><Run>XAML </Run>
+
+                    </Paragraph>
+
+                  </TableCell>
+
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="GridLoc.Pane1" > </Run>
+
+                    </Paragraph>
+
+                  </TableCell>
+
+                </TableRow>
+
+              </TableRowGroup>
+
+            </Table>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Add a FlowDirection.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Add a FlowDirection to the root element of your application.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>WPF provides a convenient way to support horizontal, bidirectional, and vertical layouts. In presentation framework, the FlowDirection property can be used to define layout. The flow-direction patterns are: 
+                </Paragraph>
+
+                <List MarkerStyle="Disc">
+                  <ListItem>
+                    <Paragraph><Run FontStyle="italic">LeftToRight</Run>
+ (LrTb) — horizontal layout for Latin, East Asian, and so forth.
+                    </Paragraph>
+
+                  </ListItem>
+
+                  <ListItem>
+                    <Paragraph><Run FontStyle="italic">RightToLeft</Run>
+ (RlTb) — bidirectional for Arabic, Hebrew, and so forth.
+                    </Paragraph>
+
+                  </ListItem>
+
+                </List>
+
+                <Paragraph/>
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Use composite fonts instead of physical fonts.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>With composite fonts, the FontFamily property does not need to be localized.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Developers can use one of the following fonts or create their own. 
+                </Paragraph>
+
+                <List MarkerStyle="Disc">
+                  <ListItem>
+                    <Paragraph>Global User Interface
+                    </Paragraph>
+
+                  </ListItem>
+
+                  <ListItem>
+                    <Paragraph>Global San Serif
+                    </Paragraph>
+
+                  </ListItem>
+
+                  <ListItem>
+                    <Paragraph>Global Serif
+                    </Paragraph>
+
+                  </ListItem>
+
+                </List>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Add xml:lang.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph>Add the XmlLang property in the root element of your UI, such as xml:lang="en-US" for an English application.
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph>Because composite fonts use xml:lang to determine what font to use, set this property to support multilingual scenarios.
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Automatic Layout and Grids
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The Grid element, is useful for automatic layout because it enables a developer to position elements. A Grid control is capable of distributing the available space among its child elements which are arranged in columns and rows and place UI elements in each cell. The UI elements can span multiple cells, and it is possible to have grids within grids. Grids are useful because they allow you to create and position complex UI. The following example demonstrates using a grid to position some buttons and text. Notice that the height and width of the cells are set to <Run>Auto</Run>
+; 
+therefore, the cell that contains the button with an image adjusts to fit the image. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Grid Name="grid" ShowGridLines ="false"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;ColumnDefinition Width="*"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="0" FontSize="24">Grid 
+&lt;/TextBlock> 
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="1" FontSize="12" Grid.ColumnSpan="2">The following buttons and text are positioned using a Grid. 
+&lt;/TextBlock> 
+&lt;Button Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="2" Background="Pink" BorderBrush="Black" BorderThickness="10">Button 1 
+&lt;/Button> 
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="2" FontSize="12" VerticalAlignment="Center" TextWrapping="WrapWithOverflow">Sets the background color. 
+&lt;/TextBlock> 
+&lt;Button Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="3" Foreground="Red"> Button 2 
+&lt;/Button> 
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="3" FontSize="12" VerticalAlignment="Center" TextWrapping="WrapWithOverflow">Sets the foreground color. 
+&lt;/TextBlock> 
+&lt;Button Margin="10, 10, 5, 5" Grid.Column="0" Grid.Row="4"> 
+&lt;Image Source="data\flower.jpg">
+&lt;/Image> 
+&lt;/Button> 
+&lt;TextBlock Margin="10, 10, 5, 5" Grid.Column="1" Grid.Row="4" FontSize="12" VerticalAlignment="Center" TextWrapping="WrapWithOverflow">Adds an image as the button's content. 
+&lt;/TextBlock> 
+&lt;/Grid> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following graphic shows the grid produced by the previous code.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Grid</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For the complete code sample, see Use Grid for Automatic Layout.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Automatic Layout and Grids Using the IsSharedSizeScope Property
+    </Paragraph>
+
+    <Paragraph>Grids are useful in localizable applications to create controls that adjust to fit content. However, at times you want controls to maintain a particular size regardless of content. For example, if you have "OK", "Cancel" and "Browse" buttons you probably do not want the buttons sized to fit the content. In this case the Grid element's IsSharedSizeScope attached property is useful for sharing the same sizing among multiple grid elements. The following example demonstrates how to share column and row sizing data between multiple Grid elements. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel Orientation="Horizontal" DockPanel.Dock="Top"> 
+&lt;Button Click="setTrue" Margin="0,0,10,10">Set IsSharedSizeScope="True"
+&lt;/Button> 
+&lt;Button Click="setFalse" Margin="0,0,10,10">Set IsSharedSizeScope="False"
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;StackPanel Orientation="Horizontal" DockPanel.Dock="Top"> 
+&lt;Grid ShowGridLines="True" Margin="0,0,10,0"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition SharedSizeGroup="FirstColumn"/> 
+&lt;ColumnDefinition SharedSizeGroup="SecondColumn"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto" SharedSizeGroup="FirstRow"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Rectangle Fill="Silver" Grid.Column="0" Grid.Row="0" Width="200" Height="100"/> 
+&lt;Rectangle Fill="Blue" Grid.Column="1" Grid.Row="0" Width="150" Height="100"/> 
+&lt;TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold">First Column
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" FontWeight="Bold">Second Column
+&lt;/TextBlock> 
+&lt;/Grid> 
+&lt;Grid ShowGridLines="True"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition SharedSizeGroup="FirstColumn"/> 
+&lt;ColumnDefinition SharedSizeGroup="SecondColumn"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto" SharedSizeGroup="FirstRow"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Rectangle Fill="Silver" Grid.Column="0" Grid.Row="0"/> 
+&lt;Rectangle Fill="Blue" Grid.Column="1" Grid.Row="0"/> 
+&lt;TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold">First Column
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" FontWeight="Bold">Second Column
+&lt;/TextBlock> 
+&lt;/Grid> 
+&lt;/StackPanel> 
+&lt;TextBlock Margin="10" DockPanel.Dock="Top" Name="txt1"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Note</Run>
+   For the complete code sample, see <Hyperlink NavigateUri="a0535a6f-ff04-4b25-9912-7dd856e11044.xaml">How to: Share Sizing Properties Between Grids</Hyperlink>
+
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="96c206d0-9e77-4784-9d2d-5045aed2021c.xaml">How to: Use Automatic Layout to Create a Button</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ab9de407-e0c1-4047-bdf0-24951bf73879.xaml">How to: Use a Grid for Automatic Layout</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="4571ccfe-8a60-4f06-9b37-7ac0b1c2d10f.xaml">Globalization for the Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Use Automatic Layout Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

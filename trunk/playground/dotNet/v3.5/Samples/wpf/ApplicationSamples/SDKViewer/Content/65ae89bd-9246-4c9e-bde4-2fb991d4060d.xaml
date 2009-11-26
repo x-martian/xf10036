@@ -1,0 +1,519 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_65ae89bd_9246_4c9e_bde4_2fb991d4060d"
+  Tag     ="Set the Horizontal and Vertical Alignment of a TileBrush"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Set the Horizontal and Vertical Alignment of a TileBrush</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to control the horizontal and vertical alignment of content in a tile. To control the horizontal and vertical alignment of a TileBrush, use its AlignmentX and AlignmentY properties. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">AlignmentX</Run>
+ and <Run FontWeight="Bold">AlignmentY</Run>
+ properties of a <Run FontWeight="Bold">TileBrush</Run>
+ are used when either of the following conditions is true: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The Stretch property is Uniform or UniformToFill and the Viewbox and Viewport have different <Run>aspect ratios</Run>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">Stretch</Run>
+ property is None and the <Run FontWeight="Bold">Viewbox</Run>
+ and <Run FontWeight="Bold">Viewport</Run>
+ are different sizes. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example aligns the content of a DrawingBrush, which is a type of <Run FontWeight="Bold">TileBrush</Run>
+, to the upper-left corner of its tile. To align the content, the example sets the <Run FontWeight="Bold">AlignmentX</Run>
+ property of the <Run FontWeight="Bold">DrawingBrush</Run>
+ to Left and the <Run FontWeight="Bold">AlignmentY</Run>
+ property to Top. This example produces the following output.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">TileBrush with content aligned to the upper-left corner</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Create a TileBrush and align its // content to the top-left of its tile. // DrawingBrush topLeftAlignedTileBrush = new DrawingBrush(); 
+topLeftAlignedTileBrush.AlignmentX = AlignmentX.Left; 
+topLeftAlignedTileBrush.AlignmentY = AlignmentY.Top; 
+// Set Stretch to None so that the brush's // content doesn't automatically expand to // fill the entire tile. topLeftAlignedTileBrush.Stretch = Stretch.None; 
+// Define the brush's content. GeometryGroup ellipses = new GeometryGroup(); 
+ellipses.Children.Add(new EllipseGeometry(new Point(50, 50), 20, 45)); 
+ellipses.Children.Add(new EllipseGeometry(new Point(50, 50), 45, 20)); 
+Pen drawingPen = new Pen(Brushes.Gray, 10); 
+GeometryDrawing ellipseDrawing = new GeometryDrawing(Brushes.Blue, drawingPen, ellipses); 
+topLeftAlignedTileBrush.Drawing = ellipseDrawing; 
+// Use the brush to paint a rectangle. Rectangle rectangle1 = new Rectangle(); 
+rectangle1.Width = 150; 
+rectangle1.Height = 150; 
+rectangle1.Stroke = Brushes.Red; 
+rectangle1.StrokeThickness = 2; 
+rectangle1.Margin = new Thickness(20); 
+rectangle1.Fill = topLeftAlignedTileBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="150" Height="150" Stroke="Red" StrokeThickness="2" Margin="20"> 
+&lt;Rectangle.Fill> 
+&lt;!-- This brush's content is aligned to the top-left of its tile. --> 
+&lt;DrawingBrush Stretch="None" AlignmentX="Left" AlignmentY="Top"> 
+&lt;DrawingBrush.Drawing> 
+&lt;GeometryDrawing Brush="MediumBlue"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;GeometryGroup> 
+&lt;EllipseGeometry RadiusX="20" RadiusY="45" Center="50,50" /> 
+&lt;EllipseGeometry RadiusX="45" RadiusY="20" Center="50,50" /> 
+&lt;/GeometryGroup> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Brush="Gray" Thickness="10" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next example aligns the content of a <Run FontWeight="Bold">DrawingBrush</Run>
+ to the lower-right corner of its tile by setting the <Run FontWeight="Bold">AlignmentX</Run>
+ property to Right and the <Run FontWeight="Bold">AlignmentY</Run>
+ property to Bottom. The example produces the following output.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">TileBrush with content aligned to the lower-right corner</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Create a TileBrush and align its // content to the bottom-right of its tile. // DrawingBrush bottomRightAlignedTileBrush = new DrawingBrush(); 
+bottomRightAlignedTileBrush.AlignmentX = AlignmentX.Right; 
+bottomRightAlignedTileBrush.AlignmentY = AlignmentY.Bottom; 
+bottomRightAlignedTileBrush.Stretch = Stretch.None; 
+// Define the brush's content. bottomRightAlignedTileBrush.Drawing = ellipseDrawing; 
+// Use the brush to paint a rectangle. Rectangle rectangle2 = new Rectangle(); 
+rectangle2.Width = 150; 
+rectangle2.Height = 150; 
+rectangle2.Stroke = Brushes.Red; 
+rectangle2.StrokeThickness = 2; 
+rectangle2.Margin = new Thickness(20); 
+rectangle2.Fill = bottomRightAlignedTileBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="150" Height="150" Stroke="Red" StrokeThickness="2" Margin="20"> 
+&lt;Rectangle.Fill> 
+&lt;!-- This brush's content is aligned to the bottom right of its tile. --> 
+&lt;DrawingBrush Stretch="None" AlignmentX="Right" AlignmentY="Bottom"> 
+&lt;DrawingBrush.Drawing> 
+&lt;GeometryDrawing Brush="MediumBlue"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;GeometryGroup> 
+&lt;EllipseGeometry RadiusX="20" RadiusY="45" Center="50,50" /> 
+&lt;EllipseGeometry RadiusX="45" RadiusY="20" Center="50,50" /> 
+&lt;/GeometryGroup> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Brush="Gray" Thickness="10" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next example aligns the content of a <Run FontWeight="Bold">DrawingBrush</Run>
+ to the upper-left corner of its tile by setting the <Run FontWeight="Bold">AlignmentX</Run>
+ property to <Run FontWeight="Bold">Left</Run>
+ and the <Run FontWeight="Bold">AlignmentY</Run>
+ property to <Run FontWeight="Bold">Top</Run>
+. It also sets the <Run FontWeight="Bold">Viewport</Run>
+ and TileMode of the <Run FontWeight="Bold">DrawingBrush</Run>
+ to produce a tile pattern. The example produces the following output.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Tile pattern with content aligned to upper-left in base tile</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The illustration highlights a base tile so that you can see how its content is aligned. Notice that the <Run FontWeight="Bold">AlignmentX</Run>
+ setting has no effect because the content of the <Run FontWeight="Bold">DrawingBrush</Run>
+ completely fills the base tile horizontally. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Create a TileBrush that generates a // tiled pattern and align its // content to the top-left of its tile. // DrawingBrush tiledTopLeftAlignedTileBrush = new DrawingBrush(); 
+tiledTopLeftAlignedTileBrush.AlignmentX = AlignmentX.Left; 
+tiledTopLeftAlignedTileBrush.AlignmentY = AlignmentY.Top; 
+tiledTopLeftAlignedTileBrush.Stretch = Stretch.Uniform; 
+// Set the brush's Viewport and TileMode to produce a // tiled pattern. tiledTopLeftAlignedTileBrush.Viewport = new Rect(0, 0, 0.25, 0.5); 
+tiledTopLeftAlignedTileBrush.TileMode = TileMode.Tile; 
+// Define the brush's content. tiledTopLeftAlignedTileBrush.Drawing = ellipseDrawing; 
+// Use the brush to paint a rectangle. Rectangle rectangle3 = new Rectangle(); 
+rectangle3.Width = 150; 
+rectangle3.Height = 150; 
+rectangle3.Stroke = Brushes.Black; 
+rectangle3.StrokeThickness = 2; 
+rectangle3.Margin = new Thickness(20); 
+rectangle3.Fill = tiledTopLeftAlignedTileBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="150" Height="150" Stroke="Black" StrokeThickness="2" Margin="20"> 
+&lt;Rectangle.Fill> 
+&lt;!-- This brush's content is aligned to the top left of its tile. --> 
+&lt;DrawingBrush Stretch="Uniform" Viewport="0,0,0.25,0.5" TileMode="Tile" AlignmentX="Left" AlignmentY="Top"> 
+&lt;DrawingBrush.Drawing> 
+&lt;GeometryDrawing Brush="MediumBlue"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;GeometryGroup> 
+&lt;EllipseGeometry RadiusX="20" RadiusY="45" Center="50,50" /> 
+&lt;EllipseGeometry RadiusX="45" RadiusY="20" Center="50,50" /> 
+&lt;/GeometryGroup> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Brush="Gray" Thickness="10" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The final example aligns the content of a tiled <Run FontWeight="Bold">DrawingBrush</Run>
+ to the lower-right of its base tile by setting the <Run FontWeight="Bold">AlignmentX</Run>
+ property to <Run FontWeight="Bold">Right</Run>
+ and the <Run FontWeight="Bold">AlignmentY</Run>
+ property to <Run FontWeight="Bold">Bottom</Run>
+. The example produces the following output.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Tile pattern with content aligned to lower-right in base tile</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>Again, the <Run FontWeight="Bold">AlignmentX</Run>
+ setting has no effect because the content of the <Run FontWeight="Bold">DrawingBrush</Run>
+ completely fills the base tile horizontally.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Create a TileBrush and align its // content to the bottom-right of its tile. // DrawingBrush bottomRightAlignedTileBrush = new DrawingBrush(); 
+bottomRightAlignedTileBrush.AlignmentX = AlignmentX.Right; 
+bottomRightAlignedTileBrush.AlignmentY = AlignmentY.Bottom; 
+bottomRightAlignedTileBrush.Stretch = Stretch.None; 
+// Define the brush's content. bottomRightAlignedTileBrush.Drawing = ellipseDrawing; 
+// Use the brush to paint a rectangle. Rectangle rectangle2 = new Rectangle(); 
+rectangle2.Width = 150; 
+rectangle2.Height = 150; 
+rectangle2.Stroke = Brushes.Red; 
+rectangle2.StrokeThickness = 2; 
+rectangle2.Margin = new Thickness(20); 
+rectangle2.Fill = bottomRightAlignedTileBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Width="150" Height="150" Stroke="Red" StrokeThickness="2" Margin="20"> 
+&lt;Rectangle.Fill> 
+&lt;!-- This brush's content is aligned to the bottom right of its tile. --> 
+&lt;DrawingBrush Stretch="None" AlignmentX="Right" AlignmentY="Bottom"> 
+&lt;DrawingBrush.Drawing> 
+&lt;GeometryDrawing Brush="MediumBlue"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;GeometryGroup> 
+&lt;EllipseGeometry RadiusX="20" RadiusY="45" Center="50,50" /> 
+&lt;EllipseGeometry RadiusX="45" RadiusY="20" Center="50,50" /> 
+&lt;/GeometryGroup> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Brush="Gray" Thickness="10" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingBrush.Drawing> 
+&lt;/DrawingBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The examples use <Run FontWeight="Bold">DrawingBrush</Run>
+ objects to demonstrate how the <Run FontWeight="Bold">AlignmentX</Run>
+ and <Run FontWeight="Bold">AlignmentY</Run>
+ properties are used. These properties behave identically for all the tile brushes: <Run FontWeight="Bold">DrawingBrush</Run>
+, ImageBrush, and VisualBrush. For more information about tile brushes, see <Hyperlink NavigateUri="779aac3f-8d41-49d8-8130-768244aa2240.xaml">Painting with Images, Drawings, and Visuals</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>DrawingBrush
+      <LineBreak/>ImageBrush
+      <LineBreak/>VisualBrush
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="779aac3f-8d41-49d8-8130-768244aa2240.xaml">Painting with Images, Drawings, and Visuals</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Set the Horizontal and Vertical Alignment of a TileBrush to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

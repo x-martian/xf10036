@@ -1,0 +1,2633 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_87bee662_0a3e_4232_a421_20e7a5968321"
+  Tag     ="UI Automation and Microsoft Active Accessibility"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation and Microsoft Active Accessibility</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This overview provides information about the differences between Microsoft UI Automation and Microsoft Active Accessibility. 
+    </Paragraph>
+
+    <Paragraph>Active Accessibility was the earlier solution for making applications accessible. UI Automation is the new accessibility model for Microsoft Windows and is intended to address the needs of assistive technology products and automated testing tools. UI Automation offers many improvements over Active Accessibility.
+    </Paragraph>
+
+    <Paragraph>This topic includes the main features of UI Automation and explains how these features differ from Active Accessibility.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Programming_Languages_compare">Programming Languages</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Support_in_Windows_Presentation_Foundation_">Support in Windows Presentation Foundation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Servers_and_Clients_compare">Servers and Clients</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="UI_Elements_compare">UI Elements</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Tree_Views_and_Navigation_compare">Tree Views and Navigation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Roles_and_Control_Types">Roles and Control Types</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="States_and_Properties">States and Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="uiautomation_events_compare">Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Security_compare">Security</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Programming Languages
+    </Paragraph>
+
+    <Paragraph>Active Accessibility is based on the Component Object Model (COM) with support for dual interfaces, and is therefore programmable in C/C++, Microsoft Visual Basic 6.0, and scripting languages. UI Automation (including the client-side provider library for standard controls) is written in managed code, and <Run>UI Automation client</Run>
+ applications are most easily programmed using Microsoft Visual C# or Microsoft Visual Basic .NET. <Run>UI Automation providers</Run>
+, which are interface implementations, can be written in managed code or in C/C++.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Support in Windows Presentation Foundation
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) is the new model for creating user interfaces. WPF elements do not contain native support for Active Accessibility; 
+however, they do support UI Automation, which includes bridging support for Active Accessibility clients. However, only clients written specifically for UI Automation can take full advantage of the accessibility features of WPF, such as the rich support for text.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Servers and Clients
+    </Paragraph>
+
+    <Paragraph>In Active Accessibility, servers and clients communicate directly, largely through the server's implementation of <Run FontWeight="Bold">IAccessible</Run>
+.
+    </Paragraph>
+
+    <Paragraph>In UI Automation, a core service lies between the server (called a provider) and the client. The core service makes calls to the interfaces implemented by providers and provides additional services such as generating unique runtime identifiers for elements. Client applications use library functions to call the UI Automation service.
+    </Paragraph>
+
+    <Paragraph>UI Automation providers can provide information to Active Accessibility clients, and Active Accessibility servers can provide information to UI Automation client applications. However, because Active Accessibility does not expose as much information as UI Automation, the two models are not fully compatible. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">UI Elements
+    </Paragraph>
+
+    <Paragraph>Active Accessibility presents UI elements either as an <Run FontWeight="Bold">IAccessible</Run>
+ interface or as a child identifier. It is difficult to compare two <Run FontWeight="Bold">IAccessible</Run>
+ pointers to determine if they refer to the same element.
+    </Paragraph>
+
+    <Paragraph>In UI Automation, every element is represented as an AutomationElement object. Comparison is done by using the equality operator or the Equals method, both of which compare the unique runtime identifiers of the elements.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Tree Views and Navigation
+    </Paragraph>
+
+    <Paragraph>The user interface (UI) elements on the screen can be seen as a tree structure, with the desktop as the root, application windows as immediate children, and elements within applications as further descendants. 
+    </Paragraph>
+
+    <Paragraph>In Active Accessibility, many automation elements that are irrelevant to end users are exposed in the tree. Client applications have to look at all the elements to determine which are meaningful.
+    </Paragraph>
+
+    <Paragraph>UI Automation client applications see the UI through a filtered view. The view contains only elements of interest: those that give information to the user or enable interaction. Predefined views of only control elements and only content elements are available; 
+in addition, applications can define custom views. UI Automation simplifies the task of describing the UI to the user and helping the user interact with the application.
+    </Paragraph>
+
+    <Paragraph>Navigation between elements, in Active Accessibility, is either spatial (for example, moving to the element that lies to the left on the screen), logical (for example, moving to the next menu item, or the next item in the tab order within a dialog box), or hierarchical (for example, moving the first child in a container, or from the child to its parent). Hierarchical navigation is complicated by the fact that child elements are not always objects that implement <Run FontWeight="Bold">IAccessible</Run>
+.
+    </Paragraph>
+
+    <Paragraph>In UI Automation, all UI elements are <Run FontWeight="Bold">AutomationElement</Run>
+ objects that support the same basic functionality. (From the standpoint of the provider, they are objects that implement an interface inherited from IRawElementProviderSimple.) Navigation is mainly hierarchical: from parents to children, and from one sibling to the next. (Navigation between siblings has a logical element, as it may follow the tab order.) You can navigate from any starting-point, using any filtered view of the tree, by using the TreeWalker class. You can also navigate to particular children or descendants by using FindFirst and FindAll; 
+for example, it is very easy to retrieve all elements within a dialog box that support a specified control pattern.
+    </Paragraph>
+
+    <Paragraph>Navigation in UI Automation is more consistent than in Active Accessibility. Some elements such as dropdown lists and popup windows appear twice in the Active Accessibility tree, and navigation from them may have unexpected results. It is actually impossible to properly implement Active Accessibility for a rebar control. UI Automation enables reparenting and repositioning, so that an element can be placed anywhere in the tree despite the hierarchy imposed by ownership of windows.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Roles and Control Types
+    </Paragraph>
+
+    <Paragraph>Active Accessibility uses the <Run FontWeight="Bold">accRole</Run>
+ property (<Run FontWeight="Bold">IAccessible::get_actRole</Run>
+) to retrieve a description of the element's role in the UI, such as ROLE_SYSTEM_SLIDER or ROLE_SYSTEM_MENUITEM. The role of an element is the main clue to its available functionality. Interaction with a control is achieved by using fixed methods such as <Run FontWeight="Bold">IAccessible::accSelect</Run>
+ and <Run FontWeight="Bold">IAccessible::accDoDefaultAction</Run>
+. The interaction between the client application and the UI is limited to what can be done through <Run FontWeight="Bold">IAccessible</Run>
+.
+    </Paragraph>
+
+    <Paragraph>In contrast, UI Automation largely decouples the <Run>control type</Run>
+ of the element (described by the ControlType property) from its expected functionality. Functionality is determined by the <Run>control patterns</Run>
+ that are supported by the provider through its implementation of specialized interfaces. Control patterns can be combined to describe the full set of functionality supported by a particular UI element. Some providers are required to support a particular control pattern; 
+for example, the provider for a check box must support the Toggle control pattern. Other providers are required to support one or more of a set of control patterns; 
+for example, a button must support either Toggle or Invoke. Still others support no control patterns at all; 
+for example, a pane that cannot be moved, resized, or docked does not have any control patterns.
+    </Paragraph>
+
+    <Paragraph>UI Automation supports custom controls, which are identified by Custom and can be described by the LocalizedControlTypeProperty property.
+    </Paragraph>
+
+    <Paragraph>The following table shows the mapping of Active Accessibility roles to UI Automation control types.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Active Accessibility role 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>UI Automation control type 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_PUSHBUTTON
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Button
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_CLIENT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Calendar
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_CHECKBUTTON
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Check box
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_COMBOBOX
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Combo box
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_CLIENT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Custom
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_LIST
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Data grid
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_LISTITEM
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Data item
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_DOCUMENT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Document
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_TEXT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Edit
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_GROUPING
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Group
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_LIST
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Header
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_COLUMNHEADER 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Header item
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_LINK
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Hyperlink
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_GRAPHIC
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Image
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_LIST
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>List
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_LISTITEM
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>List item
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_MENUPOPUP
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Menu
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_MENUBAR
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Menu bar
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_MENUITEM
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Menu item
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_PANE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Pane
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_PROGRESSBAR
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Progress bar
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_RADIOBUTTON
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Radio button
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_SCROLLBAR
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Scroll bar
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_SEPARATOR
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Separator
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_SLIDER
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Slider
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_SPINBUTTON
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Spinner
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_SPLITBUTTON
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Split button
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_STATUSBAR
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Status bar
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_PAGETABLIST
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tab
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_PAGETAB
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tab item
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_TABLE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Table
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_STATICTEXT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Text
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_INDICATOR
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Thumb
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_TITLEBAR
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Title bar
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_TOOLBAR
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tool bar
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_TOOLTIP
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ToolTip
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_OUTLINE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tree
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_OUTLINEITEM
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Tree item
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ROLE_SYSTEM_WINDOW
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Window
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information about the different control types, see <Hyperlink NavigateUri="261dcc59-3a62-4e40-91dd-63ff9d2241c0.xaml">UI Automation Control Types</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">States and Properties
+    </Paragraph>
+
+    <Paragraph>In Active Accessibility, elements support a common set of properties, and some properties (such as <Run FontWeight="Bold">accState</Run>
+) must describe very different things, depending on the element's role. Servers must implement all methods of <Run FontWeight="Bold">IAccessible</Run>
+ that return a property, even those that are not relevant to the element.
+    </Paragraph>
+
+    <Paragraph>UI Automation defines many more properties, some of which correspond to states in Active Accessibility. Some are common to all elements, but others are specific to control typess and control patterns. Properties are distinguished by unique identifiers, and most properties can be retrieved by using a single method, GetCurrentPropertyValue or GetCachedPropertyValue. Many properties are also easily retrievable from the Current and Cached property accessors. 
+    </Paragraph>
+
+    <Paragraph>A UI Automation provider does not have to implement irrelevant properties, but simply returns a null value for any properties it does not support. Also, the UI Automation core service can obtain some properties from the default window provider, and these are amalgamated with properties explicitly implemented by the provider.
+    </Paragraph>
+
+    <Paragraph>As well as supporting many more properties, UI Automation supplies better performance by allowing multiple properties to be retrieved with a single cross-process call.
+    </Paragraph>
+
+    <Paragraph>The following table shows the correspondence between properties in the two models.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Active Accessibility property accessor 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>UI Automation property ID 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Remarks 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">get_accKeyboardShortcut</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AccessKeyProperty or AcceleratorKeyProperty
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AccessKeyProperty</Run>
+ takes precedence if both are present.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">get_accName</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>NameProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold"/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">get_accRole</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ControlTypeProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>See the previous table for mapping of roles to control types.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">get_accValue</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>System.Windows.Automation.ValuePattern.ValueProperty 
+            </Paragraph>
+
+            <Paragraph>System.Windows.Automation.RangeValuePattern.ValueProperty 
+            </Paragraph>
+
+            <Paragraph/>
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Valid only for control types that support ValuePattern or RangeValuePattern. RangeValue values are normalized to 0-100, to be consistent with MSAA behavior. Value items use a string.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">get_accHelp</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>HelpTextProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">accLocation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>BoundingRectangleProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">get_accDescription</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not supported in UI Automation.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">accDescription</Run>
+ did not have a clear specification within MSAA, which resulted in providers placing different pieces of information in this property.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">get_accHelpTopic</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not supported in UI Automation.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following table shows which UI Automation properties correspond to Active Accessibility state constants.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Active Accessibility state 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>UI Automation property 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Triggers State Change? 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_CHECKED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>For check box, ToggleStateProperty
+            </Paragraph>
+
+            <Paragraph>For radio button, IsSelectedProperty
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Y
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_COLLAPSED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ExpandCollapseState = Collapsed
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Y
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_EXPANDED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ExpandCollapseState</Run>
+ = Expanded or PartiallyExpanded
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Y
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_FOCUSABLE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsKeyboardFocusableProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_FOCUSED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>HasKeyboardFocusProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_HASPOPUP
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ExpandCollapsePattern for menu items
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_INVISIBLE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsOffscreenProperty = True and GetClickablePoint causes NoClickablePointException 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_LINKED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ControlTypeProperty</Run>
+ =
+            </Paragraph>
+
+            <Paragraph>Hyperlink 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_MIXED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ToggleState = Indeterminate
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_MOVEABLE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>CanMoveProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_MUTLISELECTABLE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>CanSelectMultipleProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_OFFSCREEN
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">IsOffscreenProperty</Run>
+ = True
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_PROTECTED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsPasswordProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_READONLY
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>System.Windows.Automation.RangeValuePattern.IsReadOnlyProperty and System.Windows.Automation.ValuePattern.IsReadOnlyProperty
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_SELECTABLE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>SelectionItemPattern is supported
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_SELECTED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">IsSelectedProperty</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_SIZEABLE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>CanResize 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>N
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_UNAVAILABLE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>IsEnabledProperty 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Y
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following states either were not implemented by most Active Accessibility control servers or have no equivalent in UI Automation.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Active Accessibility state 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Remarks 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_BUSY
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not available in UI Automation
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_DEFAULT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not available in UI Automation
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_ANIMATED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not available in UI Automation
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_EXTSELECTABLE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not widely implemented by Active Accessibility servers
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_MARQUEED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not widely implemented by Active Accessibility servers
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_SELFVOICING
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not widely implemented by Active Accessibility servers
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_TRAVERSED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not available in UI Automation
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_ALERT_HIGH
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not widely implemented by Active Accessibility servers
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_ALERT_MEDIUM
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not widely implemented by Active Accessibility servers
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_ALERT_LOW
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not widely implemented by Active Accessibility servers
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_FLOATING
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not widely implemented by Active Accessibility servers
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_HOTTRACKED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not available in UI Automation
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>STATE_SYSTEM_PRESSED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not available in UI Automation
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete list of UI Automation property identifers, see <Hyperlink NavigateUri="a6c31d7b-b33e-49b3-b5c1-31a345f9b7c8.xaml">UI Automation Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Events
+    </Paragraph>
+
+    <Paragraph>The event mechanism in UI Automation, unlike that in Active Accessibility, does not rely on Windows event-routing (which is closely tied in with window handles) and does not require the client application to set up hooks. Subscriptions to events can be fine-tuned not just to particular events but to particular parts of the tree. Providers can also fine-tune their raising of events by keeping track of what events are being listened for.
+    </Paragraph>
+
+    <Paragraph>It is also easier for clients to retrieve the elements that raise events, as these are passed directly to the event callback. Properties of the element are automatically prefetched if a cache request was active when the client subscribed to the event.
+    </Paragraph>
+
+    <Paragraph>The following table shows the correspondence of Active Accessibility WinEvents and UI Automation events.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>WinEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>UI Automation event identifier 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_ACCELERATORCHANGE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AcceleratorKeyProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_CONTENTSCROLLED
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>VerticalScrollPercentProperty or HorizontalScrollPercentProperty property change on the associated scroll bars.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_CREATE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>StructureChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_DEFACTIONCHANGE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_DESCRIPTIONCHANGE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No exact equivalent; 
+perhaps <Run FontWeight="Bold">HelpTextProperty</Run>
+ or <Run FontWeight="Bold">LocalizedControlTypeProperty</Run>
+ property chang.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_DESTROY
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">StructureChangedEvent</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_FOCUS
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AutomationFocusChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_HELPCHANGE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">HelpTextProperty</Run>
+ change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_HIDE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">StructureChangedEvent</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_LOCATIONCHANGE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">BoundingRectangleProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_NAMECHANGE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">NameProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_PARENTCHANGE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">StructureChangedEvent</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_REORDER
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not consistently used in Active Accessibility. No directly corresponding event is defined in UI Automation.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_SELECTION
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ElementSelectedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_SELECTIONADD
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ElementAddedToSelectionEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_SELECTIONREMOVE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ElementRemovedFromSelectionEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_SELECTIONWITHIN
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_SHOW
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">StructureChangedEvent</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_STATECHANGE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Various property-changed events.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_OBJECT_VALUECHANGE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">System.Windows.Automation.RangeValuePattern.ValueProperty</Run>
+ and <Run FontWeight="Bold">System.Windows.Automation.ValuePattern.ValueProperty</Run>
+ changed
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_ALERT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_CAPTUREEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_CAPTURESTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_CONTEXTHELPEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_CONTEXTHELPSTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_DIALOGEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WindowClosedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_DIALOGSTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WindowOpenedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_DRAGDROPEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_DRAGDROPSTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_FOREGROUND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">AutomationFocusChangedEvent</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_MENUEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>MenuClosedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_MENUPOPUPEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">MenuClosedEvent</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_MENUPOPUPSTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>MenuOpenedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_MENUSTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">MenuOpenedEvent</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_MINIMIZEEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WindowVisualStateProperty property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_MINIMIZESTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">WindowVisualStateProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_MOVESIZEEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">BoundingRectangleProperty</Run>
+ property change 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_MOVESIZESTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">BoundingRectangleProperty</Run>
+ property change 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_SCROLLINGEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">VerticalScrollPercentProperty</Run>
+ or <Run FontWeight="Bold">HorizontalScrollPercentProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_SCROLLINGSTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">VerticalScrollPercentProperty</Run>
+ or <Run FontWeight="Bold">HorizontalScrollPercentProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_SOUND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_SWITCHEND
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent, but an <Run FontWeight="Bold">AutomationFocusChangedEvent</Run>
+ event signals that a new application has received the focus. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>EVENT_SYSTEM_SWITCHSTART
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>CurrentViewProperty property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ValueProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>HorizontallyScrollableProperty property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>VerticallyScrollableProperty property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">HorizontalScrollPercentProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">VerticalScrollPercentProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>HorizontalViewSizeProperty property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>VerticalViewSizeProperty property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ToggleStateProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ValueProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">WindowVisualStateProperty</Run>
+ property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>AsyncContentLoadedEvent property change
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>No equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ToolTipOpenedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Security
+    </Paragraph>
+
+    <Paragraph>Some <Run FontWeight="Bold">IAccessible</Run>
+ customization scenarios require wrapping a base <Run FontWeight="Bold">IAccessible</Run>
+ and calling through to it. This has security implications, since a partially trusted component should not be an intermediary on a code path.
+    </Paragraph>
+
+    <Paragraph>The UI Automation model removes the need for providers to call through to other provider code. The UI Automation core service does all the necessary aggregation.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d270ab45-542b-45c0-a240-e80aa4a61b95.xaml">UI Automation Fundamentals</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation and Microsoft Active Accessibility to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

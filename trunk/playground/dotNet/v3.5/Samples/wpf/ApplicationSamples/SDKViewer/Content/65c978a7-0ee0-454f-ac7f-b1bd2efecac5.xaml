@@ -1,0 +1,449 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_65c978a7_0ee0_454f_ac7f_b1bd2efecac5"
+  Tag     ="Custom Rendering Ink"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Custom Rendering Ink</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The DrawingAttributes property of a stroke allows you to specify the appearance of a stroke, such as its size, color, and shape, but there may be times that you want to customize the appearance beyond what <Run FontWeight="Bold">DrawingAttributes</Run>
+ allow. You may want to customize the appearance of ink by rendering in the appearance of an air brush, oil paint, and many other effects. The Windows Presentation Foundation (WPF) allows you to custom render ink by implementing a custom DynamicRenderer and Stroke object. 
+    </Paragraph>
+
+    <Paragraph>This topic contains the following subsections:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Architecture">Architecture</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="ImplementingADynamicRenderer">Implementing a Dynamic Renderer</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="ImplementingACustomStroke">Implementing a Custom Stroke</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="ImplementingACustomInkCanvas">Implementing a Custom InkCanvas</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Conclusion">Conclusion</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Architecture
+    </Paragraph>
+
+    <Paragraph>Ink rendering occurs two times; 
+when a user writes ink to an inking surface, and again after the stroke is added to the ink-enabled surface. The <Run FontWeight="Bold">DynamicRenderer</Run>
+ renders the ink when the user moves the tablet pen on the digitizer, and the <Run FontWeight="Bold">Stroke</Run>
+ renders itself once it is added to an element. 
+    </Paragraph>
+
+    <Paragraph>There are three classes to implement when dynamically rendering ink.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">DynamicRenderer</Run>
+: Implement a class that derives from <Run FontWeight="Bold">DynamicRenderer</Run>
+. This class is a specialized StylusPlugIn that renders the stroke as it is drawn. The <Run FontWeight="Bold">DynamicRenderer</Run>
+ does the rendering on a separate thread, so the inking surface appears to collect ink even when the application user interface (UI) thread is blocked. For more information about the threading model, see <Hyperlink NavigateUri="c85fcad1-cb50-4431-847c-ac4145a35c89.xaml">The Ink Threading Model</Hyperlink>
+. To customize dynamically rendering a stroke, override the OnDraw method.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Stroke</Run>
+: Implement a class that derives from <Run FontWeight="Bold">Stroke</Run>
+. This class is responsible for static rendering of the StylusPoint data after it has been converted into a <Run FontWeight="Bold">Stroke</Run>
+ object. Override the DrawCore method to ensure that static rendering of the stroke is consistent with dynamic rendering.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">InkCanvas:</Run>
+ Implement a class that derives from InkCanvas. Assign the customized <Run FontWeight="Bold">DynamicRenderer</Run>
+ to the DynamicRenderer property. Override the OnStrokeCollected method and add a custom stroke to the Strokes property. This ensures that the appearance of the ink is consistent.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Implementing a Dynamic Renderer
+    </Paragraph>
+
+    <Paragraph>Although the <Run FontWeight="Bold">DynamicRenderer</Run>
+ class is a standard part of WPF, to perform more specialized rendering, you must create a customized dynamic renderer that derives from the <Run FontWeight="Bold">DynamicRenderer</Run>
+ and override the <Run FontWeight="Bold">OnDraw</Run>
+ method.
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates a customized <Run FontWeight="Bold">DynamicRenderer</Run>
+ that draws ink with a linear gradient brush effect.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports System Imports System.Windows.Media Imports System.Windows Imports System.Windows.Input.StylusPlugIns Imports System.Windows.Input Imports System.Windows.Ink <Run>... </Run>
+' A StylusPlugin that renders ink with a linear gradient brush effect. Class CustomDynamicRenderer Inherits DynamicRenderer 
+&lt;ThreadStatic()> _ Private Shared brush As Brush = Nothing 
+&lt;ThreadStatic()> _ Private Shared pen As Pen = Nothing Private prevPoint As Point Protected Overrides Sub OnStylusDown(ByVal rawStylusInput As RawStylusInput) ' Allocate memory to store the previous point to draw from. prevPoint = New Point(Double.NegativeInfinity, Double.NegativeInfinity) MyBase.OnStylusDown(rawStylusInput) End Sub 'OnStylusDown Protected Overrides Sub OnDraw(ByVal drawingContext As DrawingContext, _ ByVal stylusPoints As StylusPointCollection, _ ByVal geometry As Geometry, _ ByVal fillBrush As Brush) ' Create a new Brush, if necessary. If brush Is Nothing Then brush = New LinearGradientBrush(Colors.Red, Colors.Blue, 20.0) End If ' Create a new Pen, if necessary. If pen Is Nothing Then pen = New Pen(brush, 2.0) End If ' Draw linear gradient ellipses between ' all the StylusPoints that have come in. Dim i As Integer For i = 0 To stylusPoints.Count - 1 Dim pt As Point = CType(stylusPoints(i), Point) Dim v As Vector = Point.Subtract(prevPoint, pt) ' Only draw if we are at least 4 units away ' from the end of the last ellipse. Otherwise, ' we're just redrawing and wasting cycles. If v.Length > 4 Then ' Set the thickness of the stroke based ' on how hard the user pressed. Dim radius As Double = stylusPoints(i).PressureFactor * 10.0 drawingContext.DrawEllipse(brush, pen, pt, radius, radius) prevPoint = pt End If Next i End Sub 'OnDraw End Class 'CustomDynamicRenderer </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System; 
+using System.Windows.Media; 
+using System.Windows; 
+using System.Windows.Input.StylusPlugIns; 
+using System.Windows.Input; 
+using System.Windows.Ink; 
+<Run>... </Run>
+ // A StylusPlugin that renders ink with a linear gradient brush effect. class CustomDynamicRenderer : DynamicRenderer { [ThreadStatic] static private Brush brush = null; 
+[ThreadStatic] static private Pen pen = null; 
+private Point prevPoint; 
+protected override void OnStylusDown(RawStylusInput rawStylusInput) { // Allocate memory to store the previous point to draw from. prevPoint = new Point(double.NegativeInfinity, double.NegativeInfinity); 
+base.OnStylusDown(rawStylusInput); 
+} protected override void OnDraw(DrawingContext drawingContext, StylusPointCollection stylusPoints, Geometry geometry, Brush fillBrush) { // Create a new Brush, if necessary. if (brush == null) { brush = new LinearGradientBrush(Colors.Red, Colors.Blue, 20d); 
+} // Create a new Pen, if necessary. if (pen == null) { pen = new Pen(brush, 2d); 
+} // Draw linear gradient ellipses between // all the StylusPoints that have come in. for (int i = 0; 
+i 
+&lt; 
+stylusPoints.Count; 
+i++) { Point pt = (Point)stylusPoints[i]; 
+Vector v = Point.Subtract(prevPoint, pt); 
+// Only draw if we are at least 4 units away // from the end of the last ellipse. Otherwise, // we're just redrawing and wasting cycles. if (v.Length > 4) { // Set the thickness of the stroke based // on how hard the user pressed. double radius = stylusPoints[i].PressureFactor * 10d; 
+drawingContext.DrawEllipse(brush, pen, pt, radius, radius); 
+prevPoint = pt; 
+} } } } </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Implementing Custom Strokes
+    </Paragraph>
+
+    <Paragraph>Implement a class that derives from <Run FontWeight="Bold">Stroke</Run>
+. This class is responsible for rendering <Run FontWeight="Bold">StylusPoint</Run>
+ data after it has been converted into a <Run FontWeight="Bold">Stroke</Run>
+ object. Override the <Run FontWeight="Bold">DrawCore</Run>
+ class to do the actual drawing.
+    </Paragraph>
+
+    <Paragraph>Your Stroke class can also store custom data by using the AddPropertyData method. This data is stored with the stroke data when persisted.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Stroke</Run>
+ class can also perform hit testing. You can also implement your own hit testing algorithm by overriding the HitTest method in the current class.
+    </Paragraph>
+
+    <Paragraph>The following C# code demonstrates a custom <Run FontWeight="Bold">Stroke</Run>
+ class that renders <Run FontWeight="Bold">StylusPoint</Run>
+ data as a 3-D stroke.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>Imports System Imports System.Windows.Media Imports System.Windows Imports System.Windows.Input.StylusPlugIns Imports System.Windows.Input Imports System.Windows.Ink <Run>... </Run>
+' A class for rendering custom strokes Class CustomStroke Inherits Stroke Private brush As Brush Private pen As Pen Public Sub New(ByVal stylusPoints As StylusPointCollection) MyBase.New(stylusPoints) ' Create the Brush and Pen used for drawing. brush = New LinearGradientBrush(Colors.Red, Colors.Blue, 20.0) pen = New Pen(brush, 2.0) End Sub 'New Protected Overrides Sub DrawCore(ByVal drawingContext As DrawingContext, _ ByVal drawingAttributes As DrawingAttributes) ' Allocate memory to store the previous point to draw from. Dim prevPoint As New Point(Double.NegativeInfinity, Double.NegativeInfinity) ' Draw linear gradient ellipses between ' all the StylusPoints in the Stroke. Dim i As Integer For i = 0 To Me.StylusPoints.Count - 1 Dim pt As Point = CType(Me.StylusPoints(i), Point) Dim v As Vector = Point.Subtract(prevPoint, pt) ' Only draw if we are at least 4 units away ' from the end of the last ellipse. Otherwise, ' we're just redrawing and wasting cycles. If v.Length > 4 Then ' Set the thickness of the stroke ' based on how hard the user pressed. Dim radius As Double = Me.StylusPoints(i).PressureFactor * 10.0 drawingContext.DrawEllipse(brush, pen, pt, radius, radius) prevPoint = pt End If Next i End Sub 'DrawCore End Class 'CustomStroke </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System; 
+using System.Windows.Media; 
+using System.Windows; 
+using System.Windows.Input.StylusPlugIns; 
+using System.Windows.Input; 
+using System.Windows.Ink; 
+<Run>... </Run>
+ // A class for rendering custom strokes class CustomStroke : Stroke { Brush brush; 
+Pen pen; 
+public CustomStroke(StylusPointCollection stylusPoints) : base(stylusPoints) { // Create the Brush and Pen used for drawing. brush = new LinearGradientBrush(Colors.Red, Colors.Blue, 20d); 
+pen = new Pen(brush, 2d); 
+} protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes) { // Allocate memory to store the previous point to draw from. Point prevPoint = new Point(double.NegativeInfinity, double.NegativeInfinity); 
+// Draw linear gradient ellipses between // all the StylusPoints in the Stroke. for (int i = 0; 
+i 
+&lt; 
+this.StylusPoints.Count; 
+i++) { Point pt = (Point)this.StylusPoints[i]; 
+Vector v = Point.Subtract(prevPoint, pt); 
+// Only draw if we are at least 4 units away // from the end of the last ellipse. Otherwise, // we're just redrawing and wasting cycles. if (v.Length > 4) { // Set the thickness of the stroke // based on how hard the user pressed. double radius = this.StylusPoints[i].PressureFactor * 10d; 
+drawingContext.DrawEllipse(brush, pen, pt, radius, radius); 
+prevPoint = pt; 
+} } } } </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Implementing a Custom InkCanvas
+    </Paragraph>
+
+    <Paragraph>The easiest way to use your customized <Run FontWeight="Bold">DynamicRenderer</Run>
+ and stroke is to implement a class that derives from <Run FontWeight="Bold">InkCanvas</Run>
+ and uses these classes. The <Run FontWeight="Bold">InkCanvas</Run>
+ has a <Run FontWeight="Bold">DynamicRenderer</Run>
+ property that specifies how the stroke is rendered when the user is drawing it. 
+    </Paragraph>
+
+    <Paragraph>To custom render strokes on an <Run FontWeight="Bold">InkCanvas</Run>
+ do the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Create a class that derives from the <Run FontWeight="Bold">InkCanvas</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Assign your customized <Run FontWeight="Bold">DynamicRenderer</Run>
+ to the <Run FontWeight="Bold">System.Windows.Controls.InkCanvas.DynamicRenderer</Run>
+ property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Override the <Run FontWeight="Bold">OnStrokeCollected</Run>
+ method. In this method, remove the original stroke that was added to the InkCanvas. Then create a custom stroke, add it to the <Run FontWeight="Bold">Strokes</Run>
+ property, and call the base class with a new InkCanvasStrokeCollectedEventArgs that contains the custom stroke.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following C# code demonstrates a custom <Run FontWeight="Bold">InkCanvas</Run>
+ class that uses a customized <Run FontWeight="Bold">DynamicRenderer</Run>
+ and collects custom strokes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class CustomRenderingInkCanvas : InkCanvas { CustomDynamicRenderer customRenderer = new CustomDynamicRenderer(); 
+public CustomRenderingInkCanvas() : base() { // Use the custom dynamic renderer on the // custom InkCanvas. this.DynamicRenderer = customRenderer; 
+} protected override void OnStrokeCollected(InkCanvasStrokeCollectedEventArgs e) { // Remove the original stroke and add a custom stroke. this.Strokes.Remove(e.Stroke); 
+CustomStroke customStroke = new CustomStroke(e.Stroke.StylusPoints); 
+this.Strokes.Add(customStroke); 
+// Pass the custom stroke to base class' OnStrokeCollected method. InkCanvasStrokeCollectedEventArgs args = new InkCanvasStrokeCollectedEventArgs(customStroke); 
+base.OnStrokeCollected(args); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Class CustomRenderingInkCanvas Inherits InkCanvas Private customRenderer As New CustomDynamicRenderer() Public Sub New() ' Use the custom dynamic renderer on the ' custom InkCanvas. Me.DynamicRenderer = customRenderer End Sub 'New Protected Overrides Sub OnStrokeCollected(ByVal e As InkCanvasStrokeCollectedEventArgs) ' Remove the original stroke and add a custom stroke. Me.Strokes.Remove(e.Stroke) Dim customStroke As New CustomStroke(e.Stroke.StylusPoints) Me.Strokes.Add(customStroke) ' Pass the custom stroke to base class' OnStrokeCollected method. Dim args As New InkCanvasStrokeCollectedEventArgs(customStroke) MyBase.OnStrokeCollected(args) End Sub 'OnStrokeCollected End Class 'CustomRenderingInkCanvas </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>An <Run FontWeight="Bold">InkCanvas</Run>
+ can have more than one <Run FontWeight="Bold">DynamicRenderer</Run>
+. You can add multiple <Run FontWeight="Bold">DynamicRenderer</Run>
+ objects to the <Run FontWeight="Bold">InkCanvas</Run>
+ by adding them to the StylusPlugIns property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Conclusion
+    </Paragraph>
+
+    <Paragraph>You can customize the appearance of ink by deriving your own <Run FontWeight="Bold">DynamicRenderer</Run>
+, <Run FontWeight="Bold">Stroke</Run>
+, and <Run FontWeight="Bold">InkCanvas</Run>
+ classes. Together, these classes ensure that the appearance of the stroke is consistent when the user draws the stroke and after it is collected. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="abc8481a-f983-416f-b051-9168ac8b2ba3.xaml">Advanced Ink Handling</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Custom Rendering Ink to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

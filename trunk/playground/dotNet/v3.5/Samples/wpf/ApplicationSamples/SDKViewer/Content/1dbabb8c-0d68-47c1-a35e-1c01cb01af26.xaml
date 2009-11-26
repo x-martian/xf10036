@@ -1,0 +1,388 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1dbabb8c_0d68_47c1_a35e_1c01cb01af26"
+  Tag     ="Implementing the UI Automation ExpandCollapse Control Pattern"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Implementing the UI Automation ExpandCollapse Control Pattern</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces the ExpandCollapsePattern <Run>control pattern</Run>
+. It contains guidelines and conventions for implementing the IExpandCollapseProvider interface and includes information about <Run FontWeight="Bold">ExpandCollapsePattern</Run>
+ properties, methods, and events. Links to additional references are listed at the end of the overview.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ExpandCollapsePattern</Run>
+ control pattern is used to support controls that visually expand to display more content and collapse to hide content. For examples of controls that implement this control pattern, see <Hyperlink NavigateUri="8b81645b-8be3-4e26-9c98-4fb0fceca06b.xaml">Control Pattern Mapping for UI Automation Clients</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Implementation_Guidelines_and_Conventions">Implementation Guidelines and Conventions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Required_Members_for_the_IValueProvider_Interface">Required Members for the IExpandCollapseProvider Interface</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Exceptions">Exceptions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Implementation Guidelines and Conventions
+    </Paragraph>
+
+    <Paragraph>When implementing the ExpandCollapse control pattern, note the following guidelines and conventions:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Aggregate controls—built with child objects that provide the UI with expand/collapse functionality—must support the <Run FontWeight="Bold">ExpandCollapsePattern</Run>
+ control pattern whereas their child elements do not. For example, a combo box control is built with a combination of list box, button, and edit controls, but it is only the parent combo box that must support the <Run FontWeight="Bold">ExpandCollapsePattern</Run>
+.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph>Note: 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph>An exception is the menu control, which is an aggregate of individual MenuItem objects. The MenuItem objects can support the <Run FontWeight="Bold">ExpandCollapsePattern</Run>
+ control pattern, but the parent Menu control cannot. A similar exception applies to the Tree and Tree Item controls.
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When the ExpandCollapseState of a control is set to LeafNode, any <Run FontWeight="Bold">ExpandCollapsePattern</Run>
+ functionality is currently inactive for the control and the only information that can be obtained using this control pattern is the <Run FontWeight="Bold">ExpandCollapseState</Run>
+. If any child objects are subsequently added, the <Run FontWeight="Bold">ExpandCollapseState</Run>
+ changes and <Run FontWeight="Bold">ExpandCollapsePattern</Run>
+ functionality is activated.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ExpandCollapseState</Run>
+ refers to the visibility of immediate child objects only; 
+it does not refer to the visibility of all descendant objects.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Expand and Collapse functionality is control-specific. The following are examples of this behavior.
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>The Office Personal Menu can be a tri-state MenuItem (Expanded, Collapsed and PartiallyExpanded) where the control specifies the state to adopt when an Expand or Collapse is called.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Calling <Run FontWeight="Bold">Expand</Run>
+ on a TreeItem may display all descendants or only immediate children.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>If calling <Run FontWeight="Bold">Expand</Run>
+ or <Run FontWeight="Bold">Collapse</Run>
+ on a control maintains the state of its descendants, a visibility change event should be sent, not a state change event If the parent control does not maintain the state of its descendants when collapsed, the control may destroy all the descendants that are no longer visible and raise a destroyed event; 
+or it may change the ExpandCollapseState for each descendant and raise a visibility change event.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>To guarantee navigation, it is desirable for an object to be in the UI Automation tree (with appropriate visibility state) regardless of its parents <Run FontWeight="Bold">ExpandCollapseState</Run>
+. If descendants are generated on demand, they may only appear in the UI Automation tree after being displayed for the first time or only while they are visible. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Required Members for the IExpandCollapseProvider Interface
+    </Paragraph>
+
+    <Paragraph>The following properties and methods are required for implementing <Run FontWeight="Bold">IExpandCollapseProvider</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Required members 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Member type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ExpandCollapseState</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Expand</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Method
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Collapse</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Method
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>AutomationPropertyChangedEventHandler 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Event
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This control has no associated events; 
+use this generic delegate.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Exceptions
+    </Paragraph>
+
+    <Paragraph>Providers must throw the following exceptions.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Exception type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Condition 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>InvalidOperationException 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Either <Run FontWeight="Bold">Expand</Run>
+ or <Run FontWeight="Bold">Collapse</Run>
+ is called when the <Run FontWeight="Bold">ExpandCollapseState</Run>
+ = <Run FontWeight="Bold">LeafNode</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0d635c35-ffa8-4dc8-bbc9-12fcd5445776.xaml">Support Control Patterns in a UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="afcd21dc-2ffa-48c9-9332-51269f44b7e9.xaml">Navigate Among UI Automation Elements with TreeWalker</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ec722dff-6009-4279-b86a-e18d3fa94ebf.xaml">Use Caching in UI Automation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="571561d8-5f49-43a9-a054-87735194e013.xaml">UI Automation Control Patterns for Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Implementing the UI Automation ExpandCollapse Control Pattern to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

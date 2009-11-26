@@ -1,0 +1,307 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_066eb0ab_5f0e_439d_85c6_dca60af269fc"
+  Tag     ="Create a Composite Drawing"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Composite Drawing</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use a DrawingGroup to create complex drawings by combining multiple Drawing objects into a single composite drawing. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">DrawingGroup</Run>
+ to create a composite drawing from the GeometryDrawing and ImageDrawing objects. The following illustration shows the output that this example produces.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">A composite drawing that is created by using DrawingGroup</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>Note the gray border, which shows the bounds of the drawing.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// // Create three drawings. // GeometryDrawing ellipseDrawing = new GeometryDrawing( new SolidColorBrush(Color.FromArgb(102, 181, 243, 20)), new Pen(Brushes.Black, 4), new EllipseGeometry(new Point(50,50), 50, 50) ); 
+ImageDrawing kiwiPictureDrawing = new ImageDrawing( new BitmapImage(new Uri(@"sampleImages\kiwi.png", UriKind.Relative)), new Rect(50,50,100,100)); 
+GeometryDrawing ellipseDrawing2 = new GeometryDrawing( new SolidColorBrush(Color.FromArgb(102,181,243,20)), new Pen(Brushes.Black, 4), new EllipseGeometry(new Point(150, 150), 50, 50) ); 
+// Create a DrawingGroup to contain the drawings. DrawingGroup aDrawingGroup = new DrawingGroup(); 
+aDrawingGroup.Children.Add(ellipseDrawing); 
+aDrawingGroup.Children.Add(kiwiPictureDrawing); 
+aDrawingGroup.Children.Add(ellipseDrawing2); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DrawingGroup> 
+&lt;GeometryDrawing Brush="#66B5F314"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Brush="Black" Thickness="4" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;ImageDrawing ImageSource="sampleImages\kiwi.png" Rect="50,50,100,100"/> 
+&lt;GeometryDrawing Brush="#66B5F314"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;EllipseGeometry Center="150,150" RadiusX="50" RadiusY="50"/> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Brush="Black" Thickness="4" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingGroup> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can use a <Run FontWeight="Bold">DrawingGroup</Run>
+ to apply a Transform, Opacity setting, OpacityMask, BitmapEffect, ClipGeometry, or GuidelineSet to the drawings it contains. Because a <Run FontWeight="Bold">DrawingGroup</Run>
+ is also a <Run FontWeight="Bold">Drawing</Run>
+, it can contain other <Run FontWeight="Bold">DrawingGroup</Run>
+ objects. 
+    </Paragraph>
+
+    <Paragraph>The following example is similar to the preceding example, except that it uses additional <Run FontWeight="Bold">DrawingGroup</Run>
+ objects to apply bitmap effects and an opacity mask to some of its drawings. The following illustration shows the output that this example produces.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Composite drawing that has multiple DrawingGroup objects</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>Note the gray border, which shows the bounds of the drawing.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a DrawingGroup. DrawingGroup mainGroup = new DrawingGroup(); 
+// // Create a GeometryDrawing // GeometryDrawing ellipseDrawing = new GeometryDrawing( new SolidColorBrush(Color.FromArgb(102, 181, 243, 20)), new Pen(Brushes.Black, 4), new EllipseGeometry(new Point(50, 50), 50, 50) ); 
+// // Use a DrawingGroup to apply a blur // bitmap effect to the drawing. // DrawingGroup blurGroup = new DrawingGroup(); 
+blurGroup.Children.Add(ellipseDrawing); 
+BlurBitmapEffect blurEffect = new BlurBitmapEffect(); 
+blurEffect.Radius = 5; 
+blurGroup.BitmapEffect = blurEffect; 
+// Add the DrawingGroup to the main DrawingGroup. mainGroup.Children.Add(blurGroup); 
+// // Create an ImageDrawing. // ImageDrawing kiwiPictureDrawing = new ImageDrawing( new BitmapImage(new Uri(@"sampleImages\kiwi.png", UriKind.Relative)), new Rect(50, 50, 100, 100)); 
+// // Use a DrawingGroup to apply an opacity mask // and a bevel. // DrawingGroup maskedAndBeveledGroup = new DrawingGroup(); 
+maskedAndBeveledGroup.Children.Add(kiwiPictureDrawing); 
+// Create an opacity mask. RadialGradientBrush rgBrush =new RadialGradientBrush(); 
+rgBrush.GradientStops.Add(new GradientStop(Color.FromArgb(0,0,0,0), 0.55)); 
+rgBrush.GradientStops.Add(new GradientStop(Color.FromArgb(255,0,0,0), 0.65)); 
+rgBrush.GradientStops.Add(new GradientStop(Color.FromArgb(0,0,0,0), 0.75)); 
+rgBrush.GradientStops.Add(new GradientStop(Color.FromArgb(255,0,0,0), 0.80)); 
+rgBrush.GradientStops.Add(new GradientStop(Color.FromArgb(0,0,0,0), 0.90)); 
+rgBrush.GradientStops.Add(new GradientStop(Color.FromArgb(255,0,0,0), 1.0)); 
+maskedAndBeveledGroup.OpacityMask = rgBrush; 
+// Apply a bevel. maskedAndBeveledGroup.BitmapEffect = new BevelBitmapEffect(); 
+// Add the DrawingGroup to the main group. mainGroup.Children.Add(maskedAndBeveledGroup); 
+// // Create another GeometryDrawing. // GeometryDrawing ellipseDrawing2 = new GeometryDrawing( new SolidColorBrush(Color.FromArgb(102, 181, 243, 20)), new Pen(Brushes.Black, 4), new EllipseGeometry(new Point(150, 150), 50, 50) ); 
+// Add the DrawingGroup to the main group. mainGroup.Children.Add(ellipseDrawing2); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DrawingGroup> 
+&lt;DrawingGroup> 
+&lt;GeometryDrawing Brush="#66B5F314"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Brush="Black" Thickness="4" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;DrawingGroup.BitmapEffect> 
+&lt;BlurBitmapEffect Radius="5" /> 
+&lt;/DrawingGroup.BitmapEffect> 
+&lt;/DrawingGroup> 
+&lt;DrawingGroup> 
+&lt;ImageDrawing ImageSource="sampleImages\kiwi.png" Rect="50,50,100,100"/> 
+&lt;DrawingGroup.BitmapEffect> 
+&lt;BevelBitmapEffect /> 
+&lt;/DrawingGroup.BitmapEffect> 
+&lt;DrawingGroup.OpacityMask> 
+&lt;RadialGradientBrush> 
+&lt;GradientStop Offset="0.55" Color="#00000000" /> 
+&lt;GradientStop Offset="0.65" Color="#FF000000" /> 
+&lt;GradientStop Offset="0.75" Color="#00000000" /> 
+&lt;GradientStop Offset="0.80" Color="#FF000000" /> 
+&lt;GradientStop Offset="0.90" Color="#00000000" /> 
+&lt;GradientStop Offset="1.0" Color="#FF000000" /> 
+&lt;/RadialGradientBrush> 
+&lt;/DrawingGroup.OpacityMask> 
+&lt;/DrawingGroup> 
+&lt;GeometryDrawing Brush="#66B5F314"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;EllipseGeometry Center="150,150" RadiusX="50" RadiusY="50"/> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Brush="Black" Thickness="4" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingGroup> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information about <Run FontWeight="Bold">Drawing</Run>
+ objects, see <Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>BitmapEffect
+      <LineBreak/>Transform
+      <LineBreak/>OpacityMask
+      <LineBreak/>Opacity
+      <LineBreak/>ClipGeometry
+      <LineBreak/>GuidelineSet
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Composite Drawing to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

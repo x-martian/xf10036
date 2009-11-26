@@ -1,0 +1,395 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1fbada8e_4867_4ed1_8d97_62c07dad7ebc"
+  Tag     ="Dependency Property Value Precedence"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Dependency Property Value Precedence</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic explains how the workings of the Windows Presentation Foundation (WPF) property system can affect the value of a <Run>dependency property</Run>
+, and describes the precedence by which these factors apply to the effective value of a property.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="intro">The WPF Property System</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="multiple_sets">Dependency Properties Might be "Set" in Multiple Places</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="listing">Dependency Property Setting Precedence List</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="style_property">The Style Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="resources">Dynamic Resource References and Binding</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="animations">Coercion, Animations, and Base Value</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="triggers">Trigger Behaviors</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="clearvalue">ClearValue and Value Precedence</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you understand dependency properties from the perspective of a consumer of existing dependency properties on WPF classes, and have read the <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+ topic. To follow the examples in this topic, you should also understand Extensible Application Markup Language (XAML) and know how to write WPF applications.
+    </Paragraph>
+
+    <Paragraph FontSize="22">The WPF Property System
+    </Paragraph>
+
+    <Paragraph>The WPF property system offers a powerful way to have the value of dependency properties be determined by a variety of factors, enabling features such as real-time property validation and notifying related properties of changes to values for other properties. The exact order and logic that is used to determine dependency property values is reasonably complex, and knowing this order will help you avoid unnecessary property setting, and might also clear up confusion over exactly why some attempt to influence or anticipate a dependency property value did not end up resulting in the value you expected.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dependency Properties Might be "Set" in Multiple Places
+    </Paragraph>
+
+    <Paragraph>The following is example XAML where the same property (Background) has three different "set" operations that might influence the value.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Background="Red"> 
+&lt;Button.Style> 
+&lt;Style TargetType="{x:Type Button}"> 
+&lt;Setter Property="Background" Value="Green"/> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="IsMouseOver" Value="True"> 
+&lt;Setter Property="Background" Value="Blue" /> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> 
+&lt;/Button.Style> Click 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Here, which color do you expect will apply - red, green, or blue?
+    </Paragraph>
+
+    <Paragraph>With the exception of animated values and coercion, local property sets are set at the highest precedence. If you set a value locally you can expect that the value will be honored, even above any styles or control templates. Here in the example, <Run FontWeight="Bold">Background</Run>
+ is set to Red locally. Therefore, the style defined in this scope, even though it is a type style which would otherwise apply to all elements of that type in that scope, is not the highest precedence for giving the <Run FontWeight="Bold">Background</Run>
+ property its value. If you removed the local value of Red from that Button instance, then the style would have precedence and the button would obtain the Background value from the style. Within the style, triggers take precedence, so the button will be blue if the mouse is over it, and green otherwise.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dependency Property Setting Precedence List
+    </Paragraph>
+
+    <Paragraph>The following is the definitive order that the property system uses when assigning the run-time values of dependency properties. Highest precedence is listed first. This list expands on some of the generalizations made in the <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Property system coercion:</Run>
+ For details on coercion, see Coercion, Animation, and Base Values section in this topic.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Active animations, or animations with a Hold behavior: </Run>
+In order to have any practical effect, an animation of a property must be able to have precedence over the base (unanimated) value, even if that value was set locally. For details, see Coercion, Animation, and Base Values section in this topic.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Local value:</Run>
+ A local value might be set through the convenience of the "wrapper" property, which also equates to setting as an attribute or property element in XAML, or by a call to the SetValue API using a property of a specific instance.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">TemplatedParent template:</Run>
+ An element has a TemplatedParent if it was created as part of a template (a ControlTemplate or DataTemplate, for example, of a style used either implicitly for the type or explicitly by key). When the property system searches the <Run FontWeight="Bold">TemplatedParent</Run>
+ template for a value, it is searching the template that created that element. The property values from the <Run FontWeight="Bold">TemplatedParent</Run>
+ template act as if they were set as a local value on the child element, but this secondary precedence is required because the templates are potentially shared. See <Run FontWeight="Bold">TemplatedParent</Run>
+ for details. Within a <Run FontWeight="Bold">TemplatedParent</Run>
+ template, the following order of precedence applies:
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>Triggers from the <Run FontWeight="Bold">TemplatedParent</Run>
+ template.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Setters from the <Run FontWeight="Bold">TemplatedParent</Run>
+ template.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Style triggers:</Run>
+ The triggers within explicit styles (referenced by non-type Key) from page or application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Template triggers:</Run>
+ Any trigger from a template within a style or a directly applied template.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Style setters:</Run>
+ Values from a Setter within explicit styles (referenced by non-type Key), from page or application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Theme style:</Run>
+ You may encounter the effects of theme styles in common controls (buttons, menus) or navigation level elements such as Window. Properties that are likely to be declared in theme styles include foreground and background, sizes and positioning of composited elements within a control, and certain behaviors such as triggers in scrollbars. Within a theme style, the following order of predence applies:
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>Triggers in the theme style.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Setters in the theme style.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Inheritance:</Run>
+ A few dependency properties inherit their values from parent element to child elements, such that they need not be set specifically on each element throughout an application. For details see <Hyperlink NavigateUri="d7c338f9-f2bf-48ed-832c-7be58ac390e4.xaml">Property Value Inheritance</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Default value from dependency property metadata:</Run>
+ Any given dependency property may have a default value as established by the property system registration of that particular property. Also, derived classes that inherit a dependency property have the option to override that metadata (including the default value) on a per-type basis. See <Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+ for more information. Because inheritance is checked before default value, for an inherited property, a parent element default value takes precedence over a child element. Consequently, if an inheritable property is not set anywhere, the default value as specified on the root or parent is used instead of the child element default value.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">The Style Property
+    </Paragraph>
+
+    <Paragraph>The order of lookup described above applies to all possible dependency properties except one: the Style property. The <Run FontWeight="Bold">Style</Run>
+ property is unique in that it cannot be itself styled, so the precedence items 5 through 8 do not apply. Instead, replacing items 5 through 8 is a special determinant for the <Run FontWeight="Bold">Style</Run>
+ property: checking various levels of resources (page, application, theme) for an implicit style key that matches the type of the current element. If a matching implicit style is found, that style is applied as the <Run FontWeight="Bold">Style</Run>
+ property value, thus potentially influencing all of the other style considerations on other properties.
+    </Paragraph>
+
+    <Paragraph>For implicit styles not in themes, the type must match exactly – a "MyButton" derived class will not implicitly use a style for "Button". For implicit styles from themes, the lookup uses a different value than the type of the element itself. The theme lookup instead uses the value of the DefaultStyleKey property. Because this property inherits, this means that at the theme level a "MyButton" derived class would in fact get the default style key for "Button." If you were the control author of "MyButton" and you want a different behavior, you can override the dependency property metadata for <Run FontWeight="Bold">DefaultStyleKey</Run>
+ on "MyButton" to return a different key. For more details on themes, styles and control authoring, see <Hyperlink NavigateUri="3d864748-cff0-4e63-9b23-d8e5a635b28f.xaml">Control Authoring Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dynamic Resource References and Binding
+    </Paragraph>
+
+    <Paragraph>Dynamic resource references and binding operations are both treated as if they were setting the value to which they are being applied. For instance, a dynamic resource applied to a local value acts per precedence item 3, a binding for a property setter within a theme style applies at precedence item 9, and so on. Because dynamic resource references and binding must both be able to obtain values from the run time state of the application, this entails that the actual process of determining the property value precedence for any given property extends into the run time as well.
+    </Paragraph>
+
+    <Paragraph>Dynamic resource references are not strictly speaking part of the property system, but they do have a lookup order of their own which interacts with the sequence listed above. That precedence is documented more thoroughly in the <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+. The basic summation of that precedence is: element to page root, application, theme, system.
+    </Paragraph>
+
+    <Paragraph>Not only do dynamic resources and bindings operate at the same precedence as a local value, they really are a local value, but with a value that is deferred. One consequence of this is that if you have a dynamic resource or binding in place for a property value, any local value that you set subsequently replaces the dynamic binding or binding entirely. Even if you call ClearValue to clear the locally set value, the dynamic resource or binding will not be restored. In fact, if you call <Run FontWeight="Bold">ClearValue</Run>
+ on a property that has a dynamic resource or binding in place (with no "literal" local value), they are cleared by the <Run FontWeight="Bold">ClearValue</Run>
+ call too.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Coercion, Animations, and Base Value
+    </Paragraph>
+
+    <Paragraph>Coercion and animation both act on a value that is termed as the "base value" throughout this SDK. The base value is thus whatever value is determined through evaluating upwards in the items until item 2 is reached.
+    </Paragraph>
+
+    <Paragraph>For an animation, the base value can have an effect on the animated value, if that animation does not specify both "From" and "To" for certain behaviors, or if the animation deliberately reverts to the base value when completed. To see this in practice, run the From, To, and By Animation Target Values Sample. Try setting the local values of the rectangle height in the example, such that the initial local value differs from any "From" in the animation. You will note that the animations start right away using the "From" values and replace the base value once started. The animation might specify to return to the value found before animation once it is completed by specifying the Stop FillBehavior. Afterwards, normal precedence is used for the base value determination.
+    </Paragraph>
+
+    <Paragraph>Multiple animations might be applied to a single property, with each of these animations possibly having been defined from different points in the value precedence. However, these animations will potentially composite their values, rather than just applying the animation from the higher precedence. This depends on exactly how the animations are defined, and the type of the value that is being animated. For more general information about animating properties, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Coercion applies at the highest level of all. Even an already running animation is subject to value coercion. Certain existing dependency properties in WPF have built-in coercion. For a custom dependency property, you define the coercion behavior for a custom dependency property by writing a CoerceValueCallback and passing the callback as part of metadata when you create the property. You can also override coercion behavior of existing properties by overriding the metadata on that property in a derived class. Coercion interacts with the base value in such a way that the constraints on coercion are applied as those constraints exist at the time, but the base value is still retained. Therefore, if constraints in coercion are later lifted, the coercion will return the closest value possible to that base value, and potentially the coercion influence on a property will cease as soon as all constraints are lifted. For more information about coercion behavior, see <Hyperlink NavigateUri="48db5fb2-da7f-49a6-8e81-3540e7b25825.xaml">Dependency Property Callbacks and Validation</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Trigger Behaviors
+    </Paragraph>
+
+    <Paragraph>Controls often define trigger behaviors as part of their default style in themes. Setting local properties on controls might prevent the triggers from being able to respond to user-driven events either visually or behaviorally. The most common use of a property trigger is for control or state properties such as IsSelected. For instance, by default when a Button is disabled (trigger for IsEnabled is <Run FontWeight="Bold">false</Run>
+) then the Foreground value in the theme style is what causes the control to appear "grayed out". But if you have set a local <Run FontWeight="Bold">Foreground</Run>
+ value, that normal gray-out color will be overruled in precedence by your local property set, even in this property-triggered scenario. Be cautious of setting values for properties that have theme-level trigger behaviors and make sure you are not unduly interfering with the intended user experience for that control.
+    </Paragraph>
+
+    <Paragraph FontSize="22">ClearValue and Value Precedence
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ClearValue</Run>
+ method provides an expedient means to clear any locally applied value from a dependency property that is set on an element. However, calling <Run FontWeight="Bold">ClearValue</Run>
+ is not a guarantee that the default as established in metadata during property registration is the new effective value. All of the other participants in value precedence are still active. Only the locally set value has been removed from the precedence sequence. For instance, if you call <Run FontWeight="Bold">ClearValue</Run>
+ on a property where that property is also set by a theme style, then the theme value is applied as the new value rather than the metadata-based default. You can see this illustrated within the Restoring Default Values Sample although in this case the applied style is an application style. If you want to take all property value participants out of the process and set the value to the registered metadata default, you could obtain that default value definitively by querying the dependency property metadata, and then could use the default value to locally set the property with a call to <Run FontWeight="Bold">SetValue</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>DependencyObject
+      <LineBreak/>DependencyProperty
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="48db5fb2-da7f-49a6-8e81-3540e7b25825.xaml">Dependency Property Callbacks and Validation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Dependency Property Value Precedence to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

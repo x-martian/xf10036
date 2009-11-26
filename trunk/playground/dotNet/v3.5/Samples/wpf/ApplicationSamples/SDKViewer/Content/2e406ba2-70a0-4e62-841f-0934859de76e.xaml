@@ -1,0 +1,218 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_2e406ba2_70a0_4e62_841f_0934859de76e"
+  Tag     ="Style a Row in a ListView That Implements a GridView"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Style a Row in a ListView That Implements a GridView</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to style a row in a ListView control that implements a GridView View mode. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>You can style a row in a <Run FontWeight="Bold">ListView</Run>
+ control by setting an ItemContainerStyle on the <Run FontWeight="Bold">ListView</Run>
+ control. Set the style for its items that are represented as ListViewItem objects. The <Run FontWeight="Bold">ItemContainerStyle</Run>
+ references the ControlTemplate objects that are used to display the row content.
+    </Paragraph>
+
+    <Paragraph>The complete sample, which the following examples are extracted from, displays a collection of song information that is stored in an XML database. Each song in the database has a rating field and the value of this field specifies how to display a row of song information.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to define <Run FontWeight="Bold">ItemContainerStyle</Run>
+ for the <Run FontWeight="Bold">ListViewItem</Run>
+ objects that represent the songs in the song collection. The <Run FontWeight="Bold">ItemContainerStyle</Run>
+ references <Run FontWeight="Bold">ControlTemplate</Run>
+ objects that specify how to display a row of song information.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView.ItemContainerStyle> 
+&lt;Style TargetType="{x:Type ListViewItem}" > 
+&lt;Setter Property="Template" Value="{StaticResource Default}"/> 
+&lt;Style.Triggers> 
+&lt;DataTrigger Binding="{Binding XPath=@Rating}" Value="5"> 
+&lt;Setter Property="Template" Value="{StaticResource StronglyRecommended}"/> 
+&lt;/DataTrigger> 
+&lt;DataTrigger Binding="{Binding XPath=@Rating}" Value="4"> 
+&lt;Setter Property="Template" Value="{StaticResource Recommended}"/> 
+&lt;/DataTrigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> 
+&lt;/ListView.ItemContainerStyle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows a <Run FontWeight="Bold">ControlTemplate</Run>
+ that adds the text string <Run>"Strongly Recommended"</Run>
+ to the row. This template is referenced in the <Run FontWeight="Bold">ItemContainerStyle</Run>
+ and displays when the song's rating has a value of 5 (five). The <Run FontWeight="Bold">ControlTemplate</Run>
+ includes a GridViewRowPresenter object that lays out the contents of the row in columns as defined by the <Run FontWeight="Bold">GridView</Run>
+ view mode.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ControlTemplate x:Key="StronglyRecommended" TargetType='{x:Type ListViewItem}'> 
+&lt;StackPanel Background="Beige"> 
+&lt;GridViewRowPresenter Content="{TemplateBinding Content}" Columns="{TemplateBinding GridView.ColumnCollection}"/> 
+&lt;TextBlock Background="LightBlue" Text="Strongly Recommended" /> 
+&lt;/StackPanel> 
+&lt;/ControlTemplate> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example defines <Run FontWeight="Bold">GridView</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView.View> 
+&lt;GridView ColumnHeaderContainerStyle="{StaticResource MyHeaderStyle}"> 
+&lt;GridViewColumn Header="Name" DisplayMemberBinding="{Binding XPath=@Name}" Width="100"/> 
+&lt;GridViewColumn Header="Time" DisplayMemberBinding="{Binding XPath=@Time}" Width="80"/> 
+&lt;GridViewColumn Header="Artist" DisplayMemberBinding="{Binding XPath=@Artist}" Width="80" /> 
+&lt;GridViewColumn Header="Disk" DisplayMemberBinding="{Binding XPath=@Disk}" Width="100"/> 
+&lt;/GridView> 
+&lt;/ListView.View> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ListView with Styled ListViewItems Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ListView
+      <LineBreak/>GridView
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="989e12b0-260e-4570-95c6-489284003ce2.xaml">ListView Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="aafce40c-9bfe-45ec-86a3-599616a11276.xaml">ListView How-to Topics</Hyperlink>
+
+      <LineBreak/>GridView How-to Topics
+      <LineBreak/>ListView Samples
+      <LineBreak/>GridView Overviews
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Style a Row in a ListView That Implements a GridView to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

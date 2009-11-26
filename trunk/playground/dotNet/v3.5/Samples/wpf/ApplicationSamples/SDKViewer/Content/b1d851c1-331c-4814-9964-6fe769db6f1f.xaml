@@ -1,0 +1,816 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b1d851c1_331c_4814_9964_6fe769db6f1f"
+  Tag     ="Drawing Formatted Text"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Drawing Formatted Text</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic provides an overview of the features of the FormattedText object. This object provides low-level control for drawing text in Windows Presentation Foundation (WPF) applications.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="overview">Technology Overview</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="using_the_formattedtext_object">Using the FormattedText Object</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="win32_migration">Win32 Migration</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Technology Overview
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">FormattedText</Run>
+ object allows you to draw multi-line text, in which each character in the text can be individually formatted. The following example shows text that has several formats applied to it.
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For those developers migrating from the Win32 API, the table in the <Hyperlink TargetName="win32_migration">Win32 Migration</Hyperlink>
+ section lists the Win32 DrawText flags and the approximate equivalent in Windows Presentation Foundation (WPF).
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using the FormattedText Object
+    </Paragraph>
+
+    <Paragraph>To create formatted text, call the FormattedText constructor to create a <Run FontWeight="Bold">FormattedText</Run>
+ object. Once you have created the initial formatted text string, you can apply a range of formatting styles.
+    </Paragraph>
+
+    <Paragraph>Use the MaxTextWidth property to constrain the text to a specific width. The text will automatically wrap to avoid exceeding the specified width. Use the MaxTextHeight property to constrain the text to a specific height. The text will display an ellipsis, "…" for the text that exceeds the specified height.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>You can apply multiple formatting styles to one or more characters. For example, you could call both the SetFontSize and SetForegroundBrush methods to change the formatting of the first five characters in the text.
+    </Paragraph>
+
+    <Paragraph>The following code example creates a <Run FontWeight="Bold">FormattedText</Run>
+ object and then applies several formatting styles to the text.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override void OnRender(DrawingContext drawingContext) { string testString = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor"; 
+// Create the initial formatted text string. FormattedText formattedText = new FormattedText( testString, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Verdana"), 32, Brushes.Black); 
+// Set a maximum width and height. If the text overflows these values, an ellipsis "..." appears. formattedText.MaxTextWidth = 300; 
+formattedText.MaxTextHeight = 240; 
+// Use a larger font size beginning at the first (zero-based) character and continuing for 5 characters. // The font size is calculated in terms of points -- not as device-independent pixels. formattedText.SetFontSize(36 * (96.0 / 72.0), 0, 5); 
+// Use a Bold font weight beginning at the 6th character and continuing for 11 characters. formattedText.SetFontWeight(FontWeights.Bold, 6, 11); 
+// Use a linear gradient brush beginning at the 6th character and continuing for 11 characters. formattedText.SetForegroundBrush( new LinearGradientBrush( Colors.Orange, Colors.Teal, 90.0), 6, 11); 
+// Use an Italic font style beginning at the 28th character and continuing for 28 characters. formattedText.SetFontStyle(FontStyles.Italic, 28, 28); 
+// Draw the formatted text string to the DrawingContext of the control. drawingContext.DrawText(formattedText, new Point(10, 0)); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Font Size Unit of Measure
+    </Paragraph>
+
+    <Paragraph>As with other text objects in Windows Presentation Foundation (WPF) applications, the <Run FontWeight="Bold">FormattedText</Run>
+ object uses device-independent pixels as the unit of measure. However, most Win32 applications use points as the unit of measure. If you want to use display text in units of points in Windows Presentation Foundation (WPF) applications, you need to convert device-independent pixels to points. The following code example shows how to perform this conversion.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The font size is calculated in terms of points -- not as device-independent pixels. formattedText.SetFontSize(36 * (96.0 / 72.0), 0, 5); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Converting Formatted Text to a Geometry
+    </Paragraph>
+
+    <Paragraph>You can convert formatted text into Geometry objects, allowing you to create other types of visually rich text. For example, you could create a <Run FontWeight="Bold">Geometry</Run>
+ object based on the outline of a text string.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>When text is converted to a <Run FontWeight="Bold">Geometry</Run>
+ object, it is no longer a collection of characters—you cannot modify the characters in the text string. However, you can affect the appearance of the converted text by modifying its stroke and fill properties. The stroke refers to the outline of the converted text; 
+the fill refers to the area inside the outline of the converted text. For more information, see <Hyperlink NavigateUri="4aa3cf6e-1953-4f26-8230-7c1409e5f28d.xaml">How to: Create Outlined Text</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>You can also convert formatted text to a PathGeometry object, and use the object for highlighting the text. For example, you could apply an animation to the <Run FontWeight="Bold">PathGeometry</Run>
+ object so that the animation follows the outline of the formatted text.
+    </Paragraph>
+
+    <Paragraph>The following example shows formatted text that has been converted to a <Run FontWeight="Bold">PathGeometry</Run>
+ object. An animated ellipse follows the path of the strokes of the rendered text.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>For more information, see <Hyperlink NavigateUri="29f8051e-798a-463f-a926-a099a99e9c67.xaml">How to: Create a PathGeometry Animation for Text</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Win32 Migration
+    </Paragraph>
+
+    <Paragraph>The features of <Run FontWeight="Bold">FormattedText</Run>
+ for drawing text are similar to the features of the Win32 DrawText function. For those developers migrating from the Win32 API, the following table lists the Win32 DrawText flags and the approximate equivalent in Windows Presentation Foundation (WPF).
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>DrawText flag 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WPF equivalent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Notes 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_BOTTOM
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Height 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use the <Run FontWeight="Bold">Height</Run>
+ property to compute an appropriate Win32 DrawText 'y' position.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_CALCRECT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Height</Run>
+, Width
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use the <Run FontWeight="Bold">Height</Run>
+ and <Run FontWeight="Bold">Width</Run>
+ properties to calculate the output rectangle.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_CENTER
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>TextAlignment 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use the <Run FontWeight="Bold">TextAlignment</Run>
+ property with the value set to Center.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_EDITCONTROL
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not required. Space width, and last line rendering are the same as in the framework edit control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_END_ELLIPSIS
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Trimming 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use the <Run FontWeight="Bold">Trimming</Run>
+ property with the value CharacterEllipsis.
+            </Paragraph>
+
+            <Paragraph>Use WordEllipsis to get Win32 DT_END_ELLIPSIS with DT_WORD_ELIPSIS end ellipsis—in this case, character ellipsis only occurs on words that do not fit on a single line.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_EXPAND_TABS
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not required. Tabs are automatically expanded to stops every 4 ems, which is approximately the width of 8 language-independent characters.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_EXTERNALLEADING
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not required. External leading is always included in line spacing. Use the LineHeight property to create user-defined line spacing.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_HIDEPREFIX
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not supported. Remove the '&amp;' from the string before constructing the <Run FontWeight="Bold">FormattedText</Run>
+ object.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_LEFT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">TextAlignment</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This is the default text alignment. Use the <Run FontWeight="Bold">TextAlignment</Run>
+ property with the value set to Left. (WPF only)
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_MODIFYSTRING
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not supported.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_NOCLIP
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>VisualClip 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Clipping does not happen automatically. If you want to clip text, use the <Run FontWeight="Bold">VisualClip</Run>
+ property.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_NOFULLWIDTHCHARBREAK
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not supported.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_NOPREFIX
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not required. The '&amp;' character in strings is always treated as a normal character.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_PATHELLIPSIS
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use the <Run FontWeight="Bold">Trimming</Run>
+ property with the value <Run FontWeight="Bold">WordEllipsis</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_PREFIX
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not supported. If you want to use underscores for text, such as an accelerator key or link, use the SetTextDecorations method.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_PREFIXONLY
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not supported.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_RIGHT
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">TextAlignment</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use the <Run FontWeight="Bold">TextAlignment</Run>
+ property with the value set to Right. (WPF only)
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_RTLREADING
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>FlowDirection 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Set the <Run FontWeight="Bold">FlowDirection</Run>
+ property to RightToLeft.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_SINGLELINE
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not required. <Run FontWeight="Bold">FormattedText</Run>
+ objects behave as a single line control, unless either the <Run FontWeight="Bold">MaxTextWidth</Run>
+ property is set or the text contain a carriage return/line feed (CR/LF).
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_TABSTOP
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>No support for user-defined tab stop positions.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_TOP
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Height</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not required. Top justification is the default. Other vertical positioning values can be defined by using the <Run FontWeight="Bold">Height</Run>
+ property to compute an appropriate Win32 DrawText 'y' position.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_VCENTER
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Height</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use the <Run FontWeight="Bold">Height</Run>
+ property to compute an appropriate Win32 DrawText 'y' position.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_WORDBREAK
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Not required. Word breaking happens automatically with <Run FontWeight="Bold">FormattedText</Run>
+ objects. You cannot disable it.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DT_WORD_ELLIPSIS
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Trimming</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use the <Run FontWeight="Bold">Trimming</Run>
+ property with the value <Run FontWeight="Bold">WordEllipsis</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="4aa3cf6e-1953-4f26-8230-7c1409e5f28d.xaml">How to: Create Outlined Text</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="29f8051e-798a-463f-a926-a099a99e9c67.xaml">How to: Create a PathGeometry Animation for Text</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Drawing Formatted Text to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

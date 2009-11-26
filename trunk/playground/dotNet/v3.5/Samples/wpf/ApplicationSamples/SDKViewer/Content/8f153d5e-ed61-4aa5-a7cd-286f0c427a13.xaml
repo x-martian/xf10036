@@ -1,0 +1,1036 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_8f153d5e_ed61_4aa5_a7cd_286f0c427a13"
+  Tag     ="Transforms Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Transforms Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how to use the 2-D Transform classes to rotate, scale, move (translate), and skew FrameworkElement objects.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="whatIsATransformSection">What Is a Transform?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="transformClassesSection">Transform Classes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="transformationproperties">Common Transformation Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="transformcenter">Transformations and Coordinate Systems</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="layoutTransformsAndRenderTransformsSection">Transforming a FrameworkElement</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="exampleRotateAnElement45degSection">Example: Rotate a FrameworkElement 45 Degrees</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="animate_transforms">Animating Transformations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="freezable_features">Freezable Features</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What Is a Transform?
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Transform</Run>
+ defines how to map, or transform, points from one coordinate space to another coordinate space. This mapping is described by the transformation's Matrix, a collection of three rows with three columns of Double values. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Like DirectX, Windows Presentation Foundation (WPF) uses row-major matrices. Vectors are expressed as row-vectors, not column vectors.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>The following table shows the structure of a WPF matrix.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">A 2-D transformation matrix</Run>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>M11 
+            </Paragraph>
+
+            <Paragraph>Default: 1.0
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>M12 
+            </Paragraph>
+
+            <Paragraph>Default: 0.0
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0.0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>M21 
+            </Paragraph>
+
+            <Paragraph>Default: 0.0
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>M22 
+            </Paragraph>
+
+            <Paragraph>Default: 1.0
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>0.0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>OffsetX 
+            </Paragraph>
+
+            <Paragraph>Default: 0.0
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>OffsetY 
+            </Paragraph>
+
+            <Paragraph>Default: 0.0
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1.0
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>By manipulating matrix values, you can rotate, scale, skew, and move (translate) an object. For example, if you change the value in the first column of the third row (the OffsetX value) to 100, it can be used to move an object 100 units along the x-axis. If you change the value in the second column of the second row to 3, it can be used to stretch an object to three times its current height. If you change both values, it will move the object 100 units along the x-axis and stretch its height by a factor of 3. (Note that the values in the right-most column are always 0, 0, 1.) 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>While Windows Presentation Foundation (WPF) enables you to directly manipulate matrix values, it also provides several <Run FontWeight="Bold">Transform</Run>
+ classes that enable you to transform an object without knowing how the underlying matrix structure is configured. For example, the ScaleTransform class enables you to scale an object by simply setting its ScaleX and ScaleY properties, rather than manipulating a transformation matrix. Likewise, the RotateTransform class enables you to rotate an object by just setting its Angle property.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph FontSize="22">Transform Classes
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) provides the following 2-D <Run FontWeight="Bold">Transform</Run>
+ classes for common transformation operations:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Class 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Example 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Illustration 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">RotateTransform</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Rotates an element by the specified <Run FontWeight="Bold">Angle</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Hyperlink NavigateUri="ee3466cd-e66f-4e8f-8a5a-71d77bc1e390.xaml">How to: Rotate an Object</Hyperlink>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ScaleTransform</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Scales an element by the specified <Run FontWeight="Bold">ScaleX</Run>
+ and <Run FontWeight="Bold">ScaleY</Run>
+ amounts.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Hyperlink NavigateUri="18158d94-bbe7-4f6a-814e-84d27fa748bf.xaml">How to: Scale an Element</Hyperlink>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>SkewTransform 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Skews an element by the specified AngleX and AngleY amounts.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Hyperlink NavigateUri="56b65f2f-dc6e-4238-923f-ca44ec53c52f.xaml">How to: Skew an Element</Hyperlink>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TranslateTransform 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Moves (translates) an element by the specified X and Y amounts.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Hyperlink NavigateUri="461c8273-15df-42f6-8672-89ba22887cc0.xaml">How to: Translate an Element</Hyperlink>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>For creating more complex transformations, Windows Presentation Foundation (WPF) provides the following two classes:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Class 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Example 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TransformGroup 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Groups multiple <Run FontWeight="Bold">TransformGroup</Run>
+ objects into a single <Run FontWeight="Bold">Transform</Run>
+ that you can then apply to transform properties.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Hyperlink NavigateUri="98cd1921-12bc-4bf5-8193-529228fb7402.xaml">How to: Apply Multiple Transforms to an Object</Hyperlink>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>MatrixTransform 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Creates custom transformations that are not provided by the other <Run FontWeight="Bold">Transform</Run>
+ classes. When using a <Run FontWeight="Bold">MatrixTransform</Run>
+, you manipulate a Matrix directly.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Hyperlink NavigateUri="919381ca-989f-47cf-86b4-1094060236e4.xaml">How to: Use a MatrixTransform to Create Custom Transforms</Hyperlink>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>Windows Presentation Foundation (WPF) also provides 3-D transformations. For more information, see the Transform3D class.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph FontSize="22">Common Transformation Properties
+    </Paragraph>
+
+    <Paragraph>One way to transform an object is to declare the appropriate <Run FontWeight="Bold">Transform</Run>
+ type and apply it to the object's transformation property. Different types of objects have different types of transformation properties. The following table lists several commonly used Windows Presentation Foundation (WPF) types and their transformation properties. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table BorderBrush="Black" CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Transformation properties 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Brush 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Transform, RelativeTransform
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ContainerVisual 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Transform 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DrawingGroup 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Transform 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">FrameworkElement</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>RenderTransform, LayoutTransform
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Geometry 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Transform 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextEffect 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Transform 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>UIElement 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">RenderTransform</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph FontSize="22">Transformations and Coordinate Systems
+    </Paragraph>
+
+    <Paragraph>When you transform an object, you don't directly transform the object, you transform coordinate space in which that object exists. By default, a transform is applied at the origin of the target object's coordinate system: (0,0). 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The following example uses a <Run FontWeight="Bold">RotateTransform</Run>
+ to rotate a Rectangle element, a type of <Run FontWeight="Bold">FrameworkElement</Run>
+, by 45 degrees about its default center, (0, 0). The following illustration shows the effect of the rotation. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Run FontWeight="Bold">A Rectangle element rotated 45 degrees about the point (0,0)</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas Width="200" Height="200"> 
+&lt;Rectangle Canvas.Left="100" Canvas.Top="100" Width="50" Height="50" Fill="RoyalBlue" Opacity="1.0"> 
+&lt;Rectangle.RenderTransform> 
+&lt;RotateTransform Angle="45" CenterX="25" CenterY="25" /> 
+&lt;/Rectangle.RenderTransform> 
+&lt;/Rectangle> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>Notice that the element is rotated about its top left corner, (0, 0). The <Run FontWeight="Bold">RotateTransform</Run>
+, <Run FontWeight="Bold">ScaleTransform</Run>
+, and <Run FontWeight="Bold">SkewTransform</Run>
+ classes provide CenterX and Centery properties that enable you to specify the point at which the transform is applied. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The next example also uses a <Run FontWeight="Bold">RotateTransform</Run>
+ to rotate a <Run FontWeight="Bold">Rectangle</Run>
+ element by 45 degrees, but this time the CenterX and CenterY properties are set so that the <Run FontWeight="Bold">RotateTransform</Run>
+ has a center of (25, 25). The following illustration shows the effect of the rotation. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Run FontWeight="Bold">A Rectangle element rotated 45 degrees about the point (25, 25)</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas Width="200" Height="200"> 
+&lt;Path Fill="BlueViolet" Opacity="1.0"> 
+&lt;Path.Data> 
+&lt;RectangleGeometry Rect="100,100,50,50"> 
+&lt;RectangleGeometry.Transform> 
+&lt;RotateTransform Angle="45" /> 
+&lt;/RectangleGeometry.Transform> 
+&lt;/RectangleGeometry> 
+&lt;/Path.Data> 
+&lt;/Path> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="22">Transforming a FrameworkElement
+    </Paragraph>
+
+    <Paragraph>To apply transformations to a <Run FontWeight="Bold">FrameworkElement</Run>
+, create a <Run FontWeight="Bold">Transform</Run>
+ and apply it to one of the two properties that the <Run FontWeight="Bold">FrameworkElement</Run>
+ class provides: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">LayoutTransform</Run>
+ –A transform that is processed by the layout system. After the transform is applied, the layout system processes the transformed size and position of the element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">RenderTransform</Run>
+ – A transform that modifies the appearance of the element but is not processed by the layout system. Using the <Run FontWeight="Bold">RenderTransform</Run>
+ property instead of the <Run FontWeight="Bold">LayoutTransform</Run>
+ property can provide performance benefits.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph/>
+    <Paragraph>Which property should you use? Because the benefit performances it provides, use the <Run FontWeight="Bold">RenderTransform</Run>
+ whenever possible, especially when using animated <Run FontWeight="Bold">Transform</Run>
+ objects. Use the <Run FontWeight="Bold">LayoutTransform</Run>
+ property when scaling, rotating, or skewing and you need the element's parent to adjust to the elements transformed size. Note that, when used with the <Run FontWeight="Bold">LayoutTransform</Run>
+ property, <Run FontWeight="Bold">TranslateTransform</Run>
+ objects appear to have no effect on elements contained by elements that do not support absolute positioning. That's because the layout system returns the translated element to its original position.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>For additional information about layout in Windows Presentation Foundation (WPF), see <Hyperlink NavigateUri="3eecdced-3623-403a-a077-7595453a9221.xaml">The Layout System</Hyperlink>
+ overview.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example: Rotate a FrameworkElement 45 Degrees
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">RotateTransform</Run>
+ to rotate a button clockwise by 45 degrees. 
+    </Paragraph>
+
+    <Paragraph>By default, a <Run FontWeight="Bold">RotateTransform</Run>
+ rotates about the point (0, 0). Because the example does not specify a center value, the button rotates about the point (0, 0), which is its upper-left corner. The <Run FontWeight="Bold">RotateTransform</Run>
+ is applied to the <Run FontWeight="Bold">RenderTransform</Run>
+ property. The following illustration shows the result of the transformation. The translucent button in the background shows the original position of the button. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Run FontWeight="Bold">Clockwise rotation 45 degrees from upper-left corner</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Content="A Button"> 
+&lt;Button.RenderTransform> 
+&lt;RotateTransform Angle="0" /> 
+&lt;/Button.RenderTransform> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example also uses a <Run FontWeight="Bold">RotateTransform</Run>
+ to rotate a button 45 degrees clockwise, but it also sets the RenderTransformOrigin of the button to (0.5, 0.5). As a result, the rotation is applied to the center of the button, instead of its upper-left corner. The following illustration shows the result of the transformation. The translucent button in the background shows the original position of the button.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Run FontWeight="Bold">Clockwise rotation 45 degrees around center</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Content="A Button" RenderTransformOrigin="0.5,0.5"> 
+&lt;Button.RenderTransform> 
+&lt;RotateTransform Angle="45" /> 
+&lt;/Button.RenderTransform> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example uses the <Run FontWeight="Bold">LayoutTransform</Run>
+ property instead of the <Run FontWeight="Bold">RenderTransform</Run>
+ property to rotate the button. This causes the transformation to affectthe layout of the button, which triggers a full pass by the layout system. As a result, the button is rotated and then reposition because its size has changed. The following illustration shows the result of the transformation. The translucent button in the background shows the original position of the button.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Run FontWeight="Bold">LayoutTransform used to rotate the button</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Content="A Button"> 
+&lt;Button.LayoutTransform> 
+&lt;RotateTransform Angle="45" /> 
+&lt;/Button.LayoutTransform> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Animating Transformations
+    </Paragraph>
+
+    <Paragraph>Because they inherit from the Animatable class, the <Run FontWeight="Bold">Transform</Run>
+ classes can be animated. To animate a <Run FontWeight="Bold">Transform</Run>
+, apply an animation of a compatible type to the property you want to animate.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The following example uses a Storyboard and a DoubleAnimation with a <Run FontWeight="Bold">RotateTransform</Run>
+ to make a Button spin in place when clicked. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_8f153d5e_ed61_4aa5_a7cd_286f0c427a13_5">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Button Animated RotateTransform Example" Background="White" Margin="50"> 
+&lt;StackPanel> 
+&lt;Button Content="A Button" RenderTransformOrigin="0.5,0.5"> 
+&lt;Button.RenderTransform> 
+&lt;RotateTransform x:Name="AnimatedRotateTransform" Angle="0" /> 
+&lt;/Button.RenderTransform> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="AnimatedRotateTransform" Storyboard.TargetProperty="Angle" To="360" Duration="0:0:1" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>For more examples, see 2-D Transforms Sample. For more information about animations, see the <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Freezable Features
+    </Paragraph>
+
+    <Paragraph>Because it inherits from the Freezable class, the <Run FontWeight="Bold">Transform</Run>
+ class provide several special features: <Run FontWeight="Bold">Transform</Run>
+ objects can be declared as <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+, shared among multiple objects, made read-only to improve performance, cloned, and made thread-safe. For more information about the different features provided by <Run FontWeight="Bold">Freezable</Run>
+ objects, see the <Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Transform
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>2-D Transforms Sample
+      <LineBreak/><Hyperlink NavigateUri="ff71384e-8811-420f-8cc8-0a3332e0397f.xaml">Transformations How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Transforms Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,239 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5b92e74b_1b56_4756_ac64_d5e9e08d9854"
+  Tag     ="Use the Image Element"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Use the Image Element</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to include images in an application using the Image element.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows how to render an image 200 pixels wide. In this Extensible Application Markup Language (XAML) example, both attribute syntax and property tag syntax are used to define the image. For more information on attribute syntax and property syntax, see <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+. A BitmapImage is used to define the image's source data and is explicitly defined for the property tag syntax example. In addition, the DecodePixelWidth of the <Run FontWeight="Bold">BitmapImage</Run>
+ is set to the same width as the Width of the <Run FontWeight="Bold">Image</Run>
+. This is done to ensure that the minimum amount of memory is used rendering the image.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Note: </Run>
+In general, if you want to specify the size of a rendered image, specify only the <Run FontWeight="Bold">Width</Run>
+ or the Height but not both. By only specifying one, the image is allowed to preserve its aspect ratio. Otherwise the image may unexpectedly appear stretched or warped.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Performance Note:</Run>
+ When you specify the size of an image with either <Run FontWeight="Bold">Width</Run>
+ or <Run FontWeight="Bold">Height</Run>
+, you should also set either <Run FontWeight="Bold">DecodePixelWidth</Run>
+ or DecodePixelHeight to the same respective size. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Simple image rendering. However, rendering an image this way may not result in the best use of application memory. See markup below which creates the same end result but using less memory. --> 
+&lt;Image Width="200" Source="C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water Lilies.jpg"/> 
+&lt;Image Width="200"> 
+&lt;Image.Source> 
+&lt;!-- To save significant application memory, set the DecodePixelWidth or DecodePixelHeight of the BitmapImage value of the image source to the desired height and width of the rendered image. If you don't do this, the application will cache the image as though it were rendered as its normal size rather then just the size that is displayed. --> 
+&lt;!-- Note: In order to preserve aspect ratio, only set either DecodePixelWidth or DecodePixelHeight but not both. --> 
+&lt;BitmapImage DecodePixelWidth="200" UriSource="C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water Lilies.jpg" /> 
+&lt;/Image.Source> 
+&lt;/Image> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to render an image 200 pixels wide using procedural code. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Setting <Run FontWeight="Bold">BitmapImage</Run>
+ properties must be done within a BeginInit and EndInit block.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create Image Element Image myImage = new Image(); 
+myImage.Width = 200; 
+// Create source BitmapImage myBitmapImage = new BitmapImage(); 
+// BitmapImage.UriSource must be in a BeginInit/EndInit block myBitmapImage.BeginInit(); 
+myBitmapImage.UriSource = new Uri(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water Lilies.jpg"); 
+// To save significant application memory, set the DecodePixelWidth or // DecodePixelHeight of the BitmapImage value of the image source to the desired // height or width of the rendered image. If you don't do this, the application will // cache the image as though it were rendered as its normal size rather then just // the size that is displayed. // Note: In order to preserve aspect ratio, set DecodePixelWidth // or DecodePixelHeight but not both. myBitmapImage.DecodePixelWidth = 200; 
+myBitmapImage.EndInit(); 
+//set image source myImage.Source = myBitmapImage; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to render an image 200 pixels wide using procedural code. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Setting or modifying <Run FontWeight="Bold">BitmapImage</Run>
+ properties must be done within a <Run FontWeight="Bold">BeginInit</Run>
+ and <Run FontWeight="Bold">EndInit</Run>
+ block.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create Image Element Image myImage = new Image(); 
+myImage.Width = 200; 
+// Create source BitmapImage myBitmapImage = new BitmapImage(); 
+// BitmapImage.UriSource must be in a BeginInit/EndInit block myBitmapImage.BeginInit(); 
+myBitmapImage.UriSource = new Uri(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water Lilies.jpg"); 
+// To save significant application memory, set the DecodePixelWidth or // DecodePixelHeight of the BitmapImage value of the image source to the desired // height or width of the rendered image. If you don't do this, the application will // cache the image as though it were rendered as its normal size rather then just // the size that is displayed. // Note: In order to preserve aspect ratio, set DecodePixelWidth // or DecodePixelHeight but not both. myBitmapImage.DecodePixelWidth = 200; 
+myBitmapImage.EndInit(); 
+//set image source myImage.Source = myBitmapImage; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Image Element Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Use the Image Element to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

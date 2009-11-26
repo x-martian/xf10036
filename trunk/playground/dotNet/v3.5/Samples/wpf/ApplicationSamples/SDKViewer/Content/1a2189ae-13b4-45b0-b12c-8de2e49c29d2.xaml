@@ -1,0 +1,842 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1a2189ae_13b4_45b0_b12c_8de2e49c29d2"
+  Tag     ="Routed Events Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Routed Events Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic summarizes how you handle events when developing Windows Presentation Foundation (WPF) applications, how events are routed through a tree of elements, and how to create your own custom events. A <Run>routed event</Run>
+ is an event that is backed by the RoutedEvent class and the Windows Presentation Foundation (WPF) event system. A routed event can invoke handlers that exist on various listeners in the element tree of an application. This topic gives some more detail about the design, purpose and behavior of routed events, and describes how and when to handle a routed event.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="routing">What is a Routed Event?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="why_use">Why Use Routed Events?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="routing_strategies">Routing Strategies</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Class Handlers</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="event_handing">Attaching and Implementing an Event Handler for a Routed Event</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="attached_events">Attached Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Qualifying_Event_Names_in_XAML_for_Anticipated_Routing">Qualified Event Names in XAML</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="how_event_processing_works">Input Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="events_styles">EventSetters and EventTriggers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="more_about">More About Routed Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you have basic knowledge of the common language runtime (CLR) and object-oriented programming, as well as the concept of element trees and relationships between WPF elements. In order to follow the examples in this topic, you should also understand Extensible Application Markup Language (XAML) and know how to write very basic WPF applications. For more information, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+ and <Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What is a Routed Event?
+    </Paragraph>
+
+    <Paragraph>A typical WPF application contains many elements. Whether created in code or by loading XAML, these elements exist in an element tree relationship to each other. The routed event model enables you to use the element tree and perpetuate an event along a route after it is raised. The route can travel in one of two directions. The event can invoke handlers on listeners at the element tree root, and then route to successive child elements along the tree node route towards the node element that is the event source. Or, the event can invoke listeners on the source element, and then route to successive parent elements until reaching the element tree root.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Code for a Routed Event
+    </Paragraph>
+
+    <Paragraph>A routed event is a CLR event that is backed by the <Run FontWeight="Bold">RoutedEvent</Run>
+ class and registered with the WPF event system. The <Run FontWeight="Bold">RoutedEvent</Run>
+ instance obtained from registration is retained as a public static readonly field member of the class that registers and thus "owns" the routed event. The backing is accomplished by overriding the <Run FontWeight="Bold">add</Run>
+ and <Run FontWeight="Bold">remove</Run>
+ implementations for the event, which ordinarily are left as an implicit default that uses the appropriate language-specific event syntax for adding and removing handlers of the event. This is conceptually similar to how a <Run>dependency property</Run>
+ is a property that is backed by the DependencyProperty class and registered with the WPF property system.
+    </Paragraph>
+
+    <Paragraph>The following example shows the declaration for a <Run>Tap</Run>
+ routed event, including the registration and creation of identifier field and the <Run FontWeight="Bold">add</Run>
+ and <Run FontWeight="Bold">remove</Run>
+ implementations.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public static readonly RoutedEvent TapEvent = EventManager.RegisterRoutedEvent("Tap", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MyButtonSimple)); 
+// Provide CLR accessors for the event public event RoutedEventHandler Tap { add { AddHandler(TapEvent, value); 
+} remove { RemoveHandler(TapEvent, value); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Event Handlers and XAML
+    </Paragraph>
+
+    <Paragraph>To attach a handler for an event using XAML, you declare the event name as an attribute on the element that is an event listener.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Click="b1SetColor">button
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The XAML syntax for events is the same, regardless of whether the event that the handler is attached for is implemented as a routed event. For more information about attaching event handlers in XAML, see <Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Why Use Routed Events?
+    </Paragraph>
+
+    <Paragraph>An easily understandable scenario where routed events are useful is if you group a series of controls together that should all interact. The application can be constructed such that the controls share a parent element. The parent element is a common listener for the routed event, and uses the same event handler whenever any of the controls raises a particular event.
+    </Paragraph>
+
+    <Paragraph>For instance, consider what you might do in a small module of a larger application:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">A grouped button set</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>With this module, you would either need to write separate handlers for each button, or use the Microsoft Visual Basic .NET <Run FontWeight="Bold">Handles</Run>
+ keyword to handle all three instances. By using routed events, you can take advantage of the fact that one of the buttons will raise a bubbling routed event, and can place a common event handler on the parent of all three buttons. The user interface (UI) illustrated above might be constructed in the following way in XAML with codebehind.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Border Height="50" Width="300" BorderBrush="Gray" BorderThickness="1"> 
+&lt;StackPanel Background="LightGray" Orientation="Horizontal" Button.Click="CommonClickHandler"> 
+&lt;Button Name="YesButton" Width="Auto" >Yes
+&lt;/Button> 
+&lt;Button Name="NoButton" Width="Auto" >No
+&lt;/Button> 
+&lt;Button Name="CancelButton" Width="Auto" >Cancel
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Border> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void CommonClickHandler(object sender, RoutedEventArgs e) { FrameworkElement feSource = e.Source as FrameworkElement; 
+switch (feSource.Name) { case "YesButton": // do something here ... break; 
+case "NoButton": // do something ... break; 
+case "CancelButton": // do something ... break; 
+} e.Handled=true; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Because event listeners and event sources do not need to share a common event in their hierarchy, you can use the accumulated total of routed events as a conceptual "interface" whereby different elements in the application can exchange event information. This "interface" concept for routed events is particularly applicable for input events.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Routing Strategies
+    </Paragraph>
+
+    <Paragraph>Routed events use one of three routing strategies:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Direct: Only the source element itself is given the opportunity to invoke handlers in response. This is analogous to the "routing" that Windows Forms and other Microsoft .NET libraries use for events.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Tunneling: Initially, event handlers at the element tree root are invoked. The event then travels a route through successive child elements along the tree node route, towards the node element that is the event source (the element that raised the event). 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Bubbling: Event handlers on the event source are invoked. The event then routes to successive parent elements until reaching the element tree root.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">The Concept of Handled
+    </Paragraph>
+
+    <Paragraph>All routed events share a common event data base class, RoutedEventArgs. <Run FontWeight="Bold">RoutedEventArgs</Run>
+ defines the Handled property, which takes a Boolean value. The purpose of the <Run FontWeight="Bold">Handled</Run>
+ property is to allow any event handler along the route to mark the event as handled by setting the value of <Run FontWeight="Bold">Handled</Run>
+ to <Run FontWeight="Bold">true</Run>
+. After being processed by the handler at one element along the route, the same event data is again reported to each listener along the route. The value of <Run FontWeight="Bold">Handled</Run>
+ holds special meaning for how an event is reported along the route. If <Run FontWeight="Bold">Handled</Run>
+ is <Run FontWeight="Bold">true</Run>
+ in data for a routed event , then handlers that listen for that event on other elements are no longer invoked, for that event instance. This is true either for handlers attached in XAML, or for handlers added by language-specific code event handler syntaxes such as <Run FontWeight="Bold">+=</Run>
+ or <Run FontWeight="Bold">Handles</Run>
+. For most common handler scenarios, marking an event as handled by setting <Run FontWeight="Bold">Handled</Run>
+ to <Run FontWeight="Bold">true</Run>
+ will "stop" routing for either a tunneling route, or a bubbling route.
+    </Paragraph>
+
+    <Paragraph>However, there is still a mechanism whereby listeners can still invoke handlers in response to routed events where <Run FontWeight="Bold">Handled</Run>
+ is <Run FontWeight="Bold">true</Run>
+ in the event data. You can only use this mechanism in procedural code, or in an EventSetter.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>In code, instead of using a language-specific event syntax that works for general CLR events, use the WPF method AddHandler. Specify the value of <Run>handledEventsToo</Run>
+ as <Run FontWeight="Bold">true</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In an <Run FontWeight="Bold">EventSetter</Run>
+, set the HandledEventsToo attribute to be <Run FontWeight="Bold">true</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In addition to the behavior that <Run FontWeight="Bold">Handled</Run>
+ state produces in routed events, the concept of <Run FontWeight="Bold">Handled</Run>
+ has implications for how you should design your application, and write the event handler code. You can think of <Run FontWeight="Bold">Handled</Run>
+ as being a simple protocol that is exposed by routed events. Exactly how you use this protocol is up to you, but the intended design is as follows:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>If an event is marked as handled, then it does not need to be handled again.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If an event is not marked as handled, then other listeners have chosen either not to register a handler, or the handlers that were registered chose not to manipulate the event data to set <Run FontWeight="Bold">Handled</Run>
+ to <Run FontWeight="Bold">true</Run>
+. (Or, the current listener is the first listener that has the opportunity to handle the event.) In this case, the event can be handled on that listener, or left unhandled to route onward to the next listener.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This intended design is reinforced by the routing behavior mentioned earlier: it is more difficult (although possible in some cases) to attach handlers for routed events that will be invoked even if another handler along the route has set <Run FontWeight="Bold">Handled</Run>
+ to <Run FontWeight="Bold">true</Run>
+.
+    </Paragraph>
+
+    <Paragraph>For more information about <Run FontWeight="Bold">Handled</Run>
+, class handling of events, and recommendations about when it is appropriate to mark an event as <Run FontWeight="Bold">Handled</Run>
+, see <Hyperlink NavigateUri="5e745508-4861-4b48-b5f6-5fc7ce5289d2.xaml">Marking Routed Events as Handled, and Class Handling</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Class Handlers
+    </Paragraph>
+
+    <Paragraph>If you are defining a class, you can also define a class handler for an event that is a declared or inherited event member of your class. Class handlers are invoked before any instance listener handlers for an instance of that class, when that event reaches an element in its route. Some WPF controls have inherent class handling for certain events. This might give the appearance that the event is not being raised, but in reality it is being class handled, and can potentially still be handled by your instance handlers if you use certain techniques. For more information, see <Hyperlink NavigateUri="5e745508-4861-4b48-b5f6-5fc7ce5289d2.xaml">Marking Routed Events as Handled, and Class Handling</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Attaching and Implementing an Event Handler for a Routed Event
+    </Paragraph>
+
+    <Paragraph>To attach an event handler in XAML you simply add the event name to an element as an attribute and set the attribute value to name of the your event handler that implements an appropriate delegate, as in the following example.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Click="b1SetColor">button
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontStyle="italic">b1SetColor</Run>
+ contains the code that handles the Click event, and it must have the same signature as the RoutedEventHandler delegate, the event handler delegate for the <Run FontWeight="Bold">Click</Run>
+ event, as in the following example. The first parameter of an event handler delegate specifies the element to which the event handler is attached, and the second parameter specifies the data for the event.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void b1SetColor(object sender, RoutedEventArgs args) { //logic to handle the Click event ... } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">RoutedEventHandler</Run>
+ is the basic routed event handler delegate. For routed events that are more specialized around certain controls or scenarios, the delegates to use for the routed event handlers also might become more specialized. For instance, in a common data binding scenario, you might handle a SourceUpdated event. Your handler should implement the EventHandler delegate. By using the most specific delegate, you can process the DataTransferEventArgs in the handler and read properties in the event data that are relevant to what your handler is attempting to do. In this scenario, you typically need to know the specific Property where the bound data has changed.
+    </Paragraph>
+
+    <Paragraph>For a complete example of how to attach an event handler on an element using XAML, see <Hyperlink NavigateUri="bb27ff4c-4d0e-44f4-bcdf-1727fb06a1fd.xaml">How to: Set the Background Property of a Button</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Attaching a handler for a routed event in an application that is created in code is also straightforward. Routed events almost always have background implementations of add and remove logic that allow the handlers to be added by a language-specific event syntax. Routed event handlers can also be attached through a helper method AddHandler. The following is an example usage of the helper method:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void MakeButton() { Button b2 = new Button(); 
+b2.AddHandler(Button.ClickEvent, new RoutedEventHandler(Onb2Click)); 
+} void Onb2Click(object sender, RoutedEventArgs e) { //logic to handle the Click event } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The next example shows the C# operator syntax (Microsoft Visual Basic .NET has slightly different operator syntax because of its handling of indirection):
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void MakeButton2() { Button b2 = new Button(); 
+b2.Click += new RoutedEventHandler(Onb2Click2); 
+} void Onb2Click2(object sender, RoutedEventArgs e) { //logic to handle the Click event } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For an example of how to add an event handler in code, see <Hyperlink NavigateUri="269c61e0-6bd9-4291-9bed-1c5ee66da486.xaml">How to: Add an Event Handler Using Code</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Using Microsoft Visual Basic .NET, you can also use the <Run FontWeight="Bold">Handles</Run>
+ keyword to assign handlers as part of the handler declarations. For more information, see <Hyperlink NavigateUri="ad4eb9aa-3afc-4a71-8cf6-add3fbea54a1.xaml">Visual Basic and WPF Event Handling</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Attached Events
+    </Paragraph>
+
+    <Paragraph>The XAML language also defines a special type of event called an <Run FontStyle="italic">attached event</Run>
+. An attached event allows you to attach a handler for a particular event to some child element rather than to the parent that actually defines the event, even though neither the object potentially raising the event nor the destination handling instance define or otherwise "own" that event in their namespace. In WPF, attached events are common in certain areas where there is service-level abstraction, such as for the events enabled by the static Mouse class. In WPF, attached events are backed by a <Run FontWeight="Bold">RoutedEvent</Run>
+ field, but do not expose a CLR event that can be used to add and remove handlers. You can add handlers for routed events either through the Add*Handler accessor method on the defining class through code, or by using the <Span FontWeight="Bold"><Run FontStyle="italic">typename.eventname</Run>
+</Span>
+ attribute usage in XAML. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Qualified Event Names in XAML
+    </Paragraph>
+
+    <Paragraph>Another syntax usage that resembles <Span FontWeight="Bold"><Run FontStyle="italic">typename.eventname</Run>
+</Span>
+ attached event syntax but is not strictly speaking an attached event usage is when you attach events for child elements to a common parent, to take advantage of routing. Consider this example again:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Border Height="50" Width="300" BorderBrush="Gray" BorderThickness="1"> 
+&lt;StackPanel Background="LightGray" Orientation="Horizontal" Button.Click="CommonClickHandler"> 
+&lt;Button Name="YesButton" Width="Auto" >Yes
+&lt;/Button> 
+&lt;Button Name="NoButton" Width="Auto" >No
+&lt;/Button> 
+&lt;Button Name="CancelButton" Width="Auto" >Cancel
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Border> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Here, the parent element listener that is actually attaching a handler is a StackPanel. Yet it is attaching a handler for an event that was declared on the Button class (ButtonBase actually, but available to <Run FontWeight="Bold">Button</Run>
+ through inheritance). <Run FontWeight="Bold">Button</Run>
+ "owns" the event, but the routed event system permits handlers for any routed event to be attached to any DependencyObject instance listener. The default namescope for these qualified event attribute names is typically the default WPF namespace, but you can also specify prefixed namespaces / namescopes for custom events; 
+for more information, see <Hyperlink NavigateUri="5c0854e3-7470-435d-9fe2-93eec9d3634e.xaml">XAML Namespaces and Namespace Mapping</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Input Events
+    </Paragraph>
+
+    <Paragraph>One application of routed events within the WPF platform is for input events. In WPF, tunneling events are prefixed by the word <Run FontStyle="italic">Preview</Run>
+ by convention. Input events often come in pairs, with one being the bubbling event and one being the tunneling event. For example, the KeyDown event and the PreviewKeyDown event have the same signature, with the former being the bubbling input event and the latter being the tunneling input event. Occasional input events only have a bubbling version, or perhaps only a direct version. Within the documentation, event topics will cross-reference to similar events with alternative routing strategies if such events exist, and sections in the reference pages will clarify the routing strategy of each routed event.
+    </Paragraph>
+
+    <Paragraph>Input events that come in pairs are implemented such that a single user action from input such as a mouse button press will raise both events of the pair in sequence. First, the tunneling event is raised and travels its route. Then the bubbling event is raised and travels its route. The two events will literally share the same event data instance. Listeners with handlers for the tunneling event have first opportunity to mark the event handled. If an element along the tunneling route marked the event as handled, the already-handled event data is sent for the bubbling event, and typical handlers attached for the equivalent bubbling events will not be invoked. To outward appearances it will be as if the handled bubbling event had not even been raised.
+    </Paragraph>
+
+    <Paragraph>To illustrate how input event processing works, consider the following input event example. In the following tree illustration, <Run>leaf element #2</Run>
+ is the source of both a <Run FontWeight="Bold">PreviewMouseDown</Run>
+ and then a <Run FontWeight="Bold">MouseDown</Run>
+ event.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Input Event Bubbling and Tunneling</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The order of event processing is as follows: 
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">PreviewMouseDown</Run>
+ (tunnel) on root element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">PreviewMouseDown</Run>
+ (tunnel) on intermediate element #1.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">PreviewMouseDown</Run>
+ (tunnel) on source element #2.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">MouseDown</Run>
+ (bubble) on source element #2.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">MouseDown</Run>
+ (bubble) on intermediate element #1.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">MouseDown</Run>
+ (bubble) on root element.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>A routed event handler delegate provides references to two objects: the object that raised the event, and the object where the handler was invoked. The object where the handler was invoked is the object reported by the <Run FontStyle="italic">sender</Run>
+ parameter. The object where the event was first raised is reported by the Source property in the event data. A routed event can still be raised and handled by the same object, in which case <Run FontStyle="italic">sender</Run>
+ and <Run FontWeight="Bold">Source</Run>
+ are identical (this is the case with Steps 3 and 4 in the event processing example list above).
+    </Paragraph>
+
+    <Paragraph>Because of tunneling and bubbling, parent elements receive input events where the <Run FontWeight="Bold">Source</Run>
+ is one of their child elements. When it is important to know what the source element is, you can identify the source element by accessing the <Run FontWeight="Bold">Source</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>Usually, once the input event is marked <Run FontWeight="Bold">Handled</Run>
+, further handlers are not invoked. Typically, you should mark input events as handled as soon as a handler is invoked that addresses your application-specific logical handling of the meaning of the input event. 
+    </Paragraph>
+
+    <Paragraph>The exception to this general statement about <Run FontWeight="Bold">Handled</Run>
+ state is that input event handlers that are registered to deliberately ignore <Run FontWeight="Bold">Handled</Run>
+ state of the event data would still be invoked along either route. For more information, see <Hyperlink NavigateUri="b5032308-aa9c-4d02-af11-630ecec8df7e.xaml">Preview Events</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The shared event data model between tunneling and bubbling events, and the sequential raising of first tunneling then bubbling events, is not a concept that is generally true for all routed events. That behavior is specifically implemented by how input devices choose to raise and connect the input event pairs. Implementing your own input events is an advanced scenario, but you might choose to follow that model for your own input events also.
+    </Paragraph>
+
+    <Paragraph>Certain classes choose to class-handle certain input events, usually with the intent of redefining what a particular user-driven input event means within that control and raising a new event. For more information, see <Hyperlink NavigateUri="5e745508-4861-4b48-b5f6-5fc7ce5289d2.xaml">Marking Routed Events as Handled, and Class Handling</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>For more information on input and how input and events interact in typical application scenarios, see <Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">EventSetters and EventTriggers
+    </Paragraph>
+
+    <Paragraph>In styles or in templates, you can include some pre-declared XAML event handling syntax in the markup by using an <Run FontWeight="Bold">EventSetter</Run>
+. When the template or style is applied, the referenced handler is added to the templated instance. You can only declare an <Run FontWeight="Bold">EventSetter</Run>
+ for a routed event. The following is an example. Note that the <Run>b1SetColor</Run>
+ method referenced here is again in a code-behind file.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="SDKSample.EventOvw2" Name="dpanel2" Initialized="PrimeHandledToo" > 
+&lt;StackPanel.Resources> 
+&lt;Style TargetType="{x:Type Button}"> 
+&lt;EventSetter Event="Click" Handler="b1SetColor"/> 
+&lt;/Style> 
+&lt;/StackPanel.Resources> 
+&lt;Button>Click me
+&lt;/Button> 
+&lt;Button Name="ThisButton" Click="HandleThis">Raise event, handle it, use handled=true handler to get it anyways
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The advantage gained here is that the style or template is likely to contain a great deal of other information that could apply to any button in your application, and having the <Run FontWeight="Bold">EventSetter</Run>
+ be part of that style promotes code reuse even at the markup level. Also it abstracts method names one step further away from the general application page markup.
+    </Paragraph>
+
+    <Paragraph>Another specialized syntax that overlaps the event and animation conceptual areas of WPF is an EventTrigger. As with <Run FontWeight="Bold">EventSetter</Run>
+, only routed events may be used for an <Run FontWeight="Bold">EventTrigger</Run>
+.Typically an <Run FontWeight="Bold">EventTrigger</Run>
+ is declared as part of a style or template, but an <Run FontWeight="Bold">EventTrigger</Run>
+ can also be declared on page-level elements as part of the Triggers collection. An <Run FontWeight="Bold">EventTrigger</Run>
+ enables you to specify a Storyboard that will run whenever a routed event reaches an element in its route that declared an <Run FontWeight="Bold">EventTrigger</Run>
+ for that event. The advantage of an <Run FontWeight="Bold">EventTrigger</Run>
+ over just handling the event and causing it to start an existing storyboard is that an <Run FontWeight="Bold">EventTrigger</Run>
+ provides better control over what happens if the same event is raised again. For more information, see How to: Use Event Triggers in a Style and <Hyperlink NavigateUri="3b115594-6a93-4972-b24d-61aa16f1c15f.xaml">How to: Use Event Triggers to Control a Storyboard After It Starts</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">More About Routed Events
+    </Paragraph>
+
+    <Paragraph>This overview mainly discusses routed events from the perspective of describing the basic mechanism and offering guidance on how and when to respond to the routed events that are already present in the various base elements and controls. However, routed events are a mechanism that any <Run FontWeight="Bold">DependencyObject</Run>
+ derived class can also use, and you can create your own routed event on your custom class along with all the necessary support such as specialized event data classes and delegates. For more information about custom events see <Hyperlink NavigateUri="b79f459a-1c3f-4045-b2d4-1659cc8eaa3c.xaml">How to: Create a Custom Routed Event</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>EventManager
+      <LineBreak/>RoutedEvent
+      <LineBreak/>RoutedEventArgs
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="5e745508-4861-4b48-b5f6-5fc7ce5289d2.xaml">Marking Routed Events as Handled, and Class Handling</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Routed Events Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

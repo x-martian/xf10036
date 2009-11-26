@@ -1,0 +1,317 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_2df2cd11_6aac_4bdf_ab7b_ea5f464cd5ca"
+  Tag     ="Binding Sources Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Binding Sources Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In data binding, the <Run>binding source</Run>
+ (source) object refers to the object you obtain data from. This topic discusses the types of objects you can use as the source.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="binding_sources">Source of a Binding</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="classes">Using a CLR Class as the Binding Source Object</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="objects">Entire Objects Used as a Binding Source</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="collections">Collection Objects Used as a Binding Source</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Source of a Binding
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) data binding supports the following types of binding source:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Binding Source 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>common language runtime (CLR) objects
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>You can bind to public properties, sub-properties, as well as indexers of any common language runtime (CLR) object. The binding engine uses CLR reflection to get the values of the properties. Alternatively, objects that implement ICustomTypeDescriptor or have a registered TypeDescriptionProvider also work with the binding engine.
+            </Paragraph>
+
+            <Paragraph>See the next section for more information about how to implement a class that can serve as a source object.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ADO.NET data
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>You can bind to ADO.NET objects such as DataTable. The ADO.NET DataView implements IBindingList, providing change notifications that the binding engine listens for.
+            </Paragraph>
+
+            <Paragraph>For an example, see Binding with Data in an ADO DataSet Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>XML data
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>You can bind to and run <Run FontWeight="Bold">XPath</Run>
+ queries on an XmlNode, XmlDocument, or XmlElement. A convenient way to access XML data that is the binding source in markup is to use an XmlDataProvider object. For more information, see <Hyperlink NavigateUri="7dcd018f-16aa-4870-8e47-c1b4ea31e574.xaml">How to: Bind to XML Data Using an XMLDataProvider and XPath Queries</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>DependencyObject 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>You can bind to <Run>dependency properties</Run>
+ of any <Run FontWeight="Bold">DependencyObject</Run>
+. For an example, see <Hyperlink NavigateUri="06318fac-6afd-4c7d-a277-6d7ef50f47bc.xaml">How to: Bind the Properties of Two Controls</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Using a CLR Class as the Binding Source Object
+    </Paragraph>
+
+    <Paragraph>This section discusses the things you need to know if you are implementing a CLR class to serve as a source object.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Providing Change Notifications
+    </Paragraph>
+
+    <Paragraph>If you are using either OneWay or TwoWay binding (you want your UI to update when the source properties change dynamically), you must implement a suitable property changed notification mechanism. The recommended mechanism is for the CLR class to implement the INotifyPropertyChanged interface. For more details, see <Hyperlink NavigateUri="30b59d9e-8c3a-4349-aa82-4be837e841cf.xaml">How to: Implement Property Change Notification</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>If you do not implement <Run FontWeight="Bold">INotifyPropertyChanged</Run>
+, then you must arrange for your own notification system to make sure that the data used in a binding stays current. You can provide change notifications by supporting the <Run FontWeight="Bold">PropertyChanged</Run>
+ pattern for each property that you want change notifications for. To support this pattern, you define a <Run FontStyle="italic">PropertyName</Run>
+Changed event for each property, where <Run FontStyle="italic">PropertyName</Run>
+ is the name of the property. You raise the event every time the property changes.
+    </Paragraph>
+
+    <Paragraph>If your source object implements a proper notification mechanism target updates happen automatically. If for any reason your source object does not provide the proper property changed notifications, you have the option to use the UpdateTarget method to update the target property explicitly.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Other Characteristics
+    </Paragraph>
+
+    <Paragraph>The following list provides other important points to note:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>If you want to create the object in XAML, the class must have a default constructor. In some .NET languages, such as C#, the default constructor might be created for you.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The properties you use as source properties for a binding must be public properties of your class. Explicitly defined interface properties cannot be accessed for binding purposes, nor can protected, private, or virtual properties that have no base implementation.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You cannot bind to public fields of a CLR class.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The type of the property declared in your class is the type that is passed to the binding. However, the type ultimately used by the binding depends on the type of the <Run>binding target</Run>
+ property, not of the source property. If there is a difference in type, you might want to write a converter to handle how your custom property is initially passed to the binding. For more information, see IValueConverter.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Entire Objects Used as a Binding Source
+    </Paragraph>
+
+    <Paragraph>You can use an entire object as the source for a binding. This can be done by specifying the object as the binding source using the Source or the DataContext property, and then providing no path beyond a blank binding declaration: <Run>{Binding}</Run>
+. Scenarios in which this is useful include binding to objects that are of type string, binding to objects with multiple properties you are interested in, or binding to collection objects. For an example of binding to an entire collection object, see <Hyperlink NavigateUri="11429b9e-058d-4084-bfb6-2cf209c8ddf7.xaml">How to: Implement the Master-Detail Scenario</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Note that you may need to apply custom logic so that the data is meaningful to your bound target property. The custom logic may be in the form of a custom converter (if default type conversion does not exist) or a DataTemplate. For more information about converters, see the Data Conversion section of the <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+. For more information about data templates, see <Hyperlink NavigateUri="0f4d9f8c-0230-4013-bd7b-e8e7fed01b4a.xaml">Data Templating Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Collection Objects Used as a Binding Source
+    </Paragraph>
+
+    <Paragraph>Often, the object you want to use as the source is a collection of multiple custom objects, each of which represents a data object that serves as the source for one instance of a repeated binding. For instance, you might have a <Run>CustomerOrders</Run>
+ collection consisting of <Run>CustomerOrder</Run>
+ objects, where your application iterates over the collection to determine how many orders exist and the data contained in each.
+    </Paragraph>
+
+    <Paragraph>You can enumerate over any collection that implements the IEnumerable interface. However, to set up dynamic bindings so that insertions or deletions in the collection update the UI automatically, the collection must implement the INotifyCollectionChanged interface. This interface exposes an event that must be raised whenever the underlying collection changes.
+    </Paragraph>
+
+    <Paragraph>WPF provides the ObservableCollection class, which is a built-in implementation of a data collection that exposes the <Run FontWeight="Bold">INotifyCollectionChanged</Run>
+ interface. The individual data objects within the collection must satisfy the requirements described in the preceding sections. For an example, see <Hyperlink NavigateUri="6cf7e275-df76-41c6-a611-53b889b8fd5a.xaml">How to: Create and Bind to an ObservableCollection</Hyperlink>
+. Before implementing your own collection, consider using <Run FontWeight="Bold">ObservableCollection</Run>
+ or one of the existing collection classes, such as List, Collection, and BindingList, among many others. 
+    </Paragraph>
+
+    <Paragraph>If you have an advanced scenario and want to implement your own collection, consider using IList, which provides a non-generic collection of objects that can be individually accessed by index and thus the best performance.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="55d47757-2648-4a52-987f-b767953f168c.xaml">How to: Specify the Binding Source</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ObjectDataProvider
+      <LineBreak/>XmlDataProvider
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Binding Sources Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

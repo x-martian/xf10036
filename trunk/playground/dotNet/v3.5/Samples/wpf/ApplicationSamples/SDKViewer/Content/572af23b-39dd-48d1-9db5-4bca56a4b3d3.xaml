@@ -1,0 +1,144 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_572af23b_39dd_48d1_9db5_4bca56a4b3d3"
+  Tag     ="Animate the Opacity of an Element or Brush"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate the Opacity of an Element or Brush</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To make a framework element fade in and out of view, you can animate its Opacity property or you can animate the Opacity property of the Brush (or brushes) used to paint it. Animating the element's opacity makes it and its children fade in and out of view, but animating the brush used to paint the element enables you to be more selective about which portion of the element fades. For example, you could animate the opacity of a brush used to paint a button's background. This would cause the button's background to fade in and out of view, while leaving its text fully opaque.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Animating the Opacity of a Brush provides performance benefits over animating the Opacity property of an element.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>In the following example, two buttons are animated so that they fade in and out of view. The Opacity of the first Button is animated from <Run>1.0</Run>
+ to <Run>0.0</Run>
+ over a Duration of five seconds. The second button is also animated, but the Opacity of the SolidColorBrush used to paint its Background is animated rather than the opacity of the entire button. When the example is run, the first button completely fades in and out of view, while only the background of the second button fades in and out of view. Its text and border remain fully opaque.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_572af23b_39dd_48d1_9db5_4bca56a4b3d3_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;!-- OpacityAnimationExample.xaml This example shows how to animate the opacity of objects, making them fade in and out of view. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Opacity Animation Example" Background="White"> 
+&lt;StackPanel Margin="20"> 
+&lt;!-- Clicking this button animates its opacity. --> 
+&lt;Button Name="opacityAnimatedButton"> A Button 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="opacityAnimatedButton" Storyboard.TargetProperty="(Button.Opacity)" From="1" To="0" Duration="0:0:5" AutoReverse="True" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;!-- Clicking this button animates the opacity of the brush used to paint its background. --> 
+&lt;Button> A Button 
+&lt;Button.Background> 
+&lt;SolidColorBrush x:Name="MyAnimatedBrush" Color="Orange" /> 
+&lt;/Button.Background> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyAnimatedBrush" Storyboard.TargetProperty="(Brush.Opacity)" From="1" To="0" Duration="0:0:5" AutoReverse="True" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Code has been omitted from this example. The full sample also shows how to animate the opacity of a Color within a LinearGradientBrush. For the full sample, see the Animating the Opacity of an Element Sample.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate the Opacity of an Element or Brush to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

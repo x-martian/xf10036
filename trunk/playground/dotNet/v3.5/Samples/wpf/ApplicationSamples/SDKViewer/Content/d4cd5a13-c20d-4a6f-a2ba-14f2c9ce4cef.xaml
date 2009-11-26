@@ -1,0 +1,127 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d4cd5a13_c20d_4a6f_a2ba_14f2c9ce4cef"
+  Tag     ="Animate the Size of a FrameworkElement"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate the Size of a FrameworkElement</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To animate the size of a FrameworkElement, you can either animate its Width and Height properties or use an animated ScaleTransform. 
+    </Paragraph>
+
+    <Paragraph>In the following example animates the size of two buttons using these two approaches. One button is resized by animating its <Run FontWeight="Bold">Width</Run>
+ property and another is resized by animating a <Run FontWeight="Bold">ScaleTransform</Run>
+ applied to its RenderTransform property. Each button contains some text. Initially, the text appears the same in both buttons, but as the buttons are resized, the text in the second button becomes distorted.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- AnimatingSizeExample.xaml This example shows two ways of animating the size of a framework element. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="Microsoft.Samples.Animation.AnimatingSizeExample" WindowTitle="Animating Size Example"> 
+&lt;Canvas Width="650" Height="400"> 
+&lt;Button Name="AnimatedWidthButton" Canvas.Left="20" Canvas.Top="20" Width="200" Height="150" BorderBrush="Red" BorderThickness="5"> Click Me 
+&lt;Button.Triggers> 
+&lt;!-- Animate the button's Width property. --> 
+&lt;EventTrigger RoutedEvent="Button.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="AnimatedWidthButton" Storyboard.TargetProperty="(Button.Width)" To="500" Duration="0:0:10" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;Button Canvas.Left="20" Canvas.Top="200" Width="200" Height="150" BorderBrush="Black" BorderThickness="3"> Click Me 
+&lt;Button.RenderTransform> 
+&lt;ScaleTransform x:Name="MyAnimatedScaleTransform" ScaleX="1" ScaleY="1" /> 
+&lt;/Button.RenderTransform> 
+&lt;Button.Triggers> 
+&lt;!-- Animate the ScaleX property of a ScaleTransform applied to the button. --> 
+&lt;EventTrigger RoutedEvent="Button.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyAnimatedScaleTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="3.0" Duration="0:0:10" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;/Canvas> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When you transform an element, the entire element and its contents are transformed. When you directly alter the size of an element, as in the case of the first button, the element's contents are not resized unless their size and position depend on the size of their parent element.
+    </Paragraph>
+
+    <Paragraph>Animating the size of an element by applying an animated transform to its <Run FontWeight="Bold">RenderTransform</Run>
+ property provides better performance than animated its <Run FontWeight="Bold">Width</Run>
+ and <Run FontWeight="Bold">Height</Run>
+ directly, because the <Run FontWeight="Bold">RenderTransform</Run>
+ property does not trigger a layout pass. 
+    </Paragraph>
+
+    <Paragraph>For more information about animating properties, see the <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+. For more information about transforms, see the <Hyperlink NavigateUri="8f153d5e-ed61-4aa5-a7cd-286f0c427a13.xaml">Transforms Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate the Size of a FrameworkElement to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

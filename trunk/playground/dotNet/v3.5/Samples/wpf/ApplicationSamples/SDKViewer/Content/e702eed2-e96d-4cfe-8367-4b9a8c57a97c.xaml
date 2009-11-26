@@ -1,0 +1,164 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e702eed2_e96d_4cfe_8367_4b9a8c57a97c"
+  Tag     ="Extend the Style of a DocumentViewer"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Extend the Style of a DocumentViewer</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to extend the default style of a DocumentViewer control. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following Extensible Application Markup Language (XAML) code defines a window that contains a <Run FontWeight="Bold">DocumentViewer</Run>
+ control and an accompanying style. The example style uses the BasedOn attribute to extend the default <Run FontWeight="Bold">DocumentViewer</Run>
+ style. In this case, the example style simply mirrors the background gradient used by the default toolbar style, and applies it to the background of the content display area.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="SDKSample.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Window.Resources> 
+&lt;Style x:Key="MyDVStyleExtend" BasedOn="{StaticResource {x:Type DocumentViewer}}" TargetType="{x:Type DocumentViewer}"> 
+&lt;Setter Property="Background"> 
+&lt;Setter.Value> 
+&lt;LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1"> 
+&lt;GradientStop Offset="0.0" Color="#CC99CCFF" /> 
+&lt;GradientStop Offset="1.0" Color="White" /> 
+&lt;/LinearGradientBrush> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;/Window.Resources> 
+&lt;Grid> 
+&lt;DocumentViewer Style="{StaticResource MyDVStyleExtend}" Name="MyDocumentViewer"/> 
+&lt;/Grid> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following figure shows how the styled <Run FontWeight="Bold">DocumentViewer</Run>
+ in this example renders (with no content): 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of a DocumentViewer control with the default style extended.</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Task Remarks</Run>
+
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Because the style shown in this example extends the <Run FontWeight="Bold">DocumentViewer</Run>
+ default style rather than replacing it, user interface (UI) elements defined by the default <Run FontWeight="Bold">DocumentViewer</Run>
+ style (such as the toolbar and context menu) are still shown. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A style is applied by matching the style key (x:Key) to the value referenced by an element's Style attribute. In the example show above, the style key is "MyDVStyleReplace". The key itself is an arbitrary string value that must be unique within the current scope. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Styles defined as local resources must by referenced as a static resource, using the <Run FontWeight="Bold">StaticResource</Run>
+ syntax show in the example above. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The style and <Run FontWeight="Bold">ControlTempate</Run>
+ use TargetType to indicate that the style is applicable only to <Run FontWeight="Bold">DocumentViewer</Run>
+ controls. A mismatch between the target type for the style or control template and the element to which the style is applied will raise an InvalidOperationException exception.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="1850b13c-63a1-479e-a07e-53137fde8ad6.xaml">How to: Replace the Style of a DocumentViewer</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>DocumentViewer
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Extend the Style of a DocumentViewer to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

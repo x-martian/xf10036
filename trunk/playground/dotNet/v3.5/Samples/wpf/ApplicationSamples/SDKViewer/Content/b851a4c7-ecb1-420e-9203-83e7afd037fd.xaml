@@ -1,0 +1,208 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b851a4c7_ecb1_420e_9203_83e7afd037fd"
+  Tag     ="Animate a Matrix by Using Key Frames"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate a Matrix by Using Key Frames</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to animate the Matrix property of a MatrixTransform by using key frames.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses the MatrixAnimationUsingKeyFrames class to animate the <Run FontWeight="Bold">Matrix</Run>
+ property of a <Run FontWeight="Bold">MatrixTransform</Run>
+. The example uses the <Run FontWeight="Bold">MatrixTransform</Run>
+ object to transform the appearance and position of a Button. 
+    </Paragraph>
+
+    <Paragraph>This animation uses the DiscreteMatrixKeyFrame class to create two key frames and does the following with them:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Animates the first Matrix during the first 0.2 seconds. The example changes the M11 and M12 properties of the <Run FontWeight="Bold">Matrix</Run>
+. This change causes the button to stretch and become skewed. The example also changes the OffsetX and OffsetY properties so that the button changes position. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Animates the second <Run FontWeight="Bold">Matrix</Run>
+ at 1.0 seconds. The button moves to another position while the button is no longer skewed or stretched.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Repeats the animation indefinitely.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Key frames that derive from the <Run FontWeight="Bold">DiscreteMatrixKeyFrame</Run>
+ object create sudden jumps between values, that is, the movement of the animation is jerky.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_b851a4c7_ecb1_420e_9203_83e7afd037fd_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="MatrixAnimationUsingPath Example"> 
+&lt;StackPanel Margin="20"> 
+&lt;Canvas HorizontalAlignment="Left" Width="340" Height="240" > 
+&lt;!-- The Button that is animated. --> 
+&lt;Button Margin="-30,0,0,0" MinWidth="100"> Click 
+&lt;Button.RenderTransform> 
+&lt;MatrixTransform x:Name="myMatrixTransform"> 
+&lt;MatrixTransform.Matrix > 
+&lt;Matrix OffsetX="10" OffsetY="100"/> 
+&lt;/MatrixTransform.Matrix> 
+&lt;/MatrixTransform> 
+&lt;/Button.RenderTransform> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Animates the button's MatrixTransform using MatrixAnimationUsingKeyFrames. Animates to first Matrix in the first 0.2 seconds, to second Matrix in the next second, and then starts over. Notice that the first KeyFrame stretches the button and skews it using the M11 and M12 Matrix properties respectively. Also, animations are using Discrete interpolation, so the MatrixTransform appears to "jump" from one value to the next. --> 
+&lt;MatrixAnimationUsingKeyFrames Storyboard.TargetName="myMatrixTransform" Storyboard.TargetProperty="Matrix" Duration="0:0:3" RepeatBehavior="Forever"> 
+&lt;DiscreteMatrixKeyFrame KeyTime="0:0:0.2"> 
+&lt;DiscreteMatrixKeyFrame.Value> 
+&lt;Matrix OffsetX="100" OffsetY="200" M11="3" M12="1" /> 
+&lt;/DiscreteMatrixKeyFrame.Value> 
+&lt;/DiscreteMatrixKeyFrame> 
+&lt;DiscreteMatrixKeyFrame KeyTime="0:0:1"> 
+&lt;DiscreteMatrixKeyFrame.Value> 
+&lt;Matrix OffsetX="300" OffsetY="100" M11="1" M12="0" /> 
+&lt;/DiscreteMatrixKeyFrame.Value> 
+&lt;/DiscreteMatrixKeyFrame> 
+&lt;/MatrixAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;/Canvas> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>For the complete sample, see KeyFrame Animation Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Matrix
+      <LineBreak/>MatrixTransform
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a5f9ab1a-d14c-4816-8540-3c5b8c8143d5.xaml">Key-Frame Animation How-to Topics</Hyperlink>
+
+      <LineBreak/>KeyFrame Animation Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate a Matrix by Using Key Frames to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

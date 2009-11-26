@@ -1,0 +1,509 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e45e555d_ac1e_4b36_aced_e433afe7f27f"
+  Tag     ="3-D Transformations Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>3-D Transformations Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how to apply transformations to 3-D models in the Windows Presentation Foundation (WPF) graphics system. Transformations allow the developer to reposition, resize, and reorient models without changing the base values that define them.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run>3-D Coordinate Space</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Transforming Models</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Translation Transformations</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Scale Transformations</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Rotation Transformations</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Using Transformation Collections</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Animating Transformations</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">3-D Coordinate Space
+    </Paragraph>
+
+    <Paragraph>3-D graphics content in Windows Presentation Foundation (WPF) is encapsulated in an element, Viewport3D, that can participate in the two-dimensional element structure. The graphics system treats Viewport3D as a two-dimensional visual element like many others in Windows Presentation Foundation (WPF). Viewport3D functions as a window—a viewport—into a three-dimensional scene. More accurately, it is a surface on which a 3-D scene is projected. Although you can use Viewport3D with other 2-D drawing objects in the same scene graph, you cannot interpenetrate 2-D and 3-D objects within a Viewport3D. In the following discussion, the coordinate space described is contained by the Viewport3D element.
+    </Paragraph>
+
+    <Paragraph>The Windows Presentation Foundation (WPF) coordinate system for 2-D graphics locates the origin in the upper left of the rendering surface (typically the screen). In the 2-D system, positive x-axis values proceed to the right and positive y-axis values proceed downward. In the 3-D coordinate system, however, the origin is located in the center of the screen, with positive x-axis values proceeding to the right but positive y-axis values proceeding upward instead, and positive z-axis values proceeding outward from the origin, toward the viewer.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Coordinate System Comparison</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The space defined by these axes is the stationary frame of reference for 3-D objects in Windows Presentation Foundation (WPF). As you build models in this space and create lights and cameras to view them, it's helpful to distinguish this stationary frame of reference, or "world space," from the local frame of reference you create for each model when you apply transformations to it. Remember also that objects in world space might look entirely different, or not be visible at all, depending on light and camera settings, but the position of the camera does not change the location of objects in world space.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Transforming Models
+    </Paragraph>
+
+    <Paragraph>When you create models, they have a particular location in the scene. To move those models around in the scene, to rotate them, or to change their size, it's not practical to change the vertices that define the models themselves. Instead, just as in 2-D, you apply transformations to models.
+    </Paragraph>
+
+    <Paragraph>Each model object has a Transform property with which you can move, re-orient, or resize the model. When you apply a transform, you effectively offset all the points of the model by whatever vector or value is specified by the transform. In other words, you've transformed the coordinate space in which the model is defined ("model space"), but you haven't changed the values that make up the model's geometry in the coordinate system of the entire scene ("world space").
+    </Paragraph>
+
+    <Paragraph FontSize="22">Translation Transformations
+    </Paragraph>
+
+    <Paragraph>3-D transformations inherit from the abstract base class Transform3D; 
+these include the affine transform classes TranslateTransform3D, ScaleTransform3D, and RotateTransform3D. The Windows Presentation Foundation (WPF) 3-D system also provides a MatrixTransform3D class that lets you specify the same transformations in more concise matrix operations.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">TranslateTransform3D</Run>
+ moves all the points in the Model3D in the direction of the offset vector you specify with the OffsetX, OffsetY, and OffsetZ properties. For example, given one vertex of a cube at (2,2,2), an offset vector of (0,1.6,1) would move that vertex (2,2,2) to (2,3.6,3). The cube's vertex is still (2,2,2) in model space, but now that model space has changed its relationship to world space so that (2,2,2) in model space is (2,3.6,3) in world space.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Translation with Offset</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The following code examples show how to apply a translation.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_e45e555d_ac1e_4b36_aced_e433afe7f27f_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;DockPanel> 
+&lt;Viewbox> 
+&lt;Canvas Width="600" Height="201"> 
+&lt;!-- The Viewport3D provides a rendering surface for 3-D visual content. --> 
+&lt;Viewport3D Name="MyAnimatedObject" ClipToBounds="True" Width="600" Height="150" Canvas.Left="0" Canvas.Top="10"> 
+&lt;!-- Defines the camera used to view the 3D object. --> 
+&lt;Viewport3D.Camera> 
+&lt;PerspectiveCamera x:Name="myPerspectiveCamera" Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" /> 
+&lt;/Viewport3D.Camera> 
+&lt;!-- The ModelVisual3D children contain the 3D models --> 
+&lt;Viewport3D.Children> 
+&lt;!-- This ModelVisual3D defines the light cast in the scene. Without light, the 3D object cannot be seen. --> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" /> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;GeometryModel3D> 
+&lt;!-- The geometry specifes the shape of the 3D plane. In this case, a flat sheet is created. --> 
+&lt;GeometryModel3D.Geometry> 
+&lt;MeshGeometry3D TriangleIndices="0,1,2 3,4,5 " Normals="0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 " TextureCoordinates="0,0 1,0 1,1 1,1 0,1 0,0 " Positions="-0.5,-0.5,0.5 0.5,-0.5,0.5 0.5,0.5,0.5 0.5,0.5,0.5 -0.5,0.5,0.5 -0.5,-0.5,0.5 " /> 
+&lt;/GeometryModel3D.Geometry> 
+&lt;!-- The material specifies the material applied to the plane. In this case it is a linear gradient.--> 
+&lt;GeometryModel3D.Material> 
+&lt;MaterialGroup> 
+&lt;DiffuseMaterial> 
+&lt;DiffuseMaterial.Brush> 
+&lt;SolidColorBrush Color="Cyan" Opacity="0.3"/> 
+&lt;/DiffuseMaterial.Brush> 
+&lt;/DiffuseMaterial> 
+&lt;/MaterialGroup> 
+&lt;/GeometryModel3D.Material> 
+&lt;!-- The Transform specifies how to transform the 3D object. The OffsetX property is animated in the Storyboard below. --> 
+&lt;GeometryModel3D.Transform> 
+&lt;TranslateTransform3D x:Name="myTranslateTransform3D" OffsetX="0" OffsetY="0" OffsetZ="0" /> 
+&lt;/GeometryModel3D.Transform> 
+&lt;/GeometryModel3D> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;/Viewport3D.Children> 
+&lt;!-- Trigger the TranslateTransform3D animation when the 3D object loads. --> 
+&lt;Viewport3D.Triggers> 
+&lt;EventTrigger RoutedEvent="Viewport3D.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- This animation animates the OffsetX property of the TranslateTransform3D. --> 
+&lt;DoubleAnimation Storyboard.TargetName="myTranslateTransform3D" Storyboard.TargetProperty="OffsetX" To="-0.8" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;!-- If you want to animate OffsetY and/or OffsetZ, create similar DoubleAnimations respectively. --> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Viewport3D.Triggers> 
+&lt;/Viewport3D> 
+&lt;/Canvas> 
+&lt;/Viewbox> 
+&lt;/DockPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Scale Transformations
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ScaleTransform3D</Run>
+ changes the model's scale by a specified scale vector with reference to a center point. Specify a uniform scale, which scales the model by the same value in the X, Y, and Z axes, to change the model's size proportionally. For example, setting the transform's ScaleX, ScaleY, and ScaleZ properties to 0.5 halves the size of the model; 
+setting the same properties to 2 doubles its scale in all three axes.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ScaleVector Example</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>By specifying a non-uniform scale transformation—a scale transformation whose X, Y, and Z values are not all the same—you can cause a model to stretch or contract in one or two dimensions without affecting the others. For example, setting <Run FontWeight="Bold">ScaleX</Run>
+ to 1, <Run FontWeight="Bold">ScaleY</Run>
+ to 2, and <Run FontWeight="Bold">ScaleZ</Run>
+ to 1 would cause the transformed model to double in height but remain unchanged along the X and Z axes.
+    </Paragraph>
+
+    <Paragraph>By default, ScaleTransform3D causes vertices to expand or contract about the origin (0,0,0). If the model you want to transform is not drawn from the origin, however, scaling the model from the origin will not scale the model "in place." Instead, when the model's vertices are multiplied by the scale vector, the scale operation will have the effect of translating the model as well as scaling it.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Scale Center Example</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>To scale a model "in place," specify the center of the model by setting the ScaleTransform3D's CenterX, CenterY, and CenterZ properties. This ensures that the graphics system scales the model space and then translates it to center on the specified Point3D. Conversely, if you've built the model about the origin and specify a different center point, expect to see the model translated away from the origin.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Rotation Transformations
+    </Paragraph>
+
+    <Paragraph>You can rotate a model in 3-D in several different ways. A typical rotation transformation specifies an axis and an angle of rotation around that axis. The <Run FontWeight="Bold">RotateTransform3D</Run>
+ class allows you to define a Rotation3D with its Rotation property. You then specify Axis and Angle properties on the Rotation3D, in this case an AxisAngleRotation3D, to define the transformation. The following examples rotate a model by 60 degrees around the Y axis.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_e45e555d_ac1e_4b36_aced_e433afe7f27f_1">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;DockPanel> 
+&lt;Viewbox> 
+&lt;Canvas Width="321" Height="201"> 
+&lt;!-- The Viewport3D provides a rendering surface for 3-D visual content. --> 
+&lt;Viewport3D Name="MyAnimatedObject" ClipToBounds="True" Width="150" Height="150" Canvas.Left="0" Canvas.Top="10"> 
+&lt;!-- Defines the camera used to view the 3D object. --> 
+&lt;Viewport3D.Camera> 
+&lt;PerspectiveCamera x:Name="myPerspectiveCamera" Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" /> 
+&lt;/Viewport3D.Camera> 
+&lt;!-- The ModelVisual3D children contain the 3D models --> 
+&lt;Viewport3D.Children> 
+&lt;!-- Two ModelVisual3D define the lights cast in the scene. Without light, the 3D object cannot be seen. Also, the direction of the lights affect shadowing. --> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" /> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;DirectionalLight Color="#FFFFFF" Direction="0.612372,-0.5,-0.612372" /> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;GeometryModel3D> 
+&lt;!-- The geometry specifes the shape of the 3D plane. In this case, a flat sheet is created. --> 
+&lt;GeometryModel3D.Geometry> 
+&lt;MeshGeometry3D TriangleIndices="0,1,2 3,4,5 " Normals="0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 " TextureCoordinates="0,0 1,0 1,1 1,1 0,1 0,0 " Positions="-0.5,-0.5,0.5 0.5,-0.5,0.5 0.5,0.5,0.5 0.5,0.5,0.5 -0.5,0.5,0.5 -0.5,-0.5,0.5 " /> 
+&lt;/GeometryModel3D.Geometry> 
+&lt;!-- The material specifies the material applied to the plane. In this case it is a linear gradient.--> 
+&lt;GeometryModel3D.Material> 
+&lt;MaterialGroup> 
+&lt;DiffuseMaterial> 
+&lt;DiffuseMaterial.Brush> 
+&lt;LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="Yellow" Offset="0" /> 
+&lt;GradientStop Color="Red" Offset="0.25" /> 
+&lt;GradientStop Color="Blue" Offset="0.75" /> 
+&lt;GradientStop Color="LimeGreen" Offset="1" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/DiffuseMaterial.Brush> 
+&lt;/DiffuseMaterial> 
+&lt;/MaterialGroup> 
+&lt;/GeometryModel3D.Material> 
+&lt;!-- The Transform specifies how to transform the 3D object. The properties of the Rotation object are animated causing the 3D object to rotate and "wobble" (see Storyboard below).--> 
+&lt;GeometryModel3D.Transform> 
+&lt;RotateTransform3D> 
+&lt;RotateTransform3D.Rotation> 
+&lt;AxisAngleRotation3D x:Name="myAngleRotation" Axis="0,3,0" Angle="40" /> 
+&lt;/RotateTransform3D.Rotation> 
+&lt;/RotateTransform3D> 
+&lt;/GeometryModel3D.Transform> 
+&lt;/GeometryModel3D> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;/Viewport3D.Children> 
+&lt;!-- Trigger the rotation animation when the 3D object loads. --> 
+&lt;Viewport3D.Triggers> 
+&lt;EventTrigger RoutedEvent="Viewport3D.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- This animation animates the Angle property of the AxisAngleRotation3D making the 3D object rotate from -60 degrees to 60 degrees. --> 
+&lt;DoubleAnimation Storyboard.TargetName="myAngleRotation" Storyboard.TargetProperty="Angle" From="-60" To="60" Duration="0:0:4" AutoReverse="True" RepeatBehavior="Forever"/> 
+&lt;!-- This animation animates the Axis property of the AxisAngleRotation3D making the 3D wobble as it rotates. --> 
+&lt;Vector3DAnimation Storyboard.TargetName="myAngleRotation" Storyboard.TargetProperty="Axis" From="0,3,0" To="1,0,1" Duration="0:0:4" AutoReverse="True" RepeatBehavior="Forever"/> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Viewport3D.Triggers> 
+&lt;/Viewport3D> 
+&lt;/Canvas> 
+&lt;/Viewbox> 
+&lt;/DockPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note:Windows Presentation Foundation (WPF) 3-D is a right-handed system, which means that a positive angle value for a rotation results in a counter-clockwise rotation about the axis.
+    </Paragraph>
+
+    <Paragraph>Axis-angle rotations assume rotation about the origin if a value is not specified for the CenterX, CenterY, and CenterZ properties on RotateTransform3D. As with scaling, it's helpful to remember that the rotation transforms the model's entire coordinate space. If the model was not created about the origin, or has been translated previously, the rotation might "pivot" about the origin instead of rotating in place.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Rotation with new center specified</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>To rotate the model "in place," specify the model's actual center as the center of rotation. Because geometry is typically modeled about the origin, you can most often get the expected result of a set of transformations by first sizing the model (scaling it), then setting its orientation (rotating it), and finally moving it to the desired location (translating it).
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Rotation Example</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>Axis-angle rotations work well for static transformations and some animations. However, consider rotating a cube model 60 degrees around the X axis, then 45 degrees around the Z axis. You can describe this transformation as two discrete affine transformations, or as a matrix. However, it might be difficult to smoothly animate a rotation defined this way. Although the beginning and ending positions of the model computed by either approach are the same, the intermediate positions taken by the model are computationally uncertain. Quaternions represent an alternative way to compute the interpolation between the start and end of a rotation.
+    </Paragraph>
+
+    <Paragraph>A quaternion represents an axis in 3-D space and a rotation around that axis. For example, a quaternion might represent a (1,1,2) axis and a rotation of 50 degrees. Quaternions’ power in defining rotations comes from the two operations that you can perform on them: composition and interpolation. The composition of two quaternions applied to a geometry means "rotate the geometry around axis2 by rotation2, then rotate it around axis1 by rotation1." By using composition, you can combine the two rotations on the geometry to get a single quaternion that represents the result. Because quaternion interpolation can calculate a smooth and reasonable path from one axis and orientation to another, you can interpolate from the original to the composed quaternion to achieve a smooth transition from one to the other, enabling you to animate the transformation. For models that you want to animate, you can specify a destination Quaternion for the rotation by using a QuaternionRotation3D for the <Run FontWeight="Bold">Rotation</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using Transformation Collections
+    </Paragraph>
+
+    <Paragraph>When building a scene, it's common to apply more than one transformation to a model. Add transforms to the Children collection of the Transform3DGroup class to group transforms conveniently to apply to various models in the scene. It's often convenient to reuse a transformation in several different groups, in much the way that you can reuse a model by applying a different set of transforms to each instance. Note that order in which the transformations are added to the collection is significant: transforms in the collection are applied from first to last.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Animating Transformations
+    </Paragraph>
+
+    <Paragraph>The Windows Presentation Foundation (WPF) 3-D implementation participates in the same timing and animation system as 2-D graphics. In other words, to animate a 3-D scene, animate the properties of its models. It's possible to animate properties of primitives directly, but it's typically easier to animate transformations that change the position or appearance of models. Because transformations can be applied to Model3DGroup objects as well as individual models, it's possible to apply one set of animations to the children of a Model3Dgroup and another set of animations to a group of objects. For background information on the Windows Presentation Foundation (WPF) timing and animation system, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+ and <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>To animate an object in Windows Presentation Foundation (WPF), create a timeline, define an animation (which is really a change in some property value over time), and specify the property to which to apply the animation. This property must be a property of a FrameworkElement. Because all the objects in a 3-D scene are children of Viewport3D, the properties targeted by any animation you want to apply to the scene are properties of properties of Viewport3D. It's important to work out the property path for the animation carefully, because the syntax can be verbose.
+    </Paragraph>
+
+    <Paragraph>Suppose you want to rotate an object in place, but also to apply a swinging motion to expose more of the object to view. You might choose to apply a RotateTransform3D to the model, and animate the axis of its rotation from one vector to another. The following code example demonstrates applying a Vector3DAnimation to the Axis property of the transformation's Rotation3D, assuming the RotateTransform3D to be one of several transforms applied to the model with a TransformGroup.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//Define a rotation RotateTransform3D myRotateTransform = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), 1)); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Vector3DAnimation myVectorAnimation = new Vector3DAnimation(new Vector3D(-1, -1, -1), new Duration(TimeSpan.FromMilliseconds(5000))); 
+myVectorAnimation.RepeatBehavior = RepeatBehavior.Forever; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Use a similar syntax to target other transformation properties to move or scale the object. For example, you might apply a Point3DAnimation to the ScaleCenter property on a scale transform to cause a model to smoothly distort its shape. 
+    </Paragraph>
+
+    <Paragraph>Although the preceding examples transform the properties of GeometryModel3D, it’s also possible to transform the properties of other models in the scene. By animating translations applied to Light objects, for example, you can create moving light and shadow effects that can dramatically change the appearance of your models. 
+    </Paragraph>
+
+    <Paragraph>Because cameras are also models, it’s possible to transform camera properties as well. While you can certainly change the appearance of the scene by transforming the camera location or plane distances—in effect, transforming the entire scene projection—note that many of the effects you achieve this way may not make as much “visual sense” to the viewer as transformations applied to the location or position of the models in the scene. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about 3-D Transformations Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

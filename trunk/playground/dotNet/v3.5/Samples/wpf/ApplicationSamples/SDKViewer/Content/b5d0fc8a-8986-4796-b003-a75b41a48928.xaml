@@ -1,0 +1,161 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b5d0fc8a_8986_4796_b003_a75b41a48928"
+  Tag     ="Paint an Area with a Radial Gradient"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Paint an Area with a Radial Gradient</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the RadialGradientBrush class to paint an area with a radial gradient. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">RadialGradientBrush</Run>
+ to paint a rectangle with a radial gradient that transitions from yellow to red to blue to lime green. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Input; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+namespace BrushesIntroduction { public class RadialGradientBrushSnippet : Page { public RadialGradientBrushSnippet() { Title = "RadialGradientBrush Example"; 
+Background = Brushes.White; 
+Margin = new Thickness(20); 
+// // Create a RadialGradientBrush with four gradient stops. // RadialGradientBrush radialGradient = new RadialGradientBrush(); 
+// Set the GradientOrigin to the center of the area being painted. radialGradient.GradientOrigin = new Point(0.5, 0.5); 
+// Set the gradient center to the center of the area being painted. radialGradient.Center = new Point(0.5, 0.5); 
+// Set the radius of the gradient circle so that it extends to // the edges of the area being painted. radialGradient.RadiusX = 0.5; 
+radialGradient.RadiusY = 0.5; 
+// Create four gradient stops. radialGradient.GradientStops.Add(new GradientStop(Colors.Yellow, 0.0)); 
+radialGradient.GradientStops.Add(new GradientStop(Colors.Red, 0.25)); 
+radialGradient.GradientStops.Add(new GradientStop(Colors.Blue, 0.75)); 
+radialGradient.GradientStops.Add(new GradientStop(Colors.LimeGreen, 1.0)); 
+// Freeze the brush (make it unmodifiable) for performance benefits. radialGradient.Freeze(); 
+// Create a rectangle and paint it with the // RadialGradientBrush. Rectangle aRectangle = new Rectangle(); 
+aRectangle.Width = 200; 
+aRectangle.Height = 100; 
+aRectangle.Fill = radialGradient; 
+StackPanel mainPanel = new StackPanel(); 
+mainPanel.Children.Add(aRectangle); 
+Content = mainPanel; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_b5d0fc8a_8986_4796_b003_a75b41a48928_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="RadialGradientBrush Example" Background="White" Margin="20"> 
+&lt;StackPanel> 
+&lt;!-- This rectangle is painted with a radial gradient. --> 
+&lt;Rectangle Width="200" Height="100"> 
+&lt;Rectangle.Fill> 
+&lt;RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5"> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Color="Yellow" Offset="0" /> 
+&lt;GradientStop Color="Red" Offset="0.25" /> 
+&lt;GradientStop Color="Blue" Offset="0.75" /> 
+&lt;GradientStop Color="LimeGreen" Offset="1" /> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/Rectangle.Fill> 
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the gradient from the preceding example. The gradient's stops have been highlighted.
+    </Paragraph>
+
+    <Paragraph>For additional <Run FontWeight="Bold">RadialGradientBrush</Run>
+ examples, see the Brushes Sample. For more information about gradients and other types of brushes, see <Hyperlink NavigateUri="f5b182f3-c5c7-4cbe-9f2f-65e690d08255.xaml">Painting with Solid Colors and Gradients Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Paint an Area with a Radial Gradient to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

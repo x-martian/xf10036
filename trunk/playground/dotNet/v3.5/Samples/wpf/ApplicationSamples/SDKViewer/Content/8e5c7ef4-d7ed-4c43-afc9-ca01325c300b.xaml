@@ -1,0 +1,155 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_8e5c7ef4_d7ed_4c43_afc9_ca01325c300b"
+  Tag     ="Create a Composite Shape"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Composite Shape</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create composite shapes using Geometry objects and display them using a Path element. In the following example, a LineGeometry, EllipseGeometry, and a RectangleGeometry are used with a GeometryGroup to create a composite shape. The geometries are then drawn using a Path element. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Displays the geometry. --> 
+&lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"> 
+&lt;Path.Data> 
+&lt;!-- Creates a composite shape from three geometries. --> 
+&lt;GeometryGroup FillRule="EvenOdd"> 
+&lt;LineGeometry StartPoint="10,10" EndPoint="50,30" /> 
+&lt;EllipseGeometry Center="40,70" RadiusX="30" RadiusY="30" /> 
+&lt;RectangleGeometry Rect="30,55 100 30" /> 
+&lt;/GeometryGroup> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a Path to be drawn to the screen. Path myPath = new Path(); 
+myPath.Stroke = Brushes.Black; 
+myPath.StrokeThickness = 1; 
+SolidColorBrush mySolidColorBrush = new SolidColorBrush(); 
+mySolidColorBrush.Color = Color.FromArgb(255, 204, 204, 255); 
+myPath.Fill = mySolidColorBrush; 
+// Create the line geometry to add to the Path LineGeometry myLineGeometry = new LineGeometry(); 
+myLineGeometry.StartPoint = new Point(10, 10); 
+myLineGeometry.EndPoint = new Point(50, 30); 
+// Create the ellipse geometry to add to the Path EllipseGeometry myEllipseGeometry = new EllipseGeometry(); 
+myEllipseGeometry.Center = new Point(40, 70); 
+myEllipseGeometry.RadiusX = 30; 
+myEllipseGeometry.RadiusY = 30; 
+// Create a rectangle geometry to add to the Path RectangleGeometry myRectGeometry = new RectangleGeometry(); 
+myRectGeometry.Rect = new Rect(30, 55, 100, 30); 
+// Add all the geometries to a GeometryGroup. GeometryGroup myGeometryGroup = new GeometryGroup(); 
+myGeometryGroup.Children.Add(myLineGeometry); 
+myGeometryGroup.Children.Add(myEllipseGeometry); 
+myGeometryGroup.Children.Add(myRectGeometry); 
+myPath.Data = myGeometryGroup; 
+// Add path shape to the UI. StackPanel mainPanel = new StackPanel(); 
+mainPanel.Children.Add(myPath); 
+this.Content = mainPanel; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the shape created in the previous example.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Composite Geometry</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>More complex shapes, such as polygons and shapes with curved segments, may be created using a PathGeometry. For an example showing how to create a shape using a PathGeometry, see <Hyperlink NavigateUri="49a4a8b7-e738-45be-8dac-b54a6d8f5b21.xaml">How to: Create a Shape by Using a PathGeometry</Hyperlink>
+. Although this example renders a shape to the screen using a Path element, Geometry objects may also be used to describe the contents of a GeometryDrawing or a DrawingContext. They may also be used for clipping and hit-testing.
+    </Paragraph>
+
+    <Paragraph>This example is part of larger sample; 
+for the complete sample, see the Geometries Sample.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Composite Shape to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

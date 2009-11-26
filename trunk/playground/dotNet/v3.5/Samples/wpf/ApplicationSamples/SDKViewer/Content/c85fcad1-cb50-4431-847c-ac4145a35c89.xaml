@@ -1,0 +1,277 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c85fcad1_cb50_4431_847c_ac4145a35c89"
+  Tag     ="The Ink Threading Model"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>The Ink Threading Model</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>One of the benefits of ink on a Tablet PC is that it feels a lot like writing with a regular pen and paper. To accomplish this, the tablet pen collects input data at a much higher rate than a mouse does and renders the ink as the user writes. The application's user interface (UI) thread is not sufficient for collecting pen data and rendering ink, because it can become blocked. To solve this, a WPF application uses two additional threads when a user writes ink. 
+    </Paragraph>
+
+    <Paragraph>The following list describes the threads that take part in collecting and rendering digital ink:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Pen thread - the thread that takes input from the stylus. (In reality, this is a thread pool, but this topic refers to it as a pen thread.)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Application user interface thread - the thread that controls the user interface of the application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Dynamic rendering thread - the thread that renders the ink while the user draws a stroke. The dynamic rendering thread is different than the thread that renders other UI elements for the application, as mentioned in Window Presentation Foundation <Hyperlink NavigateUri="02d8fd00-8d7c-4604-874c-58e40786770b.xaml">Threading Model</Hyperlink>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The inking model is the same whether the application uses the InkCanvas or a custom control similar to the one in <Hyperlink NavigateUri="c31f3a67-cb3f-4ded-af9e-ed21f6575b26.xaml">Creating an Ink Input Control</Hyperlink>
+. Although this topic discusses threading in terms of the <Run FontWeight="Bold">InkCanvas</Run>
+, the same concepts apply when you create a custom control.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Threading Overview
+    </Paragraph>
+
+    <Paragraph>The following diagram illustrates the threading model when a user draws a stroke:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Actions occurring while the user draws the stroke
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>When the user draws a stroke, the stylus points come in on the pen thread. Stylus plug-ins, including the DynamicRenderer, accept the stylus points on the pen thread and have the chance to modify them before the <Run FontWeight="Bold">InkCanvas</Run>
+ receives them.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The <Run FontWeight="Bold">DynamicRenderer</Run>
+ renders the stylus points on the dynamic rendering thread. This happens simultaneously with the previous step.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The <Run FontWeight="Bold">InkCanvas</Run>
+ receives the stylus points on the UI thread.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Actions occurring after the user ends the stroke
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>When the user finishes drawing the stroke, the <Run FontWeight="Bold">InkCanvas</Run>
+ creates a Stroke object and adds it to the InkPresenter, which statically renders it.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The UI thread alerts the <Run FontWeight="Bold">DynamicRenderer</Run>
+ that the stroke is statically rendered, so the <Run FontWeight="Bold">DynamicRenderer</Run>
+ removes its visual representation of the stroke.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Ink collection and Stylus Plug-ins
+    </Paragraph>
+
+    <Paragraph>Each UIElement has a StylusPlugInCollection. The StylusPlugIn objects in the <Run FontWeight="Bold">StylusPlugInCollection</Run>
+ receive and can modify the stylus points on the pen thread. The <Run FontWeight="Bold">StylusPlugIn</Run>
+ objects receive the stylus points according to their order in the <Run FontWeight="Bold">StylusPlugInCollection</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The following diagram illustrates the hypothetical situation where the StylusPlugIns collection of a <Run FontWeight="Bold">UIElement</Run>
+ contains <Run>stylusPlugin1</Run>
+, a <Run FontWeight="Bold">DynamicRenderer</Run>
+, and <Run>stylusPlugin2</Run>
+, in that order. 
+    </Paragraph>
+
+    <Paragraph>In the previous diagram, the following behavior takes place:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph><Run>StylusPlugin1</Run>
+ modifies the values for x and y.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">DynamicRenderer</Run>
+ receives the modified stylus points and renders them on the dynamic rendering thread.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>StylusPlugin2</Run>
+ receives the modified stylus points and further modifies the values for x and y.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The application collects the stylus points, and, when the user finishes the stroke, statically renders the stroke.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Suppose that <Run>stylusPlugin1</Run>
+ restricts the stylus points to a rectangle and <Run>stylusPlugin2</Run>
+ translates the stylus points to the right. In the previous scenario, the <Run FontWeight="Bold">DynamicRenderer</Run>
+ receives the restricted stylus points, but not the translated stylus points. When the user draws the stroke, the stroke is rendered within the bounds of the rectangle, but the stroke doesn't appear to be translated until the user lifts the pen. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Performing operations with a Stylus Plug-in on the UI thread
+    </Paragraph>
+
+    <Paragraph>Because accurate hit-testing cannot be performed on the pen thread, some elements might occasionally receive stylus input intended for other elements. If you need to make sure the input was routed correctly before performing an operation, subscribe to and perform the operation in the OnStylusDownProcessed, OnStylusMoveProcessed, or OnStylusUpProcessed method. These methods are invoked by the application thread after accurate hit-testing has been performed. To subscribe to these methods, call the NotifyWhenProcessed method in the method that occurs on the pen thread. 
+    </Paragraph>
+
+    <Paragraph>The following diagram illustrates the relationship between the pen thread and UI thread with respect to the stylus events of a <Run FontWeight="Bold">StylusPlugIn</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Rendering Ink
+    </Paragraph>
+
+    <Paragraph>As the user draws a stroke, <Run FontWeight="Bold">DynamicRenderer</Run>
+ renders the ink on a separate thread so the ink will appear to "flow" from the pen even when the UI thread is busy. The <Run FontWeight="Bold">DynamicRenderer</Run>
+ builds a visual tree on the dynamic rendering thread as it collects stylus points. When the user finishes the stroke, the <Run FontWeight="Bold">DynamicRenderer</Run>
+ asks to be notified when the application does the next rendering pass. After the application completes the next rendering pass, the <Run FontWeight="Bold">DynamicRenderer</Run>
+ cleans up its visual tree. The following diagram illustrates this process.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>The user begins the stroke
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>The <Run FontWeight="Bold">DynamicRenderer</Run>
+ creates the visual tree.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The user is drawing the stroke
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>The <Run FontWeight="Bold">DynamicRenderer</Run>
+ builds the visual tree.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>C. The user ends the stroke
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>The <Run FontWeight="Bold">InkPresenter</Run>
+ adds the stroke to its visual tree.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The Media Integration Layer (MIL) statically renders the strokes.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The <Run FontWeight="Bold">DynamicRenderer</Run>
+ cleans up the visuals.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about The Ink Threading Model to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

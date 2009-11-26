@@ -1,0 +1,250 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_1636b950_2b5a_4507_8a10_c5034cc58b1c"
+  Tag     ="Get or Set Canvas Positioning Properties"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Get or Set Canvas Positioning Properties</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use the positioning methods of the Canvas element to position child content. This example uses content in a ListBoxItem to represent positioning values and converts the values into instances of Double, which is a required argument for positioning. The values are then converted back into strings and displayed as text in a TextBlock element by using the GetLeft method.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates a ListBox element that has eleven selectable <Run FontWeight="Bold">ListBoxItem</Run>
+ elements. The SelectionChanged event triggers the <Run>ChangeLeft</Run>
+ custom method, which the subsequent code block defines. 
+    </Paragraph>
+
+    <Paragraph>Each <Run FontWeight="Bold">ListBoxItem</Run>
+ represents a Double value, which is one of the arguments that the SetLeft method of Canvas accepts. In order to use a <Run FontWeight="Bold">ListBoxItem</Run>
+ to represent an instance of Double, you must first convert the <Run FontWeight="Bold">ListBoxItem</Run>
+ to the correct data type.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Width="60" Margin="10,0,0,0" SelectionChanged="ChangeLeft"> 
+&lt;ListBoxItem>Auto
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>10
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>20
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>30
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>40
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>50
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>60
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>70
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>80
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>90
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>100
+&lt;/ListBoxItem> 
+&lt;/ListBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Width="60" Margin="10,0,0,0" SelectionChanged="ChangeLeft"> 
+&lt;ListBoxItem>Auto
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>10
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>20
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>30
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>40
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>50
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>60
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>70
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>80
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>90
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>100
+&lt;/ListBoxItem> 
+&lt;/ListBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When a user changes the ListBox selection, it invokes the <Run>ChangeLeft</Run>
+ custom method. This method passes the <Run FontWeight="Bold">ListBoxItem</Run>
+ to a LengthConverter object, which converts the Content of a <Run FontWeight="Bold">ListBoxItem</Run>
+ to an instance of Double (notice that this value has already been converted to a String by using the ToString method). This value is then passed back to the SetLeft and GetLeft methods of Canvas in order to change the position of the <Run>text1</Run>
+ object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void ChangeLeft(object sender, SelectionChangedEventArgs args) { ListBoxItem li = ((sender as ListBox).SelectedItem as ListBoxItem); 
+LengthConverter myLengthConverter = new LengthConverter(); 
+Double db1 = (Double)myLengthConverter.ConvertFromString(li.Content.ToString()); 
+Canvas.SetLeft(text1, db1); 
+String st1 = (String)myLengthConverter.ConvertToString(Canvas.GetLeft(text1)); 
+canvasLeft.Text = "Canvas.Left = " + st1; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub ChangeLeft(ByVal sender As Object, ByVal e As SelectionChangedEventArgs) Dim li As ListBoxItem = CType(CType(sender, ListBox).SelectedItem, ListBoxItem) Dim myLengthConverter As New LengthConverter Dim db1 As Double = CType(myLengthConverter.ConvertFromString(li.Content.ToString()), Double) Canvas.SetLeft(text1, db1) Dim st1 As String = CType(myLengthConverter.ConvertToString(Canvas.GetLeft(text1)), String) canvasLeft.Text = "Canvas.Left = " + st1 End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>For the complete sample, see Positioning Properties of Canvas Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Canvas
+      <LineBreak/>LengthConverter
+      <LineBreak/>ListBoxItem
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Get or Set Canvas Positioning Properties to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

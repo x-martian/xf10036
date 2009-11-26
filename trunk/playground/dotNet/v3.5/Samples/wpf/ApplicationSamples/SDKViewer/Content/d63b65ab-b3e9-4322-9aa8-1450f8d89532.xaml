@@ -1,0 +1,229 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d63b65ab_b3e9_4322_9aa8_1450f8d89532"
+  Tag     ="Implement PriorityBinding"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Implement PriorityBinding</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>PriorityBinding in Windows Presentation Foundation (WPF) works by specifying a list of bindings. The list of bindings is ordered from highest priority to lowest priority. If the highest priority binding returns a value successfully when it is processed then there is never a need to process the other bindings in the list. It could be the case that the highest priority binding takes a long time to be evaluated, the next highest priority that returns a value successfully will be used until a binding of a higher priority returns a value successfully.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>To demonstrate how <Run FontWeight="Bold">PriorityBinding</Run>
+ works, the <Run>AsyncDataSource</Run>
+ object has been created with the following three properties: <Run>FastDP</Run>
+, <Run>SlowerDP</Run>
+, and <Run>SlowestDP</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The get accessor of <Run>FastDP</Run>
+ returns the value of the <Run>_fastDP</Run>
+ data member.
+    </Paragraph>
+
+    <Paragraph>The get accessor of <Run>SlowerDP</Run>
+ waits for 3 seconds before returning the value of the <Run>_slowerDP</Run>
+ data member.
+    </Paragraph>
+
+    <Paragraph>The get accessor of <Run>SlowestDP</Run>
+ waits for 5 seconds before returning the value of the <Run>_slowestDP</Run>
+ data member.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>This example is for demonstration purposes only. The Microsoft .NET guidelines recommend against defining properties that are orders of magnitude slower than a field set would be. For more information, see Choosing Between Properties and Methods.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class AsyncDataSource { private string _fastDP; 
+private string _slowerDP; 
+private string _slowestDP; 
+public AsyncDataSource() { } public string FastDP { get { return _fastDP; 
+} set { _fastDP = value; 
+} } public string SlowerDP { get { // This simulates a lengthy time before the // data being bound to is actualy available. Thread.Sleep(3000); 
+return _slowerDP; 
+} set { _slowerDP = value; 
+} } public string SlowestDP { get { // This simulates a lengthy time before the // data being bound to is actualy available. Thread.Sleep(5000); 
+return _slowestDP; 
+} set { _slowestDP = value; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Text property binds to the above <Run>AsyncDS</Run>
+ using <Run FontWeight="Bold">PriorityBinding</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.Resources> 
+&lt;c:AsyncDataSource SlowestDP="Slowest Value" SlowerDP="Slower Value" FastDP="Fast Value" x:Key="AsyncDS" /> 
+&lt;/Window.Resources> 
+&lt;StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="{Binding Source={StaticResource AsyncDS}}"> 
+&lt;TextBlock FontSize="18" FontWeight="Bold" Margin="10" HorizontalAlignment="Center">Priority Binding
+&lt;/TextBlock> 
+&lt;TextBlock Background="Honeydew" Width="100" HorizontalAlignment="Center"> 
+&lt;TextBlock.Text> 
+&lt;PriorityBinding FallbackValue="defaultvalue"> 
+&lt;Binding Path="SlowestDP" IsAsync="True"/> 
+&lt;Binding Path="SlowerDP" IsAsync="True"/> 
+&lt;Binding Path="FastDP" /> 
+&lt;/PriorityBinding> 
+&lt;/TextBlock.Text> 
+&lt;/TextBlock> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the binding engine processes the Binding objects, it starts with the first <Run FontWeight="Bold">Binding</Run>
+, which is bound to the <Run>SlowestDP</Run>
+ property. When this <Run FontWeight="Bold">Binding</Run>
+ is processed, it does not return a value successfully because it is sleeping for 5 seconds, so the next <Run FontWeight="Bold">Binding</Run>
+ element is processed. The next <Run FontWeight="Bold">Binding</Run>
+ does not return a value successfully because it is sleeping for 3 seconds. The binding engine then moves onto the next <Run FontWeight="Bold">Binding</Run>
+ element, which is bound to the <Run>FastDP</Run>
+ property. This <Run FontWeight="Bold">Binding</Run>
+ returns the value "Fast Value". The TextBlock now displays the value "Fast Value".
+    </Paragraph>
+
+    <Paragraph>After 3 seconds elapses, the <Run>SlowerDP</Run>
+ property returns the value "Slower Value". The <Run FontWeight="Bold">TextBlock</Run>
+ then displays the value "Slower Value".
+    </Paragraph>
+
+    <Paragraph>After 5 seconds elapses, the <Run>SlowestDP</Run>
+ property returns the value "Slowest Value". That binding has the highest priority because it is listed first. The <Run FontWeight="Bold">TextBlock</Run>
+ now displays the value "Slowest Value".
+    </Paragraph>
+
+    <Paragraph>See <Run FontWeight="Bold">PriorityBinding</Run>
+ for information about what is considered a successful return value from a binding.
+    </Paragraph>
+
+    <Paragraph>For the complete sample, see Multiple Binding Using Priority Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>System.Windows.Data.Binding.IsAsync
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Implement PriorityBinding to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

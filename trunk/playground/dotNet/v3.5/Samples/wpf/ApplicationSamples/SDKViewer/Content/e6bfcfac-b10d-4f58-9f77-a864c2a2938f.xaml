@@ -1,0 +1,513 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e6bfcfac_b10d_4f58_9f77_a864c2a2938f"
+  Tag     ="Custom Dependency Properties"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Custom Dependency Properties</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes the reasons why Windows Presentation Foundation (WPF) application developers and component authors might want to create custom <Run>dependency property</Run>
+, and describes the implementation steps as well as some implementation options that can improve performance, usability, or versatility of the property.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="whatis">What is a Dependency Property?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="example_dp">Examples of Dependency Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="backing_with_dp">When Should You Implement a Dependency Property?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="registering">Registering the Property with the Property System</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wrapper1">Implementing the "Wrapper"</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="metadata">Property Metadata for a New Dependency Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="RODP">Read Only Dependency Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="CTDP">Collection-Type Dependency Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="SecurityC">Dependency Property Security Considerations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="DPCtor">Dependency Properties and Class Constructors</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you understand dependency properties from the perspective of a consumer of existing dependency properties on WPF classes, and have read the <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+ topic. In order to follow the examples in this topic, you should also understand Extensible Application Markup Language (XAML) and know how to write WPF applications.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What is a Dependency Property?
+    </Paragraph>
+
+    <Paragraph>You can enable what would otherwise be a common language runtime (CLR) property to support styling, data binding, inheritance, animations, and default values by implementing it as a dependency property. Dependency properties are properties that are registered with the WPF property system by calling the Register method (or RegisterReadOnly), and that are backed by a DependencyProperty identifier field. Dependency properties can be used only by DependencyObject types, but <Run FontWeight="Bold">DependencyObject</Run>
+ is quite high in the WPF class hierarchy, so the majority of classes available in WPF can support dependency properties. For more information about dependency properties and some of the terminology and conventions used for describing them in this SDK, see <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Examples of Dependency Properties
+    </Paragraph>
+
+    <Paragraph>Examples of dependency properties that are implemented on WPF classes include the Background property, the Width property, and the Text property, among many others. Each dependency property exposed by a class has a corresponding public static field of type <Run FontWeight="Bold">DependencyProperty</Run>
+ exposed on that same class. This is the identifier for the dependency property. The identifier is named using a convention: the name of the dependency property with the string <Run>Property</Run>
+ appended to it. For example, the corresponding <Run FontWeight="Bold">DependencyProperty</Run>
+ identifier field for the <Run FontWeight="Bold">Background</Run>
+ property is BackgroundProperty. The identifier stores the information about the dependency property as it was registered, and the identifier is then used later for other operations involving the dependency property, such as calling SetValue.
+    </Paragraph>
+
+    <Paragraph>As mentioned in the <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+, all dependency properties in WPF (except <Run>attached properties</Run>
+) are also CLR properties because of the "wrapper" implementation. Therefore, from code, you can get or set dependency properties by calling CLR accessors that define the wrappers in the same manner that you would use other CLR properties. As a consumer of established dependency properties, you do not typically use the <Run FontWeight="Bold">DependencyObject</Run>
+ methods GetValue and <Run FontWeight="Bold">SetValue</Run>
+, which are the connection point to the underlying property system. Rather, the existing implementation of the CLR properties will have already called <Run FontWeight="Bold">GetValue</Run>
+ and <Run FontWeight="Bold">SetValue</Run>
+ within the get and set wrapper implementations of the property, using the identifier field appropriately. If you are implementing a custom dependency property yourself, then you will be defining the wrapper in a similar way.
+    </Paragraph>
+
+    <Paragraph FontSize="22">When Should You Implement a Dependency Property?
+    </Paragraph>
+
+    <Paragraph>When you implement a property on a class, so long as your class derives from <Run FontWeight="Bold">DependencyObject</Run>
+, you have the option to back your property with a <Run FontWeight="Bold">DependencyProperty</Run>
+ instance and thus to be a dependency property. Having your property be a dependency property is not always necessary or appropriate, and will depend on your scenario needs. Sometimes, the typical technique of backing your property with a private field is adequate. However, you should implement your property as a dependency property whenever you want your property to support one or more of the following capabilities:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>You want your property to be settable in a style. For more information, see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You want your property to be data bindable. For more information about data binding dependency properties, see <Hyperlink NavigateUri="06318fac-6afd-4c7d-a277-6d7ef50f47bc.xaml">How to: Bind the Properties of Two Controls</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You want your property to be settable with a dynamic resource reference. For more information, see <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You want to be able to get a value from a parent element in the element tree.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You want your property to be animatable. For more information, see <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You want the property system to report when the previous value of the property has been changed by actions taken by the property system, the environment, or the user, or by reading and using styles. Using metadata settings, your property can specify a callback function that will be invoked each time the property system determines that your property value was definitively changed. A related concept is coercion. For more information, see <Hyperlink NavigateUri="48db5fb2-da7f-49a6-8e81-3540e7b25825.xaml">Dependency Property Callbacks and Validation</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You want to use established metadata conventions, such as reporting whether changing a property value should require the layout system to recompose the visuals for an element. Or you want to be able to use metadata overrides so that derived classes can change metadata-based characteristics such as the default value. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When you examine these scenarios, you should also consider whether you can achieve your scenario by overriding the metadata of some existing dependency property, rather than implementing a new property. Whether a metadata override is practical depends on your scenario and how closely that scenario resembles existing WPF dependency properties and elements. For more information about overriding metadata on existing properties, see <Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Registering the Property with the Property System
+    </Paragraph>
+
+    <Paragraph>In order for your property to be a dependency property, you must register that property into a table maintained by the property system, and give it a unique identifier that is used as the qualifier for later property system operations. These operations might be internal operations, or your own code calling property system APIs. To register the property, you call the <Run FontWeight="Bold">Register</Run>
+ method within the body of your class (inside the class, but outside of any member definitions). The identifier field is also provided by the <Run FontWeight="Bold">Register</Run>
+ method call, as the return value. The reason that the <Run FontWeight="Bold">Register</Run>
+ call is done outside of other member definitions is because you use this return value to assign and create a public static read-only field of type <Run FontWeight="Bold">DependencyProperty</Run>
+ as part of your class. This field becomes the identifier for your dependency property.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public static readonly DependencyProperty AquariumGraphicProperty = DependencyProperty.Register( "AquariumGraphic", typeof(Uri), typeof(AquariumObject), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnUriChanged) ) ); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>There are some established naming conventions regarding dependency properties that you must follow in all but exceptional circumstances. The property itself will have a basic name, "AquariumGraphic" as in this example, which is given as the first parameter of <Run FontWeight="Bold">Register</Run>
+. That name must be unique within each registering type. Properties inherited through base types are considered to be already part of the registering type; 
+names of inherited properties cannot be registered again (however, there is a technique for adding a class as owner of a dependency property even when that dependency property is not inherited; 
+for details, see <Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+). When you create the identifier field, name this field by name of the property as you registered it, plus the suffix <Run>Property</Run>
+. Again, this field is your identifier for the dependency property, and it will be used later as an input for the <Run FontWeight="Bold">SetValue</Run>
+ and <Run FontWeight="Bold">GetValue</Run>
+ calls you will make in the wrappers, or for any other code access to the property by your own code, by any external code you allow, and by the property system.\
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Defining the dependency property in the class body is the typical implementation, but it is also possible to define a dependency property in the class static constructor. This approach might make sense if you need more than one line of code to initialize the dependency property.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Implementing the "Wrapper"
+    </Paragraph>
+
+    <Paragraph>A typical wrapper implementation calls <Run FontWeight="Bold">GetValue</Run>
+ in the get implementation, and <Run FontWeight="Bold">SetValue</Run>
+ in the set implementation (the original registration call and field are shown here too for clarity). All existing public dependency properties that are provided on the WPF classes use this simple wrapper implementation model; 
+most of the complexity of how dependency properties work is either inherently a behavior of the property system, or is implemented through other concepts such as coercion or property change callbacks through property metadata.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public static readonly DependencyProperty AquariumGraphicProperty = DependencyProperty.Register( "AquariumGraphic", typeof(Uri), typeof(AquariumObject), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnUriChanged) ) ); 
+public Uri AquariumGraphic { get { return (Uri)GetValue(AquariumGraphicProperty); 
+} set { SetValue(AquariumGraphicProperty, value); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Again, by convention, the name of the wrapper property must be the same as the name chosen and given as first parameter of the <Run FontWeight="Bold">Register</Run>
+ call that registered the property. If your property does not follow the convention, this does not necessarily disable all possible uses, but you will encounter two notable issues:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Certain aspects of styles and templates will not work.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Most tools and designers must rely on the naming conventions to properly serialize XAML, or to provide designer environment assistance at a per-property level.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Property Metadata for a New Dependency Property
+    </Paragraph>
+
+    <Paragraph>When you register a dependency property, the registration through the property system creates a metadata object that stores property characteristics. Many of these characteristics have defaults that are set if the property is registered with the simple signatures of <Run FontWeight="Bold">Register</Run>
+. Other signatures of <Run FontWeight="Bold">Register</Run>
+ allow you to specify the metadata that you want as you register the property. The most common metadata given for dependency properties is to give them a default value that is applied on new instances that use the property.
+    </Paragraph>
+
+    <Paragraph>If you are creating a dependency property that exists on a derived class of FrameworkElement, you can use the more specialized metadata class FrameworkPropertyMetadata rather than the base PropertyMetadata class. The constructor for the <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+ class has several signatures where you can specify various metadata characteristics in combination. If you want to specify the default value only, use the signature that takes a single parameter of type Object. Pass that object parameter as a type-specific default value for your property (the default value provided must be the type you provided as the <Run>propertyType</Run>
+ parameter in the <Run FontWeight="Bold">Register</Run>
+ call).
+    </Paragraph>
+
+    <Paragraph>For <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+, you can also specify metadata option flags for your property. These flags are used to communicate certain conditionals to other processes such as the layout engine.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>If your property (and value changes to it) affects the user interface (UI), and in particular affects how the layout system should size or render your element in a page, set one or more of the following flags: AffectsMeasure, AffectsArrange, AffectsRender.
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">AffectsMeasure</Run>
+ indicates that a change to this property requires a change to UI rendering where the containing object might require more or less space within the parent. For example, a "Width" property should have this flag set.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">AffectsArrange</Run>
+ indicates that a change to this property requires a change to UI rendering that typically does not require a change in the dedicated space, but does indicate that the positioning within the space has changed. For example, an "Alignment" property should have this flag set.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">AffectsRender</Run>
+ indicates that some other change has occurred that will not affect layout and measure, but does require another render. An example would be a property that changes a color of an existing element, such as "Background".
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>These flags are often used as a protocol in metadata for your own override implementations of property system or layout callbacks. For instance, you might have an OnPropertyChanged callback that will call InvalidateArrange if any property of the instance reports a value change and has AffectsArrange as <Run FontWeight="Bold">true</Run>
+ in its metadata.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Some properties may affect the rendering characteristics of the containing parent element, in ways above and beyond the changes in required size mentioned above. An example is the MinOrphanLines property used in the flow document model, where changes to that property can change the overall rendering of the flow document that contains the paragraph. Use AffectsParentArrange or AffectsParentMeasure to identify similar cases in your own properties.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>By default, dependency properties support data binding. You can deliberately disable data binding, for cases where there is no realistic scenario for data binding, or where performance in data binding for a large object is recognized as a problem.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>By default, data binding Mode for dependency properties defaults to OneWay. You can always change the binding to be TwoWay per binding instance; 
+for details, see <Hyperlink NavigateUri="37334478-028b-4514-86c9-1420709f4818.xaml">How to: Specify the Direction of the Binding</Hyperlink>
+. But as the dependency property author, you can choose to make the property use <Run FontWeight="Bold">TwoWay</Run>
+ binding mode by default. Examples in existing dependency properties include ; 
+the scenario for this property is that the IsSubmenuOpen setting logic and the compositing of MenuItem interact with the default theme style. The <Run FontWeight="Bold">IsSubmenuOpen</Run>
+ property logic uses data binding natively to maintain the state of the property in accordance to other state properties and method calls. Another example property that binds <Run FontWeight="Bold">TwoWay</Run>
+ by default is TextBox.Text.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You can also enable property inheritance in a custom dependency property by setting the Inherits flag. Property inheritance is useful for a scenario where parent elements and child elements have a property in common, and it makes sense for the child elements to have that particular property value set to the same value as the parent set it. An example inheritable property is DataContext, which is used for binding operations to enable the important master-detail scenario for data presentation. By making <Run FontWeight="Bold">DataContext</Run>
+ inheritable, any child elements inherit that data context also. Because of property value inheritance, you can specify a data context at the page or application root, and do not need to respecify it for bindings in all possible child elements. <Run FontWeight="Bold">DataContext</Run>
+ is also a good example to illustrate that inheritance overrides the default value, but it can always be set locally on any particular child element; 
+for details, see <Hyperlink NavigateUri="11429b9e-058d-4084-bfb6-2cf209c8ddf7.xaml">How to: Implement the Master-Detail Scenario</Hyperlink>
+. Property value inheritance does have a possible performance cost, and thus should be used sparingly; 
+for details, see <Hyperlink NavigateUri="d7c338f9-f2bf-48ed-832c-7be58ac390e4.xaml">Property Value Inheritance</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Set the Journal flag to indicate if your dependency property should be detected or used by navigation journaling services. An example is the SelectedIndex property; 
+any item selected in a selection control should be persisted when the journaling history is navigated.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Read Only Dependency Properties
+    </Paragraph>
+
+    <Paragraph>You can define a dependency property that is read-only. However, the scenarios for why you might define your property as read only are somewhat different, as is the procedure for registering these with the property system. For more information, see <Hyperlink NavigateUri="f23d6ec9-3780-4c09-a2ff-b2f0a2deddf1.xaml">Read-Only Dependency Properties</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22">Collection-Type Dependency Properties
+    </Paragraph>
+
+    <Paragraph>Collection-type dependency properties have some additional implementation issues to consider. For details, see <Hyperlink NavigateUri="99f96a42-3ab7-4f64-a16b-2e10d654e97c.xaml">Collection-Type Dependency Properties</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dependency Property Security Considerations
+    </Paragraph>
+
+    <Paragraph>Dependency properties should be declared as public properties. Dependency property identifier fields should be declared as public static fields. Even if you attempt to declare other access levels (such as protected), a dependency property can always be accessed through the identifier in combination with the property system APIs. Even a protected identifier field is potentially accessible because of metadata reporting or value determination APIs that are part of the property system, such as LocalValueEnumerator. For more information, see <Hyperlink NavigateUri="d10150ec-90c5-4571-8d35-84bafa2429a4.xaml">Dependency Property Security</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Dependency Properties and Class Constructors
+    </Paragraph>
+
+    <Paragraph>There is a general principle in managed code programming (often enforced by code analysis tools such as FXCop) that class constructors should not call virtual methods. This is because constructors can be called as base initialization of a derived class constructor, and entering the virtual method through the constructor might occur at an incomplete initialization state of the object instance being constructed. When you derive from any class that already derives from <Run FontWeight="Bold">DependencyObject</Run>
+, you should be aware that the property system itself calls and exposes virtual methods internally. These virtual methods are part of the WPF property system services. Overriding the methods enables a derived classes to participate in value determination. To avoid potential issues with runtime initialization, you should not set dependency property values within constructors of classes, unless you follow a very specific constructor pattern. For details, see <Hyperlink NavigateUri="f704b81c-449a-47a4-ace1-9332e3cc6d60.xaml">Safe Constructor Patterns For DependencyObjects</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3d864748-cff0-4e63-9b23-d8e5a635b28f.xaml">Control Authoring Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="99f96a42-3ab7-4f64-a16b-2e10d654e97c.xaml">Collection-Type Dependency Properties</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="d10150ec-90c5-4571-8d35-84bafa2429a4.xaml">Dependency Property Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="f704b81c-449a-47a4-ace1-9332e3cc6d60.xaml">Safe Constructor Patterns For DependencyObjects</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Custom Dependency Properties to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

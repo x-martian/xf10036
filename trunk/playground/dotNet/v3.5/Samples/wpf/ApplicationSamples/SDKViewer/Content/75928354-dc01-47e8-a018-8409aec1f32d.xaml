@@ -1,0 +1,463 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_75928354_dc01_47e8_a018_8409aec1f32d"
+  Tag     ="Attached Properties Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Attached Properties Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>An <Run>attached property</Run>
+ is a concept defined by Extensible Application Markup Language (XAML). An attached property is intended to be used as a type of global property that is settable on any object. In Windows Presentation Foundation (WPF), attached properties are typically defined as a specialized form of specialized form of <Run>dependency property</Run>
+ that does not have the conventional property "wrapper".
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="attached_properties_usage">Why Use Attached Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="attached_properties_xaml">Attached Properties in XAML</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="howused">How Attached Properties are Used by the Owning Type</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="attached_properties_code">Attached Properties in Procedural Code</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="attached_properties_metadata">Attached Property Metadata</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="create_attached_properties">When to Create an Attached Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="how_do_i_create_attached_properties">How to Create an Attached Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="more">Learning More About Attached Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you understand dependency properties from the perspective of a consumer of existing dependency properties on Windows Presentation Foundation (WPF) classes, and have read the <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+. To follow the examples in this topic, you should also understand Extensible Application Markup Language (XAML) and know how to write WPF applications.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Why Use Attached Properties
+    </Paragraph>
+
+    <Paragraph>One purpose of an attached property is to allow different child elements to specify unique values for a property that is actually defined in a parent element. A specific application of this scenario is having child elements inform the parent how they wish to be presented in the user interface (UI). One example is the System.Windows.Controls.DockPanel.Dock property. The <Run FontWeight="Bold">System.Windows.Controls.DockPanel.Dock</Run>
+ property is created as an attached property because it is designed to be set on elements that are contained within a DockPanel, rather than on <Run FontWeight="Bold">DockPanel</Run>
+ itself. The <Run FontWeight="Bold">DockPanel</Run>
+ class defines the static DependencyProperty field named DockProperty, and then provides the GetDock and SetDock methods as public accessors for the attached property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Attached Properties in XAML
+    </Paragraph>
+
+    <Paragraph>In XAML, you set attached properties by using the syntax <Run FontStyle="italic">AttachedPropertyProvider.PropertyName</Run>
+
+    </Paragraph>
+
+    <Paragraph>The following is an example of how you can set <Run FontWeight="Bold">System.Windows.Controls.DockPanel.Dock</Run>
+ in XAML:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DockPanel> 
+&lt;CheckBox DockPanel.Dock="Top">Hello
+&lt;/CheckBox> 
+&lt;/DockPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that the usage is somewhat similar to a static property; 
+you always reference the type <Run FontWeight="Bold">DockPanel</Run>
+ that owns and registers the attached property, rather than referring to any instance specified by name.
+    </Paragraph>
+
+    <Paragraph>Also, because an attached property in XAML is an attribute that you set in markup, only the set operation has any relevance. You cannot directly get a property in XAML, although there are some indirect means for comparing values, such as triggers in styles (for details, see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph FontSize="18">Attached Property Implementation in WPF
+    </Paragraph>
+
+    <Paragraph>In Windows Presentation Foundation (WPF), most of the attached properties that exist on WPF types are implemented as dependency properties. Attached properties are a XAML concept, whereas dependency properties are a WPF concept. Because WPF attached properties are dependency properties, they support some dependency property concepts such as metadata, but some other dependency property concepts are not supported. For instance, attached properties cannot inherit values.
+    </Paragraph>
+
+    <Paragraph FontSize="22">How Attached Properties are Used by the Owning Type
+    </Paragraph>
+
+    <Paragraph>Although attached properties are settable on any object, that does not automatically mean that setting the property will produce a tangible result, or that the value will ever be read. Generally, attached properties are intended so that objects coming from a wide variety of possible class hierarchies or logical relationships can each report common information to the owning type. The type that defines the attached property typically follows one of these models:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The type that defines the attached property is designed so that it can be the parent element of the elements that will set values for the attached property. The type then iterates its child elements through internal logic, obtains the values, and acts on those values in some manner.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The type that defines the attached property will be used as the child element for a variety of possible parent elements and content models.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The type that defines the attached property represents a service. Other types set values for the attached property. Then, when the element that set the property is evaluated in the context of the service, the attached property values are obtained through internal logic of the service class.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">An Example of a Parent Element Defined Attached Property
+    </Paragraph>
+
+    <Paragraph>The most typical scenario where WPF defines an attached property is when a parent element supports child element collection, and also implements a behavior where the specifics of the behavior are reported individually for each child element.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">DockPanel</Run>
+ defines the <Run FontWeight="Bold">System.Windows.Controls.DockPanel.Dock</Run>
+ attached property, <Run FontWeight="Bold">DockPanel</Run>
+ has class-level code as part of its rendering logic (specifically, MeasureOverride and ArrangeOverride). A <Run FontWeight="Bold">DockPanel</Run>
+ instance will always check to see whether any of its immediate child elements have set a value for . If so, those values become input for the rendering logic applied to that particular child element. Nested <Run FontWeight="Bold">DockPanel</Run>
+ instances each treat their own immediate child element collections, but that behavior is implementation-specific. It is theoretically possible to have attached properties that are handled by all parent elements even in nested cases, or to handle for child elements that are not in the immediate child element collection. If the <Run FontWeight="Bold">System.Windows.Controls.DockPanel</Run>
+ attached property is set on an element that has no <Run FontWeight="Bold">DockPanel</Run>
+ parent element to act upon it, no error or exception is raised. This simply means that a global property value was set, but it has no current <Run FontWeight="Bold">DockPanel</Run>
+ parent that could consume the information.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Attached Properties in Procedural Code
+    </Paragraph>
+
+    <Paragraph>Attached properties in WPF do not have the typical CLR "wrapper" methods for easy get/set access. This is because the attached property is not necessarily part of the CLR namespace for instances where the property is set. However, the XAML loader requires some means to set those values when XAML is loaded. To be an effective attached property, the owner type of the attached property must implement dedicated accessor methods in the form <Run FontStyle="italic">Get[PropertyName]</Run>
+ and <Run FontStyle="italic">Set[PropertyName]</Run>
+. These dedicated accessor methods are also how you must get or set the attached property in procedural code.
+    </Paragraph>
+
+    <Paragraph>The following example shows how you can set an attached property in code. In this example, <Run FontStyle="italic">myCheckBox</Run>
+ is an instance of the CheckBox class.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DockPanel myDockPanel = new DockPanel(); 
+CheckBox myCheckBox = new CheckBox(); 
+myCheckBox.Content = "Hello"; 
+myDockPanel.Children.Add(myCheckBox); 
+DockPanel.SetDock(myCheckBox, Dock.Top); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Similar to the XAML case, if <Run FontStyle="italic">myCheckBox</Run>
+ had not already been added as a child element of <Run FontStyle="italic">myDockPanel</Run>
+ by the third line of code, the fourth line of code would not raise an exception, but the property value would not interact with a <Run FontWeight="Bold">DockPanel</Run>
+ parent and thus would do nothing. Only a <Run FontWeight="Bold">System.Windows.Controls.DockPanel.Dock</Run>
+ value set on a child element combined with the presence of a <Run FontWeight="Bold">DockPanel</Run>
+ parent element will cause an effective behavior in the rendered application.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Attached Property Metadata
+    </Paragraph>
+
+    <Paragraph>When registering the property, FrameworkPropertyMetadata is set to specify characteristics of the property, such as whether the property affects rendering, measurements and so on. Metadata for an attached property is generally no different than on a dependency property with the exception that property inheritance on an attached property is not supported.
+    </Paragraph>
+
+    <Paragraph FontSize="22">When to Create an Attached Property
+    </Paragraph>
+
+    <Paragraph>You might create an attached property when there is a reason to have a property setting mechanism available for classes other than the defining class. The most common scenario for this is layout. Examples of existing layout properties are <Run FontWeight="Bold">System.Windows.Controls.DockPanel.Dock</Run>
+, System.Windows.Controls.Panel.ZIndex, and System.Windows.Controls.Canvas.Top. The scenario enabled here is that elements that exist as child elements to layout-controlling elements are able to express layout requirements to their layout parent elements individually, each setting a property value that the parent defined as an attached property.
+    </Paragraph>
+
+    <Paragraph>Another scenario for using an attached property is when your class represents a service.
+    </Paragraph>
+
+    <Paragraph FontSize="22">How to Create an Attached Property
+    </Paragraph>
+
+    <Paragraph>If your class is defining the attached property strictly for use on other types, then it does not have to derive from DependencyObject. But you do need to derive from <Run FontWeight="Bold">DependencyObject</Run>
+ if you follow the overall WPF model of having your attached property also be a dependency property.
+    </Paragraph>
+
+    <Paragraph>Define your attached property as a dependency property by declaring a public static field of type <Run FontWeight="Bold">DependencyProperty</Run>
+. You establish this field by using the return of the RegisterAttached method. The field name should match the attached property name, appended with the string <Run>Property</Run>
+, to follow the established WPF pattern of naming the identifying fields versus the properties that they represent. The attached property provider must also provide static <Run FontStyle="italic">Get[PropertyName]</Run>
+ and <Run FontStyle="italic">Set[PropertyName]</Run>
+ methods as accessors for the attached property; 
+failing to do this will result in the property system being unable to use your attached property.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">The Get Accessor
+    </Paragraph>
+
+    <Paragraph>The signature for the <Run FontStyle="italic">Get[PropertyName]</Run>
+ accessor must be:
+    </Paragraph>
+
+    <Paragraph><Run>public static object Get</Run>
+<Run FontStyle="italic">PropertyName</Run>
+<Run>(object target)</Run>
+
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The target object can be specified as a more specific type in your implementation. For example, the <Run FontWeight="Bold">System.Windows.Controls.DockPanel.GetDock(System.Windows.UIElement)</Run>
+ method types the parameter as UIElement, because the attached property is only intended to be set on <Run FontWeight="Bold">UIElement</Run>
+ instances.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="16pt">The Set Accessor
+    </Paragraph>
+
+    <Paragraph>The signature for the <Run FontStyle="italic">Set[PropertyName]</Run>
+ accessor must be:
+    </Paragraph>
+
+    <Paragraph><Run>public static void Set</Run>
+<Run FontStyle="italic">PropertyName</Run>
+<Run>(object target, object value)</Run>
+
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The target object can be specified as a more specific type in your implementation. For example, the <Run FontWeight="Bold">SetDock</Run>
+ method types it as <Run FontWeight="Bold">UIElement</Run>
+, because the attached property is only intended to be set on <Run FontWeight="Bold">UIElement</Run>
+ instances.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The value object can be specified as a more specific type in your implementation. For example, the <Run FontWeight="Bold">SetDock</Run>
+ method types it as Dock, because the value can only be set to that enumeration. Remember that the value for this method is the input coming from the XAML loader when it encounters your attached property in an attached property usage in markup. That input is the value specified as a XAML attribute value in markup. Therefore there must be type conversion or value serializer support for the type you use, such that the appropriate type can be created from the attribute value (which is ultimately just a string).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example shows the dependency property registration (using the RegisterAttached method), as well as the <Run FontStyle="italic">Get[PropertyName]</Run>
+ and <Run FontStyle="italic">Set[PropertyName]</Run>
+ accessors. In the example, the attached property name is <Run>IsBubbleSource</Run>
+. Therefore, the accessors must be named <Run>GetIsBubbleSource</Run>
+ and <Run>SetIsBubbleSource</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public static readonly DependencyProperty IsBubbleSourceProperty = DependencyProperty.RegisterAttached( "IsBubbleSource", typeof(Boolean), typeof(AquariumObject), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender) ); 
+public static void SetIsBubbleSource(UIElement element, Boolean value) { element.SetValue(IsBubbleSourceProperty, value); 
+} public static Boolean GetIsBubbleSource(UIElement element) { return (Boolean)element.GetValue(IsBubbleSourceProperty); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Learning More About Attached Properties
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>For more information on creating an attached property, see <Hyperlink NavigateUri="eb47bd94-0451-4f8d-8fb6-95f7812ac05b.xaml">How to: Register an Attached Property</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>For more advanced usage scenarios for dependency properties and attached properties, see <Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>You can also register the property as an attached property, and as a dependency property, but then still expose "wrapper" implementations. In this case, the property can be set either on that element, or on any element through the XAML attached property syntax. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>DependencyProperty
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Attached Properties Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

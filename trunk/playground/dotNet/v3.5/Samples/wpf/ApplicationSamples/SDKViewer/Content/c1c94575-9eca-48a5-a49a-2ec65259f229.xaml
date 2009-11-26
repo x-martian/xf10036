@@ -1,0 +1,256 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c1c94575_9eca_48a5_a49a_2ec65259f229"
+  Tag     ="Control the Fill of a Composite Shape"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Control the Fill of a Composite Shape</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The FillRule property of a GeometryGroup or a PathGeometry, specifies a "rule" which the composite shape uses to determine whether a given point is part of the geometry. There are two possible values for FillRule: EvenOdd and Nonzero. The following sections will describe how to use these two rules.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">EvenOdd:</Run>
+ This rule determines whether a point is in the fill region by drawing a ray from that point to infinity in any direction and counting the number of path segments within the given shape that the ray crosses. If this number is odd, the point is inside; 
+if even, the point is outside.
+    </Paragraph>
+
+    <Paragraph>For example, the XAML below creates a composite shape made up of a series of concentric rings (target) with a <Run FontWeight="Bold">FillRule</Run>
+ set to <Run FontWeight="Bold">EvenOdd</Run>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"> 
+&lt;Path.Data> 
+&lt;GeometryGroup FillRule="EvenOdd"> 
+&lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" /> 
+&lt;EllipseGeometry RadiusX="70" RadiusY="70" Center="75,75" /> 
+&lt;EllipseGeometry RadiusX="100" RadiusY="100" Center="75,75" /> 
+&lt;EllipseGeometry RadiusX="120" RadiusY="120" Center="75,75" /> 
+&lt;/GeometryGroup> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the shape created in the previous example.
+    </Paragraph>
+
+    <Paragraph>In the illustration above, notice that the center and 3rd ring are not filled. This is because a ray drawn from any point within either of those two rings passes through an even number of segments. See illustration below:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">NonZero:</Run>
+ This rule determines whether a point is in the fill region of the path by drawing a ray from that point to infinity in any direction and then examining the places where a segment of the shape crosses the ray. Starting with a count of zero, add one each time a Segment crosses the ray from left to right and subtract one each time a path segment crosses the ray from right to left. After counting the crossings, if the result is zero then the point is outside the path. Otherwise, it is inside.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"> 
+&lt;Path.Data> 
+&lt;GeometryGroup FillRule="NonZero"> 
+&lt;EllipseGeometry RadiusX="50" RadiusY="50" Center="75,75" /> 
+&lt;EllipseGeometry RadiusX="70" RadiusY="70" Center="75,75" /> 
+&lt;EllipseGeometry RadiusX="100" RadiusY="100" Center="75,75" /> 
+&lt;EllipseGeometry RadiusX="120" RadiusY="120" Center="75,75" /> 
+&lt;/GeometryGroup> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Using the example above, a value of <Run FontWeight="Bold">Nonzero</Run>
+ for <Run FontWeight="Bold">FillRule</Run>
+ gives the following illustration as a result:
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>As you can see, all the rings are filled. This is because all the segments are running in the same direction and so a ray drawn from any point will cross one or more segments and the sum of the crossings will not equal zero. For example, in the illustration below, the red arrows represent the direction the segments are drawn and the white arrow represents an arbitrary ray running from a point in the innermost ring. Starting with a value of zero, for each segment that the ray crosses, a value of one is added because the segment crosses the ray from left to right. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>To better demonstrate the behavior of <Run FontWeight="Bold">Nonzero</Run>
+ rule a more complex shape with segments running in different directions is required. The XAML code below creates a similar shape as the previous example except that it is created with a <Run FontWeight="Bold">PathGeometry</Run>
+ rather then a EllipseGeometry which creates four concentric arcs rather then fully closed concentric circles.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Stroke="Black" StrokeThickness="1" Fill="#CCCCFF"> 
+&lt;Path.Data> 
+&lt;GeometryGroup FillRule="NonZero"> 
+&lt;PathGeometry> 
+&lt;PathGeometry.Figures> 
+&lt;!-- Inner Ring --> 
+&lt;PathFigure StartPoint="10,120"> 
+&lt;PathFigure.Segments> 
+&lt;PathSegmentCollection> 
+&lt;ArcSegment Size="50,50" IsLargeArc="True" SweepDirection="CounterClockwise" Point="25,120" /> 
+&lt;/PathSegmentCollection> 
+&lt;/PathFigure.Segments> 
+&lt;/PathFigure> 
+&lt;!-- Second Ring --> 
+&lt;PathFigure StartPoint="10,100"> 
+&lt;PathFigure.Segments> 
+&lt;PathSegmentCollection> 
+&lt;ArcSegment Size="70,70" IsLargeArc="True" SweepDirection="CounterClockwise" Point="25,100" /> 
+&lt;/PathSegmentCollection> 
+&lt;/PathFigure.Segments> 
+&lt;/PathFigure> 
+&lt;!-- Third Ring (Not part of path) --> 
+&lt;PathFigure StartPoint="10,70"> 
+&lt;PathFigure.Segments> 
+&lt;PathSegmentCollection> 
+&lt;ArcSegment Size="100,100" IsLargeArc="True" SweepDirection="CounterClockwise" Point="25,70" /> 
+&lt;/PathSegmentCollection> 
+&lt;/PathFigure.Segments> 
+&lt;/PathFigure> 
+&lt;!-- Outer Ring --> 
+&lt;PathFigure StartPoint="10,300"> 
+&lt;PathFigure.Segments> 
+&lt;ArcSegment Size="130,130" IsLargeArc="True" SweepDirection="Clockwise" Point="25,300" /> 
+&lt;/PathFigure.Segments> 
+&lt;/PathFigure> 
+&lt;/PathGeometry.Figures> 
+&lt;/PathGeometry> 
+&lt;/GeometryGroup> 
+&lt;/Path.Data> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows the shape created in the previous example.
+    </Paragraph>
+
+    <Paragraph>Notice that the third arc from the center is not filled. The illustration below shows why this is. In the illustration, the red arrows represent the direction the segments are drawn. The two white arrows represent two arbitrary rays that move out from a point in the "non-filled" region. As can be seen from the illustration, the sum of the values from a given ray crossing the segments in its path is zero. As defined above, a sum of zero means that the point is not part of the geometry (not part of the fill) while a sum that is <Run FontStyle="italic">not</Run>
+ zero, including a negative value, is part of the geometry. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Note:</Run>
+ For the purposes of <Run FontWeight="Bold">FillRule</Run>
+, all shapes are considered closed. If there is a gap in a segment, draw an imaginary line to close it. In the example above, there are small gaps in the rings. Given this, one might expect a ray that runs through the gap to give a different result then a ray running in another direction. Below is an enlarged illustration of one of these gaps and the "imaginary segment" (segment that is drawn for purposes of applying the <Run FontWeight="Bold">FillRule</Run>
+) that closes it. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8e5c7ef4-d7ed-4c43-afc9-ca01325c300b.xaml">How to: Create a Composite Shape</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9fba8934-98b7-4af6-82f6-f4ef887f963a.xaml">Geometry Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Control the Fill of a Composite Shape to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

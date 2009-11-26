@@ -1,0 +1,172 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_8335d770_d13d_42bd_8dfa_63f92c0327e2"
+  Tag     ="Simplify Animations by Using Child Timelines"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Simplify Animations by Using Child Timelines</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to simplify animations by using child ParallelTimeline objects. A Storyboard is a type of Timeline that provides targeting information for the timelines it contains. Use a <Run FontWeight="Bold">Storyboard</Run>
+ to provide timeline targeting information, including object and property information. 
+    </Paragraph>
+
+    <Paragraph>To begin an animation, use one or more <Run FontWeight="Bold">ParallelTimeline</Run>
+ objects as nested child elements of a <Run FontWeight="Bold">Storyboard</Run>
+. These <Run FontWeight="Bold">ParallelTimeline</Run>
+ objects can contain other animations and therefore, can better encapsulate the timing sequences in complex animations. For example, if you are animating a TextBlock and several shapes in the same <Run FontWeight="Bold">Storyboard</Run>
+, you can separate the animations for the <Run FontWeight="Bold">TextBlock</Run>
+ and the shapes, putting each into a separate <Run FontWeight="Bold">ParallelTimeline</Run>
+. Because each <Run FontWeight="Bold">ParallelTimeline</Run>
+ has its own BeginTime and all child elements of the <Run FontWeight="Bold">ParallelTimeline</Run>
+ begin relative to this <Run FontWeight="Bold">BeginTime</Run>
+, timing is better encapsulated. 
+    </Paragraph>
+
+    <Paragraph>The following example animates two pieces of text (<Run FontWeight="Bold">TextBlock</Run>
+ objects) from within the same <Run FontWeight="Bold">Storyboard</Run>
+. A <Run FontWeight="Bold">ParallelTimeline</Run>
+ encapsulates the animations of one of the <Run FontWeight="Bold">TextBlock</Run>
+ objects.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Performance Note:</Run>
+ Although you can nest <Run FontWeight="Bold">Storyboard</Run>
+ timelines inside each other, <Run FontWeight="Bold">ParallelTimeline</Run>
+s are more suitable for nesting because they require less overhead. (The <Run FontWeight="Bold">Storyboard</Run>
+ class inherits from the <Run FontWeight="Bold">ParallelTimeline</Run>
+ class.)
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_8335d770_d13d_42bd_8dfa_63f92c0327e2_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Canvas > 
+&lt;!-- TextBlock with text "ParallelTimelines are..." that gets animated. --> 
+&lt;TextBlock Name="FirstTextBlock" Canvas.Top="30" Canvas.Left="300" FontSize="24" > ParallelTimelines are... 
+&lt;TextBlock.RenderTransform> 
+&lt;TransformGroup> 
+&lt;SkewTransform x:Name="FirstTextBlockSkew" CenterX="25" CenterY="25" AngleX="0" AngleY="0" /> 
+&lt;/TransformGroup> 
+&lt;/TextBlock.RenderTransform> 
+&lt;/TextBlock> 
+&lt;!-- TextBlock with text "Useful" that gets animated. --> 
+&lt;TextBlock Name="SecondTextBlock" Opacity="0" Canvas.Top="30" Canvas.Left="585" FontSize="24" > Useful 
+&lt;TextBlock.RenderTransform> 
+&lt;TransformGroup> 
+&lt;SkewTransform x:Name="SecondTextBlockSkew" CenterX="25" CenterY="25" AngleX="0" AngleY="0" /> 
+&lt;ScaleTransform x:Name="SecondTextBlockScale" CenterX="0" CenterY="24" /> 
+&lt;/TransformGroup> 
+&lt;/TextBlock.RenderTransform> 
+&lt;/TextBlock> 
+&lt;!-- Event Trigger that controls all animations on the page. --> 
+&lt;Canvas.Triggers> 
+&lt;EventTrigger RoutedEvent="Canvas.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- "ParallelTimelines are..." fades into view. --> 
+&lt;DoubleAnimation Storyboard.TargetName="FirstTextBlock" Storyboard.TargetProperty="Opacity" Duration="0:0:2" From="0" To="1" /> 
+&lt;!-- "ParallelTimelines are..." skews to the left. --> 
+&lt;DoubleAnimation Storyboard.TargetName="FirstTextBlockSkew" Storyboard.TargetProperty="AngleX" Duration="0:0:1" BeginTime="0:0:2" From="0" To="45" /> 
+&lt;!-- This ParallelTimeline contains all the animations for the TextBlock with the text "Useful" in it. This ParallelTimeline begins 4 seconds after the Storyboard timeline begins and all child animations begin relative to this parent timeline. --> 
+&lt;ParallelTimeline BeginTime="0:0:4"> 
+&lt;!-- "Useful" fades into view. --> 
+&lt;DoubleAnimation Storyboard.TargetName="SecondTextBlock" Storyboard.TargetProperty="Opacity" Duration="0:0:2" From="0" To="1" /> 
+&lt;!-- "Useful" slides in from the right. --> 
+&lt;DoubleAnimation Storyboard.TargetName="SecondTextBlockSkew" Storyboard.TargetProperty="AngleX" Duration="0:0:2" From="90" To="180" /> 
+&lt;!-- "Useful" skews to the right. --> 
+&lt;DoubleAnimation Storyboard.TargetName="SecondTextBlockSkew" Storyboard.TargetProperty="AngleX" BeginTime="0:0:3" Duration="0:0:0.2" From="0" To="-60" /> 
+&lt;!-- "Useful" Gets taller. --> 
+&lt;DoubleAnimation Storyboard.TargetName="SecondTextBlockScale" Storyboard.TargetProperty="ScaleY" BeginTime="0:0:3" Duration="0:0:0.2" From="1" To="3" /> 
+&lt;/ParallelTimeline> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Canvas.Triggers> 
+&lt;/Canvas> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="97bd6842-929b-49d9-813e-46553ae46472.xaml">How to: Specify HandoffBehavior Between Storyboard Animations</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Simplify Animations by Using Child Timelines to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

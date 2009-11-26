@@ -1,0 +1,279 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_7dc9f435_726c_4d4d_be41_eb24cfe17bef"
+  Tag     ="Use a Thumb to Enable Dragging"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Use a Thumb to Enable Dragging</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use a Thumb control to resize a Canvas control. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Thumb</Run>
+ control provides drag functionality that can be used to move or resize controls by monitoring the DragStarted, DragDelta and DragCompleted events of the <Run FontWeight="Bold">Thumb</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The user begins a drag operation by pressing the left mouse button when the mouse pointer is paused on the <Run FontWeight="Bold">Thumb</Run>
+ control. The drag operation continues as long as the left mouse button remains pressed. During the drag operation, the <Run FontWeight="Bold">DragDelta</Run>
+ can occur more than once. Each time it occurs, the DragDeltaEventArgs class provides the change in position that corresponds to the change in mouse position. When the user releases the left mouse button, the drag operation is finished. The drag operation only provides new coordinates; 
+it does not automatically reposition the <Run FontWeight="Bold">Thumb</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following example shows a <Run FontWeight="Bold">Thumb</Run>
+ control that is the child element of a <Run FontWeight="Bold">Canvas</Run>
+ control. The event handler for its <Run FontWeight="Bold">DragDelta</Run>
+ event provides the logic to move the <Run FontWeight="Bold">Thumb</Run>
+ and resize the <Run FontWeight="Bold">Canvas</Run>
+. The event handlers for the <Run FontWeight="Bold">DragStarted</Run>
+ and <Run FontWeight="Bold">DragCompleted</Run>
+ event change the color of the <Run FontWeight="Bold">Thumb</Run>
+ during a drag operation. The following example defines the <Run FontWeight="Bold">Thumb</Run>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Thumb Name="myThumb" Canvas.Left="80" Canvas.Top="80" Background="Blue" Width="20" Height="20" DragDelta="onDragDelta" DragStarted="onDragStarted" DragCompleted="onDragCompleted" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the <Run FontWeight="Bold">DragDelta</Run>
+ event handler that moves the <Run FontWeight="Bold">Thumb</Run>
+ and resizes the <Run FontWeight="Bold">Canvas</Run>
+ in response to a mouse movement.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void onDragDelta(object sender, DragDeltaEventArgs e) { //Move the Thumb to the mouse position during the drag operation double yadjust = myCanvasStretch.Height + e.VerticalChange; 
+double xadjust = myCanvasStretch.Width + e.HorizontalChange; 
+if ((xadjust >= 0) &amp;&amp; 
+(yadjust >= 0)) { myCanvasStretch.Width = xadjust; 
+myCanvasStretch.Height = yadjust; 
+Canvas.SetLeft(myThumb, Canvas.GetLeft(myThumb) + e.HorizontalChange); 
+Canvas.SetTop(myThumb, Canvas.GetTop(myThumb) + e.VerticalChange); 
+changes.Text = "Size: "+ myCanvasStretch.Width.ToString() + ", " + myCanvasStretch.Height.ToString(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the <Run FontWeight="Bold">DragStarted</Run>
+ event handler.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void onDragStarted(object sender, DragStartedEventArgs e) { myThumb.Background = Brushes.Orange; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub onDragStarted(ByVal sender As Object, ByVal e As DragStartedEventArgs) myThumb.Background = Brushes.Orange End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the <Run FontWeight="Bold">DragCompleted</Run>
+ event handler.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void onDragCompleted(object sender, DragCompletedEventArgs e) { myThumb.Background = Brushes.Blue; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub onDragCompleted(ByVal sender As Object, _ ByVal e As DragCompletedEventArgs) myThumb.Background = Brushes.Blue End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Drag Functionality Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Thumb
+      <LineBreak/>DragStarted
+      <LineBreak/>DragDelta
+      <LineBreak/>DragCompleted
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Thumb Samples
+      <LineBreak/>Integrate Data, Layout, and Components in a Simple Application
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Use a Thumb to Enable Dragging to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

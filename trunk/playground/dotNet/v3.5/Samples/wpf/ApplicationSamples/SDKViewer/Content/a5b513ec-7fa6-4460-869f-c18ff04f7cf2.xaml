@@ -1,0 +1,342 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a5b513ec_7fa6_4460_869f_c18ff04f7cf2"
+  Tag     ="Access Embedded Objects Using UI Automation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Access Embedded Objects Using UI Automation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic shows how Microsoft UI Automation can be used to expose objects embedded within the content of a <Run>UI Automation text provider</Run>
+ (or container).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Embedded objects can include images, hyperlinks, buttons, tables, or ActiveX controls. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Embedded objects are considered children of the UI Automation text provider. This allows them to be exposed through the same <Run>UI Automation tree</Run>
+ structure as all other user interface (UI) elements. Functionality, in turn, is exposed through the <Run>control patterns</Run>
+ typically required by the embedded objects <Run>control type</Run>
+ (for example, since hyperlinks are text-based they will support TextPattern).
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">A sample document with textual content, ("Did You Know?"…) and two embedded objects (a picture of a whale and a text hyperlink), used as a target for the code examples.</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following code example demonstrates how to retrieve a collection of embedded objects from within a UI Automation text provider. For the sample document provided in the introduction, two objects would be returned (an image element and a text element).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The image element should have some intrinsic text associated with it that describes the image, typically in its NameProperty (for example, "A blue whale."). However, when a text range spanning the image object is obtained, this descriptive text is not returned in the text stream. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' ------------------------------------------------------------------- ''' 
+&lt;summary> ''' Starts the target application and returns the automation element ''' obtained from the targets window handle. ''' 
+&lt;/summary> ''' 
+&lt;param name="exe"> ''' The target application. ''' 
+&lt;/param> ''' 
+&lt;param name="filename"> ''' The text file to be opened in the target application ''' 
+&lt;/param> ''' 
+&lt;returns> ''' An automation element representing the target application. ''' 
+&lt;/returns> ''' ------------------------------------------------------------------- Private Function StartTarget( _ ByVal exe As String, ByVal filename As String) As AutomationElement ' Start text editor and load with a text file. Dim p As Process = Process.Start(exe, filename) ' targetApp --> the root automation element Dim targetApp As AutomationElement targetApp = AutomationElement.FromHandle(p.MainWindowHandle) Return targetApp End Function ... ''' ------------------------------------------------------------------- ''' 
+&lt;summary> ''' Obtain the text control of interest from the target application. ''' 
+&lt;/summary> ''' 
+&lt;param name="targetApp"> ''' The target application. ''' 
+&lt;/param> ''' 
+&lt;returns> ''' An automation element representing a text control. ''' 
+&lt;/returns> ''' ------------------------------------------------------------------- Private Function GetTextElement(ByVal targetApp As AutomationElement) As AutomationElement ' The control type we're looking for; 
+in this case 'Document' Dim cond1 As PropertyCondition = _ New PropertyCondition( _ AutomationElement.ControlTypeProperty, _ ControlType.Document) ' The control pattern of interest; 
+in this case 'TextPattern'. Dim cond2 As PropertyCondition = _ New PropertyCondition( _ AutomationElement.IsTextPatternAvailableProperty, _ True) Dim textCondition As AndCondition = New AndCondition(cond1, cond2) Dim targetTextElement As AutomationElement = _ targetApp.FindFirst(TreeScope.Descendants, textCondition) ' If targetText is null then a suitable text control was not found. Return targetTextElement End Function ... ''' ------------------------------------------------------------------- ''' 
+&lt;summary> ''' Retrieves the embedded children of a document control. ''' 
+&lt;/summary> ''' 
+&lt;param name="targetTextElement"> ''' The automation element representing a text control. ''' 
+&lt;/param> ''' ------------------------------------------------------------------- Private Sub GetEmbeddedObjects( _ ByVal targetTextElement As AutomationElement) Dim textPattern As TextPattern = _ DirectCast(targetTextElement.GetCurrentPattern(textPattern.Pattern), TextPattern) If (textPattern Is Nothing) Then ' Target control doesn't support TextPattern. Return End If ' Obtain a text range spanning the entire document. Dim textRange As TextPatternRange = textPattern.DocumentRange ' Retrieve the embedded objects within the range. Dim embeddedObjects() As AutomationElement = textRange.GetChildren() Dim embeddedObject As AutomationElement For Each embeddedObject In embeddedObjects Console.WriteLine(embeddedObject.Current.Name) Next End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// ------------------------------------------------------------------- /// 
+&lt;summary> /// Starts the target application and returns the automation element /// obtained from the targets window handle. /// 
+&lt;/summary> /// 
+&lt;param name="exe"> /// The target application. /// 
+&lt;/param> /// 
+&lt;param name="filename"> /// The text file to be opened in the target application /// 
+&lt;/param> /// 
+&lt;returns> /// An automation element representing the target application. /// 
+&lt;/returns> /// ------------------------------------------------------------------- private AutomationElement StartTarget(string exe, string filename) { // Start text editor and load with a text file. Process p = Process.Start(exe, filename); 
+// targetApp --> the root automation element AutomationElement targetApp = AutomationElement.FromHandle(p.MainWindowHandle); 
+return targetApp; 
+} ... /// ------------------------------------------------------------------- /// 
+&lt;summary> /// Obtain the text control of interest from the target application. /// 
+&lt;/summary> /// 
+&lt;param name="targetApp"> /// The target application. /// 
+&lt;/param> /// 
+&lt;returns> /// An automation element representing a text control. /// 
+&lt;/returns> /// ------------------------------------------------------------------- private AutomationElement GetTextElement(AutomationElement targetApp) { // The control type we're looking for; 
+in this case 'Document' PropertyCondition cond1 = new PropertyCondition( AutomationElement.ControlTypeProperty, ControlType.Document); 
+// The control pattern of interest; 
+in this case 'TextPattern'. PropertyCondition cond2 = new PropertyCondition( AutomationElement.IsTextPatternAvailableProperty, true); 
+AndCondition textCondition = new AndCondition(cond1, cond2); 
+AutomationElement targetTextElement = targetApp.FindFirst(TreeScope.Descendants, textCondition); 
+// If targetText is null then a suitable text control was not found. return targetTextElement; 
+} ... /// ------------------------------------------------------------------- /// 
+&lt;summary> /// Retrieves the embedded children of a document control. /// 
+&lt;/summary> /// 
+&lt;param name="targetTextElement"> /// The automation element representing a text control. /// 
+&lt;/param> /// ------------------------------------------------------------------- private void GetEmbeddedObjects(AutomationElement targetTextElement) { TextPattern textPattern = targetTextElement.GetCurrentPattern(TextPattern.Pattern) as TextPattern; 
+if (textPattern == null) { // Target control doesn't support TextPattern. return; 
+} // Obtain a text range spanning the entire document. TextPatternRange textRange = textPattern.DocumentRange; 
+// Retrieve the embedded objects within the range. AutomationElement[] embeddedObjects = textRange.GetChildren(); 
+foreach (AutomationElement embeddedObject in embeddedObjects) { Console.WriteLine(embeddedObject.Current.Name); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code example demonstrates how to obtain a text range from an embedded object within a UI Automation text provider. The text range retrieved is an empty range where the starting endpoint follows "… ocean.(space)" and the ending endpoint precedes the closing "." representing the embedded hyperlink (as shown by the image provided in the introduction). Even though this is an empty range, it is not considered a degenerate range as it has a non-zero span.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">TextPattern</Run>
+ can retrieve a text-based embedded object such as a hyperlink; 
+however, a secondary <Run FontWeight="Bold">TextPattern</Run>
+ will have to be obtained from the embedded object to expose its full functionality.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// ------------------------------------------------------------------- /// 
+&lt;summary> /// Obtains a text range spanning an embedded child /// of a document control and displays the content of the range. /// 
+&lt;/summary> /// 
+&lt;param name="targetTextElement"> /// The automation element representing a text control. /// 
+&lt;/param> /// ------------------------------------------------------------------- private void GetRangeFromChild(AutomationElement targetTextElement) { TextPattern textPattern = targetTextElement.GetCurrentPattern(TextPattern.Pattern) as TextPattern; 
+if (textPattern == null) { // Target control doesn't support TextPattern. return; 
+} // Obtain a text range spanning the entire document. TextPatternRange textRange = textPattern.DocumentRange; 
+// Retrieve the embedded objects within the range. AutomationElement[] embeddedObjects = textRange.GetChildren(); 
+// Retrieve and display text value of embedded object. foreach (AutomationElement embeddedObject in embeddedObjects) { if ((bool)embeddedObject.GetCurrentPropertyValue( AutomationElement.IsTextPatternAvailableProperty)) { // For full functionality a secondary TextPattern should // be obtained from the embedded object. // embeddedObject must be a child of the text provider. TextPatternRange embeddedObjectRange = textPattern.RangeFromChild(embeddedObject); 
+// GetText(-1) retrieves all text in the range. // Typically a more limited amount of text would be // retrieved for performance and security reasons. Console.WriteLine(embeddedObjectRange.GetText(-1)); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' ------------------------------------------------------------------- ''' 
+&lt;summary> ''' Obtains a text range spanning an embedded child ''' of a document control and displays the content of the range. ''' 
+&lt;/summary> ''' 
+&lt;param name="targetTextElement"> ''' The automation element representing a text control. ''' 
+&lt;/param> ''' ------------------------------------------------------------------- Private Sub GetRangeFromChild( _ ByVal targetTextElement As AutomationElement) Dim textPattern As TextPattern = _ DirectCast( _ targetTextElement.GetCurrentPattern(textPattern.Pattern), _ TextPattern) If (textPattern Is Nothing) Then ' Target control doesn't support TextPattern. Return End If ' Obtain a text range spanning the entire document. Dim textRange As TextPatternRange = textPattern.DocumentRange ' Retrieve the embedded objects within the range. Dim embeddedObjects() As AutomationElement = textRange.GetChildren() Dim embeddedObject As AutomationElement For Each embeddedObject In embeddedObjects If (embeddedObject.GetCurrentPropertyValue( _ AutomationElement.IsTextPatternAvailableProperty) = True) Then ' For full functionality a secondary TextPattern should ' be obtained from the embedded object. ' embeddedObject must be a child of the text provider. Dim embeddedObjectRange As TextPatternRange = _ textPattern.RangeFromChild(embeddedObject) ' GetText(-1) retrieves all text in the range. ' Typically a more limited amount of text would be ' retrieved for performance and security reasons. Console.WriteLine(embeddedObjectRange.GetText(-1)) End If Next End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8bdd1a73-1ecb-4a05-a891-a7827ebb767f.xaml">Add Content to a Text Box Using UI Automation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b77693f5-87bb-4b29-a297-05ff882e2044.xaml">Find and Highlight Text Using UI Automation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="41787927-df1f-4f4a-aba3-641662854fc4.xaml">UI Automation TextPattern Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="571561d8-5f49-43a9-a054-87735194e013.xaml">UI Automation Control Patterns for Clients</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Access Embedded Objects Using UI Automation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

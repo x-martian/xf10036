@@ -1,0 +1,368 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_618dc745_8b14_4886_833f_486d2254bb78"
+  Tag     ="Markup Extensions and XAML"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Markup Extensions and XAML</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic introduces the concept of markup extensions for Extensible Application Markup Language (XAML), including their syntactical rules, purpose, and the class object model that underlies them.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="XAML_Readers_and_Markup_Extensions">XAML Readers and Markup Extensions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Basic_Markup_Extension_Syntax">Basic Markup Extension Syntax</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="WPF_Specific_Markup_Extensions">WPF-Specific Markup Extensions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="XAML_Defined_Markup_Extensions">XAML-Defined Markup Extensions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="More_About_Markup_Extension_Syntax">More About Markup Extension Syntax</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">XAML Readers and Markup Extensions
+    </Paragraph>
+
+    <Paragraph>A XAML reader is defined as any program that can accept XAML as a language per its specifications (either by compiling, or by interpreting), and produce the resultant underlying classes also per the XAML specifications. By default, such a reader will interpret any attribute value based on the logic of treating as a literal string, or type-converting into an object either on basis of the type of the attribute or the type converters specific to that attribute. However, there are occasional needs to escape from these behaviors when the value of an attribute should instead be a reference to something else, such as an already defined object, or a syntax that allows you to provide non-default arguments to the constructor of any such object that a XAML reader must produce.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Basic Markup Extension Syntax
+    </Paragraph>
+
+    <Paragraph>A markup extension can be implemented to provide values for properties in attribute syntax, properties in property element syntax, or both.
+    </Paragraph>
+
+    <Paragraph>When used to provide an attribute value ,the syntax that distinguishes a markup extension to a XAML reader is the presence of the opening and closing curly braces (<Run FontWeight="Bold">{</Run>
+ and <Run FontWeight="Bold">}</Run>
+). The type of markup extension is then identified by the string token immediately following the opening curly brace.
+    </Paragraph>
+
+    <Paragraph>When used in property element syntax, a markup extension is visually the same as any other element used to provide a property element value: a XAML element declaration that references the markup extension class as an element, enclosed within angle brackets (<Run FontWeight="Bold">
+&lt;></Run>
+). 
+    </Paragraph>
+
+    <Paragraph FontSize="22">WPF-Specific Markup Extensions
+    </Paragraph>
+
+    <Paragraph>The most common markup extensions used in WPF programming are those that support resource references (<Run FontWeight="Bold">StaticResource</Run>
+ and <Run FontWeight="Bold">DynamicResource</Run>
+), and those that support data binding (<Run FontWeight="Bold">Binding</Run>
+).
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">StaticResource
+    </Paragraph>
+
+    <Paragraph>Provides a value for a XAML property by substituting the value of an already defined resource. For details, see <Hyperlink NavigateUri="97af044c-71f1-4617-9a94-9064b68185d2.xaml">StaticResource Markup Extension</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">DynamicResource
+    </Paragraph>
+
+    <Paragraph>Provides a value for a XAML property by deferring that value to be a runtime reference to a resource. A dynamic resource reference forces a new lookup each time that such a resource is accessed. For details, see <Hyperlink NavigateUri="7324f243-03af-4c2b-b0db-26ac6cdfcbe4.xaml">DynamicResource Markup Extension</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Binding
+    </Paragraph>
+
+    <Paragraph>Provides a data bound value for a property, per the data context that applies to the element. For details, see <Hyperlink NavigateUri="83d6e2a4-1b0c-4fc8-bd96-b5e98800ab63.xaml">Binding Markup Extension</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">RelativeSource
+    </Paragraph>
+
+    <Paragraph>Gives source information for a Binding that can navigate several possible axes in the runtime element tree. This provides specialized sourcing for bindings that are created in multi-use templates or created in procedural code without full knowledge of the surrounding element tree. For details, see <Hyperlink NavigateUri="26be4721-49b5-4717-a92e-7d54ad0d3a81.xaml">RelativeSource MarkupExtension</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">TemplateBinding
+    </Paragraph>
+
+    <Paragraph>Enables a control template to use values for templated properties that come from object-model-defined properties of the class that will use the template. For details, see <Hyperlink NavigateUri="1d25bbfc-dbc2-499d-9f12-419d23d4ac6a.xaml">TemplateBinding Markup Extension</Hyperlink>
+. For more information on the practical use of <Run FontWeight="Bold">TemplateBinding</Run>
+, see Control Template Examples.
+    </Paragraph>
+
+    <Paragraph FontSize="22">XAML-Defined Markup Extensions
+    </Paragraph>
+
+    <Paragraph>Several markup extensions exist that are not specific to WPF application of XAML, but are instead part of the specified namespace of XAML as a language. These are identifiable by the <Run FontWeight="Bold">x:</Run>
+ prefix in the syntax. The WPF implementation for these uses the same MarkupExtension base class to provide the implementation.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The <Run FontWeight="Bold">x:</Run>
+ prefix is used for the typical namespace mapping of the XAML namespace, in the root element of a XAML application or document. For instance, the Microsoft Visual Studio 2005 templates initiate a XAML file using this <Run FontWeight="Bold">x:</Run>
+ mapping. You could choose a different prefix token in your own xmlns mapping, but this documentation will assume the default <Run FontWeight="Bold">x:</Run>
+ mapping as a means of identifying those entities that are a defined part of the XAML namespace, as opposed to the WPF namespace or other arbitrary namespaces.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">x:Type
+    </Paragraph>
+
+    <Paragraph>Supplies the Type object for the named type. This is used most frequently in styles and templates. For details, see <Hyperlink NavigateUri="e0e0ce6f-e873-49c7-8ad7-8b840eb353ec.xaml">x:Type Markup Extension</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">x:Static
+    </Paragraph>
+
+    <Paragraph>Produces static values from value-type code entities that are not directly the type of a property's value, but can be evaluated to that type. For details, see <Hyperlink NavigateUri="056aee79-7cdd-434f-8174-dfc856cad343.xaml">x:Static Markup Extension</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">x:Null
+    </Paragraph>
+
+    <Paragraph>Specifies <Run FontWeight="Bold">null</Run>
+ as a value for a XAML property. For details, see <Hyperlink NavigateUri="2e3ccc21-4996-481d-91b5-3910d8b3bfa3.xaml">x:Null Markup Extension</Hyperlink>
+ .
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">x:Array
+    </Paragraph>
+
+    <Paragraph>Provides support for creation of general arrays in XAML syntax. For details, see <Hyperlink NavigateUri="c5358e14-d24c-44c7-b5eb-6062a4fd981c.xaml">x:Array Markup Extension</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">More About Markup Extension Syntax
+    </Paragraph>
+
+    <Paragraph FontSize="18">*Extension Classes
+    </Paragraph>
+
+    <Paragraph>The behavior of each markup extension is identified to a XAML reader through a *Extension class that derives from <Run FontWeight="Bold">MarkupExtension</Run>
+, and provides an implementation of the ProvideValue method. This method on each extension defines what object is returned once the markup extension is evaluated. The returned object is typically instantiated or set by using the various string tokens passed to the markup extension. 
+    </Paragraph>
+
+    <Paragraph>For example, the StaticResourceExtension class provides the surface implementation of actual resource lookup so that its ProvideValue implementation returns the object that is requested, with the input of that particular implementation being a string that is used to look up the resource by its <Run FontWeight="Bold">x:Key</Run>
+. Much of this implementation detail is unimportant if you are using an existing markup extension.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Extension Class Interpretation of Following String Tokens
+    </Paragraph>
+
+    <Paragraph>The string tokens following the markup extension identifier and still within the braces are interpreted by a XAML reader in one of the following ways:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A comma always represents the separator or delimiter of individual tokens. Therefore a literal comma cannot be passed to a markup extension.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the individual separated tokens do not contain any equals signs, each token is treated as a constructor argument. Each constructor parameter must be given as the type expected by that signature, and in the proper order expected by that signature.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph>Note: 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph>A XAML reader must call the constructor that matches the argument count of the number of pairs. For this reason, if you are implementing a custom markup extension, do not provide multiple parameters with the same argument count; 
+the behavior for what happens if more than one markup extension constructor with the same parameter count exists is not defined. 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the individual separated tokens contain equals signs, then a XAML reader first calls the default constructor for the markup extension. Then, each name=value pair is interpreted as a property name that exists on the markup extension, and a value to assign to that property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If there is parallelism between the constructor behavior and the property setting behavior in a markup extension, it does not matter which behavior you use. It is more common usage to use the property=value pairs for markup extensions that have more than one settable property, if only because it makes your markup more intentional and you are less likely to accidentally transpose constructor parameters (when you specify property=value pairs, those properties may be in any order). Also, there is no guarantee that a markup extension supplies a constructor parameter that sets every one of its settable properties. For instance, <Run FontWeight="Bold">Binding</Run>
+ is a markup extension, with many properties that are settable through the extension in property=value form, but <Run FontWeight="Bold">Binding</Run>
+ only supports two constructors: a default, and one that sets an initial path.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Escaping Literal Curly Braces
+    </Paragraph>
+
+    <Paragraph>Attribute handling in a XAML reader uses the curly braces as indicators of a markup extension. It is also possible to produce a literal curly brace character attribute value if necessary, by entering an escape sequence using an empty curly brace pair followed by the literal curly brace. See <Hyperlink NavigateUri="3ce3e2ad-a868-43f9-9c98-b29561cb146e.xaml">{} Escape Sequence / Markup Extension</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Nesting Extension Syntax
+    </Paragraph>
+
+    <Paragraph>Nesting of multiple markup extensions is allowed, and will be evaluated deepest first, for instance:
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" /></Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">More About Markup Extensions and Property Element Syntax
+    </Paragraph>
+
+    <Paragraph>Earlier, we noted that the syntax for a markup extension as opposed to an ordinary element that can be used in XAML was visually indistinguishable. The practical difference between an ordinary element and a markup extension in this circumstance is that the markup extension is either evaluated to a typed value or deferred as an expression, and therefore the mechanisms for any possible type errors of property values will be different, similar to how a late-bound property is treated in other programming paradigms. An ordinary element will be evaluated for type versus the property it is setting immediately on compilation.
+    </Paragraph>
+
+    <Paragraph>Most markup extensions, when used in object element syntax to fill a property element, would not have content or any further property element syntax within, and thus you would close the element tag with a forward slash, and provide no child elements. Whenever any object element is encountered by a XAML reader, the constructor for that class is called to instantiate the object created from the parsed element. A markup extension class is no different; 
+therefore, if you want your markup extension to be usable in object element syntax, you must provide a default constructor. Some existing markup extensions have at least one required property value that must be specified for effective initialization, and if so, that property value is typically given as a property attribute on the object element. In the <Hyperlink NavigateUri="e1f47225-9996-4fbf-ab86-62d2e955f3fc.xaml">XAML Namespace (x:) Language Features</Hyperlink>
+ and <Hyperlink NavigateUri="5e1d60e8-9403-47d0-98e4-b49aec871ee7.xaml">WPF Namespace XAML Extensions</Hyperlink>
+ reference pages, markup extensions that have required properties (and the names of required properties) will be noted. Reference pages will also note if either object element syntax or attribute syntax is disallowed for particular markup extensions. A notable case is <Hyperlink NavigateUri="c5358e14-d24c-44c7-b5eb-6062a4fd981c.xaml">x:Array Markup Extension</Hyperlink>
+, which cannot support attribute syntax because the contents of that array must be specified. The array contents are handled as general objects, therefore no default type converter for the attribute is feasible. Also, <Hyperlink NavigateUri="c5358e14-d24c-44c7-b5eb-6062a4fd981c.xaml">x:Array Markup Extension</Hyperlink>
+ requires a <Run>Type</Run>
+ parameter.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="97af044c-71f1-4617-9a94-9064b68185d2.xaml">StaticResource Markup Extension</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="83d6e2a4-1b0c-4fc8-bd96-b5e98800ab63.xaml">Binding Markup Extension</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="7324f243-03af-4c2b-b0db-26ac6cdfcbe4.xaml">DynamicResource Markup Extension</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e0e0ce6f-e873-49c7-8ad7-8b840eb353ec.xaml">x:Type Markup Extension</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e1f47225-9996-4fbf-ab86-62d2e955f3fc.xaml">XAML Namespace (x:) Language Features</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="5e1d60e8-9403-47d0-98e4-b49aec871ee7.xaml">WPF Namespace XAML Extensions</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Markup Extensions and XAML to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

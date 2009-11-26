@@ -1,0 +1,257 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e6a46542_d51f_435a_910d_ec8ea2550d2a"
+  Tag     ="Remove the Child Nodes of an Element"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Remove the Child Nodes of an Element</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example describes how to remove all elements in the UIElementCollection using the Clear method.
+    </Paragraph>
+
+    <Paragraph>The following Extensible Application Markup Language (XAML) example creates a TabControl. When the user clicks the <Run FontWeight="Bold">Clear Controls</Run>
+ tab, a MouseLeftButtonDown event handler, <Run FontStyle="italic">ClearButtons</Run>
+, written in C# first adds four buttons and then when one of the newly created buttons is clicked all the buttons are cleared.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TabItem MouseLeftButtonUp="ClearButtons"> 
+&lt;TabItem.Header>Clear Controls
+&lt;/TabItem.Header> 
+&lt;/TabItem> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub RemoveButton(ByVal sender As Object, ByVal e As MouseButtonEventArgs) If (sp1.Children.IndexOf(btn) >= 0) Or (sp1.Children.IndexOf(btn1) >= 0) Or (sp1.Children.IndexOf(btn2) >= 0) Or (sp1.Children.IndexOf(btn3) >= 0) Then sp1.Children.RemoveAt(0) End If End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>...
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void ClearButtons(object sender, MouseButtonEventArgs e) { sp1.Children.Clear(); 
+btn = new Button(); 
+btn.Content = "Click to clear"; 
+sp1.Children.Add(btn); 
+btn.Click += (ClearControls); 
+btn1 = new Button(); 
+btn1.Content = "Click to clear"; 
+sp1.Children.Add(btn1); 
+btn1.Click += (ClearControls); 
+btn2 = new Button(); 
+btn2.Content = "Click to clear"; 
+sp1.Children.Add(btn2); 
+btn2.Click += (ClearControls); 
+btn3 = new Button(); 
+btn3.Content = "Click to clear"; 
+sp1.Children.Add(btn3); 
+btn3.Click += (ClearControls); 
+} void ClearControls(object sender, RoutedEventArgs e) { sp1.Children.Clear(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The event handler may also be written in Microsoft Visual Basic .NET.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void ContainsElement(object sender, RoutedEventArgs e) { TextBlock txt1 = new TextBlock(); 
+sp1.Children.Add(txt1); 
+txt1.Text = "This StackPanel contains UIElement btn1: " + sp1.Children.Contains(btn1).ToString(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub ClearButtons(ByVal sender As Object, ByVal e As MouseButtonEventArgs) sp1.Children.Clear() btn = New Button() btn.Content = "Click to clear" sp1.Children.Add(btn) AddHandler btn.Click, AddressOf Me.ClearControls btn1 = New Button() btn1.Content = "Click to clear" sp1.Children.Add(btn1) AddHandler btn1.Click, AddressOf Me.ClearControls btn2 = New Button() btn2.Content = "Click to clear" sp1.Children.Add(btn2) AddHandler btn2.Click, AddressOf Me.ClearControls btn3 = New Button() btn3.Content = "Click to clear" sp1.Children.Add(btn3) AddHandler btn3.Click, AddressOf Me.ClearControls End Sub Sub ClearControls(ByVal sender As Object, ByVal e As RoutedEventArgs) sp1.Children.Clear() End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For the complete code sample, see Using Elements Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>UIElementCollection
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Using Elements Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Remove the Child Nodes of an Element to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

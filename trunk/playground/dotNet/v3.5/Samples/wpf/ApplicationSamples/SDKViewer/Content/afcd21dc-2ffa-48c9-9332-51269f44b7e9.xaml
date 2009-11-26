@@ -1,0 +1,222 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_afcd21dc_2ffa_48c9_9332_51269f44b7e9"
+  Tag     ="Navigate Among UI Automation Elements with TreeWalker"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Navigate Among UI Automation Elements with TreeWalker</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic contains example code that shows how to navigate among Microsoft UI Automation elements by using the TreeWalker class.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses GetParent to walk up the Microsoft UI Automation tree until it finds the root element, or desktop. The element just below that is the parent window of the specified element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Retrieves the top-level window that contains the specified UI Automation element. /// 
+&lt;/summary> /// 
+&lt;param name="element">The contained element.
+&lt;/param> /// 
+&lt;returns>The containing top-level window element.
+&lt;/returns> private AutomationElement GetTopLevelWindow(AutomationElement element) { TreeWalker walker = TreeWalker.ControlViewWalker; 
+AutomationElement elementParent; 
+AutomationElement node = element; 
+if (node == elementRoot) return node; 
+do { elementParent = walker.GetParent(node); 
+if (elementParent == AutomationElement.RootElement) break; 
+node = elementParent; 
+} while (true); 
+return node; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Retrieves the top-level window that contains the specified UI Automation element. ''' 
+&lt;/summary> ''' 
+&lt;param name="element">The contained element.
+&lt;/param> ''' 
+&lt;returns>The containing top-level window element.
+&lt;/returns> Private Function GetTopLevelWindow(ByVal element As AutomationElement) As AutomationElement Dim walker As TreeWalker = TreeWalker.ControlViewWalker Dim elementParent As AutomationElement Dim node As AutomationElement = element If node = elementRoot Then Return node End If Do elementParent = walker.GetParent(node) If elementParent = AutomationElement.RootElement Then Exit Do End If node = elementParent Loop While True Return node End Function 'GetTopLevelWindow End Class 'Reader </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example uses GetFirstChild and GetNextSibling to create a TreeView that shows an entire subtree of Microsoft UI Automation elements that are in the control view and that are enabled.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Walks the UI Automation tree and adds the control type of each enabled control /// element it finds to a TreeView. /// 
+&lt;/summary> /// 
+&lt;param name="rootElement">The root of the search on this iteration.
+&lt;/param> /// 
+&lt;param name="treeNode">The node in the TreeView for this iteration.
+&lt;/param> /// 
+&lt;remarks> /// This is a recursive function that maps out the structure of the subtree beginning at the /// UI Automation element passed in as rootElement on the first call. This could be, for example, /// an application window. /// CAUTION: Do not pass in AutomationElement.RootElement. Attempting to map out the entire subtree of /// the desktop could take a very long time and even lead to a stack overflow. /// 
+&lt;/remarks> private void WalkEnabledElements(AutomationElement rootElement, TreeNode treeNode) { Condition condition1 = new PropertyCondition(AutomationElement.IsControlElementProperty, true); 
+Condition condition2 = new PropertyCondition(AutomationElement.IsEnabledProperty, true); 
+TreeWalker walker = new TreeWalker(new AndCondition(condition1, condition2)); 
+AutomationElement elementNode = walker.GetFirstChild(rootElement); 
+while (elementNode != null) { TreeNode childTreeNode = treeNode.Nodes.Add(elementNode.Current.ControlType.LocalizedControlType); 
+WalkEnabledElements(elementNode, childTreeNode); 
+elementNode = walker.GetNextSibling(elementNode); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Walks the UI Automation tree and adds the control type of each enabled control ''' element it finds to a TreeView. ''' 
+&lt;/summary> ''' 
+&lt;param name="rootElement">The root of the search on this iteration.
+&lt;/param> ''' 
+&lt;param name="treeNode">The node in the TreeView for this iteration.
+&lt;/param> ''' 
+&lt;remarks> ''' This is a recursive function that maps out the structure of the subtree beginning at the ''' UI Automation element passed in as rootElement on the first call. This could be, for example, ''' an application window. ''' CAUTION: Do not pass in AutomationElement.RootElement. Attempting to map out the entire subtree of ''' the desktop could take a very long time and even lead to a stack overflow. ''' 
+&lt;/remarks> Private Sub WalkEnabledElements(ByVal rootElement As AutomationElement, ByVal treeNode As TreeNode) Dim condition1 As New PropertyCondition(AutomationElement.IsControlElementProperty, True) Dim condition2 As New PropertyCondition(AutomationElement.IsEnabledProperty, True) Dim walker As New TreeWalker(New AndCondition(condition1, condition2)) Dim elementNode As AutomationElement = walker.GetFirstChild(rootElement) While (elementNode IsNot Nothing) Dim childTreeNode As TreeNode = treeNode.Nodes.Add(elementNode.Current.ControlType.LocalizedControlType) WalkEnabledElements(elementNode, childTreeNode) elementNode = walker.GetNextSibling(elementNode) End While End Sub 'WalkEnabledElements </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c2caaf45-e59c-42a1-bc9b-77a6de520171.xaml">Obtaining UI Automation Elements</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>TreeWalker Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Navigate Among UI Automation Elements with TreeWalker to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

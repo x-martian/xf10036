@@ -1,0 +1,97 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0ae4d074_8113_4b06_b4fa_e0f39d4967a6"
+  Tag     ="Override the Logical Tree"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Override the Logical Tree</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Although it is not necessary in most cases, advanced control authors have the option to override the <Run>logical tree</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>This example describes how to subclass StackPanel to override the logical tree, in this case to enforce a behavior that the panel may only have and will only render a single child element. This isn't necessarily a practically desirable behavior, but is shown here as a means of illustrating the scenario for overriding an element's normal logical tree.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class SingletonPanel : StackPanel { //private UIElementCollection _children; 
+private FrameworkElement _child; 
+public SingletonPanel() { } public FrameworkElement SingleChild { get { return _child;} set { if (value==null) { RemoveLogicalChild(_child); 
+} else { if (_child==null) { _child = value; 
+} else { // raise an exception? MessageBox.Show("Needs to be a single element"); 
+} } } } public void SetSingleChild(object child) { this.AddLogicalChild(child); 
+} public new void AddLogicalChild(object child) { _child = (FrameworkElement)child; 
+if (this.Children.Count == 1) { this.RemoveLogicalChild(this.Children[0]); 
+this.Children.Add((UIElement)child); 
+} else { this.Children.Add((UIElement)child); 
+} } public new void RemoveLogicalChild(object child) { _child = null; 
+this.Children.Clear(); 
+} protected override IEnumerator LogicalChildren { get { // cheat, make a list with one member and return the enumerator ArrayList _list = new ArrayList(); 
+_list.Add(_child); 
+return (IEnumerator) _list.GetEnumerator();} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To view the complete sample, see Overriding the Logical Tree Sample. For more information on the logical tree, see <Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Override the Logical Tree to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

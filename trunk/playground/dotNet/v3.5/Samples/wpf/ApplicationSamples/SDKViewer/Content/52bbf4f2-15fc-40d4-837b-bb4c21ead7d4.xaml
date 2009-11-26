@@ -1,0 +1,265 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_52bbf4f2_15fc_40d4_837b_bb4c21ead7d4"
+  Tag     ="WPF Namescopes"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>WPF Namescopes</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Namescopes are both a concept, and also the programming objects that store relationships between the XAML defined names of objects and their instance equivalents. Namescopes in the WPF managed code are created while loading the pages for a XAML application. Namescopes as the programming object are defined by the INameScope interface and are also implemented by the practical class NameScope.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Namescopes in Loaded XAML Applications
+    </Paragraph>
+
+    <Paragraph>Namescopes are created on the root element for a XAML page when the page is loaded. Each name specified within the page is added to a pertinent namescope. Elements that are common root elements (such as Page, and Window) always control a namescope. If an element such as FrameworkElement or FrameworkContentElement is the root element of the page in markup, a XAML loader adds a <Run FontWeight="Bold">Page</Run>
+ root implicitly.
+    </Paragraph>
+
+    <Paragraph>If you try to use the same name twice in any namescope, an exception will be raised. For a parsed XAML application, that exception is raised when creating the generated class for the loaded page.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Adding Elements to Parsed Element Trees
+    </Paragraph>
+
+    <Paragraph>Any additions to the element tree after loading and processing must call the appropriate implementation of RegisterName for the class that defines the namescope. Otherwise, the added object cannot be referenced by name through methods such as FindName. Merely setting a Name property (or <Hyperlink NavigateUri="b7e61222-e8cf-48d2-acd0-6df3b7685d48.xaml">x:Name Attribute</Hyperlink>
+) does not register that name into any namescope. Adding a named element to an element tree that has a namescope also does not register the name to the namescope. Although namescopes can be nested, you generally register names to the namescope that exists on the root element, so that your namescope location parallels the namescope that would have been created in an equivalent loaded XAML page. The most common scenario for application developers is that you will use RegisterName to register names into the namescope on the current root. <Run FontWeight="Bold">RegisterName</Run>
+ is part of one important scenario for finding storyboards that will run as animations. For more information, see <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+. If you call <Run FontWeight="Bold">RegisterName</Run>
+ on an element other than the root element in the same logical tree, the name is still registered to the rootmost element, as if you had called <Run FontWeight="Bold">RegisterName</Run>
+ on the root element.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Namescopes in Code
+    </Paragraph>
+
+    <Paragraph>For applications that are created programmatically, and not from loaded XAML, the root element must implement <Run FontWeight="Bold">INameScope</Run>
+, or be a <Run FontWeight="Bold">FrameworkElement</Run>
+ or <Run FontWeight="Bold">FrameworkContentElement</Run>
+ derived class, in order to support a namescope.
+    </Paragraph>
+
+    <Paragraph>Also, for any element that is not loaded and processed by a XAML loader, the namescope for the object is not created or initialized by default. You must explicitly create a new namescope for any element that you intend to register names into subsequently. To create a namescope for an element, you call the static SetNameScope method. Specify the element as the <Run>dependencyObject</Run>
+ parameter, and a new NameScope constructor call as the <Run>value</Run>
+ parameter.
+    </Paragraph>
+
+    <Paragraph>If the object provided as <Run>dependencyObject</Run>
+ for SetNameScope is not a <Run FontWeight="Bold">INameScope</Run>
+ implementation, <Run FontWeight="Bold">FrameworkElement</Run>
+ or <Run FontWeight="Bold">FrameworkContentElement</Run>
+, then calling <Run FontWeight="Bold">RegisterName</Run>
+ on any child elements will have no effect. If you fail to create the new namescope explicitly, then calls to <Run FontWeight="Bold">RegisterName</Run>
+ will raise an exception.
+    </Paragraph>
+
+    <Paragraph>For an example of using namescope APIs in code, see <Hyperlink NavigateUri="4f361925-6a08-40dc-8231-a61111c6b28b.xaml">How to: Define a Name Scope</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Namescopes in Styles and Templates
+    </Paragraph>
+
+    <Paragraph>Styles and templates in WPF provide the ability to reuse and reapply content in a straightforward way, but this introduces the complexity that styles and templates might also include elements with names. That same template might be used multiple times in a page. For this reason, styles and templates both define their own namescopes, independent of the containing page where the style or template is applied.
+    </Paragraph>
+
+    <Paragraph>Consider the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_52bbf4f2_15fc_40d4_837b_bb4c21ead7d4_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;Page.Resources> 
+&lt;ControlTemplate x:Key="MyButtonTemplate" TargetType="{x:Type Button}"> 
+&lt;Border BorderBrush="Red" Name="TheBorder" BorderThickness="2"> 
+&lt;ContentPresenter/> 
+&lt;/Border> 
+&lt;/ControlTemplate> 
+&lt;/Page.Resources> 
+&lt;StackPanel> 
+&lt;Button Template="{StaticResource MyButtonTemplate}">My first button
+&lt;/Button> 
+&lt;Button Template="{StaticResource MyButtonTemplate}">My second button
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Here, the same template is applied to two different buttons. If templates did not have discrete namescopes, the <Run>TheBorder</Run>
+ name used in the template would cause a name collision. Each instantiation of the template has its own namescope, so in this example each instantiated template's namescope would contain exactly one name.
+    </Paragraph>
+
+    <Paragraph>Styles also get their own namescope, mostly so that parts of storyboards can have particular names assigned. These names enable control specific behaviors that will target elements of that name, even if the template was re-defined as part of control customization.
+    </Paragraph>
+
+    <Paragraph>Because of the separate namescopes, finding named elements in a templates is more challenging. You first need to get the applied template, by getting the Template property value of the control where the template is applied. Then, you call the template version of FindName, passing the control where the template was applied as the second parameter.
+    </Paragraph>
+
+    <Paragraph>If you are a control author and you are generating a convention where a particular named element in an applied template is the target for a behavior that is defined by the control itself, you can use the GetTemplateChild method from your control implementation code. The <Run FontWeight="Bold">GetTemplateChild</Run>
+ method is protected.
+    </Paragraph>
+
+    <Paragraph>If you are working from within a template, and need to get to the namescope where the template is applied, get TemplatedParent, and then call <Run FontWeight="Bold">FindName</Run>
+ there. An example of working within the template would be if you are writing the event handler implementation where the event will be raised from an element in an applied template.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Namescopes and Name-related APIs
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">FrameworkElement</Run>
+ has <Run FontWeight="Bold">FindName</Run>
+, <Run FontWeight="Bold">RegisterName</Run>
+ and UnregisterName methods. If the element you call these methods on owns a namescope, the element methods simply call into the namescope methods. Otherwise, the parent element is checked to see if it owns a namescope, and this process continues recursively until a namescope is found (with one guaranteed to be at the root). <Run FontWeight="Bold">FrameworkContentElement</Run>
+ has analogous behaviors, with the exception that no <Run FontWeight="Bold">FrameworkContentElement</Run>
+ will ever own a namescope. The methods exist on <Run FontWeight="Bold">FrameworkContentElement</Run>
+ so that the calls can be forwarded eventually to a <Run FontWeight="Bold">FrameworkElement</Run>
+ parent element.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">SetNameScope</Run>
+ is used to map a new namescope to an existing object. You can call <Run FontWeight="Bold">SetNameScope</Run>
+ more than once in order to reset or clear the namescope, but that is not a common usage. Also, GetNameScope is not typically used from code.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Namescope Implementations
+    </Paragraph>
+
+    <Paragraph>The following classes implement <Run FontWeight="Bold">INameScope</Run>
+ directly:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">NameScope</Run>
+
+    </Paragraph>
+
+    <Paragraph>Style 
+    </Paragraph>
+
+    <Paragraph>ResourceDictionary 
+    </Paragraph>
+
+    <Paragraph>FrameworkTemplate 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ResourceDictionary</Run>
+ does not use namescopes; 
+it uses keys instead, because it is a dictionary/hashtable implementation. The only reason that <Run FontWeight="Bold">ResourceDictionary</Run>
+ implements <Run FontWeight="Bold">INameScope</Run>
+ is so it can raise exceptions to help clarify the distinction between a true namescope and how a <Run FontWeight="Bold">ResourceDictionary</Run>
+ handles keys, and also to assure that namescopes are particularly not applied to a <Run FontWeight="Bold">ResourceDictionary</Run>
+ by parent elements.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">FrameworkTemplate</Run>
+ and <Run FontWeight="Bold">Style</Run>
+ implement <Run FontWeight="Bold">INameScope</Run>
+ through explicit interface definitions. The explicit implementations allow these namescopes to behave conventionally when they are accessed through the <Run FontWeight="Bold">INameScope</Run>
+ interface, which is how namescopes are communicated by WPF internal processes. But the explicit interface definitions are not part of the conventional namespace of <Run FontWeight="Bold">FrameworkTemplate</Run>
+ and <Run FontWeight="Bold">Style</Run>
+, because you seldom need to call the <Run FontWeight="Bold">INameScope</Run>
+ methods on <Run FontWeight="Bold">FrameworkTemplate</Run>
+ and <Run FontWeight="Bold">Style</Run>
+ directly.
+    </Paragraph>
+
+    <Paragraph>The following classes define their own namescope, by using the <Run FontWeight="Bold">System.Windows.NameScope</Run>
+ helper class and connecting to its namescope implementation through the NameScope attached property:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">FrameworkElement</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">FrameworkContentElement</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b7e61222-e8cf-48d2-acd0-6df3b7685d48.xaml">x:Name Attribute</Hyperlink>
+
+      <LineBreak/>INameScope
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="5c0854e3-7470-435d-9fe2-93eec9d3634e.xaml">XAML Namespaces and Namespace Mapping</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Application-Level Programming Overview
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about WPF Namescopes to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

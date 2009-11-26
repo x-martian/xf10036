@@ -1,0 +1,117 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d91edaf2_be28_41ec_a508_af421cb43c3d"
+  Tag     ="Create a Client-Side UI Automation Provider"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Create a Client-Side UI Automation Provider</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic contains example code that shows how to implement a client-side <Run>UI Automation provider</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example code can be built into a dynamic-link library (DLL) that implements a very simple client-side provider for a console window. The code does not have any useful functionality, but is intended to demonstrate the basic steps in setting up a provider assembly that can be registered by a <Run>UI Automation client</Run>
+ application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows.Automation; 
+using System.Windows.Automation.Provider; 
+namespace ClientSideProviderAssembly { // The assembly must implement a UIAutomationClientSideProviders class, // and the namespace must be the same as the name of the DLL, so that // UI Automation can find the table of descriptors. In this example, // the DLL would be "ClientSideProviderAssembly.dll" static class UIAutomationClientSideProviders { /// 
+&lt;summary> /// Implementation of the static ClientSideProviderDescriptionTable field. /// In this case, only a single provider is listed in the table. /// 
+&lt;/summary> public static ClientSideProviderDescription[] ClientSideProviderDescriptionTable = { new ClientSideProviderDescription( // Method that creates the provider object. new ClientSideProviderFactoryCallback(ConsoleProvider.Create), // Class of window that will be served by the provider. "ConsoleWindowClass") }; 
+} class ConsoleProvider : IRawElementProviderSimple { IntPtr providerHwnd; 
+public ConsoleProvider(IntPtr hwnd) { providerHwnd = hwnd; 
+} internal static IRawElementProviderSimple Create( IntPtr hwnd, int idChild, int idObject) { // This provider doesn't expose children, so never expects // nonzero values for idChild. if (idChild != 0) return null; 
+else return new ConsoleProvider(hwnd); 
+} private static IRawElementProviderSimple Create( IntPtr hwnd, int idChild) { // Something is wrong if idChild is not 0. if (idChild != 0) return null; 
+else return new ConsoleProvider(hwnd); 
+} #region IRawElementProviderSimple // This is a skeleton implementation. The only real functionality // at this stage is to return the name of the element and the host // window provider, which can supply other properties. ProviderOptions IRawElementProviderSimple.ProviderOptions { get { return ProviderOptions.ClientSideProvider; 
+} } IRawElementProviderSimple IRawElementProviderSimple.HostRawElementProvider { get { return AutomationInteropProvider.HostProviderFromHandle(providerHwnd); 
+} } object IRawElementProviderSimple.GetPropertyValue(int propertyId) { if (propertyId == AutomationElementIdentifiers.NameProperty.Id) return "Custom Console Window"; 
+else return null; 
+} object IRawElementProviderSimple.GetPatternProvider(int iid) { return null; 
+} #endregion IRawElementProviderSimple } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a03af4d9-2771-43cc-b07b-d468dca23190.xaml">Register a Client-Side Provider Assembly</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="859557b8-51e1-4d15-92e8-318d2dcdb2f7.xaml">UI Automation Providers Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Create a Client-Side UI Automation Provider to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

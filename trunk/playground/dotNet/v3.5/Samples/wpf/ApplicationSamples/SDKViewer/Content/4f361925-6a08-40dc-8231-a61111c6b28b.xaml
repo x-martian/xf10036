@@ -1,0 +1,148 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_4f361925_6a08_40dc_8231_a61111c6b28b"
+  Tag     ="Define a Name Scope"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Define a Name Scope</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To animate with Storyboard in procedural code, you must create a NameScope and register the target objects' names with the element that owns that name scope. In the following example, a <Run FontWeight="Bold">NameScope</Run>
+ is created for <Run>myMainPanel</Run>
+. Two buttons, <Run>button1</Run>
+ and <Run>button2</Run>
+, are added to the panel, and their names registered. Several animations and a <Run FontWeight="Bold">Storyboard</Run>
+ are created. The storyboard's Begin method is used to start the animations.
+    </Paragraph>
+
+    <Paragraph>Because <Run>button1</Run>
+, <Run>button2</Run>
+, and <Run>myMainPanel</Run>
+ all share the same name scope, any one of them can be used with the <Run FontWeight="Bold">Storyboard</Run>
+<Run FontWeight="Bold">Begin</Run>
+ method to start the animations.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+namespace Microsoft.Samples.Animation.AnimatingWithStoryboards { public class ScopeExample : Page { private Storyboard myStoryboard; 
+private StackPanel myMainPanel; 
+private Button button1, button2; 
+public ScopeExample() { this.Background = Brushes.White; 
+myMainPanel = new StackPanel(); 
+// Create a name scope for the stackpanel. NameScope.SetNameScope(myMainPanel, new NameScope()); 
+myMainPanel.Background = Brushes.Orange; 
+button1 = new Button(); 
+button1.Name = "Button1"; 
+// Register button1's name with myMainPanel. myMainPanel.RegisterName(button1.Name, button1); 
+button1.Content = "Button 1"; 
+button1.Click += new RoutedEventHandler(button1Clicked); 
+myMainPanel.Children.Add(button1); 
+button2 = new Button(); 
+button2.Name = "Button2"; 
+// Register button2's name with myMainPanel. myMainPanel.RegisterName(button2.Name, button2); 
+button2.Content = "Button 2"; 
+button2.Click += new RoutedEventHandler(button2Clicked); 
+myMainPanel.Children.Add(button2); 
+// Create some animations and a storyboard. DoubleAnimation button1WidthAnimation = new DoubleAnimation(300, 200, new Duration(TimeSpan.FromSeconds(5))); 
+Storyboard.SetTargetName(button1WidthAnimation, button1.Name); 
+Storyboard.SetTargetProperty(button1WidthAnimation, new PropertyPath(Button.WidthProperty)); 
+DoubleAnimation button2WidthAnimation = new DoubleAnimation(300, 200, new Duration(TimeSpan.FromSeconds(5))); 
+Storyboard.SetTargetName(button2WidthAnimation, button2.Name); 
+Storyboard.SetTargetProperty(button2WidthAnimation, new PropertyPath(Button.WidthProperty)); 
+DoubleAnimation heightAnimationWithoutTarget = new DoubleAnimation(300, 200, new Duration(TimeSpan.FromSeconds(5))); 
+Storyboard.SetTargetProperty(heightAnimationWithoutTarget, new PropertyPath(FrameworkElement.HeightProperty)); 
+myStoryboard = new Storyboard(); 
+myStoryboard.Children.Add(button1WidthAnimation); 
+myStoryboard.Children.Add(button2WidthAnimation); 
+myStoryboard.Children.Add(heightAnimationWithoutTarget); 
+this.Content = myMainPanel; 
+} private void button1Clicked(object sender, RoutedEventArgs args) { // Starts the animations. The animation without a specified // target name, heightAnimationWithoutTarget, is applied to // myMainPanel. myStoryboard.Begin(myMainPanel); 
+} private void button2Clicked(object sender, RoutedEventArgs args) { // Starts the animations. The animation without a specified // target name, heightAnimationWithoutTarget, is applied to // button2. myStoryboard.Begin(button2); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f4a314e9-1da2-4367-85fc-1232487efa7a.xaml">How to: Animate a Property by Using a Storyboard</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Define a Name Scope to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,973 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6acc6d08_bd67_4e2e_915c_9c1d34eb86fe"
+  Tag     ="Server-Side UI Automation Provider Implementation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Server-Side UI Automation Provider Implementation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This section describes how to implement a server-side <Run>UI Automation provider</Run>
+ for a custom control.
+    </Paragraph>
+
+    <Paragraph>The implementation for Windows Presentation Foundation (WPF) elements and non-WPF elements (such as those designed for Windows Forms) is fundamentally different. WPF elements provide support for UI Automation through a class derived from AutomationPeer. Non-WPF elements provide support through implementations of provider interfaces.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Security_Considerations">Security Considerations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Provider_Implementation_by_WPF_Elements">Provider Implementation by Windows Presentation Foundation Elements</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Provider_Implementation_by_non_WPF_Elements">Provider Implementation by non-WPF Elements</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Security Considerations
+    </Paragraph>
+
+    <Paragraph>Providers should be written so that they can work in a partial-trust environment. Because UIAutomationClient.dll is not configured to run under partial trust, your provider code should not reference that assembly. If it does so, the code may run in a full-trust environment but then fail in a partial-trust environment.
+    </Paragraph>
+
+    <Paragraph>In particular, do not use fields from classes in UIAutomationClient.dll such as those in AutomationElement. Instead, use the equivalent fields from classes in UIAutomationTypes.dll, such as AutomationElementIdentifiers.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Provider Implementation by Windows Presentation Foundation Elements
+    </Paragraph>
+
+    <Paragraph>Custom elements in the WPF framework provide support for UI Automation through classes derived from <Run FontWeight="Bold">AutomationPeer</Run>
+ or one of its derived classes such as ButtonAutomationPeer. To use these classes, your project must reference PresentationCore.dll.
+    </Paragraph>
+
+    <Paragraph>The peer classes are roughly equivalent to UI Automation <Run>control types</Run>
+, but are specific to WPF elements. Specialized peers derive from more general peers. For example, CheckBoxAutomationPeer derives from ButtonBaseAutomationPeer, which in turn derives from FrameworkElementAutomationPeer.
+    </Paragraph>
+
+    <Paragraph>Like non-WPF providers, peers support <Run>control patterns</Run>
+ by providing implementations of interfaces in the System.Windows.Automation.Provider namespace, such as IInvokeProvider. The control pattern interfaces can be implemented by the peer itself, or by another object. The peer's implementation of GetPattern returns the object that supports the specified pattern. 
+    </Paragraph>
+
+    <Paragraph>The interfaces implemented by a custom provider are explicitly declared if the owning element derives directly from Control. For example, the following code declares a peer for a <Run FontWeight="Bold">Control</Run>
+ that implements a range value.
+    </Paragraph>
+
+    <Paragraph><Run>public class RangePeer1 : FrameworkElementAutomationPeer, IRangeValueProvider { }</Run>
+
+    </Paragraph>
+
+    <Paragraph>If the owning control derives from a specific type of control such as RangeBase, the peer can be derived from an equivalent derived peer class. In this case, the peer would derive from RangeBaseAutomationPeer, which supplies a base implementation of IRangeValueProvider. The following code shows the declaration of such a peer.
+    </Paragraph>
+
+    <Paragraph><Run>public class RangePeer2 : RangeBaseAutomationPeer { }</Run>
+
+    </Paragraph>
+
+    <Paragraph>For an example implementation, see NumericUpDown Custom Control with Theme and UI Automation Support Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Requirements for Windows Presentation Foundation Peers
+    </Paragraph>
+
+    <Paragraph>In order to communicate with UI Automation, your control must implement the following main areas of functionality:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Functionality 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Implementation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Expose the control to UI Automation
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Override OnCreateAutomationPeer for your custom control so that it returns your provider object, which is derived directly or indirectly from <Run FontWeight="Bold">AutomationPeer</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Provide property values
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Override property-get methods of the base peer class (for example, System.Windows.Automation.Peers.AutomationPeer.GetAcceleratorKey) and of any additional control pattern interfaces implemented by your custom peer (for example, System.Windows.Automation.Provider.IToggleProvider.ToggleState).
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Enable the client to interact with the control
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Override methods of the base peer class (for example, System.Windows.Automation.Peers.ToggleButtonAutomationPeer.System.Windows.Automation.Provider.IToggleProvider.Toggle and of any additional control pattern interfaces implemented by your custom peer. In your provider's implementation of <Run FontWeight="Bold">GetPattern</Run>
+, return the object that supports the specified control pattern. Note that if your control doesn't have a custom implementation of a pattern, you can call the base type's implementation of <Run FontWeight="Bold">GetPattern</Run>
+ to retrieve either its implementation, or a null reference if the pattern is not supported for this control type.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Raise events
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Override RaiseAutomationEvent and RaisePropertyChangedEvent.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Peer Properties
+    </Paragraph>
+
+    <Paragraph>Applications can override the default properties of UI Automation peers by using AutomationProperties. For example, the following XML code creates a button that has two customized UI Automation properties.
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;Button AutomationProperties.Name="Special" AutomationProperties.HelpText="This is a special button."/></Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">Peer Navigation
+    </Paragraph>
+
+    <Paragraph>Navigation among WPF elements within a user interface is supported by the peer's implementation of GetChildren method. The UI Automation system calls this method to build up a tree of subelements contained within a control; 
+for example, list items in a list box. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Provider Implementation by non-WPF Elements
+    </Paragraph>
+
+    <Paragraph>Custom controls that are not part of the WPF framework, but that are written in managed code (most often these are Windows Forms controls), provide support for UI Automation by implementing interfaces. Every element must implement at least one of the interfaces listed in the first table in the next section. In addition, if the element supports one or more control patterns, it must implement the appropriate interface for each control pattern. 
+    </Paragraph>
+
+    <Paragraph>Your UI Automation provider project must reference the following assemblies:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>UIAutomationProviders.dll
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UIAutomationTypes.dll
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>WindowsBase.dll
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph/>
+    <Paragraph>This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Provider_Interfaces">Provider Interfaces</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Requirements_for_Non_WPF_Providers">Requirements for Non-WPF Providers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Property_Values_in_Non_WPF_Providers">Property Values in Non-WPF Providers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Events_in_Non_WPF_Providers">Events in Non-WPF Providers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Non_WPF_Provider_Navigation">Non-WPF Provider Navigation</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Non_WPF_Provider_Reparenting">Non-WPF Provider Reparenting</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Non_WPF_Provider_Repositioning">Non-WPF Provider Repositioning</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Provider Interfaces
+    </Paragraph>
+
+    <Paragraph>Every UI Automation provider must implement one of the following interfaces.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Interface 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IRawElementProviderSimple 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Provides functionality for a simple control hosted in a window, including support for control patterns and properties. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IRawElementProviderFragment 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Inherits from <Run FontWeight="Bold">IRawElementProviderSimple</Run>
+. Adds functionality for an element in a complex control, including navigation within the <Run>fragment</Run>
+, setting focus, and returning the bounding rectangle of the element.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IRawElementProviderFragmentRoot 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Inherits from <Run FontWeight="Bold">IRawElementProviderFragment</Run>
+. Adds functionality for the root element in a complex control, including locating a child element at specified coordinates and setting the focus state for the entire control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following interfaces provide added functionality but are not required to be implemented.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Interface 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IRawElementProviderAdviseEvents 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Enables the provider to track requests for events.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>IRawElementProviderHwndOverride 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Enables repositioning of window-based elements within the UI Automation tree of a fragment.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>All other interfaces in the <Run FontWeight="Bold">System.Windows.Automation.Provider</Run>
+ namespace are for control pattern support.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Requirements for Non-WPF Providers
+    </Paragraph>
+
+    <Paragraph>In order to communicate with UI Automation, your control must implement the following main areas of functionality:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Functionality 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Implementation 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Expose the provider to UI Automation
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>In response to a WM_GETOBJECT message sent to the control window, return the object that implements <Run FontWeight="Bold">IRawElementProviderSimple</Run>
+ (or a derived interface). For fragments, this must be the provider for the fragment root.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Provide property values
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Implement GetPropertyValue to provide or override values.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Enable the client to interact with the control
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Implement interfaces that support control patterns, such as <Run FontWeight="Bold">IInvokeProvider</Run>
+. Return these pattern providers in your implementation of GetPatternProvider.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Raise events
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Call one of the static methods of AutomationInteropProvider to raise an event that a client can listen for.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Enable navigation and focusing within a fragment
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Implement <Run FontWeight="Bold">IRawElementProviderFragment</Run>
+ for each element within the fragment. (Not necessary for elements that are not part of a fragment.)
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Enable focusing and location of child element in a fragment
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Implement <Run FontWeight="Bold">IRawElementProviderFragmentRoot</Run>
+. (Not necessary for elements that are not fragment roots.)
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Property Values in Non-WPF Providers
+    </Paragraph>
+
+    <Paragraph>UI Automation providers for custom controls must support certain properties that can be used by the automation system as well as by client applications. For elements that are hosted in windows (HWNDs), UI Automation can retrieve some properties from the default window provider, but must obtain others from the custom provider. 
+    </Paragraph>
+
+    <Paragraph>Providers for HWND based controls do not usually need to provide the following properties (identified by field values): 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>BoundingRectangleProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ClickablePointProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ProcessIdProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ClassNameProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>HasKeyboardFocusProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>IsEnabledProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>IsKeyboardFocusableProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>IsPasswordProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NameProperty 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>RuntimeIdProperty 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The <Run FontWeight="Bold">RuntimeIdProperty</Run>
+ of a simple element or fragment root hosted in a window is obtained from the window; 
+however, fragment elements below the root (such as list items in a list box) must provide their own identifiers. For more information, see GetRuntimeId.
+            </Paragraph>
+
+            <Paragraph>The <Run FontWeight="Bold">IsKeyboardFocusableProperty</Run>
+ should be returned for providers hosted in a Windows Forms control. In this case, the default window provider may be unable to retrieve the correct value.
+            </Paragraph>
+
+            <Paragraph>The <Run FontWeight="Bold">NameProperty</Run>
+ is usually supplied by the host provider. For example, if a custom control is derived from Control, the name is derived from the <Run FontWeight="Bold">Text</Run>
+ property of the control.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For example code, see <Hyperlink NavigateUri="5eba950e-b9e1-48eb-ab8e-b69db76bf589.xaml">Return Properties from a UI Automation Provider</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Events in Non-WPF Providers
+    </Paragraph>
+
+    <Paragraph>UI Automation providers should raise events to notify client applications of changes in the state of the UI. The following methods are used to raise events. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Method 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RaiseAutomationEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Raises various events, including events triggered by control patterns.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RaiseAutomationPropertyChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Raises an event when a UI Automation property has changed.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RaiseStructureChangedEvent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Raises an event when the structure of the UI Automation tree has changed; 
+for example, by the removal or addition of an element.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The purpose of an event is to notify the client of something taking place in the user interface (UI), whether or not the activity is triggered by the UI Automation system itself. For example, the event identified by InvokedEvent should be raised whenever the control is invoked, either through direct user input or by the client application calling Invoke. 
+    </Paragraph>
+
+    <Paragraph>To optimize performance, a provider can selectively raise events, or raise no events at all if no client application is registered to receive them. The following methods are used for optimization.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Method 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>ClientsAreListening 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>This static property specifies whether any client applications have subscribed to UI Automation events.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">IRawElementProviderAdviseEvents</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The provider's implementation of this interface on a fragment root enables it to be advised when clients register and unregister event handlers for events on the fragment.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Non-WPF Provider Navigation
+    </Paragraph>
+
+    <Paragraph>Providers for simple controls such as a custom button hosted in a window (HWND) do not need to support navigation within the UI Automation tree. Navigation to and from the element is handled by the default provider for the host window, which is specified in the implementation of HostRawElementProvider. When you implement a provider for a complex custom control, however, you must support navigation between the root node of the fragment and its descendants, and between sibling nodes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Elements of a fragment other than the root must return a null reference (<Run FontWeight="Bold">Nothing</Run>
+) from <Run FontWeight="Bold">HostRawElementProvider</Run>
+, because they are not directly hosted in a window, and no default provider can support navigation to and from them.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The structure of the fragment is determined by your implementation of Navigate. For each possible direction from each fragment, this method returns the provider object for the element in that direction. If there is no element in that direction, the method returns a null reference (<Run FontWeight="Bold">Nothing</Run>
+ in Microsoft Visual Basic .NET).
+    </Paragraph>
+
+    <Paragraph>The fragment root supports navigation only to child elements. For example, a list box returns the first item in the list when the direction is FirstChild, and the last item when the direction is LastChild. The fragment root does not support navigation to a parent or siblings; 
+this is handled by the host window provider.
+    </Paragraph>
+
+    <Paragraph>Elements of a fragment that are not the root must support navigation to the parent, and to any siblings and children they have.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Non-WPF Provider Reparenting
+    </Paragraph>
+
+    <Paragraph>Popup windows are actually top-level windows, and so by default appear in the UI Automation tree as children of the desktop. In many cases, however, popups are logically children of some other control. For example, the dropdown list of a combo box is logically a child of the combo box. Similarly, a menu popup window is logically a child of the menu. UI Automation provides support to reparent popups so that they appear to be children of the associated control.
+    </Paragraph>
+
+    <Paragraph>To reparent a popup:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a provider for the popup. This requires that the class of the popup window is known in advance. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implement all properties and patterns as usual for that popup, as though it were a control in its own right.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implement the <Run FontWeight="Bold">HostRawElementProvider</Run>
+ property so that it returns the value obtained from HostProviderFromHandle, where the parameter is the window handle of the popup.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implement <Run FontWeight="Bold">Navigate</Run>
+ for the popup and its parent so that navigation is handled properly from the logical parent to the logical children, and between sibling children.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When UI Automation encounters the popup, it recognizes that navigation is being overridden from the default, and skips over the popup when it is encountered as a child of the desktop. Instead, the node will only be reachable through the fragment.
+    </Paragraph>
+
+    <Paragraph>Reparenting is not suitable for cases where a control can host a window of any class. For example, a rebar can host any type of HWND in its bands. To handle these cases, UI Automation supports an alternative form of HWND relocation, as described in the next section.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Non-WPF Provider Repositioning
+    </Paragraph>
+
+    <Paragraph>UI Automation fragments may contain two or more elements that are each contained in a window (HWND). Because each HWND has its own default provider that considers the HWND to be a child of a containing HWND, the UI Automation tree will, by default, show the HWNDs in the fragment as children of the parent window. In most cases this is desirable behavior, but sometimes it can lead to confusion because it does not match the logical structure of the UI.
+    </Paragraph>
+
+    <Paragraph>A good example of this is a rebar control. A rebar contains bands, each of which can in turn contain an HWND-based control such as a toolbar, an edit box, or a combo box. The default window provider for the rebar HWND sees the band control HWNDs as children, and the rebar provider sees the bands as children. Because the HWND provider and the rebar provider are working in tandem and combining their children, both the bands and the HWND-based controls appear as children of the rebar. Logically, however, only the bands should appear as children of the rebar, and each band provider should be coupled with the default HWND provider for the control it contains.
+    </Paragraph>
+
+    <Paragraph>To accomplish this, the fragment root provider for the rebar exposes a set of children representing the bands. Each band has a single provider that may expose properties and patterns. In its implementation of <Run FontWeight="Bold">HostRawElementProvider</Run>
+, the band provider returns the default window provider for the control HWND, which it obtains by calling <Run FontWeight="Bold">HostProviderFromHandle</Run>
+, passing in the control's window handle. Finally, the fragment root provider for the rebar implements the <Run FontWeight="Bold">IRawElementProviderHwndOverride</Run>
+ interface, and in its implementation of GetOverrideProviderForHwnd it returns the appropriate band provider for the control contained in the specified HWND.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="55d419c0-2201-4101-90c9-2888df4dbb47.xaml">Expose a Server-side UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="5eba950e-b9e1-48eb-ab8e-b69db76bf589.xaml">Return Properties from a UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9fe2f01b-f7d8-49a8-a185-d4472b9976c0.xaml">Raise Events from a UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3cb6092a-58c9-4ca0-84a5-0e54d5d00a0d.xaml">Enable Navigation in a UI Automation Fragment Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0d635c35-ffa8-4dc8-bbc9-12fcd5445776.xaml">Support Control Patterns in a UI Automation Provider</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="859557b8-51e1-4d15-92e8-318d2dcdb2f7.xaml">UI Automation Providers Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Simple Provider Sample
+      <LineBreak/>Fragment Provider Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Server-Side UI Automation Provider Implementation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

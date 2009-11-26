@@ -1,0 +1,156 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_43560f28_183d_41c1_b9d1_de7c2552273e"
+  Tag     ="Get Print System Object Properties Without Reflection"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Get Print System Object Properties Without Reflection</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Using Reflection to itemize the properties (and the types of those properties) on an object can slow application performance. The System.Printing.IndexedProperties namespace provides a means to getting this information with using Reflection. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The steps for doing this are as follows.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create an instance of the type. In the example below, the type is the PrintQueue type that ships with Microsoft .NET Framework version 3.0, but nearly identical code should work for types that you derive from PrintSystemObject. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a PrintPropertyDictionary from the type's PropertiesCollection. The Value property of each entry in this dictionary is an object of one of the types derived from PrintProperty. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Enumerate the members of the dictionary. For each of them, do the following.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Up-cast the value of each entry to <Run FontWeight="Bold">PrintProperty</Run>
+ and use it to create a <Run FontWeight="Bold">PrintProperty</Run>
+ object. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Get the type of the Value of each of the <Run FontWeight="Bold">PrintProperty</Run>
+ object. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Enumerate the properties, and their types, of a queue without using Reflection LocalPrintServer localPrintServer = new LocalPrintServer(); 
+PrintQueue defaultPrintQueue = LocalPrintServer.GetDefaultPrintQueue(); 
+PrintPropertyDictionary printQueueProperties = defaultPrintQueue.PropertiesCollection; 
+Console.WriteLine("These are the properties, and their types, of {0}, a {1}", defaultPrintQueue.Name, defaultPrintQueue.GetType().ToString() +"\n"); 
+foreach (DictionaryEntry entry in printQueueProperties) { PrintProperty property = (PrintProperty)entry.Value; 
+if (property.Value != null) { Console.WriteLine(property.Name + "\t(Type: {0})", property.Value.GetType().ToString()); 
+} } Console.WriteLine("\n\nPress Return to continue..."); 
+Console.ReadLine(); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>PrintProperty
+      <LineBreak/>PrintSystemObject
+      <LineBreak/>System.Printing.IndexedProperties
+      <LineBreak/>PrintPropertyDictionary
+      <LineBreak/>LocalPrintServer
+      <LineBreak/>PrintQueue
+      <LineBreak/>DictionaryEntry
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0de8ac41-9aa6-413d-a121-7aa6f41539b1.xaml">Printing Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Printing Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Get Print System Object Properties Without Reflection to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

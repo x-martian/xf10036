@@ -1,0 +1,215 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_39ee888c_e5ec_41c8_b11f_7b851a554442"
+  Tag     ="Sharing Message Loops Between Win32 and WPF"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Sharing Message Loops Between Win32 and WPF</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how to implement a message loop for interoperation with Windows Presentation Foundation (WPF), either by using existing message loop exposure in Dispatcher or by creating a separate message loop on the Win32 side of your interopation code.
+    </Paragraph>
+
+    <Paragraph FontSize="22">ComponentDispatcher and the Message Loop
+    </Paragraph>
+
+    <Paragraph>A normal scenario for interoperation and keyboard event support is to implement IKeyboardInputSink, or to subclass from classes that already implement <Run FontWeight="Bold">IKeyboardInputSink</Run>
+ such as HwndSource or HwndHost. However, keyboard sink support does not address all possible message loop needs you might have when sending and receiving messages across your interoperation boundaries. To help formalize an application message loop architecture, Windows Presentation Foundation (WPF) provides the ComponentDispatcher class that defines a simple protocol for a message loop to follow.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ComponentDispatcher</Run>
+ is a static class that exposes esveral members. The scope of each method is implicitly tied to the calling thread. A message loop must call some of those APIs at critical times (as defined in the next section of this topic).
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">ComponentDispatcher</Run>
+ provides events that other components (such as the keyboard sink) can listen to. The <Run FontWeight="Bold">Dispatcher</Run>
+ class calls all the appropriate <Run FontWeight="Bold">ComponentDispatcher</Run>
+ methods at an appropriate sequence. If you are implementing your own message loop, your code is responsible for calling <Run FontWeight="Bold">ComponentDispatcher</Run>
+ methods in a similar fashion.
+    </Paragraph>
+
+    <Paragraph>Calling <Run FontWeight="Bold">ComponentDispatcher</Run>
+ methods on a thread will only invoke event handlers that were registered on that thread.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Writing Message Loops
+    </Paragraph>
+
+    <Paragraph>The following is a checklist of <Run FontWeight="Bold">ComponentDispatcher</Run>
+ members you will use if you write your own message loop.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>PushModal :your message loop should call this to indicate that the thread is modal.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>PopModal :your message loop should call this to indicate that the thread has reverted to nonmodal.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>RaiseIdle :your message loop should call this to indicate that <Run FontWeight="Bold">ComponentDispatcher</Run>
+ should raise the ThreadIdle event. <Run FontWeight="Bold">ComponentDispatcher</Run>
+ will not raise <Run FontWeight="Bold">ThreadIdle</Run>
+ if IsThreadModal is <Run FontWeight="Bold">true</Run>
+, but message loops may choose to call <Run FontWeight="Bold">RaiseIdle</Run>
+ even if <Run FontWeight="Bold">ComponentDispatcher</Run>
+ cannot respond to it while in modal state.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>RaiseThreadMessage :your message loop should call this to indicate that a new message is available. The return value indicates whether a listener to a <Run FontWeight="Bold">ComponentDispatcher</Run>
+ event handled the message. If <Run FontWeight="Bold">RaiseThreadMessage</Run>
+ returns <Run FontWeight="Bold">true</Run>
+ (handled), the dispatcher should do nothing further with the message. If the return value is <Run FontWeight="Bold">false</Run>
+, the dispatcher is expected to call the Win32 function TranslateMessage, then call DispatchMessage.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Using ComponentDispatcher and Existing Message Handling
+    </Paragraph>
+
+    <Paragraph>The following is a checklist of <Run FontWeight="Bold">ComponentDispatcher</Run>
+ members you will use if you rely on the inherent WPF message loop.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">IsThreadModal</Run>
+ : returns whether the application has gone modal (e.g., a modal message loop has been pushed). <Run FontWeight="Bold">ComponentDispatcher</Run>
+ can track this state because the class maintains a count of <Run FontWeight="Bold">PushModal</Run>
+ and <Run FontWeight="Bold">PopModal</Run>
+ calls from the message loop.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ThreadFilterMessage and ThreadPreprocessMessage events follow the standard rules for delegate invocations. Delegates are invoked in an unspecified order, and all delegates are invoked even if the first one marks the message as handled.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ThreadIdle</Run>
+ : indicates an appropriate and efficient time to do idle processing (there are no other pending messages for the thread). <Run FontWeight="Bold">ThreadIdle</Run>
+ will not be raised if the thread is modal.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ThreadFilterMessage</Run>
+ : raised for all messages that the message pump processes.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ThreadPreprocessMessage</Run>
+ : raised for all messages that were not handled during <Run FontWeight="Bold">ThreadFilterMessage</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>A message is considered handled if after the <Run FontWeight="Bold">ThreadFilterMessage</Run>
+ event or <Run FontWeight="Bold">ThreadPreprocessMessage</Run>
+ event, the <Run>handled</Run>
+ parameter passed by reference in event data is <Run FontWeight="Bold">true</Run>
+. Event handlers should ignore the message if <Run>handled</Run>
+ is <Run FontWeight="Bold">true</Run>
+, because that means the different handler handled the message first. Event handlers to both events may modify the message. The dispatcher should dispatch the modified message and not the original unchanged message. <Run FontWeight="Bold">ThreadPreprocessMessage</Run>
+ is delivered to all listeners, but the architectural intention is that only the top-level window containing the hwnd at which the messages targeted should invoke code in response to the message.
+    </Paragraph>
+
+    <Paragraph FontSize="22">How HwndSource Treats ComponentDispatcher Events
+    </Paragraph>
+
+    <Paragraph>If the <Run FontWeight="Bold">HwndSource</Run>
+ is a top-level window (no parent HWND), it will register with <Run FontWeight="Bold">ComponentDispatcher</Run>
+. If <Run FontWeight="Bold">ThreadPreprocessMessage</Run>
+ is raised, and if the message is intended for the <Run FontWeight="Bold">HwndSource</Run>
+ or child windows, <Run FontWeight="Bold">HwndSource</Run>
+ calls its TranslateAccelerator, TranslateChar, OnMnemonic keyboard sink sequence.
+    </Paragraph>
+
+    <Paragraph>If the <Run FontWeight="Bold">HwndSource</Run>
+ is not a top-level window (has a parent HWND), there will be no handling. Only the top level window is expected to do the handling, and there is expected to be a top level window with keyboard sink support as part of any interoperation scenario.
+    </Paragraph>
+
+    <Paragraph>If WndProc on an <Run FontWeight="Bold">HwndSource</Run>
+ is called without an appropriate keyboard sink method being called first, your application will receive the higher level keyboard events such as KeyDown.  However, no keyboard sink methods will be called, which circumvents desirable keyboard input model features such as access key support. This might happen because the message loop did not properly notify the relevant thread on the <Run FontWeight="Bold">ComponentDispatcher</Run>
+, or because the parent HWND did not invoke the proper keyboard sink responses.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ComponentDispatcher
+      <LineBreak/>IKeyboardInputSink
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0ffbde0d-701d-45a3-a6fa-dd71f4d9772e.xaml">WPF and Win32 Interoperation Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="02d8fd00-8d7c-4604-874c-58e40786770b.xaml">Threading Model</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ee5258b7-6567-415a-9b1c-c0cbe46e79ef.xaml">Input Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Sharing Message Loops Between Win32 and WPF to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

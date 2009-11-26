@@ -1,0 +1,413 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3c574597_bbde_440f_95cc_01371f1a5d9d"
+  Tag     ="Layout Considerations for the WindowsFormsHost Element"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Layout Considerations for the WindowsFormsHost Element</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how the WindowsFormsHost element interacts with the WPF layout system. 
+    </Paragraph>
+
+    <Paragraph>WPF and Windows Forms support different, but similar, logic for sizing and positioning elements on a form or page. When you create a hybrid user interface (UI) that hosts Windows Forms controls in WPF, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element integrates the two layout schemes.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Differences in Layout Between Windows Presentation Foundation and Windows Forms
+    </Paragraph>
+
+    <Paragraph>WPF uses resolution-independent layout. All WPF layout dimensions are specified using <Run FontStyle="italic">device-independent pixels</Run>
+. A device-independent pixel is one ninety-sixth of an inch in size and resolution-independent, so you get similar results regardless of whether you are rendering to a 72-dpi monitor or a 19,200-dpi printer. 
+    </Paragraph>
+
+    <Paragraph>WPF is also based on <Run FontStyle="italic">dynamic layout</Run>
+. This means that a UI element arranges itself on a form or page according to its content, its parent layout container, and the available screen size. Dynamic layout facilitates localization by automatically adjusting the size and position of UI elements when the strings they contain change length.
+    </Paragraph>
+
+    <Paragraph>Layout in Windows Forms is device-dependent and more likely to be static. Typically, Windows Forms controls are positioned absolutely on a form using dimensions specified in hardware pixels. However, Windows Forms does support some dynamic layout features, as summarized in the following table. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Layout feature 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Autosizing
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Some Windows Forms controls resize themselves to display their contents properly. For more information, see AutoSize Property Overview.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Anchoring and docking
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Windows Forms controls support positioning and sizing based on the parent container. For more information, see How to: Anchor Controls on Windows Forms and How to: Dock Controls on Windows Forms.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Autoscaling
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Container controls resize themselves and their children based on the resolution of the output device or the size, in pixels, of the default container font. For more information, see Automatic Scaling in Windows Forms.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Layout containers
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The FlowLayoutPanel and TableLayoutPanel controls arrange their child controls and size themselves according to their contents. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Layout Limitations
+    </Paragraph>
+
+    <Paragraph>In general, Windows Forms controls cannot be scaled and transformed to the extent possible in WPF. The following list describes the known limitations when the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element attempts to integrate its hosted Windows Forms control into the WPF layout system.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>In some cases, Windows Forms controls cannot be resized, or can be sized only to specific dimensions. For example, a Windows Forms ComboBox control supports only a single height, which is defined by the control's font size. In a WPF dynamic layout where elements can stretch vertically, a hosted <Run FontWeight="Bold">ComboBox</Run>
+ control will not stretch as expected. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Windows Forms controls cannot be rotated or skewed. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element raises the LayoutError event if you apply a skew or rotation transformation. If you do not handle the <Run FontWeight="Bold">LayoutError</Run>
+ event, an InvalidOperationException is raised. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In most cases, Windows Forms controls do not support proportional scaling. Although the overall dimensions of the control will scale, child controls and component elements of the control may not resize as expected. This limitation depends on how well each Windows Forms control supports scaling. In addition, you cannot scale Windows Forms controls down to a size of 0 pixels.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Windows Forms controls support autoscaling, in which the form will automatically resize itself and its controls based on the font size. In a WPF user interface, changing the font size does not resize the entire layout, although individual elements may dynamically resize.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Z-order
+    </Paragraph>
+
+    <Paragraph>In a WPF user interface, you can change the z-order of elements to control overlapping behavior. A hosted Windows Forms control is drawn in a separate HWND, so it is always drawn on top of WPF elements.
+    </Paragraph>
+
+    <Paragraph>A hosted Windows Forms control is also drawn on top of any Adorner elements. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Layout Behavior
+    </Paragraph>
+
+    <Paragraph>The following sections describe specific aspects of layout behavior when hosting Windows Forms controls in WPF. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Scaling, Unit Conversion, and Device Independence
+    </Paragraph>
+
+    <Paragraph>Whenever the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element performs operations involving WPF and Windows Forms dimensions, two coordinate systems are involved: device-independent pixels for WPF and hardware pixels for Windows Forms. Therefore, you must apply proper unit and scaling conversions to achieve a consistent layout. 
+    </Paragraph>
+
+    <Paragraph>Conversion between the coordinate systems depends on the current device resolution and any layout or rendering transforms applied to the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element or to its ancestors. 
+    </Paragraph>
+
+    <Paragraph>If the output device is 96 dpi and no scaling has been applied to the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element, one device-independent pixel is equal to one hardware pixel.
+    </Paragraph>
+
+    <Paragraph>All other cases require coordinate system scaling. The hosted control is not resized. Instead, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element attempts to scale the hosted control and all of its child controls. Because Windows Forms does not fully support scaling, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element scales to the degree supported by particular controls.
+    </Paragraph>
+
+    <Paragraph>Override the ScaleChild method to provide custom scaling behavior for the hosted Windows Forms control. 
+    </Paragraph>
+
+    <Paragraph>In addition to scaling, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element handles rounding and overflow cases as described in the following table. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Conversion issue 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Rounding
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>WPF device-independent pixel dimensions are specified as <Run FontWeight="Bold">double</Run>
+, and Windows Forms hardware pixel dimensions are specified as <Run FontWeight="Bold">int</Run>
+. In cases where <Run FontWeight="Bold">double</Run>
+-based dimensions are converted to <Run FontWeight="Bold">int</Run>
+-based dimensions, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element uses standard rounding, so that fractional values less than 0.5 are rounded down to 0. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Overflow
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>When the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element converts from <Run FontWeight="Bold">double</Run>
+ values to <Run FontWeight="Bold">int</Run>
+ values, overflow is possible. Values that are larger than MaxValue are set to <Run FontWeight="Bold">MaxValue</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Layout-related Properties
+    </Paragraph>
+
+    <Paragraph>Properties that control layout behavior in Windows Forms controls and WPF elements are mapped appropriately by the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element. For more information, see <Hyperlink NavigateUri="999d8298-9c04-467d-a453-86e41002057d.xaml">Windows Forms and WPF Property Mapping</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Layout Changes in the Hosted Control
+    </Paragraph>
+
+    <Paragraph>Layout changes in the hosted Windows Forms control are propagated to WPF to trigger layout updates. The InvalidateMeasure method on <Run FontWeight="Bold">WindowsFormsHost</Run>
+ ensures that layout changes in the hosted control cause the WPF layout engine to run. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Continuously Sized Windows Forms Controls
+    </Paragraph>
+
+    <Paragraph>Windows Forms controls that support continuous scaling fully interact with the WPF layout system. The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element uses the MeasureOverride and ArrangeOverride methods as usual to size and arrange the hosted Windows Forms control.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Sizing Algorithm
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element uses the following procedure to size the hosted control:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element overrides the <Run FontWeight="Bold">MeasureOverride</Run>
+ and <Run FontWeight="Bold">ArrangeOverride</Run>
+ methods. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>To determine the size of the hosted control, the <Run FontWeight="Bold">MeasureOverride</Run>
+ method calls the hosted control's GetPreferredSize method with a constraint translated from the constraint passed to the <Run FontWeight="Bold">MeasureOverride</Run>
+ method. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">ArrangeOverride</Run>
+ method attempts to set the hosted control to the given size constraint. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the hosted control's Size property matches the specified constraint, the hosted control is sized to the constraint. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If the <Run FontWeight="Bold">Size</Run>
+ property does not match the specified constraint, the hosted control does not support continuous sizing. For example, the MonthCalendar control allows only discrete sizes. The permitted sizes for this control consist of integers (representing the number of months) for both height and width. In cases such as this, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element behaves as follows:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>If the <Run FontWeight="Bold">Size</Run>
+ property returns a larger size than the specified constraint, the <Run FontWeight="Bold">WindowsFormsHost</Run>
+ element clips the hosted control. Height and width are handled separately, so the hosted control may be clipped in either direction.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the <Run FontWeight="Bold">Size</Run>
+ property returns a smaller size than the specified constraint, <Run FontWeight="Bold">WindowsFormsHost</Run>
+ accepts this size value and returns the value to the WPF layout system. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a1db8049-15c7-45d6-ae3d-36a6735cb848.xaml">Walkthrough: Arranging Windows Forms Controls in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ElementHost
+      <LineBreak/>WindowsFormsHost
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="999d8298-9c04-467d-a453-86e41002057d.xaml">Windows Forms and WPF Property Mapping</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Arranging Windows Forms Controls Using WPF Layout Features Sample
+      <LineBreak/><Hyperlink NavigateUri="d655de05-bf63-4814-bc64-6b3be01c70a2.xaml">Migration and Interoperability</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Layout Considerations for the WindowsFormsHost Element to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

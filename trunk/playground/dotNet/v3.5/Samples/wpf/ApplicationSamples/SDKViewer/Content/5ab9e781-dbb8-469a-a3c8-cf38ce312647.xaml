@@ -1,0 +1,297 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5ab9e781_dbb8_469a_a3c8_cf38ce312647"
+  Tag     ="Set the Height Properties of an Element"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Set the Height Properties of an Element</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>This example visually shows the differences in rendering behavior among the four height-related properties in Windows Presentation Foundation (WPF). 
+    </Paragraph>
+
+    <Paragraph>The FrameworkElement class exposes four properties that describe the height characteristics of an element. These four properties can conflict, and when they do, the value that takes precedence is determined as follows: the MinHeight value takes precedence over the MaxHeight value, which in turn takes precedence over the Height value. The fourth property, ActualHeight, is read-only. 
+    </Paragraph>
+
+    <Paragraph>The following Extensible Application Markup Language (XAML) examples draw a Rectangle element (<Run>rect1</Run>
+) as a child of Canvas. You can change the height properties of a <Run FontWeight="Bold">Rectangle</Run>
+ by using a series of ListBoxes that represent the property values of MinHeight, MaxHeight, and Height. In this manner, the precedence of each property is visually displayed.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas Height="200" MinWidth="200" Background="#b0c4de" VerticalAlignment="Top" HorizontalAlignment="Center" Name="myCanvas" Margin="0,0,0,50"> 
+&lt;Rectangle HorizontalAlignment="Center" Canvas.Top="50" Canvas.Left="50" Name="rect1" Fill="#4682b4" Height="100" Width="100"/> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>...
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" TextWrapping="Wrap">Set the Rectangle Height:
+&lt;/TextBlock> 
+&lt;ListBox Grid.Column="1" Grid.Row="1" Margin="10,0,0,0" Height="50" Width="50" SelectionChanged="changeHeight"> 
+&lt;ListBoxItem>25
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>50
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>75
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>100
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>125
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>150
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>175
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>200
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;TextBlock Grid.Row="1" Grid.Column="2" Margin="10,0,0,0" TextWrapping="Wrap">Set the Rectangle MinHeight:
+&lt;/TextBlock> 
+&lt;ListBox Grid.Column="3" Grid.Row="1" Margin="10,0,0,0" Height="50" Width="50" SelectionChanged="changeMinHeight"> 
+&lt;ListBoxItem>25
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>50
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>75
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>100
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>125
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>150
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>175
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>200
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;TextBlock Grid.Row="1" Grid.Column="4" Margin="10,0,0,0" TextWrapping="Wrap">Set the Rectangle MaxHeight:
+&lt;/TextBlock> 
+&lt;ListBox Grid.Column="5" Grid.Row="1" Margin="10,0,0,0" Height="50" Width="50" SelectionChanged="changeMaxHeight"> 
+&lt;ListBoxItem>25
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>50
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>75
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>100
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>125
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>150
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>175
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>200
+&lt;/ListBoxItem> 
+&lt;/ListBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code-behind examples handle the events that the SelectionChanged event raises. Each custom method takes the input from the ListBox, parses the value as a Double, and applies the value to the specified height-related property. The height values are also converted to a string and written to a TextBlock element named <Run>txt1</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void changeHeight(object sender, SelectionChangedEventArgs args) { ListBoxItem li = ((sender as ListBox).SelectedItem as ListBoxItem); 
+Double sz1 = Double.Parse(li.Content.ToString()); 
+rect1.Height = sz1; 
+rect1.UpdateLayout(); 
+txt1.Text= "ActualHeight is set to " + rect1.ActualHeight; 
+txt2.Text= "Height is set to " + rect1.Height; 
+txt3.Text= "MinHeight is set to " + rect1.MinHeight; 
+txt4.Text= "MaxHeight is set to " + rect1.MaxHeight; 
+} public void changeMinHeight(object sender, SelectionChangedEventArgs args) { ListBoxItem li = ((sender as ListBox).SelectedItem as ListBoxItem); 
+Double sz1 = Double.Parse(li.Content.ToString()); 
+rect1.MinHeight = sz1; 
+rect1.UpdateLayout(); 
+txt1.Text= "ActualHeight is set to " + rect1.ActualHeight; 
+txt2.Text= "Height is set to " + rect1.Height; 
+txt3.Text= "MinHeight is set to " + rect1.MinHeight; 
+txt4.Text= "MaxHeight is set to " + rect1.MaxHeight; 
+} public void changeMaxHeight(object sender, SelectionChangedEventArgs args) { ListBoxItem li = ((sender as ListBox).SelectedItem as ListBoxItem); 
+Double sz1 = Double.Parse(li.Content.ToString()); 
+rect1.MaxHeight = sz1; 
+rect1.UpdateLayout(); 
+txt1.Text= "ActualHeight is set to " + rect1.ActualHeight; 
+txt2.Text= "Height is set to " + rect1.Height; 
+txt3.Text= "MinHeight is set to " + rect1.MinHeight; 
+txt4.Text= "MaxHeight is set to " + rect1.MaxHeight; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub changeHeight(ByVal sender As Object, ByVal args As SelectionChangedEventArgs) Dim li As ListBoxItem = CType(CType(sender, ListBox).SelectedItem, ListBoxItem) Dim sz1 As Double = Double.Parse(li.Content.ToString()) rect1.Height = sz1 rect1.UpdateLayout() txt1.Text = "ActualHeight is set to " + rect1.ActualHeight.ToString txt2.Text = "Height is set to " + rect1.Height.ToString txt3.Text = "MinHeight is set to " + rect1.MinHeight.ToString txt4.Text = "MaxHeight is set to " + rect1.MaxHeight.ToString End Sub Public Sub changeMinHeight(ByVal sender As Object, ByVal args As SelectionChangedEventArgs) Dim li As ListBoxItem = CType(CType(sender, ListBox).SelectedItem, ListBoxItem) Dim sz1 As Double = Double.Parse(li.Content.ToString()) rect1.MinHeight = sz1 rect1.UpdateLayout() txt1.Text = "ActualHeight is set to " + rect1.ActualHeight.ToString txt2.Text = "Height is set to " + rect1.Height.ToString txt3.Text = "MinHeight is set to " + rect1.MinHeight.ToString txt4.Text = "MaxHeight is set to " + rect1.MaxHeight.ToString End Sub Public Sub changeMaxHeight(ByVal sender As Object, ByVal args As SelectionChangedEventArgs) Dim li As ListBoxItem = CType(CType(sender, ListBox).SelectedItem, ListBoxItem) Dim sz1 As Double = Double.Parse(li.Content.ToString()) rect1.MaxHeight = sz1 rect1.UpdateLayout() txt1.Text = "ActualHeight is set to " + rect1.ActualHeight.ToString txt2.Text = "Height is set to " + rect1.Height.ToString txt3.Text = "MinHeight is set to " + rect1.MinHeight.ToString txt4.Text = "MaxHeight is set to " + rect1.MaxHeight.ToString End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Height Properties Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6ee04a9d-63f0-4f5b-a406-0a8cd4c35729.xaml">How to: Set the Width Properties of an Element</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ActualHeight
+      <LineBreak/>MaxHeight
+      <LineBreak/>MinHeight
+      <LineBreak/>Height
+      <LineBreak/>FrameworkElement
+      <LineBreak/>ListBox
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Height Properties Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Set the Height Properties of an Element to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

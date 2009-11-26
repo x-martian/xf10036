@@ -1,0 +1,269 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0fc04394_4e47_49ca_b0cf_8cd1161d95b9"
+  Tag     ="WPF Security Strategy - Security Engineering"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Presentation Foundation Security Strategy - Security Engineering</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Trustworthy Computing is a Microsoft initiative for ensuring the production of secure code. A key element of the Trustworthy Computing initiative is the Microsoft Security Development Lifecycle (SDL). The SDL is an engineering practice that is used in conjunction with standard engineering processes to facilitate the delivery of secure code. The SDL consists of ten phases that combine best practices with formalization, measurability, and additional structure that includes:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Security design analysis
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Tool-based quality checks
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Penetration testing
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Final security review
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Post release product security management
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">WPF Specifics
+    </Paragraph>
+
+    <Paragraph>The WPF engineering team both applies and extends the SDL, the combination of which includes the following key aspects:
+    </Paragraph>
+
+    <Paragraph><Hyperlink TargetName="thread_modeling">Threat Modeling</Hyperlink>
+
+    </Paragraph>
+
+    <Paragraph><Hyperlink TargetName="tools">Security Analysis and Editing Tools</Hyperlink>
+
+    </Paragraph>
+
+    <Paragraph><Hyperlink TargetName="techniques">Testing Techniques</Hyperlink>
+
+    </Paragraph>
+
+    <Paragraph><Hyperlink TargetName="critical_code">Critical Code Management</Hyperlink>
+
+    </Paragraph>
+
+    <Paragraph FontSize="18">Threat Modeling
+    </Paragraph>
+
+    <Paragraph>Threat modeling is a core component of the SDL, and is used to profile a system to determine potential security vulnerabilities. Once the vulnerabilities are identified, threat modeling also ensures that appropriate mitigations are in place.
+    </Paragraph>
+
+    <Paragraph>At a high level, threat modeling involves the following key steps by using a grocery store as an example:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Identifying Assets</Run>
+. A grocery store's assets might include employees, a safe, cash registers, and inventory.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Enumerating Entry Points</Run>
+. A grocery store's entry points might include the front and back doors, windows, the loading dock, and air conditioning units.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Investigating Attacks against Assets using Entry Points</Run>
+. One possible attack could target a grocery store's <Run FontStyle="italic">safe</Run>
+ asset through the <Run FontStyle="italic">air conditioning</Run>
+ entry point; 
+the air conditioning unit could be unscrewed to allow the safe to be pulled up through it and out of the store.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Threat modeling is applied throughout WPF and includes the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>How the XAML parser reads files, maps text to corresponding object model classes, and creates the actual code. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>How a window handle (hWnd) is created, sends messages, and is used for rendering the contents of a window.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>How data binding obtains resources and interacts with the system.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>These threat models are important for identifying security design requirements and threat mitigations during the development process.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Source Analysis and Editing Tools
+    </Paragraph>
+
+    <Paragraph>In addition to the manual security code review elements of the SDL, the WPF team uses several tools for source analysis and associated edits to decrease security vulnerabilities. A wide range of source tools are used, and include the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">FXCop</Run>
+: Finds common security issues in managed code ranging from inheritance rules to code access security usage to how to safely interoperate with unmanaged code. See <Hyperlink NavigateUri="http://www.gotdotnet.com/team/fxcop/">FXCop</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Prefix/Prefast</Run>
+: Finds security vulnerabilities and common security issues in unmanaged code such as buffer overruns, format string issues, and error checking.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Banned APIs</Run>
+: Searches source code to identify accidental usage of functions that are well-known for causing security issues, such as <Run>strcpy</Run>
+. Once identified, these functions are replaced with alternatives that are more security.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Testing Techniques
+    </Paragraph>
+
+    <Paragraph>WPF uses a variety of security testing techniques that include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Whitebox Testing</Run>
+: Testers view source code, and then build exploit tests 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Blackbox Testing</Run>
+: Testers try to find security exploits by examining the API and features, and then try to attack the product.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Regressing Security Issues from other Products</Run>
+: Where relevant, security issues from related products are tested. For example, appropriate variants of approximately sixty security issues for Internet Explorer have been identified and tried for their applicability to WPF.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Tools-Based Penetration Testing through File Fuzzing</Run>
+: File fuzzing is the exploitation of a file reader's input range through a variety of inputs. One example in WPF where this technique is used is to check for failure in image decoding code.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Critical Code Management
+    </Paragraph>
+
+    <Paragraph>For XAML browser applications (XBAPs), WPF builds a security sandbox by using Microsoft .NET Framework version 3.0 support for marking and tracking security-critical code that elevates privileges (see <Run FontWeight="Bold">Security-Critical Methodology</Run>
+ in <Hyperlink NavigateUri="2a39a054-3e2a-4659-bcb7-8bcea490ba31.xaml">Windows Presentation Foundation Security Strategy - Platform Security</Hyperlink>
+). Given the high security quality requirements on security critical code, such code receives an additional level of source management control and security audit. Approximately 5% to 10% of WPF consists of security-critical code, which is reviewed by a dedicated reviewing team. The source code and check-in process is managed by tracking security critical code and mapping each critical entity (ie a method that contains critical code) to its sign off state. The sign off state includes the names of one or more reviewers. Each daily build of WPF compares the critical code to that in previous builds to check for unapproved changes. If an engineer modifies critical code without approval from the reviewing team, it is identified and fixed immediately. This process enables the application and maintenance of an especially high level of scrutiny over WPF sandbox code.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ee1baea0-3611-4e36-9ad6-fcd5205376fb.xaml">Windows Presentation Foundation Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ef2c0810-1dbf-4511-babd-1fab95b523b5.xaml">Windows Presentation Foundation Partial Trust Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="2a39a054-3e2a-4659-bcb7-8bcea490ba31.xaml">Windows Presentation Foundation Security Strategy - Platform Security</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="http://www.microsoft.com/mscorp/twc/default.mspx">Trustworthy Computing</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://msdn.microsoft.com/security/securecode/threatmodeling/acetm/">Application Threat Modeling</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnpag2/html/PAGGuidelines0003.asp">Security Guidelines: .NET Framework 2.0</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Security Strategy - Security Engineering to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

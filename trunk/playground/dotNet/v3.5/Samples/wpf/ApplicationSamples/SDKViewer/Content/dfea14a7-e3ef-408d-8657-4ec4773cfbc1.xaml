@@ -1,0 +1,206 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_dfea14a7_e3ef_408d_8657_4ec4773cfbc1"
+  Tag     ="Create a Text Effect"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Create a Text Effect</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A TextEffect object is a helper object that allows you to treat text as one or more groups of characters in a text string. The following example taken from the TextEffectSample shows an individual character being rotated. Each character is rotated independently at 1-second intervals.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of a rotating text effect animation</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In the following code example, a <Run FontWeight="Bold">TextEffect</Run>
+ is defined for a TextBlock object. In this case, the desired animation effect is a RotateTransform that will be applied to each character in the Text property.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock.TextEffects> 
+&lt;!-- The TextEffect to animate. --> 
+&lt;TextEffect PositionCount="1" x:Name="MyTextEffect"> 
+&lt;TextEffect.Transform> 
+&lt;RotateTransform x:Name="TextEffectRotateTransform" Angle="0" CenterX="10" CenterY="10" /> 
+&lt;/TextEffect.Transform> 
+&lt;/TextEffect> 
+&lt;/TextBlock.TextEffects> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>If you want to rotate the entire text string as a single unit, apply the <Run FontWeight="Bold">RotateTransform</Run>
+ to the RenderTransform property for the <Run FontWeight="Bold">TextBlock</Run>
+. For more information, see <Hyperlink NavigateUri="eec3d26c-0a21-420f-8012-671621c47089.xaml">How to: Apply Animations to Text</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code example shows the animations that are defined for the Angle and CenterX properties. The animation sequence is controlled by defining an Int32AnimationUsingKeyFrames object and referencing the <Run FontWeight="Bold">TextEffect</Run>
+ by setting TargetName TargetProperty. The PositionStart property changes from 0 to 12 during the animation sequence, corresponding to the 13-character text string.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock.Triggers> 
+&lt;EventTrigger RoutedEvent="TextBlock.Loaded"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;ParallelTimeline RepeatBehavior="Forever"> 
+&lt;!-- Animates the angle of the RotateTransform applied to the TextEffect. --> 
+&lt;DoubleAnimation Storyboard.TargetName="TextEffectRotateTransform" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="00:00:0.75" BeginTime="0:0:0.25" /> 
+&lt;/ParallelTimeline> 
+&lt;!-- Animates the horizontal center of the RotateTransform applied to the TextEffect. --> 
+&lt;DoubleAnimation From="30" To="370" Duration="00:00:13" RepeatBehavior="Forever" AutoReverse="True" Storyboard.TargetName="TextEffectRotateTransform" Storyboard.TargetProperty="CenterX" /> 
+&lt;!-- Animates the position of the TextEffect. --> 
+&lt;Int32AnimationUsingKeyFrames Storyboard.TargetName="MyTextEffect" Storyboard.TargetProperty="PositionStart" Duration="0:0:13" AutoReverse="True" RepeatBehavior="Forever"> 
+&lt;Int32AnimationUsingKeyFrames.KeyFrames> 
+&lt;DiscreteInt32KeyFrame Value="0" KeyTime="0:0:0" /> 
+&lt;DiscreteInt32KeyFrame Value="1" KeyTime="0:0:1" /> 
+&lt;DiscreteInt32KeyFrame Value="2" KeyTime="0:0:2" /> 
+&lt;DiscreteInt32KeyFrame Value="3" KeyTime="0:0:3" /> 
+&lt;DiscreteInt32KeyFrame Value="4" KeyTime="0:0:4" /> 
+&lt;DiscreteInt32KeyFrame Value="5" KeyTime="0:0:5" /> 
+&lt;DiscreteInt32KeyFrame Value="6" KeyTime="0:0:6" /> 
+&lt;DiscreteInt32KeyFrame Value="7" KeyTime="0:0:7" /> 
+&lt;DiscreteInt32KeyFrame Value="8" KeyTime="0:0:8" /> 
+&lt;DiscreteInt32KeyFrame Value="9" KeyTime="0:0:9" /> 
+&lt;DiscreteInt32KeyFrame Value="10" KeyTime="0:0:10" /> 
+&lt;DiscreteInt32KeyFrame Value="11" KeyTime="0:0:11" /> 
+&lt;DiscreteInt32KeyFrame Value="12" KeyTime="0:0:12" /> 
+&lt;/Int32AnimationUsingKeyFrames.KeyFrames> 
+&lt;/Int32AnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;/TextBlock.Triggers> 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="eec3d26c-0a21-420f-8012-671621c47089.xaml">How to: Apply Animations to Text</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>TextEffectSample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Text Effect to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

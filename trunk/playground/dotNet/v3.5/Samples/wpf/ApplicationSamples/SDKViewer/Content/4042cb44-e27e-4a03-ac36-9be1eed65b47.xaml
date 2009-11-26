@@ -1,0 +1,148 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_4042cb44_e27e_4a03_ac36_9be1eed65b47"
+  Tag     ="Move a UI Automation Element"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Move a UI Automation Element</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example demonstrates how to move a Microsoft UI Automation element to a specified screen location.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses the WindowPattern and TransformPattern <Run>control patterns</Run>
+ to programmatically move a Win32 window to discrete screen locations and track the BoundingRectangleProperty AutomationPropertyChangedEvent.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Handles the 'Move' button invoked event. /// By default, the Move method does not allow an object /// to be moved completely off-screen. /// 
+&lt;/summary> /// 
+&lt;param name="src">The object that raised the event.
+&lt;/param> /// 
+&lt;param name="e">Event arguments.
+&lt;/param> private void btnMove_Click(object src, RoutedEventArgs e) { try { // If coordinate left blank, substitute 0 if (xCoordinate.Text == "") xCoordinate.Text = "0"; 
+if (yCoordinate.Text == "") yCoordinate.Text = "0"; 
+// Reset background colours xCoordinate.Background = System.Windows.Media.Brushes.White; 
+yCoordinate.Background = System.Windows.Media.Brushes.White; 
+if (windowPattern.Current.WindowVisualState == WindowVisualState.Minimized) windowPattern.SetWindowVisualState(WindowVisualState.Normal); 
+double X = double.Parse(xCoordinate.Text); 
+double Y = double.Parse(yCoordinate.Text); 
+// Should validate the requested screen location if ((X 
+&lt; 
+0) || (X >= (SystemParameters.WorkArea.Width - targetWindow.Current.BoundingRectangle.Width))) { Feedback("X-coordinate would place the window all or partially off-screen."); 
+xCoordinate.Background = System.Windows.Media.Brushes.Yellow; 
+} if ((Y 
+&lt; 
+0) || (Y >= (SystemParameters.WorkArea.Height - targetWindow.Current.BoundingRectangle.Height))) { Feedback("Y-coordinate would place the window all or partially off-screen."); 
+yCoordinate.Background = System.Windows.Media.Brushes.Yellow; 
+} transformPattern.Move(X, Y); 
+} catch (ElementNotAvailableException) { Feedback("Client window no longer available."); 
+return; 
+} catch (InvalidOperationException) { Feedback("Client window cannot be moved."); 
+return; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>'' 
+&lt;summary> '' Handles the 'Move' button invoked event. '' By default, the Move method does not allow an object '' to be moved completely off-screen. '' 
+&lt;/summary> '' 
+&lt;param name="src">The object that raised the event.
+&lt;/param> '' 
+&lt;param name="e">Event arguments.
+&lt;/param> Private Sub btnMove_Click( _ ByVal sender As Object, ByVal e As RoutedEventArgs) Try ' If coordinate left blank, substitute 0 If (xCoordinate.Text = "") Then xCoordinate.Text = "0" If (yCoordinate.Text = "") Then yCoordinate.Text = "0" ' Reset background colours xCoordinate.Background = System.Windows.Media.Brushes.White yCoordinate.Background = System.Windows.Media.Brushes.White If (windowPattern.Current.WindowVisualState = WindowVisualState.Minimized) Then windowPattern.SetWindowVisualState(WindowVisualState.Normal) End If Dim X As Double = Double.Parse(xCoordinate.Text) Dim Y As Double = Double.Parse(yCoordinate.Text) ' Should validate the requested screen location. If (X >= (SystemParameters.WorkArea.Width - targetWindow.Current.BoundingRectangle.Width)) Then Feedback("X-coordinate would place the window all or partially off-screen.") xCoordinate.Background = System.Windows.Media.Brushes.Yellow End If If (Y >= (SystemParameters.WorkArea.Height - targetWindow.Current.BoundingRectangle.Height)) Then Feedback("Y-coordinate would place the window all or partially off-screen.") yCoordinate.Background = System.Windows.Media.Brushes.Yellow End If transformPattern.Move(X, Y) Catch exc As ElementNotAvailableException Feedback("Client window no longer available.") Catch exc As InvalidOperationException Feedback("Client window cannot be moved.") Return Catch exc As Exception Feedback(exc.ToString()) End Try End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Top-Level Window Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Move a UI Automation Element to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

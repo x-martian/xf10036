@@ -1,0 +1,1198 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_fd850e25_7dba_408c_b521_8873e51dc968"
+  Tag     ="Bidirectional Features in WPF Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Bidirectional Features in WPF Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Unlike any other development platform, WPF has many features that support rapid development of bidirectional content, for example, mixed left to right and right to left data in the same document. At the same time, WPF creates an excellent experience for users who require bidirectional features such as Arabic and Hebrew speaking users.
+    </Paragraph>
+
+    <Paragraph>The following sections explain many bidirectional features together with examples illustrating how to achieve the best display of bidirectional content. Most of the samples use XAML, though you can easily apply the concepts to C# or Microsoft Visual Basic code.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="FlowDirection">FlowDirection</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="FlowDocument">FlowDocument</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="SpanElements">Span Elements</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="FlowDirectionNontext">FlowDirection with Non-text Elements</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="NumberSubstitution">Number Substitution</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">FlowDirection
+    </Paragraph>
+
+    <Paragraph>The basic property that defines the content flow direction in a WPF application is FlowDirection. This property can be set to one of two enumeration values, LeftToRight or RightToLeft. The property is available to all WPF elements that inherit from FrameworkElement. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>All the graphics in this topic show the code and how it renders in the XAMLPad tool. Also in most cases a sample is provided that you can download.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following examples set the flow direction of a TextBox element.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Left-to-right flow direction</Run>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Background="DarkBlue" Foreground="LightBlue" FontSize="20" FlowDirection="LeftToRight"> This is a left-to-right TextBlock 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Right-to-left flow direction</Run>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Background="LightBlue" Foreground="DarkBlue" FontSize="20" FlowDirection="RightToLeft"> This is a right-to-left TextBlock 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete sample see LeftToRight and RightToLeft Sample.
+    </Paragraph>
+
+    <Paragraph>The following graphic shows how the previous code renders.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Illustrates FlowDirection</Run>
+
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph>An element within a user interface (UI) tree will inherit the <Run FontWeight="Bold">FlowDirection</Run>
+ from its container. In the following example, the TextBlock is inside a Grid, which resides in a Window. Setting the <Run FontWeight="Bold">FlowDirection</Run>
+ for the <Run FontWeight="Bold">Window</Run>
+ implies setting it for the <Run FontWeight="Bold">Grid</Run>
+ and <Run FontWeight="Bold">TextBlock</Run>
+ as well.
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates setting <Run FontWeight="Bold">FlowDirection</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="FlowDirectionApp.Window1" Title="BidiFeatures" Height="200" Width="700" FlowDirection="RightToLeft"> 
+&lt;Grid> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;TextBlock Grid.Column="0" > This is a right-to-left TextBlock 
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" FlowDirection="LeftToRight"> This is a left-to-right TextBlock 
+&lt;/TextBlock> 
+&lt;/Grid> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The top level <Run FontWeight="Bold">Window</Run>
+ has a <Run FontWeight="Bold">RightToLeft</Run>
+ FlowDirection, so all elements contained within it also inherit the same <Run FontWeight="Bold">FlowDirection</Run>
+. For an element to override a specified <Run FontWeight="Bold">FlowDirection</Run>
+ it must add an explicit direction change such as the second <Run FontWeight="Bold">TextBlock</Run>
+ in the previous example which changes to <Run FontWeight="Bold">LeftToRight</Run>
+. When no <Run FontWeight="Bold">FlowDirection</Run>
+ is defined, the default <Run FontWeight="Bold">LeftToRight</Run>
+ applies.
+    </Paragraph>
+
+    <Paragraph>For a complete sample see FlowDirection Sample.
+    </Paragraph>
+
+    <Paragraph>The following graphic shows the output of the previous example.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Illustrates Explicitly Assigned FlowDirection</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="22">FlowDocument
+    </Paragraph>
+
+    <Paragraph>Many development platforms such as HTML, Win32 and Java™ provide special support for bidirectional content development. Markup languages such as HTML give content writers the necessary markup to display text in any required direction, for example the HTML 4.0 tag, “dir” that takes “rtl” or “ltr” as values. This tag is similar to the <Run FontWeight="Bold">FlowDirection</Run>
+ property, but the <Run FontWeight="Bold">FlowDirection</Run>
+ property works in a more advanced way to layout textual content and can be used for content other than text. 
+    </Paragraph>
+
+    <Paragraph>In WPF, a FlowDocument is a versatile UI element that can host a combination of text, tables, images and other elements. The samples in the following sections use this element. 
+    </Paragraph>
+
+    <Paragraph>Adding text to a <Run FontWeight="Bold">FlowDocument</Run>
+ can be done in more that one way. A simple way to do so is through a Paragraph which is a block-level element used to group content such as text. To add text to inline-level elements the samples use Span and Run. <Run FontWeight="Bold">Span</Run>
+ is an inline-level flow content element used for grouping other inline elements, while a <Run FontWeight="Bold">Run</Run>
+ is an inline-level flow content element intended to contain a run of unformatted text. A <Run FontWeight="Bold">Span</Run>
+ can contain multiple <Run FontWeight="Bold">Run</Run>
+ elements.
+    </Paragraph>
+
+    <Paragraph>The first document example contains a document that has a number of network share names; 
+for example <Hyperlink NavigateUri="file:///\\server1\folder\file.ext">\\server1\folder\file.ext</Hyperlink>
+. Whether you have this network link in an Arabic or English document, you always want it to appear in the same way. The following graphic shows the link in an Arabic <Run FontWeight="Bold">RightToLeft</Run>
+ document.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Illustrates Using the Span Element</Run>
+
+    </Paragraph>
+
+    <Paragraph>Because the text is <Run FontWeight="Bold">RightToLeft</Run>
+, all special characters, such as the “\”, separate the text in a right to left order. That results in the link not being shown in the correct order, therefore to solve the problem, the text must be embedded to preserve a separate <Run FontWeight="Bold">Run</Run>
+ flowing <Run FontWeight="Bold">LeftToRight</Run>
+. Instead of having a separate <Run FontWeight="Bold">Run</Run>
+ for each language, a better way to solve the problem is to embed the less frequently used English text into a larger Arabic <Run FontWeight="Bold">Span</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following graphic illustrates this.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Illustrates Using the Run Element Embedded in a Span Element</Run>
+
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The following example demonstrates using <Run FontWeight="Bold">Run</Run>
+ and <Run FontWeight="Bold">Span</Run>
+ elements in documents.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_fd850e25_7dba_408c_b521_8873e51dc968_3">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft"> 
+&lt;FlowDocument> 
+&lt;Paragraph> 
+&lt;Span FlowDirection="RightToLeft" > ستجد الملف هنا: 
+&lt;Run FlowDirection="LeftToRight"> \\server1\filename\filename1.txt
+&lt;/Run> ثم باقى النص! 
+&lt;/Span> 
+&lt;/Paragraph> 
+&lt;/FlowDocument> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete sample see RunSpan Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Span Elements
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Span</Run>
+ element works as a boundary separator between texts with different flow directions. Even <Run FontWeight="Bold">Span</Run>
+ elements with the same flow direction are considered to have different bidirectional scopes which means that the <Run FontWeight="Bold">Span</Run>
+ elements are ordered in the container’s <Run FontWeight="Bold">FlowDirection</Run>
+, only the content within the <Run FontWeight="Bold">Span</Run>
+ element follows the <Run FontWeight="Bold">FlowDirection</Run>
+ of the <Run FontWeight="Bold">Span</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following graphic shows the flow direction of several <Run FontWeight="Bold">TextBlock</Run>
+ elements.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Illustrates FlowDirection in Several TextBlock Elements</Run>
+
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The following example shows how to use the <Run FontWeight="Bold">Span</Run>
+ and <Run FontWeight="Bold">Run</Run>
+ elements to produce the results shown in the previous graphic.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_fd850e25_7dba_408c_b521_8873e51dc968_4">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"> 
+&lt;StackPanel > 
+&lt;TextBlock FontSize="20" FlowDirection="RightToLeft"> 
+&lt;Run FlowDirection="LeftToRight">العالم
+&lt;/Run> 
+&lt;Run FlowDirection="LeftToRight" Foreground="Red" >فى سلام
+&lt;/Run> 
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="20" FlowDirection="LeftToRight"> 
+&lt;Run FlowDirection="RightToLeft">العالم
+&lt;/Run> 
+&lt;Run FlowDirection="RightToLeft" Foreground="Red" >فى سلام
+&lt;/Run> 
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="20" Foreground="Blue">العالم فى سلام
+&lt;/TextBlock> 
+&lt;Separator/> 
+&lt;TextBlock FontSize="20" FlowDirection="RightToLeft"> 
+&lt;Span Foreground="Red" FlowDirection="LeftToRight">Hello
+&lt;/Span> 
+&lt;Span FlowDirection="LeftToRight">World
+&lt;/Span> 
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="20" FlowDirection="LeftToRight"> 
+&lt;Span Foreground="Red" FlowDirection="RightToLeft">Hello
+&lt;/Span> 
+&lt;Span FlowDirection="RightToLeft">World
+&lt;/Span> 
+&lt;/TextBlock> 
+&lt;TextBlock FontSize="20" Foreground="Blue">Hello World
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete code sample see Span Sample.
+    </Paragraph>
+
+    <Paragraph>In the <Run FontWeight="Bold">TextBlock</Run>
+ elements in the sample, the <Run FontWeight="Bold">Span</Run>
+ elements are laid out according to the <Run FontWeight="Bold">FlowDirection</Run>
+ of their parents, but the text within each <Run FontWeight="Bold">Span</Run>
+ element flows according to its own <Run FontWeight="Bold">FlowDirection</Run>
+. This is applicable to Latin and Arabic – or any other language.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Adding xml:lang
+    </Paragraph>
+
+    <Paragraph>The following graphic shows another example that uses numbers and arithmetic expressions, such as “200.0+21.4=221.4”. Notice that only the <Run FontWeight="Bold">FlowDirection</Run>
+ is set.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Displays Numbers Using Only FlowDirection</Run>
+
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>Users of this application will be disappointed by the output, even though the <Run FontWeight="Bold">FlowDirection</Run>
+ is correct the numbers are not shaped as Arabic numbers should be shaped. 
+    </Paragraph>
+
+    <Paragraph>XAML elements inherit an XML property called <Hyperlink NavigateUri="7aac0078-a1c5-41f8-b8b0-975510d9dca0.xaml">xml:lang Attribute</Hyperlink>
+ (Language its alias) that defines the language of each element. In the previous example, because a language was not defined for the <Run FontWeight="Bold">Run</Run>
+ element or any of its top level elements, the default Language was used, which is en-US. The internal number shaping algorithm of Windows Presentation Foundation (WPF) selects numbers in the corresponding Language – in this case English. To make the Arabic numbers render correctly <Hyperlink NavigateUri="7aac0078-a1c5-41f8-b8b0-975510d9dca0.xaml">xml:lang Attribute</Hyperlink>
+ (Language) needs to be set.
+    </Paragraph>
+
+    <Paragraph>The following graphic shows the example with a Language property added.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Illustrates Using the xml:lang Attribute</Run>
+
+    </Paragraph>
+
+    <Paragraph>The following example adds <Hyperlink NavigateUri="7aac0078-a1c5-41f8-b8b0-975510d9dca0.xaml">xml:lang Attribute</Hyperlink>
+ (Language) to the application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_fd850e25_7dba_408c_b521_8873e51dc968_5">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft"> 
+&lt;FlowDocument> 
+&lt;Paragraph> 
+&lt;Span FlowDirection="RightToLeft" Language="ar-SA"> العملية الحسابية: "200.0+21.4=221.4" 
+&lt;/Span> 
+&lt;/Paragraph> 
+&lt;/FlowDocument> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete sample see LanguageAttribute Sample. 
+    </Paragraph>
+
+    <Paragraph>Be aware that many languages have different Language values depending on the trageted region, for example, “ar-SA” and “ar-EG” represent two variations of Arabic. The previous examples illustrate that you need to define both the Language (xml:lang) and <Run FontWeight="Bold">FlowDirection</Run>
+ properties.
+    </Paragraph>
+
+    <Paragraph FontSize="22">FlowDirection with Non-text Elements
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">FlowDirection</Run>
+ defines not only how text flows in a textual element but also the flow direction of almost every other UI element. The following graphic shows a ToolBar that uses a horizontal LinearGradientBrush to draw its background.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Shows a ToolBar with a Left to Right Gradient</Run>
+
+    </Paragraph>
+
+    <Paragraph>After setting the <Run FontWeight="Bold">FlowDirection</Run>
+ to <Run FontWeight="Bold">RightToLeft</Run>
+, not only the <Run FontWeight="Bold">ToolBar</Run>
+ buttons are arranged from right to left, but even the <Run FontWeight="Bold">LinearGradientBrush</Run>
+ realigns its offsets to flow from right to left.
+    </Paragraph>
+
+    <Paragraph>The following graphic shows the realignment of the <Run FontWeight="Bold">LinearGradientBrush</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Shows a ToolBar with a Right to Left Gradient</Run>
+
+    </Paragraph>
+
+    <Paragraph>The following example draws a <Run FontWeight="Bold">RightToLeft</Run>
+<Run FontWeight="Bold">ToolBar</Run>
+. (To draw it left to right, remove the <Run FontWeight="Bold">FlowDirection</Run>
+ attribute on the <Run FontWeight="Bold">ToolBar</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_fd850e25_7dba_408c_b521_8873e51dc968_6">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;ToolBar FlowDirection="RightToLeft" Height="50" DockPanel.Dock="Top"> 
+&lt;ToolBar.Background> 
+&lt;LinearGradientBrush StartPoint="0,0.5" EndPoint="1,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="DarkRed" Offset="0" /> 
+&lt;GradientStop Color="DarkBlue" Offset="0.3" /> 
+&lt;GradientStop Color="LightBlue" Offset="0.6" /> 
+&lt;GradientStop Color="White" Offset="1" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/ToolBar.Background> 
+&lt;Button FontSize="12" Foreground="White">Button1
+&lt;/Button> 
+&lt;Rectangle Width="20"/> 
+&lt;Button FontSize="12" Foreground="White">Button2
+&lt;/Button> 
+&lt;Rectangle Width="20"/> 
+&lt;Button FontSize="12" Foreground="White">Button3
+&lt;/Button> 
+&lt;Rectangle Width="20"/> 
+&lt;Button FontSize="12" Foreground="White">Button4
+&lt;/Button> 
+&lt;Rectangle Width="20"/> 
+&lt;/ToolBar> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete sample see Gradient Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="18">FlowDirection Exceptions
+    </Paragraph>
+
+    <Paragraph>There are a few cases where <Run FontWeight="Bold">FlowDirection</Run>
+ does not behave as expected. This section covers two of these exceptions.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Image</Run>
+
+    </Paragraph>
+
+    <Paragraph>An Image represents a control that displays an image. In XAML it can be used with a Source property that defines the uniform resource identifier (URI) of the <Run FontWeight="Bold">Image</Run>
+ to display. 
+    </Paragraph>
+
+    <Paragraph>Unlike other UI elements, an <Run FontWeight="Bold">Image</Run>
+ does not inherit the <Run FontWeight="Bold">FlowDirection</Run>
+ from the container. However, if the <Run FontWeight="Bold">FlowDirection</Run>
+ is set explicitly to <Run FontWeight="Bold">RightToLeft</Run>
+, an <Run FontWeight="Bold">Image</Run>
+ is displayed flipped horizontally. This is implemented as a convenient feature for developers of bidirectional content; 
+because in some cases, horizontally flipping the image produces the desired effect.
+    </Paragraph>
+
+    <Paragraph>The following graphic shows a flipped <Run FontWeight="Bold">Image</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Illustrates a Flipped Image</Run>
+
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>The following example demonstrates that the <Run FontWeight="Bold">Image</Run>
+ fails to inherit the <Run FontWeight="Bold">FlowDirection</Run>
+ from the StackPanel that contains it. <Run FontWeight="Bold">Note</Run>
+   You must have a file named <Run FontWeight="Bold">ms_logo.jpg</Run>
+ on your C:\ drive to run this example. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_fd850e25_7dba_408c_b521_8873e51dc968_7">
+                <cc:SnippetViewer.SnippetText>
+&lt;StackPanel xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' FlowDirection="RightToLeft"> 
+&lt;Image Source="file://c:/ms_logo.jpg" Width="147" Height="50"/> 
+&lt;Separator Height="10"/> 
+&lt;Image Source="file://c:/ms_logo.jpg" Width="147" Height="50" FlowDirection="LeftToRight" /> 
+&lt;Separator Height="10"/> 
+&lt;Image Source="file://c:/ms_logo.jpg" Width="147" Height="50" FlowDirection="RightToLeft"/> 
+&lt;/StackPanel> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete example see Image Sample. <Run FontWeight="Bold">Note</Run>
+   Included in the download files is an <Run FontWeight="Bold">ms_logo.jpg</Run>
+ file. The code assumes that the .jpg file is not inside your project but somewhere on the C:\ drive. You must copy the .jpg from the project files to your C:\ drive or change the code to look for the file inside the project. To do this change <Run>Source="</Run>
+<Run>file://c:/ms_logo.jpg</Run>
+<Run>"</Run>
+ to <Run>Source="ms_logo.jpg"</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Paths</Run>
+
+    </Paragraph>
+
+    <Paragraph>In addition to an <Run FontWeight="Bold">Image</Run>
+, another interesting element is Path. A Path is an object that can draw a series of connected lines and curves. It behaves in a manner similar to an <Run FontWeight="Bold">Image</Run>
+ regarding its <Run FontWeight="Bold">FlowDirection</Run>
+; 
+for example its <Run FontWeight="Bold">RightToLeft</Run>
+<Run FontWeight="Bold">FlowDirection</Run>
+ is a horizontal mirror of its <Run FontWeight="Bold">LeftToRight</Run>
+ one. However, unlike an <Run FontWeight="Bold">Image</Run>
+, <Run FontWeight="Bold">Path</Run>
+ inherits its <Run FontWeight="Bold">FlowDirection</Run>
+ from the container and one does not need to specify it explicitly.
+    </Paragraph>
+
+    <Paragraph>The following example draws a simple arrow using 3 lines. The first arrow inherits the <Run FontWeight="Bold">RightToLeft</Run>
+ flow direction from the <Run FontWeight="Bold">StackPanel</Run>
+ so that its start and end points are measured from a root on the right side. The second arrow which has an explicit <Run FontWeight="Bold">RightToLeft</Run>
+<Run FontWeight="Bold">FlowDirection</Run>
+ also starts on the right side. However, the third arrow has its starting root on the left side. For more information on drawing see LineGeometry and GeometryGroup.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_fd850e25_7dba_408c_b521_8873e51dc968_8">
+                <cc:SnippetViewer.SnippetText>
+&lt;StackPanel xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' FlowDirection="RightToLeft"> 
+&lt;Path Stroke="Blue" StrokeThickness="4"> 
+&lt;Path.Data> 
+&lt;GeometryGroup > 
+&lt;LineGeometry StartPoint="300,10" EndPoint="350,30" /> 
+&lt;LineGeometry StartPoint="10,30" EndPoint="352,30" /> 
+&lt;LineGeometry StartPoint="300,50" EndPoint="350,30" /> 
+&lt;/GeometryGroup> 
+&lt;/Path.Data> 
+&lt;/Path> 
+&lt;Path Stroke="Red" StrokeThickness="4" FlowDirection="RightToLeft"> 
+&lt;Path.Data> 
+&lt;GeometryGroup > 
+&lt;LineGeometry StartPoint="300,10" EndPoint="350,30" /> 
+&lt;LineGeometry StartPoint="10,30" EndPoint="352,30" /> 
+&lt;LineGeometry StartPoint="300,50" EndPoint="350,30" /> 
+&lt;/GeometryGroup> 
+&lt;/Path.Data> 
+&lt;/Path> 
+&lt;Path Stroke="Green" StrokeThickness="4" FlowDirection="LeftToRight"> 
+&lt;Path.Data> 
+&lt;GeometryGroup > 
+&lt;LineGeometry StartPoint="300,10" EndPoint="350,30" /> 
+&lt;LineGeometry StartPoint="10,30" EndPoint="352,30" /> 
+&lt;LineGeometry StartPoint="300,50" EndPoint="350,30" /> 
+&lt;/GeometryGroup> 
+&lt;/Path.Data> 
+&lt;/Path> 
+&lt;/StackPanel> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete sample see Paths Sample.
+    </Paragraph>
+
+    <Paragraph>The following graphic shows the output of the previous example.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Illustrates Arrows Drawn Using the Path Element</Run>
+
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Image</Run>
+ and <Run FontWeight="Bold">Path</Run>
+ are two examples of a how Windows Presentation Foundation (WPF) uses <Run FontWeight="Bold">FlowDirection</Run>
+. Beside laying out UI elements in a specific direction within a container, <Run FontWeight="Bold">FlowDirection</Run>
+ can be used with elements such as InkPresenter which renders ink on a surface, <Run FontWeight="Bold">LinearGradientBrush</Run>
+, RadialGradientBrush. Whenever you need a right to left behavior for your content that mimics a left to right behavior, or vice versa, Windows Presentation Foundation (WPF) provides that capability.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Number Substitution
+    </Paragraph>
+
+    <Paragraph>Historically, Windows has supported number substitution by allowing the representation of different cultural shapes for the same digits while keeping the internal storage of these digits unified among different locales, for example numbers are stored in their well known hexadecimal values, 0x40, 0x41, but displayed according to the selected language.
+    </Paragraph>
+
+    <Paragraph>This has allowed applications to process numerical values without the need to convert them from one language to another, for example a user can open an Microsoft Excel spreadsheet in a localized Arabic Windows and see the numbers shaped in Arabic, but open it in a European version of Windows and see European representation of the same numbers. This is also necessary for other symbols such as comma separators and percentage symbol because they usually accompany numbers in the same document. 
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) continues the same tradition, and adds further support for this feature that allows more user control over when and how substitution is used. While this feature is designed for any language, it is particularly useful in bidirectional content where shaping digits for a specific language is usually a challenge for application developers because of the various cultures an application might run on. 
+    </Paragraph>
+
+    <Paragraph>The core property controlling how number substitution works in Windows Presentation Foundation (WPF) is the Substitution dependency property. The NumberSubstitution class specifies how numbers in text are to be displayed. It has three public properties that define its behavior. Following is a summary of each of the properties.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">CultureSource:</Run>
+
+    </Paragraph>
+
+    <Paragraph>This property specifies how the culture for numbers is determined. It takes one of three NumberCultureSource enumeration values. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Override: Number culture is that of CultureOverride property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Text: Number culture is the culture of the text run. In markup, this would be the <Hyperlink NavigateUri="7aac0078-a1c5-41f8-b8b0-975510d9dca0.xaml">xml:lang Attribute</Hyperlink>
+, or its alias Language. Also, it is the default for classes deriving from FrameworkContentElement. Such classes include <Run FontWeight="Bold">System.Windows.Documents.Paragraph</Run>
+, System.Windows.Documents.Table, System.Windows.Documents.TableCell and so forth. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>User: Number culture is the culture of the current thread. This property is the default for all subclasses of <Run FontWeight="Bold">FrameworkElement</Run>
+ such as Page, <Run FontWeight="Bold">Window</Run>
+ and <Run FontWeight="Bold">TextBlock</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontWeight="Bold">CultureOverride</Run>
+: 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">CultureOverride</Run>
+ property is used only if the CultureSource property is set to Override and is ignored otherwise. It specifies the number culture. A value of <Run FontWeight="Bold">null</Run>
+, the default value, is interpreted as en-US. 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Substitution</Run>
+:
+    </Paragraph>
+
+    <Paragraph>This property specifies the type of number substitution to perform. It takes one of the following NumberSubstitutionMethod enumeration values.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>AsCulture: The substitution method is determined based on the number culture's NumberFormatInfo.DigitSubstitution property. This is the default. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Context: If the number culture is an Arabic or Farsi culture, it specifies that the digits depend on the context. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>European: Numbers are always rendered as European digits. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NativeNational: Numbers are rendered using the national digits for the number culture, as specified by the culture's NumberFormatInfo property. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Traditional: Numbers are rendered using the traditional digits for the number culture. For most cultures, this is the same as NativeNational. However, NativeNational results in Latin digits for some Arabic cultures, whereas this value results in Arabic digits for all Arabic cultures.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>What do those values mean for a bidirectional content developer? In most cases, the developer might need only to define <Run FontWeight="Bold">FlowDirection</Run>
+ and the language of each textual UI element, for example Language=”ar-SA” and the <Run FontWeight="Bold">NumberSubstitution</Run>
+ logic takes care of displaying the numbers according to the correct UI. The following example demonstrates using Arabic and English numbers in a Windows Presentation Foundation (WPF) application running in an Arabic version of Windows.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_fd850e25_7dba_408c_b521_8873e51dc968_9">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;StackPanel> 
+&lt;TextBlock Background="LightGreen" FontSize="32" Language="ar-SA" FlowDirection="RightToLeft">1+2=3
+&lt;/TextBlock> 
+&lt;TextBox Background="LightGreen" FontSize="32" Language="ar-SA" FlowDirection="RightToLeft">1+2=3
+&lt;/TextBox> 
+&lt;TextBlock Background="LightBlue" FontSize="32">1+2=3
+&lt;/TextBlock> 
+&lt;TextBox Background="LightBlue" FontSize="32">1+2=3
+&lt;/TextBox> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following graphic shows the output of the previous sample if you are running in an Arabic version of Windows.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Shows Arabic and English Numbers Displayed</Run>
+
+    </Paragraph>
+
+    <Paragraph>For a complete sample see Numbers Sample.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">FlowDirection</Run>
+ was important in this case because setting the <Run FontWeight="Bold">FlowDirection</Run>
+ to <Run FontWeight="Bold">LeftToRight</Run>
+ instead would have yielded European digits. The following sections discuss how to have a unified display of digits throughout your document. If this example is not running on Arabic Windows, all the digits display as European digits.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Defining Substitution Rules</Run>
+
+    </Paragraph>
+
+    <Paragraph>In a real application you might need to set the Language programmatically. For example, you want to set the Language (xml:lang) attribute to be the same as the one used by the system’s UI, or maybe change the Language depending on the application state.
+    </Paragraph>
+
+    <Paragraph>If you want to make changes based on the application's state, make use of other features provided by Windows Presentation Foundation (WPF).
+    </Paragraph>
+
+    <Paragraph>First, set the application component’s <Run>NumberSubstitution.CultureSource=“Text”</Run>
+. Using this setting makes sure that the settings do not come from the UI for text elements that have “User” as the default, such as <Run FontWeight="Bold">TextBlock</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>For example:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;TextBlock </Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>Name="text1" NumberSubstitution.CultureSource="Text"></Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>1234+5679=6913</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>
+&lt;/TextBlock></Run>
+
+    </Paragraph>
+
+    <Paragraph>In the corresponding C# code, set the Language property for example, to “ar-SA”.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Paragraph><Run>text1.Language = </Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>System.Windows.Markup.XmlLanguage.GetLanguage("ar-SA");</Run>
+
+    </Paragraph>
+
+    <Paragraph>If you need to set the Language property to the current user’s UI language use the following code.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Paragraph><Run>text1.Language = </Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>System.Windows.Markup.XmlLanguage.GetLanguage(</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run>System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag);</Run>
+
+    </Paragraph>
+
+    <Paragraph>CurrentCulture represents the current culture used by the current thread at run time.
+    </Paragraph>
+
+    <Paragraph>Your final XAML example should be similar to the following example. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="WindowsApplication.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Code Sample" Height="300" Width="300" > 
+&lt;StackPanel> 
+&lt;TextBlock Language="ar-SA" FlowDirection="RightToLeft">عربى: 1+2=3 
+&lt;/TextBlock> 
+&lt;TextBlock Language="ar-SA" FlowDirection="RightToLeft" NumberSubstitution.Substitution="European">عربى: 1+2=3 
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete sample see Numbers2 Sample.
+    </Paragraph>
+
+    <Paragraph>Your final C# example should be similar to the following.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>namespace BidiTest { public partial class Window1 : Window { public Window1() { InitializeComponent(); 
+string currentLanguage = System.Globalization.CultureInfo.CurrentCulture.IetfLanguageTag; 
+text1.Language = System.Windows.Markup.XmlLanguage.GetLanguage(currentLanguage); 
+if (currentLanguage.ToLower().StartsWith("ar")) { text1.FlowDirection = FlowDirection.RightToLeft; 
+} else { text1.FlowDirection = FlowDirection.LeftToRight; 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see NumbersCSharpSample.
+    </Paragraph>
+
+    <Paragraph>The following graphic shows what the window looks like for either programming language.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Graphic That Displays Arabic Numbers</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Using the Substitution Property</Run>
+
+    </Paragraph>
+
+    <Paragraph>The way number substitution works in Windows Presentation Foundation (WPF) depends on both the Language of the text element and its <Run FontWeight="Bold">FlowDirection</Run>
+. If the <Run FontWeight="Bold">FlowDirection</Run>
+ is left to right, then European digits are rendered. However if it is preceded by Arabic text, or has the language set to “ar” and the <Run FontWeight="Bold">FlowDirection</Run>
+ is <Run FontWeight="Bold">RightToLeft</Run>
+, Arabic digits are rendered instead.
+    </Paragraph>
+
+    <Paragraph>In some cases, however, you might want to create a unified application, for example European digits for all users. Or Arabic digits in <Run FontWeight="Bold">Table</Run>
+ cells with a specific Style. One easy way to do that is using the <Run FontWeight="Bold">Substitution</Run>
+ property. 
+    </Paragraph>
+
+    <Paragraph>In the following example, the first <Run FontWeight="Bold">TextBlock</Run>
+ does not have the <Run FontWeight="Bold">Substitution</Run>
+ property set, so the algorithm displays Arabic digits as expected. However in the second <Run FontWeight="Bold">TextBlock</Run>
+, the substitution is set to European overriding the default substitution for Arabic numbers, and European digits are displayed.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="WindowsApplication.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Code Sample" Height="300" Width="300" > 
+&lt;StackPanel> 
+&lt;TextBlock Language="ar-SA" FlowDirection="RightToLeft">عربى: 1+2=3 
+&lt;/TextBlock> 
+&lt;TextBlock Language="ar-SA" FlowDirection="RightToLeft" NumberSubstitution.Substitution="European">عربى: 1+2=3 
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a complete sample see Numbers3 Sample.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Bidirectional Features in WPF Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

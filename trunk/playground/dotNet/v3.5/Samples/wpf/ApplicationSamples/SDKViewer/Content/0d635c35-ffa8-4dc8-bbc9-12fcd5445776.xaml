@@ -1,0 +1,239 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0d635c35_ffa8_4dc8_bbc9_12fcd5445776"
+  Tag     ="Support Control Patterns in a UI Automation Provider"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Support Control Patterns in a UI Automation Provider</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic shows how to implement one or more control patterns on a <Run>UI Automation provider</Run>
+ so that client applications can manipulate controls and get data from them.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Support Control Patterns
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Implement the appropriate interfaces for the control patterns that the element should support, such as IInvokeProvider for InvokePattern.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Return the object containing your implementation of each control interface in your implementation of System.Windows.Automation.Provider.IRawElementProviderSimple.GetPatternProvider(System.Int32)
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows an implementation of ISelectionProvider for a single-selection custom list box. It returns three properties and gets the currently selected item.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>#region ISelectionProvider Members /// 
+&lt;summary> /// Specifies whether selection of more than one item at a time is supported. /// 
+&lt;/summary> public bool CanSelectMultiple { get { return false; 
+} } /// 
+&lt;summary> /// Specifies whether the list has to have an item selected at all times. /// 
+&lt;/summary> public bool IsSelectionRequired { get { return true; 
+} } /// 
+&lt;summary> /// Returns the automation provider for the selected list item. /// 
+&lt;/summary> /// 
+&lt;returns>The selected item.
+&lt;/returns> /// 
+&lt;remarks> /// MyList is an ArrayList collection of providers for items in the list box. /// SelectedIndex is the index of the selected item. /// 
+&lt;/remarks> public IRawElementProviderSimple[] GetSelection() { if (SelectedIndex >= 0) { IRawElementProviderSimple itemProvider = (IRawElementProviderSimple)MyList[SelectedIndex]; 
+IRawElementProviderSimple[] providers = { itemProvider }; 
+return providers; 
+} else return null; 
+} #endregion ISelectionProvider Members </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>#Region "ISelectionProvider Members" ''' 
+&lt;summary> ''' Specifies whether selection of more than one item at a time is supported. ''' 
+&lt;/summary> Public ReadOnly Property CanSelectMultiple() As Boolean _ Implements ISelectionProvider.CanSelectMultiple Get Return False End Get End Property ''' 
+&lt;summary> ''' Specifies whether the list has to have an item selected at all times. ''' 
+&lt;/summary> Public ReadOnly Property IsSelectionRequired() As Boolean _ Implements ISelectionProvider.IsSelectionRequired Get Return True End Get End Property ''' 
+&lt;summary> ''' Returns the automation provider for the selected list item. ''' 
+&lt;/summary> ''' 
+&lt;returns>The selected item.
+&lt;/returns> ''' 
+&lt;remarks> ''' MyList is an ArrayList collection of providers for items in the list box. ''' SelectedIndex is the index of the selected item. ''' 
+&lt;/remarks> Public Function GetSelection() As IRawElementProviderSimple() _ Implements ISelectionProvider.GetSelection If SelectedIndex >= 0 Then Dim itemProvider As IRawElementProviderSimple = DirectCast(MyList(SelectedIndex), IRawElementProviderSimple) Dim providers(1) As IRawElementProviderSimple providers(0) = itemProvider Return providers Else Return Nothing End If #End Region Private Members As ISelectionProvider </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows an implementation of <Run FontWeight="Bold">GetPatternProvider</Run>
+ that returns the class implementing <Run FontWeight="Bold">ISelectionProvider</Run>
+. Most list box controls would support other patterns as well, but in this example a null reference (<Run FontWeight="Bold">Nothing</Run>
+ in Microsoft Visual Basic .NET) is returned for all other pattern identifiers.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// 
+&lt;summary> /// Returns the object that supports the specified pattern. /// 
+&lt;/summary> /// 
+&lt;param name="patternId">ID of the pattern.
+&lt;/param> /// 
+&lt;returns>Object that implements IInvokeProvider.
+&lt;/returns> /// 
+&lt;remarks> /// In this case, the ISelectionProvider interface is implemented in another provider-defined class, /// ListPattern. However, it could be implemented in the base provider class, in which case the /// method would simply return "this". /// 
+&lt;/remarks> object IRawElementProviderSimple.GetPatternProvider(int patternId) { if (patternId == SelectionPatternIdentifiers.Pattern.Id) { return new ListPattern(myItems, SelectedIndex); 
+} else { return null; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' 
+&lt;summary> ''' Returns the object that supports the specified pattern. ''' 
+&lt;/summary> ''' 
+&lt;param name="patternId">ID of the pattern.
+&lt;/param> ''' 
+&lt;returns>Object that implements IInvokeProvider.
+&lt;/returns> ''' 
+&lt;remarks> ''' In this case, the ISelectionProvider interface is implemented in another provider-defined class, ''' ListPattern. However, it could be implemented in the base provider class, in which case the ''' method would simply return "this". ''' 
+&lt;/remarks> Function GetPatternProvider(ByVal patternId As Integer) As Object _ Implements IRawElementProviderSimple.GetPatternProvider If patternId = SelectionPatternIdentifiers.Pattern.Id Then Return New ListPattern(myItems, SelectedIndex) Else Return Nothing End If End Function 'IRawElementProviderSimple.GetPatternProvider </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="859557b8-51e1-4d15-92e8-318d2dcdb2f7.xaml">UI Automation Providers Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6acc6d08-bd67-4e2e-915c-9c1d34eb86fe.xaml">Server-Side UI Automation Provider Implementation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Support Control Patterns in a UI Automation Provider to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

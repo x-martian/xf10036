@@ -1,0 +1,193 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_fdefc6c3_b836_4cfe_8dec_1484bfdc5551"
+  Tag     ="Obtain Text Attributes Using UI Automation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Obtain Text Attributes Using UI Automation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic shows how to use Microsoft UI Automation to obtain text attributes from a text range. A text range can correspond to the current location of the caret (or degenerate selection) within a document, a contiguous selection of text, a collection of disjoint text selections, or the entire textual content of a document.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following code example demonstrates how to obtain the FontNameAttribute from a <Run>UI Automation text provider</Run>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' ------------------------------------------------------------------- ''' 
+&lt;summary> ''' Starts the target application and returns the automation element ''' obtained from the targets window handle. ''' 
+&lt;/summary> ''' 
+&lt;param name="exe"> ''' The target application. ''' 
+&lt;/param> ''' 
+&lt;param name="filename"> ''' The text file to be opened in the target application ''' 
+&lt;/param> ''' 
+&lt;returns> ''' An automation element representing the target application. ''' 
+&lt;/returns> ''' ------------------------------------------------------------------- Private Function StartTarget( _ ByVal exe As String, ByVal filename As String) As AutomationElement ' Start text editor and load with a text file. Dim p As Process = Process.Start(exe, filename) ' targetApp --> the root automation element Dim targetApp As AutomationElement targetApp = AutomationElement.FromHandle(p.MainWindowHandle) Return targetApp End Function ... ''' ------------------------------------------------------------------- ''' 
+&lt;summary> ''' Obtain the text control of interest from the target application. ''' 
+&lt;/summary> ''' 
+&lt;param name="targetApp"> ''' The target application. ''' 
+&lt;/param> ''' 
+&lt;returns> ''' An automation element representing a text control. ''' 
+&lt;/returns> ''' ------------------------------------------------------------------- Private Function GetTextElement(ByVal targetApp As AutomationElement) As AutomationElement ' The control type we're looking for; 
+in this case 'Document' Dim cond1 As PropertyCondition = _ New PropertyCondition( _ AutomationElement.ControlTypeProperty, _ ControlType.Document) ' The control pattern of interest; 
+in this case 'TextPattern'. Dim cond2 As PropertyCondition = _ New PropertyCondition( _ AutomationElement.IsTextPatternAvailableProperty, _ True) Dim textCondition As AndCondition = New AndCondition(cond1, cond2) Dim targetTextElement As AutomationElement = _ targetApp.FindFirst(TreeScope.Descendants, textCondition) ' If targetText is null then a suitable text control was not found. Return targetTextElement End Function ... ''' ------------------------------------------------------------------- ''' 
+&lt;summary> ''' Outputs the FontNameAttribute value for a range of text. ''' 
+&lt;/summary> ''' ------------------------------------------------------------------- Private Sub GetFontNameAttribute( _ ByVal targetTextElement As AutomationElement) Dim targetTextPattern As TextPattern = _ DirectCast(targetTextElement.GetCurrentPattern( _ TextPattern.Pattern), TextPattern) If (targetTextPattern Is Nothing) Then ' Target control doesn't support TextPattern. Return End If ' If the target control doesn't support selection then return. ' Otherwise, get the text attribute for the selected text. ' If there are currently no selections then the text attribute ' will be obtained from the insertion point. Dim textRanges() As TextPatternRange If (targetTextPattern.SupportedTextSelection = SupportedTextSelection.None) Then Return Else textRanges = targetTextPattern.GetSelection() End If Dim textRange As TextPatternRange For Each textRange In textRanges Dim textAttribute As Object = _ textRange.GetAttributeValue( _ TextPattern.FontNameAttribute) If (textAttribute = TextPattern.MixedAttributeValue) Then ' Returns MixedAttributeValue if the value of the ' specified attribute varies over the text range. Console.WriteLine("Mixed fonts.") ElseIf (textAttribute = AutomationElement.NotSupported) Then ' Returns NotSupported if the specified attribute is ' not supported by the provider or the control. Console.WriteLine( _ "FontNameAttribute not supported by provider.") Else Console.WriteLine(textAttribute.ToString()) End If Next End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>/// ------------------------------------------------------------------- /// 
+&lt;summary> /// Starts the target application and returns the automation element /// obtained from the targets window handle. /// 
+&lt;/summary> /// 
+&lt;param name="exe"> /// The target application. /// 
+&lt;/param> /// 
+&lt;param name="filename"> /// The text file to be opened in the target application /// 
+&lt;/param> /// 
+&lt;returns> /// An automation element representing the target application. /// 
+&lt;/returns> /// ------------------------------------------------------------------- private AutomationElement StartTarget(string exe, string filename) { // Start text editor and load with a text file. Process p = Process.Start(exe, filename); 
+// targetApp --> the root automation element AutomationElement targetApp = AutomationElement.FromHandle(p.MainWindowHandle); 
+return targetApp; 
+} ... /// ------------------------------------------------------------------- /// 
+&lt;summary> /// Obtain the text control of interest from the target application. /// 
+&lt;/summary> /// 
+&lt;param name="targetApp"> /// The target application. /// 
+&lt;/param> /// 
+&lt;returns> /// An automation element representing a text control. /// 
+&lt;/returns> /// ------------------------------------------------------------------- private AutomationElement GetTextElement(AutomationElement targetApp) { // The control type we're looking for; 
+in this case 'Document' PropertyCondition cond1 = new PropertyCondition( AutomationElement.ControlTypeProperty, ControlType.Document); 
+// The control pattern of interest; 
+in this case 'TextPattern'. PropertyCondition cond2 = new PropertyCondition( AutomationElement.IsTextPatternAvailableProperty, true); 
+AndCondition textCondition = new AndCondition(cond1, cond2); 
+AutomationElement targetTextElement = targetApp.FindFirst(TreeScope.Descendants, textCondition); 
+// If targetText is null then a suitable text control was not found. return targetTextElement; 
+} ... /// ------------------------------------------------------------------- /// 
+&lt;summary> /// Outputs the FontNameAttribute value for a range of text. /// 
+&lt;/summary> /// 
+&lt;param name="targetTextElement"> /// The automation element representing a text control. /// 
+&lt;/param> /// ------------------------------------------------------------------- private void GetFontNameAttribute(AutomationElement targetTextElement) { TextPattern textPattern = targetTextElement.GetCurrentPattern(TextPattern.Pattern) as TextPattern; 
+if (textPattern == null) { // Target control doesn't support TextPattern. return; 
+} // If the target control doesn't support selection then return. // Otherwise, get the text attribute for the selected text. // If there are currently no selections then the text attribute // will be obtained from the insertion point. TextPatternRange[] textRanges; 
+if (textPattern.SupportedTextSelection == SupportedTextSelection.None) { return; 
+} else { textRanges = textPattern.GetSelection(); 
+} foreach (TextPatternRange textRange in textRanges) { Object textAttribute = textRange.GetAttributeValue( TextPattern.FontNameAttribute); 
+if (textAttribute == TextPattern.MixedAttributeValue) { // Returns MixedAttributeValue if the value of the // specified attribute varies over the text range. Console.WriteLine("Mixed fonts."); 
+} else if (textAttribute == AutomationElement.NotSupported) { // Returns NotSupported if the specified attribute is // not supported by the provider or the control. Console.WriteLine( "FontNameAttribute not supported by provider."); 
+} else { Console.WriteLine(textAttribute.ToString()); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The TextPattern <Run>control pattern</Run>
+, in tandem with the TextPatternRange class, supports basic text attributes, properties, and methods. For control-specific functionality that is not supported by <Run FontWeight="Bold">TextPattern</Run>
+ or <Run FontWeight="Bold">TextPatternRange</Run>
+ the AutomationElement class provides methods for a <Run>UI Automation client</Run>
+ to access the corresponding native object model.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8bdd1a73-1ecb-4a05-a891-a7827ebb767f.xaml">Add Content to a Text Box Using UI Automation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b77693f5-87bb-4b29-a297-05ff882e2044.xaml">Find and Highlight Text Using UI Automation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="41787927-df1f-4f4a-aba3-641662854fc4.xaml">UI Automation TextPattern Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="571561d8-5f49-43a9-a054-87735194e013.xaml">UI Automation Control Patterns for Clients</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Obtain Text Attributes Using UI Automation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,220 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_9962f380_b885_4b61_a62e_457397083fea"
+  Tag     ="Framework Property Metadata"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Framework Property Metadata</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Framework property metadata options are reported for the properties of object elements considered to be at the framework level in the Windows Presentation Foundation (WPF). In general the framework-level designation entails that features such as rendering, data binding, and property system refinements are handled by the WPF presentation APIs and executables. Framework property metadata is queried by these systems to determine feature-specific characteristics of particular element properties.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="What_is_Communicated_by_Framework_Property">What is Communicated by Framework Property Metadata</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Reading_FrameworkPropertyMetadata">Reading FrameworkPropertyMetadata</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Specifying_Metadata">Specifying Metadata</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What is Communicated by Framework Property Metadata
+    </Paragraph>
+
+    <Paragraph>Framework property metadata can be divided into the following categories: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Reporting layout properties that affect an element (AffectsArrange, AffectsMeasure, AffectsRender). You might set these flags in an element's metadata if the property affects those respective aspects, and you are also implementing the MeasureOverride / ArrangeOverride methods in your class to supply specific framework-level rendering behavior and information to the general layout system. Typically, such an implementation would check for property invalidations in dependency properties where any of these layout properties were true in the property's metadata, and only those invalidations would necessitate requesting a new layout pass. For an example of an implementation of just such a custom element and layout, which checks the layout-related metadata, see Create a Simple Custom Panel Behavior Sample.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Reporting layout properties that affect an element's parent element (AffectsParentArrange, AffectsParentMeasure). Typically, these flags would be set on an attached property where child elements were communicating information to their layout parent. Some examples where these flags are set by default are Dock and Top / Left.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Inherits. By default, dependency properties do not inherit values. OverridesInheritanceBehavior allows the pathway of inheritance to also travel into a visual tree, which is necessary for some control compositing scenarios.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph>Note: 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph>The term "inherits" in the context of property values means something specific for dependency properties; 
+it means that child elements can inherit the actual dependency property value from parent elements because of a framework-level capability of the WPF property system. It has nothing to do directly with managed code type and members inheritance through derived types. For details, see <Hyperlink NavigateUri="d7c338f9-f2bf-48ed-832c-7be58ac390e4.xaml">Property Value Inheritance</Hyperlink>
+.
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Reporting data binding characteristics (IsNotDataBindable, BindsTwoWayByDefault). By default, dependency properties in the framework support data binding, with a one-way binding behavior. You might disable data binding if there were no scenario for it whatsoever (because they are intended to be flexible and extensible, there aren't many examples of such properties in the default WPF APIs). You might set binding to have a two-way default for properties that tie together a control's behaviors amongst its component pieces (IsSubmenuOpen is an example) or where two-way binding is the common and expected scenario for users (Text is an example). Remember that changing the metadata only influences the default; 
+on a per-binding basis that default can always be changed. For details on the binding modes and binding in general, see <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Reporting whether properties should be journaled by applications or services that support journaling (Journal). For general elements, journaling is not enabled by default, but it is selectively enabled for certain user input controls. This property is intended to be read by journaling services including the WPF implementation of journaling, and is typically set on user controls such as user selections within lists that should be persisted across navigation steps. For information about the journal, see <Hyperlink NavigateUri="86ad2143-606a-4e34-bf7e-51a2594248b8.xaml">Navigation Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Reading FrameworkPropertyMetadata
+    </Paragraph>
+
+    <Paragraph>Each of the properties linked above are the specific properties that the FrameworkPropertyMetadata adds to its immediate base class UIPropertyMetadata. Each of these properties will be <Run FontWeight="Bold">false</Run>
+ by default. A metadata request for a property where knowing the value of these properties is important should attempt to cast the returned metadata to <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+, and then check the values of the individual properties as needed. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Specifying Metadata
+    </Paragraph>
+
+    <Paragraph>When you create a new metadata instance for purposes of applying metadata to a new dependency property registration, you have the choice of which metadata class to use: the base PropertyMetadata, or some derivative such as <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+. In general, you should use <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+, particularly if your property has any interaction with property system and WPF functions such as layout and data binding. Another option for more sophisticated framework-extending scenarios is to subclass from <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+ at some level to create your own metadata reporting class with extra information carried in its members. Or if you are deliberately coding a replacement framework, you may wish to use <Run FontWeight="Bold">PropertyMetadata</Run>
+ or <Run FontWeight="Bold">UIPropertyMetadata</Run>
+ to communicate the degree of framework support.
+    </Paragraph>
+
+    <Paragraph>For existing properties (AddOwner or OverrideMetadata call), you should always override with the metadata type used by the original registration.
+    </Paragraph>
+
+    <Paragraph>If you are creating a <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+ instance, there are two ways to populate that metadata with values for the specific properties that communicate the framework property characteristics:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Use the <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+ constructor signature that allows a <Run>flags</Run>
+ parameter. This parameter should be filled with all desired combined values of the FrameworkPropertyMetadataOptions enumeration flags.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use one of the signatures without a <Run>flags</Run>
+ parameter, and then set each reporting Boolean property on <Run FontWeight="Bold">FrameworkPropertyMetadata</Run>
+ to <Run FontWeight="Bold">true</Run>
+ for each desired characteristic change. If you do this, you must set these properties before any elements with this dependency property are constructed; 
+the Boolean properties are read-write in order to allow this behavior of avoiding the <Run>flags</Run>
+ parameter and still populate the metadata, but the metadata must become effectively sealed before property use. Thus, attempting to set the properties after metadata is requested will be an invalid operation.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>GetMetadata
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Framework Property Metadata to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

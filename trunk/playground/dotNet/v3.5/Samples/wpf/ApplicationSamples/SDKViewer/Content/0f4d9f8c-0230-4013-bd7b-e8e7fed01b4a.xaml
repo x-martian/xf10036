@@ -1,0 +1,518 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0f4d9f8c_0230_4013_bd7b_e8e7fed01b4a"
+  Tag     ="Data Templating Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Data Templating Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can apply templates to the data in your application to control the data bindings and aspects of the presentation of the data. This topic discusses how data templates can be shared throughout an application, how content and items controls have built-in support for using data templates, and how you can control the selection of the template to apply. 
+    </Paragraph>
+
+    <Paragraph>Data templates are a natural extension of styling controls and elements provided in Windows Presentation Foundation (WPF). Just as you can apply a visual Style to a user interface (UI) element, you can apply a DataTemplate that can determine both visual aspects of how the data is presented and how data binding accesses the presented data. By applying different data templates to the same data, you can flexibly change the visual appearance of the data in your application. Data templates can be applied to both WPF content controls (for example: Button and Hyperlink) and items controls (for example: ListBox, ComboBox, and Menu). These controls have built-in support for applying such data templates. 
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Styling_Basic">Basic Data Templates</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Styling_BasedOnType">Applying Data Templates Based on Type</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Styling_HeterogeneousCollections">Data Templates for Heterogeneous Collections</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Styling_StyleSelection">Template Selection</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Basic Data Templates
+    </Paragraph>
+
+    <Paragraph>The use of data templates is driven by three major principles: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Application authors can easily put content with data into WPF controls. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Application UI designers can easily define the visual style of the data content in the controls. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The data templates used in applications are reusable and easily modifiable. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In the following Extensible Application Markup Language (XAML) example, a ListBox element is used to display a list of system colors. The idea is to show each item in a color with the name of the color. The ListBox's ItemTemplate property is assigned the resource key of the DataTemplate. The ItemsSource property uses the <Run FontWeight="Bold">{Binding}</Run>
+ syntax to bind using the data source of the enveloping data context. In this case, that context is set to the <Run FontStyle="italic">ColorItemList</Run>
+ observable collection of the sample. For more information on data sources and data contexts see <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph>For the complete code sample from which the following two code examples were extracted, see Showing System Colors Using Data Services Sample. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox Name="colorListBox" Height="455" Width="200" DockPanel.Dock="Left" ItemsSource="{Binding}" ItemTemplate = "{StaticResource ColorItemTemplate}" ItemContainerStyle="{StaticResource listItemStyle}" IsSynchronizedWithCurrentItem="True"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In this case, an ItemContainerStyle is also used to apply a separate cosmetic style to each item. Here is the DataTemplate that is referenced by the <Run FontWeight="Bold">ColorItemTemplate</Run>
+ key. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DataTemplate x:Key="ColorItemTemplate"> 
+&lt;Border Width="170" Height="30" Background="{Binding Path=Brush}"> 
+&lt;TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding Path=Luminance, Converter={StaticResource LuminanceToBrush}}" Text="{Binding Path=Name}"/> 
+&lt;/Border> 
+&lt;/DataTemplate> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The template uses a TextBlock element to display each color. The <Run FontWeight="Bold">Foreground</Run>
+ property is data-bound to a Luminance property to provide the color presentation. The <Run FontWeight="Bold">TextContent</Run>
+ is data-bound to the <Run FontStyle="italic">Name</Run>
+ of the color. The advantage of this shared template approach is that the DataTemplate is applied uniformly to each item in the ListBox. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Applying Data Templates Based on Type
+    </Paragraph>
+
+    <Paragraph>The application of a data template on behalf of a control can be done automatically, based on the type of the data item contained in the control. In the following markup, a template is designated as applying to data items of type <Run FontStyle="italic">Place</Run>
+. The ListBox applies this data template automatically when it displays the items in its collection. 
+    </Paragraph>
+
+    <Paragraph>For the complete code sample from which the following code example was extracted, see Binding Using Data Triggers Sample. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.Resources> 
+&lt;c:Places x:Key="PlacesData"/> 
+&lt;Style TargetType="{x:Type ListBoxItem}"> 
+&lt;Style.Triggers> 
+&lt;DataTrigger Binding="{Binding Path=State}" Value="WA"> 
+&lt;Setter Property="Foreground" Value="Red" /> 
+&lt;/DataTrigger> 
+&lt;MultiDataTrigger> 
+&lt;MultiDataTrigger.Conditions> 
+&lt;Condition Binding="{Binding Path=Name}" Value="Portland" /> 
+&lt;Condition Binding="{Binding Path=State}" Value="OR" /> 
+&lt;/MultiDataTrigger.Conditions> 
+&lt;MultiDataTrigger.Setters> 
+&lt;Setter Property="Background" Value="Cyan" /> 
+&lt;/MultiDataTrigger.Setters> 
+&lt;/MultiDataTrigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> 
+&lt;DataTemplate DataType="{x:Type c:Place}"> 
+&lt;Canvas Width="160" Height="20"> 
+&lt;TextBlock FontSize="12" Width="130" Canvas.Left="0" Text="{Binding Path=Name}"/> 
+&lt;TextBlock FontSize="12" Width="30" Canvas.Left="130" Text="{Binding Path=State}"/> 
+&lt;/Canvas> 
+&lt;/DataTemplate> 
+&lt;/Window.Resources> 
+&lt;StackPanel> 
+&lt;TextBlock FontSize="18" Margin="5" FontWeight="Bold" HorizontalAlignment="Center">Data Trigger Sample
+&lt;/TextBlock> 
+&lt;ListBox Width="180" HorizontalAlignment="Center" Background="Honeydew" ItemsSource="{Binding Source={StaticResource PlacesData}}"/> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Source for the ListBox is bound to an ObservableCollection implemented as a <Run FontStyle="italic">Places</Run>
+ common language runtime (CLR) Class. This <Run FontWeight="Bold">ObservableCollection</Run>
+ contains a collection of objects of type <Run FontStyle="italic">Place</Run>
+. The DataTemplate is automatically applied to each Place ListBoxItem in the ListBox. Thus, the <Run FontStyle="italic">Name</Run>
+ and <Run FontStyle="italic">State</Run>
+ are displayed for each item in the ListBox. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Data Templates for Heterogeneous Collections
+    </Paragraph>
+
+    <Paragraph>The automatic application of Data Templates based on item type is powerful because it can be exploited easily in heterogeneous collections. Such collections have data items of various types. Data Templates can be specified for each of the various types. In the following markup, two data templates are defined. One is associated with XML node elements of type <Run FontStyle="italic">Hero</Run>
+; 
+one is associated with CLR objects of type type <Run FontStyle="italic">GreekGod</Run>
+. With such typed styles defined, a ListBox with binding sources specified for collections of these types can automatically apply the apply the associated data template to its respective item types as it displays its items. 
+    </Paragraph>
+
+    <Paragraph>For the complete code sample from which the following code example was extracted, see Binding Using Composite Collections Sample. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window Background="Cornsilk" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="clr-namespace:SDKSample" x:Class="SDKSample.Window1" Title="CompositeCollections" SizeToContent="WidthAndHeight" > 
+&lt;Window.Resources> 
+&lt;c:GreekGods x:Key="GreekGodsData"/> 
+&lt;XmlDataProvider x:Key="GreekHeroesData" XPath="GreekHeroes/Hero"> 
+&lt;x:XData> 
+&lt;GreekHeroes xmlns=""> 
+&lt;Hero Name="Jason" /> 
+&lt;Hero Name="Hercules" /> 
+&lt;Hero Name="Bellerophon" /> 
+&lt;Hero Name="Theseus" /> 
+&lt;Hero Name="Odysseus" /> 
+&lt;Hero Name="Perseus" /> 
+&lt;/GreekHeroes> 
+&lt;/x:XData> 
+&lt;/XmlDataProvider> 
+&lt;DataTemplate DataType="{x:Type c:GreekGod}"> 
+&lt;TextBlock Text="{Binding Path=Name}" Foreground="Gold"/> 
+&lt;/DataTemplate> 
+&lt;DataTemplate DataType="Hero"> 
+&lt;TextBlock Text="{Binding XPath=@Name}" Foreground="Cyan"/> 
+&lt;/DataTemplate> 
+&lt;/Window.Resources> 
+&lt;StackPanel> 
+&lt;TextBlock FontSize="18" FontWeight="Bold" Margin="10" HorizontalAlignment="Center">Composite Collections Sample
+&lt;/TextBlock> 
+&lt;ListBox Name="myListBox" Height="300" Width="200" Background="White"> 
+&lt;ListBox.ItemsSource> 
+&lt;CompositeCollection> 
+&lt;CollectionContainer Collection="{Binding Source={StaticResource GreekGodsData}}" /> 
+&lt;CollectionContainer Collection="{Binding Source={StaticResource GreekHeroesData}}" /> 
+&lt;ListBoxItem Foreground="Red">Other Listbox Item 1
+&lt;/ListBoxItem> 
+&lt;ListBoxItem Foreground="Red">Other Listbox Item 2
+&lt;/ListBoxItem> 
+&lt;/CompositeCollection> 
+&lt;/ListBox.ItemsSource> 
+&lt;/ListBox> 
+&lt;/StackPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.ComponentModel; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+using System.Windows.Navigation; 
+using System.Windows.Shapes; 
+using System.Windows.Data; 
+using System.Collections.ObjectModel; 
+namespace SDKSample { public partial class Window1 : Window { public Window1() { InitializeComponent(); 
+} } public class GreekGod { private string _name; 
+public string Name { get { return _name; 
+} set { _name = value; 
+} } public GreekGod(string name) { Name = name; 
+} } public class GreekGods : ObservableCollection
+&lt;GreekGod> { public GreekGods() { Add(new GreekGod("Aphrodite")); 
+Add(new GreekGod("Apollo")); 
+Add(new GreekGod("Ares")); 
+Add(new GreekGod("Artemis")); 
+Add(new GreekGod("Athena")); 
+Add(new GreekGod("Demeter")); 
+Add(new GreekGod("Dionysus")); 
+Add(new GreekGod("Hephaestus")); 
+Add(new GreekGod("Hera")); 
+Add(new GreekGod("Hermes")); 
+Add(new GreekGod("Poseidon")); 
+Add(new GreekGod("Zeus")); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Template Selection
+    </Paragraph>
+
+    <Paragraph>You can apply data templates based on custom logic. For example, if your <Run>binding source</Run>
+ is list of teacher and student objects, you can use a certain data template for the teacher objects and a different data template for the student objects, or perhaps you have a list of student objects and you want to apply a particular template to the students who live in a certain location. You can do this by creating a class that inherits from DataTemplateSelector and overriding the SelectTemplate method.
+    </Paragraph>
+
+    <Paragraph>In the following example, the <Run FontStyle="italic">auctionItemDataTemplateSelector</Run>
+ resource name (corresponding to an <Run FontStyle="italic">AuctionItemDataTemplateSelector</Run>
+ class) is assigned to the ItemTemplateSelector property of the ItemsControl.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ItemsControl Template="{StaticResource ScrollTemplate}" ItemsSource="{Binding Source={StaticResource items_list}}" ItemTemplateSelector="{StaticResource auctionItemDataTemplateSelector}" > 
+&lt;ItemsControl.ItemsPanel> 
+&lt;ItemsPanelTemplate> 
+&lt;StackPanel /> 
+&lt;/ItemsPanelTemplate> 
+&lt;/ItemsControl.ItemsPanel> 
+&lt;/ItemsControl> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the implementation of the <Run FontStyle="italic">AuctionItemDataTemplateSelector</Run>
+ class with an override of the <Run FontWeight="Bold">SelectTemplate</Run>
+ method:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System.Windows; 
+using System.Windows.Controls; 
+namespace SDKSample { public class AuctionItemDataTemplateSelector : DataTemplateSelector { public override DataTemplate SelectTemplate(object item, DependencyObject container) { if (item != null &amp;&amp; 
+item is AuctionItem) { AuctionItem auctionItem = item as AuctionItem; 
+Window window = Application.Current.MainWindow; 
+switch (auctionItem.SpecialFeatures) { case SpecialFeatures.None: return window.FindResource("AuctionItem_None") as DataTemplate; 
+case SpecialFeatures.Color: return window.FindResource("AuctionItem_Color") as DataTemplate; 
+} } return null; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In this case, within the <Run FontWeight="Bold">SelectTemplate</Run>
+ method of the class, there is logic to return the appropriate template based on the value of the <Run FontStyle="italic">SpecialFeatures</Run>
+ property of the <Run FontStyle="italic">item</Run>
+ object passed. The template to return is found in the resources of the enveloping Window element.
+    </Paragraph>
+
+    <Paragraph>By assigning the <Run FontWeight="Bold">ItemTemplateSelector</Run>
+ property, the <Run FontWeight="Bold">ItemsControl</Run>
+ is directed to automatically call the <Run FontWeight="Bold">SelectTemplate</Run>
+ method of <Run FontStyle="italic">AuctionItemDataTemplateSelector</Run>
+ for each of the items in the collection to which the <Run FontWeight="Bold">ItemsControl</Run>
+ is bound. The call passes the data item as an object. The DataTemplate that is returned by the method is then applied to that data item.
+    </Paragraph>
+
+    <Paragraph>To see the full example, see Apply Data Templates based on Custom Logic.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Use Hierarchical Data Templates
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Data Templating Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

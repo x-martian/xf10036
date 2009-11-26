@@ -1,0 +1,242 @@
+﻿<!--
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//
+// Copyright (C) Microsoft Corporation, 2005.  All rights reserved.
+//
+// File: IndexPanel.xaml
+//
+// Description: This is the markup for the index panel user control
+//
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+
+<ContentControl
+    x:Class="Microsoft.Windows.SdkViewer.Controls.IndexPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:CC="clr-namespace:Microsoft.Windows.SdkViewer.Controls"
+    Name="ROOT"
+    IsTabStop="False"
+    Focusable="False" xmlns:MappingPIGen1="clr-namespace:Microsoft.Windows.SdkViewer.Controls">
+    <ContentControl.Resources>
+    
+        <!-- ***************************************************************** -->
+        <!-- ** ListBox and TreeView DataTemplates and Styles -->
+        <XmlDataProvider
+            x:Key="NavigationMapTreeView"
+            XPath="/HelpTOC/HelpTOCNode" />
+        <XmlDataProvider
+            x:Key="NavigationMapListBox"
+            XPath="/HelpTOC/HelpTOCNode/HelpTOCNode" />
+
+        <!-- Style for ListBox -->
+        <Style x:Key="IndexListBoxStyle" TargetType="{x:Type ListBox}">
+            <Setter Property="Background" Value="transparent" />
+            <Setter Property="Margin" Value="0,5,0,0" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+        
+        <Style x:Key="IndexChildListBoxStyle" TargetType="{x:Type ListBox}">
+            <Setter Property="BorderBrush" Value="transparent" />
+            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="IsTextSearchEnabled" Value="true" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        </Style>
+        
+        <Style x:Key="IndexItemContainerStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Grid>
+                            <ContentPresenter x:Name="ContentSite" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="ChildItemContainerStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F0F0F0" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <DataTemplate x:Key="IndexChildListBoxDataTemplate">
+            <TextBlock
+                Text="{Binding XPath=@Title}"
+                ToolTip="{Binding XPath=@Title}"
+                TextTrimming="WordEllipsis" />
+        </DataTemplate>
+
+        <!-- Data template for ListBox -->
+        <DataTemplate x:Key="IndexListBoxDataTemplate">
+            <StackPanel>
+                <TextBlock
+                    Name="Title"
+                    FontSize="10pt"
+                    FontWeight="Bold"
+                    FontFamily="Calibri"
+                    TextTrimming="WordEllipsis"
+                    Foreground="Black"
+                    Text="{Binding XPath=@Title}"
+                    ToolTip="{Binding XPath=@Title}"
+                    Margin="5,0,0,0" />
+                
+                <ListBox
+                    Name="IndexListBox"
+                    Style="{StaticResource IndexChildListBoxStyle}"
+                    ItemTemplate="{StaticResource IndexChildListBoxDataTemplate}"
+                    ItemContainerStyle="{StaticResource ChildItemContainerStyle}"
+                    SelectionChanged="OnListBoxSelectionChanged">
+                    <ListBox.ItemsSource>
+                        <Binding XPath="descendant::*">
+                            <Binding.Converter>
+                                <CC:FilterForEmbededListBox />
+                            </Binding.Converter>                            
+                        </Binding>
+                    </ListBox.ItemsSource>
+                </ListBox>
+                
+            </StackPanel>
+        </DataTemplate>
+
+
+        <!-- Style for TreeView -->
+        <Style x:Key="IndexTreeViewItemContainerStyle" TargetType="{x:Type TreeViewItem}">
+          <Setter Property="IsExpanded" Value="False"/>
+          <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter Property="Background" Value="#F0F0F0" />
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+        <Style x:Key="TopLevelItemContainerStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource IndexTreeViewItemContainerStyle}">
+          <Setter Property="IsExpanded" Value="True"/>
+          <Setter Property="ItemContainerStyle" Value="{StaticResource IndexTreeViewItemContainerStyle}"/>
+        </Style>
+
+        <Style x:Key="IndexTreeViewStyle" TargetType="{x:Type TreeView}">
+          <Setter Property="Background" Value="transparent" />
+        </Style>
+
+        <!-- Data template for TreeView -->
+        <HierarchicalDataTemplate x:Key="TreeViewDataTemplate" DataType="NavigationNode">
+          <HierarchicalDataTemplate.ItemsSource>
+            <Binding XPath="HelpTOCNode">
+              <Binding.Converter>
+                <CC:FilterForTreeView />
+              </Binding.Converter>
+            </Binding>
+          </HierarchicalDataTemplate.ItemsSource>
+          <TextBlock
+              FontFamily="Calibri"
+              FontSize="10pt"
+              TextTrimming="WordEllipsis"
+              ToolTip="{Binding XPath=@Title}"
+              Text="{Binding XPath=@Title}" />
+        </HierarchicalDataTemplate>
+
+        <!-- ** ListBox and TreeView DataTemplates and Styles -->
+        <!-- ***************************************************************** -->
+
+
+        <Storyboard x:Key="ShowListBoxAnimation">
+          <DoubleAnimation Storyboard.TargetName="IndexListBox" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0.2" From="0" To="1" />
+          <DoubleAnimation Storyboard.TargetName="IndexTreeView" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0.2" From="1" To="0" />
+        </Storyboard>
+
+        <Storyboard x:Key="ShowTreeViewAnimation">
+          <DoubleAnimation Storyboard.TargetName="IndexListBox" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0.2" From="1" To="0" />
+          <DoubleAnimation Storyboard.TargetName="IndexTreeView" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0.2" From="0" To="1" />
+        </Storyboard>
+    </ContentControl.Resources>
+
+    <!-- Control definition -->
+    <Grid
+        Background="{Binding ElementName=ROOT, Path=Background}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <GroupBox
+          Grid.Row="0"
+          FontFamily="Calibri"
+          FontSize="9pt"
+          Header="Search"
+          Margin="0,0,0,0"
+          Foreground="Black"
+          BorderBrush="#e4e4e4">
+
+        <StackPanel
+            Orientation="Vertical"
+            Margin="2,0,2,2">
+          <StackPanel Orientation="Horizontal">
+            <RadioButton
+                Name="toggleTreeViewButton"
+                GroupName="View"
+                Checked="ToggleView"
+                IsChecked="True"
+                Margin="0,0,10,0">
+              <Label FontFamily="Calibri" FontSize="9pt">_Contents</Label>
+            </RadioButton>
+            <RadioButton
+                Name="toggleListBoxButton"
+                GroupName="View"
+                Checked="ToggleView">
+              <Label FontFamily="Calibri" FontSize="9pt">_Index</Label>
+            </RadioButton>
+          </StackPanel>
+
+          <TextBox
+              Name="FilterTextBox"
+              Grid.Row="1"
+              MaxLines="1"
+              IsUndoEnabled="false"
+              TextChanged="OnFilterTextBoxTextChanged" />
+        </StackPanel>
+      </GroupBox>
+
+      <ListBox
+          Name="IndexListBox"
+          Grid.Row="2"
+          VerticalAlignment="Stretch"
+          HorizontalAlignment="Stretch"
+          Background="White"
+          BorderBrush="#e4e4e4"
+          IsTextSearchEnabled="True"
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+          ScrollViewer.CanContentScroll="False" 
+          Style="{StaticResource IndexListBoxStyle}"
+          ItemContainerStyle="{StaticResource IndexItemContainerStyle}"
+          ItemsSource="{Binding Source={StaticResource NavigationMapListBox}}"
+          ItemTemplate="{StaticResource IndexListBoxDataTemplate}"
+          Opacity="0"
+          IsHitTestVisible="False" />
+
+      <TreeView
+          Name="IndexTreeView"
+          Grid.Row="2"
+          VerticalAlignment="Stretch"
+          HorizontalAlignment="Stretch"
+          Padding="5"
+          Margin="0,5,0,0"
+          Background="White"
+          BorderBrush="#e4e4e4"
+          IsTextSearchEnabled="True"
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+          Style="{StaticResource IndexTreeViewStyle}"
+            ItemContainerStyle="{StaticResource TopLevelItemContainerStyle}"
+            ItemsSource="{Binding Source={StaticResource NavigationMapTreeView}}"
+            ItemTemplate="{StaticResource TreeViewDataTemplate}"
+            SelectedItemChanged="OnTreeViewSelectionChanged" />
+    </Grid>
+</ContentControl>

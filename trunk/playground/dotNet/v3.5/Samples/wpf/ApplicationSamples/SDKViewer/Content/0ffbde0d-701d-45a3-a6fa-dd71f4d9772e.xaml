@@ -1,0 +1,553 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0ffbde0d_701d_45a3_a6fa_dd71f4d9772e"
+  Tag     ="WPF and Win32 Interoperation Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>WPF and Win32 Interoperation Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic provides an overview of how to interoperate WPF and Win32 code. Windows Presentation Foundation (WPF) provides a rich environment for creating applications. However, when you have a substantial investment in Win32 code, it might be more effective to reuse some of that code.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="basics">WPF and Win32 Interoperation Basics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="projects">WPF Interoperation Projects</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>How Windows Presentation Framework Uses Hwnds</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="hosting_an_avalon_page">Hosting WPF Content in a Microsoft Win32 Window</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="hosting_an_hwnd">Hosting a Microsoft Win32 Window in WPF</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="tabbing_mnemonics_accelerators">Tabbing, Mnemonics, and Accelerators</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">WPF and Win32 Interoperation Basics
+    </Paragraph>
+
+    <Paragraph>There are two basic techniques for interoperation between WPF and Win32 code.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Host WPF content in a Win32 window. With this technique, you can use the advanced graphics capabilities of WPF within the framework of a standard Win32 window and application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Host a Win32 window in WPF content. With this technique, you can use an existing custom Win32 control in the context of other WPF content, and pass data across the boundaries.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Each of these techniques is conceptually introduced in this topic. For a more code-oriented illustration of hosting WPF in Win32 , see <Hyperlink NavigateUri="a676b1eb-fc55-4355-93ab-df840c41cea0.xaml">Walkthrough: Hosting a Simple Win32 Control in a Windows Presentation Foundation Application</Hyperlink>
+. For a more code-oriented illustration of hosting Win32 in WPF, see <Hyperlink NavigateUri="38ce284a-4303-46dd-b699-c9365b22a7dc.xaml">Walkthrough: Hosting Windows Presentation Foundation Content in a Win32 Application</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">WPF Interoperation Projects
+    </Paragraph>
+
+    <Paragraph>WPF APIs are managed code, but most existing Win32 programs are written in unmanaged C++. You cannot call WPF APIs from a true unmanaged program. However, by using the <Run FontWeight="Bold">/clr</Run>
+ option with the Microsoft Visual C++ compiler, you can create a mixed managed-unmanaged program where you can seamlessly mix managed and unmanaged API calls. 
+    </Paragraph>
+
+    <Paragraph>One project-level complication is that you cannot compile Extensible Application Markup Language (XAML) files into a C++ project. There are several project division techniques to compensate for this.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Create a C# DLL that contains all your XAML pages as a compiled assembly, and then have your C++ executable include that DLL as a reference.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a C# executable for the WPF content, and have it reference a C++ DLL that contains the Win32 content.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use Load to runtime load any XAML instead of compiling your XAML.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Do not use XAML at all, and write all your WPF in code, building up the element tree from Application.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Use whatever approach works best for you.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>If you have not used C++/CLI before, you might notice some "new" keywords such as <Run FontWeight="Bold">gcnew</Run>
+ and <Run FontWeight="Bold">nullptr</Run>
+ in the interoperation code examples. These keywords supersede the older double-underscore syntax (<Run FontWeight="Bold">__gc</Run>
+) and provide a more natural syntax for managed code in C++. You can learn more about the C++/CLI managed features in the topics <Hyperlink NavigateUri="http://msdn2.microsoft.com/library/xey702bw(en-us,vs.80).aspx">New Language Features in Visual C++</Hyperlink>
+ and <Hyperlink NavigateUri="http://msdn.microsoft.com/msdnmag/issues/06/00/PureC/default.aspx">Hello, C++/CLI</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">How Windows Presentation Framework Uses Hwnds
+    </Paragraph>
+
+    <Paragraph>To make the most of WPF "HWND interop", you need to understand how WPF uses HWNDs. For any HWND, you cannot mix WPF rendering with DirectX rendering or GDI / GDI+ rendering. This has a number of implications. Primarily, in order to mix these rendering models at all, you must create an interoperation solution, and use designated segments of interoperation for each rendering model that you choose to use. Also, the rendering behavior creates an "airspace" restriction for what your interoperation solution can accomplish. The "airspace" concept is explained in greater detail in the topic <Hyperlink NavigateUri="b7cc350f-b9e2-48b1-be14-60f3d853222e.xaml">WPF Interoperation: ''Airspace'' and Window Regions Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph>All WPF elements on the screen are ultimately backed by a HWND. When you create a WPF Window, WPF creates a top-level HWND, and uses an HwndSource to put the <Run FontWeight="Bold">Window</Run>
+ and its WPF content inside the HWND. The rest of your WPF content in the application shares that singular HWND. An exception is menus, combo box drop downs, and other pop-ups. These elements create their own top-level window, which is why a WPF menu can potentially go past the edge of the window HWND that contains it. When you use HwndHost to put an HWND inside WPF, WPF informs Win32 how to position the new child HWND relative to the WPF <Run FontWeight="Bold">Window</Run>
+ HWND.
+    </Paragraph>
+
+    <Paragraph>A related concept to HWND is transparency within and between each HWND. This is also discussed in the topic <Hyperlink NavigateUri="b7cc350f-b9e2-48b1-be14-60f3d853222e.xaml">WPF Interoperation: ''Airspace'' and Window Regions Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Hosting WPF Content in a Microsoft Win32 Window
+    </Paragraph>
+
+    <Paragraph>The key to hosting a WPF on a Win32 window is the <Run FontWeight="Bold">HwndSource</Run>
+ class. This class wraps the WPF content in a Win32 window, so that the WPF content can be incorporated into your user interface (UI) as a child window. The following approach combines the Win32 and WPF in a single application.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Implement your WPF content (the content root element) as a managed class. Typically, the class inherits from one of the classes that can contain multiple child elements and/or used as a root element, such as DockPanel or Page. In subsequent steps, this class will be referred to as the WPF content class, and instances of that class referred to as the WPF content object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implement a Win32 application with C++/CLI. If you are starting with an existing unmanaged C++ application, you can usually enable it to call managed code by changing your project settings to include the <Run FontWeight="Bold">/clr</Run>
+ compiler flag (the full scope of what might be necessary to support <Run FontWeight="Bold">/clr</Run>
+ compilation is not described in this topic).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Set the threading model to Single Threaded Apartment (STA). WPF uses this threading model.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Handle the WM_CREATE notification in your window procedure.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Within the handler (or a function that the handler calls), do the following:
+        </Paragraph>
+
+        <List MarkerStyle="Decimal">
+          <ListItem>
+            <Paragraph>Create a new <Run FontWeight="Bold">HwndSource</Run>
+ object with the parent window HWND as its <Run FontStyle="italic">parent</Run>
+ parameter.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Create an instance of your WPF content class.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Assign a reference to the WPF content object to the <Run FontWeight="Bold">HwndSource</Run>
+ object RootVisual property. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>The <Run FontWeight="Bold">HwndSource</Run>
+ object Handle property contains the window handle (HWND). To get an HWND that you can use in the unmanaged part of your application, cast <Run>Handle.ToPointer()</Run>
+ to an HWND. 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implement a managed class that contains a static field that holds a reference to your WPF content object. This class allows you to get a reference to the WPF content object from your Win32 code, but more importantly it prevents your <Run FontWeight="Bold">HwndSource</Run>
+ from being inadvertently garbage collected.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Receive notifications from the WPF content object by attaching a handler to one or more of the WPF content object events.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Communicate with the WPF content object by using the reference that you stored in the static field to set properties, call methods, etc.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>You can do some or all of the WPF content class definition for Step One in XAML using the default partial class of the content class, if you produce a separate assembly and then reference it. Although you typically include an <Run FontWeight="Bold">Application</Run>
+ object as part of compiling the XAML into an assembly, you do not end up using that <Run FontWeight="Bold">Application</Run>
+ as part of the interoperation, you just use one or more of the root classes for XAML files referred to by the application and reference their partial classes. The remainder of the procedure is essentially similar to that outlined above.
+            </Paragraph>
+
+            <Paragraph>Each of these steps is illustrated through code in the topic <Hyperlink NavigateUri="38ce284a-4303-46dd-b699-c9365b22a7dc.xaml">Walkthrough: Hosting Windows Presentation Foundation Content in a Win32 Application</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Hosting a Microsoft Win32 Window in WPF
+    </Paragraph>
+
+    <Paragraph>The key to hosting a Win32 window within other WPF content is the <Run FontWeight="Bold">HwndHost</Run>
+ class. This class wraps the window in a WPF element which can be added to a WPF element tree. <Run FontWeight="Bold">HwndHost</Run>
+ also supports an APIs that allows you to do such tasks as process messages for the hosted window. The basic procedure is:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create an element tree for a WPF application (can be through code or markup). Find an appropriate and permissible point in the element tree where the <Run FontWeight="Bold">HwndHost</Run>
+ implementation can be added as a child element. In the remainder of these steps, this element is referred to as the reserving element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Derive from <Run FontWeight="Bold">HwndHost</Run>
+ to create an object that holds your Win32 content.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In that host class, override the <Run FontWeight="Bold">HwndHost</Run>
+ method BuildWindowCore. Return the HWND of the hosted window. You might want to wrap the actual control(s) as a child window of the returned window; 
+wrapping the controls in a host window provides a simple way for your WPF content to receive notifications from the controls. This technique helps correct for some Win32 issues regarding message handling at the hosted control boundary.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Override the <Run FontWeight="Bold">HwndHost</Run>
+ methods DestroyWindowCore and WndProc. The intention here is to process cleanup and remove references to the hosted content, particularly if you created references to unmanaged objects.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In your code-behind file, create an instance of the control hosting class and make it a child of the reserving element. Typically you would use an event handler such as Loaded, or use the partial class constructor. But you could also add the interoperation content through a runtime behavior.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Process selected window messages, such as control notifications. There are two approaches. Both provide identical access to the message stream, so your choice is largely a matter of programming convenience.
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Implement message processing for all messages (not just shutdown messages) in your override of the <Run FontWeight="Bold">HwndHost</Run>
+ method <Run FontWeight="Bold">WndProc</Run>
+.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Have the hosting WPF element process the messages by handling the MessageHook event. This event is raised for every message that is sent to the main window procedure of the hosted window. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>You cannot process messages from windows that are out of process using <Run FontWeight="Bold">WndProc</Run>
+.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Communicate with the hosted window by using PInvoke to call the unmanaged SendMessage function.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Following these steps creates an application that works with mouse input. You can add tabbing support for your hosted window by implementing the IKeyboardInputSink interface.
+    </Paragraph>
+
+    <Paragraph>Each of these steps is illustrated through code in the topic <Hyperlink NavigateUri="a676b1eb-fc55-4355-93ab-df840c41cea0.xaml">Walkthrough: Hosting a Simple Win32 Control in a Windows Presentation Foundation Application</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Hwnds Inside Windows Presentation Framework
+    </Paragraph>
+
+    <Paragraph>You can think of <Run FontWeight="Bold">HwndHost</Run>
+ as a special control. (Technically, <Run FontWeight="Bold">HwndHost</Run>
+ is a FrameworkElement derived class, not a Control derived class, but it can be considered a control for purposes of interoperation.) <Run FontWeight="Bold">HwndHost</Run>
+ abstracts the underlying Win32 nature of the hosted content such that the remainder of WPF considers the hosted content to be another control-like object, which should render and process input. <Run FontWeight="Bold">HwndHost</Run>
+ generally behaves like any other <Run FontWeight="Bold">FrameworkElement</Run>
+, although there are some important differences around output (drawing and graphics) and input (mouse and keyboard) based on limitations of what the underlying HWNDs can support.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Notable differences in output behavior
+    </Paragraph>
+
+    <Paragraph>•<Run FontWeight="Bold">HwndHost</Run>
+ cannot be rotated, scaled, skewed, or otherwise affected by a Transform. 
+    </Paragraph>
+
+    <Paragraph>•<Run FontWeight="Bold">HwndHost</Run>
+ does not support the Opacity property (alpha blending). If content inside the <Run FontWeight="Bold">HwndHost</Run>
+ performs System.Drawing operations that include alpha information, that is itself not a violation, but the <Run FontWeight="Bold">HwndHost</Run>
+ as a whole only supports Opacity = 1.0 (100%). 
+    </Paragraph>
+
+    <Paragraph>•<Run FontWeight="Bold">HwndHost</Run>
+ will appear on top of other WPF elements in the same top-level window. However, a ToolTip or ContextMenu generated menu is a separate top-level window, and so will behave correctly with <Run FontWeight="Bold">HwndHost</Run>
+.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">HwndHost</Run>
+ does not respect the clipping region of its parent UIElement. This is potentially an issue if you attempt to put an <Run FontWeight="Bold">HwndHost</Run>
+ class inside a scrolling region or Canvas.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="16pt">Notable differences in input behavior
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>While the mouse is over the <Run FontWeight="Bold">HwndHost</Run>
+, your application does not receive WPF mouse events, and the value of the WPF property IsMouseOver will be <Run FontWeight="Bold">false</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>While the <Run FontWeight="Bold">HwndHost</Run>
+ has keyboard focus, your application will not receive WPF keyboard events and the value of the WPF property IsKeyboardFocusWithin will be <Run FontWeight="Bold">false</Run>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When focus is within the <Run FontWeight="Bold">HwndHost</Run>
+ and changes to another control inside the <Run FontWeight="Bold">HwndHost</Run>
+, your application will not receive the WPF events GotFocus or LostFocus.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Related stylus properties and events are analogous, and do not report information while the stylus is over <Run FontWeight="Bold">HwndHost</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Tabbing, Mnemonics, and Accelerators
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">IKeyboardInputSink</Run>
+ and IKeyboardInputSite interfaces allow you to create a seamless keyboard experience for mixed WPF and Win32 applications
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Tabbing between Win32 and WPF components
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Mnemonics and accelerators that work both when focus is within a Win32 component and when it is within a WPF component.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The <Run FontWeight="Bold">HwndHost</Run>
+ and <Run FontWeight="Bold">HwndSource</Run>
+ classes both provide implementations of <Run FontWeight="Bold">IKeyboardInputSink</Run>
+, but may not handle all the input messages that you want for more advanced scenarios. Override the appropriate methods to get the keyboard behavior you want.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>HwndHost
+      <LineBreak/>HwndSource
+      <LineBreak/>System.Windows.Interop
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a676b1eb-fc55-4355-93ab-df840c41cea0.xaml">Walkthrough: Hosting a Simple Win32 Control in a Windows Presentation Foundation Application</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="38ce284a-4303-46dd-b699-c9365b22a7dc.xaml">Walkthrough: Hosting Windows Presentation Foundation Content in a Win32 Application</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about WPF and Win32 Interoperation Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,216 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_c1e8f962_72c8_4e7a_8670_7a2d7e021791"
+  Tag     ="Horizontally or Vertically Align Content in a StackPanel"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Horizontally or Vertically Align Content in a StackPanel</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to adjust the Orientation of content within a StackPanel element, and also how to adjust the HorizontalAlignment and VerticalAlignment of child content.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates three ListBox elements in Extensible Application Markup Language (XAML). Each <Run FontWeight="Bold">ListBox</Run>
+ represents the possible values of the Orientation, HorizontalAlignment, and VerticalAlignment properties of a StackPanel. When a user selects a value in any of the <Run FontWeight="Bold">ListBox</Run>
+ elements, the associated property of the StackPanel and its child Button elements change.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox VerticalAlignment="Top" SelectionChanged="changeOrientation" Grid.Row="2" Grid.Column="1" Width="100" Height="50" Margin="0,0,0,10"> 
+&lt;ListBoxItem>Horizontal
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Vertical
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;ListBox VerticalAlignment="Top" SelectionChanged="changeHorAlign" Grid.Row="2" Grid.Column="3" Width="100" Height="50" Margin="0,0,0,10"> 
+&lt;ListBoxItem>Left
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Right
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Center
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Stretch
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;ListBox VerticalAlignment="Top" SelectionChanged="changeVertAlign" Grid.Row="2" Grid.Column="5" Width="100" Height="50" Margin="0,0,0,10"> 
+&lt;ListBoxItem>Top
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Bottom
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Center
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Stretch
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;StackPanel Grid.ColumnSpan="6" Grid.Row="3" Name="sp1" Background="Yellow"> 
+&lt;Button>Button One
+&lt;/Button> 
+&lt;Button>Button Two
+&lt;/Button> 
+&lt;Button>Button Three
+&lt;/Button> 
+&lt;Button>Button Four
+&lt;/Button> 
+&lt;Button>Button Five
+&lt;/Button> 
+&lt;Button>Button Six
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code-behind file defines the changes to the events that are associated with the <Run FontWeight="Bold">ListBox</Run>
+ selection changes. StackPanel is identified by the Name <Run>sp1</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void changeOrientation(object sender, SelectionChangedEventArgs args) { ListBoxItem li = ((sender as ListBox).SelectedItem as ListBoxItem); 
+if (li.Content.ToString() == "Horizontal") { sp1.Orientation = System.Windows.Controls.Orientation.Horizontal; 
+} else if (li.Content.ToString() == "Vertical") { sp1.Orientation = System.Windows.Controls.Orientation.Vertical; 
+} } public void changeHorAlign(object sender, SelectionChangedEventArgs args) { ListBoxItem li = ((sender as ListBox).SelectedItem as ListBoxItem); 
+if (li.Content.ToString() == "Left") { sp1.HorizontalAlignment = System.Windows.HorizontalAlignment.Left; 
+} else if (li.Content.ToString() == "Right") { sp1.HorizontalAlignment = System.Windows.HorizontalAlignment.Right; 
+} else if (li.Content.ToString() == "Center") { sp1.HorizontalAlignment = System.Windows.HorizontalAlignment.Center; 
+} else if (li.Content.ToString() == "Stretch") { sp1.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch; 
+} } public void changeVertAlign(object sender, SelectionChangedEventArgs args) { ListBoxItem li = ((sender as ListBox).SelectedItem as ListBoxItem); 
+if (li.Content.ToString() == "Top") { sp1.VerticalAlignment = System.Windows.VerticalAlignment.Top; 
+} else if (li.Content.ToString() == "Bottom") { sp1.VerticalAlignment = System.Windows.VerticalAlignment.Bottom; 
+} else if (li.Content.ToString() == "Center") { sp1.VerticalAlignment = System.Windows.VerticalAlignment.Center; 
+} else if (li.Content.ToString() == "Stretch") { sp1.VerticalAlignment = System.Windows.VerticalAlignment.Stretch; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub changeOrientation(ByVal sender As Object, ByVal args As SelectionChangedEventArgs) Dim li As ListBoxItem = CType(CType(sender, ListBox).SelectedItem, ListBoxItem) If (li.Content.ToString() = "Horizontal") Then sp1.Orientation = System.Windows.Controls.Orientation.Horizontal ElseIf li.Content.ToString() = "Vertical" Then sp1.Orientation = System.Windows.Controls.Orientation.Vertical End If End Sub Public Sub changeHorAlign(ByVal sender As Object, ByVal args As SelectionChangedEventArgs) Dim li As ListBoxItem = CType(CType(sender, ListBox).SelectedItem, ListBoxItem) If (li.Content.ToString() = "Left") Then sp1.HorizontalAlignment = System.Windows.HorizontalAlignment.Left ElseIf (li.Content.ToString() = "Right") Then sp1.HorizontalAlignment = System.Windows.HorizontalAlignment.Right ElseIf (li.Content.ToString() = "Center") Then sp1.HorizontalAlignment = System.Windows.HorizontalAlignment.Center ElseIf (li.Content.ToString() = "Stretch") Then sp1.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch End If End Sub Public Sub changeVertAlign(ByVal sender As Object, ByVal args As SelectionChangedEventArgs) Dim li As ListBoxItem = CType(CType(sender, ListBox).SelectedItem, ListBoxItem) If (li.Content.ToString() = "Top") Then sp1.VerticalAlignment = System.Windows.VerticalAlignment.Top ElseIf (li.Content.ToString() = "Bottom") Then sp1.VerticalAlignment = System.Windows.VerticalAlignment.Bottom ElseIf (li.Content.ToString() = "Center") Then sp1.VerticalAlignment = System.Windows.VerticalAlignment.Center ElseIf (li.Content.ToString() = "Stretch") Then sp1.VerticalAlignment = System.Windows.VerticalAlignment.Stretch End If End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>For the complete sample, see StackPanel Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>StackPanel
+      <LineBreak/>HorizontalAlignment
+      <LineBreak/>VerticalAlignment
+      <LineBreak/>ListBox
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Horizontally or Vertically Align Content in a StackPanel to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

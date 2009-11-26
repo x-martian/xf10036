@@ -1,0 +1,428 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_597e3280_0867_4359_a97b_5b2f4149e350"
+  Tag     ="Timing Events Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Timing Events Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes how to use the five timing events available on Timeline and Clock objects. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run>Prerequisites</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Why Use Events?</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Public Events</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Ticking and Event Consolidation</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Registering for Events</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="registeringforclockeventswithatimeline">Registering for Clock Events with a Timeline</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To understand this topic, you should understand how to create and use animations. To get started with animation, see the <Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph>There are multiple ways to animate properties in WPF: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Using storyboard objects</Run>
+ (markup and code): You can use Storyboard objects to arrange and distribute animations to one or more objects. For an example, see <Hyperlink NavigateUri="f4a314e9-1da2-4367-85fc-1232487efa7a.xaml">How to: Animate a Property by Using a Storyboard</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Using local animations</Run>
+ (code only): You can apply AnimationTimeline objects directly to the properties they animate. For an example, see <Hyperlink NavigateUri="d411db70-4df7-487d-82bc-95a7c1b2e7f8.xaml">How to: Apply a Local (Non-Storyboard) Animation to a Property</Hyperlink>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Using clocks</Run>
+ (code only): You can explicitly manage clock creation and distribute the animation clocks yourself. For an example, see <Hyperlink NavigateUri="e6542021-714c-4675-9567-04f1c7380834.xaml">How to: Animate a Property by Using an AnimationClock</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Because you can use them in markup and code, the examples in this overview use <Run FontWeight="Bold">Storyboard</Run>
+ objects. However, the concepts described can be applied to the other methods of animating properties.
+    </Paragraph>
+
+    <Paragraph FontSize="18">What is a clock?
+    </Paragraph>
+
+    <Paragraph>A timeline, by itself, doesn't actually do anything other than describe a segment of time. It's the timeline's Clock object that does the real work: it maintains timing-related run-time state for the timeline. In most cases, such as when using storyboards, a clock is created automatically for your timeline. You can also create a <Run FontWeight="Bold">Clock</Run>
+ explicitly by using the CreateClock method.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Why Use Events?
+    </Paragraph>
+
+    <Paragraph>With the exception of one (seek aligned to last tick), all interactive timing operations are asynchronous. There is no way for you to know exactly when they will execute. That can be a problem when you have other code that's dependent upon your timing operation. Suppose that you wanted to stop a timeline that animated a rectangle. After the timeline stops, you change the color of the rectangle. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myStoryboard.Stop(myRectangle); 
+// This statement might execute // before the storyboard has stopped. myRectangle.Fill = Brushes.Blue; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In the previous example, the second line of code might execute before the storyboard stops. That's because stopping is an asynchronous operation. Telling a timeline or clock to stop creates a "stop request" of sorts that isn't processed until the timing engine's next tick.
+    </Paragraph>
+
+    <Paragraph>To execute commands after a timeline completes, use timing events. In the following example, an event handler is used to change the color of a rectangle after the storyboard stops playing.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Register for the CurrentStateInvalidated timing event. myStoryboard.CurrentStateInvalidated += new EventHandler(myStoryboard_CurrentStateInvalidated); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Change the rectangle's color after the storyboard stops. void myStoryboard_CurrentStateInvalidated(object sender, EventArgs e) { Clock myStoryboardClock = (Clock)sender; 
+if (myStoryboardClock.CurrentState == ClockState.Stopped) { myRectangle.Fill = Brushes.Blue; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For a more complete example, see <Hyperlink NavigateUri="ecb10fc9-d0c2-45c3-b0a1-7b11baa733da.xaml">How to: Receive Notification When a Clock's State Changes</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Public Events
+    </Paragraph>
+
+    <Paragraph>The Timeline and <Run FontWeight="Bold">Clock</Run>
+ classes both provide five timing events. The following table lists these events and the conditions that trigger them.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Event 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Triggering interactive operation 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Other triggers 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Completed
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Skip to fill
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The clock completes.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>CurrentGlobalSpeedInvalidated
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Pause, resume, seek, set speed ratio, skip to fill, stop
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The clock reverses, accelerates, starts, or stops.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>CurrentStateInvalidated
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Begin, skip to fill, stop
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The clock starts, stops, or fills.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>CurrentTimeInvalidated
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Begin, seek, skip to fill, stop
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The clock progresses.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RemoveRequested
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Remove
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Ticking and Event Consolidation
+    </Paragraph>
+
+    <Paragraph>When you animate objects in WPF, it’s the timing engine that manages your animations. The timing engine tracks the progression of time and computes the state of each animation. It makes many such evaluation passes in a second. These evaluation passes are known as "ticks." 
+    </Paragraph>
+
+    <Paragraph>While ticks occur frequently, it's possible for a lot of things to happen between ticks. For example, a timeline might be stopped, started, and stopped again, in which case its current state will have changed three times. In theory, the event could be raised multiple times in a single tick; 
+however, the timing engine consolidates events, so that each event can be raised at most once per tick.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Registering for Events
+    </Paragraph>
+
+    <Paragraph>There are two ways to register for timing events: you can register with the timeline or with the clock created from the timeline. Registering for an event directly with a clock is fairly straightforward, although it can only be done from code. You can register for events with a timeline from markup or code. The next section describes how to register for clock events with a timeline.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Registering for Clock Events with a Timeline
+    </Paragraph>
+
+    <Paragraph>Although a timeline's Completed, CurrentGlobalSpeedInvalidated, CurrentStateInvalidated, CurrentTimeInvalidated, and RemoveRequested events appear to be associated with the timeline, registering for these events actually associates an event handler with the <Run FontWeight="Bold">Clock</Run>
+ created for the timeline. 
+    </Paragraph>
+
+    <Paragraph>When you register for the <Run FontWeight="Bold">Completed</Run>
+ event on a timeline, for example, you're actually telling the system to register for the Completed event of each clock that is created for the timeline. In code, you must register for this event before the <Run FontWeight="Bold">Clock</Run>
+ is created for this timeline; 
+otherwise, you won't receive notification. This happens automatically in XAML; 
+the parser automatically registers for the event before the <Run FontWeight="Bold">Clock</Run>
+ is created.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Timing Events Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

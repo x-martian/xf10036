@@ -1,0 +1,320 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b77693f5_87bb_4b29_a297_05ff882e2044"
+  Tag     ="Find and Highlight Text Using UI Automation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Find and Highlight Text Using UI Automation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic demonstrates how to sequentially search for and highlight each occurrence of a string within the content of a text control using Microsoft UI Automation.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example obtains a TextPattern object from the text control within an instance of Microsoft WordPad. A TextPatternRange object, representing the textual content of the entire document, is then created using the DocumentRange property of this <Run FontWeight="Bold">TextPattern</Run>
+. Two additional <Run FontWeight="Bold">TextPatternRange</Run>
+ objects are then created for the sequential search and highlight functionality.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>///-------------------------------------------------------------------- /// 
+&lt;summary> /// Finds the edit control in our target. /// 
+&lt;/summary> /// 
+&lt;param name="src">The object that raised the event.
+&lt;/param> /// 
+&lt;param name="e">Event arguments.
+&lt;/param> /// 
+&lt;remarks> /// Initialize the TextPattern object and event handlers. /// 
+&lt;/remarks> ///-------------------------------------------------------------------- private void FindEdit(object src, RoutedEventArgs e) { try { // Get the Automation Element for the Document // control in the application PropertyCondition documentControl = new PropertyCondition( AutomationElement.ControlTypeProperty, ControlType.Document); 
+PropertyCondition textPatternAvailable = new PropertyCondition( AutomationElement.IsTextPatternAvailableProperty, true); 
+AndCondition findControl = new AndCondition(documentControl, textPatternAvailable); 
+targetDocument = targetWindow.FindFirst(TreeScope.Descendants, findControl); 
+if (targetDocument == null) { targetResult.Content = WPFTarget + " does not contain a Document control type."; 
+targetResult.Background = Brushes.Salmon; 
+startWPFTargetButton.IsEnabled = false; 
+return; 
+} // Get required control patterns targetTextPattern = targetDocument.GetCurrentPattern( TextPattern.Pattern) as TextPattern; 
+if (targetTextPattern == null) { targetResult.Content = WPFTarget + " does not contain an element that supports TextPattern."; 
+targetResult.Background = Brushes.Salmon; 
+startWPFTargetButton.IsEnabled = false; 
+return; 
+} infoGrid.Visibility = Visibility.Visible; 
+targetResult.Content = "Text provider found."; 
+targetResult.Background = Brushes.LightGreen; 
+// Initialize the document range for the text of the document. documentRange = targetTextPattern.DocumentRange; 
+// Initialize search buttons. if (targetTextPattern.DocumentRange.GetText(1).Length > 0) { searchForwardButton.IsEnabled = true; 
+} // Initialize search TextBox. searchString.IsEnabled = true; 
+// Check if the TextPattern supports text selection if (targetTextPattern.SupportedTextSelection == SupportedTextSelection.None) { targetResult.Content = "Unable to select text."; 
+targetResult.Background = Brushes.Salmon; 
+return; 
+} // Initialize the search range. searchRange = targetTextPattern.GetSelection()[0]; 
+findEditButton.Visibility = Visibility.Collapsed; 
+NotifySelectionChanged(null); 
+// Search starts at end of doc and goes backward searchBackward = false; 
+// An instance of TextPatternRange will become invalid if // one of the following occurs: // 1) The text in the AutomationElement changes // via some user activity // 2) ValuePattern.SetValue is used to programatically change // the value of the text in the automation element. // The only way the client application can detect if the text // has changed, i.e. that the ranges are now invalid, is by setting // a property listener on the TextChanged event of the TextPattern. // If that event fires, the client needs to recreate instances of // TextPatternRange created from the TextPattern. // Clients must always anticipate the possibility that the text // can change underneath them. To ensure they are working // with fresh information this property listener is essential. AutomationEventHandler textChangedHandler = new AutomationEventHandler(TextChanged); 
+Automation.AddAutomationEventHandler( TextPattern.TextChangedEvent, targetDocument, TreeScope.Element, textChangedHandler); 
+AutomationEventHandler textSelectionHandler = new AutomationEventHandler(OnTextSelectionChange); 
+Automation.AddAutomationEventHandler( TextPattern.TextSelectionChangedEvent, targetDocument, TreeScope.Element, textSelectionHandler); 
+} catch (Win32Exception exc) { Output(exc.ToString()); 
+Output(WPFTarget + " not found."); 
+} } ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Handles the Start Application button click. /// 
+&lt;/summary> /// 
+&lt;param name="sender">The object that raised the event.
+&lt;/param> /// 
+&lt;param name="e">Event arguments.
+&lt;/param> /// 
+&lt;remarks> /// Starts the application that we are going to use for as our /// root element for this sample. /// 
+&lt;/remarks> ///-------------------------------------------------------------------- private void StartTarget(object sender, RoutedEventArgs e) { Button targetOption = (Button)sender; 
+if (targetOption.Name == "WordPad") { targetWindow = StartTargetApp(W32Target); 
+} else { targetWindow = StartTargetApp(WPFTarget); 
+} if (targetWindow == null) { return; 
+} // Set a listener for the window closed event on the target. AutomationEventHandler targetClosedListener = new AutomationEventHandler(OnTargetClose); 
+Automation.AddAutomationEventHandler( WindowPattern.WindowClosedEvent, targetWindow, TreeScope.Element, targetClosedListener); 
+// Set size and position of target. TransformPattern targetTransformPattern = targetWindow.GetCurrentPattern(TransformPattern.Pattern) as TransformPattern; 
+targetTransformPattern.Resize(clientWindow.Width, clientWindow.Height); 
+targetTransformPattern.Move( clientWindow.Left + clientWindow.Width + 25, clientWindow.Top); 
+// Set visibility of client controls. startWPFTargetButton.Visibility = Visibility.Collapsed; 
+startW32TargetButton.Visibility = Visibility.Collapsed; 
+findEditButton.Visibility = Visibility.Visible; 
+targetResult.Visibility = Visibility.Visible; 
+} ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Starts a Windows Presentation Foundation (WPF) FlowDocumentReader /// target application. /// 
+&lt;/summary> /// 
+&lt;param name="app"> /// The application to start. /// 
+&lt;/param> /// 
+&lt;param name="args"> /// The file to open with the application. /// 
+&lt;/param> /// 
+&lt;returns>The target automation element.
+&lt;/returns> /// 
+&lt;remarks> /// Three WPF documents are provided in the Content folder of the /// TextProvider project. /// 
+&lt;/remarks> ///-------------------------------------------------------------------- private AutomationElement StartTargetApp(string app) { // Start application. Process p = Process.Start(app); 
+// Give the target application some time to start. // For Win32 applications, WaitForInputIdle can be used instead. // Another alternative is to listen for WindowOpened events. // Otherwise, an ArgumentException results when you try to // retrieve an automation element from the window handle. Thread.Sleep(2000); 
+targetResult.Content = WPFTarget + " started. \n\nPlease load a document into the target " + "application and click the 'Find edit control' button above. " + "\n\nNOTE: Documents can be found in the 'Content' folder of the FindText project."; 
+targetResult.Background = Brushes.LightGreen; 
+// Return the automation element return (AutomationElement.FromHandle(p.MainWindowHandle)); 
+} ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Display error information. /// 
+&lt;/summary> /// 
+&lt;param name="s">The error string.
+&lt;/param> ///-------------------------------------------------------------------- public void Output(string s) { MessageBox.Show(s); 
+} #endregion Client Setup #region Target Text Info ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Gets the enclosing element of the target selection. /// 
+&lt;/summary> /// 
+&lt;param name="sender">The object that raised the event.
+&lt;/param> /// 
+&lt;param name="e">Event arguments.
+&lt;/param> ///-------------------------------------------------------------------- void getEnclosingElement_Click(object sender, RoutedEventArgs e) { StringBuilder compileEnclosingElement = new StringBuilder(); 
+AutomationElement enclosingElement = searchRange.GetEnclosingElement(); 
+compileEnclosingElement.Append( "Enclosing element:\t").AppendLine( enclosingElement.Current.ControlType.ProgrammaticName); 
+if (enclosingElement != targetDocument) { try { TextPatternRange childRange = documentRange.TextPattern.RangeFromChild(enclosingElement); 
+childRange.Select(); 
+} catch { compileEnclosingElement.Append( "Enclosing element:\tDoes not support TextPattern."); 
+} } else { // Reset document range. documentRange = targetTextPattern.DocumentRange; 
+documentRange.Select(); 
+} targetWindow.SetFocus(); 
+displayChildren.Text = compileEnclosingElement.ToString(); 
+} ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Gets the children of the target selection. /// 
+&lt;/summary> /// 
+&lt;param name="sender">The object that raised the event.
+&lt;/param> /// 
+&lt;param name="e">Event arguments.
+&lt;/param> ///-------------------------------------------------------------------- void getChildren_Click(object sender, RoutedEventArgs e) { AutomationElement[] textProviderChildren = searchRange.GetChildren(); 
+int childCount = textProviderChildren.Length; 
+StringBuilder compileChildInfo = new StringBuilder(); 
+compileChildInfo.Append(textProviderChildren.GetLength(0).ToString()) .AppendLine(" child element(s)."); 
+for (int loop = 0; 
+loop 
+&lt; 
+childCount; 
+loop++) { compileChildInfo.Append("Child").Append(loop.ToString()) .AppendLine(":"); 
+compileChildInfo.Append("\tName:\t") .AppendLine(textProviderChildren[loop].Current.Name); 
+compileChildInfo.Append("\tControl Type:\t") .AppendLine(textProviderChildren[loop].Current.ControlType.ProgrammaticName); 
+AutomationPattern[] childPatterns = textProviderChildren[loop].GetSupportedPatterns(); 
+compileChildInfo.AppendLine("\tSupported Control Patterns:"); 
+if (childPatterns.Length 
+&lt;= 0) { compileChildInfo.AppendLine("\t\t\tNone"); 
+} else { foreach (AutomationPattern pattern in childPatterns) { compileChildInfo.Append("\t\t\t") .AppendLine(pattern.ProgrammaticName); 
+} } TextPatternRange childRange; 
+childRange = documentRange.TextPattern.RangeFromChild(textProviderChildren[loop]); 
+AutomationElement[] childRangeChildren = childRange.GetChildren(); 
+compileChildInfo.Append("\tChildren: \t") .AppendLine(childRangeChildren.Length.ToString()); 
+} displayChildren.Text = compileChildInfo.ToString(); 
+} #endregion Target Text Info #region Search Target ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Handles changes to the search text in the client. /// 
+&lt;/summary> /// 
+&lt;param name="sender">The object that raised the event.
+&lt;/param> /// 
+&lt;param name="e">Event arguments.
+&lt;/param> /// 
+&lt;remarks> /// Reset all controls if user changes search text /// 
+&lt;/remarks> ///-------------------------------------------------------------------- void tbSearch_TextChanged(object sender, TextChangedEventArgs e) { documentRange = targetTextPattern.DocumentRange; 
+if (documentRange.CompareEndpoints( TextPatternRangeEndpoint.Start, searchRange, TextPatternRangeEndpoint.Start) == 0) { searchForwardButton.IsEnabled = true; 
+searchBackwardButton.IsEnabled = false; 
+} else if ( documentRange.CompareEndpoints(TextPatternRangeEndpoint.End, searchRange, TextPatternRangeEndpoint.End) == 0) { searchForwardButton.IsEnabled = false; 
+searchBackwardButton.IsEnabled = true; 
+} else { searchForwardButton.IsEnabled = true; 
+searchBackwardButton.IsEnabled = true; 
+} } ///-------------------------------------------------------------------- /// 
+&lt;summary> /// Handles the Search button click. /// 
+&lt;/summary> /// 
+&lt;param name="sender">The object that raised the event.
+&lt;/param> /// 
+&lt;param name="e">Event arguments.
+&lt;/param> /// 
+&lt;remarks>Find the text specified in the text box.
+&lt;/remarks> ///-------------------------------------------------------------------- void btnSearch_Click(object sender, RoutedEventArgs e) { Button senderButton = sender as Button; 
+if (senderButton == null) { return; 
+} searchBackward = (senderButton.Content.ToString() == "Search _Backward") ? true : false; 
+try { // Check if search text entered if (searchString.Text.Trim() == "") { targetResult.Content = "No search criteria."; 
+targetResult.Background = Brushes.Salmon; 
+return; 
+} // Check if the TextPattern supports text selection if (targetTextPattern.SupportedTextSelection == SupportedTextSelection.None) { targetResult.Content = "Unable to select text."; 
+targetResult.Background = Brushes.Salmon; 
+return; 
+} if (targetTextPattern.SupportedTextSelection == SupportedTextSelection.Multiple) { targetResult.Content = "Multiple selections present."; 
+targetResult.Background = Brushes.Salmon; 
+return; 
+} // Move the TextPatternRange endpoints for 'Highlight Next' TextPatternRange[] selectionRange = targetTextPattern.GetSelection(); 
+if (selectionRange[0] != null) { if (searchBackward) { documentRange.MoveEndpointByRange( TextPatternRangeEndpoint.End, selectionRange[0], TextPatternRangeEndpoint.Start); 
+} else { documentRange.MoveEndpointByRange( TextPatternRangeEndpoint.Start, selectionRange[0], TextPatternRangeEndpoint.End); 
+} } // Find the text specified in the Search textbox // backward = false -- search from the start of the range // ignoreCase = false -- search is case sensitive TextPatternRange searchRangeClone = searchRange.Clone(); 
+searchRange = documentRange.FindText( searchString.Text, searchBackward, false); 
+if (searchRange == null) { if (documentRange.CompareEndpoints( TextPatternRangeEndpoint.Start, searchRangeClone, TextPatternRangeEndpoint.Start) == 0) { targetResult.Content = "Text not found."; 
+targetResult.Background = Brushes.Wheat; 
+searchBackwardButton.IsEnabled = false; 
+searchForwardButton.IsEnabled = false; 
+} else { // reset the document range. documentRange = targetTextPattern.DocumentRange; 
+targetResult.Content = "End of document reached."; 
+targetResult.Background = Brushes.Wheat; 
+if (!searchBackward) { searchRangeClone.MoveEndpointByRange( TextPatternRangeEndpoint.Start, documentRange, TextPatternRangeEndpoint.End); 
+searchBackwardButton.IsEnabled = true; 
+searchForwardButton.IsEnabled = false; 
+} else { searchRangeClone.MoveEndpointByRange( TextPatternRangeEndpoint.End, documentRange, TextPatternRangeEndpoint.Start); 
+searchBackwardButton.IsEnabled = false; 
+searchForwardButton.IsEnabled = true; 
+} } searchRange = searchRangeClone; 
+} else { targetResult.Content = "Text found."; 
+targetResult.Background = Brushes.LightGreen; 
+} searchRange.Select(); 
+// Scroll the selection into view, align with top of viewport searchRange.ScrollIntoView(true); 
+targetDocument.SetFocus(); 
+} catch (Exception exc) { Output(exc.ToString()); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>''' -------------------------------------------------------------------- ''' 
+&lt;summary> ''' Finds the edit control in our target. ''' 
+&lt;/summary> ''' 
+&lt;param name="ae">The target automation element.
+&lt;/param> ''' 
+&lt;param name="app">The target application.
+&lt;/param> ''' 
+&lt;remarks> ''' Initialize the TextPattern object and event handlers. ''' 
+&lt;/remarks> ''' -------------------------------------------------------------------- Private Sub FindEdit(ByVal ae As AutomationElement, ByVal app As String) Try ' Get the AutomationElement for the Edit control Dim propertyCondition As PropertyCondition = _ New PropertyCondition(AutomationElement.ControlTypeProperty, _ ControlType.Document) Dim targetDocument As AutomationElement = _ ae.FindFirst(TreeScope.Descendants, propertyCondition) If (targetDocument Is Nothing) Then targetResult.Text = _ app + " does not contain an Edit control type." startTargetButton.IsEnabled = False Return End If ' Get required control patterns ' ' Once you have an instance of an AutomationElement, ' check if it supports the TextPattern pattern. Dim o As Object = _ targetDocument.GetCurrentPattern(TextPattern.Pattern) targetTextPattern = CType(o, TextPattern) If (targetTextPattern Is Nothing) Then targetResult.Text = _ app + " does not contain an element that supports TextPattern." startTargetButton.IsEnabled = False Return End If targetResult.Text = _ app + " started and identified in the UI Automation tree." searchTargetButton.IsEnabled = True searchString.IsEnabled = True startTargetButton.IsEnabled = False searchDirection.IsEnabled = True ' Initialize the document range for the text of the document documentRange = targetTextPattern.DocumentRange ' Beginning of document range documentRangeStart = True ' Search starts at end of doc and goes backward searchBackward = False ' An instance of TextPatternRange will become invalid if ' one of the following occurs: ' 1) The text in the AutomationElement changes ' via some user activity ' 2) ValuePattern.SetValue is used to programatically change ' the value of the text in the automation element. ' The only way the client application can detect if the text ' has changed, i.e. that the ranges are now invalid, is by setting ' a property listener on the TextChanged event of the TextPattern. ' If that event fires, the client needs to recreate instances of ' TextPatternRange created from the TextPattern. ' Clients must always anticipate the possibility that the text ' can change underneath them so to ensure they are working ' with fresh information this property listener is essential. ' NOTE: No controls implement the TextChanged event at this time... Dim textChangedHandler As AutomationEventHandler = _ New AutomationEventHandler(AddressOf onTextChanged) Automation.AddAutomationEventHandler( _ TextPattern.TextChangedEvent, _ targetDocument, TreeScope.Element, textChangedHandler) ' 
+&lt;\SnippetTextChanged> Dim textSelectionHandler As AutomationEventHandler = _ New AutomationEventHandler(AddressOf onTextSelectionChange) System.Windows.Automation.Automation.AddAutomationEventHandler( _ TextPattern.TextSelectionChangedEvent, _ targetDocument, TreeScope.Element, textSelectionHandler) ' 
+&lt;\SnippetSelectionChanged> Dim targetClosedHandler As AutomationEventHandler = _ New AutomationEventHandler(AddressOf onNotepadClose) System.Windows.Automation.Automation.AddAutomationEventHandler( _ WindowPattern.WindowClosedEvent, _ ae, TreeScope.Element, targetClosedHandler) Catch [error] As Win32Exception Output([error].ToString()) Output(app + " not found.") Catch [error] As Exception Output([error].ToString()) End Try End Sub ''' -------------------------------------------------------------------- ''' 
+&lt;summary> ''' Handles the Search button click. ''' 
+&lt;/summary> ''' 
+&lt;param name="sender">The object that raised the event.
+&lt;/param> ''' 
+&lt;param name="e">Event arguments.
+&lt;/param> ''' 
+&lt;remarks>Find the text specified in the text box.
+&lt;/remarks> ''' -------------------------------------------------------------------- Private Sub btnSearch_Click( _ ByVal sender As Object, ByVal e As RoutedEventArgs) Try ' Check if search text entered If (searchString.Text.Trim() = "") Then searchResult.Text = "No search criteria." Return End If ' Check if the TextPattern supports text selection If (targetTextPattern.SupportedTextSelection = _ SupportedTextSelection.None) Then searchResult.Text = "Unable to select text." End If If (targetTextPattern.SupportedTextSelection = _ SupportedTextSelection.Multiple) Then searchResult.Text = "Multiple selections present." Return End If ' Move the TextPatternRange endpoints for 'Highlight Next' functionality Dim selectionRange As TextPatternRange() = _ targetTextPattern.GetSelection() If Not selectionRange(0) Is Nothing Then If (searchBackward) Then documentRange.MoveEndpointByRange( _ TextPatternRangeEndpoint.End, selectionRange(0), _ TextPatternRangeEndpoint.Start) Else documentRange.MoveEndpointByRange( _ TextPatternRangeEndpoint.Start, selectionRange(0), _ TextPatternRangeEndpoint.End) End If searchTargetButton.Content = "Highlight next" End If ' Find the text specified in the Search textbox ' backward = false -- search from the start of the document range ' ignoreCase = false -- search is case sensitive searchRange = _ documentRange.FindText(searchString.Text, searchBackward, False) If (searchRange Is Nothing) Then If Not documentRangeStart Then searchResult.Text = "End of document reached." searchTargetButton.IsEnabled = False Else searchResult.Text = "Text not found." End If Return End If 'root.SetFocus() searchRange.Select() ' No longer at the beginning of the TextPatternRange documentRangeStart = False ' Scroll the selection into view, aligning with top of viewport searchRange.ScrollIntoView(True) searchResult.Text = "Text found." Catch [error] As Exception Output([error].ToString()) End Try End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b77693f5-87bb-4b29-a297-05ff882e2044.xaml">Find and Highlight Text Using UI Automation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Find and Highlight Text Using UI Automation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

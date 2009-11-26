@@ -1,0 +1,414 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_7e9c8ec1_abf6_4b3d_b1c6_33b35d3c4063"
+  Tag     ="Discover Whether a Print Job Can Be Printed At This Time of Day"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Discover Whether a Print Job Can Be Printed At This Time of Day</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Print queues are not always available for 24 hours a day. They have start and end time properties that can be set to make them unavailable at certain times of day. This feature can be used, for example, to reserve a printer for the exclusive use of a certain department after 5 pm. That department would have a different queue servicing the printer than other departments use. The queue for the other departments would be set to be unavailable after 5 pm, while queue for the favored department could be set to be available at all times. 
+    </Paragraph>
+
+    <Paragraph>Moreover, print jobs themselves can be set to be printable only within a specified span of time. 
+    </Paragraph>
+
+    <Paragraph>The PrintQueue and PrintSystemJobInfo classes exposed in the APIs of Microsoft .NET Framework version 3.0 provide a means for remotely checking whether a given print job can print on a given queue at the current time. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The example below is taken from a sample application that can diagnose problems with a print job. For the full sample, see Diagnose Problematic Print Job Sample.
+    </Paragraph>
+
+    <Paragraph>There are two major steps for this kind of function as follows.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Read the StartTimeOfDay and UntilTimeOfDay properties of the <Run FontWeight="Bold">PrintQueue</Run>
+ to determine whether the current time is between them. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Read the StartTimeOfDay and UntilTimeOfDay properties of the <Run FontWeight="Bold">PrintSystemJobInfo</Run>
+ to determine whether the current time is between them.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>But complications arise from the fact that these properties are not DateTime objects. Instead they are Int32 objects that express the time of day as the number of minutes since midnight. Moreover, this is not midnight in the current time zone, but midnight UTC (Coordinated Universal Time). 
+    </Paragraph>
+
+    <Paragraph>The first code example presents the static method <Run FontWeight="Bold">ReportQueueAndJobAvailability</Run>
+, which is passed a <Run FontWeight="Bold">PrintSystemJobInfo</Run>
+ and calls helper methods to determine whether the job can print at the current time and, if not, when it can print. Notice that a <Run FontWeight="Bold">PrintQueue</Run>
+ is not passed to the method. This is because the <Run FontWeight="Bold">PrintSystemJobInfo</Run>
+ includes a reference to the queue in its HostingPrintQueue property. 
+    </Paragraph>
+
+    <Paragraph>The subordinate methods include the overloaded <Run FontWeight="Bold">ReportAvailabilityAtThisTime</Run>
+ method which can take either a <Run FontWeight="Bold">PrintQueue</Run>
+ or a <Run FontWeight="Bold">PrintSystemJobInfo</Run>
+ as a parameter. There is also a <Run FontWeight="Bold">TimeConverter.ConvertToLocalHumanReadableTime</Run>
+. All of these methods are discussed below.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ReportQueueAndJobAvailability</Run>
+ method begins by checking to see if either the queue or the print job is unavailable at this time. If either of them is unavailable, it then checks to see if the queue unavailable. If it is not available, then the method reports this fact and the time when the queue will become available again. It then checks the job and if it is unavailable, it reports the next time span when it when it can print. Finally, the method reports the earliest time when the job can print. This is the later of following two times. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The time when the print queue is next available.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The time when the print job is next available. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When reporting times of day, the ToShortTimeString method is also called because this method suppresses the years, months, and days from the output. You cannot restrict the availability of either a print queue or a print job to particular years, months, or days. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>static void ReportQueueAndJobAvailability (PrintSystemJobInfo^ theJob) { if (!(ReportAvailabilityAtThisTime(theJob->HostingPrintQueue) &amp;&amp; 
+ReportAvailabilityAtThisTime(theJob))) { if (!ReportAvailabilityAtThisTime(theJob->HostingPrintQueue)) { Console::WriteLine("\nThat queue is not available at this time of day." + "\nJobs in the queue will start printing again at {0}", TimeConverter::ConvertToLocalHumanReadableTime(theJob->HostingPrintQueue->StartTimeOfDay).ToShortTimeString()); 
+// TimeConverter class is defined in the complete sample } if (!ReportAvailabilityAtThisTime(theJob)) { Console::WriteLine("\nThat job is set to print only between {0} and {1}", TimeConverter::ConvertToLocalHumanReadableTime(theJob->StartTimeOfDay).ToShortTimeString(), TimeConverter::ConvertToLocalHumanReadableTime(theJob->UntilTimeOfDay).ToShortTimeString()); 
+} Console::WriteLine("\nThe job will begin printing as soon as it reaches the top of the queue after:"); 
+if (theJob->StartTimeOfDay > theJob->HostingPrintQueue->StartTimeOfDay) { Console::WriteLine(TimeConverter::ConvertToLocalHumanReadableTime(theJob->StartTimeOfDay).ToShortTimeString()); 
+} else { Console::WriteLine(TimeConverter::ConvertToLocalHumanReadableTime(theJob->HostingPrintQueue->StartTimeOfDay).ToShortTimeString()); 
+} } }; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>internal static void ReportQueueAndJobAvailability(PrintSystemJobInfo theJob) { if (!(ReportAvailabilityAtThisTime(theJob.HostingPrintQueue) &amp;&amp; 
+ReportAvailabilityAtThisTime(theJob))) { if (!ReportAvailabilityAtThisTime(theJob.HostingPrintQueue)) { Console.WriteLine("\nThat queue is not available at this time of day." + "\nJobs in the queue will start printing again at {0}", TimeConverter.ConvertToLocalHumanReadableTime(theJob.HostingPrintQueue.StartTimeOfDay).ToShortTimeString()); 
+// TimeConverter class is defined in the complete sample } if (!ReportAvailabilityAtThisTime(theJob)) { Console.WriteLine("\nThat job is set to print only between {0} and {1}", TimeConverter.ConvertToLocalHumanReadableTime(theJob.StartTimeOfDay).ToShortTimeString(), TimeConverter.ConvertToLocalHumanReadableTime(theJob.UntilTimeOfDay).ToShortTimeString()); 
+} Console.WriteLine("\nThe job will begin printing as soon as it reaches the top of the queue after:"); 
+if (theJob.StartTimeOfDay > theJob.HostingPrintQueue.StartTimeOfDay) { Console.WriteLine(TimeConverter.ConvertToLocalHumanReadableTime(theJob.StartTimeOfDay).ToShortTimeString()); 
+} else { Console.WriteLine(TimeConverter.ConvertToLocalHumanReadableTime(theJob.HostingPrintQueue.StartTimeOfDay).ToShortTimeString()); 
+} }//end if at least one is not available }//end ReportQueueAndJobAvailability </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The two overloads of the <Run FontWeight="Bold">ReportAvailabilityAtThisTime</Run>
+ method are identical except for the type passed to them, so only the <Run FontWeight="Bold">PrintQueue</Run>
+ version is presented below. (For the full sample, see Diagnose Problematic Print Job Sample.) 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The fact that the methods are identical except for type raises the question of why the sample does not create a generic method <Run FontWeight="Bold">ReportAvailabilityAtThisTime
+&lt;T></Run>
+. The reason is that such a method would have to be restricted to a class that has the <Run FontWeight="Bold">StartTimeOfDay</Run>
+ and <Run FontWeight="Bold">UntilTimeOfDay</Run>
+ properties that the method calls, but a generic method can only be restricted to a single class and the only class common to both <Run FontWeight="Bold">PrintQueue</Run>
+ and <Run FontWeight="Bold">PrintSystemJobInfo</Run>
+ in the inheritance tree is PrintSystemObject which has no such properties. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">ReportAvailabilityAtThisTime</Run>
+ method (presented in the code example below) begins by initializing a Boolean sentinel variable to <Run FontWeight="Bold">true</Run>
+. It will be reset to <Run FontWeight="Bold">false</Run>
+, if the queue is not available. 
+    </Paragraph>
+
+    <Paragraph>Next, the method checks to see if the start and "until" times are identical. If they are, the queue is always available, so the method returns <Run FontWeight="Bold">true</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>If the queue is not available all the time, the method uses the static UtcNow property to get the current time as a <Run FontWeight="Bold">DateTime</Run>
+ object. (We do not need local time because the <Run FontWeight="Bold">StartTimeOfDay</Run>
+ and <Run FontWeight="Bold">UntilTimeOfDay</Run>
+ properties are themselves in UTC time.) 
+    </Paragraph>
+
+    <Paragraph>However, these two properties are not <Run FontWeight="Bold">DateTime</Run>
+ objects. They are <Run FontWeight="Bold">Int32</Run>
+s expressing the time as the number of minutes-after-UTC-midnight. So we do have to convert our <Run FontWeight="Bold">DateTime</Run>
+ object to minutes-after-midnight. When that is done, the method simply checks to see whether "now" is between the queue's start and "until" times, sets the sentinel to false if "now" is not between the two times, and returns the sentinel. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>static Boolean ReportAvailabilityAtThisTime (PrintQueue^ pq) { Boolean available = true; 
+if (pq->StartTimeOfDay != pq->UntilTimeOfDay) { DateTime utcNow = DateTime::UtcNow; 
+Int32 utcNowAsMinutesAfterMidnight = (utcNow.TimeOfDay.Hours * 60) + utcNow.TimeOfDay.Minutes; 
+// If now is not within the range of available times . . . if (!((pq->StartTimeOfDay 
+&lt; 
+utcNowAsMinutesAfterMidnight) &amp;&amp; 
+(utcNowAsMinutesAfterMidnight 
+&lt; 
+pq->UntilTimeOfDay))) { available = false; 
+} } return available; 
+}; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private static Boolean ReportAvailabilityAtThisTime(PrintQueue pq) { Boolean available = true; 
+if (pq.StartTimeOfDay != pq.UntilTimeOfDay) // If the printer is not available 24 hours a day { DateTime utcNow = DateTime.UtcNow; 
+Int32 utcNowAsMinutesAfterMidnight = (utcNow.TimeOfDay.Hours * 60) + utcNow.TimeOfDay.Minutes; 
+// If now is not within the range of available times . . . if (!((pq.StartTimeOfDay 
+&lt; 
+utcNowAsMinutesAfterMidnight) &amp;&amp; 
+(utcNowAsMinutesAfterMidnight 
+&lt; 
+pq.UntilTimeOfDay))) { available = false; 
+} } return available; 
+}//end ReportAvailabilityAtThisTime </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">TimeConverter.ConvertToLocalHumanReadableTime</Run>
+ method (presented in the code example below) does not use any methods introduced with Microsoft .NET Framework version 3.0, so the discussion is brief. The method has a double conversion task: it must take an integer expressing minutes-after-midnight and convert it to a human-readable time and it must convert this to the local time. It accomplishes this by first creating a <Run FontWeight="Bold">DateTime</Run>
+ object that is set to midnight UTC and then it uses the AddMinutes method to add the minutes that were passed to the method. This returns a new <Run FontWeight="Bold">DateTime</Run>
+ expressing the original time that was passed to the method. The ToLocalTime method then converts this to local time.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private ref class TimeConverter { internal: static DateTime ConvertToLocalHumanReadableTime (Int32 timeInMinutesAfterUTCMidnight) { // Construct a UTC midnight object. // Must start with current date so that the local Daylight Savings system, if any, will be taken into account. DateTime utcNow = DateTime::UtcNow; 
+DateTime utcMidnight = DateTime(utcNow.Year, utcNow.Month, utcNow.Day, 0, 0, 0, DateTimeKind::Utc); 
+// Add the minutes passed into the method in order to get the intended UTC time. Double minutesAfterUTCMidnight = ((Double)timeInMinutesAfterUTCMidnight); 
+DateTime utcTime = utcMidnight.AddMinutes(minutesAfterUTCMidnight); 
+// Convert to local time. DateTime localTime = utcTime.ToLocalTime(); 
+return localTime; 
+}; 
+}; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>class TimeConverter { // Convert time as minutes past UTC midnight into human readable time in local time zone. internal static DateTime ConvertToLocalHumanReadableTime(Int32 timeInMinutesAfterUTCMidnight) { // Construct a UTC midnight object. // Must start with current date so that the local Daylight Savings system, if any, will be taken into account. DateTime utcNow = DateTime.UtcNow; 
+DateTime utcMidnight = new DateTime(utcNow.Year, utcNow.Month, utcNow.Day, 0, 0, 0, DateTimeKind.Utc); 
+// Add the minutes passed into the method in order to get the intended UTC time. Double minutesAfterUTCMidnight = (Double)timeInMinutesAfterUTCMidnight; 
+DateTime utcTime = utcMidnight.AddMinutes(minutesAfterUTCMidnight); 
+// Convert to local time. DateTime localTime = utcTime.ToLocalTime(); 
+return localTime; 
+}// end ConvertToLocalHumanReadableTime }//end TimeConverter class </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>DateTime
+      <LineBreak/>PrintSystemJobInfo
+      <LineBreak/>PrintQueue
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0de8ac41-9aa6-413d-a121-7aa6f41539b1.xaml">Printing Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Printing Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Discover Whether a Print Job Can Be Printed At This Time of Day to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

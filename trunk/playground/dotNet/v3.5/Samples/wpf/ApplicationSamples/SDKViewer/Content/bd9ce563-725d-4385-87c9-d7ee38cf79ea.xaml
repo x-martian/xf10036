@@ -1,0 +1,1686 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_bd9ce563_725d_4385_87c9_d7ee38cf79ea"
+  Tag     ="Animation Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Animation Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Presentation Foundation (WPF) provides a powerful set of graphics and layout features that enable you to create attractive user interfaces and appealing documents. Animation can make an attractive user interface even more impressive and usable. By just animating a background color or applying an animated Transform, you can create dramatic screen transitions or provide helpful visual cues. 
+    </Paragraph>
+
+    <Paragraph>This overview provides an introduction to the WPF animation and timing system. It focuses on the animation of WPF objects using storyboards. 
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="introducinganimations">Introducing Animations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="theavalontimingsystem">The WPF Property Animation System</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="animationtypes">Animation Types</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="applyanimationstoproperty">Applying an Animation to a Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="storyboardwalkthrough">Example: Make an Element Fade In and Out of View</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="controllingstoryboards">Interactively Control a Storyboard</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="fillbehaviorsection">What Happens After an Animation Ends?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="databindingAndAnimatingAnimationsSection">Data Binding and Animating Animations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="otherWaysToAnimateSection">Other Ways to Animate</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="animation_samples">Animation Samples</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Introducing Animations
+    </Paragraph>
+
+    <Paragraph>Animation is an illusion created by rapidly cycling through a series of images, each slightly different than the last. The brain perceives the group of images as a single changing scene. In film, this illusion is created by using cameras that record a large number of photographs, or frames, each second. When the frames are played back by a projector, the audience sees a moving picture.
+    </Paragraph>
+
+    <Paragraph>Animation on a computer is similar. For example, a program that makes a drawing of a rectangle fade out of view might work as follows. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The program creates a timer.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The program checks the timer at regular intervals to see how much time has elapsed.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Each time the program checks the timer, it computes the current opacity value for the rectangle based on how much time has elapsed.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The program then updates the rectangle with the new value and redraws it.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Prior to WPF, Microsoft Windows application developers had to create and manage their own timing systems or use special custom libraries. WPF includes an efficient timing system, exposed through managed code and Extensible Application Markup Language (XAML), that is deeply integrated into the WPF framework, making it easy to animate controls and other graphical objects.
+    </Paragraph>
+
+    <Paragraph>WPF takes care of all the behind-the-scenes work of managing a timing system and redrawing the screen efficiently. Timing classes are provided that enable you to focus on the effects you want to create, rather than the mechanics of achieving those effects. WPF also makes it easy to create your own animations by exposing animation base classes from which you can inherit, to produce customized animations. These custom animations gain many of the performance benefits of the standard animation classes.
+    </Paragraph>
+
+    <Paragraph FontSize="22">The WPF Property Animation System
+    </Paragraph>
+
+    <Paragraph>There are a few important timing system concepts that will make it easier to use WPF animations. Most important is that, in WPF, you animate objects by applying animation to their individual properties. For example, to make a framework element grow, you animate its Width and Height properties. To make an object fade from view, you animate its Opacity property.
+    </Paragraph>
+
+    <Paragraph>For a property to be animatable, it must meet the following three requirements:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>It must be a <Run>dependency property</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>It must belong to a class that inherits from DependencyObject and implements the IAnimatable interface.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>There must be a compatible animation type available. (If Windows Presentation Foundation (WPF) doesn't provide one, you can create your own.)
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>WPF contains many objects with animatable properties. Controls such as Button and TabControl, as well as Panel and Shape objects inherit from <Run FontWeight="Bold">DependencyObject</Run>
+. Most of their properties are dependency properties. You can use animations just about anywhere, including in styles and control templates.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Animation Types
+    </Paragraph>
+
+    <Paragraph>Because animations generate property values, there are different animation types for different property types. To animate a property that takes a Double (such as an element's <Run FontWeight="Bold">Width</Run>
+ property), you use an animation that produces <Run FontWeight="Bold">Double</Run>
+ values. To animate a property that takes a Point, you use an animation that produces <Run FontWeight="Bold">Point</Run>
+ values, and so on. Because of the number of different property types, there are quite a few animation classes in the System.Windows.Media.Animation namespace. Fortunately, they follow a strict naming convention that makes it easy to differentiate between them: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>
+&lt;<Run FontStyle="italic">Type</Run>
+>Animation
+        </Paragraph>
+
+        <Paragraph>Known as a "From/To/By" or "basic" animation, these animate between a starting and destination value, or by adding an offset value to its starting value. 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>To specify a starting value, set the From property of the animation. 
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>To specify an ending value, set the To property of the animation.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>To specify an offset value, set the By property of the animation. 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+        <Paragraph>The examples in this overview use these animations, because they are the simplest to use. From/To/By animations are described in detail in the <Hyperlink NavigateUri="516fce0a-e7f8-49b8-b018-53b3d409a8a3.xaml">From/To/By Animations Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>
+&lt;<Run FontStyle="italic">Type</Run>
+>AnimationUsingKeyFrames
+        </Paragraph>
+
+        <Paragraph>Key frame animations are more powerful than From/To/By animations, because you can specify any number of target values and even control their interpolation method. Some types can only be animated with key frame animations. Key frame animation are described in detail in the <Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>
+&lt;<Run FontStyle="italic">Type</Run>
+>AnimationUsingPath
+        </Paragraph>
+
+        <Paragraph>Path animations enable you to use a geometric path to produce animated values.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>
+&lt;<Run FontStyle="italic">Type</Run>
+>AnimationBase
+        </Paragraph>
+
+        <Paragraph>Abstract class that, when implemented, animates a 
+&lt;<Run FontStyle="italic">Type</Run>
+> value. This class serves as the base class for 
+&lt;<Run FontStyle="italic">Type</Run>
+>Animation and 
+&lt;<Run FontStyle="italic">Type</Run>
+>AnimationUsingKeyFrames classes. You need to deal directly with these classes only if you want to create your own custom animations. Otherwise, use a 
+&lt;<Run FontStyle="italic">Type</Run>
+>Animation or KeyFrame
+&lt;<Run FontStyle="italic">Type</Run>
+>Animation.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In most cases, you will want to use the 
+&lt;<Run FontStyle="italic">Type</Run>
+>Animation classes, such as DoubleAnimation and ColorAnimation.
+    </Paragraph>
+
+    <Paragraph>The following table shows several common animation types and some properties with which they are used.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Corresponding basic (From/To/By) animation 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Corresponding key frame animation 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Corresponding Path Animation 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Usage example 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Color 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ColorAnimation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>ColorAnimationUsingKeyFrames 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Animate the Color of a SolidColorBrush or a GradientStop.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Double 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">DoubleAnimation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>DoubleAnimationUsingKeyFrames 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>DoubleAnimationUsingPath 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Animate the <Run FontWeight="Bold">Width</Run>
+ of a DockPanel or the <Run FontWeight="Bold">Height</Run>
+ of a Button.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Point 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>PointAnimation 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>PointAnimationUsingKeyFrames 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>PointAnimationUsingPath 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Animate the Center position of an EllipseGeometry.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>String 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>StringAnimationUsingKeyFrames 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>None
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Animate the Text of a TextBlock or the Content of a Button.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Animations are Timelines
+    </Paragraph>
+
+    <Paragraph>All the animation types inherit from the Timeline class; 
+therefore, all animations are specialized types of timelines. A <Run FontWeight="Bold">Timeline</Run>
+ defines a segment of time. You can specify a timeline's <Run FontStyle="italic">timing behaviors</Run>
+: its Duration, how many times it will repeat, and even how fast time progresses for it. An animation, being a <Run FontWeight="Bold">Timeline</Run>
+, also represents a segment of time. Unlike a <Run FontWeight="Bold">Timeline</Run>
+, an animation calculates output values as it progresses though its specified segment of time (or <Run FontWeight="Bold">Duration</Run>
+). As the animation progresses, or "plays," it updates the property with which it is associated.
+    </Paragraph>
+
+    <Paragraph>Three commonly used timing properties are <Run FontWeight="Bold">Duration</Run>
+, AutoReverse, and RepeatBehavior. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Duration</Run>
+
+        </Paragraph>
+
+        <Paragraph>As previously mentioned, a timeline represents a segment of time. The length of that segment is determined by the timeline's <Run FontWeight="Bold">Duration</Run>
+. When a timeline reaches the end of its duration, it has completed an iteration.
+        </Paragraph>
+
+        <Paragraph>An animation uses its <Run FontWeight="Bold">Duration</Run>
+ property to determine its current value. If you don't specify a <Run FontWeight="Bold">Duration</Run>
+ value for an animation, it defaults to 1 second. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">AutoReverse</Run>
+
+        </Paragraph>
+
+        <Paragraph>The <Run FontWeight="Bold">AutoReverse</Run>
+ property specifies whether a timeline should play backwards after it reaches the end of its <Run FontWeight="Bold">Duration</Run>
+. Setting this property to <Run FontWeight="Bold">true</Run>
+ on an animation causes it to animate in reverse after it reaches the end of its <Run FontWeight="Bold">Duration</Run>
+, playing from its ending value back to its starting value. This property is <Run FontWeight="Bold">false</Run>
+ by default.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">RepeatBehavior</Run>
+
+        </Paragraph>
+
+        <Paragraph>The <Run FontWeight="Bold">RepeatBehavior</Run>
+ property specifies how many times a timeline plays. By default, timelines have an iteration count of <Run>1.0</Run>
+, which means they play once and do not repeat at all.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>These properties, and others, are described in more detail in the <Hyperlink NavigateUri="5b714d46-bd46-48b8-b467-b4be89ba3091.xaml">Timing Behaviors Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Applying an Animation to a Property
+    </Paragraph>
+
+    <Paragraph>The preceding sections described the different types of animations and their timing properties. Now you need to learn how to apply the animation to the property that you want to animate. Storyboard objects provide one way to apply animations to properties. A <Run FontWeight="Bold">Storyboard</Run>
+ is a <Run FontStyle="italic">container timeline</Run>
+ that provides targeting information for the animations it contains. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Targeting Objects and Properties
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Storyboard</Run>
+ class provides the TargetName and TargetProperty attached properties. By setting these properties on an animation, you tell the animation what it's supposed to animate. Before an object can be targeted by an animation, however, it usually must be given a name. Assigning a name to a FrameworkElement is different than assigning a name to a Freezable object. Most controls and panels are framework elements, while most purely graphical objects, such as brushes, transforms, and geometries, are freezable objects. If you're not sure whether a type is a <Run FontWeight="Bold">FrameworkElement</Run>
+ or a <Run FontWeight="Bold">Freezable</Run>
+, refer to the <Run FontWeight="Bold">Inheritance Hierarchy</Run>
+ section of its type page.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>To make a <Run FontWeight="Bold">FrameworkElement</Run>
+ an animation target, you give it a name by setting its Name property. In procedural code, you use the RegisterName method to register the element's name with the page to which it belongs.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>To make a <Run FontWeight="Bold">Freezable</Run>
+ object a target in XAML, you use the <Hyperlink NavigateUri="b7e61222-e8cf-48d2-acd0-6df3b7685d48.xaml">x:Name Attribute</Hyperlink>
+ to assign it a name. In code, you just use the <Run FontWeight="Bold">RegisterName</Run>
+ method to register the object with the page to which it belongs.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The sections that follow provide an example of naming an element in XAML and code. For more detailed information about naming and targeting, see the <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Applying and Starting Storyboards
+    </Paragraph>
+
+    <Paragraph>To start a storyboard in XAML, you associate it with an EventTrigger. An <Run FontWeight="Bold">EventTrigger</Run>
+ is an object that describes what actions to take when a specified event occurs. One of those actions can be a BeginStoryboard action, which you use to start your storyboard. Event triggers are similar in concept to event handlers in that they enable you to describe how your application should respond to a particular event. Unlike event handlers, event triggers can be fully described in XAML; 
+no other code is required.
+    </Paragraph>
+
+    <Paragraph>To start a <Run FontWeight="Bold">Storyboard</Run>
+ in code, you can use an <Run FontWeight="Bold">EventTrigger</Run>
+ or use the Begin method of the <Run FontWeight="Bold">Storyboard</Run>
+ class.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example: Make an Element Fade In and Out of View
+    </Paragraph>
+
+    <Paragraph>This example shows how to make a UIElement fade in and out of view. The following example creates a Rectangle element and displays it in a Page. The steps that follow show how to create an animation and apply it to the rectangle's <Run FontWeight="Bold">Opacity</Run>
+ property.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_bd9ce563_725d_4385_87c9_d7ee38cf79ea_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Fading Rectangle Example"> 
+&lt;StackPanel Margin="10"> 
+&lt;Rectangle Name="MyRectangle" Width="100" Height="100" Fill="Blue"> 
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/Page>
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Shapes; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+namespace Microsoft.SDK.Animation { public class RectangleOpacityFadeExample : Page { public RectangleOpacityFadeExample() { NameScope.SetNameScope(this, new NameScope()); 
+this.WindowTitle = "Fading Rectangle Example"; 
+StackPanel myPanel = new StackPanel(); 
+myPanel.Margin = new Thickness(10); 
+Rectangle myRectangle = new Rectangle(); 
+myRectangle.Name = "myRectangle"; 
+this.RegisterName(myRectangle.Name, myRectangle); 
+myRectangle.Width = 100; 
+myRectangle.Height = 100; 
+myRectangle.Fill = Brushes.Blue; 
+myPanel.Children.Add(myRectangle); 
+this.Content = myPanel; 
+} } }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Part 1: Create a DoubleAnimation
+    </Paragraph>
+
+    <Paragraph>One way to make an element fade in and out of view is to animate its <Run FontWeight="Bold">Opacity</Run>
+ property. Because the <Run FontWeight="Bold">Opacity</Run>
+ property is of type <Run FontWeight="Bold">Double</Run>
+, you need an animation that produces double values. A <Run FontWeight="Bold">DoubleAnimation</Run>
+ is one such animation. A <Run FontWeight="Bold">DoubleAnimation</Run>
+ creates a transition between two double values. To specify its starting value, you set its From property. To specify its ending value, you set its To property.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>An opacity value of <Run>1.0</Run>
+ makes the object completely opaque, and an opacity value of <Run>0.0</Run>
+ makes it completely invisible. To make the animation transition from <Run>1.0</Run>
+ to <Run>0.0</Run>
+ you set its <Run FontWeight="Bold">From</Run>
+ property to <Run>1.0</Run>
+ and its <Run FontWeight="Bold">To</Run>
+ property to <Run>0.0</Run>
+.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;DoubleAnimation From="1.0" To="0.0" /> ...</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph/>
+        <Paragraph>[C#]
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DoubleAnimation myDoubleAnimation = new DoubleAnimation(); 
+myDoubleAnimation.From = 1.0; 
+myDoubleAnimation.To = 0.0;</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Next, you need to specify a <Run FontWeight="Bold">Duration</Run>
+. An animation's <Run FontWeight="Bold">Duration</Run>
+ specifies how long it takes to go from its starting value to its destination value. In the following example, the animation is given a duration of five seconds.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;DoubleAnimation From="1.0" To="0.0" Duration="0:0:5" /> ...</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph/>
+        <Paragraph>[C#]
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(5));</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The preceding code showed an animation that transitions from <Run>1.0</Run>
+ to <Run>0.0</Run>
+, which will cause the target element to fade from completely opaque to completely invisible. To make the element fade back into view after it has vanished, set the animation's <Run FontWeight="Bold">AutoReverse</Run>
+ property to <Run FontWeight="Bold">true</Run>
+. To make the animation repeat indefinitely, set its <Run FontWeight="Bold">RepeatBehavior</Run>
+ property to Forever.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;DoubleAnimation From="1.0" To="0.0" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever"/> ...</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph/>
+        <Paragraph>[C#]
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(5)); 
+myDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Part 2: Create a Storyboard
+    </Paragraph>
+
+    <Paragraph>To apply an animation to an object, you create a <Run FontWeight="Bold">Storyboard</Run>
+ and use the <Run FontWeight="Bold">TargetName</Run>
+ and <Run FontWeight="Bold">TargetProperty</Run>
+<Run>attached properties</Run>
+ to specify the object and property to animate.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create the <Run FontWeight="Bold">Storyboard</Run>
+ and add the animation as its child.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;Storyboard> 
+&lt;DoubleAnimation From="1.0" To="0.0" Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> ...</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph/>
+        <Paragraph>In code, declare the <Run FontWeight="Bold">Storyboard</Run>
+ as a class member.
+        </Paragraph>
+
+        <Paragraph/>
+        <Paragraph>[C#]
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class RectangleOpacityFadeExample : Page { private Storyboard myStoryboard;</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph/>
+        <Paragraph>Then initialize the <Run FontWeight="Bold">Storyboard</Run>
+ and add the animation as its child.
+        </Paragraph>
+
+        <Paragraph>[C#]
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myStoryboard = new Storyboard(); 
+myStoryboard.Children.Add(myDoubleAnimation);</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">Storyboard</Run>
+ needs to know where to apply the animation. Use the <Run FontWeight="Bold">System.Windows.Media.Animation.Storyboard.TargetName</Run>
+ attached property to specify the object to animate. In the following code, the <Run FontWeight="Bold">DoubleAnimation</Run>
+ is given a target name of <Run>myAnimatedRectangle</Run>
+, the name of the object to animate.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyRectangle" From="1.0" To="0.0" Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> ...</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph/>
+        <Paragraph>[C#]
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Storyboard.SetTargetName(myDoubleAnimation, myRectangle.Name);</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>When creating storyboards in code, you must perform two additional steps: create a name scope and register the name of the object to animate. The code at the beginning of this section that created the page and the rectangle also declared a NameScope and registered a name for the rectangle. You use the SetNameScope method to create a <Run FontWeight="Bold">NameScope</Run>
+, if one doesn't exist already. You use the <Run FontWeight="Bold">RegisterName</Run>
+ method to register the target object's name with the element for which you created a <Run FontWeight="Bold">NameScope</Run>
+. Otherwise, the <Run FontWeight="Bold">Storyboard</Run>
+ won't be able to find the object to animate it. For an additional example, see <Hyperlink NavigateUri="4f361925-6a08-40dc-8231-a61111c6b28b.xaml">How to: Define a Name Scope</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Part 3 (XAML): Associate the Storyboard with a Trigger
+    </Paragraph>
+
+    <Paragraph>The easiest way to apply and start a <Run FontWeight="Bold">Storyboard</Run>
+ in XAML is to use an event trigger.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a <Run FontWeight="Bold">BeginStoryboard</Run>
+ object and associate your storyboard with it. A <Run FontWeight="Bold">BeginStoryboard</Run>
+ is a type of TriggerAction that applies and starts a <Run FontWeight="Bold">Storyboard</Run>
+.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> ...</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create an <Run FontWeight="Bold">EventTrigger</Run>
+ and add the <Run FontWeight="Bold">BeginStoryboard</Run>
+ to its Actions collection. Set the RoutedEvent property of the <Run FontWeight="Bold">EventTrigger</Run>
+ to the <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+ that you want to start the <Run FontWeight="Bold">Storyboard</Run>
+.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> ...</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+        <Paragraph>(For more information about routed events, see the <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.)
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Add the <Run FontWeight="Bold">EventTrigger</Run>
+ to the Rectangle's Triggers collection.
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run>XAML </Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... 
+&lt;Rectangle Name="MyRectangle" Width="100" Height="100" Fill="Blue"> 
+&lt;Rectangle.Triggers> 
+&lt;!-- Animates the rectangle's opacity. --> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> ...</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Part 3 (Code): Associate the Storyboard with an Event Handler
+    </Paragraph>
+
+    <Paragraph>The easiest way to apply and start a <Run FontWeight="Bold">Storyboard</Run>
+ in code is to use an event handler.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Register for the Loaded event of the rectangle. 
+        </Paragraph>
+
+        <Paragraph/>
+        <Paragraph>[C#]
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myRectangle.Loaded += new RoutedEventHandler(myRectangleLoaded);</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Declare the event handler. In the event handler, use the <Run FontWeight="Bold">Begin</Run>
+ method to apply the storyboard.
+        </Paragraph>
+
+        <Paragraph/>
+        <Paragraph>[C#]
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph FontSize="22"><Run/>
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>... public void myRectangleLoaded(object sender, RoutedEventArgs e) { myStoryboard.Begin(this); 
+} ...</Run>
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">Complete Example
+    </Paragraph>
+
+    <Paragraph>The following example shows the complete code for creating a rectangle that fades in and out of view.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_bd9ce563_725d_4385_87c9_d7ee38cf79ea_1">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Fading Rectangle Example"> 
+&lt;StackPanel Margin="10"> 
+&lt;Rectangle Name="MyRectangle" Width="100" Height="100" Fill="Blue"> 
+&lt;Rectangle.Triggers> 
+&lt;!-- Animates the rectangle's opacity. --> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Shapes; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+namespace SDKSample { public class RectangleOpacityFadeExample : Page { private Storyboard myStoryboard; 
+public RectangleOpacityFadeExample() { NameScope.SetNameScope(this, new NameScope()); 
+this.WindowTitle = "Fading Rectangle Example"; 
+StackPanel myPanel = new StackPanel(); 
+myPanel.Margin = new Thickness(10); 
+Rectangle myRectangle = new Rectangle(); 
+myRectangle.Name = "myRectangle"; 
+this.RegisterName(myRectangle.Name, myRectangle); 
+myRectangle.Width = 100; 
+myRectangle.Height = 100; 
+myRectangle.Fill = Brushes.Blue; 
+DoubleAnimation myDoubleAnimation = new DoubleAnimation(); 
+myDoubleAnimation.From = 1.0; 
+myDoubleAnimation.To = 0.0; 
+myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(5)); 
+myDoubleAnimation.AutoReverse = true; 
+myDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever; 
+myStoryboard = new Storyboard(); 
+myStoryboard.Children.Add(myDoubleAnimation); 
+Storyboard.SetTargetName(myDoubleAnimation, myRectangle.Name); 
+Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Rectangle.OpacityProperty)); 
+// Use the Loaded event to start the Storyboard. myRectangle.Loaded += new RoutedEventHandler(myRectangleLoaded); 
+myPanel.Children.Add(myRectangle); 
+this.Content = myPanel; 
+} public void myRectangleLoaded(object sender, RoutedEventArgs e) { myStoryboard.Begin(this); 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Interactively Control a Storyboard
+    </Paragraph>
+
+    <Paragraph>The preceding example showed how to start a <Run FontWeight="Bold">Storyboard</Run>
+ when an event occurs. You can also interactively control a <Run FontWeight="Bold">Storyboard</Run>
+ after it starts: you can pause, resume, stop, advance it to its fill period, seek, and remove the <Run FontWeight="Bold">Storyboard</Run>
+. For more information and an example showing how to interactively control a <Run FontWeight="Bold">Storyboard</Run>
+, see the <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What Happens After an Animation Ends?
+    </Paragraph>
+
+    <Paragraph>The FillBehavior property specifies how a timeline should behave when it ends. By default, a timeline begins Filling when it ends. An animation that is <Run FontWeight="Bold">Filling</Run>
+ holds its final output value.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">DoubleAnimation</Run>
+ in the preceding example doesn't end because its <Run FontWeight="Bold">RepeatBehavior</Run>
+ property is set to <Run FontWeight="Bold">Forever</Run>
+. The following example animates a rectangle with a similar animation. Unlike the preceding example, this animation's <Run FontWeight="Bold">RepeatBehavior</Run>
+ and <Run FontWeight="Bold">AutoReverse</Run>
+ properties are left at their default values; 
+as a result, the animation progresses from 1 to 0 over five seconds and then stops. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Rectangle Name="MyRectangle" Width="100" Height="100" Fill="Blue"> 
+&lt;Rectangle.Triggers> 
+&lt;!-- Animates the rectangle's opacity. --> 
+&lt;EventTrigger RoutedEvent="Rectangle.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Opacity" From="1.0" To="0" Duration="0:0:5" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Rectangle.Triggers> 
+&lt;/Rectangle> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>DoubleAnimation myDoubleAnimation = new DoubleAnimation(); 
+myDoubleAnimation.From = 1.0; 
+myDoubleAnimation.To = 0.0; 
+myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(5)); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Because its FillBehavior was not changed from its default value, HoldEnd, the animation holds it final value, 0, when it ends. As a result, the rectangle's <Run FontWeight="Bold">Opacity</Run>
+ remains at 0 after the animation ends. If you were to try setting the rectangle's <Run FontWeight="Bold">Opacity</Run>
+ to another value, your code would appear to have no effect, because the animation is still affecting the <Run FontWeight="Bold">Opacity</Run>
+ property. 
+    </Paragraph>
+
+    <Paragraph>One way to regain control of an animated property in code is to use the BeginAnimation method and specify null for the AnimationTimeline parameter. For an example, see <Hyperlink NavigateUri="79466556-4dbf-40bd-9c1e-a77613b07077.xaml">How to: Set a Property After Animating It with a Storyboard</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Note that, although setting a property value that has an Active or <Run FontWeight="Bold">Filling</Run>
+ animation appears to have no effect, the property value does change. For more information, see the <Hyperlink NavigateUri="172cd5a8-a333-4c81-9456-fafccc19f382.xaml">Animation and Timing System Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Data Binding and Animating Animations
+    </Paragraph>
+
+    <Paragraph>Most animation properties can be data bound or animated; 
+however, because of the way the timing system works, data bound or animated animations do not behave like other data bound or animated objects. To understand their behavior, it helps to understand what it means to apply an animation to a property.
+    </Paragraph>
+
+    <Paragraph>Refer to the example in the previous section that showed how to animate the OpacityMask of a rectangle. When the rectangle in the preceding example is loaded, its event trigger applies the <Run FontWeight="Bold">Storyboard</Run>
+. The timing system creates a copy of the <Run FontWeight="Bold">Storyboard</Run>
+ and its animation. These copies are frozen (made read-only) and Clock objects are created from them. It's these clocks that do the actual work of animating the targeted properties. 
+    </Paragraph>
+
+    <Paragraph>The timing system reads the <Run FontWeight="Bold">TargetName</Run>
+ and <Run FontWeight="Bold">TargetProperty</Run>
+ of the <Run FontWeight="Bold">DoubleAnimation</Run>
+ applies the clock created for the <Run FontWeight="Bold">DoubleAnimation</Run>
+ to the specified property of the specified object. In this case, the timing system applies the clock to the <Run FontWeight="Bold">Opacity</Run>
+ property of the object named "MyRectangle."
+    </Paragraph>
+
+    <Paragraph>Although a clock is also created for the <Run FontWeight="Bold">Storyboard</Run>
+, the clock isn't applied to any properties. Its purpose is control its child clock, the clock created for the <Run FontWeight="Bold">DoubleAnimation</Run>
+.
+    </Paragraph>
+
+    <Paragraph>For an animation to reflect data binding or animation changes, its clock must be regenerated. Clocks are not regenerated for you automatically. To make an animation reflect changes, reapply its storyboard using a <Run FontWeight="Bold">BeginStoryboard</Run>
+ or the <Run FontWeight="Bold">Begin</Run>
+ method. This will have the side effect of also restarting the animation. In code, you can use the Seek method to advance the storyboard back to its previous position.
+    </Paragraph>
+
+    <Paragraph>For an example of a data bound animation, see the Key Spline Animation Sample . For more information about how the animation and timing system works, see the <Hyperlink NavigateUri="172cd5a8-a333-4c81-9456-fafccc19f382.xaml">Animation and Timing System Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Other Ways to Animate
+    </Paragraph>
+
+    <Paragraph>The examples in this overview have shown how to animate using storyboards. With code, there are several other ways you can animate. For more information, see the <Hyperlink NavigateUri="74f61413-f8c0-4e75-bf04-951886426c8b.xaml">Different Methods for Animating Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Animation Samples
+    </Paragraph>
+
+    <Paragraph>The following samples can help you get started adding animation to your applications.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Property Animation Sample 
+        </Paragraph>
+
+        <Paragraph>Shows how to apply animations to framework elements and freezable objects.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>From, To, and By Animation Target Values Sample 
+        </Paragraph>
+
+        <Paragraph>Demonstrates different From/To/By settings.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Animation Timing Behavior Sample 
+        </Paragraph>
+
+        <Paragraph>Demonstrates the different ways you can control an animation's timing behavior. This sample also shows how to data bind an animation's destination value. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Timeline
+      <LineBreak/>Storyboard
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="516fce0a-e7f8-49b8-b018-53b3d409a8a3.xaml">From/To/By Animations Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="5b714d46-bd46-48b8-b467-b4be89ba3091.xaml">Timing Behaviors Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="172cd5a8-a333-4c81-9456-fafccc19f382.xaml">Animation and Timing System Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="597e3280-0867-4359-a97b-5b2f4149e350.xaml">Timing Events Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Animation Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

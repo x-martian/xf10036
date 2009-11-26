@@ -1,0 +1,182 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b3d06378_b511_4181_95aa_316d60c9229b"
+  Tag     ="Produce a Value Based on a List of Bound Items"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Produce a Value Based on a List of Bound Items</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>MultiBinding allows you to bind a <Run>binding target</Run>
+ property to a list of source properties and then apply logic to produce a value with the given inputs. This example demonstrates how to use <Run FontWeight="Bold">MultiBinding</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In the following example, <Run>NameListData</Run>
+ refers to a collection of <Run>PersonName</Run>
+ objects, which are objects that contain two properties, <Run>firstName</Run>
+ and <Run>lastName</Run>
+. The following example produces a TextBlock that shows the first and last names of a person with the last name first.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="clr-namespace:SDKSample" x:Class="SDKSample.Window1" Width="400" Height="280" Title="MultiBinding Sample"> 
+&lt;Window.Resources> 
+&lt;c:NameList x:Key="NameListData"/> 
+&lt;c:NameConverter x:Key="myNameConverter"/> <Run>... </Run>
+ 
+&lt;/Window.Resources> <Run>... </Run>
+ 
+&lt;TextBlock Name="textBox2" DataContext="{StaticResource NameListData}"> 
+&lt;TextBlock.Text> 
+&lt;MultiBinding Converter="{StaticResource myNameConverter}" ConverterParameter="FormatLastFirst"> 
+&lt;Binding Path="FirstName"/> 
+&lt;Binding Path="LastName"/> 
+&lt;/MultiBinding> 
+&lt;/TextBlock.Text> 
+&lt;/TextBlock> <Run>... </Run>
+
+&lt;/Window> </Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To understand how the last-name-first format is produced, let's take a look at the implementation of the <Run>NameConverter</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class NameConverter : IMultiValueConverter { public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) { string name; 
+switch ((string)parameter) { case "FormatLastFirst": name = values[1] + ", " + values[0]; 
+break; 
+case "FormatNormal": default: name = values[0] + " " + values[1]; 
+break; 
+} return name; 
+} public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) { string[] splitValues = ((string)value).Split(' '); 
+return splitValues; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run>NameConverter</Run>
+ implements the IMultiValueConverter interface. <Run>NameConverter</Run>
+ takes the values from the individual bindings and stores them in the values object array. The order in which the Binding elements appear under the <Run FontWeight="Bold">MultiBinding</Run>
+ element is the order in which those values are stored in the array. The value of the ConverterParameter attribute is referenced by the parameter argument of the Converter method, which performs a switch on the parameter to determine how to format the name.
+    </Paragraph>
+
+    <Paragraph>For the complete sample, see Implementing Parameterized MultiBinding Sample.
+    </Paragraph>
+
+    <Paragraph>For another example of an <Run FontWeight="Bold">IMultiValueConverter</Run>
+ implementation, see Data Binding Demo.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b00aaa19-c6df-4c3b-a9fd-88a0b488df2b.xaml">How to: Convert Bound Data</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Produce a Value Based on a List of Bound Items to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

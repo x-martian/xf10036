@@ -1,0 +1,177 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_8d8592ae_0c91_469e_a1cd_d179c4544548"
+  Tag     ="Hook Up a Command to a Control with Command Support"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Hook Up a Command to a Control with Command Support</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to hook up a RoutedCommand to a Control which has built in support for the command. For a complete sample which hooks up commands to multiple sources, see the Create a Custom RoutedCommand sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) provides a library of common commands which application programmers encounter regularly. The classes which comprise the command library are: ApplicationCommands, ComponentCommands, NavigationCommands, MediaCommands, and EditingCommands. 
+    </Paragraph>
+
+    <Paragraph>The static <Run FontWeight="Bold">RoutedCommand</Run>
+ objects which make up these classes do not supply command logic. The logic for the command is associated with the command with a CommandBinding. Some controls have built in CommandBindings for some commands. This mechanism allows the semantics of a command to stay the same, while the actual implementation is can change. A TextBox, for example, handles the Paste command differently than a control designed to support images, but the basic idea of what it means to paste something stays the same. The command logic cannot be supplied by the command, but rather must be supplied by the control or the application.
+    </Paragraph>
+
+    <Paragraph>Many controls in WPF do have built in support for some of the commands in the command library. <Run FontWeight="Bold">TextBox</Run>
+, for example, supports many of the application edit commands such as <Run FontWeight="Bold">Paste</Run>
+, Copy, Cut, Redo, and Undo. The application developer does not have to do anything special to get these commands to work with these controls. If the <Run FontWeight="Bold">TextBox</Run>
+ is the command target when the command is executed, it will handle the command using the <Run FontWeight="Bold">CommandBinding</Run>
+ that is built into the control. 
+    </Paragraph>
+
+    <Paragraph>The following shows how to use a MenuItem as the command source for the <Run FontWeight="Bold">Paste</Run>
+ command, where a <Run FontWeight="Bold">TextBox</Run>
+ is the target of the command. All the logic that defines how the <Run FontWeight="Bold">TextBox</Run>
+ performs the paste is built into the <Run FontWeight="Bold">TextBox</Run>
+ control.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">MenuItem</Run>
+ is created and it's Command property is set to the <Run FontWeight="Bold">Paste</Run>
+ command. The CommandTarget is not explicitly set to the <Run FontWeight="Bold">TextBox</Run>
+ object. When the <Run FontWeight="Bold">CommandTarget</Run>
+ is not set, the target for the command is the element which has keyboard focus. If the element which has keyboard focus does not support the <Run FontWeight="Bold">Paste</Run>
+ command or cannot currently execute the paste command (the clipboard is empty, for example) then the <Run FontWeight="Bold">MenuItem</Run>
+ would be grayed out.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="SDKSamples.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="MenuItemCommandTask" > 
+&lt;DockPanel> 
+&lt;Menu DockPanel.Dock="Top"> 
+&lt;MenuItem Command="ApplicationCommands.Paste" Width="75" /> 
+&lt;/Menu> 
+&lt;TextBox BorderBrush="Black" BorderThickness="2" Margin="25" TextWrapping="Wrap"> The MenuItem will not be enabled until this TextBox gets keyboard focus 
+&lt;/TextBox> 
+&lt;/DockPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Window1 constructor public Window1() { InitializeComponent(); 
+//instantiating UIElements DockPanel mainPanel = new DockPanel(); 
+Menu mainMenu = new Menu(); 
+MenuItem pasteMenuItem = new MenuItem(); 
+TextBox mainTextBox = new TextBox(); 
+//associating the MenuItem with the Paste command pasteMenuItem.Command = ApplicationCommands.Paste; 
+//setting properties on the TextBox mainTextBox.Text = "The MenuItem will not be enabled until this TextBox receives keyboard focus."; 
+mainTextBox.Margin = new Thickness(25); 
+mainTextBox.BorderBrush = Brushes.Black; 
+mainTextBox.BorderThickness = new Thickness(2); 
+mainTextBox.TextWrapping = TextWrapping.Wrap; 
+//attaching UIElements to the Window this.AddChild(mainPanel); 
+mainMenu.Items.Add(pasteMenuItem); 
+mainPanel.Children.Add(mainMenu); 
+mainPanel.Children.Add(mainTextBox); 
+//defining DockPanel layout DockPanel.SetDock(mainMenu, Dock.Top); 
+DockPanel.SetDock(mainTextBox, Dock.Bottom); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="dad08f64-700b-46fb-ad3f-fbfee95f0dfe.xaml">How to: Hook Up a Command to a Control with No Command Support</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Hook Up a Command to a Control with Command Support to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,422 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5bfabb4d_b03e_431b_a524_18d42738f845"
+  Tag     ="MenuItem ControlTemplate Example"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>MenuItem ControlTemplate Example</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Controls in Windows Presentation Foundation (WPF) have a ControlTemplate that contains the <Run>visual tree</Run>
+ of that control. You can change the structure and appearance of a control by modifying the <Run FontWeight="Bold">ControlTemplate</Run>
+ of that control. There is no way to replace only part of the visual tree of a control; 
+to change the visual tree of a control you must set the Template property of the control to its new and complete <Run FontWeight="Bold">ControlTemplate</Run>
+.
+    </Paragraph>
+
+    <Paragraph>This topic shows the <Run FontWeight="Bold">ControlTemplate</Run>
+ of the WPF MenuItem control.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="example">MenuItem ControlTemplate Example</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>To run the examples in this topic, you should understand how to write WPF applications. For more information, see <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+. You should also understand how styles are used in WPF. For more information, see <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">MenuItem ControlTemplate Example
+    </Paragraph>
+
+    <Paragraph>While this example contains all of the elements that are defined in the <Run FontWeight="Bold">ControlTemplate</Run>
+ of a <Run FontWeight="Bold">MenuItem</Run>
+ by default, the specific values should be thought of as examples.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}"> 
+&lt;Setter Property="Height" Value="1"/> 
+&lt;Setter Property="Margin" Value="0,4,0,4"/> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type Separator}"> 
+&lt;Border BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1"/> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;!-- TopLevelHeader --> 
+&lt;ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}"> 
+&lt;Border Name="Border" > 
+&lt;Grid> 
+&lt;ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" /> 
+&lt;Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade"> 
+&lt;Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" > 
+&lt;StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" /> 
+&lt;/Border> 
+&lt;/Popup> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="IsSuspendingPopupAnimation" Value="true"> 
+&lt;Setter TargetName="Popup" Property="PopupAnimation" Value="None"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsHighlighted" Value="true"> 
+&lt;Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}"/> 
+&lt;Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/> 
+&lt;/Trigger> 
+&lt;Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True"> 
+&lt;Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4"/> 
+&lt;Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsEnabled" Value="False"> 
+&lt;Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;!-- TopLevelItem --> 
+&lt;ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}"> 
+&lt;Border Name="Border" > 
+&lt;Grid> 
+&lt;ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" /> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="IsHighlighted" Value="true"> 
+&lt;Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}"/> 
+&lt;Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsEnabled" Value="False"> 
+&lt;Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;!-- SubmenuItem --> 
+&lt;ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}"> 
+&lt;Border Name="Border" > 
+&lt;Grid> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/> 
+&lt;ColumnDefinition Width="*" /> 
+&lt;ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/> 
+&lt;ColumnDefinition Width="13"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;ContentPresenter Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/> 
+&lt;Border Name="Check" Width="13" Height="13" Visibility="Collapsed" Margin="6,0,6,0" Background="{StaticResource NormalBrush}" BorderThickness="1" BorderBrush="{StaticResource NormalBorderBrush}"> 
+&lt;Path Name="CheckMark" Width="7" Height="7" Visibility="Hidden" SnapsToDevicePixels="False" Stroke="{StaticResource GlyphBrush}" StrokeThickness="2" Data="M 0 0 L 7 7 M 0 7 L 7 0" /> 
+&lt;/Border> 
+&lt;ContentPresenter Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True"/> 
+&lt;TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5,2,0,2" DockPanel.Dock="Right" /> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="Icon" Value="{x:Null}"> 
+&lt;Setter TargetName="Icon" Property="Visibility" Value="Hidden"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsChecked" Value="true"> 
+&lt;Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsCheckable" Value="true"> 
+&lt;Setter TargetName="Check" Property="Visibility" Value="Visible"/> 
+&lt;Setter TargetName="Icon" Property="Visibility" Value="Hidden"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsHighlighted" Value="true"> 
+&lt;Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedBackgroundBrush}"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsEnabled" Value="false"> 
+&lt;Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;!-- SubmenuHeader --> 
+&lt;ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}"> 
+&lt;Border Name="Border" > 
+&lt;Grid> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/> 
+&lt;ColumnDefinition Width="*" /> 
+&lt;ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/> 
+&lt;ColumnDefinition Width="13"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;ContentPresenter Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/> 
+&lt;ContentPresenter Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True"/> 
+&lt;TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5,2,2,2" DockPanel.Dock="Right"/> 
+&lt;Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}" /> 
+&lt;Popup Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade"> 
+&lt;Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" > 
+&lt;StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" /> 
+&lt;/Border> 
+&lt;/Popup> 
+&lt;/Grid> 
+&lt;/Border> 
+&lt;ControlTemplate.Triggers> 
+&lt;Trigger Property="Icon" Value="{x:Null}"> 
+&lt;Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsHighlighted" Value="true"> 
+&lt;Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedBackgroundBrush}"/> 
+&lt;/Trigger> 
+&lt;Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True"> 
+&lt;Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4"/> 
+&lt;Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="IsEnabled" Value="false"> 
+&lt;Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/> 
+&lt;/Trigger> 
+&lt;/ControlTemplate.Triggers> 
+&lt;/ControlTemplate> 
+&lt;!-- MenuItem Style --> 
+&lt;Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}"> 
+&lt;Setter Property="OverridesDefaultStyle" Value="True"/> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="Role" Value="TopLevelHeader"> 
+&lt;Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}"/> 
+&lt;Setter Property="Grid.IsSharedSizeScope" Value="true"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="Role" Value="TopLevelItem"> 
+&lt;Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelItemTemplateKey}}"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="Role" Value="SubmenuHeader"> 
+&lt;Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuHeaderTemplateKey}}"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="Role" Value="SubmenuItem"> 
+&lt;Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}"/> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The above example uses one or more of the following resources:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Fill Brushes --> 
+&lt;LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#CCC" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="HorizontalNormalBrush" StartPoint="0,0" EndPoint="1,0"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#CCC" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="HorizontalLightBrush" StartPoint="0,0" EndPoint="1,0"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#FFF" Offset="0.0"/> 
+&lt;GradientStop Color="#AAA" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="PressedBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#BBB" Offset="0.0"/> 
+&lt;GradientStop Color="#EEE" Offset="0.1"/> 
+&lt;GradientStop Color="#EEE" Offset="0.9"/> 
+&lt;GradientStop Color="#FFF" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" /> 
+&lt;SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" /> 
+&lt;SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" /> 
+&lt;SolidColorBrush x:Key="SelectedBackgroundBrush" Color="#DDD" /> 
+&lt;!-- Border Brushes --> 
+&lt;LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#CCC" Offset="0.0"/> 
+&lt;GradientStop Color="#444" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="HorizontalNormalBorderBrush" StartPoint="0,0" EndPoint="1,0"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#CCC" Offset="0.0"/> 
+&lt;GradientStop Color="#444" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="DefaultedBorderBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#777" Offset="0.0"/> 
+&lt;GradientStop Color="#000" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;LinearGradientBrush x:Key="PressedBorderBrush" StartPoint="0,0" EndPoint="0,1"> 
+&lt;GradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="#444" Offset="0.0"/> 
+&lt;GradientStop Color="#888" Offset="1.0"/> 
+&lt;/GradientStopCollection> 
+&lt;/GradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" /> 
+&lt;SolidColorBrush x:Key="SolidBorderBrush" Color="#888" /> 
+&lt;SolidColorBrush x:Key="LightBorderBrush" Color="#AAA" /> 
+&lt;!-- Miscellaneous Brushes --> 
+&lt;SolidColorBrush x:Key="GlyphBrush" Color="#444" /> 
+&lt;SolidColorBrush x:Key="LightColorBrush" Color="#DDD" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Styling with ControlTemplates Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c52dde45-a311-4531-af4c-853371c4d5f4.xaml">Guidelines for Designing Stylable Controls</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b89da183-9b87-42c6-ac53-731a42c7b09e.xaml">Menu ControlTemplate Example</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c19049bb-5ceb-492d-afd2-751dca0ed8e3.xaml">ControlTemplate Examples</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about MenuItem ControlTemplate Example to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

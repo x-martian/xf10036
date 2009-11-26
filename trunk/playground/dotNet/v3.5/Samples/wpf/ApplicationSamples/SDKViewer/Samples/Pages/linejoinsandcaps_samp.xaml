@@ -1,0 +1,305 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Line Joins and Caps Title" x:Class="LineJoinsAndCaps.Page1" Loaded="OnLoaded">
+    <Page.Resources>
+        <Style x:Key="itemHeaderStyler">
+            <Setter Property="ListBoxItem.Margin" Value="0,2,0,5" />
+            <Setter Property="ListBoxItem.Padding" Value="2" />
+            <Setter Property="ListBoxItem.FontFamily" Value="Verdana" />
+            <Setter Property="ListBoxItem.FontWeight" Value="Bold" />
+            <Setter Property="ListBoxItem.FontSize" Value="12" />
+        </Style>
+        <Style x:Key="imageStyler">
+            <Setter Property="TextBlock.Margin" Value="15" />
+        </Style>
+        <Style x:Key="HeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="20" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="TabStyle">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TabStyle2">
+            <Setter Property="TabItem.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="LightGray" Offset="0" />
+                                <GradientStop Color="White" Offset="1" />
+                            </GradientStopCollection>
+                        </GradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TabItem.Foreground" Value="Black" />
+        </Style>
+        <Style x:Key="SubHeaderStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="TextBlock.FontSize" Value="16" />
+            <Setter Property="TextBlock.Foreground" Value="DarkSlateBlue" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+        </Style>
+        <Style x:Key="DisStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="8" />
+            <Setter Property="TextBlock.Foreground" Value="Gray" />
+            <Setter Property="TextBlock.Margin" Value="5,0,5,0" />
+        </Style>
+        <Style x:Key="mainContentStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="5,10,5,10" />
+        </Style>
+        <Style x:Key="tocStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.Margin" Value="0" />
+        </Style>
+        <Style x:Key="CodeSnippetParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Courier New" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10,0,10,0" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="noteParagraph">
+            <Setter Property="TextBlock.FontFamily" Value="Verdana" />
+            <Setter Property="TextBlock.FontSize" Value="11" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBlock.Margin" Value="10" />
+            <Setter Property="TextBlock.Background" Value="LightGray" />
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="TCStyle">
+            <Setter Property="TabControl.Margin" Value="10" />
+        </Style>
+    </Page.Resources>
+    <TabControl MinHeight="500" MaxHeight="700" MinWidth="400" Style="{StaticResource TCStyle}">
+        <TabItem Style="{StaticResource TabStyle}" Header="Line Joins and Caps Sample" IsSelected="true">
+            <StackPanel>
+                <TextBlock Style="{StaticResource HeaderStyle}">Line Joins and Caps Sample</TextBlock>
+                <TextBlock Style="{StaticResource mainContentStyle}">This example demonstrates different techniques for joining and ending lines.</TextBlock>
+            </StackPanel>
+        </TabItem>
+        <TabItem Name="xaml" Style="{StaticResource TabStyle}" Header="XAML">
+            <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                <TextBlock Name="xamlCheck">
+                    <TextBox Style="{StaticResource CodeSnippetParagraph}" xml:space="preserve">
+&lt;!-- This example shows how to use the StrokeMiterLimit
+   property of Shape elements. --&gt;
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="Microsoft.Samples.Graphics.LineCapsAndJoinsExample"
+    Title="Line Joins and Caps"&gt;
+  &lt;StackPanel&gt;
+    &lt;Border Background="HorizontalGradient #CCCCFF AliceBlue"&gt;
+      &lt;TextBlock Margin="10" HorizontalAlignment="Left"&gt;
+        Line Caps and Joins
+      &lt;/TextBlock&gt;
+    &lt;/Border&gt;
+
+
+
+    &lt;Grid HorizontalAlignment="Left" Margin="20"&gt;
+      &lt;ColumnDefinition Width="Auto"/&gt;
+      &lt;ColumnDefinition Width="Auto"/&gt;
+      &lt;ColumnDefinition Width="50"/&gt;
+      &lt;ColumnDefinition Width="Auto"/&gt;
+      &lt;ColumnDefinition Width="Auto"/&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+      &lt;RowDefinition /&gt;
+
+
+
+      &lt;TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"&gt;
+        &lt;Bold&gt;Line Joins&lt;/Bold&gt;
+      &lt;/TextBlock&gt;
+      &lt;TextBlock Grid.Column="0" Grid.Row="1"&gt;Miter&lt;/TextBlock&gt;
+      &lt;Polyline
+        Points="50,50 75,30 100,100 130,40"
+        Stroke="Red"
+        StrokeThickness="20"
+        StrokeLineJoin="Miter"
+        Grid.Row="1" Grid.Column="1"/&gt;
+
+      &lt;TextBlock Grid.Column="0" Grid.Row="2"&gt;Bevel&lt;/TextBlock&gt;
+      &lt;Polyline
+        Points="50,50 75,30 100,100 130,40"
+        Stroke="Red"
+        StrokeThickness="20"
+        StrokeLineJoin="Bevel"
+        Grid.Row="2" Grid.Column="1"/&gt;
+
+      &lt;TextBlock Grid.Column="0" Grid.Row="3"&gt;Round&lt;/TextBlock&gt;
+      &lt;Polyline
+        Points="50,50 75,30 100,100 130,40"
+        Stroke="Red"
+        StrokeThickness="20"
+        StrokeLineJoin="Round"
+        Grid.Row="3" Grid.Column="1"/&gt;
+
+
+      &lt;TextBlock Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2"&gt;
+        &lt;Bold&gt;Line Caps&lt;/Bold&gt;
+      &lt;/TextBlock&gt;
+      &lt;TextBlock Grid.Column="3" Grid.Row="1"&gt;Flat&lt;/TextBlock&gt;
+      &lt;Polyline
+        Points="50,50 75,30 100,100 130,40"
+        Stroke="Red"
+        StrokeThickness="20"
+        StrokeStartLineCap="Flat"
+        StrokeEndLineCap="Flat"
+        Grid.Row="1" Grid.Column="4"/&gt;
+
+      &lt;TextBlock Grid.Column="3" Grid.Row="2"&gt;Square&lt;/TextBlock&gt;
+      &lt;Polyline
+        Points="50,50 75,30 100,100 130,40"
+        Stroke="Red"
+        StrokeThickness="20"
+        StrokeStartLineCap="Square"
+        StrokeEndLineCap="Square"    
+        Grid.Row="2" Grid.Column="4"/&gt;
+
+      &lt;TextBlock Grid.Column="3" Grid.Row="3"&gt;Round&lt;/TextBlock&gt;
+      &lt;Polyline
+        Points="50,50 75,30 100,100 130,40"
+        Stroke="Red"
+        StrokeThickness="20"
+        StrokeStartLineCap="Round"
+        StrokeEndLineCap="Round"  
+        Grid.Row="3" Grid.Column="4"/&gt;
+
+      &lt;TextBlock Grid.Column="3" Grid.Row="4"&gt;Triangle&lt;/TextBlock&gt;
+      &lt;Polyline
+        Points="50,50 75,30 100,100 130,40"
+        Stroke="Red"
+        StrokeThickness="20"
+        StrokeStartLineCap="Triangle"
+        StrokeEndLineCap="Triangle"     
+        Grid.Row="4" Grid.Column="4"/&gt;
+
+
+
+    &lt;/Grid&gt;
+  &lt;/StackPanel&gt;
+&lt;/Page&gt;
+            
+        </TextBox>
+                </TextBlock>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Name="xamlcsharp" Style="{StaticResource TabStyle}" Header="XAML + C#">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xcsharpCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="C#">
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="xamlvb" Style="{StaticResource TabStyle}" Header="XAML + Visual Basic.NET">
+            <TabControl TabStripPlacement="Right">
+                <TabItem Name="xvbCheck" Style="{StaticResource TabStyle2}" Header="XAML">
+                </TabItem>
+                <TabItem Style="{StaticResource TabStyle2}" Header="VB.NET">
+                </TabItem>
+            </TabControl>
+        </TabItem>
+        <TabItem Name="csharp" Style="{StaticResource TabStyle}" Header="C#">
+        </TabItem>
+        <TabItem Name="vb" Style="{StaticResource TabStyle}" Header="Visual Basic.NET">
+        </TabItem>
+        <TabItem Name="managedcpp" Style="{StaticResource TabStyle}" Header="Managed C++">
+        </TabItem>
+        <TabItem Style="{StaticResource TabStyle}" Header="Preview Sample">
+            <!-- This example shows how to use the StrokeMiterLimit
+   property of Shape elements. -->
+            <Canvas Height="600">
+                <StackPanel>
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#CCCCFF" Offset="0" />
+                                        <GradientStop Color="AliceBlue" Offset="1" />
+                                    </GradientStopCollection>
+                                </GradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock Margin="10" HorizontalAlignment="Left">
+        Line Caps and Joins
+      </TextBlock>
+                    </Border>
+                    <Grid HorizontalAlignment="Left" Margin="20">
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+                            <Bold>Line Joins</Bold>
+                        </TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="1">Miter</TextBlock>
+                        <Polyline Points="50,50 75,30 100,100 130,40" Stroke="Red" StrokeThickness="20" StrokeLineJoin="Miter" Grid.Row="1" Grid.Column="1" />
+                        <TextBlock Grid.Column="0" Grid.Row="2">Bevel</TextBlock>
+                        <Polyline Points="50,50 75,30 100,100 130,40" Stroke="Red" StrokeThickness="20" StrokeLineJoin="Bevel" Grid.Row="2" Grid.Column="1" />
+                        <TextBlock Grid.Column="0" Grid.Row="3">Round</TextBlock>
+                        <Polyline Points="50,50 75,30 100,100 130,40" Stroke="Red" StrokeThickness="20" StrokeLineJoin="Round" Grid.Row="3" Grid.Column="1" />
+                        <TextBlock Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2">
+                            <Bold>Line Caps</Bold>
+                        </TextBlock>
+                        <TextBlock Grid.Column="3" Grid.Row="1">Flat</TextBlock>
+                        <Polyline Points="50,50 75,30 100,100 130,40" Stroke="Red" StrokeThickness="20" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Grid.Row="1" Grid.Column="4" />
+                        <TextBlock Grid.Column="3" Grid.Row="2">Square</TextBlock>
+                        <Polyline Points="50,50 75,30 100,100 130,40" Stroke="Red" StrokeThickness="20" StrokeStartLineCap="Square" StrokeEndLineCap="Square" Grid.Row="2" Grid.Column="4" />
+                        <TextBlock Grid.Column="3" Grid.Row="3">Round</TextBlock>
+                        <Polyline Points="50,50 75,30 100,100 130,40" Stroke="Red" StrokeThickness="20" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Grid.Row="3" Grid.Column="4" />
+                        <TextBlock Grid.Column="3" Grid.Row="4">Triangle</TextBlock>
+                        <Polyline Points="50,50 75,30 100,100 130,40" Stroke="Red" StrokeThickness="20" StrokeStartLineCap="Triangle" StrokeEndLineCap="Triangle" Grid.Row="4" Grid.Column="4" />
+                    </Grid>
+                </StackPanel>
+            </Canvas>
+        </TabItem>
+    </TabControl>
+</Page>

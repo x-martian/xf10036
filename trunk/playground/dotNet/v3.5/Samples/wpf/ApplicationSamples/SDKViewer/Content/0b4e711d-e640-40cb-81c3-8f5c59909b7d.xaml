@@ -1,0 +1,352 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0b4e711d_e640_40cb_81c3_8f5c59909b7d"
+  Tag     ="Using DrawingVisual Objects"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Using DrawingVisual Objects</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic provides an overview of how to use DrawingVisual objects in the WPF visual layer.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="drawingvisual_object">DrawingVisual Object</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="drawingvisual_host_container">DrawingVisual Host Container</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_drawingvisual_objects">Creating DrawingVisual Objects</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_overrides">Creating Overrides for FrameworkElement Members</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="providing_hit_testing_support">Providing Hit Testing Support</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">DrawingVisual Object
+    </Paragraph>
+
+    <Paragraph>The DrawingVisual is a lightweight drawing class that is used to render shapes, images, or text. This class is considered lightweight because it does not provide layout or event handling, which improves its performance. For this reason, drawings are ideal for backgrounds and clip art.
+    </Paragraph>
+
+    <Paragraph FontSize="22">DrawingVisual Host Container
+    </Paragraph>
+
+    <Paragraph>In order to use <Run FontWeight="Bold">DrawingVisual</Run>
+ objects, you need to create a host container for the objects. The host container object must be derived from the FrameworkElement class, which provides the layout and event handling support that the <Run FontWeight="Bold">DrawingVisual</Run>
+ class lacks support. The host container object does not display any visible properties, since its main purpose is to contain child objects. However, the Visibility property of the host container must be set to Visible; 
+otherwise, none of its child elements will be visible.
+    </Paragraph>
+
+    <Paragraph>When you create a host container object for visual objects, you need to store the visual object references in a VisualCollection. Use the Add method to add a visual object to the host container. In the following example, a host container object is created, and three visual objects are added to its <Run FontWeight="Bold">VisualCollection</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a host visual derived from the FrameworkElement class. // This class provides layout, event handling, and container support for // the child visual objects. public class MyVisualHost : FrameworkElement { // Create a collection of child visual objects. private VisualCollection _children; 
+public MyVisualHost() { _children = new VisualCollection(this); 
+_children.Add(CreateDrawingVisualRectangle()); 
+_children.Add(CreateDrawingVisualText()); 
+_children.Add(CreateDrawingVisualEllipses()); 
+this.MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(MyVisualHost_MouseLeftButtonUp); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For the complete code sample from which the preceding code example was extracted, see Using DrawingVisuals Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Creating DrawingVisual Objects
+    </Paragraph>
+
+    <Paragraph>When you create a <Run FontWeight="Bold">DrawingVisual</Run>
+ object, it has no drawing content. You can add text, graphics, or image content by retrieving the object's DrawingContext and drawing into it. A <Run FontWeight="Bold">DrawingContext</Run>
+ is returned by calling the RenderOpen method of a <Run FontWeight="Bold">DrawingVisual</Run>
+ object.
+    </Paragraph>
+
+    <Paragraph>To draw a rectangle into the <Run FontWeight="Bold">DrawingContext</Run>
+, use the DrawRectangle method of the <Run FontWeight="Bold">DrawingContext</Run>
+ object. Similar methods exist for drawing other types of content. When you are finished drawing content into the <Run FontWeight="Bold">DrawingContext</Run>
+, call the Close method to close the <Run FontWeight="Bold">DrawingContext</Run>
+ and persist the content.
+    </Paragraph>
+
+    <Paragraph>In the following example, a <Run FontWeight="Bold">DrawingVisual</Run>
+ object is created, and a rectangle is drawn into its <Run FontWeight="Bold">DrawingContext</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a DrawingVisual that contains a rectangle. private DrawingVisual CreateDrawingVisualRectangle() { DrawingVisual drawingVisual = new DrawingVisual(); 
+// Retrieve the DrawingContext in order to create new drawing content. DrawingContext drawingContext = drawingVisual.RenderOpen(); 
+// Create a rectangle and draw it in the DrawingContext. Rect rect = new Rect(new Point(160, 100), new Size(320, 80)); 
+drawingContext.DrawRectangle(Brushes.LightBlue, (Pen)null, rect); 
+// Persist the drawing content. drawingContext.Close(); 
+return drawingVisual; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Creating Overrides for FrameworkElement Members
+    </Paragraph>
+
+    <Paragraph>The host container object is responsible for managing its collection of visual objects. This requires that the host container implement member overrides for the derived <Run FontWeight="Bold">FrameworkElement</Run>
+ class.
+    </Paragraph>
+
+    <Paragraph>The following list describes the four members you must override:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>ArrangeOverride: Positions the child element and determines size.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>GetVisualChild: Returns a child at the specified index from the collection of child elements.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>MeasureOverride: Measures and determines the layout size required for the child element.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>VisualChildrenCount: Gets the number of visual child elements within this element.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In the following example, overrides for the four <Run FontWeight="Bold">FrameworkElement</Run>
+ members are implemented.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Provide a required override for the VisualChildCount property. protected override int VisualChildrenCount { get { return _children.Count; 
+} } // Provide a required override for the GetVisualChild method. protected override Visual GetVisualChild(int index) { if (index 
+&lt; 
+0 || index > _children.Count) { throw new ArgumentOutOfRangeException(); 
+} return (Visual)_children[index]; 
+} // Provide a required override for the MeasureOverride method. protected override Size MeasureOverride(Size availableSize) { // Return the value of the parameter. return base.MeasureOverride(availableSize); 
+} // Provide a required override for the ArrangeOverride method. protected override Size ArrangeOverride(Size finalSize) { // Return the value of the parameter. return base.ArrangeOverride(finalSize); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Providing Hit Testing Support
+    </Paragraph>
+
+    <Paragraph>The host container object can provide event handling even if it does not display any visible properties—however, its <Run FontWeight="Bold">Visibility</Run>
+ property must be set to <Run FontWeight="Bold">Visible</Run>
+. This allows you to create an event handling routine for the host container that can trap mouse events, such as the release of the left mouse button. The event handling routine can then implement hit testing by invoking the HitTest method. The method's HitTestResultCallback parameter refers to a user-defined procedure that you can use to determine the resulting action of a hit test.
+    </Paragraph>
+
+    <Paragraph>In the following example, hit testing support is implemented for the host container object and its children.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Capture the mouse event and hit test the coordinate point value against // the child visual objects. void MyVisualHost_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e) { // Retreive the coordinates of the mouse button event. Point pt = e.GetPosition((UIElement)sender); 
+// Initiate the hit test by setting up a hit test result callback method. VisualTreeHelper.HitTest(this, null, new HitTestResultCallback(myCallback), new PointHitTestParameters(pt)); 
+} // If a child visual object is hit, toggle its opacity to visually indicate a hit. public HitTestResultBehavior myCallback(HitTestResult result) { if (result.VisualHit.GetType() == typeof(DrawingVisual)) { if (((DrawingVisual)result.VisualHit).Opacity == 1.0) { ((DrawingVisual)result.VisualHit).Opacity = 0.4; 
+} else { ((DrawingVisual)result.VisualHit).Opacity = 1.0; 
+} } // Stop the hit test enumeration of objects in the visual tree. return HitTestResultBehavior.Stop; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6dec9657-4d8c-4e46-8c54-40fb80008265.xaml">Windows Presentation Foundation Graphics Rendering Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b1a64b61-14be-4d75-b89a-5c67bebb2c7b.xaml">Hit Testing in the Visual Layer</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Using DrawingVisual Objects to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

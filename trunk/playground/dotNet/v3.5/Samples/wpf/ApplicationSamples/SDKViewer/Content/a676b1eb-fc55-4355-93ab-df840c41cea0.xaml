@@ -1,0 +1,804 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a676b1eb_fc55_4355_93ab_df840c41cea0"
+  Tag     ="Walkthrough: Hosting a Simple Win32 Control in a Windows Presentation Foundation Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Walkthrough: Hosting a Simple Win32 Control in a Windows Presentation Foundation Application</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Presentation Foundation (WPF) provides a rich environment for creating applications. However, when you have a substantial investment in Win32 code, it may be more effective to reuse at least some of that code in your WPF application rather than rewrite it completely. WPF provides a straightforward mechanism for hosting a Win32 window, on a WPF page.
+    </Paragraph>
+
+    <Paragraph>This tutorial walks you through an application, Host a Win32 ListBox Control on a Windows Presentation Foundation Page Sample, that hosts a Win32 ListBox Control control. This general procedure can be extended to hosting any Win32 window. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="requirements">Requirements</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="basic_procedure">The Basic Procedure</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="page_layout">Implement the Page Layout</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="host_class">Implement a Class to Host the Microsoft Win32 Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="host_the_control">Host the Control on the Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="communication">Implement Communication Between the Control and the Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Requirements
+    </Paragraph>
+
+    <Paragraph>This tutorial assumes a basic familiarity with both WPF and Win32 programming. For a basic introduction to WPF programming, see <Hyperlink NavigateUri="04f91da8-708c-46c7-8172-f1695ec847cd.xaml">Getting Started</Hyperlink>
+. For an introduction to Win32 programming, see any of the numerous books on the subject, in particular <Run FontStyle="italic">Programming Windows</Run>
+ by Charles Petzold.
+    </Paragraph>
+
+    <Paragraph>Because the sample that accompanies this tutorial is implemented in C#, it makes use of Platform Invocation Services (PInvoke) to access the Win32 API. Some familiarity with PInvoke is helpful but not essential.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>This tutorial includes a number of code examples from the associated sample. However, for readibility, it does not include the complete sample code. You can get that from Host a Win32 ListBox Control on a Windows Presentation Foundation Page Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">The Basic Procedure
+    </Paragraph>
+
+    <Paragraph>This section outlines the basic procedure to be used in hosting a Win32 window on a WPF page. The remaining sections go through the details of each step.
+    </Paragraph>
+
+    <Paragraph>The basic hosting procedure is:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Implement a WPF page to host the window. The simplest way to handle the layout is to use a Border element to reserve a section of the page for the hosted window. It also provides a low-overhead parent element for the HwndHost element that contains the window.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Implement a class to host the control that inherits from <Run FontWeight="Bold">HwndHost</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In that class, override the <Run FontWeight="Bold">HwndHost</Run>
+ class's BuildWindowCore method.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create the hosted window as a child of the window that contains the WPF page. Although conventional WPF programming does not need to explicitly make use of it, the hosting page is a window with a handle (hwnd). You receive the page's hwnd through the <Run FontWeight="Bold">BuildWindowCore</Run>
+ method's <Run FontStyle="italic">hwndParent</Run>
+ parameter. The hosted window should be created as a child of this hwnd.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Once you have created the host window, return the hosted window's hwnd. If you want to host one or more Win32 controls, you normally create a host window as a child of the page's hwnd and make the controls children of that host window. Wrapping the controls in a host window provides a simple way for your WPF page to receive notifications from the controls.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Handle selected messages sent to the host window, such as notifications from child controls. There are two ways to do this. 
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>If you prefer to handle messages in your hosting class, override the <Run FontWeight="Bold">HwndHost</Run>
+ class's WndProc method.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>If you prefer to have the WPF handle the messages, handle the <Run FontWeight="Bold">HwndHost</Run>
+ class MessageHook event in your page's code-behind file. This event occurs for every message that is received by the hosted window. If you choose this option, you must still override <Run FontWeight="Bold">WndProc</Run>
+, but you only need a minimal implementation.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Override the <Run FontWeight="Bold">HwndHost</Run>
+ class's DestroyWindowCore and <Run FontWeight="Bold">WndProc</Run>
+ method. You must override these methods, but you may only need to provide a minimal implementation.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In your page's code-behind file, create an instance of the control hosting class and make it a child of the <Run FontWeight="Bold">Border</Run>
+ element that is intended to host the window.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Communicate with the hosted window by sending it Microsoft Windows messages and handling messages from its child windows, such as notifications sent by controls.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Implement the Page Layout
+    </Paragraph>
+
+    <Paragraph>The layout for the WPF page that hosts the ListBox Control consists of two regions. The left side of the page hosts several WPF controls that provide a user interface (UI) that allows you to manipulate the Win32 control. The upper right corner of the page has a square region for the hosted ListBox Control. The following screenshot shows what the page looks like.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">WPF page hosting a Win32 listbox control.</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>The code is quite simple. The root element is a DockPanel that has two child elements. The first is a <Run FontWeight="Bold">Border</Run>
+ element that hosts the ListBox Control. It occupies a 200x200 square in the upper right corner of the page. The second is a StackPanel element that contains a set of WPF controls that display information and allow you to manipulate the ListBox Control by setting exposed interoperation properties. For each of the elements that are children of the <Run FontWeight="Bold">StackPanel</Run>
+, see the reference material for the various elements used for details on what these elements are or what they do, these are listed in the example code below but won't be explained here (the basic interoperation model doesn't require any of them, they are provided to add some interactivity to the sample).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="WPF_Hosting_Win32_Control.HostWindow" Name="mainWindow" Loaded="On_UIReady"> 
+&lt;DockPanel Background="LightGreen"> 
+&lt;Border Name="ControlHostElement" Width="200" Height="200" HorizontalAlignment="Right" VerticalAlignment="Top" BorderBrush="LightGray" BorderThickness="3" DockPanel.Dock="Right"/> 
+&lt;StackPanel> 
+&lt;Label HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="14" FontWeight="Bold">Control the Control
+&lt;/Label> 
+&lt;TextBlock Margin="10,10,10,10" >Selected Text: 
+&lt;TextBlock Name="selectedText"/>
+&lt;/TextBlock> 
+&lt;TextBlock Margin="10,10,10,10" >Number of Items: 
+&lt;TextBlock Name="numItems"/>
+&lt;/TextBlock> 
+&lt;Line X1="0" X2="200" Stroke="LightYellow" StrokeThickness="2" HorizontalAlignment="Center" Margin="0,20,0,0"/> 
+&lt;Label HorizontalAlignment="Center" Margin="10,10,10,10">Append an Item to the List
+&lt;/Label> 
+&lt;StackPanel Orientation="Horizontal"> 
+&lt;Label HorizontalAlignment="Left" Margin="10,10,10,10">Item Text
+&lt;/Label> 
+&lt;TextBox HorizontalAlignment="Left" Name="txtAppend" Width="200" Margin="10,10,10,10">
+&lt;/TextBox> 
+&lt;/StackPanel> 
+&lt;Button HorizontalAlignment="Left" Click="AppendText" Width="75" Margin="10,10,10,10">Append
+&lt;/Button> 
+&lt;Line X1="0" X2="200" Stroke="LightYellow" StrokeThickness="2" HorizontalAlignment="Center" Margin="0,20,0,0"/> 
+&lt;Label HorizontalAlignment="Center" Margin="10,10,10,10">Delete the Selected Item
+&lt;/Label> 
+&lt;Button Click="DeleteText" Width="125" Margin="10,10,10,10" HorizontalAlignment="Left">Delete
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/DockPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Implement a Class to Host the Microsoft Win32 Control
+    </Paragraph>
+
+    <Paragraph>The core of this sample is the class that actually hosts the control, ControlHost.cs. It inherits from <Run FontWeight="Bold">HwndHost</Run>
+. The constructor takes two parameters, height and width, that correspond to the height and width of the <Run FontWeight="Bold">Border</Run>
+ element that hosts the ListBox Control control. These values are used later to ensure that the size of the control matches the <Run FontWeight="Bold">Border</Run>
+ element. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class ControlHost : HwndHost { IntPtr hwndControl; 
+IntPtr hwndHost; 
+int hostHeight, hostWidth; 
+public ControlHost(double height, double width) { hostHeight = (int)height; 
+hostWidth = (int)width; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>There is also a set of constants. These constants are largely taken from Winuser.h, and allow you to use conventional names when calling Win32 functions.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>internal const int WS_CHILD = 0x40000000, WS_VISIBLE = 0x10000000, LBS_NOTIFY = 0x00000001, HOST_ID = 0x00000002, LISTBOX_ID = 0x00000001, WS_VSCROLL = 0x00200000, WS_BORDER = 0x00800000; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Override BuildWindowCore to Create the Microsoft Win32 Window
+    </Paragraph>
+
+    <Paragraph>You override this method to create the Win32 window that will be hosted by the page, and make the connection between the window and the page. Because this sample involves hosting a ListBox Control, two windows are created. The first is the window that is actually hosted by the WPF page. The ListBox Control is created as a child of that window.
+    </Paragraph>
+
+    <Paragraph>The reason for this approach is to simplify the process of receiving notifications from the control. The <Run FontWeight="Bold">HwndHost</Run>
+ class allows you to process messages sent to the window that it is hosting. If you host a Win32 control directly, you receive the messages sent to the control's internal message loop. You can display the control and send it messages, but you do not receive the notifications that the control sends to its parent window. This means, among other things, that you have no way of detecting when the user interacts with the control. Instead, create a host window and make the control a child of that window. This allows you to process the host window's messages including the notifications sent to it by the control. For convenience, since the host window is little more than a simple wrapper for the control, the package will be referred to as a ListBox control.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Create the Host Window and ListBox Control
+    </Paragraph>
+
+    <Paragraph>You can use PInvoke to create a host window for the control by creating and registering a window class, and so on. However, a much simpler approach is to create a window with the predefined "static" window class. This provides you with the window procedure you need in order to receive notifications from the control, and requires minimal coding.
+    </Paragraph>
+
+    <Paragraph>The control's hwnd is exposed through a read-only property, so that the host page can use it to send messages to the control.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public IntPtr hwndListBox { get { return hwndControl; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The ListBox control is created as a child of the host window. The height and width of both windows are set to the values passed to the constructor, discussed above. This ensures that the size of the host window and control is identical to the reserved area on the page. Once the windows are created, the sample returns a HandleRef object that contains the host window's Hwnd.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override HandleRef BuildWindowCore(HandleRef hwndParent) { hwndControl = IntPtr.Zero; 
+hwndHost = IntPtr.Zero; 
+hwndHost = CreateWindowEx(0, "static", "", WS_CHILD | WS_VISIBLE, 0, 0, hostHeight, hostWidth, hwndParent.Handle, (IntPtr)HOST_ID, IntPtr.Zero, 0); 
+hwndControl = CreateWindowEx(0, "listbox", "", WS_CHILD | WS_VISIBLE | LBS_NOTIFY | WS_VSCROLL | WS_BORDER, 0, 0, hostHeight, hostWidth, hwndHost, (IntPtr) LISTBOX_ID, IntPtr.Zero, 0); 
+return new HandleRef(this, hwndHost); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>//PInvoke declarations [DllImport("user32.dll", EntryPoint = "CreateWindowEx", CharSet = CharSet.Auto)] internal static extern IntPtr CreateWindowEx(int dwExStyle, string lpszClassName, string lpszWindowName, int style, int x, int y, int width, int height, IntPtr hwndParent, IntPtr hMenu, IntPtr hInst, [MarshalAs(UnmanagedType.AsAny)] object pvParam); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Implement DestroyWindow and WndProc
+    </Paragraph>
+
+    <Paragraph>In addition to <Run FontWeight="Bold">BuildWindowCore</Run>
+, you must also override the <Run FontWeight="Bold">HwndHost</Run>
+ class's <Run FontWeight="Bold">WndProc</Run>
+ and <Run FontWeight="Bold">DestroyWindowCore</Run>
+ methods. In this example, the control's messages are handled by the page's <Run FontWeight="Bold">MessageHook</Run>
+ handler, so the implementation of <Run FontWeight="Bold">WndProc</Run>
+ and <Run FontWeight="Bold">DestroyWindowCore</Run>
+ is minimal. In the case of <Run FontWeight="Bold">WndProc</Run>
+, set <Run FontStyle="italic">handled</Run>
+ to false to indicate that the message was not handled and return 0. For <Run FontWeight="Bold">DestroyWindowCore</Run>
+, simply destroy the window.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) { handled = false; 
+return IntPtr.Zero; 
+} protected override void DestroyWindowCore(HandleRef hwnd) { DestroyWindow(hwnd.Handle); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[DllImport("user32.dll", EntryPoint = "DestroyWindow", CharSet = CharSet.Auto)] internal static extern bool DestroyWindow(IntPtr hwnd); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Host the Control on the Page
+    </Paragraph>
+
+    <Paragraph>To host the control on the page, you first create a new instance of the <Run>ControlHost</Run>
+ class. Pass the height and width of the border element that contains the control (<Run>ControlHostElement</Run>
+) to the <Run>ControlHost</Run>
+ constructor. This ensures that the ListBox is sized correctly. You then host the control on the page by assigning the <Run>ControlHost</Run>
+ object to the host <Run FontWeight="Bold">Border</Run>
+ element's Child property.
+    </Paragraph>
+
+    <Paragraph>The sample attaches a handler to the <Run>ControlHost</Run>
+ object's <Run FontWeight="Bold">MessageHook</Run>
+ event to receive messages from the control. This event is raised for every message sent to the hosted window. In this case, these are the messages sent to window that wraps the actual ListBox control, including notifications from the control. The sample calls SendMessage to obtain information from the control and modify its contents. The details of how the page communicates with the control are discussed in the next section.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Notice that there are two PInvoke declarations for SendMessage. This is necessary because one uses the <Run FontStyle="italic">wParam</Run>
+ parameter to pass a string and the other uses it to pass an integer. You need a separate declaration for each signature to ensure that the data is marshaled correctly. 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class HostWindow : Window { int selectedItem; 
+IntPtr hwndListBox; 
+ControlHost listControl; 
+Application app; 
+Window myWindow; 
+int itemCount; 
+private void On_UIReady(object sender, EventArgs e) { app = System.Windows.Application.Current; 
+myWindow = app.MainWindow; 
+myWindow.SizeToContent = SizeToContent.WidthAndHeight; 
+listControl = new ControlHost(ControlHostElement.ActualHeight, ControlHostElement.ActualWidth); 
+ControlHostElement.Child = listControl; 
+listControl.MessageHook += new HwndSourceHook(ControlMsgFilter); 
+hwndListBox = listControl.hwndListBox; 
+for (int i = 0; 
+i 
+&lt; 
+15; 
+i++) //populate listbox { string itemText = "Item" + i.ToString(); 
+SendMessage(hwndListBox, LB_ADDSTRING, IntPtr.Zero, itemText); 
+} itemCount = SendMessage(hwndListBox, LB_GETCOUNT, IntPtr.Zero, IntPtr.Zero); 
+numItems.Text = "" + itemCount.ToString(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private IntPtr ControlMsgFilter(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) { int textLength; 
+handled = false; 
+if (msg == WM_COMMAND) { switch ((uint)wParam.ToInt32() >> 16 &amp; 
+0xFFFF) //extract the HIWORD { case LBN_SELCHANGE : //Get the item text and display it selectedItem = SendMessage(listControl.hwndListBox, LB_GETCURSEL, IntPtr.Zero, IntPtr.Zero); 
+textLength = SendMessage(listControl.hwndListBox, LB_GETTEXTLEN, IntPtr.Zero, IntPtr.Zero); 
+StringBuilder itemText = new StringBuilder(); 
+SendMessage(hwndListBox, LB_GETTEXT, selectedItem, itemText); 
+selectedText.Text = itemText.ToString(); 
+handled = true; 
+break; 
+} } return IntPtr.Zero; 
+} internal const int LBN_SELCHANGE = 0x00000001, WM_COMMAND = 0x00000111, LB_GETCURSEL = 0x00000188, LB_GETTEXTLEN = 0x0000018A, LB_ADDSTRING = 0x00000180, LB_GETTEXT = 0x00000189, LB_DELETESTRING = 0x00000182, LB_GETCOUNT = 0x0000018B; 
+[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)] internal static extern int SendMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam); 
+[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)] internal static extern int SendMessage(IntPtr hwnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lParam); 
+[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)] internal static extern IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, String lParam); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Implement Communication Between the Control and the Page
+    </Paragraph>
+
+    <Paragraph>You manipulate the control by sending it Windows messages. The control notifies you when the user interacts with it by sending notications to its host window. The Host A Win32 ListBox Control on a Windows Presentation Foundation Page sample includes a UI that provides several examples of how this works: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Append an item to the list.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Delete the selected item from the list
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Display the text of the currently selected item.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Display the number of items in the list.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The user can also select an item in the listbox by clicking on it, just as they would for a conventional Win32 application. The displayed data is updated each time the user changes the state of the listbox by selecting, adding, or appending an item.
+    </Paragraph>
+
+    <Paragraph>To append items, send the list box an LB_ADDSTRING message. To delete items, send LB_GETCURSEL to get the index of the current selection and then LB_DELETESTRING to delete the item. The sample also sends LB_GETCOUNT, and uses the returned value to update the display that shows the number of items. Both these instances of SendMessage use one of the PInvoke declarations discussed in the previous section.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void AppendText(object sender, EventArgs args) { if (txtAppend.Text != string.Empty) { SendMessage(hwndListBox, LB_ADDSTRING, IntPtr.Zero, txtAppend.Text); 
+} itemCount = SendMessage(hwndListBox, LB_GETCOUNT, IntPtr.Zero, IntPtr.Zero); 
+numItems.Text = "" + itemCount.ToString(); 
+} private void DeleteText(object sender, EventArgs args) { selectedItem = SendMessage(listControl.hwndListBox, LB_GETCURSEL, IntPtr.Zero, IntPtr.Zero); 
+if (selectedItem != -1) //check for selected item { SendMessage(hwndListBox, LB_DELETESTRING, (IntPtr)selectedItem, IntPtr.Zero); 
+} itemCount = SendMessage(hwndListBox, LB_GETCOUNT, IntPtr.Zero, IntPtr.Zero); 
+numItems.Text = "" + itemCount.ToString(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the user selects an item changes their selection, the control notifies the host window by sending it a WM_COMMAND message, which raises the page's <Run FontWeight="Bold">MessageHook</Run>
+ event. The handler receives the same information as the host window's window procedure. It also passes a reference to a boolean value, <Run FontStyle="italic">handled</Run>
+. You set to <Run FontStyle="italic">handled</Run>
+ to <Run FontWeight="Bold">true</Run>
+ to indicate that you have handled the message and no further processing is needed.
+    </Paragraph>
+
+    <Paragraph>WM_COMMAND is sent for a variety of reasons, so you must examine the notification ID to determine whether it is an event that you wish to handle. The ID is contained in the high word of the <Run FontStyle="italic">wParam</Run>
+ parameter. Since Microsoft .NET does not have a HIWORD macro, the sample uses bitwise operators to extract the ID. If the user has made or changed their selection, the ID will be LBN_SELCHANGE.
+    </Paragraph>
+
+    <Paragraph>When LBN_SELCHANGE is received, the sample gets the index of the selected item by sending the control a LB_GETCURSEL message. To get the text, you first create a StringBuilder. You then send the control an LB_GETTEXT message. Pass the empty <Run FontWeight="Bold">StringBuilder</Run>
+ object as the <Run FontStyle="italic">wParam</Run>
+ parameter. When SendMessage returns, the <Run FontWeight="Bold">StringBuilder</Run>
+ will contain the text of the selected item. This use of SendMessage requires yet another PInvoke declaration.
+    </Paragraph>
+
+    <Paragraph>Finally, set <Run FontStyle="italic">handled</Run>
+ to <Run FontWeight="Bold">true</Run>
+ to indicate that the message has been handled. The following code highlights the ControlMsgFilter method again, which is where this behavior is implemented.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private IntPtr ControlMsgFilter(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) { int textLength; 
+handled = false; 
+if (msg == WM_COMMAND) { switch ((uint)wParam.ToInt32() >> 16 &amp; 
+0xFFFF) //extract the HIWORD { case LBN_SELCHANGE : //Get the item text and display it selectedItem = SendMessage(listControl.hwndListBox, LB_GETCURSEL, IntPtr.Zero, IntPtr.Zero); 
+textLength = SendMessage(listControl.hwndListBox, LB_GETTEXTLEN, IntPtr.Zero, IntPtr.Zero); 
+StringBuilder itemText = new StringBuilder(); 
+SendMessage(hwndListBox, LB_GETTEXT, selectedItem, itemText); 
+selectedText.Text = itemText.ToString(); 
+handled = true; 
+break; 
+} } return IntPtr.Zero; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Walkthrough: Hosting a Simple Win32 Control in a Windows Presentation Foundation Application to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

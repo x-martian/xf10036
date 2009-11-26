@@ -1,0 +1,257 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_99f96a42_3ab7_4f64_a16b_2e10d654e97c"
+  Tag     ="Collection-Type Dependency Properties"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Collection-Type Dependency Properties</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic provides guidance and suggested patterns for how to implement a <Run>dependency property</Run>
+ where the type of the property is a collection type.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="implementing">Implementing a Collection-Type Dependency Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="initializing">Initializing the Collection Beyond the Default Value</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Reporting Binding Value Changes from Collection Properties</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Implementing a Collection-Type Dependency Property
+    </Paragraph>
+
+    <Paragraph>For a dependency property in general, the implementation pattern that you follow is that you define a CLR property wrapper, where that property is backed by a DependencyProperty identifier rather than a field or other construct. You follow this same pattern when you implement a collection-type property. However, a collection-type property introduces some complexity to the pattern whenever the type that is contained within the collection is itself a DependencyObject or Freezable derived class.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Initializing the Collection Beyond the Default Value
+    </Paragraph>
+
+    <Paragraph>When you create a dependency property, you do not specify the property default value as the initial field value. Instead, you specify the default value through the dependency property metadata. If your property is a reference type, the default value specified in dependency property metadata is not a default value per instance; 
+instead it is a default value that applies to all instances of the type. Therefore you must be careful to not use the singular static collection defined by the collection property metadata as the working default value for newly created instances of your type. Instead, you must make sure that you deliberately set the collection value to a unique (instance) collection as part of your class constructor logic.
+    </Paragraph>
+
+    <Paragraph>Consider the following example. The following section of the example shows the definition for a class <Run>Aquarium</Run>
+. The class defines the collection type dependency property <Run>AquariumObjects</Run>
+, which uses the generic <Run FontWeight="Bold">List</Run>
+ type with a FrameworkElement type constraint. In the Register call for the dependency property, the metadata establishes the default value to be a new generic <Run FontWeight="Bold">List</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class Fish : FrameworkElement { } public class Aquarium : DependencyObject { private static readonly DependencyPropertyKey AquariumContentsPropertyKey = DependencyProperty.RegisterReadOnly( "AquariumContents", typeof(List
+&lt;FrameworkElement>), typeof(Aquarium), new FrameworkPropertyMetadata(new List
+&lt;FrameworkElement>()) ); 
+public static readonly DependencyProperty AquariumContentsProperty = AquariumContentsPropertyKey.DependencyProperty; 
+public List
+&lt;FrameworkElement> AquariumContents { get { return (List
+&lt;FrameworkElement>)GetValue(AquariumContentsProperty); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>However, if you just left the code like this, that single list default value is shared for all instances of <Run>Aquarium</Run>
+. If you ran the following test code, which is intended to show how you would instantiate two separate <Run>Aquarium</Run>
+ instances and add a single different <Run>Fish</Run>
+ to each of them, you would see a surprising result:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Aquarium myAq1 = new Aquarium(); 
+Aquarium myAq2 = new Aquarium(); 
+Fish f1 = new Fish(); 
+Fish f2 = new Fish(); 
+myAq1.AquariumContents.Add(f1); 
+myAq2.AquariumContents.Add(f2); 
+MessageBox.Show("aq1 contains " + myAq1.AquariumContents.Count.ToString() + " things"); 
+MessageBox.Show("aq2 contains " + myAq2.AquariumContents.Count.ToString() + " things"); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Instead of each collection having a count of one, each collection has a count of two! This is because each <Run>Aquarium</Run>
+ added its <Run>Fish</Run>
+ to the default value collection, which resulted from a single constructor call in the metadata and is therefore shared between all instances. This situation is almost never what you want.
+    </Paragraph>
+
+    <Paragraph>To correct this problem, you must reset the collection dependency property value to a unique instance, as part of the class constructor call. Because the property is a readonly dependency property, you use the SetValue method to set it, using the DependencyPropertyKey that is only accessible within the class.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public Aquarium() : base() { SetValue(AquariumContentsPropertyKey, new List
+&lt;FrameworkElement>()); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Now, if you ran that same test code again, you could see more expected results, where each <Run>Aquarium</Run>
+ supported its own unique collection.
+    </Paragraph>
+
+    <Paragraph>There would be a slight variation on this pattern if you chose to have your collection property be read-write. In that case, you could call the public set accessor from the constructor to do the initialization, which would stilll be calling the nonkey signature of SetValue within your set wrapper, using a public <Run FontWeight="Bold">DependencyProperty</Run>
+ identifier.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Reporting Binding Value Changes from Collection Properties
+    </Paragraph>
+
+    <Paragraph>A collection property that is itself a dependency property does not automatically report changes to its subproperties. If you are creating bindings into a collection, this can prevent the binding from reporting changes, thus invalidating some data binding scenarios. However, if you use the collection type FreezableCollection as your collection type, then subproperty changes to contained elements in the collection are properly reported, and binding works as expected.
+    </Paragraph>
+
+    <Paragraph>To enable subproperty binding in a dependency object collection, create the collection property as type <Run FontWeight="Bold">FreezableCollection</Run>
+, with a type constraint to any <Run FontWeight="Bold">DependencyObject</Run>
+ derived class.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>FreezableCollection
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e7313137-581e-4a64-8453-d44e15a6164a.xaml">XAML and Custom Classes</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Collection-Type Dependency Properties to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

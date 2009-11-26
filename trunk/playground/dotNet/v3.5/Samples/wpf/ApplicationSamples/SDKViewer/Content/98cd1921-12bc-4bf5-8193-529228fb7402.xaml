@@ -1,0 +1,170 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_98cd1921_12bc_4bf5_8193_529228fb7402"
+  Tag     ="Apply Multiple Transforms to an Object"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Apply Multiple Transforms to an Object</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A TransformGroup enables you to group two or more Transform objects into a single, composite <Run FontWeight="Bold">Transform</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">TransformGroup</Run>
+ to apply a ScaleTransform and a RotateTransform to a Button. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_98cd1921_12bc_4bf5_8193_529228fb7402_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;StackPanel Margin="50"> 
+&lt;Button RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center">Click 
+&lt;Button.RenderTransform> 
+&lt;!-- TransformGroup enables you to apply multiple transforms. In this example, the button is scaled and rotated. --> 
+&lt;TransformGroup> 
+&lt;!-- Triple the size (scale) of the button in the Y direction. --> 
+&lt;ScaleTransform ScaleY="3" /> 
+&lt;!-- Rotate the button by 45 degrees. --> 
+&lt;RotateTransform Angle="45" /> 
+&lt;/TransformGroup> 
+&lt;/Button.RenderTransform> 
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+namespace SDKSample { public partial class MultipleTransformsExample : Page { public MultipleTransformsExample() { // Create a Button that will have two transforms applied to it. Button myButton = new Button(); 
+myButton.Content = "Click"; 
+// Set the center point of the transforms. myButton.RenderTransformOrigin = new Point(0.5,0.5); 
+// Create a transform to scale the size of the button. ScaleTransform myScaleTransform = new ScaleTransform(); 
+// Set the transform to triple the scale in the Y direction. myScaleTransform.ScaleY = 3; 
+// Create a transform to rotate the button RotateTransform myRotateTransform = new RotateTransform(); 
+// Set the rotation of the transform to 45 degrees. myRotateTransform.Angle = 45; 
+// Create a TransformGroup to contain the transforms // and add the transforms to it. TransformGroup myTransformGroup = new TransformGroup(); 
+myTransformGroup.Children.Add(myScaleTransform); 
+myTransformGroup.Children.Add(myRotateTransform); 
+// Associate the transforms to the button. myButton.RenderTransform = myTransformGroup; 
+// Create a StackPanel which will contain the Button. StackPanel myStackPanel = new StackPanel(); 
+myStackPanel.Margin = new Thickness(50); 
+myStackPanel.Children.Add(myButton); 
+this.Content = myStackPanel; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>RenderTransform
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8f153d5e-ed61-4aa5-a7cd-286f0c427a13.xaml">Transforms Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>2-D Transforms Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Apply Multiple Transforms to an Object to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

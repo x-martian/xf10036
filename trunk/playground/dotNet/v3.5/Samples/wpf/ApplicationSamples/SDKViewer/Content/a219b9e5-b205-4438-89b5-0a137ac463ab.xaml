@@ -1,0 +1,355 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a219b9e5_b205_4438_89b5_0a137ac463ab"
+  Tag     ="Partition Space by Using the DockPanel Element"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Partition Space by Using the DockPanel Element</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example creates a simple user interface (UI) framework using a DockPanel element. The <Run FontWeight="Bold">DockPanel</Run>
+ partitions available space to its child elements.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>This example uses the Dock property, which is an <Run>attached property</Run>
+, to dock two identical Border elements at the Top of the partitioned space. A third <Run FontWeight="Bold">Border</Run>
+ element is docked to the Left, with its width set to 200 pixels. A fourth <Run FontWeight="Bold">Border</Run>
+ is docked to the Bottom of the screen. The last <Run FontWeight="Bold">Border</Run>
+ element automatically fills the remaining space.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C++ </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the application's main window mainWindow = gcnew Window(); 
+mainWindow->Title = "DockPanel Sample"; 
+// Create the DockPanel DockPanel^ myDockPanel = gcnew DockPanel(); 
+myDockPanel->LastChildFill = true; 
+// Define the child content Border^ myBorder1 = gcnew Border(); 
+myBorder1->Height = 25; 
+myBorder1->Background = Brushes::SkyBlue; 
+myBorder1->BorderBrush = Brushes::Black; 
+myBorder1->BorderThickness = Thickness(1); 
+DockPanel::SetDock(myBorder1, Dock::Top); 
+TextBlock^ myTextBlock1 = gcnew TextBlock(); 
+myTextBlock1->Foreground = Brushes::Black; 
+myTextBlock1->Text = "Dock = Top"; 
+myBorder1->Child = myTextBlock1; 
+Border^ myBorder2 = gcnew Border(); 
+myBorder2->Height = 25; 
+myBorder2->Background = Brushes::SkyBlue; 
+myBorder2->BorderBrush = Brushes::Black; 
+myBorder2->BorderThickness = Thickness(1); 
+DockPanel::SetDock(myBorder2, Dock::Top); 
+TextBlock^ myTextBlock2 = gcnew TextBlock(); 
+myTextBlock2->Foreground = Brushes::Black; 
+myTextBlock2->Text = "Dock = Top"; 
+myBorder2->Child = myTextBlock2; 
+Border^ myBorder3 = gcnew Border(); 
+myBorder3->Height = 25; 
+myBorder3->Background = Brushes::LemonChiffon; 
+myBorder3->BorderBrush = Brushes::Black; 
+myBorder3->BorderThickness = Thickness(1); 
+DockPanel::SetDock(myBorder3, Dock::Bottom); 
+TextBlock^ myTextBlock3 = gcnew TextBlock(); 
+myTextBlock3->Foreground = Brushes::Black; 
+myTextBlock3->Text = "Dock = Bottom"; 
+myBorder3->Child = myTextBlock3; 
+Border^ myBorder4 = gcnew Border(); 
+myBorder4->Width = 200; 
+myBorder4->Background = Brushes::PaleGreen; 
+myBorder4->BorderBrush = Brushes::Black; 
+myBorder4->BorderThickness = Thickness(1); 
+DockPanel::SetDock(myBorder4, Dock::Left); 
+TextBlock^ myTextBlock4 = gcnew TextBlock(); 
+myTextBlock4->Foreground = Brushes::Black; 
+myTextBlock4->Text = "Dock = Left"; 
+myBorder4->Child = myTextBlock4; 
+Border^ myBorder5 = gcnew Border(); 
+myBorder5->Background = Brushes::White; 
+myBorder5->BorderBrush = Brushes::Black; 
+myBorder5->BorderThickness = Thickness(1); 
+TextBlock^ myTextBlock5 = gcnew TextBlock(); 
+myTextBlock5->Foreground = Brushes::Black; 
+myTextBlock5->Text = "This content will Fill the remaining space"; 
+myBorder5->Child = myTextBlock5; 
+// Add child elements to the DockPanel Children collection myDockPanel->Children->Add(myBorder1); 
+myDockPanel->Children->Add(myBorder2); 
+myDockPanel->Children->Add(myBorder3); 
+myDockPanel->Children->Add(myBorder4); 
+myDockPanel->Children->Add(myBorder5); 
+// Add the parent Canvas as the Content of the Window Object mainWindow->Content = myDockPanel; 
+mainWindow->Show(); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the application's main window mainWindow = new Window (); 
+mainWindow.Title = "DockPanel Sample"; 
+// Create the DockPanel DockPanel myDockPanel = new DockPanel(); 
+myDockPanel.LastChildFill = true; 
+// Define the child content Border myBorder1 = new Border(); 
+myBorder1.Height = 25; 
+myBorder1.Background = Brushes.SkyBlue; 
+myBorder1.BorderBrush = Brushes.Black; 
+myBorder1.BorderThickness = new Thickness(1); 
+DockPanel.SetDock(myBorder1, Dock.Top); 
+TextBlock myTextBlock1 = new TextBlock(); 
+myTextBlock1.Foreground = Brushes.Black; 
+myTextBlock1.Text = "Dock = Top"; 
+myBorder1.Child = myTextBlock1; 
+Border myBorder2 = new Border(); 
+myBorder2.Height = 25; 
+myBorder2.Background = Brushes.SkyBlue; 
+myBorder2.BorderBrush = Brushes.Black; 
+myBorder2.BorderThickness = new Thickness(1); 
+DockPanel.SetDock(myBorder2, Dock.Top); 
+TextBlock myTextBlock2 = new TextBlock(); 
+myTextBlock2.Foreground = Brushes.Black; 
+myTextBlock2.Text = "Dock = Top"; 
+myBorder2.Child = myTextBlock2; 
+Border myBorder3 = new Border(); 
+myBorder3.Height = 25; 
+myBorder3.Background = Brushes.LemonChiffon; 
+myBorder3.BorderBrush = Brushes.Black; 
+myBorder3.BorderThickness = new Thickness(1); 
+DockPanel.SetDock(myBorder3, Dock.Bottom); 
+TextBlock myTextBlock3 = new TextBlock(); 
+myTextBlock3.Foreground = Brushes.Black; 
+myTextBlock3.Text = "Dock = Bottom"; 
+myBorder3.Child = myTextBlock3; 
+Border myBorder4 = new Border(); 
+myBorder4.Width = 200; 
+myBorder4.Background = Brushes.PaleGreen; 
+myBorder4.BorderBrush = Brushes.Black; 
+myBorder4.BorderThickness = new Thickness(1); 
+DockPanel.SetDock(myBorder4, Dock.Left); 
+TextBlock myTextBlock4 = new TextBlock(); 
+myTextBlock4.Foreground = Brushes.Black; 
+myTextBlock4.Text = "Dock = Left"; 
+myBorder4.Child = myTextBlock4; 
+Border myBorder5 = new Border(); 
+myBorder5.Background = Brushes.White; 
+myBorder5.BorderBrush = Brushes.Black; 
+myBorder5.BorderThickness = new Thickness(1); 
+TextBlock myTextBlock5 = new TextBlock(); 
+myTextBlock5.Foreground = Brushes.Black; 
+myTextBlock5.Text = "This content will Fill the remaining space"; 
+myBorder5.Child = myTextBlock5; 
+// Add child elements to the DockPanel Children collection myDockPanel.Children.Add(myBorder1); 
+myDockPanel.Children.Add(myBorder2); 
+myDockPanel.Children.Add(myBorder3); 
+myDockPanel.Children.Add(myBorder4); 
+myDockPanel.Children.Add(myBorder5); 
+// Add the parent Canvas as the Content of the Window Object mainWindow.Content = myDockPanel; 
+mainWindow.Show (); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>WindowTitle = "DockPanel Sample" 'Create a DockPanel as the root Panel Dim myDockPanel As New DockPanel() myDockPanel.LastChildFill = True ' Define the child content Dim myBorder1 As New Border() myBorder1.Height = 25 myBorder1.Background = Brushes.SkyBlue myBorder1.BorderBrush = Brushes.Black myBorder1.BorderThickness = New Thickness(1) DockPanel.SetDock(myBorder1, Dock.Top) Dim myTextBlock1 As New TextBlock() myTextBlock1.Foreground = Brushes.Black myTextBlock1.Text = "Dock = Top" myBorder1.Child = myTextBlock1 Dim myBorder2 As New Border() myBorder2.Height = 25 myBorder2.Background = Brushes.SkyBlue myBorder2.BorderBrush = Brushes.Black myBorder2.BorderThickness = New Thickness(1) DockPanel.SetDock(myBorder2, Dock.Top) Dim myTextBlock2 As New TextBlock() myTextBlock2.Foreground = Brushes.Black myTextBlock2.Text = "Dock = Top" myBorder2.Child = myTextBlock2 Dim myBorder3 As New Border() myBorder3.Height = 25 myBorder3.Background = Brushes.LemonChiffon myBorder3.BorderBrush = Brushes.Black myBorder3.BorderThickness = New Thickness(1) DockPanel.SetDock(myBorder3, Dock.Bottom) Dim myTextBlock3 As New TextBlock() myTextBlock3.Foreground = Brushes.Black myTextBlock3.Text = "Dock = Bottom" myBorder3.Child = myTextBlock3 Dim myBorder4 As New Border() myBorder4.Width = 200 myBorder4.Background = Brushes.PaleGreen myBorder4.BorderBrush = Brushes.Black myBorder4.BorderThickness = New Thickness(1) DockPanel.SetDock(myBorder4, Dock.Left) Dim myTextBlock4 As New TextBlock() myTextBlock4.Foreground = Brushes.Black myTextBlock4.Text = "Dock = Left" myBorder4.Child = myTextBlock4 Dim myBorder5 As New Border() myBorder5.Background = Brushes.White myBorder5.BorderBrush = Brushes.Black myBorder5.BorderThickness = New Thickness(1) Dim myTextBlock5 As New TextBlock() myTextBlock5.Foreground = Brushes.Black myTextBlock5.Text = "This content will Fill the remaining space" myBorder5.Child = myTextBlock5 ' Add child elements to the DockPanel Children collection myDockPanel.Children.Add(myBorder1) myDockPanel.Children.Add(myBorder2) myDockPanel.Children.Add(myBorder3) myDockPanel.Children.Add(myBorder4) myDockPanel.Children.Add(myBorder5) Me.Content = myDockPanel </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_a219b9e5_b205_4438_89b5_0a137ac463ab_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" WindowTitle="DockPanel Sample"> 
+&lt;DockPanel LastChildFill="True"> 
+&lt;Border Height="25" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top"> 
+&lt;TextBlock Foreground="Black">Dock = "Top"
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;Border Height="25" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top"> 
+&lt;TextBlock Foreground="Black">Dock = "Top"
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom"> 
+&lt;TextBlock Foreground="Black">Dock = "Bottom"
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;Border Width="200" Background="PaleGreen" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Left"> 
+&lt;TextBlock Foreground="Black">Dock = "Left"
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;Border Background="White" BorderBrush="Black" BorderThickness="1"> 
+&lt;TextBlock Foreground="Black">This content will "Fill" the remaining space
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;/DockPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>By default, the last child of a <Run FontWeight="Bold">DockPanel</Run>
+ element fills the remaining unallocated space. If you do not want this behavior, set <Run>LastChildFill="False"</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The compiled application yields a new UI that looks like this.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>DockPanel
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Partition Space by Using the DockPanel Element to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

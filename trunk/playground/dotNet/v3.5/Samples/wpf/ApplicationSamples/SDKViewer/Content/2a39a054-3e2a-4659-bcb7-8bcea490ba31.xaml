@@ -1,0 +1,467 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_2a39a054_3e2a_4659_bcb7_8bcea490ba31"
+  Tag     ="WPF Security Strategy - Platform Security"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Presentation Foundation Security Strategy - Platform Security</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>While provides a variety of security services, it also leverages the security features of the underlying platform, which includes the operating system, the CLR, and Internet Explorer. These layers combine to provide WPF a strong, defense-in-depth security model that attempts to avoid any single point of failure, as shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>As this figure shows, WPF leverages the security provided by both the operating system and the CLR for both browser-hosted and standalone applications. Additionally, by virtue of being hosted in Internet Explorer, browser-hosted applications are protected further by the security provided by Internet Explorer itself.
+    </Paragraph>
+
+    <Paragraph>The remainder of this topic discusses each of the layers of security provided by the platform.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Operating System Security
+    </Paragraph>
+
+    <Paragraph>The minimum level of operating system that is required by WPF is Windows XP SP2. The core of Windows XP SP2 provides several security features that form the security foundation for all Windows applications, including those built with WPF. incorporates the security features of WPF and extends them further. This topic discusses the breadth of these security features that are important to WPF, as well as how WPF integrates with them to provide further defense-in-depth.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Microsoft Windows XP Service Pack 2 (SP2)
+    </Paragraph>
+
+    <Paragraph>In addition to a general review and strengthening of Windows, there are three key features from Windows XP SP2 that we will discuss in this topic: /GS compilation, the Windows Firewall, and Microsoft Windows Update.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">/GS Compilation
+    </Paragraph>
+
+    <Paragraph>Windows XP SP2 provides protection by recompiling many core system libraries, including all of the WPF dependencies such as the CLR, to help mitigate buffer overruns. This is achieved by using the /GS parameter with the C/C++ command-line compiler. Although buffer overruns should be explicitly avoided, /GS compilation provides an example of a defense-in-depth against potential vulnerabilities that are inadvertently or maliciously created by them.
+    </Paragraph>
+
+    <Paragraph>Historically, buffer overruns have been the cause of many high-impact security exploits. A buffer overrun occurs when an attacker takes advantage of a code vulnerability that allows the injection of malicious code that writes past the boundaries of a buffer. This then allows an attacker to hijack the process in which the code is executing by overwriting the return address of a function to cause the execution of the attacker's code. The result is malicious code that executes arbitrary code with the same privileges as the hijacked process.
+    </Paragraph>
+
+    <Paragraph>At a high level, the /GS compiler flag protects against some potential buffer overruns by injecting a special security cookie to protect the return address of a function that has local string buffers. After a function returns, the security cookie is compared with its previous value. If the value has changed, a buffer overrun may have occurred and the process is stopped with an error condition. Stopping the process prevents the execution of potentially malicious code. See <Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/8dbf701c.aspx">/GS (Buffer Security Check)</Hyperlink>
+ for more details.
+    </Paragraph>
+
+    <Paragraph>WPF is compiled with the /GS flag to add yet another layer of defense to WPF applications.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">The Microsoft Windows Firewall
+    </Paragraph>
+
+    <Paragraph>Windows XP SP2 includes a software firewall which, by default, is turned on for new installations; 
+for upgrades, Windows XP SP2 encourages users to activate it. Consequently, the Windows XP SP2 is more likely to be turned on than with previous Windows releases, thereby increasing security for users.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Microsoft Windows Update Enhancements
+    </Paragraph>
+
+    <Paragraph>Microsoft Windows Update was also improved in Windows XP SP2 to simplify the process for downloading and installing updates. These changes significantly enhance security for WPF customers by helping to ensure that their systems are up-to-date, particularly with respect to security updates.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Windows Vista
+    </Paragraph>
+
+    <Paragraph>WPF users on Windows Vista will benefit from the operating system's additional security enhancements, including "Least-Privilege User Access", code integrity checks, and privilege isolation.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Least-Privilege User Access
+    </Paragraph>
+
+    <Paragraph>Today, Windows users tend to run with administrator privileges because many applications require them for either installation or execution, or both. Being able to write default application settings to the Registry is one example.
+    </Paragraph>
+
+    <Paragraph>Running with administrator privileges really means that applications execute from processes that are granted administrator privileges. The security impact of this is that any malicious code that hijacks a process running with administrator privileges will automatically inherit those privileges, including access to critical system resources.
+    </Paragraph>
+
+    <Paragraph>One way to protect against this security threat is to run applications with the least amount of privileges that are required. This is known as the principle of least privilege, and is a core feature of the Windows Vista operating system. This feature is called Least-Privilege User Access (LUA), and is used by Windows Vista LUA in two key ways:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>To run most applications with LUA privileges by default, even if the user is an administrator; 
+only applications that need administrator privileges will run with administrator privileges. To run with administrative privileges, applications must be explicitly marked in either their application manifest or as an entry in security policy.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>To provide compatibility solutions like virtualization. For example, many applications try to write to restricted locations like C:\Program Files. For applications executing under LUA, an alternative per-user location exists that does not require administrator privileges to write to. For applications running under LUA, LUA virtualizes C:\Program Files so that applications who think they are writing to it are actually writing to the alternative, per-user location. This kind of compatibility work enables the operating system to run many applications that couldn't previously run in LUA. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="16pt">Code Integrity Checks
+    </Paragraph>
+
+    <Paragraph>Windows Vista incorporates deeper code integrity checks to help prevent malicious code from being injected into system files or into the kernel at load/run time. This goes beyond system file protection.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Privilege Isolation
+    </Paragraph>
+
+    <Paragraph>Privilege isolation helps prevent applications from manipulating those that are executing with higher privileges by placing security restrictions on how Windows messages between the two are sent and received.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Limited Rights Process for Browser-Hosted Applications
+    </Paragraph>
+
+    <Paragraph>Browser-hosted WPF applications execute within an enforced Internet zone sandbox. WPF extends this protection with additional features that depend on which version of Microsoft Internet Explorer is hosting it.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Internet Explorer 6 Service Pack 2 and Internet Explorer 7 for XP
+    </Paragraph>
+
+    <Paragraph>WPF leverages operating system security by limiting process privileges for XAML browser applications (XBAPs) for further protection. Before a browser-hosted WPF application is launched, the operating system creates a host process that removes unnecessary privileges from the process token. Some examples of privileges that are removed include the ability to shut down the user's machine, load drivers, and read access to all files on the machine.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Internet Explorer 7 for Vista
+    </Paragraph>
+
+    <Paragraph>WPF integrates with Windows Internet Explorer 7 process separation. By default, WPF applications run in Windows Internet Explorer 7 protected mode with a medium integrity level. This means that Windows Internet Explorer 7 creates a separate process with increased permissions for WPF applications
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Defense-In-Depth Layer
+    </Paragraph>
+
+    <Paragraph>Since XAML browser applications (XBAPs) are generally sandboxed by the Internet zone permission set, removing these privileges does not harm XAML browser applications (XBAPs) from a compatibility perspective. Instead, an additional defense-in-depth layer is created; 
+if a sandboxed application is able to exploit other layers and hijack the process, the process will still only have limited privileges.
+    </Paragraph>
+
+    <Paragraph>See <Hyperlink NavigateUri="http://www.microsoft.com/technet/security/secnews/articles/lpuseacc.mspx">Using a Least-Privileged User Account</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Common Language Runtime Security
+    </Paragraph>
+
+    <Paragraph>The common language runtime (CLR) offers a number of key security benefits that include validation and verification, Code Access Security (CAS), and the Security Critical Methodology.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Validation and Verification
+    </Paragraph>
+
+    <Paragraph>To provide assembly isolation and integrity, the CLR uses a process of validation. CLR validation ensures that assemblies are isolated by validating their Portable Executable (PE) file format for addresses that point outside the assembly. CLR validation also validates the integrity of the metadata that is embedded within an assembly.
+    </Paragraph>
+
+    <Paragraph>To ensure type safety, help prevent common security issues (eg buffer overruns), and enable sandboxing through sub-process isolation, CLR security uses the concept of verification.
+    </Paragraph>
+
+    <Paragraph>Managed applications are compiled into Microsoft Intermediate Language (MSIL). When methods in a managed application are executed, its MSIL is compiled into native code through Just-In-Time (JIT) compilation. JIT compilation includes a verification process that applies many safety and robustness rules that ensure code does not:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Violate type contracts
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Introduce buffer overruns
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Wildly access memory.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Managed code that does not conform to verification rules is not allowed to execute, unless it is considered trusted code.
+    </Paragraph>
+
+    <Paragraph>The advantage of verifiable code is a key reason why WPF builds on the .NET Framework 3.0. To the extent that verifiable code is used, the possibility of exploiting possible vulnerabilities is greatly lowered.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Code Access Security
+    </Paragraph>
+
+    <Paragraph>A client machine exposes a wide variety of resources that a managed application can have access to, including the file system, the Registry, printing services, the user interface, reflection, and environment variables. Before a managed application can access any of the resources on a client machine, it must have .NET Framework 3.0 Code Access Security (CAS) permission to do so. A permission in CAS is a subclass of the CodeAccessPermission; 
+CAS implements one subclass for each resource that managed applications can access.
+    </Paragraph>
+
+    <Paragraph>The set of permissions that a managed application is granted by CAS when it starts executing is known as a permission set and is determined by evidence provided by the application. For WPF applications, the evidence that is provided is the location, or zone, from which the applications are launched. CAS identifies the following zones:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">My Computer</Run>
+. Applications launched from the client machine (Fully Trusted).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Local Intranet</Run>
+. Applications launched from the intranet. (Somewhat Trusted).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Internet</Run>
+. Applications launched from the Internet. (Least Trusted).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Trusted Sites</Run>
+. Applications identified by a user as being trusted. (Least Trusted).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Untrusted Sites</Run>
+. Applications identified by a user as being untrusted. (Untrusted).
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For each of these zones, CAS provides a predefined permission set that includes the permissions which matches the level of trust associated with each. These include:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">FullTrust</Run>
+. For applications launched from the <Run FontWeight="Bold">My Computer</Run>
+ zone. All possible permissions are granted.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">LocalIntranet</Run>
+. For applications launched from the <Run FontWeight="Bold">Local Intranet</Run>
+ zone. A subset of permissions are granted to provide moderate access to a client machine’s resources, including isolated storage, unrestricted UI access, unrestricted file dialogs, limited reflection, limited access to environment variables. Permissions for critical resources like the Registry are not provided.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Internet</Run>
+. For applications launched from the <Run FontWeight="Bold">Internet</Run>
+ or <Run FontWeight="Bold">Trusted Sites</Run>
+ zone. A subset of permissions are granted to provided limited access to a client machine’s resources, including isolated storage, file open only, and limited UI. Essentially, this permission sets isolates applications from the client machine.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Applications identified as being from the <Run FontWeight="Bold">Untrusted Sites</Run>
+ zone are granted no permissions by CAS at all. Consequently, a predefined permission set does not exist for them.
+    </Paragraph>
+
+    <Paragraph>The following figure illustrates the relationship between zones, permission sets, permissions, and resources.
+    </Paragraph>
+
+    <Paragraph>The restrictions of the Internet zone security sandbox apply equally to any code that a XBAP imports from a system library, including WPF. This ensures that every bit of the code is locked down, even WPF. Unfortunately, to be able to execute, a XBAP needs to execute functionality that requires more permissions than those enabled by the Internet zone security sandbox.
+    </Paragraph>
+
+    <Paragraph>Consider a XBAP application that includes the following page:
+    </Paragraph>
+
+    <Paragraph>To execute this XBAP, the underlying WPF code must execute more functionality than is available to the calling XBAP, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Creating a window handle (hWnd) for rendering
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Dispatching messages
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Loading the Tahoma font
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>From a security point of view, allowing direct access to any of these operations from the sandboxed application would be catastrophic.
+    </Paragraph>
+
+    <Paragraph>Fortunately, WPF caters to this situation by allowing these operations to execute with elevated privileges on behalf of the sandboxed application. While all WPF operations are checked against the limited Internet zone security permissions of the application domain of the XBAP, WPF (as with other system libraries) is granted a permission set that includes all possible permissions
+    </Paragraph>
+
+    <Paragraph>This requires that WPF receives elevated privileges while preventing those privileges from being governed by the Internet zone permission set of the host application domain.
+    </Paragraph>
+
+    <Paragraph>WPF does this by using the <Run FontWeight="Bold">Assert</Run>
+ method of a permission. The following code snippet shows how this happens.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Assert</Run>
+ essentially prevents the unlimited permissions required by WPF from being restricted by the Internet zone permissions of the XBAP.
+    </Paragraph>
+
+    <Paragraph>From a platform perspective, WPF is responsible for using <Run FontWeight="Bold">Assert</Run>
+ correctly; 
+an incorrect use of <Run FontWeight="Bold">Assert</Run>
+ could enable malicious code to elevate privileges. Consequently, it is important then to only call <Run FontWeight="Bold">Assert</Run>
+ when needed, and to ensure that sandbox restrictions remain intact. For example, sandboxed code is not allowed to open random files, but it is allowed to use fonts. WPF enables sandboxed applications to use font functionality by calling <Run FontWeight="Bold">Assert</Run>
+, and for WPF to read files known to contain those fonts on behalf of the sandboxed application.
+    </Paragraph>
+
+    <Paragraph FontSize="18">ClickOnce Deployment
+    </Paragraph>
+
+    <Paragraph>ClickOnce is a comprehensive deployment technology that is included with .NET Framework 3.0, and integrates with Microsoft Visual Studio (see <Hyperlink NavigateUri="http://msdn2.microsoft.com/en-us/library/142dbbz4.aspx">ClickOnce Deployment Overview</Hyperlink>
+ for detailed information). Standalone WPF applications can be deployed using ClickOnce, while browser-hosted applications must be deployed with ClickOnce.
+    </Paragraph>
+
+    <Paragraph>Applications deployed using ClickOnce are given an additional security layer over Code Access Security (CAS); 
+essentially, ClickOnce deployed applications request the permissions that they need. They are granted only those permissions if they do not exceed the set of permissions for the zone from which the application is deployed. By reducing the set of permissions to only those that are needed, even if they are less than those provided by the launch zone's permission set, the number of resources that the application has access to is reduce to a bare minimum. Consequently, if the application is hijacked, the potential for damage to the client machine is reduced.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Security-Critical Methodology
+    </Paragraph>
+
+    <Paragraph>The WPF code that uses permissions to enable the Internet zone sandbox for XBAP applications must be held to highest possible degree of security audit and control. To facilitate this requirement, .NET Framework 3.0 provides new support for managing code that elevates privilege. Specifically, the CLR enables you to identify code that elevates privilege and mark it with the SecurityCriticalAttribute; 
+any code not marked with <Run FontWeight="Bold">SecurityCriticalAttribute</Run>
+ becomes <Run FontStyle="italic">transparent</Run>
+ using this methodology. Conversely, managed code that is not marked with <Run FontWeight="Bold">SecurityCriticalAttribute</Run>
+ is prevented from elevating privilege.
+    </Paragraph>
+
+    <Paragraph>The Security-Critical Methodology allows the organization of WPF code that elevates privilege into <Run FontStyle="italic">security-critical kernel</Run>
+, with the remainder being transparent. Isolating the security-critical code enables the WPF engineering team focus an additional security analysis and source control on the security-critical kernel above and beyond standard security practices (see <Hyperlink NavigateUri="0fc04394-4e47-49ca-b0cf-8cd1161d95b9.xaml">Windows Presentation Foundation Security Strategy - Security Engineering</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph>Note that .NET Framework 3.0 permits trusted code to extend the XBAP Internet zone sandbox by allowing developers to write managed assemblies that are marked with AllowPartiallyTrustedCallersAttribute (APTCA) and deployed to the user's Global Assembly Cache (GAC). Marking an assembly with APTCA is a highly sensitive security operation as it allows any code to call that assembly, including malicious code from the Internet. Extreme caution and best practices must be used when doing this and users must choose to trust that software in order for it to be installed.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Microsoft Internet Explorer Security
+    </Paragraph>
+
+    <Paragraph>Beyond reducing security issues and simplifying security configuration, Microsoft Internet Explorer 6 (SP2) contains several features that security improvements that enhance security for users of XAML browser applications (XBAPs). The thrust of these features attempts to allow users greater control over their browsing experience.
+    </Paragraph>
+
+    <Paragraph>Prior to IE6 SP2, users could be subject to any of the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Random popup windows.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Confusing script redirection.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Numerous security dialogs on some Web sites.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>In some cases, untrustworthy Web sites would try to trick users by spoofing installation user interface (UI) or repeatedly showing a Microsoft ActiveX installation dialog box, even though the user may have canceled it. Using these techniques, it is possible that a significant number of users have been tricked into making poor decisions that resulted with the installation of spyware applications.
+    </Paragraph>
+
+    <Paragraph>IE6 SP2 includes several features to mitigate these types of issues, which revolve around the concept of user initiation. IE6 SP2 detects when a user has clicked on a link or page element prior to an action, which is known as <Run FontStyle="italic">user initiation</Run>
+, and treats it differently than when a similar action is instead triggered by the script on a page. As an example, IE6 SP2 incorporates a <Run FontWeight="Bold">Pop-Up Blocker</Run>
+ that detects when a user clicks a button prior to the page creating a pop-up. This enables IE6 SP2 to allow most innocuous pop-ups while preventing pop-ups that users neither ask for nor want. Blocked pop-ups are trapped under the new <Run FontWeight="Bold">Information Bar</Run>
+, which allows the user to manually override the block and view the pop-up.
+    </Paragraph>
+
+    <Paragraph>The same user-initiation logic is also applied to <Run FontWeight="Bold">Open</Run>
+/<Run FontWeight="Bold">Save</Run>
+ security prompts. ActiveX installation dialog boxes are always trapped under the Information Bar unless they represent an upgrade from a previously installed control. These measures combine to give users a safer, more controlled user experience since they are protected against sites which harass them to install either unwanted or malicious software.
+    </Paragraph>
+
+    <Paragraph>These features also protect customers who use IE6 SP2 to browse to web sites that allow them to download and install WPF applications. In particular, this is because IE6 SP2 offers a better user experience that reduces the chance for users to install malicious or devious applications irrespective of what technology was used to build it, including WPF. WPF adds to these protections by using ClickOnce to facilitate downloading of its applications over the Internet. Since XAML browser applications (XBAPs) execute within an Internet zone security sandbox, they can be seamlessly launched. On the other hand, standalone WPF applications require full trust to execute. For these applications, ClickOnce will display a security dialog box during the launch process to notify the use of the application's additional security requirements. However, this must be user-initiated, will also be governed by user initiated logic, and can be canceled.
+    </Paragraph>
+
+    <Paragraph>Internet Explorer 7 incorporates and extends the security capabilities of IE6 SP2 as part of an ongoing commitment to security.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ee1baea0-3611-4e36-9ad6-fcd5205376fb.xaml">Windows Presentation Foundation Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="ef2c0810-1dbf-4511-babd-1fab95b523b5.xaml">Windows Presentation Foundation Partial Trust Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0fc04394-4e47-49ca-b0cf-8cd1161d95b9.xaml">Windows Presentation Foundation Security Strategy - Security Engineering</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2top.mspx">Top 10 Reasons to Deploy Microsoft Windows XP Service Pack 2</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://www.microsoft.com/technet/prodtechnol/IE/default.mspx">Understanding Security in Microsoft Internet Explorer 6 in Windows XP SP2</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/IETechCol/dnwebgen/ProtectedMode.asp">Microsoft Internet Explorer 7 for Vista Protected Mode Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://www.microsoft.com/windowsxp/sp2/default.mspx">Microsoft Windows XP Service Pack 2</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://msdn.microsoft.com/windowsvista/reference/security/default.aspx">Microsoft Vista Security</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconcodeaccesssecuritybasics.asp">Code Access Security</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Security Strategy - Platform Security to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

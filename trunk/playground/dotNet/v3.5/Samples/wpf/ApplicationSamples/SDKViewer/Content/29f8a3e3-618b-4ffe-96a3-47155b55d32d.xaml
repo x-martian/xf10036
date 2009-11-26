@@ -1,0 +1,450 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_29f8a3e3_618b_4ffe_96a3_47155b55d32d"
+  Tag     ="CheckBox Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>CheckBox Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The CheckBox class represents a check box that users can select and clear. This topic introduces you to the <Run FontWeight="Bold">CheckBox</Run>
+ control in Windows Presentation Foundation (WPF) and describes how to create <Run FontWeight="Bold">CheckBox</Run>
+ elements in Extensible Application Markup Language (XAML) and C#, set event handlers in C#, create <Run FontWeight="Bold">CheckBox</Run>
+ controls that contain rich content such as images, and use styling to change the control's appearance.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="checkbox_control">CheckBox Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_checkboxes">Creating CheckBoxes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="checkboxes_containing_rich_content">Check Boxes Containing Rich Content</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="checkbox_styling">CheckBox Styling</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">CheckBox Control
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">CheckBox</Run>
+ control enables users to select and clear options in an application's user interface (UI). A <Run FontWeight="Bold">CheckBox</Run>
+ control is a ContentControl, which means it can contain content such as text, images, or panels. <Run FontWeight="Bold">CheckBox</Run>
+ controls inherit from the ToggleButton class, which in turn inherits from ButtonBase. Because <Run FontWeight="Bold">CheckBox</Run>
+ controls inherit from <Run FontWeight="Bold">ToggleButton</Run>
+, they enable a user to toggle between selections. The user's selection is indicated by a check mark, and when a user clicks a <Run FontWeight="Bold">CheckBox</Run>
+, its appearance and state change. The following graphic shows two different states of a <Run FontWeight="Bold">CheckBox</Run>
+, <Run FontStyle="italic">checked</Run>
+ and <Run FontStyle="italic">unchecked</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">CheckBox buttons in different states</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>In addition to the checked and unchecked states <Run FontWeight="Bold">CheckBox</Run>
+ controls can have a third state, indeterminate. If the IsThreeState property is set to <Run FontWeight="Bold">true</Run>
+ the IsChecked property can be set to null (indeterminate). 
+    </Paragraph>
+
+    <Paragraph>The following graphics illustrate the three states of a <Run FontWeight="Bold">CheckBox</Run>
+. The graphics show a dialog that shows the properties of files in an application called <Run FontWeight="Bold">accesstext</Run>
+. The attributes of the files are indicated with a <Run FontWeight="Bold">CheckBox</Run>
+. In the first graphic the file is Read-only (<Run FontWeight="Bold">CheckBox</Run>
+ is checked) and the second is Read\Write (<Run FontWeight="Bold">CheckBox</Run>
+ is unchecked). In the first two graphics the information concerns only one file <Run FontStyle="italic">Pane1</Run>
+ but the third graphic concerns all the files in the <Run FontWeight="Bold">accesstext</Run>
+ application. Some of the files are Read-only and some are Read\Write the attributes for the entire application cannot be determined (<Run FontWeight="Bold">CheckBox</Run>
+ is null). 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">CheckBox - Checked</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">CheckBox - Unchecked</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">CheckBox - Indeterminate</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating CheckBoxes
+    </Paragraph>
+
+    <Paragraph>The following examples show how to create <Run FontWeight="Bold">CheckBox</Run>
+ controls and add event handlers. In the first example when a user clicks the <Run FontWeight="Bold">CheckBox</Run>
+, the text of the control changes. The <Run FontWeight="Bold">CheckBox</Run>
+ is created using XAML. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;CheckBox Margin="10, 10, 3, 3" Grid.Column="0" Grid.Row="2" Name="cb1" FontSize="12" Checked="HandleChange">Check Box
+&lt;/CheckBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>After creating a <Run FontWeight="Bold">CheckBox</Run>
+, you can add an event handler to handle check change events. Event handlers must be written in a procedural programming language such as C# or Microsoft Visual Basic. The following event handler is written in C#.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void HandleChange(object sender, RoutedEventArgs e) { cb1.Content = "You clicked the check box"; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see CheckBox Sample
+    </Paragraph>
+
+    <Paragraph>The following example also generates a <Run FontWeight="Bold">CheckBox</Run>
+ (<Run FontStyle="italic">cb</Run>
+), with a label, and then adds the <Run FontWeight="Bold">CheckBox</Run>
+ as a child of a canvas (<Run FontStyle="italic">cv3</Run>
+).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>cb = new CheckBox(); 
+cb.Content = "CheckBox"; 
+spanel2.Children.Add(cb); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see Creating Controls Sample
+    </Paragraph>
+
+    <Paragraph FontSize="22">Check Boxes Containing Rich Content
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">CheckBox</Run>
+ controls can contain rich content such as text, images, and panels. The following example shows how to generate a <Run FontWeight="Bold">CheckBox</Run>
+ that contains an image. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;CheckBox Name="cb6" Checked="HandleChange1">
+&lt;Image Source="data\flower.jpg" Height="30" Width="30"/> 
+&lt;/CheckBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see CheckBox Sample
+    </Paragraph>
+
+    <Paragraph FontSize="22">CheckBox Styling
+    </Paragraph>
+
+    <Paragraph>With control styling, you can dramatically change the appearance and behavior of <Run FontWeight="Bold">CheckBox</Run>
+ controls without having to write a custom control. In addition to setting visual properties, you can also apply styles to individual parts of a control, change the behavior of parts of the control through properties, or add additional parts or change the layout of a control. The following examples demonstrate several ways to add styles to <Run FontWeight="Bold">CheckBox</Run>
+ controls. 
+    </Paragraph>
+
+    <Paragraph>The first sample defines a style called <Run FontStyle="italic">SystemResStyle</Run>
+ that shows how to use the current system settings in your style. The code assigns the color of the ControlDarkBrush as the Background color of the <Run FontWeight="Bold">CheckBox</Run>
+ and the ControlDarkDarkBrush as the Foreground color of the <Run FontWeight="Bold">CheckBox</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="SystemResStyle" TargetType="{x:Type CheckBox}"> 
+&lt;Setter Property = "Background" Value= "{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/> 
+&lt;Setter Property = "Foreground" Value= "{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This sample uses Trigger elements that enable you to change the appearance of a <Run FontWeight="Bold">CheckBox</Run>
+ in response to events raised on the control. When you click the <Run FontWeight="Bold">CheckBox</Run>
+, the <Run FontWeight="Bold">Foreground</Run>
+ color changes; 
+when you move the mouse over the <Run FontWeight="Bold">CheckBox</Run>
+, the <Run FontWeight="Bold">Background</Run>
+ changes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Triggers" TargetType="{x:Type CheckBox}"> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="CheckBox.IsPressed" Value="true"> 
+&lt;Setter Property = "Foreground" Value="Green"/> 
+&lt;/Trigger> 
+&lt;Trigger Property="CheckBox.IsMouseOver" Value="true"> 
+&lt;Setter Property = "Background" Value="Red"/> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The final example uses various properties to customize the <Run FontWeight="Bold">CheckBox</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Properties" TargetType="{x:Type CheckBox}"> 
+&lt;Setter Property = "Background" Value= "Purple"/> 
+&lt;Setter Property = "Foreground" Value= "Green"/> 
+&lt;Setter Property = "BorderBrush" Value= "Black"/> 
+&lt;Setter Property = "BorderThickness" Value= "5"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see CheckBox Styles Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>CheckBox
+      <LineBreak/>ToggleButton
+      <LineBreak/>ButtonBase
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bfdaec96-d101-4d3d-864d-c27e6b621d03.xaml">CheckBox ControlTemplate Example</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ee701cc2-968b-4683-8f81-3fafd8542700.xaml">CheckBox</Hyperlink>
+
+      <LineBreak/>WPF Controls Gallery Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about CheckBox Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,471 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f06c1603_e9cb_4809_8a62_234607fc52f7"
+  Tag     ="ToolTip Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>ToolTip Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A tooltip is a small pop-up window that appears when a user pauses the mouse pointer over an element, such as over a Button. This topic introduces the tooltip and discusses how to create and customize tooltip content. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="what_is_a_tooltip">What Is a Tooltip?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="create_tooltip">Creating a ToolTip</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Using_the_ToolTip_and_ToolTipService_Properties">Using the Properties of the ToolTip and ToolTipService Classes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="StylingToolTip">Styling a ToolTip</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="UsingtheToolTipServiceTimeIntervalProperties">Using the Time Interval Properties of ToolTipService</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What Is a Tooltip?
+    </Paragraph>
+
+    <Paragraph>When a user moves the mouse pointer over an element that has a tooltip, a window that contains tooltip content (for example, text content that describes the function of a control) appears for a specified amount of time. If the user moves the mouse pointer away from the control, the window disappears because the tooltip content cannot receive focus.
+    </Paragraph>
+
+    <Paragraph>The following illustration shows a mouse pointer that points to the <Run FontWeight="Bold">Close</Run>
+<Run FontWeight="Bold">Button</Run>
+, which then displays its identifying ToolTip.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Close button with its tooltip displayed </Run>
+
+    </Paragraph>
+
+    <Paragraph>The content of a tooltip can contain one or more lines of text, images, shapes, or other visual content. You define a tooltip for a control by setting one of the following properties to the tooltip content. 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>System.Windows.FrameworkContentElement.ToolTip 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>System.Windows.FrameworkElement.ToolTip 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Which property you use depends on whether the control that defines the tooltip inherits from the FrameworkContentElement or FrameworkElement class. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating a ToolTip
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create a simple tooltip by setting the <Run FontWeight="Bold">ToolTip</Run>
+ property for a <Run FontWeight="Bold">Button</Run>
+ control to a text string.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button ToolTip="Click to submit your information" Click="SubmitCode" Height="20" Width="50">Submit
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can also define a tooltip as a <Run FontWeight="Bold">ToolTip</Run>
+ object. The following example uses XAML to specify a <Run FontWeight="Bold">ToolTip</Run>
+ object as the tooltip of a TextBox element. Note that the example specifies the <Run FontWeight="Bold">ToolTip</Run>
+ by setting the <Run FontWeight="Bold">System.Windows.FrameworkElement.ToolTip</Run>
+ property.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBox HorizontalAlignment="Left">ToolTip with non-text content 
+&lt;TextBox.ToolTip> 
+&lt;ToolTip> 
+&lt;DockPanel Width="50" Height="70"> 
+&lt;Image Source="data\flower.jpg"/> 
+&lt;TextBlock>Useful information goes here.
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;/ToolTip> 
+&lt;/TextBox.ToolTip> 
+&lt;/TextBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example uses code to generate a <Run FontWeight="Bold">ToolTip</Run>
+ object. The example creates a <Run FontWeight="Bold">ToolTip</Run>
+ (<Run>tt</Run>
+) and associates it with a <Run FontWeight="Bold">Button</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>button = new Button(); 
+button.Content = "Hover over me."; 
+tt = new ToolTip(); 
+tt.Content = "Created with C#"; 
+button.ToolTip = tt; 
+cv2.Children.Add(button); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>button = New Button() button.Content = "Hover over me." tt = New ToolTip() tt.Content = "Created with Visual Basic" button.ToolTip = tt cv2.Children.Add(button) </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can also create tooltip content that is not defined as a <Run FontWeight="Bold">ToolTip</Run>
+ object by enclosing the tooltip content in a layout element, such as a DockPanel. The following example shows how to set the <Run FontWeight="Bold">ToolTip</Run>
+ property of a <Run FontWeight="Bold">TextBox</Run>
+ to content that is enclosed in a <Run FontWeight="Bold">DockPanel</Run>
+ control. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBox> ToolTip with image and text 
+&lt;TextBox.ToolTip> 
+&lt;StackPanel> 
+&lt;Image Source="data\flower.jpg"/> 
+&lt;TextBlock>Useful information goes here.
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;/TextBox.ToolTip> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ToolTip Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using the Properties of the ToolTip and ToolTipService Classes
+    </Paragraph>
+
+    <Paragraph>You can customize tooltip content by setting visual properties and applying styles. If you define the tooltip content as a <Run FontWeight="Bold">ToolTip</Run>
+ object, you can set the visual properties of the <Run FontWeight="Bold">ToolTip</Run>
+ object. Otherwise, you must set equivalent <Run>attached properties</Run>
+ on the ToolTipService class. 
+    </Paragraph>
+
+    <Paragraph>For an example of how to set properties in order to specify the position of tooltip content by using the <Run FontWeight="Bold">ToolTip</Run>
+ and <Run FontWeight="Bold">ToolTipService</Run>
+ properties, see <Hyperlink NavigateUri="cddf3757-9e5f-4ce3-a6eb-44489cf3804a.xaml">How to: Position a ToolTip</Hyperlink>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Styling a ToolTip
+    </Paragraph>
+
+    <Paragraph>You can style a <Run FontWeight="Bold">ToolTip</Run>
+ by defining a custom Style. The following example defines a <Run FontWeight="Bold">Style</Run>
+ called <Run>Simple</Run>
+ that shows how to offset the placement of the <Run FontWeight="Bold">ToolTip</Run>
+ and change its appearance by setting the Background, Foreground, FontSize, and FontWeight.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Simple" TargetType="{x:Type ToolTip}"> 
+&lt;Setter Property = "HorizontalOffset" Value="50"/> 
+&lt;Setter Property = "VerticalOffset" Value="50"/> 
+&lt;Setter Property = "Background" Value="LightBlue"/> 
+&lt;Setter Property = "Foreground" Value="Purple"/> 
+&lt;Setter Property = "FontSize" Value="20"/> 
+&lt;Setter Property = "FontWeight" Value="Bold"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ToolTip Styles Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Using the Time Interval Properties of ToolTipService
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ToolTipService</Run>
+ class provides the following properties for you to set tooltip display times: InitialShowDelay, BetweenShowDelay, and ShowDuration. 
+    </Paragraph>
+
+    <Paragraph>Use the <Run FontWeight="Bold">InitialShowDelay</Run>
+ and <Run FontWeight="Bold">ShowDuration</Run>
+ properties to specify a delay, typically brief, before a <Run FontWeight="Bold">ToolTip</Run>
+ appears and also to specify how long a <Run FontWeight="Bold">ToolTip</Run>
+ remains visible. For more information, see <Hyperlink NavigateUri="618e05ef-f2bf-4a53-a0f4-aacb49918bd7.xaml">How to: Delay the Display of a ToolTip</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">BetweenShowDelay</Run>
+ property determines if tooltips for different controls appear without an initial delay when you move the mouse pointer quickly between them. For more information about the <Run FontWeight="Bold">BetweenShowDelay</Run>
+ property, see <Hyperlink NavigateUri="984ea76d-f2a2-4326-a02e-f97ec3d036d6.xaml">How to: Use the BetweenShowDelay Property</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to set these properties for a tooltip.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Ellipse Height="25" Width="50" Fill="Gray" HorizontalAlignment="Left" ToolTipService.InitialShowDelay="1000" ToolTipService.ShowDuration="7000" ToolTipService.BetweenShowDelay="2000"> 
+&lt;Ellipse.ToolTip> 
+&lt;ToolTip Placement="Right" PlacementRectangle="50,0,0,0" HorizontalOffset="10" VerticalOffset="20" HasDropShadow="false" Opened="whenToolTipOpens" Closed="whenToolTipCloses" > 
+&lt;BulletDecorator> 
+&lt;BulletDecorator.Bullet> 
+&lt;Ellipse Height="10" Width="20" Fill="Blue"/> 
+&lt;/BulletDecorator.Bullet> 
+&lt;TextBlock>Uses the ToolTip Class
+&lt;/TextBlock> 
+&lt;/BulletDecorator> 
+&lt;/ToolTip> 
+&lt;/Ellipse.ToolTip> 
+&lt;/Ellipse> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ToolTipService Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ToolTipService
+      <LineBreak/>ToolTip
+      <LineBreak/>ToolTipEventArgs
+      <LineBreak/>ToolTipEventHandler
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="2aa88347-c4cb-48d3-951d-a7072643283b.xaml">ToolTip How-to Topics</Hyperlink>
+
+      <LineBreak/>ToolTip Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about ToolTip Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

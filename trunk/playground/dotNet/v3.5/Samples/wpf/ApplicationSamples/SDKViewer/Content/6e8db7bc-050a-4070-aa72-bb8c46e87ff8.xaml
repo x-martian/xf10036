@@ -1,0 +1,555 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6e8db7bc_050a_4070_aa72_bb8c46e87ff8"
+  Tag     ="Documents in Windows Presentation Foundation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Documents in Windows Presentation Foundation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Presentation Foundation (WPF) offers a wide range of document features that enable the creation of high-fidelity content that is designed to be more easily accessed and read than in previous generations of Windows. In addition to enhanced capabilities and quality, WPF also provides integrated services for document display, packaging, and security. This topic provides an overview of the WPF document architecture and API, as well as samples that illustrate many common uses.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="types_of_documents">Types of Documents</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="document_viewer">Document Controls and Text Layout</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="packaging">Document Packaging</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="XPS_Documents">XPS Documents</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Types of Documents
+    </Paragraph>
+
+    <Paragraph>WPF divides documents into two broad categories based on their intended use; 
+these document categories are termed "fixed documents" and "flow documents."
+    </Paragraph>
+
+    <Paragraph>Fixed documents are intended for applications that require a precise "what you see is what you get" (WYSIWYG) presentation, independent of the display or printer hardware used. Typical uses for fixed documents include desktop publishing, word processing, and form layout, where adherence to the original page design is critical. As part of its layout, a fixed document maintains the precise positional placement of content elements independent of the display or print device in use. For example, a fixed document page viewed on 96 dpi display will appear exactly the same when it is output to a 600 dpi laser printer as when it is output to a 4800 dpi phototypesetter. The page layout remains the same in all cases, while the document quality maximizes to the capabilities of each device.
+    </Paragraph>
+
+    <Paragraph>By comparison, flow documents are designed to optimize viewing and readability. Rather than being set to one predefined layout, flow documents dynamically adjust and reflow their content based on run-time variables such as window size, device resolution, and optional user preferences. A Web page is a simple example of a flow document where the page content is dynamically formatted to fit the current window. Flow documents optimize the viewing and reading experience for the user, based on the runtime environment. For example, the same flow document will dynamically reformat for optimal readability on either high-resolution 19-inch display or a small 2x3-inch PDA screen.
+    </Paragraph>
+
+    <Paragraph>The following pictures illustrate a sample flow document viewed in several windows of different sizes. As the display area changes, the content reflows to make the best use of the available space.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Document Controls and Text Layout
+    </Paragraph>
+
+    <Paragraph>The .NET Framework 3.0 provides a set of pre-built controls that simplify using fixed documents, flow documents, and general text within your application. The display of fixed document content is supported using the DocumentViewer control. Display of flow document content is supported by three different controls: FlowDocumentReader, FlowDocumentPageViewer, and FlowDocumentScrollViewer. Other WPF controls provide simplified layout to support general text uses (see <Hyperlink TargetName="Text Layout">Text Layout</Hyperlink>
+, below).
+    </Paragraph>
+
+    <Paragraph FontSize="18">Fixed Document Control - DocumentViewer
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">DocumentViewer</Run>
+ control is designed to display FixedDocument content. The <Run FontWeight="Bold">DocumentViewer</Run>
+ control provides an intuitive user interface that provides built-in support for common operations including print output, copy to clipboard, zoom, and text search features. The control provides access to pages of content through a familiar scrolling mechanism. Like all WPF controls, <Run FontWeight="Bold">DocumentViewer</Run>
+ supports complete or partial restyling, which enables the control to be visually integrated into virtually any application or environment.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">DocumentViewer</Run>
+ is designed to display content in a read-only manner; 
+editing or modification of content is not available and is not supported. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Flow Document Controls
+    </Paragraph>
+
+    <Paragraph>Display of flow document content is supported by three controls: <Run FontWeight="Bold">FlowDocumentReader</Run>
+, <Run FontWeight="Bold">FlowDocumentPageViewer</Run>
+, and <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">FlowDocumentReader
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">FlowDocumentReader</Run>
+ includes features that enable the user to dynamically choose between various viewing modes, including a single-page (page-at-a-time) viewing mode, a two-page-at-a-time (book reading format) viewing mode, and a continuous scrolling (bottomless) viewing mode. For more information about these viewing modes, see FlowDocumentReaderViewingMode. If you do not need the ability to dynamically switch between different viewing modes, <Run FontWeight="Bold">FlowDocumentPageViewer</Run>
+ and <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+ provide lighter-weight flow content viewers that are fixed in a particular viewing mode.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">FlowDocumentPageViewer and FlowDocumentScrollViewer
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">FlowDocumentPageViewer</Run>
+ shows content in page-at-a-time viewing mode, while <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+ shows content in continuous scrolling mode. Both <Run FontWeight="Bold">FlowDocumentPageViewer</Run>
+ and <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+ are fixed to a particular viewing mode. Compare to <Run FontWeight="Bold">FlowDocumentReader</Run>
+, which includes features that enable the user to dynamically choose between various viewing modes (as provided by the <Run FontWeight="Bold">FlowDocumentReaderViewingMode</Run>
+ enumeration), at the cost of being more resource intensive than <Run FontWeight="Bold">FlowDocumentPageViewer</Run>
+ or <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+.
+    </Paragraph>
+
+    <Paragraph>By default, a vertical scrollbar is always shown, and a horizontal scrollbar becomes visible if needed. The default UI for <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+ does not include a toolbar; 
+however, the IsToolBarVisible property can be used to enable a built-in toolbar.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Text Layout
+    </Paragraph>
+
+    <Paragraph>WPF includes multiple controls for drawing text to the screen. Each control is targeted to a different scenario and has its own list of features and limitations. In general, the TextBlock element should be used when limited text support is required, such as a brief sentence in a user interface (UI). Label can be used when minimal text support is required. The FlowDocument element is a container for re-flowable documents that support rich presentation of content. For more information on <Run FontWeight="Bold">FlowDocument</Run>
+, see the <Hyperlink TargetName="flow_document">FlowDocument</Hyperlink>
+ portion of this overview. Additional information on <Run FontWeight="Bold">TextBlock</Run>
+ follows.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">TextBlock
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">TextBlock</Run>
+ control provides flexible text support for WPF applications. The element is targeted primarily toward basic UI scenarios that do not require more than one paragraph of text. It supports a number of properties that enable precise control of presentation, such as FontFamily, FontSize, FontWeight, TextEffects, and TextWrapping. Text content can be added using the Text property. When used in XAML, content between the open and closing tag is implicitly added as the text of the element.
+    </Paragraph>
+
+    <Paragraph>For an explanation of all properties declared on <Run FontWeight="Bold">TextBlock</Run>
+, see TextBlock Properties Sample.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">TextBlock</Run>
+ element can be instantiated very simply using XAML.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock FontSize="18" FontWeight="Bold" FontStyle="Italic"> Hello, world! 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Similarly, usage of the <Run FontWeight="Bold">TextBlock</Run>
+ element in code is relatively simple.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>TextBlock myTextBlock = new TextBlock(); 
+myTextBlock.FontSize = 18; 
+myTextBlock.FontWeight = FontWeights.Bold; 
+myTextBlock.FontStyle = FontStyles.Italic; 
+myTextBlock.Text = "Hello, world!"; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Dim myTextBlock As New TextBlock() myTextBlock.FontSize = 18 myTextBlock.FontWeight = FontWeights.Bold myTextBlock.FontStyle = FontStyles.Italic myTextBlock.Text = "Hello, world!" </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Document Packaging
+    </Paragraph>
+
+    <Paragraph>The System.IO.Packaging APIs provide an efficient means to organize application data, document content, and related resources in a single container that is simple to access, portable, and easy to distribute. A ZIP file is an example of a Package type capable of holding multiple objects as a single unit. The packaging APIs provide a default ZipPackage implementation designed using an Open Packaging Conventions standard with XML and ZIP file architecture. The WPF packaging APIs make it simple to create packages, and to store and access objects within them. An object stored in a <Run FontWeight="Bold">Package</Run>
+ is referred to as a PackagePart ("part"). Packages can also include signed digital certificates that can be used to identify the originator of a part and to validate that the contents of a package have not been modified. Packages also include a PackageRelationship feature that allows additional information to be added to a package or associated with specific parts without actually modifying the content of existing parts. Package services also support Microsoft Windows Rights Management (RM). 
+    </Paragraph>
+
+    <Paragraph>The WPF Package architecture serves as the foundation for a number of key technologies:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>XPS documents conforming to the XML Paper Specification (XPS).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Microsoft Office "12" open XML format documents (.docx).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Custom storage formats for your own application design.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Based on the packaging APIs, an XpsDocument is specifically designed for storing WPF fixed content documents. An <Run FontWeight="Bold">XpsDocument</Run>
+ is a self-contained document that can be opened in a viewer, displayed in a <Run FontWeight="Bold">DocumentViewer</Run>
+ control, routed to a print spool, or output directly to an XPS-compatible printer.
+    </Paragraph>
+
+    <Paragraph>The following sections provide additional information on the <Run FontWeight="Bold">Package</Run>
+ and <Run FontWeight="Bold">XpsDocument</Run>
+ APIs provided with WPF.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Package Components
+    </Paragraph>
+
+    <Paragraph>The WPF packaging APIs allow application data and documents to be organized into a single portable unit. A ZIP file is one of the most common types of packages and is the default package type provided with WPF. <Run FontWeight="Bold">Package</Run>
+ itself is an abstract class from which <Run FontWeight="Bold">ZipPackage</Run>
+ is implemented using an open standard XML and ZIP file architecture. The Open method uses <Run FontWeight="Bold">ZipPackage</Run>
+ to create and use ZIP files by default. A package can contain three basic types of items:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">PackagePart</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Application content, data, documents, and resource files.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>PackageDigitalSignature 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run>X.509 Certificate</Run>
+ for identification, authentication and validation.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">PackageRelationship</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Added information related to the package or a specific part.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">PackageParts
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">PackagePart</Run>
+ ("part") is an abstract class that refers to an object stored in a <Run FontWeight="Bold">Package</Run>
+. In a ZIP file, the package parts correspond to the individual files stored within the ZIP file. ZipPackagePart provides the default implementation for serializable objects stored in a <Run FontWeight="Bold">ZipPackage</Run>
+. Like a file system, parts contained in the package are stored in hierarchical directory or "folder-style" organization. Using the WPF packaging APIs, applications can write, store, and read multiple <Run FontWeight="Bold">PackagePart</Run>
+ objects using a single ZIP file container.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">PackageDigitalSignatures
+    </Paragraph>
+
+    <Paragraph>For security, a <Run FontWeight="Bold">PackageDigitalSignature</Run>
+ ("digital signature") can be associated with parts within a package. A <Run FontWeight="Bold">PackageDigitalSignature</Run>
+ incorporates a 509 that provides two features:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Identifies and authenticates the originator of the part.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Validates that the part has not been modified.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The digital signature does not preclude a part from being modified, but a validation check against the digital signature will fail if the part is altered in any way. The application can then take appropriate action—for example, block opening the part or notify the user that the part has been modified and is not secure.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">PackageRelationships
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">PackageRelationship</Run>
+ ("relationship") provides a mechanism for associating additional information with the package or a part within the package. A relationship is a package-level facility that can associate additional information with a part without modifying the actual part content. Inserting new data directly into the part content of is usually not practical in many cases:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The actual type of the part and its content schema is not known.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Even if known, the content schema might not provide a means for adding new information.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The part might be digitally signed or encrypted, precluding any modification.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Package relationships provide a discoverable means for adding and associating additional information with individual parts or with the entire package. Package relationships are used for two primary functions:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Defining dependency relationships from one part to another part.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Defining information relationships that add notes or other data related to the part.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>A <Run FontWeight="Bold">PackageRelationship</Run>
+ provides a quick, discoverable means to define dependencies and add other information associated with a part of the package or the package as a whole. 
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Dependency Relationships
+    </Paragraph>
+
+    <Paragraph>Dependency relationships are used to describe dependencies that one part makes to other parts. For example, a package might contain an HTML part that includes one or more 
+&lt;img> image tags. The image tags refer to images that are located either as other parts internal to the package or external to the package (such as accessible over the Internet). Creating a <Run FontWeight="Bold">PackageRelationship</Run>
+ associated with HTML file makes discovering and accessing the dependent resources quick and easy. A browser or viewer application can directly access the part relationships and immediately begin assembling the dependent resources without knowing the schema or parsing the document. 
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Information Relationships
+    </Paragraph>
+
+    <Paragraph>Similar to a note or annotation, a <Run FontWeight="Bold">PackageRelationship</Run>
+ can also be used to store other types of information to be associated with a part without having to actually modify the part content itself.
+    </Paragraph>
+
+    <Paragraph FontSize="22">XPS Documents
+    </Paragraph>
+
+    <Paragraph>XML Paper Specification (XPS) document is a package that contains one or more fixed-documents along with all the resources and information required for rendering. XPS is also the native Windows Vista print spool file format. An <Run FontWeight="Bold">XpsDocument</Run>
+ is stored in standard ZIP dataset, and can include a combination of XML and binary components, such as image and font files. <Hyperlink TargetName="PackageRelationships">PackageRelationships</Hyperlink>
+ are used to define the dependencies between the content and the resources required to fully render the document. The <Run FontWeight="Bold">XpsDocument</Run>
+ design provides a single, high-fidelity document solution that supports multiple uses:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Reading, writing, and storing fixed-document content and resources as a single, portable, and easy-to-distribute file.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Displaying documents with the XPS Viewer application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Outputting documents in the native print spool output format of Windows Vista. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Routing documents directly to an XPS-compatible printer.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>FixedDocument
+      <LineBreak/>FlowDocument
+      <LineBreak/>XpsDocument
+      <LineBreak/>ZipPackage
+      <LineBreak/>ZipPackagePart
+      <LineBreak/>PackageRelationship
+      <LineBreak/>DocumentViewer
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0de8ac41-9aa6-413d-a121-7aa6f41539b1.xaml">Printing Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="4839cd87-e206-4571-803f-0200098ad37b.xaml">Document Serialization and Storage</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>TextBlock Properties Sample
+      <LineBreak/>FlowDocument Properties Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Documents in Windows Presentation Foundation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

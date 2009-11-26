@@ -1,0 +1,2694 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ac8c6aa3_3c68_4a24_9827_3b6c829c1ebf"
+  Tag     ="Optimizing WPF Application Performance"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Optimizing Windows Presentation Foundation Application Performance</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic is intended as a reference for WPF application developers who are looking for ways to improve the performance of their applications. If you are a developer who is new to the Microsoft .NET Framework version 3.0 and WPF, you should first familiarize yourself with both platforms. This topic assumes working knowledge of both, and is written for programmers who already know enough to get their applications up and running. Information in this topic is based on version 1.0 of WPF.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The performance data provided in this topic are based on WPF applications running on a 2.8 GHz PC with 512 RAM and an ATI Radeon 9700 graphics card.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="planning_for_performance">Planning for Performance</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="taking_advantage_of_hardware">Taking Advantage of Hardware</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="layout_and_design">Layout and Design</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="twoD_graphics_and_imaging">2D Graphics and Imaging</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="object_behavior">Object Behavior</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="application_resources">Application Resources</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="text">Text</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="data_binding">Data Binding</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="other_performance_recommendations">Other Performance Recommendations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="wpf_performance_tools">WPF Performance Tools</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Planning for Performance
+    </Paragraph>
+
+    <Paragraph>Planning is the first stage in developing a strategy for application performance. The following steps are some of the key issues to consider in developing a strategy.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Think in Terms of Scenarios
+    </Paragraph>
+
+    <Paragraph>Scenarios can help you focus on the critical components of your application. Scenarios are generally derived from your customers, as well as competitive products. Study your customers. Find out what really makes them excited about your product, and your competitors' products. Your customers' feedback can help you to determine your application's primary scenario. For instance, if you are designing a component that will be used at startup, it is likely that the component will be called only once, when the application starts up. Other examples of key scenarios could be the desired frame rate for animation sequences, or the maximum working set allowed for the application.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Define Goals
+    </Paragraph>
+
+    <Paragraph>Goals help you to determine whether an application is performing faster or slower. You should define goals for all of your scenarios. All performance goals that you define should be based on your customers' expectations. It may be difficult to set performance goals early on in the application development cycle, when there are still many unresolved issues. However, it is better to set an initial goal and revise it later than not to have a goal at all.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Understand Your Platform
+    </Paragraph>
+
+    <Paragraph>Always maintain the cycle of measuring, investigating, refining/correcting during your application development cycle. From the beginning to the end of the development cycle, you need to measure your application's performance in a reliable, stable environment. You should avoid variability caused by external factors. For example, when testing performance, you should disable anti-virus or any automatic update such as SMS, in order not to impact performance test results. Once you have measured your application's performance, you need to identify the changes that will result in the biggest improvements. Once you have modified your application, start the cycle again.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Make Performance Tuning an Iterative Process
+    </Paragraph>
+
+    <Paragraph>You should know the relative cost of each feature you will use. For example, the use of reflection in Microsoft .NET Framework version 3.0 is generally expensive in terms of computing resources, so you would want to use it judiciously. This does not mean to avoid the use of reflection, only that you should be careful to balance the performance requirements of your application with the performance demands of the features you use.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Build Towards Graphical Richness
+    </Paragraph>
+
+    <Paragraph>A key technique for creating a scalable approach towards achieving application performance is to build towards graphical richness and complexity. For example, you might initially choose to use solid colors instead of linear gradient colors for your application user interface (UI). However, if you define your set of colors as a shared Brush resource, you could easily redefine the shared resource at a later date to use linear gradient colors.
+    </Paragraph>
+
+    <Paragraph>WPF controls are inherently extensible by allowing for wide-spread customization of their appearance, while not altering their control behavior. By taking advantage of styles, data templates, and control templates, you can create and incrementally evolve a customizable user interface (UI) that adapts to your performance requirements. The Photo Store Demo illustrates how you can easily create a separation between the basic user interface (UI) and the logic of the application. Once you have created this separation, if gives you the option of building towards graphical richness.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Taking Advantage of Hardware
+    </Paragraph>
+
+    <Paragraph>The internal architecture of WPF has two rendering pipelines, hardware and software.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Hardware Rendering Pipeline
+    </Paragraph>
+
+    <Paragraph>One of the most important factors in determining WPF performance is that it is render bound—the more pixels you have to render, the greater the performance cost. However, the more rendering that can be offloaded to the graphics processing unit (GPU), the more performance benefits you can gain. The WPF application hardware rendering pipeline takes full advantage of Microsoft DirectX features on hardware that supports a minimum of Microsoft DirectX version 7.0. Further optimizations can be gained by hardware that supports Microsoft DirectX version 7.0 and PixelShader 2.0+ features.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Software Rendering Pipeline
+    </Paragraph>
+
+    <Paragraph>The WPF software rendering pipeline is entirely CPU bound. WPF takes advantage of the SSE and SSE2 instruction sets in the CPU to implement an optimized, fully-featured software rasterizer. Fallback to software is seamlessly any time application functionality cannot be rendered using the hardware rendering pipeline.
+    </Paragraph>
+
+    <Paragraph>The biggest performance issue you will encounter when rendering in software mode is related to fill rate, which is defined as the number of pixels that you are rendering. If you are concerned about performance in software rendering mode, try to minimize the number of times a pixel is redrawn. For example, if you have an application with a blue background, which then renders a slightly transparent image over it, you will render all of the pixels in the application twice. As a result, it will take twice as long to render the application with the image than if you had only the blue background.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Graphics Rendering Tiers
+    </Paragraph>
+
+    <Paragraph>It may be very difficult to predict the hardware configuration that your application will be running on. However, you might want to consider a design that allows your application to seamlessly switch features when running on different hardware, so that it can take full advantage of each different hardware configuration.
+    </Paragraph>
+
+    <Paragraph>To achieve his, WPF provides functionality to determine the graphics capability of a system at runtime. Graphics capability is determined by categorizing the video card as one of three rendering capability tiers. WPF exposes an API that allows an application to query the rendering capability tier. Your application can then take different code paths at run time depending on the rendering tier supported by the hardware.
+    </Paragraph>
+
+    <Paragraph>The features of the graphics hardware that most impact the rendering tier levels are:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Video RAM</Run>
+ The amount of video memory on the graphics hardware determines the size and number of buffers that can be used for compositing graphics.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Pixel Shader</Run>
+ A pixel shader is a graphics processing function that calculates effects on a per-pixel basis. Depending on the resolution of the displayed graphics, there could be several million pixels that need to be processed for each display frame.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Vertex Shader</Run>
+ A vertex shader is a graphics processing function that performs mathematical operations on the vertex data of the object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Multitexture Support</Run>
+ Multitexture support refers to the ability to apply two or more distinct textures during a blending operation on a 3D graphics object. The degree of multitexture support is determined by the number of multitexture units on the graphics hardware.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The pixel shader, vertex shader, and multitexture features are used to define specific DirectX version levels, which, in turn, are used to define the different rendering tiers in WPF.
+    </Paragraph>
+
+    <Paragraph>The features of the graphics hardware determine the rendering capability of a WPF application. The WPF system defines three rendering tiers:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Rendering Tier 0</Run>
+ No graphics hardware acceleration. The DirectX version level is less than version 7.0.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Rendering Tier 1</Run>
+ Partial graphics hardware acceleration. The DirectX version level is greater than or equal to version 7.0, and lesser than version 9.0.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Rendering Tier 2</Run>
+ Most graphics features use graphics hardware acceleration. The DirectX version level is greater than or equal to version 9.0.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For more information on WPF rendering tiers, see <Hyperlink NavigateUri="08dd1606-02a2-4122-9351-c0afd2ec3a70.xaml">Graphics Rendering Tiers</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Layout and Design
+    </Paragraph>
+
+    <Paragraph>The design of your WPF application can impact its performance by creating unnecessary overhead in calculating layout and validating object references. For more information, see <Hyperlink NavigateUri="3eecdced-3623-403a-a077-7595453a9221.xaml">The Layout System</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Layout
+    </Paragraph>
+
+    <Paragraph>The term "layout pass" describes the process of measuring and arranging the members of a Panel-derived object's collection of children, and then drawing them onscreen. The layout pass is a mathematically-intensive process—the larger the number of children in the collection, the greater the number of calculations required. For example, each time a child UIElement object in the collection changes its position, it has the potential to trigger a new pass by the layout system. Because of the close relationship between object characteristics and layout behavior, it's important to understand the type of events that can invoke the layout system. Your application will perform better by reducing as much as possible any unnecessary invocations of the layout pass.
+    </Paragraph>
+
+    <Paragraph>The layout system completes two passes for each child member in a collection: a measure pass, and an arrange pass. Each child object provides its own overridden implementation of the Measure and Arrange methods in order to provide its own specific layout behavior. At its simplest, layout is a recursive system that leads to an element being sized, positioned, and drawn onscreen.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A child <Run FontWeight="Bold">UIElement</Run>
+ object begins the layout process by first having its core properties measured.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The object's FrameworkElement properties that are related to size, such as Width, Height, and Margin, are evaluated.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Panel</Run>
+-specific logic is applied, such as the Dock property of the DockPanel, or the Orientation property of the StackPanel.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Content is arranged, or positioned, after all child objects have been measured.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The collection of child objects is drawn to the screen.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The layout pass process is invoked again if any of the following actions occur:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A child object is added to the collection.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A LayoutTransform is applied to the child object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The UpdateLayout method is called for the child object.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following sections discuss other issues where performance is impact by layout behavior.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Use the Canvas Object where Possible
+    </Paragraph>
+
+    <Paragraph>The complexity of the layout process is directly based on the layout behavior of the <Run FontWeight="Bold">Panel</Run>
+-derived elements you use. For example, a Grid control provides much more functionality than a Canvas control. The price for this greater increase in functionality is a greater increase in performance costs. However, if you do not require the functionality that a <Run FontWeight="Bold">Grid</Run>
+ control provides, you should use the less costly <Run FontWeight="Bold">Canvas</Run>
+ control.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Update Rather than Replace a RenderTransform
+    </Paragraph>
+
+    <Paragraph>You may be able to update a Transform rather than replacing it as the value of a RenderTransform property. This is particularly true in scenarios that involve animation. By updating an existing <Run FontWeight="Bold">Transform</Run>
+, you avoid initiating an unnecessary layout calculation.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Design
+    </Paragraph>
+
+    <Paragraph>The construction of objects, particularly at run time, can affect the performance characteristics of your application.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Build Your Tree Top-Down
+    </Paragraph>
+
+    <Paragraph>When a node is added or removed from the <Run>logical tree</Run>
+, property invalidations are raised on the node's parent and all its children. As a result, a top-down construction pattern should always be followed to avoid the cost of unnecessary invalidations on nodes that have already been validated. The following table shows the difference in execution speed between building a tree top-down versus bottom-up, where the tree is 150 levels deep with a single TextBlock and <Run FontWeight="Bold">DockPanel</Run>
+ at each level.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Action</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Tree building (in ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Render—includes tree building (in ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Bottom-up
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>366
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>454
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Top-down
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>11
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>96
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code example demonstrates how to create a tree top down.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void OnBuildTreeTopDown(object sender, RoutedEventArgs e) { TextBlock textBlock = new TextBlock(); 
+textBlock.Text = "Default"; 
+DockPanel parentPanel = new DockPanel(); 
+DockPanel childPanel; 
+myCanvas.Children.Add(parentPanel); 
+myCanvas.Children.Add(textBlock); 
+for (int i = 0; 
+i 
+&lt; 
+150; 
+i++) { textBlock = new TextBlock(); 
+textBlock.Text = "Default"; 
+parentPanel.Children.Add(textBlock); 
+childPanel = new DockPanel(); 
+parentPanel.Children.Add(childPanel); 
+parentPanel = childPanel; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information on the logical tree, see <Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">2D Graphics and Imaging
+    </Paragraph>
+
+    <Paragraph>WPF provides a wide range of 2D graphics and imaging functionality that can be optimized for your application requirements.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Drawings and Shapes
+    </Paragraph>
+
+    <Paragraph>WPF provides both Drawing and Shape objects to represent graphical drawing content. However, <Run FontWeight="Bold">Drawing</Run>
+ objects are simpler constructs than <Run FontWeight="Bold">Shape</Run>
+ objects and provide better performance characteristics.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Shape</Run>
+ allows you to draw a graphical shape to the screen. Because they are derived from the <Run FontWeight="Bold">FrameworkElement</Run>
+ class, <Run FontWeight="Bold">Shape</Run>
+ objects can be used inside panels and most controls.
+    </Paragraph>
+
+    <Paragraph>WPF offers several layers of access to graphics and rendering services. At the top layer, <Run FontWeight="Bold">Shape</Run>
+ objects are easy to use and provide many useful features, such as layout and event handling. WPF provides a number of ready-to-use shape objects. All shape objects inherit from the <Run FontWeight="Bold">Shape</Run>
+ class. Available shape objects include Ellipse, Line, Path, Polygon, Polyline, and Rectangle.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Drawing</Run>
+ objects, on the other hand, do not derive from the <Run FontWeight="Bold">FrameworkElement</Run>
+ class and provide a lighter-weight implementation for rendering shapes, images, and text.
+    </Paragraph>
+
+    <Paragraph>There are four types of <Run FontWeight="Bold">Drawing</Run>
+ objects:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>GeometryDrawing Draws a shape.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ImageDrawing Draws an image.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>GlyphRunDrawing Draws text.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>DrawingGroup Draws other drawings. Use a drawing group to combine other drawings into a single composite drawing.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The <Run FontWeight="Bold">GeometryDrawing</Run>
+ object is used to render geometry content. The Geometry class and the concrete classes which derive from it, such as CombinedGeometry, EllipseGeometry, and PathGeometry, provide a means for rendering 2D graphics, as well as providing hit-testing and clipping support. Geometry objects can be used to define the region of a control, for example, or to define the clip region to apply to an image. Geometry objects can be simple regions, such as rectangles and circles, or composite regions created from two or more geometry objects. More complex geometric regions can be created by combining PathSegment-derived objects, such as ArcSegment, BezierSegment, and QuadraticBezierSegment.
+    </Paragraph>
+
+    <Paragraph>On the surface, the <Run FontWeight="Bold">Geometry</Run>
+ class and the <Run FontWeight="Bold">Shape</Run>
+ class are quite similar. Both are used in the rendering of 2D graphics and both have similar concrete classes which derive from them, for example, <Run FontWeight="Bold">EllipseGeometry</Run>
+ and <Run FontWeight="Bold">Ellipse</Run>
+. However, there are important differences between these two sets of classes. For one, the <Run FontWeight="Bold">Geometry</Run>
+ class lacks some of the functionality of the <Run FontWeight="Bold">Shape</Run>
+ class, such as the ability to draw itself. To draw a geometry object, another class such as DrawingContext, Drawing, or a Path (it is worth noting that a Path is a Shape) must be used to perform the drawing operation. Rendering properties such as fill, stroke, and the stroke thickness are on the class which draws the geometry object, while a shape object contains these properties. One way to think of this difference is that a geometry object defines a region, a circle for example, while a shape object defines a region, defines how that region is filled and outlined, and participates in the layout system.
+    </Paragraph>
+
+    <Paragraph>Since <Run FontWeight="Bold">Shape</Run>
+ objects derive from the <Run FontWeight="Bold">FrameworkElement</Run>
+ class, using them can add significantly more memory consumption in your application. If you really do not need the <Run FontWeight="Bold">FrameworkElement</Run>
+ features for your graphical content, consider using the lighter-weight <Run FontWeight="Bold">Drawing</Run>
+ objects.
+    </Paragraph>
+
+    <Paragraph>For more information on <Run FontWeight="Bold">Drawing</Run>
+ objects, see <Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">StreamGeometry Objects
+    </Paragraph>
+
+    <Paragraph>The StreamGeometry object is a light-weight alternative to <Run FontWeight="Bold">PathGeometry</Run>
+ for creating geometric shapes. Use a <Run FontWeight="Bold">StreamGeometry</Run>
+ when you need to describe a complex geometry but do not want the overhead of supporting data binding, animation, or the ability to modify the object after it is created. For example, because of its efficiency, the <Run FontWeight="Bold">StreamGeometry</Run>
+ class is a good choice for describing adorners.
+    </Paragraph>
+
+    <Paragraph>The following example uses attribute syntax to create a triangular <Run FontWeight="Bold">StreamGeometry</Run>
+ in XAML.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ac8c6aa3_3c68_4a24_9827_3b6c829c1ebf_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;StackPanel> 
+&lt;Path Data="F0 M10,100 L100,100 100,50Z" StrokeThickness="1" Stroke="Black"/> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information on <Run FontWeight="Bold">StreamGeometry</Run>
+ objects, see <Hyperlink NavigateUri="08f7c8ce-074b-49cd-9aba-cc9592d4ee51.xaml">How to: Create a Shape Using a StreamGeometry</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">DrawingVisual Objects
+    </Paragraph>
+
+    <Paragraph>The DrawingVisual object is a lightweight drawing class that is used to render shapes, images, or text. This class is considered lightweight because it does not provide layout or event handling, which improves its performance. For this reason, drawings are ideal for backgrounds and clip art. For more information, see <Hyperlink NavigateUri="0b4e711d-e640-40cb-81c3-8f5c59909b7d.xaml">Using DrawingVisual Objects</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Images
+    </Paragraph>
+
+    <Paragraph>WPF imaging features provides a significant improvement over the imaging capabilities in previous versions of. Imaging capabilities, such as displaying a bitmap or using an image on a common control were primarily handled by the Microsoft Windows Graphics Device Interface (GDI) or Microsoft Windows GDI+ application programming interface (API). These API provided baseline imaging functionality, but lacked features such as support for codec extensibility and high fidelity image support. WPF Imaging API have been redesigned to overcome the shortcomings of GDI and GDI+ and provide a new set of API to display and use images within your applications.
+    </Paragraph>
+
+    <Paragraph>Here are some of the key performance-related issues related to the use of images:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>If your application requires you to display thumbnail images, consider creating a reduced-sized version of the image. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Always decode the image to desired size and not to the default size.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If possible, combine the images into a single image, such as a film strip composed of multiple images.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">RenderOptions
+    </Paragraph>
+
+    <Paragraph>The RenderOptions class provides functionality for controlling the rendering behavior of objects in an optimal way.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">BitmapScalingMode
+    </Paragraph>
+
+    <Paragraph>When animating the scale of any bitmap, the default high-quality image re-sampling algorithm can sometimes consume sufficient system resources to cause frame rate degradation, effectively causing animations to stutter. By setting the BitmapScalingMode property of the <Run FontWeight="Bold">RenderOptions</Run>
+ object to LowQuality you can create a smoother animation when scaling a bitmap.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to set the BitmapScalingMode for an image object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Set the bitmap scaling mode for the image to render faster. RenderOptions.SetBitmapScalingMode(MyImage, BitmapScalingMode.LowQuality); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">CachingHint
+    </Paragraph>
+
+    <Paragraph>By default, WPF does not cache the rendered contents of TileBrush objects, such as DrawingBrush and VisualBrush. In static scenarios where neither the contents nor use of the <Run FontWeight="Bold">TileBrush</Run>
+ in the scene is changing, this makes sense, since it conserves video memory. It does not make as much sense when a <Run FontWeight="Bold">TileBrush</Run>
+ with static content is used in a non-static way—for example, when a static <Run FontWeight="Bold">DrawingBrush</Run>
+ or <Run FontWeight="Bold">VisualBrush</Run>
+ is mapped to the surface of a rotating 3D object. The default behavior of WPF is to re-render the entire content of the <Run FontWeight="Bold">DrawingBrush</Run>
+ or <Run FontWeight="Bold">VisualBrush</Run>
+ every frame, even though the content is unchanging.
+    </Paragraph>
+
+    <Paragraph>By setting the CachingHint property of the <Run FontWeight="Bold">RenderOptions</Run>
+ object to Cache you can increase performance by using cached versions of the tiled brush objects.
+    </Paragraph>
+
+    <Paragraph>The CacheInvalidationThresholdMinimum and CacheInvalidationThresholdMaximum property values are relative size values that determine when the <Run FontWeight="Bold">TileBrush</Run>
+ object should be regenerated due to changes in scale. For example, by setting the <Run FontWeight="Bold">CacheInvalidationThresholdMaximum</Run>
+ property to 2.0, the cache for the <Run FontWeight="Bold">TileBrush</Run>
+ only needs to be regenerated when its size exceeds twice the size of the current cache.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to use the caching hint option for a <Run FontWeight="Bold">DrawingBrush</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Set the minimum and maximum relative sizes for regenerating the tiled brush. RenderOptions.SetCacheInvalidationThresholdMinimum(drawingBrush, 0.5); 
+RenderOptions.SetCacheInvalidationThresholdMaximum(drawingBrush, 2.0); 
+// The tiled brush will be regenerated when the size is // 0.5x, 0.25x (and so forth) // and // 2x, 4x, 8x (and so forth) // of the original size. // Set the caching hint option for the brush. RenderOptions.SetCachingHint(drawingBrush, CachingHint.Cache); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Object Behavior
+    </Paragraph>
+
+    <Paragraph>Understanding the intrinsic behavior of WPF objects will help you make the right tradeoffs between functionality and performance.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Dependency Properties and Objects
+    </Paragraph>
+
+    <Paragraph>In general, accessing a <Run>dependency property</Run>
+ of a DependencyObject is not slower than accessing a common language runtime (CLR) property. While there is a small performance overhead for setting a property value, getting a value is as fast as getting the value from a common language runtime (CLR) property. Offsetting the small performance overhead is the fact that dependency properties support robust features, such as data binding, animation, inheritance, and styling. For more information, see <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">DependencyProperty Optimizations
+    </Paragraph>
+
+    <Paragraph>You should define dependency properties in your application very carefully. If your DependencyProperty affects only render type metadata options, rather than other metadata options such as AffectsMeasure, you should mark it as such by overriding its metadata. For more information about overriding or obtaining property metadata, see <Hyperlink NavigateUri="d01ed009-b722-41bf-b82f-fe1a8cdc50dd.xaml">Dependency Property Metadata</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Making a DependencyProperty Inheritable is Not Free
+    </Paragraph>
+
+    <Paragraph>By default, registered dependency properties are non-inheritable. However, you can explicitly make any property inheritable. While this is a useful feature, converting a property to be inheritable impacts performance by increasing the length of time for property invalidation.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Use RegisterClassHandler Carefully
+    </Paragraph>
+
+    <Paragraph>While calling RegisterClassHandler allows you to save your instance state, it is important to be aware that the handler is called on every instance, which can cause performance problems. Only use <Run FontWeight="Bold">RegisterClassHandler</Run>
+ when your application requires that you save your instance state.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Set the Default Value for a DependencyProperty during Registration
+    </Paragraph>
+
+    <Paragraph>When creating a <Run FontWeight="Bold">DependencyProperty</Run>
+ that requires a default value, set the value using the default metadata passed as a parameter to the Register method of the <Run FontWeight="Bold">DependencyProperty</Run>
+. Use this technique rather than setting the property value in a constructor or on each instance of an element.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Set the PropertyMetadata Value using RegisterProperty
+    </Paragraph>
+
+    <Paragraph>When creating a <Run FontWeight="Bold">DependencyProperty</Run>
+, you have the option of setting the PropertyMetadata using either the <Run FontWeight="Bold">Register</Run>
+ or OverrideMetadata methods. Although your object could have a static constructor to call <Run FontWeight="Bold">OverrideMetadata</Run>
+, this is not the optimal solution and will impact performance. For best performance, set the <Run FontWeight="Bold">PropertyMetadata</Run>
+ during the call to <Run FontWeight="Bold">Register</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Freezable Objects
+    </Paragraph>
+
+    <Paragraph>A Freezable is a special type of object that has two states: unfrozen and frozen. Freezing objects whenever possible improves the performance of your application and reduces its working set. For more information, see <Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Each <Run FontWeight="Bold">Freezable</Run>
+ has a Changed event that is raised whenever it changes. However, change notifications are costly in terms of application performance.
+    </Paragraph>
+
+    <Paragraph>Consider the following example in which each <Run FontWeight="Bold">Rectangle</Run>
+ uses the same <Run FontWeight="Bold">Brush</Run>
+ object:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>rectangle_1.Fill = myBrush; 
+rectangle_2.Fill = myBrush; 
+rectangle_3.Fill = myBrush; 
+// ... rectangle_10.Fill = myBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>By default, WPF provides an event handler for the SolidColorBrush object's <Run FontWeight="Bold">Changed</Run>
+ event in order to invalidate the <Run FontWeight="Bold">Rectangle</Run>
+ object's Fill property. In this case, each time the <Run FontWeight="Bold">SolidColorBrush</Run>
+ has to fire its <Run FontWeight="Bold">Changed</Run>
+ event it is required to invoke the callback function for each <Run FontWeight="Bold">Rectangle</Run>
+—the accumulation of these callback function invocations impose a significant performance penalty. In addition, it is very expensive to add and remove handlers at this point since the application would have to traverse the entire list to do so. If your application scenario never changes the <Run FontWeight="Bold">SolidColorBrush</Run>
+, you will be paying the cost of maintaining <Run FontWeight="Bold">Changed</Run>
+ event handlers unnecessarily.
+    </Paragraph>
+
+    <Paragraph>Freezing a <Run FontWeight="Bold">Freezable</Run>
+ can improve its performance, because it no longer needs to expend resources on maintaining change notifications. The table below shows the size of a simple <Run FontWeight="Bold">SolidColorBrush</Run>
+ when its IsFrozen property is set to <Run FontWeight="Bold">true</Run>
+, compared to when it is not. This assumes applying one brush to the <Run FontWeight="Bold">Fill</Run>
+ property of ten <Run FontWeight="Bold">Rectangle</Run>
+ objects.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">State</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Size</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Frozen <Run FontWeight="Bold">SolidColorBrush</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>212 Bytes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Non-frozen <Run FontWeight="Bold">SolidColorBrush</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>972 Bytes
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following code sample demonstrates this concept:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Brush frozenBrush = new SolidColorBrush(Colors.Blue); 
+frozenBrush.Freeze(); 
+Brush nonFrozenBrush = new SolidColorBrush(Colors.Blue); 
+for (int i = 0; 
+i 
+&lt; 
+10; 
+i++) { // Create a Rectangle using a non-frozed Brush. Rectangle rectangleNonFrozen = new Rectangle(); 
+rectangleNonFrozen.Fill = nonFrozenBrush; 
+// Create a Rectangle using a frozed Brush. Rectangle rectangleFrozen = new Rectangle(); 
+rectangleFrozen.Fill = frozenBrush; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Changed Handlers on Unfrozen Freezables may Keep Objects Alive
+    </Paragraph>
+
+    <Paragraph>The delegate that an object passes to a <Run FontWeight="Bold">Freezable</Run>
+ object's <Run FontWeight="Bold">Changed</Run>
+ event is effectively a reference to that object. Therefore, <Run FontWeight="Bold">Changed</Run>
+ event handlers can keep objects alive longer than expected. When performing clean up an object that has registered to listen to a <Run FontWeight="Bold">Freezable</Run>
+ object's <Run FontWeight="Bold">Changed</Run>
+ event, it is essential to remove that delegate before releasing the object.
+    </Paragraph>
+
+    <Paragraph>WPF also hooks up <Run FontWeight="Bold">Changed</Run>
+ events internally. For example, all dependency properties which take <Run FontWeight="Bold">Freezable</Run>
+ as a value will listen to <Run FontWeight="Bold">Changed</Run>
+ events automatically. The <Run FontWeight="Bold">Fill</Run>
+ property, which takes a <Run FontWeight="Bold">Brush</Run>
+, illustrates this concept.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Brush myBrush = new SolidColorBrush(Colors.Red); 
+Rectangle myRectangle = new Rectangle(); 
+myRectangle.Fill = myBrush; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>On the assignment of <Run>myBrush</Run>
+ to <Run>myRectangle.Fill</Run>
+, a delegate pointing back to the <Run FontWeight="Bold">Rectangle</Run>
+ object will be added to the <Run FontWeight="Bold">SolidColorBrush</Run>
+ object's <Run FontWeight="Bold">Changed</Run>
+ event. This means the following code does not actually make <Run>myRect</Run>
+ eligible for garbage collection:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myRectangle = null; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In this case <Run>myBrush</Run>
+ is still keeping <Run>myRectangle</Run>
+ alive and will call back to it when it fires its <Run FontWeight="Bold">Changed</Run>
+ event. Note that assigning <Run>myBrush</Run>
+ to the <Run FontWeight="Bold">Fill</Run>
+ property of a new <Run FontWeight="Bold">Rectangle</Run>
+ will simply add another event handler to <Run>myBrush</Run>
+. 
+    </Paragraph>
+
+    <Paragraph>The recommended way to clean up these types of objects is to remove the <Run FontWeight="Bold">Brush</Run>
+ from the <Run FontWeight="Bold">Fill</Run>
+ property, which will in turn remove the <Run FontWeight="Bold">Changed</Run>
+ event handler.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>myRectangle.Fill = null; 
+myRectangle = null; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">User Interface Virtualization
+    </Paragraph>
+
+    <Paragraph>WPF also provides a variation of the <Run FontWeight="Bold">StackPanel</Run>
+ element that automatically "virtualizes" data-bound child content. In this context, the word virtualize refers to a technique by which a subset of UIElements are generated from a larger number of data items based upon which items are visible on-screen. It is intensive, both in terms of memory and processor, to generate a large number of UI elements when only a few may be on the screen at a given time. VirtualizingStackPanel (through functionality provided by VirtualizingPanel) calculates visible items and works with the ItemContainerGenerator from an ItemsControl (such as ListBox or ListView) to only create UIElements for visible items.
+    </Paragraph>
+
+    <Paragraph>As a performance optimization, visual objects for these items are only generated or kept alive if they are visible on the screen. When they are no longer in the viewable area of the control, the visual objects may be removed. This is not to be confused with data virtualization, where data objects are not all present in the local collection- rather streamed in as needed. 
+    </Paragraph>
+
+    <Paragraph>The table below shows the elapsed time adding and rendering 5000 <Run FontWeight="Bold">TextBlock</Run>
+ elements to a <Run FontWeight="Bold">StackPanel</Run>
+ and a <Run FontWeight="Bold">VirtualizingStackPanel</Run>
+. In this scenario, the measurements represent the time between attaching a text string to the ItemsSource property of an <Run FontWeight="Bold">ItemsControl</Run>
+ object to the time when the panel elements display the text string.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Host panel</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Render time (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">StackPanel</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>3210
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">VirtualizingStackPanel</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>46
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Application Resources
+    </Paragraph>
+
+    <Paragraph>WPF allows you to share application resources so that you can support a consistent look or behavior across similar-typed elements. For more information on resources, see <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Sharing resources
+    </Paragraph>
+
+    <Paragraph>If your application uses custom controls and defines resources in a ResourceDictionary (or XAML Resources node), it is recommended that you either define the resources at the Application or Window object level, or define them in the default theme for the custom controls. Defining resources in a custom control's <Run FontWeight="Bold">ResourceDictionary</Run>
+ imposes a performance impact for every instance of that control. For example, if you have performance-intensive brush operations defined as part of the resource definition of a custom control and many instances of the custom control, the application's working set will significantly increase.
+    </Paragraph>
+
+    <Paragraph>To illustrate this point, consider the following. Let's say you are developing a card game using WPF. For most card games, you need 52 cards with 52 different faces. You decide to implement a card custom control and you define 52 brushes (each representing a card face) in the resources of your card custom control. In your main application, you initially create 52 instances of this card custom control. Each instance of the card custom control generates 52 instances of <Run FontWeight="Bold">Brush</Run>
+ objects, which gives you a total of 52 * 52 <Run FontWeight="Bold">Brush</Run>
+ objects in your application. By moving the brushes out of the card custom control resources to the <Run FontWeight="Bold">Application</Run>
+ or <Run FontWeight="Bold">Window</Run>
+ object level, or defining them in the default theme for the custom control, you reduce the working set of the application, since you are now sharing the 52 brushes among 52 instances of the card control.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Sharing a Brush without Copying
+    </Paragraph>
+
+    <Paragraph>If you have multiple elements using the same <Run FontWeight="Bold">Brush</Run>
+ object, define the brush as a resource and reference it, rather than defining the brush inline in XAML. This method will create one instance and reuse it, whereas defining brushes inline in XAML creates a new instance for each element.
+    </Paragraph>
+
+    <Paragraph>The following markup sample illustrates this point:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel.Resources> 
+&lt;LinearGradientBrush x:Key="myBrush" StartPoint="0,0.5" EndPoint="1,0.5" Opacity="0.5"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="GoldenRod" Offset="0" /> 
+&lt;GradientStop Color="White" Offset="1" /> 
+&lt;/GradientStopCollection> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/StackPanel.Resources> 
+&lt;!-- Non-shared Brush object. --> 
+&lt;Label> Label 1 
+&lt;Label.Background> 
+&lt;LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5" Opacity="0.5"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStopCollection> 
+&lt;GradientStop Color="GoldenRod" Offset="0" /> 
+&lt;GradientStop Color="White" Offset="1" /> 
+&lt;/GradientStopCollection> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Label.Background> 
+&lt;/Label> 
+&lt;!-- Shared Brush object. --> 
+&lt;Label Background="{StaticResource myBrush}">Label 2
+&lt;/Label> 
+&lt;Label Background="{StaticResource myBrush}">Label 3
+&lt;/Label> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Use Static Resources when Possible
+    </Paragraph>
+
+    <Paragraph>A static resource provides a value for any XAML property attribute by looking up a reference to an already defined resource. Lookup behavior for that resource is analogous to compile-time lookup.
+    </Paragraph>
+
+    <Paragraph>A dynamic resource, on the other hand, will create a temporary expression during the initial compilation and thus defer lookup for resources until the requested resource value is actually required in order to construct an object. Lookup behavior for that resource is analogous to run-time lookup, which imposes a performance impact. Use static resources whenever possible in your application, using dynamic resources only when necessary.
+    </Paragraph>
+
+    <Paragraph>The following markup sample shows the use of both types of resources:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel.Resources> 
+&lt;SolidColorBrush x:Key="myBrush" Color="Teal"/> 
+&lt;/StackPanel.Resources> 
+&lt;!-- StaticResource reference --> 
+&lt;Label Foreground="{StaticResource myBrush}">Label 1
+&lt;/Label> 
+&lt;!-- DynamicResource reference --> 
+&lt;Label Foreground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">Label 2
+&lt;/Label> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Text
+    </Paragraph>
+
+    <Paragraph>WPF includes support for the presentation of text content through the use of feature-rich user interface (UI) controls. WPF also provides lower-level services for custom text formatting through the use of the FormattedText object. The most efficient way of rendering text in Windows Presentation Foundation (WPF) is by generating text content at the glyph level using Glyphs and GlyphRun. However, the cost of this efficiency is the loss of easy to use rich text formatting, which are built-in features of Windows Presentation Foundation (WPF) controls, such as <Run FontWeight="Bold">TextBlock</Run>
+ and FlowDocument.
+    </Paragraph>
+
+    <Paragraph FontSize="18">FlowDocument, TextBlock, and Label Controls
+    </Paragraph>
+
+    <Paragraph>WPF includes multiple controls for drawing text to the screen. Each control is targeted to a different scenario and has its own list of features and limitations.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">FlowDocument Impacts Performance More than TextBlock or Label
+    </Paragraph>
+
+    <Paragraph>In general, the <Run FontWeight="Bold">TextBlock</Run>
+ element should be used when limited text support is required, such as a brief sentence in a user interface (UI). Label can be used when minimal text support is required. The <Run FontWeight="Bold">FlowDocument</Run>
+ element is a container for re-flowable documents that support rich presentation of content, and therefore, has a greater performance impact than using the <Run FontWeight="Bold">TextBlock</Run>
+ and <Run FontWeight="Bold">Label</Run>
+ controls.
+    </Paragraph>
+
+    <Paragraph>For more information on <Run FontWeight="Bold">FlowDocument</Run>
+, see the <Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+ overview.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Avoid Using TextBlock in FlowDocument
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">TextBlock</Run>
+ element is derived from <Run FontWeight="Bold">UIElement</Run>
+. The Run element is derived from TextElement, which is less costly to use than a <Run FontWeight="Bold">UIElement</Run>
+-derived element. When possible, use <Run FontWeight="Bold">Run</Run>
+ rather than <Run FontWeight="Bold">TextBlock</Run>
+ for displaying text content in a <Run FontWeight="Bold">FlowDocument</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The following markup sample illustrates two ways of setting text content within a <Run FontWeight="Bold">FlowDocument</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;FlowDocument> 
+&lt;!-- Text content within a Run (more efficient). --> 
+&lt;Paragraph> 
+&lt;Run>Line one
+&lt;/Run> 
+&lt;/Paragraph> 
+&lt;!-- Text content within a TextBlock (less efficient). --> 
+&lt;Paragraph> 
+&lt;TextBlock>Line two
+&lt;/TextBlock> 
+&lt;/Paragraph> 
+&lt;/FlowDocument> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Avoid Using TextBlock to Set Text Properties
+    </Paragraph>
+
+    <Paragraph>In general, using a <Run FontWeight="Bold">Run</Run>
+ within a <Run FontWeight="Bold">TextBlock</Run>
+ is more expensive than not using an explicit <Run FontWeight="Bold">Run</Run>
+ object at all. If you are using a <Run FontWeight="Bold">Run</Run>
+ in order to set text properties, set those properties directly on the <Run FontWeight="Bold">TextBlock</Run>
+ instead.
+    </Paragraph>
+
+    <Paragraph>The following markup sample illustrates these two ways of setting a text property, in this case, the FontWeight property:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Run is used to set text properties. --> 
+&lt;TextBlock> 
+&lt;Run FontWeight="Bold">Hello, world
+&lt;/Run> 
+&lt;/TextBlock> 
+&lt;!-- TextBlock is used to set text properties, which is more efficient. --> 
+&lt;TextBlock FontWeight="Bold"> Hello, world 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following table shows the cost of displaying 1000 <Run FontWeight="Bold">TextBlock</Run>
+ objects with and without an explicit <Run FontWeight="Bold">Run</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">TextBlock type</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Creation time (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Render time (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Run setting text properties
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>146
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>540
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextBlock setting text properties
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>43
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>453
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Avoid Databinding to the Label.Content Property
+    </Paragraph>
+
+    <Paragraph>Imagine a scenario where you have a <Run FontWeight="Bold">Label</Run>
+ object that is updated frequently from a String source. When data binding the <Run FontWeight="Bold">Label</Run>
+ element's Content property to the <Run FontWeight="Bold">String</Run>
+ source object, you may experience poor performance. Each time the source <Run FontWeight="Bold">String</Run>
+ is updated, the old <Run FontWeight="Bold">String</Run>
+ object is discarded and a new <Run FontWeight="Bold">String</Run>
+ is recreated—because a <Run FontWeight="Bold">String</Run>
+ object is immutable, it cannot be modified. This, in turn, causes the ContentPresenter of the <Run FontWeight="Bold">Label</Run>
+ object to discard its old content and regenerate the new content to display the new <Run FontWeight="Bold">String</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The solution to this problem is simple. If the <Run FontWeight="Bold">Label</Run>
+ is not set to a custom ContentTemplate value, replace the <Run FontWeight="Bold">Label</Run>
+ with a <Run FontWeight="Bold">TextBlock</Run>
+ and data bind its Text property to the source string.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Data bound property</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Update time (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Label.Content
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>835
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>TextBlock.Text
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>242
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Hyperlink
+    </Paragraph>
+
+    <Paragraph>The Hyperlink object is an inline-level flow content element that allows you to host hyperlinks within the flow content.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Combine Hyperlinks in One TextBlock Object
+    </Paragraph>
+
+    <Paragraph>You can optimize the use of multiple <Run FontWeight="Bold">Hyperlink</Run>
+ elements by grouping them together within the same <Run FontWeight="Bold">TextBlock</Run>
+. This helps to minimize the number of objects you create in your application. For example, you may want to display multiple hyperlinks, such as the following:
+    </Paragraph>
+
+    <Paragraph>MSN Home | My MSN
+    </Paragraph>
+
+    <Paragraph>The following markup sample shows multiple <Run FontWeight="Bold">TextBlock</Run>
+ used to display the hyperlinks:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Hyperlinks in separate TextBlocks. --> 
+&lt;TextBlock> 
+&lt;Hyperlink TextDecorations="None" NavigateUri="http://www.msn.com">MSN Home
+&lt;/Hyperlink> 
+&lt;/TextBlock> 
+&lt;TextBlock Text=" | "/> 
+&lt;TextBlock> 
+&lt;Hyperlink TextDecorations="None" NavigateUri="http://my.msn.com">My MSN
+&lt;/Hyperlink> 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following markup sample shows a more effective way of displaying the hyperlinks, this time, using a single <Run FontWeight="Bold">TextBlock</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Hyperlinks combined in the same TextBlock. --> 
+&lt;TextBlock> 
+&lt;Hyperlink TextDecorations="None" NavigateUri="http://www.msn.com">MSN Home
+&lt;/Hyperlink> 
+&lt;Run Text=" | " /> 
+&lt;Hyperlink TextDecorations="None" NavigateUri="http://my.msn.com">My MSN
+&lt;/Hyperlink> 
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Showing Underlines on Hyperlinks Only on MouseEnter Events
+    </Paragraph>
+
+    <Paragraph>A TextDecoration object is a visual ornamentation that you can add to text; 
+however, it can be expensive to instantiate. If you make extensive use of <Run FontWeight="Bold">Hyperlink</Run>
+ elements, consider showing an underline only when triggering an event, such as the MouseEnter event.
+    </Paragraph>
+
+    <Paragraph>The following markup sample shows a <Run FontWeight="Bold">Hyperlink</Run>
+ defined with and without an underline:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Hyperlink with default underline. --> 
+&lt;Hyperlink NavigateUri="http://www.msn.com"> MSN Home 
+&lt;/Hyperlink> 
+&lt;!-- Hyperlink with no underline. --> 
+&lt;Hyperlink Name="myHyperlink" TextDecorations="None" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave" NavigateUri="http://www.msn.com"> My MSN 
+&lt;/Hyperlink> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following table shows the performance cost of displaying 1000 <Run FontWeight="Bold">Hyperlink</Run>
+ elements with and without an underline.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Hyperlink</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Creation time (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Render time (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>With underline
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>289
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1130
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Without underline
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>299
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>776
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Text Formatting Features
+    </Paragraph>
+
+    <Paragraph>WPF provides rich text formatting services, such as automatic hyphenations. These services may impact application performance and should only be used when needed.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Avoid Unnecessary Use of Hyphenation
+    </Paragraph>
+
+    <Paragraph>Automatic hyphenation finds hyphen breakpoints for lines of text, and allows additional break positions for lines in <Run FontWeight="Bold">TextBlock</Run>
+ and <Run FontWeight="Bold">FlowDocument</Run>
+ objects. By default, the automatic hyphenation feature is disabled in these objects. You can enable this feature by setting the object's IsHyphenationEnabled property to <Run FontWeight="Bold">true</Run>
+. However, enabling this feature causes WPF to initiate Component Object Model (COM) interoperability, which can impact application performance. It is recommended that you do not use automatic hyphenation unless you need it.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Use Figures Carefully
+    </Paragraph>
+
+    <Paragraph>A Figure element is a portion of flow content that can be absolutely-positioned elements within a page of content. In some cases, a <Run FontWeight="Bold">Figure</Run>
+ may cause an entire page to automatically reformat if its position collides with content that has already been laid-out. You can minimize the possibility of unnecessary reformatting by either grouping <Run FontWeight="Bold">Figure</Run>
+ elements next to each other, or declaring them near the top of content in a fixed page size scenario.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Optimal Paragraph
+    </Paragraph>
+
+    <Paragraph>The optimal paragraph feature of the <Run FontWeight="Bold">FlowDocument</Run>
+ object lays out paragraphs so that white space is distributed as evenly as possible. By default, the optimal paragraph feature is disabled. You can enable this feature by setting the object's IsOptimalParagraphEnabled property to <Run FontWeight="Bold">true</Run>
+. However, enabling this feature impacts application performance. It is recommended that you do not use the optimal paragraph feature unless you need it.
+    </Paragraph>
+
+    <Paragraph FontSize="18">FormattedText Object
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">FormattedText</Run>
+ object allows you to draw multi-line text, in which each character in the text can be individually formatted. For more information, see <Hyperlink NavigateUri="b1d851c1-331c-4814-9964-6fe769db6f1f.xaml">Drawing Formatted Text</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>To create formatted text, call the FormattedText constructor to create a <Run FontWeight="Bold">FormattedText</Run>
+ object. Once you have created the initial formatted text string, you can apply a range of formatting styles. If your application wants to implement its own layout, then the <Run FontWeight="Bold">FormattedText</Run>
+ object is better choice than using a control, such as <Run FontWeight="Bold">TextBlock</Run>
+. For more information on the <Run FontWeight="Bold">FormattedText</Run>
+ object, see <Hyperlink NavigateUri="b1d851c1-331c-4814-9964-6fe769db6f1f.xaml">Drawing Formatted Text</Hyperlink>
+ .
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">FormattedText</Run>
+ object provides low-level text formatting capability. You can apply multiple formatting styles to one or more characters. For example, you could call both the SetFontSize and SetForegroundBrush methods to change the formatting of the first five characters in the text.
+    </Paragraph>
+
+    <Paragraph>The following code example creates a <Run FontWeight="Bold">FormattedText</Run>
+ object and renders it.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>protected override void OnRender(DrawingContext drawingContext) { string testString = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor"; 
+// Create the initial formatted text string. FormattedText formattedText = new FormattedText( testString, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Verdana"), 32, Brushes.Black); 
+// Set a maximum width and height. If the text overflows these values, an ellipsis "..." appears. formattedText.MaxTextWidth = 300; 
+formattedText.MaxTextHeight = 240; 
+// Use a larger font size beginning at the first (zero-based) character and continuing for 5 characters. // The font size is calculated in terms of points -- not as device-independent pixels. formattedText.SetFontSize(36 * (96.0 / 72.0), 0, 5); 
+// Use a Bold font weight beginning at the 6th character and continuing for 11 characters. formattedText.SetFontWeight(FontWeights.Bold, 6, 11); 
+// Use a linear gradient brush beginning at the 6th character and continuing for 11 characters. formattedText.SetForegroundBrush( new LinearGradientBrush( Colors.Orange, Colors.Teal, 90.0), 6, 11); 
+// Use an Italic font style beginning at the 28th character and continuing for 28 characters. formattedText.SetFontStyle(FontStyles.Italic, 28, 28); 
+// Draw the formatted text string to the DrawingContext of the control. drawingContext.DrawText(formattedText, new Point(10, 0)); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Rendering Text at the Glyph Level
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) provides advanced text support including glyph-level markup with direct access to <Run FontWeight="Bold">Glyphs</Run>
+ for customers who want to intercept and persist text after formatting. These features provide critical support for the different text rendering requirements in each of the following scenarios.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Screen display of fixed-format documents.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Print scenarios.
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Extensible Application Markup Language (XAML) as a device printer language.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Microsoft XPS Document Writer.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Previous printer drivers, output from Win32 applications to the fixed format.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Print spool format. 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Fixed-format document representation, including clients for previous versions of Windows and other computing devices.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Glyphs</Run>
+ and <Run FontWeight="Bold">GlyphRun</Run>
+ are designed for fixed-format document presentation and print scenarios. Windows Presentation Foundation (WPF) provides several elements for general layout and user interface (UI) scenarios such as <Run FontWeight="Bold">Label</Run>
+ and <Run FontWeight="Bold">TextBlock</Run>
+. For more information on layout and UI scenarios, see the Typography Overview.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following examples show how to define properties for a <Run FontWeight="Bold">Glyphs</Run>
+ object in Extensible Application Markup Language (XAML). The <Run FontWeight="Bold">Glyphs</Run>
+ object represents the output of a GlyphRun in XAML. The examples assume that the Arial, Courier New, and Times New Roman fonts are installed in the <Run FontWeight="Bold">C:\WINDOWS\Fonts</Run>
+ folder on the local computer.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ac8c6aa3_3c68_4a24_9827_3b6c829c1ebf_8">
+                <cc:SnippetViewer.SnippetText>
+&lt;!-- The example shows how to use a Glyphs object. --> 
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;StackPanel Background="PowderBlue"> 
+&lt;Glyphs FontUri = "C:\WINDOWS\Fonts\TIMES.TTF" FontRenderingEmSize = "100" StyleSimulations = "BoldSimulation" UnicodeString = "Hello World!" Fill = "Black" OriginX = "100" OriginY = "200" /> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Using DrawGlyphRun
+    </Paragraph>
+
+    <Paragraph>If you have custom control and you want to render glyphs, use the DrawGlyphRun method.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Data Binding
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation (WPF) data binding provides a simple and consistent way for applications to present and interact with data. Elements can be bound to data from a variety of data sources in the form of common language runtime (CLR) objects and XML. For more information on data binding, see <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">How Data Binding References are Resolved
+    </Paragraph>
+
+    <Paragraph>Before discussing data binding performance issues, it is worthwhile to explore how the data binding engine resolves object references for binding.
+    </Paragraph>
+
+    <Paragraph>The source of a Windows Presentation Foundation (WPF) data binding can be any common language runtime (CLR). You can bind to properties, sub-properties, or indexers of a common language runtime (CLR) object. The binding references are resolved by using either Microsoft .NET Framework version 3.0 reflection or an ICustomTypeDescriptor. Here are three methods for resolving object references for binding.
+    </Paragraph>
+
+    <Paragraph>The first method involves using reflection. In this case, the PropertyInfo object is used to discover the attributes of the property and provides access to property metadata. When using the <Run FontWeight="Bold">ICustomTypeDescriptor</Run>
+ interface, the data binding engine uses this interface to access the property values. The <Run FontWeight="Bold">ICustomTypeDescriptor</Run>
+ interface is especially useful in cases where the object does not have a static set of properties.
+    </Paragraph>
+
+    <Paragraph>Property change notifications can be provided either by implementing the INotifyPropertyChanged interface or by using the change notifications associated with the TypeDescriptor. However, the preferred strategy for implementing property change notifications is to use <Run FontWeight="Bold">INotifyPropertyChanged</Run>
+.
+    </Paragraph>
+
+    <Paragraph>If the source object is a common language runtime (CLR) object and the source property is a common language runtime (CLR) property, the Windows Presentation Foundation (WPF) data binding engine has to first use reflection on the source object to get the <Run FontWeight="Bold">TypeDescriptor</Run>
+, and then query for a PropertyDescriptor. This sequence of reflection operations is potentially very time-consuming from a performance perspective.
+    </Paragraph>
+
+    <Paragraph>The second method for resolving object references involves a common language runtime (CLR) source object that implements the <Run FontWeight="Bold">INotifyPropertyChanged</Run>
+ interface, and a source property that is a common language runtime (CLR) property. In this case, the data binding engine uses reflection directly on the source type and gets the required property. This is still not the optimal method, but it will cost less in working set requirements than the first method.
+    </Paragraph>
+
+    <Paragraph>The third method for resolving object references involves a source object that is a <Run FontWeight="Bold">DependencyObject</Run>
+ and a source property that is a <Run FontWeight="Bold">DependencyProperty</Run>
+. In this case, the data binding engine does not need to use reflection. Instead, the property engine and the data binding engine together resolve the property reference independently. This is the optimal method for resolving object references used for data binding.
+    </Paragraph>
+
+    <Paragraph>The table below compares the speed of data binding the <Run FontWeight="Bold">Text</Run>
+ property of one thousand <Run FontWeight="Bold">TextBlock</Run>
+ elements using these three methods.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Binding the Text property of a TextBlock</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Binding time (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Render time -- includes binding (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>To a property of a common language runtime (CLR) object
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>115
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>314
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>To a property of a common language runtime (CLR) object which implements <Run FontWeight="Bold">INotifyPropertyChanged</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>115
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>305
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>To a <Run FontWeight="Bold">DependencyProperty</Run>
+ of a <Run FontWeight="Bold">DependencyObject</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>90
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>263
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Binding to Large CLR Objects
+    </Paragraph>
+
+    <Paragraph>There is a significant performance impact when you data bind to a single common language runtime (CLR) object with thousands of properties. You can minimize this impact by dividing the single object into multiple common language runtime (CLR) objects with fewer properties. The table shows the binding and rendering times for data binding to a single large common language runtime (CLR) object versus multiple smaller objects.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Data binding 1000 TextBlock objects</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Binding time (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Render time -- includes binding (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>To a common language runtime (CLR) object with 1000 properties
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>950
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1200
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>To 1000 common language runtime (CLR) objects with one property
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>115
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>314
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Binding to an ItemsSource
+    </Paragraph>
+
+    <Paragraph>Consider a scenario in which you have a common language runtime (CLR) List object that holds a list of employees that you want to display in a <Run FontWeight="Bold">ListBox</Run>
+. To create a correspondence between these two objects, you would bind your employee list to the <Run FontWeight="Bold">ItemsSource</Run>
+ property of the <Run FontWeight="Bold">ListBox</Run>
+. However, suppose you have a new employee joining your group. You might think that in order to insert this new person into your bound <Run FontWeight="Bold">ListBox</Run>
+ values, you would simply add this person to your employee list and expect this change to be recognized by the data binding engine automatically. That assumption would prove false; 
+in actuality, the change will not be reflected in the <Run FontWeight="Bold">ListBox</Run>
+ automatically. This is because the common language runtime (CLR) <Run FontWeight="Bold">List</Run>
+ object does not automatically raise a collection changed event. In order to get the <Run FontWeight="Bold">ListBox</Run>
+ to pick up the changes, you would have to recreate your list of employees and re-attach it to the <Run FontWeight="Bold">ItemsSource</Run>
+ property of the <Run FontWeight="Bold">ListBox</Run>
+. While this solution works, it introduces a huge performance impact. Each time you reassign the <Run FontWeight="Bold">ItemsSource</Run>
+ of <Run FontWeight="Bold">ListBox</Run>
+ to a new object, the <Run FontWeight="Bold">ListBox</Run>
+ first throws away its previous items and regenerates its entire list. The performance impact is magnified if your <Run FontWeight="Bold">ListBox</Run>
+ maps to a complex DataTemplate.
+    </Paragraph>
+
+    <Paragraph>A very efficient solution to this problem is to make your employee list an ObservableCollection. An <Run FontWeight="Bold">ObservableCollection</Run>
+ object raises a change notification which the data binding engine can receive. The event adds or removes an item from an <Run FontWeight="Bold">ItemsControl</Run>
+ without the need to regenerate the entire list.
+    </Paragraph>
+
+    <Paragraph>The table below shows the time it takes to update the <Run FontWeight="Bold">ListBox</Run>
+ (with UI virtualization turned off) when one item is added. The number in the first row represents the elapsed time when the common language runtime (CLR) <Run FontWeight="Bold">List</Run>
+ object is bound to <Run FontWeight="Bold">ListBox</Run>
+ element's <Run FontWeight="Bold">ItemsSource</Run>
+. The number in the second row represents the elapsed time when an <Run FontWeight="Bold">ObservableCollection</Run>
+ is bound to the <Run FontWeight="Bold">ListBox</Run>
+ element's <Run FontWeight="Bold">ItemsSource</Run>
+. Note the significant time savings using the <Run FontWeight="Bold">ObservableCollection</Run>
+ data binding strategy.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Data binding the ItemsSource</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Update time for 1 item (ms)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>To a common language runtime (CLR) <Run FontWeight="Bold">List</Run>
+ object
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>1656
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>To an <Run FontWeight="Bold">ObservableCollection</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>20
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Bind IList to ItemsControl not IEnumerable
+    </Paragraph>
+
+    <Paragraph>If you have a choice between binding an IList or an IEnumerable to an <Run FontWeight="Bold">ItemsControl</Run>
+ object, choose the <Run FontWeight="Bold">IList</Run>
+ object. Binding <Run FontWeight="Bold">IEnumerable</Run>
+ to an <Run FontWeight="Bold">ItemsControl</Run>
+ forces WPF to create a wrapper <Run FontWeight="Bold">IList</Run>
+ object, which means your performance is impacted by the unnecessary overhead of a second object.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Do not Convert CLR objects to XML Just for Data Binding.
+    </Paragraph>
+
+    <Paragraph>WPF allows you to data bind to XML content; 
+however, data binding to XML content is slower than data binding to common language runtime (CLR) objects. Do not convert common language runtime (CLR) object data to XML if the only purpose is for data binding.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Other Performance Recommendations
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Opacity on Brushes versus Opacity on Elements
+    </Paragraph>
+
+    <Paragraph>When you use a <Run FontWeight="Bold">Brush</Run>
+ to set the <Run FontWeight="Bold">Fill</Run>
+ or Stroke of an element, it is better to set the Brush.Opacity value rather than the setting the element's Opacity property. Modifying an element's <Run FontWeight="Bold">Opacity</Run>
+ property can cause WPF to create a temporary surface.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Navigation to Object
+    </Paragraph>
+
+    <Paragraph>The NavigationWindow object derives from <Run FontWeight="Bold">Window</Run>
+ and extends it with content navigation support, primarily by aggregating NavigationService and the journal. You can update the client area of <Run FontWeight="Bold">NavigationWindow</Run>
+ by specifying either a uniform resource identifier (URI) or an object. The following sample shows both methods:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void buttonGoToUri(object sender, RoutedEventArgs args) { navWindow.Source = new Uri("NewPage.xaml", UriKind.RelativeOrAbsolute); 
+} private void buttonGoNewObject(object sender, RoutedEventArgs args) { NewPage nextPage = new NewPage(); 
+nextPage.InitializeComponent(); 
+navWindow.Content = nextPage; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Each <Run FontWeight="Bold">NavigationWindow</Run>
+ object has a journal that records the user's navigation history in that window. One of the purposes of the journal is to allow users to retrace their steps.
+    </Paragraph>
+
+    <Paragraph>When you navigate using a uniform resource identifier (URI), the journal stores only the uniform resource identifier (URI) reference. This means that each time you revisit the page, it is dynamically reconstructed, which may be time consuming depending on the complexity of the page. In this case, the journal storage cost is low, but the time to reconstitute the page is potentially high.
+    </Paragraph>
+
+    <Paragraph>When you navigate using an object, the journal stores the entire visual tree of the object. This means that each time you revisit the page, it renders immediately without having to be reconstructed. In this, the journal storage cost is high, but the time to reconstitute the page is low.
+    </Paragraph>
+
+    <Paragraph>When you use the <Run FontWeight="Bold">NavigationWindow</Run>
+ object, you will need to keep in mind how the journaling support impacts your application's performance. For more information, see <Hyperlink NavigateUri="86ad2143-606a-4e34-bf7e-51a2594248b8.xaml">Navigation Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Hit Testing on Large 3D Surfaces
+    </Paragraph>
+
+    <Paragraph>Hit testing on large 3D surfaces is a very expensive operation in terms of CPU consumption. This is especially true when the 3D surface is animating. If you do not require hit testing on these surfaces, then disable hit testing. Objects that are derived from <Run FontWeight="Bold">UIElement</Run>
+ can disable hit testing by setting the IsHitTestVisible property to <Run FontWeight="Bold">false</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Avoid Using ScrollBarVisibility=Auto
+    </Paragraph>
+
+    <Paragraph>Whenever possible, avoid using the ScrollBarVisibility value Auto for the HorizontalScrollBarVisibility and VerticalScrollBarVisibility properties. These properties are defined for RichTextBox, ScrollViewer, TextBox objects, and as attached properties for the <Run FontWeight="Bold">ListBox</Run>
+ object. Instead, set <Run FontWeight="Bold">ScrollBarVisibility</Run>
+ to Disabled, Hidden, or Visible.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Auto</Run>
+ value is intended for cases when space is limited and scrollbars should only be displayed when necessary. For example, it may be useful to use this <Run FontWeight="Bold">ScrollBarVisibility</Run>
+ value with a <Run FontWeight="Bold">ListBox</Run>
+ of 30 items as opposed to a <Run FontWeight="Bold">TextBox</Run>
+ with hundreds of lines of text.
+    </Paragraph>
+
+    <Paragraph FontSize="22">WPF Performance Tools
+    </Paragraph>
+
+    <Paragraph>WPF provides a suite of performance profiling tools that allow you to analyze the run-time behavior of your application and determine the types of performance optimizations you can apply. The following table lists the five performance profiling tools that are included in the Windows SDK tool, WPFPerf:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Tool</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Description</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Event Trace
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use for analyzing events and event handling behavior.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Perforator
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use for analyzing rendering behavior.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Trace Viewer
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Record, display, and browse Event Tracing for Windows (ETW) log files in a WPF user-interface format.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Visual Profiler
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use for profiling the use of WPF services, such as layout and event handling, by elements in the <Run>visual tree</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Working Set Viewer
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Use for analyzing the working set characteristics of your application.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Visual Profiler tool suite provides a rich, graphical view of performance data. In this screenshot, the <Run FontWeight="Bold">CPU Usage</Run>
+ section of the Visual Profiler gives you a precise breakdown of an object's use of WPF services, such as rendering and layout.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Visual Profiler display output</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>For more information on WPF performance tools, see Performance Profiling Tools for WPF.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Viewing the Visual Tree with XamlPad
+    </Paragraph>
+
+    <Paragraph>Analyzing the visual tree hierarchy in the WPF tool, XamlPad, may give you insights into how control template expansion works. This knowledge may help you understand the performance costs and tradeoffs of the user interface design you are creating.
+    </Paragraph>
+
+    <Paragraph>XamlPad provides an option for viewing and exploring the visual tree that corresponds to the currently defined XAML content. Click the <Run FontWeight="Bold">Show Visual Tree </Run>
+button on the menu bar to display the visual tree. The following illustrates the expansion of XAML content into visual tree nodes in the <Run FontWeight="Bold">Visual Tree Explorer</Run>
+ panel of XamlPad:
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Visual Tree Explorer panel in XamlPad</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph>Notice how the <Run FontWeight="Bold">Label</Run>
+, <Run FontWeight="Bold">TextBox</Run>
+, and Button controls each display a separate visual object hierarchy in the <Run FontWeight="Bold">Visual Tree Explorer</Run>
+ panel of XamlPad. This is because WPF controls have a ControlTemplate that contains the visual tree of that control. When you explicitly reference a control, you implicitly reference its visual hierarchy.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>RenderOptions
+      <LineBreak/>RenderCapability
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="08dd1606-02a2-4122-9351-c0afd2ec3a70.xaml">Graphics Rendering Tiers</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="3eecdced-3623-403a-a077-7595453a9221.xaml">The Layout System</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0b4e711d-e640-40cb-81c3-8f5c59909b7d.xaml">Using DrawingVisual Objects</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b1d851c1-331c-4814-9964-6fe769db6f1f.xaml">Drawing Formatted Text</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="86ad2143-606a-4e34-bf7e-51a2594248b8.xaml">Navigation Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Typography Overview
+      <LineBreak/>Performance Profiling Tools for WPF
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Optimizing Windows Presentation Foundation Application Performance to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

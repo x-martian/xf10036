@@ -1,0 +1,383 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_fac36cc9_dd01_41ca_9bde_9d33e3790bbe"
+  Tag     ="Rotate Ink"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Rotate Ink</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example copies the ink from an InkCanvas to a Canvas that contains an InkPresenter. When the application copies the ink, it also rotates the ink 90 degrees clockwise.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Canvas> 
+&lt;InkCanvas Name="inkCanvas1" Background="LightBlue" Height="200" Width="200" Canvas.Top="20" Canvas.Left="20" /> 
+&lt;Border Name="canvas1" Background="LightGreen" Height="200" Width="200" ClipToBounds="True" Canvas.Top="20" Canvas.Left="240" > 
+&lt;InkPresenter Name="inkPresenter1"/> 
+&lt;/Border> 
+&lt;Button Click="button_Click" Canvas.Top="240" Canvas.Left="170"> Copy and Rotate Strokes 
+&lt;/Button> 
+&lt;/Canvas> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Button.Click event handler that rotates the strokes // and copies them to a Canvas. private void button_Click(object sender, RoutedEventArgs e) { StrokeCollection copiedStrokes = inkCanvas1.Strokes.Clone(); 
+Matrix rotatingMatrix = new Matrix(); 
+double canvasLeft = Canvas.GetLeft(inkCanvas1); 
+double canvasTop = Canvas.GetTop(inkCanvas1); 
+Point rotatePoint = new Point(canvas1.Width / 2, canvas1.Height / 2); 
+rotatingMatrix.RotateAt(90, rotatePoint.X, rotatePoint.Y); 
+copiedStrokes.Transform(rotatingMatrix, false); 
+inkPresenter1.Strokes = copiedStrokes; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' Button.Click event handler that rotates the strokes ' and copies them to a Canvas. Private Sub button_Click(ByVal sender As Object, _ ByVal e As RoutedEventArgs) Dim copiedStrokes As StrokeCollection = inkCanvas1.Strokes.Clone() Dim rotatingMatrix As New Matrix() Dim canvasLeft As Double = Canvas.GetLeft(inkCanvas1) Dim canvasTop As Double = Canvas.GetTop(inkCanvas1) Dim rotatePoint As New Point(canvas1.Width / 2, canvas1.Height / 2) rotatingMatrix.RotateAt(90, rotatePoint.X, rotatePoint.Y) copiedStrokes.Transform(rotatingMatrix, False) inkPresenter1.Strokes = copiedStrokes End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example is a custom Adorner that rotates the strokes on an <Run FontWeight="Bold">InkPresenter</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Controls.Primitives; 
+using System.Windows.Documents; 
+using System.Windows.Input; 
+using System.Windows.Media; 
+using System.Windows.Shapes; 
+using System.Windows.Ink; 
+public class RotatingStrokesAdorner : Adorner { // The Thumb to drag to rotate the strokes. Thumb rotateHandle; 
+// The surrounding boarder. Path outline; 
+VisualCollection visualChildren; 
+// The center of the strokes. Point center; 
+double lastAngle; 
+RotateTransform rotation; 
+const int HANDLEMARGIN = 10; 
+// The bounds of the Strokes; 
+Rect strokeBounds = Rect.Empty; 
+public RotatingStrokesAdorner(UIElement adornedElement) : base(adornedElement) { visualChildren = new VisualCollection(this); 
+rotateHandle = new Thumb(); 
+rotateHandle.Cursor = Cursors.SizeNWSE; 
+rotateHandle.Width = 20; 
+rotateHandle.Height = 20; 
+rotateHandle.Background = Brushes.Blue; 
+rotateHandle.DragDelta += new DragDeltaEventHandler(rotateHandle_DragDelta); 
+rotateHandle.DragCompleted += new DragCompletedEventHandler(rotateHandle_DragCompleted); 
+outline = new Path(); 
+outline.Stroke = Brushes.Blue; 
+outline.StrokeThickness = 1; 
+visualChildren.Add(outline); 
+visualChildren.Add(rotateHandle); 
+strokeBounds = AdornedStrokes.GetBounds(); 
+} /// 
+&lt;summary> /// Draw the rotation handle and the outline of /// the element. /// 
+&lt;/summary> /// 
+&lt;param name="finalSize">The final area within the /// parent that this element should use to arrange /// itself and its children.
+&lt;/param> /// 
+&lt;returns>The actual size used. 
+&lt;/returns> protected override Size ArrangeOverride(Size finalSize) { if (strokeBounds.IsEmpty) { return finalSize; 
+} center = new Point(strokeBounds.X + strokeBounds.Width / 2, strokeBounds.Y + strokeBounds.Height / 2); 
+// The rectangle that determines the position of the Thumb. Rect handleRect = new Rect(strokeBounds.X, strokeBounds.Y - (strokeBounds.Height / 2 + HANDLEMARGIN), strokeBounds.Width, strokeBounds.Height); 
+if (rotation != null) { handleRect.Transform(rotation.Value); 
+} // Draws the thumb and the rectangle around the strokes. rotateHandle.Arrange(handleRect); 
+outline.Data = new RectangleGeometry(strokeBounds); 
+outline.Arrange(new Rect(finalSize)); 
+return finalSize; 
+} /// 
+&lt;summary> /// Rotates the rectangle representing the /// strokes' bounds as the user drags the /// Thumb. /// 
+&lt;/summary> void rotateHandle_DragDelta(object sender, DragDeltaEventArgs e) { // Find the angle of which to rotate the shape. Use the right // triangle that uses the center and the mouse's position // as vertices for the hypotenuse. Point pos = Mouse.GetPosition(this); 
+double deltaX = pos.X - center.X; 
+double deltaY = pos.Y - center.Y; 
+if (deltaY.Equals(0)) { return; 
+} double tan = deltaX / deltaY; 
+double angle = Math.Atan(tan); 
+// Convert to degrees. angle = angle * 180 / Math.PI; 
+// If the mouse crosses the vertical center, // find the complementary angle. if (deltaY > 0) { angle = 180 - Math.Abs(angle); 
+} // Rotate left if the mouse moves left and right // if the mouse moves right. if (deltaX 
+&lt; 
+0) { angle = -Math.Abs(angle); 
+} else { angle = Math.Abs(angle); 
+} if (Double.IsNaN(angle)) { return; 
+} // Apply the rotation to the strokes' outline. rotation = new RotateTransform(angle, center.X, center.Y); 
+outline.RenderTransform = rotation; 
+} /// 
+&lt;summary> /// Rotates the strokes to the same angle as outline. /// 
+&lt;/summary> void rotateHandle_DragCompleted(object sender, DragCompletedEventArgs e) { if (rotation == null) { return; 
+} // Rotate the strokes to match the new angle. Matrix mat = new Matrix(); 
+mat.RotateAt(rotation.Angle - lastAngle, center.X, center.Y); 
+AdornedStrokes.Transform(mat, true); 
+// Save the angle of the last rotation. lastAngle = rotation.Angle; 
+// Redraw rotateHandle. this.InvalidateArrange(); 
+} /// 
+&lt;summary> /// Gets the strokes of the adorned element /// (in this case, an InkPresenter). /// 
+&lt;/summary> private StrokeCollection AdornedStrokes { get { return ((InkPresenter)AdornedElement).Strokes; 
+} } // Override the VisualChildrenCount and // GetVisualChild properties to interface with // the adorner's visual collection. protected override int VisualChildrenCount { get { return visualChildren.Count; 
+} } protected override Visual GetVisualChild(int index) { return visualChildren[index]; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System Imports System.Windows Imports System.Windows.Controls Imports System.Windows.Controls.Primitives Imports System.Windows.Documents Imports System.Windows.Input Imports System.Windows.Media Imports System.Windows.Shapes Imports System.Windows.Ink Public Class RotatingStrokesAdorner Inherits Adorner ' The Thumb to drag to rotate the strokes. Private rotateHandle As Thumb ' The surrounding boarder. Private outline As Path Private visualChildren As VisualCollection ' The center of the strokes. Private center As Point Private lastAngle As Double Private rotation As RotateTransform Private Const HANDLEMARGIN As Integer = 10 ' The bounds of the Strokes; 
+Private strokeBounds As Rect = Rect.Empty Public Sub New(ByVal adornedElement As UIElement) MyBase.New(adornedElement) visualChildren = New VisualCollection(Me) rotateHandle = New Thumb() rotateHandle.Cursor = Cursors.SizeNWSE rotateHandle.Width = 20 rotateHandle.Height = 20 rotateHandle.Background = Brushes.Blue AddHandler rotateHandle.DragDelta, _ AddressOf rotateHandle_DragDelta AddHandler rotateHandle.DragCompleted, _ AddressOf rotateHandle_DragCompleted outline = New Path() outline.Stroke = Brushes.Blue outline.StrokeThickness = 1 visualChildren.Add(outline) visualChildren.Add(rotateHandle) strokeBounds = AdornedStrokes.GetBounds() End Sub 'New ''' 
+&lt;summary> ''' Draw the rotation handle and the outline of ''' the element. ''' 
+&lt;/summary> ''' 
+&lt;param name="finalSize">The final area within the ''' parent that this element should use to arrange ''' itself and its children.
+&lt;/param> ''' 
+&lt;returns>The actual size used. 
+&lt;/returns> Protected Overrides Function ArrangeOverride(ByVal finalSize As Size) _ As Size If strokeBounds.IsEmpty Then Return finalSize End If center = New Point(strokeBounds.X + strokeBounds.Width / 2, _ strokeBounds.Y + strokeBounds.Height / 2) ' The rectangle that determines the position of the Thumb. Dim handleRect As New Rect(strokeBounds.X, _ strokeBounds.Y - (strokeBounds.Height / 2 + _ HANDLEMARGIN), _ strokeBounds.Width, strokeBounds.Height) If Not (rotation Is Nothing) Then handleRect.Transform(rotation.Value) End If ' Draws the thumb and the rectangle around the strokes. rotateHandle.Arrange(handleRect) outline.Data = New RectangleGeometry(strokeBounds) outline.Arrange(New Rect(finalSize)) Return finalSize End Function 'ArrangeOverride ''' 
+&lt;summary> ''' Rotates the rectangle representing the ''' strokes' bounds as the user drags the ''' Thumb. ''' 
+&lt;/summary> Sub rotateHandle_DragDelta(ByVal sender As Object, _ ByVal e As DragDeltaEventArgs) 'Find the angle of which to rotate the shape. Use the right 'triangle that uses the center and the mouse's position 'as vertices for the hypotenuse. Dim pos As Point = Mouse.GetPosition(Me) Dim deltaX As Double = pos.X - center.X Dim deltaY As Double = pos.Y - center.Y If deltaY.Equals(0) Then Return End If Dim tan As Double = deltaX / deltaY Dim angle As Double = Math.Atan(tan) ' Convert to degrees. angle = angle * 180 / Math.PI ' If the mouse crosses the vertical center, ' find the complementary angle. If deltaY > 0 Then angle = 180 - Math.Abs(angle) End If ' Rotate left if the mouse moves left and right ' if the mouse moves right. If deltaX 
+&lt; 
+0 Then angle = -Math.Abs(angle) Else angle = Math.Abs(angle) End If If Double.IsNaN(angle) Then Return End If ' Apply the rotation to the strokes' outline. rotation = New RotateTransform(angle, center.X, center.Y) outline.RenderTransform = rotation End Sub 'rotateHandle_DragDelta ''' 
+&lt;summary> ''' Rotates the strokes to the same angle as outline. ''' 
+&lt;/summary> Sub rotateHandle_DragCompleted(ByVal sender As Object, _ ByVal e As DragCompletedEventArgs) If rotation Is Nothing Then Return End If ' Rotate the strokes to match the new angle. Dim mat As New Matrix() mat.RotateAt(rotation.Angle - lastAngle, center.X, center.Y) AdornedStrokes.Transform(mat, True) ' Save the angle of the last rotation. lastAngle = rotation.Angle ' Redraw rotateHandle. Me.InvalidateArrange() End Sub 'rotateHandle_DragCompleted ''' 
+&lt;summary> ''' Gets the strokes of the adorned element ''' (in this case, an InkPresenter). ''' 
+&lt;/summary> Private ReadOnly Property AdornedStrokes() As StrokeCollection Get Return CType(AdornedElement, InkPresenter).Strokes End Get End Property ' Override the VisualChildrenCount and ' GetVisualChild properties to interface with ' the adorner's visual collection. Protected Overrides ReadOnly Property VisualChildrenCount() As Integer Get Return visualChildren.Count End Get End Property Protected Overrides Function GetVisualChild(ByVal index As Integer) As Visual Return visualChildren(index) End Function 'GetVisualChild End Class 'RotatingStrokesAdorner </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example is a Extensible Application Markup Language (XAML) file that defines an <Run FontWeight="Bold">InkPresenter</Run>
+ and populates it with ink. The <Run>Window_Loaded</Run>
+ event handler adds the custom adorner to the <Run FontWeight="Bold">InkPresenter</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Rotating Strokes Adorner" Height="500" Width="500" Loaded="Window_Loaded" > 
+&lt;InkPresenter Name="inkPresenter1" > 
+&lt;InkPresenter.Strokes> ALMDAwRIEEU1BQE4GSAyCQD0/wIB6SI6RTMJAPifAgFaIDpFOAgA/gMAAACAfxEAAIA/ HwkRAAAAAAAA8D8KlwE1h/CPd4SB4NA4OicCjcGjcClcDj8Lh8DgUSkUmmU6nUmoUuk 0ukUCQKVyehz+rzuly+bzORx+BReRQ+RTaRCH8JyXhPbgcPicPh8Pg8Oh0qk1SoVGrV Oo0mi0Xi8rm9Xr9Dqc/p87pc/k8XicHicOj1CoVKtVmv1GqUaiUHlYg8el4akXK7m7T cSJgQgghEyym5zx6+PACk4dhPwg/fhCbxY8dp4p2tqnqxyvbPO85z1X1aswhvCd94Tq 55DRUGi4+Tk6OLn4KLkoOejo6ig5KTioOPCD9LlHmrzNxMRCCc3ec8+fe4AKQBmE/Cw 9+FkPNvlOdkrYsWa+acp3Z8erOIT8JaX4S6+FbFilbHNvvPXNJbFqluxghKc5DkwrVF GEEIJ1w5eLKYAKShuF+Dnr4Oa8HVHXNPFFFFho8VFkqsMRYuuvJxiF+F9r4Xx8HFiqs FNcirnweDw9+LvvvixdV0+GhONmlj3wjNOcSCEYTnfLy4oA 
+&lt;/InkPresenter.Strokes> 
+&lt;/InkPresenter> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void Window_Loaded(object sender, RoutedEventArgs e) { // Add the rotating strokes adorner to the InkPresenter. adornerLayer = AdornerLayer.GetAdornerLayer(inkPresenter1); 
+adorner = new RotatingStrokesAdorner(inkPresenter1); 
+adornerLayer.Add(adorner); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Sub Window_Loaded(ByVal sender As Object, ByVal e As RoutedEventArgs) ' Add the rotating strokes adorner to the InkPresenter. adornerLayer = AdornerLayer.GetAdornerLayer(inkPresenter1) adorner = New RotatingStrokesAdorner(inkPresenter1) adornerLayer.Add(adorner) End Sub 'Window_Loaded </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Rotate Ink to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

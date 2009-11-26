@@ -1,0 +1,1366 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_025d30ef_fec5_436d_ad7a_5d5483331c26"
+  Tag     ="Structured Navigation Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Structured Navigation Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Several types of Windows Presentation Foundation (WPF) applications include support for browser-style navigation, including browser-hosted XAML browser applications (XBAPs), browser-hosted loose Extensible Application Markup Language (XAML), and standalone applications with navigation windows (NavigationWindow) and frames (Frame).
+    </Paragraph>
+
+    <Paragraph>In WPF, as with standard Web applications, browsable content is built using pages (Page), hyperlinks (Hyperlink), and (<Hyperlink NavigateUri="43adb517-21a7-4df3-98e8-09e9cdf764c4.xaml">Pack URIs in Windows Presentation Foundation</Hyperlink>
+). 
+    </Paragraph>
+
+    <Paragraph>This topic illustrates how to create pseudo-structured navigation before describing the issues that are involved with using such a technique. This topic proceeds by showing how WPF provides native, simplified support for structured navigation using page functions.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Structured Navigation
+    </Paragraph>
+
+    <Paragraph>Consider the following:
+    </Paragraph>
+
+    <Paragraph>In this example, both pages are related only by hyperlinks; 
+neither page needs to pass data to the other page and, likewise, neither page needs data returned from the other page. Although, as is common for Web applications, there are scenarios when two or more pages are used together to perform a single logical task, such as purchasing a book or registering a membership. What Web applications lack, however, is the native ability to control the flow of navigation through the pages of a task, which means there is no easy way to:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Detect when a task completes.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Detect how a task completes.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Prevent users from navigating back to the middle of a task and re-processing it, even if it already completed.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For standalone applications, tasks are typically processed using dialog boxes, which support a structured call/return style of programming. Web application developers, however, are forced to eschew this style of programming and build their own. For a non-trivial task, this involves writing code to do the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Start a task by navigating to the first task page, optionally passing initial task state.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When the task completes:
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Returning a task result to the calling page, to allow the calling page to determine how the task completed.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>If the task completed successfully, return the data that was collected by the task.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Removing task pages from navigation history when a task completes; 
+this is important when a task needs to perform an atomic, isolated operation.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Essentially, these mechanisms layer a structured programming style of control flow over an unstructured foundation.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Pseudo-Structured Navigation with Page
+    </Paragraph>
+
+    <Paragraph>It is possible to build a structured navigation implementation using <Run FontWeight="Bold">Page</Run>
+ and <Run FontWeight="Bold">Hyperlink</Run>
+, as this topic shows.
+    </Paragraph>
+
+    <Paragraph>Consider a calling page that calls a task that contains only one page. The calling page is shown here:
+    </Paragraph>
+
+    <Paragraph>[XAML]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="CSharp.CallingPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Calling Page" WindowWidth="250" WindowHeight="150"> 
+&lt;/Page></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Navigation; 
+namespace CSharp { public partial class CallingPage : Page { public CallingPage() { InitializeComponent(); 
+} } }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The task page is shown here:
+    </Paragraph>
+
+    <Paragraph>[XAML]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="UnstructuredNavigationSnippets.TaskPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Task Page" WindowWidth="250" WindowHeight="150"> 
+&lt;Grid Margin="10"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="Auto" /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;!-- Task data --> 
+&lt;Label Grid.Column="0" Grid.Row="0">DataItem1:
+&lt;/Label> 
+&lt;TextBox Grid.Column="1" Grid.Row="0" Name="dataItem1TextBox">
+&lt;/TextBox> 
+&lt;!-- Accept/Cancel buttons --> 
+&lt;TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right"> 
+&lt;Button Name="okButton" Click="okButton_Click" IsDefault="True" Width="50" Height="25">OK
+&lt;/Button> 
+&lt;Button Name="cancelButton" Click="cancelButton_Click" IsCancel="True" Width="50" Height="25">Cancel
+&lt;/Button> 
+&lt;/TextBlock> 
+&lt;/Grid> 
+&lt;/Page></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Navigation; 
+namespace CSharp { public partial class TaskPage : Page { public TaskPage() { InitializeComponent(); 
+} } }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The calling page will use the task page to collect a single piece of data of type String:
+    </Paragraph>
+
+    <Paragraph FontSize="18">Passing Data from a Calling Page to a Task
+    </Paragraph>
+
+    <Paragraph>The first step in a structured navigation is to navigate from the calling page to the first (and possibly only) page of the task. If the calling page doesn't need to pass data to the first task page, the hyperlink can be built declaratively:
+    </Paragraph>
+
+    <Paragraph>[XAML]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="CSharp.CallingPage" ... > 
+&lt;!-- Task page hyperlink --> 
+&lt;Hyperlink NavigateUri="TaskPage.xaml">Start Task
+&lt;/Hyperlink> 
+&lt;/Page></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If initial data needs to be passed to the task page, a constructor overload that accepts the data can be added to the task page:
+    </Paragraph>
+
+    <Paragraph>[XAML]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Page x:Class="CSharp.CallingPage" ... > <Run FontWeight="Bold">
+&lt;!-- Task page hyperlink --></Run>
+<Run FontWeight="Bold">
+&lt;Hyperlink Name="startTaskHyperlink" Click="startTaskHyperlink_Click">Start Task
+&lt;/Hyperlink></Run>
+ 
+&lt;/Page></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class CallingPage : Page { ... <Run FontWeight="Bold">void startTaskHyperlink_Click(object sender, RoutedEventArgs e)</Run>
+<Run FontWeight="Bold">{</Run>
+</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Span><Run FontWeight="Bold">// Instantiate and navigate to task page</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">TaskPage taskPage = new TaskPage("Initial Data Item Value");</Run>
+</Span>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span><Run FontWeight="Bold">this.NavigationService.Navigate(taskPage);</Run>
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class TaskPage : Page { <Run FontWeight="Bold">public TaskPage(string initialDataItem1Value)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">InitializeComponent();</Run>
+<Run FontWeight="Bold">// Set initial value</Run>
+<Run FontWeight="Bold">this.dataItem1TextBox.Text = initialDataItem1Value;</Run>
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Once the calling page navigates to the task page, optionally passing data, the task page becomes responsible for capturing data from the user, determining whether a user accepts or cancels the task, and returning the result along with the captured data back to the calling page.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Returning a Task Result
+    </Paragraph>
+
+    <Paragraph>The result of a task is determined by how a task is completed by the user by either:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Entering data and accepting the task, typically by pressing either an <Run FontWeight="Bold">OK</Run>
+ or <Run FontWeight="Bold">Finish</Run>
+ button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Canceling the task, typically by pressing a <Run FontWeight="Bold">Cancel</Run>
+ button.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The calling page needs to know how a task completed in order to determine whether it should actually process the returned task data. Consequently, the task page needs to return this information. The trick here is that, no matter how the calling page is navigated back to, there is no mechanism in place that lets it know it is being navigated to from the task page that it navigated to earlier. Furthermore, it may not even be the same instance of the calling page that navigated to the task page; 
+by default, a <Run FontWeight="Bold">Page</Run>
+ is instantiated each time it is navigated to, whether by calling Navigate or by using navigation history. The simplest way to return the task result is to use application-scope properties, like so:
+    </Paragraph>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class TaskPage : Page { ...</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Span><Run FontWeight="Bold">void okButton_Click(object sender, RoutedEventArgs e)</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">{</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">// Accept task when Ok button is clicked</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">TaskPageReturn(true);</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">}</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Span><Run FontWeight="Bold">void cancelButton_Click(object sender, RoutedEventArgs e)</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">{</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">// Cancel task</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">TaskPageReturn(false);</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">}</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Span><Run FontWeight="Bold">void TaskPageReturn(bool taskResult)</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">{</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">Application.Current.Properties["TaskResult"] = taskResult;</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Span><Run FontWeight="Bold">// Return to calling page</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">this.NavigationService.GoBack();</Run>
+</Span>
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span><Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Here, the code sets the application-scope <Run FontWeight="Bold">TaskResult</Run>
+ property, and navigates back to the calling page, which retrieves the task result from the application-scope property:
+    </Paragraph>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class CallingPage : Page { public CallingPage() { InitializeComponent(); 
+// If a task happened, get task result if (Application.Current.Properties["TaskResult"] == null) return; 
+bool taskResult = (bool)Application.Current.Properties["TaskResult"]; 
+// Remove result and data Application.Current.Properties["TaskResult"] = null; 
+} ... }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Since the calling page is instantiated anew, the calling page's constructor does the work of detecting if the navigation was initiated by the task page. If so, it retrieves the task result and removes it from the application-scope variable to signify the task has completed and the results have been processed.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Returning Data from a Task to a Calling Page
+    </Paragraph>
+
+    <Paragraph>If the user accepts a task, the task needs to return the data that it collected to the calling page as well as the task result. Just like the task result, this can be done using an application-scope property:
+    </Paragraph>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class TaskPage : Page { ... void TaskPageReturn(bool taskResult) { Application.Current.Properties["TaskResult"] = taskResult; 
+<Run FontWeight="Bold">Application.Current.Properties["TaskData"] = this.dataItem1TextBox.Text;</Run>
+ // Return to calling page this.NavigationService.GoBack(); 
+} }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class CallingPage : Page { public CallingPage() { InitializeComponent(); 
+// If a task happened, get task result if (Application.Current.Properties["TaskResult"] == null) return; 
+bool taskResult = (bool)Application.Current.Properties["TaskResult"]; 
+<Run FontWeight="Bold">if (!taskResult) return;</Run>
+<Run FontWeight="Bold">// If a task happened, display task data</Run>
+<Run FontWeight="Bold">string taskData = (string)Application.Current.Properties["TaskData"];</Run>
+<Run FontWeight="Bold">if (taskData == null) return;</Run>
+ // Remove result and data Application.Current.Properties["TaskResult"] = null; 
+<Run FontWeight="Bold">Application.Current.Properties["TaskData"] = null;</Run>
+ } }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As with the task result, the task data is removed from application-state once processed, to signify the end of the task.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Removing Task Pages when a Task Completes
+    </Paragraph>
+
+    <Paragraph>As you've seen, the end of the task occurs when the calling page sets the application-scope task result and task data properties to <Run FontWeight="Bold">null</Run>
+. However, the task page is still in navigation history, as shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>Consequently, the task page needs to be removed, and can be done by calling the RemoveBackEntry method:
+    </Paragraph>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class TaskPage : Page { ... void TaskPageReturn(TaskResult taskResult) { ... <Run FontWeight="Bold">// Removing this page from navigation history </Run>
+<Run FontWeight="Bold">this.NavigationService.RemoveBackEntry();</Run>
+ } }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following figure shows the navigation history after a task has completed:
+    </Paragraph>
+
+    <Paragraph FontSize="18">Issues
+    </Paragraph>
+
+    <Paragraph>As you've seen, it is possible to create implemented structured navigation using <Run FontWeight="Bold">Page</Run>
+ and <Run FontWeight="Bold">Hyperlink</Run>
+, with the help of application-scope variables (Properties) and NavigationService. This is the simplest possible technique, and there are several more elegant ways to develop a structured navigation framework. However, any of these solutions will not be easily reusable; 
+not only do you need to create the specific UI and data for your tasks, you need to recreate the structured navigation infrastructure each time. Of course, you could create a reusable navigation infrastructure, but that already exists in WPF as the PageFunction class.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Structured Navigation with PageFunction
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">PageFunction</Run>
+ is the cornerstone of a structured navigation implementation in WPF. This topic looks at how to use <Run FontWeight="Bold">PageFunction</Run>
+ to build a task using structured navigation.
+    </Paragraph>
+
+    <Paragraph>Consider a calling page that calls a task that contains only one page function. The calling page is shown here:
+    </Paragraph>
+
+    <Paragraph>[XAML]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="CSharp.CallingPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Calling Page" WindowWidth="250" WindowHeight="150"> 
+&lt;/Page></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Navigation; 
+namespace CSharp { public partial class CallingPage : Page { public CallingPage() { InitializeComponent(); 
+} } }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The task page function is shown here:
+    </Paragraph>
+
+    <Paragraph>[XAML]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;PageFunction xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Class="CSharp.TaskPageFunction" x:TypeArguments="sys:String" Title="Task Page Function" WindowWidth="250" WindowHeight="150"> 
+&lt;Grid Margin="10"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="Auto" /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto" /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;!-- Task data --> 
+&lt;Label Grid.Column="0" Grid.Row="0">DataItem1:
+&lt;/Label> 
+&lt;TextBox Grid.Column="1" Grid.Row="0" Name="dataItem1TextBox">
+&lt;/TextBox> 
+&lt;!-- Accept/Cancel buttons --> 
+&lt;TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right"> 
+&lt;Button Name="okButton" Click="okButton_Click" IsDefault="True" Width="50" Height="25">OK
+&lt;/Button> 
+&lt;Button Name="cancelButton" Click="cancelButton_Click" IsCancel="True" Width="50" Height="25">Cancel
+&lt;/Button> 
+&lt;/TextBlock> 
+&lt;/Grid> 
+&lt;/PageFunction></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class TaskPageFunction : PageFunction
+&lt;String> { public TaskPageFunction() { InitializeComponent(); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The declaration of a <Run FontWeight="Bold">PageFunction</Run>
+ is similar to the declaration of a page. However, because <Run FontWeight="Bold">PageFunction</Run>
+ is a generic class, it requires the type identifier as well. In this case, the <Run FontWeight="Bold">PageFunction</Run>
+ is defined to operate over the <Run FontWeight="Bold">String</Run>
+ type, using the <Run FontWeight="Bold">x:TypeArguments</Run>
+ attribute in XAML. This is highlighted below:
+    </Paragraph>
+
+    <Paragraph>[XAML]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;PageFunction <Run FontWeight="Bold">x:TypeArguments="sys:String"</Run>
+ ... > ... 
+&lt;/PageFunction></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class TaskPageFunction : <Run FontWeight="Bold">PageFunction
+&lt;String></Run>
+ { ... }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As you'll see, the type that is identified with the declaration of a <Run FontWeight="Bold">PageFunction</Run>
+ plays an important role in returning data from a page function.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Passing Data from a Calling Page to a Task
+    </Paragraph>
+
+    <Paragraph>Passing data from a calling page to a task page function is the same as it is when using pages:
+    </Paragraph>
+
+    <Paragraph>[XAML]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page x:Class="CSharp.CallingPage" ... > 
+&lt;!-- Task page hyperlink --> 
+&lt;Hyperlink NavigateUri="TaskPageFunction.xaml">Start Task
+&lt;/Hyperlink> 
+&lt;/Page></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If initial data needs to be passed to the task page, a constructor overload that accepts the data can be added to the task page:
+    </Paragraph>
+
+    <Paragraph>[XAML]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>
+&lt;Page x:Class="CSharp.CallingPage" ... > <Run FontWeight="Bold">
+&lt;!-- Task page hyperlink --></Run>
+<Run FontWeight="Bold">
+&lt;Hyperlink Name="startTaskHyperlink" Click="startTaskHyperlink_Click">Start Task
+&lt;/Hyperlink></Run>
+ 
+&lt;/Page></Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class CallingPage : Page { ... <Run FontWeight="Bold">void startTaskHyperlink_Click(object sender, RoutedEventArgs e)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">// Instantiate task page function</Run>
+<Run FontWeight="Bold">TaskPageFunction taskPageFunction = new TaskPageFunction("Initial Data Item Value");</Run>
+<Run FontWeight="Bold">this.NavigationService.Navigate(taskPageFunction);</Run>
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class TaskPageFunction : PageFunction
+&lt;String> { <Run FontWeight="Bold">public TaskPageFunction(string initialDataItem1Value)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">InitializeComponent();</Run>
+<Run FontWeight="Bold">// Set initial value</Run>
+<Run FontWeight="Bold">this.dataItem1TextBox.Text = initialDataItem1Value;</Run>
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Calling a Task
+    </Paragraph>
+
+    <Paragraph>Calling a task that is composed from page functions is also similar to calling a task that is composed from pages; 
+you navigate to it using the <Run FontWeight="Bold">NavigationService</Run>
+:
+    </Paragraph>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class CallingPage : Page { ... <Run FontWeight="Bold">void startTaskHyperlink_Click(object sender, RoutedEventArgs e)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">// Instantiate and navigate to task page function</Run>
+<Run FontWeight="Bold">TaskPageFunction taskPageFunction = new TaskPageFunction("Initial Data Item Value");</Run>
+<Run FontWeight="Bold">this.NavigationService.Navigate(taskPageFunction);</Run>
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Returning Task Result and Task Data from a Task to a Calling Page
+    </Paragraph>
+
+    <Paragraph>With structured navigation using <Run FontWeight="Bold">Page</Run>
+, task result and data were returned from the task to the calling page using application-scope properties. However, data of any kind is returned from a page function by calling the OnReturn method, like so:
+    </Paragraph>
+
+    <Paragraph>[C#]
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class TaskPageFunction : PageFunction
+&lt;String> { ... <Run FontWeight="Bold">void okButton_Click(object sender, RoutedEventArgs e)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">// Accept task when Ok button is clicked</Run>
+<Run FontWeight="Bold">OnReturn(new ReturnEventArgs
+&lt;string>(this.dataItem1TextBox.Text));</Run>
+<Run FontWeight="Bold">}</Run>
+<Run FontWeight="Bold">void cancelButton_Click(object sender, RoutedEventArgs e)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">// Cancel task</Run>
+<Run FontWeight="Bold">OnReturn(null);</Run>
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>OnReturn is a protected virtual method that you call to return your data to the calling page. Your data needs to be packaged in an instance of the strongly-typed ReturnEventArgs type, whose type identifier is the same as the <Run FontWeight="Bold">PageFunction</Run>
+ object's type identifier. In this way, when you declare a <Run FontWeight="Bold">PageFunction</Run>
+ to operate over a particular type, you are implying that a <Run FontWeight="Bold">PageFunction</Run>
+ will return an object of that type.
+    </Paragraph>
+
+    <Paragraph>Since it is only a single object, and since both task result and data are required by the calling page, the <Run FontWeight="Bold">PageFunction</Run>
+ is configured to return the <Run FontWeight="Bold">String</Run>
+ type, which, as you saw earlier, stores both task result and task data values.
+    </Paragraph>
+
+    <Paragraph>When <Run FontWeight="Bold">OnReturn</Run>
+ is called, the calling page needs some way of receiving the return value of the <Run FontWeight="Bold">PageFunction</Run>
+. For this reason, <Run FontWeight="Bold">PageFunction</Run>
+ implements the Return event for calling pages to handle; 
+<Run FontWeight="Bold">Return</Run>
+ is raised when <Run FontWeight="Bold">OnReturn</Run>
+ is called. The calling page registers with <Run FontWeight="Bold">Return</Run>
+ when it instantiates the task page function:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>public partial class CallingPage : Page { ... void startTaskHyperlink_Click(object sender, RoutedEventArgs e) { // Instantiate and navigate to task page function TaskPageFunction taskPageFunction = new TaskPageFunction("Initial Data Item Value"); 
+<Run FontWeight="Bold">taskPageFunction.Return += taskPageFunction_Return;</Run>
+ this.NavigationService.Navigate(taskPageFunction); 
+} <Run FontWeight="Bold">void taskPageFunction_Return(object sender, ReturnEventArgs
+&lt;string> e)</Run>
+<Run FontWeight="Bold">{</Run>
+<Run FontWeight="Bold">// Display task result and data</Run>
+<Run FontWeight="Bold">this.taskResultsTextBlock.Visibility = Visibility.Visible;</Run>
+<Run FontWeight="Bold">// Display task result</Run>
+<Run FontWeight="Bold">this.taskResultsTextBlock.Text = (e != null ? "Accepted" : "Canceled");</Run>
+<Run FontWeight="Bold">if (e == null) return;</Run>
+<Run FontWeight="Bold">// If a task happened, display task data</Run>
+<Run FontWeight="Bold">this.taskResultsTextBlock.Text += "\n" + e.Result;</Run>
+<Run FontWeight="Bold">}</Run>
+ }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Removing Task Pages when a Task Completes
+    </Paragraph>
+
+    <Paragraph>Until a task page function returns, users can navigate between calling page and task page function without either being removed from navigation history.
+    </Paragraph>
+
+    <Paragraph>By default, this happens automatically when <Run FontWeight="Bold">OnReturn</Run>
+ is called.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>PageFunction
+      <LineBreak/>NavigationService
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="5d5ee837-629a-4933-869a-186dc22ac43d.xaml">Navigation Topologies Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>StructuredNavigationSample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Structured Navigation Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

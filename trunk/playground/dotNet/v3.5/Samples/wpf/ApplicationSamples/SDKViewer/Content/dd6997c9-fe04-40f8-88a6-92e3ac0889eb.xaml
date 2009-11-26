@@ -1,0 +1,225 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_dd6997c9_fe04_40f8_88a6_92e3ac0889eb"
+  Tag     ="Clone a Printer"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Clone a Printer</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Most businesses will, at some point, buy multiple printers of the same model. Typically, these are all installed with virtually identical configuration settings. Installing each printer can be time-consuming and error prone. The System.Printing.IndexedProperties namespace and the InstallPrintQueue class that are exposed with Microsoft .NET Framework version 3.0 makes it possible to instantly install any number of additional print queues that are cloned from an existing print queue. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>In the example below, a second print queue is cloned from an existing print queue. The second differs from the first only in its name, location, port, and shared status. The major steps for doing this are as follows.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Create a PrintQueue object for the existing printer that is going to be cloned. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a PrintPropertyDictionary from the PropertiesCollection of the <Run FontWeight="Bold">PrintQueue</Run>
+. The Value property of each entry in this dictionary is an object of one of the types derived from PrintProperty. There are two ways to set the value of an entry in this dictionary.
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>Use the dictionary's Remove and Add methods to remove the entry and then re-add it with the desired value.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>Use the dictionary's SetProperty method. 
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+        <Paragraph>The example below illustrates both ways. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a PrintBooleanProperty object and set its Name to "IsShared" and its Value to <Run FontWeight="Bold">true</Run>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use the <Run FontWeight="Bold">PrintBooleanProperty</Run>
+ object to be the value of the <Run FontWeight="Bold">PrintPropertyDictionary</Run>
+'s "IsShared" entry.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a PrintStringProperty object and set its <Run FontWeight="Bold">Name</Run>
+ to "ShareName" and its Value to an appropriate String.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use the <Run FontWeight="Bold">PrintStringProperty</Run>
+ object to be the value of the <Run FontWeight="Bold">PrintPropertyDictionary</Run>
+'s "ShareName" entry. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create another <Run FontWeight="Bold">PrintStringProperty</Run>
+ object and set its Name to "Location" and its <Run FontWeight="Bold">Value</Run>
+ to an appropriate <Run FontWeight="Bold">String</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use the second <Run FontWeight="Bold">PrintStringProperty</Run>
+ object to be the value of the <Run FontWeight="Bold">PrintPropertyDictionary</Run>
+'s "Location" entry.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create an array of <Run FontWeight="Bold">String</Run>
+s. Each item is the name of a port on the server.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use <Run FontWeight="Bold">InstallPrintQueue</Run>
+ to install the new printer with the new values. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>An example is below.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>LocalPrintServer myLocalPrintServer = new LocalPrintServer(PrintSystemDesiredAccess.AdministrateServer); 
+PrintQueue sourcePrintQueue = myLocalPrintServer.DefaultPrintQueue; 
+PrintPropertyDictionary myPrintProperties = sourcePrintQueue.PropertiesCollection; 
+// Share the new printer using Remove/Add methods PrintBooleanProperty shared = new PrintBooleanProperty("IsShared", true); 
+myPrintProperties.Remove("IsShared"); 
+myPrintProperties.Add("IsShared", shared); 
+// Give the new printer its share name using SetProperty method PrintStringProperty theShareName = new PrintStringProperty("ShareName", "\"Son of " + sourcePrintQueue.Name +"\""); 
+myPrintProperties.SetProperty("ShareName", theShareName); 
+// Specify the physical location of the new printer using Remove/Add methods PrintStringProperty theLocation = new PrintStringProperty("Location", "the supply room"); 
+myPrintProperties.Remove("Location"); 
+myPrintProperties.Add("Location", theLocation); 
+// Specify the port for the new printer String[] port = new String[] { "COM1:" }; 
+// Install the new printer on the local print server PrintQueue clonedPrinter = myLocalPrintServer.InstallPrintQueue("My clone of " + sourcePrintQueue.Name, "Xerox WCP 35 PS", port, "WinPrint", myPrintProperties); 
+myLocalPrintServer.Commit(); 
+// Report outcome Console.WriteLine("{0} in {1} has been installed and shared as {2}", clonedPrinter.Name, clonedPrinter.Location, clonedPrinter.ShareName); 
+Console.WriteLine("Press Return to continue ..."); 
+Console.ReadLine(); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>System.Printing.IndexedProperties
+      <LineBreak/>PrintPropertyDictionary
+      <LineBreak/>LocalPrintServer
+      <LineBreak/>PrintQueue
+      <LineBreak/>DictionaryEntry
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0de8ac41-9aa6-413d-a121-7aa6f41539b1.xaml">Printing Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Printing Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Clone a Printer to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

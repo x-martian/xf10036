@@ -1,0 +1,2035 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_dd3beeec_fda4_4d9a_a9bb_5e9658122999"
+  Tag     ="Create a WPF Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_dd3beeec_fda4_4d9a_a9bb_5e9658122999"
+    Tag     ="Create a WPF Application"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>How to: Create a Windows Presentation Foundation Application</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>This topic starts where the <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+ ends. It shows you how to use Windows Presentation Foundation to implement a simple but functional application. The Wordgame sample that underlies this tutorial is a version of the popular word-guessing game "Hangman". The examples in this topic are written in C# but there is also a Microsoft Visual Basic .NET version of the application available on the sample page. This tutorial uses excerpts from the sample as examples, but you can refer to the sample itself for the complete code.    
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>This topic contains the following sections.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="introduction">Introduction to WordGame</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="basic_UI">Constructing the user interface (UI)</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="dressing_up_the_ui">Customizing the user interface (UI)</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="implementing_the_game_logic">Implementing the Code-Behind File</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="deploying_the_application">Compiling and Deploying the Application</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Introduction to WordGame    
+      </Paragraph>
+
+      <Paragraph>WordGame starts by randomly selecting a word and displaying a string of asterisk ("*") characters, one for each letter the word contains. The user then guesses a letter. If the guess is correct, each of the corresponding "*" characters is replaced with the correct character. If the guess is incorrect, the next image in a series of images is displayed to indicate the number of incorrect guesses. Then the user guesses another character. Eventually the user reaches the last image in the series and loses or they guess all the letters first, and win.    
+      </Paragraph>
+
+      <Paragraph>Although WordGame is a playable game, the focus of this document is not game development. In fact, this sample was chosen because the code can be easily adapted to a variety of data entry and display applications. Since the primary focus of this document is on how to construct a simple but functional user interface (UI) with Windows Presentation Foundation, the game logic has been kept relatively simple and is not discussed in any detail. See the Wordgame for the complete code.    
+      </Paragraph>
+
+      <Paragraph>The following graphic shows the UI for the WordGame sample application.    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">Screenshot of the WordGame application</Run>
+
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold"/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Constructing the user interface (UI)    
+      </Paragraph>
+
+      <Paragraph>Windows Presentation Foundation lets you implement most or all of your UI with Extensible Application Markup Language (XAML). This is usually much faster and easier than implementing your UI with the equivalent object model code. It is also usually easily easier to localize your UI if it is written in XAML. There is no performance penalty, because the XAML is an XML-based representation of the object model. Once it is compiled, it there is no significant difference between an application written with XAML, and one written entirely with procedural code. The following sections describe the WordGame application's UI and explain how to implement it with XAML.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>The XAML in Wordgame reflects the final UI, including some features that are discussed later in the document. For the purposes of this section, the XAML shown in the examples has been simplified to reflect the basic UI and differs in detail from the sample.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="basic_layout">Basic Layout</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="control_pane">The Controls Pane</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="word_display_pane">The Word Display Pane</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="image_display">The Image Display Pane</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Basic Layout    
+      </Paragraph>
+
+      <Paragraph>WordGame has a single window, divided into three regions:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Controls: This region contains the controls that let the user guess a character, select a new word, and so on.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Word Display: This region displays the current state of the word that the user is trying to guess, plus a list of the letters that have already been used.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Image Display: This region displays the image that indicates the current state of the game. The image is smaller than the region, and is displayed in the center.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The basic layout looks as follows:    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">The basic layout for the WordGame application</Run>
+
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold"/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph>Layout is typically implemented with XAML. The simplest way to implement this type of layout is with a combination of DockPanel, StackPanel, and Grid elements. See <Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+ for a general overview of Windows Presentation Foundation layout. The following example uses a <Run FontWeight="Bold">DockPanel</Run>
+ as the root element. The three panes are implemented as follows:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Controls: A <Run FontWeight="Bold">StackPanel</Run>
+, docked to the left side of the root <Run FontWeight="Bold">DockPanel</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>WordDisplay: A <Run FontWeight="Bold">StackPanel</Run>
+, docked to the bottom of the root panel.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Images: A <Run FontWeight="Bold">Grid</Run>
+ panel. Since it is the last child element of the root <Run FontWeight="Bold">DockPanel</Run>
+, the Images pane fills the remainder of the window. The reason for using a <Run FontWeight="Bold">Grid</Run>
+ in this instance is that it allows you to easily center the image.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>While you might have thought that the Word Display panel should have StackPanel.Dock rather than DockPanel.Dock, there is actually no such thing as a StackPanel.Dock attribute. The attribute is named DockPanel.Dock because it is associated with the parent <Run FontWeight="Bold">DockPanel</Run>
+ element. It is an example of what is called an <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">attached property</Hyperlink>
+.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>The basic layout code is shown in the following code example. Notice that the panels all have different Background values. Assigning a <Run FontWeight="Bold">Background</Run>
+ value to your panels is a very useful practice when you are preparing an initial prototype. It allows you to see exactly what regions your different panels represent. Later, you can change the colors or eliminate them entirely.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Span>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="WordGame1.Page1" Title="WordGame" Loaded="On_Loaded"> <Run>... </Run>
+
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="WordGame1_VB.Page1" Title="WordGame" Loaded="On_Loaded"> <Run>... </Run>
+ 
+&lt;DockPanel> 
+&lt;StackPanel Name="Controls" DockPanel.Dock="Left" Background="LightBlue"> 
+&lt;!--Controls Pane--> 
+&lt;/StackPanel> 
+&lt;StackPanel Name="wordDisplay" DockPanel.Dock="Bottom" Height="100" Orientation="Vertical" Background="LightGreen"> 
+&lt;!--Word Display Pane--> 
+&lt;/StackPanel> 
+&lt;Grid Name="Images" Background="LightYellow"> 
+&lt;!--Images Pane--> 
+&lt;/Grid> 
+&lt;/DockPanel> <Run>... </Run>
+ 
+&lt;DockPanel> 
+&lt;StackPanel Name="Controls" DockPanel.Dock="Left" Background="LightBlue"> 
+&lt;!--Controls Pane--> 
+&lt;/StackPanel> 
+&lt;StackPanel Name="wordDisplay" DockPanel.Dock="Bottom" Height="100" Orientation="Vertical" Background="LightGreen"> 
+&lt;!--Word Display Pane--> 
+&lt;/StackPanel> 
+&lt;Grid Name="Images" Background="LightYellow"> 
+&lt;!--Images Pane--> 
+&lt;/Grid> 
+&lt;/DockPanel> </Span>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>There are two ways to control <Run FontWeight="Bold">StackPanel</Run>
+ size:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Implicitly. When you add elements such as buttons to a <Run FontWeight="Bold">StackPanel</Run>
+, the panel automatically makes itself at least large enough to display the elements without clipping. However, it can be larger than that. For instance, when controls are added to the Controls pane, the width of the <Run FontWeight="Bold">DockPanel</Run>
+ will be just big enough to accommodate the controls. The height is actually controlled by the height of the window, so the <Run FontWeight="Bold">DockPanel</Run>
+ height is the full height of the client area.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Explicitly. Set the <Run FontWeight="Bold">StackPanel</Run>
+ element's Height or Width attributes.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The next sections add control elements to each of these panes to create the working UI. They also show how to control the pane dimensions.     
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">The Controls Pane    
+      </Paragraph>
+
+      <Paragraph>The controls for WordGame are simple and consist of the following:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>A TextBox control to enter the guessed letter.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>A Button control to submit the guessed letter.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>A TextBlock element to act as a label for the previous two controls.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>A <Run FontWeight="Bold">New Word</Run>
+<Run FontWeight="Bold">Button</Run>
+ control to start a new word.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>A <Run FontWeight="Bold">Quit</Run>
+ button to exit the game.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>Here's how the control layout will look.    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">The layout for the WordGame application's Control Pane</Run>
+
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold"/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph>The Controls region is implemented with a <Run FontWeight="Bold">StackPanel</Run>
+, which is intended for simple control layout scenarios. For more complex control layout scenarios, you should consider using a <Run FontWeight="Bold">Grid</Run>
+ panel. There are three primary ways to position controls within a <Run FontWeight="Bold">StackPanel</Run>
+ element.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Orientation. By default, the elements are stacked vertically. To stack them horizontally, set the <Run FontWeight="Bold">StackPanel</Run>
+ element's Orientation property to "Horizontal". The child elements are displayed in the same order as the corresponding tags in the .xaml file.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Margins. An element is positioned adjacent to the element that precedes it in the .xaml file. However, you often want some space between elements. This can be done with the Margin attribute, which increases the effective size of the element by adding a whitespace margin around it. Margins are specified in logical units by a string of four integers separated by commas. The first integer specifies the left margin, followed by the top, right, and bottom margins. A logical unit is used in much the same way as pixel units are in HTML. However, a logical unit is always 1/96 inch, regardless of screen resolution.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Nested Panels. Sometimes docking and margins are insufficient, such as when you want two controls to appear side by side with another control below them. In these cases, you can use a nested panel to contain the side-by-side elements. The nested panel docks or stacks in exactly the same way as a control.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>By default, the width of vertically stacked controls will stretch to fill the panel. For horizontal stacks, the height will stretch. If, for example, you want to size the button to fit its content, you must explicitly specify the button's width or height.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>Here's the essential XAML code for the Controls layout. There are four child elements listed here: three controls and a nested <Run FontWeight="Bold">StackPanel</Run>
+. The elements have margins set to put some space around them them. No orientation is specified for the <Run FontWeight="Bold">StackPanel</Run>
+, so the four child elements are vertically stacked. The <Run FontWeight="Bold">Height</Run>
+ and <Run FontWeight="Bold">Width</Run>
+ of the parent <Run FontWeight="Bold">StackPanel</Run>
+ aren't specified. Instead, its width is implicitly specified by the width of the widest element including its margin.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>The <Run FontWeight="Bold">TextBlock</Run>
+ element is a label for the nested <Run FontWeight="Bold">StackPanel</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>The nested <Run FontWeight="Bold">DockPanel</Run>
+ contains a <Run FontWeight="Bold">TextBox</Run>
+ for entering the guessed letter and a <Run FontWeight="Bold">Go</Run>
+ button. The panel's <Run FontWeight="Bold">Orientation</Run>
+ attribute is set to "Horizontal", placing the two controls side by side.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>The <Run FontWeight="Bold">New Word</Run>
+ button.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>The <Run FontWeight="Bold">Quit</Run>
+ button.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;StackPanel Name="Controls" DockPanel.Dock="Left" Background="LightBlue"> 
+&lt;TextBlock Margin="10,10,10,10">Pick a Letter
+&lt;/TextBlock> 
+&lt;StackPanel Margin="0,0,0,20" Orientation="Horizontal"> 
+&lt;TextBox Width="25" Height="25" Margin="10,0,0,0" MaxLength="1" Name="guessedChar">
+&lt;/TextBox> 
+&lt;Button Margin="10,0,10,0" Click="btnGo" Name="goButton" Height="25" Width="35">Go
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;Button Click="btnNewWord">New Word
+&lt;/Button> 
+&lt;Button Click="btnQuit">Quit
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>Some additional notes on the above code example:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>The <Run FontWeight="Bold">TextBox</Run>
+ control has its MaxLength attribute set to <Run>1</Run>
+, which limits its capacity to a single character. To allow the text box to contain an arbitrary number of characters, simply omit the attribute.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>The buttons all have Click event handlers attached. For instance, the <Run FontWeight="Bold">Go</Run>
+ button has a <Run FontWeight="Bold">Click</Run>
+c named <Run FontStyle="italic">btnGo</Run>
+. Event handlers are discussed later.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Some of the elements have a Name attribute. This attribute assigns a name to the element that you can use in your code-behind file to access the element's properties, methods, and events. This attribute is discussed later in this topic.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">The Word Display Pane    
+      </Paragraph>
+
+      <Paragraph>The Word Display pane is relatively simple. It consists of a <Run FontWeight="Bold">StackPanel</Run>
+ that contains two vertically stacked child <Run FontWeight="Bold">TextBlock</Run>
+ elements. One displays the word that the user is trying to guess and the other displays a list of letters that have already been guessed. The height is explicitly set to 100. The width is not specified, so the pane extends from the right edge of the previous panel (the Controls pane) to the right side of the window.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;StackPanel Name="wordDisplay" DockPanel.Dock="Bottom" Height="100" Orientation="Vertical" Background="LightGreen"> 
+&lt;TextBlock DockPanel.Dock="Top" Margin="15,10,10,10"> Guessed Word:
+&lt;TextBlock Name="currentState"/> 
+&lt;/TextBlock> 
+&lt;TextBlock DockPanel.Dock="Top" Style="{StaticResource OtherText}" Margin="15,10,10,10"> Letters Used:
+&lt;TextBlock Style="{StaticResource InlineText}" Name="lettersUsed"/> 
+&lt;/TextBlock> 
+&lt;/StackPanel> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>Each <Run FontWeight="Bold">TextBlock</Run>
+ element contains boilerplate text that does not change during the course of the game. That literal text is followed by a closed Span element. If you display the XAML as you see it in the sample, the closed <Run FontWeight="Bold">TextBlock</Run>
+ element displays nothing. For example, for the first element, all you will see is <Run FontStyle="italic">Guessed Word:</Run>
+.     
+      </Paragraph>
+
+      <Paragraph>As the game progresses, the sample programmatically assigns content to the <Run FontWeight="Bold">Span</Run>
+ elements and it is displayed following the literal text. For example, the <Run FontStyle="italic">currentState</Run>
+ element represents the state of the unknown word. Initially, it consists of a string of "*" characters that correspond to the characters of the unknown word. Because the word is chosen at run time, you don't know the number of characters in advance. Instead, you programmatically assign a string with the appropriate number of "*" characters to currentState once the word has been selected. You then replace them with correct letters as they are guessed.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>You could get the same result by nesting a <Run FontWeight="Bold">TextBlock</Run>
+ element instead of <Run FontWeight="Bold">Span</Run>
+. However, the <Run FontWeight="Bold">Span</Run>
+ element has less overhead, and yields better performance in this scenario.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">The Image Display Pane    
+      </Paragraph>
+
+      <Paragraph>The Image Display pane is the simplest of the three. It consists of a <Run FontWeight="Bold">Grid</Run>
+ with a single Image control. This control displays a bitmapped image. Initially, the control is set to the starting image, Start.gif, which is located in the project's Images subfolder. As the game progresses and the user makes incorrect guesses, a new image is loaded programmatically. The control's HorizontalAlignment and VerticalAlignment attributes are set to "Center" to center the image in the pane.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Grid Name="Images" Background="LightYellow"> 
+&lt;Image Source="Images\Start.gif" Height="300" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Name="gameImage"/> 
+&lt;/Grid> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Customizing the user interface (UI)    
+      </Paragraph>
+
+      <Paragraph>The preceding section showed you how to construct a functional UI for the application but it's a little boring. Aside from the regions that are assigned solid <Run FontWeight="Bold">Background</Run>
+ colors and several elements whose sizes are specified, all the styling uses default values. This section shows some of the ways you can make your UI more attractive. It also introduces <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styles Overview</Hyperlink>
+, which allow you to specify a common style for a class of elements.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="using_gradients">Create a More Interesting Background</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="using_styles">Using Styles</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Create a More Interesting Background    
+      </Paragraph>
+
+      <Paragraph>The three regions are currently solid colors: light green, light blue and light yellow. One way to make them a bit more interesting is to apply a color gradient. You can do this with some simple modifications of the XAML code shown above.    
+      </Paragraph>
+
+      <Paragraph>For example, consider the Images region which has a gradient that runs from the upper left to the lower right. It is darkest at the corners and lightest in the center. However, you cannot specify such a complex gradient with a simple <Run FontWeight="Bold">Background</Run>
+ value. Instead, you need to use <Run FontStyle="italic">property element syntax</Run>
+. This lets you create more complex property values than is possible by simply assigning a string to an attribute (the attribute syntax). Within the property element syntax tags, you place a set of tags that specify the property. In this case, the <Run FontWeight="Bold">Background</Run>
+ property is assigned a LinearGradientBrush. Using property element syntax again, this brush is assigned GradientStops values that correspond to the beginning, middle, and end of its range. By default this range runs from the upper left to lower right. The color, grey in this case, progresses smoothly between the values specified for the stops. You can easily create a different or more complex gradient by changing the colors or by adding additional stops.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Grid Name="Images"> 
+&lt;Grid.Background> 
+&lt;LinearGradientBrush> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="#111111" Offset="0"/> 
+&lt;GradientStop Color="#A5A5A5" Offset="0.5" /> 
+&lt;GradientStop Color="#111111" Offset="1" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Grid.Background> 
+&lt;Image Source="Images\Start.gif" Height="300" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Name="gameImage"/> 
+&lt;!--Images Pane--> 
+&lt;/Grid> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Using Styles    
+      </Paragraph>
+
+      <Paragraph>If you were to view the markup in its current form, you would notice that you can barely see some of the text. The default value for text is black, which is too close to the dark blue in found in some parts of the panel for adequate visibility. The simplest solution is to change the element's Foreground color to white. However, there is a cleaner way to do this than setting the same attribute on several <Run FontWeight="Bold">TextBlock</Run>
+ elements. Instead, the sample uses <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styles Overview</Hyperlink>
+ to specify a text color for the whole page.    
+      </Paragraph>
+
+      <Paragraph>Styles are somewhat like Cascading Style Sheets (CSS) in HTML. They allow you to define a style for an element in one location that can be applied to multiple instances of the element. If you decide to change any of the attributes, you only need to modify the style itself, not each individual element. You can also simply specify a different value on an element for any or all of the attributes specified in a style. This approach is most useful when you only want to modify a single element.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>This document only covers a fraction of the full capabilities of styles. See <Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styles Overview</Hyperlink>
+ for a more complete discussion.            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph>To declare a style, add a Resources property element tag to a parent element. You can then specify any number of styles by adding them as child elements of the <Run FontWeight="Bold">Resources</Run>
+ property element. The styles that you specify apply to that element and to all of its descendants, which allows you to control the scope of the style. Typically, you specify styles for a page's root element, which apply to the entire page. If you have a multi-page application, you can apply your styles to the Application element in the <Hyperlink NavigateUri="32b1c054-5aca-423b-b4b5-ed8dc4dc637d.xaml">Application Object Overview</Hyperlink>
+ file, and the style will apply to every page in the application.    
+      </Paragraph>
+
+      <Paragraph>The simplest approach is to define a default style for an element type. This applies to all instances of the element unless you override the style by explicitly specifying a different value.     
+      </Paragraph>
+
+      <Paragraph>In addition to defining default styles, you can also assign a key to a style. You then use the key to apply the style only to selected elements. A keyed style overrides the default style, if one has been defined for the element. The following example creates two styles for the <Run FontWeight="Bold">TextBlock</Run>
+ element, a default style and a named style, "OtherText". Because they are defined on the root <Run FontWeight="Bold">DockPanel</Run>
+ element, these styles apply to all <Run FontWeight="Bold">TextBlock</Run>
+ elements on the page.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;DockPanel> 
+&lt;DockPanel.Resources> 
+&lt;Style TargetType="{x:Type TextBlock}"> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;Setter Property="FontSize" Value="12"/> 
+&lt;Setter Property="Margin" Value="5,0,0,0"/> 
+&lt;Setter Property="DockPanel.Dock" Value="Left"/> 
+&lt;Setter Property="FontFamily" Value="Verdana"/> 
+&lt;Setter Property="FontWeight" Value="Bold"/> 
+&lt;Setter Property="FontStyle" Value="Normal"/> 
+&lt;/Style> 
+&lt;Style x:Key="InlineText" TargetType="{x:Type TextBlock}"> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;Setter Property="FontSize" Value="12"/> 
+&lt;Setter Property="FontFamily" Value="Verdana"/> 
+&lt;Setter Property="FontWeight" Value="Normal"/> 
+&lt;/Style> ... 
+&lt;DockPanel> 
+&lt;DockPanel.Resources> 
+&lt;Style TargetType="{x:Type TextBlock}"> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;Setter Property="FontSize" Value="12"/> 
+&lt;Setter Property="Margin" Value="5,0,0,0"/> 
+&lt;Setter Property="DockPanel.Dock" Value="Left"/> 
+&lt;Setter Property="FontFamily" Value="Verdana"/> 
+&lt;Setter Property="FontWeight" Value="Bold"/> 
+&lt;Setter Property="FontStyle" Value="Normal"/> 
+&lt;/Style> 
+&lt;Style x:Key="InlineText" TargetType="{x:Type TextBlock}"> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;Setter Property="FontSize" Value="12"/> 
+&lt;Setter Property="FontFamily" Value="Verdana"/> 
+&lt;Setter Property="FontWeight" Value="Normal"/> 
+&lt;/Style> ... 
+&lt;Style x:Key="OtherText" TargetType="{x:Type TextBlock}"> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;Setter Property="FontSize" Value="12"/> 
+&lt;Setter Property="FontFamily" Value="Verdana"/> 
+&lt;Setter Property="FontWeight" Value="Normal"/> 
+&lt;/Style> 
+&lt;Style TargetType="{x:Type Button}"> 
+&lt;Setter Property="Background"> 
+&lt;Setter.Value> 
+&lt;RadialGradientBrush> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Color="#000000">
+&lt;/GradientStop> 
+&lt;GradientStop Color="#A5A5A5">
+&lt;/GradientStop> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Setter Property="Margin" Value="10,10,10,0"/> 
+&lt;Setter Property="DockPanel.Dock" Value="Top"/> 
+&lt;Setter Property="Height" Value="25"/> 
+&lt;Setter Property="Width" Value="100"/> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;/Style> ... 
+&lt;Style x:Key="OtherText" TargetType="{x:Type TextBlock}"> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;Setter Property="FontSize" Value="12"/> 
+&lt;Setter Property="FontFamily" Value="Verdana"/> 
+&lt;Setter Property="FontWeight" Value="Normal"/> 
+&lt;/Style> 
+&lt;Style TargetType="{x:Type Button}"> 
+&lt;Setter Property="Background"> 
+&lt;Setter.Value> 
+&lt;RadialGradientBrush> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Color="#000000">
+&lt;/GradientStop> 
+&lt;GradientStop Color="#A5A5A5">
+&lt;/GradientStop> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Setter Property="Margin" Value="10,10,10,0"/> 
+&lt;Setter Property="DockPanel.Dock" Value="Top"/> 
+&lt;Setter Property="Height" Value="25"/> 
+&lt;Setter Property="Width" Value="100"/> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;/Style> ... 
+&lt;/DockPanel.Resources> ... 
+&lt;/DockPanel.Resources> ... 
+&lt;/DockPanel> ... 
+&lt;/DockPanel> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>To apply the "OtherText" style to a <Run FontWeight="Bold">TextBlock</Run>
+ element, add a Style attribute set to "{StaticResource OtherText}". The following example applies the "OtherText" style to the second text element in the Word Display pane. Notice that some other attributes such as DockPanel.Dock are also set to non-default values.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;StackPanel Name="wordDisplay" DockPanel.Dock="Bottom" Height="100" Orientation="Vertical"> 
+&lt;StackPanel.Background> 
+&lt;LinearGradientBrush StartPoint="0.0,0.5" EndPoint="1.0,0.5"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="#000011">
+&lt;/GradientStop> 
+&lt;GradientStop Color="#0000E5">
+&lt;/GradientStop> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/StackPanel.Background> 
+&lt;TextBlock DockPanel.Dock="Top" Margin="15,10,10,10"> Guessed Word:
+&lt;TextBlock Name="currentState"/> 
+&lt;/TextBlock> 
+&lt;TextBlock DockPanel.Dock="Top" Style="{StaticResource OtherText}" Margin="15,10,10,10"> Letters Used:
+&lt;TextBlock Style="{StaticResource InlineText}" Name="lettersUsed"/> 
+&lt;/TextBlock> 
+&lt;!--Word Display Pane--> 
+&lt;/StackPanel> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;StackPanel Name="wordDisplay" DockPanel.Dock="Bottom" Height="100" Orientation="Vertical"> 
+&lt;StackPanel.Background> 
+&lt;LinearGradientBrush StartPoint="0.0,0.5" EndPoint="1.0,0.5"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="#000011">
+&lt;/GradientStop> 
+&lt;GradientStop Color="#0000E5">
+&lt;/GradientStop> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/StackPanel.Background> 
+&lt;TextBlock DockPanel.Dock="Top" Margin="15,10,10,10"> Guessed Word:
+&lt;TextBlock Name="currentState"/> 
+&lt;/TextBlock> 
+&lt;TextBlock DockPanel.Dock="Top" Style="{StaticResource OtherText}" Margin="15,10,10,10"> Letters Used:
+&lt;TextBlock Style="{StaticResource InlineText}" Name="lettersUsed"/> 
+&lt;/TextBlock> 
+&lt;!--Word Display Pane--> 
+&lt;/StackPanel> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The default <Run FontWeight="Bold">Button</Run>
+ style shown in the following example uses a radial gradient. This is similar to the gradients discussed previously, but varies from the center of the element to its edge rather than from one side to the other. This style is declared in the same section as the two text styles, so it also applies to the entire page. It defines the style that is used by the "New Word" and "Quit" buttons. Because the "Go" button needs to be a different size, those attributes are overridden.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;DockPanel> 
+&lt;DockPanel.Resources> ... 
+&lt;DockPanel> 
+&lt;DockPanel.Resources> ... 
+&lt;Style TargetType="{x:Type Button}"> 
+&lt;Setter Property="Background"> 
+&lt;Setter.Value> 
+&lt;RadialGradientBrush> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Color="#000000">
+&lt;/GradientStop> 
+&lt;GradientStop Color="#A5A5A5">
+&lt;/GradientStop> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Setter Property="Margin" Value="10,10,10,0"/> 
+&lt;Setter Property="DockPanel.Dock" Value="Top"/> 
+&lt;Setter Property="Height" Value="25"/> 
+&lt;Setter Property="Width" Value="100"/> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;/Style> 
+&lt;/DockPanel.Resources> 
+&lt;StackPanel Name="Controls" DockPanel.Dock="Left"> 
+&lt;StackPanel.Background> 
+&lt;LinearGradientBrush> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="#0000E5">
+&lt;/GradientStop> 
+&lt;GradientStop Color="#000011">
+&lt;/GradientStop> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/StackPanel.Background> 
+&lt;TextBlock Margin="10,10,10,10">Pick a Letter
+&lt;/TextBlock> 
+&lt;StackPanel Margin="0,0,0,20" Orientation="Horizontal"> 
+&lt;TextBox Width="25" Height="25" Margin="10,0,0,0" MaxLength="1" Name="guessedChar">
+&lt;/TextBox> 
+&lt;Button Margin="10,0,10,0" Click="btnGo" Name="goButton" Height="25" Width="35">Go
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;Button Click="btnNewWord">New Word
+&lt;/Button> 
+&lt;Button Click="btnQuit">Quit
+&lt;/Button> 
+&lt;!--Controls Pane--> 
+&lt;/StackPanel> ... 
+&lt;Style TargetType="{x:Type Button}"> 
+&lt;Setter Property="Background"> 
+&lt;Setter.Value> 
+&lt;RadialGradientBrush> 
+&lt;RadialGradientBrush.GradientStops> 
+&lt;GradientStop Color="#000000">
+&lt;/GradientStop> 
+&lt;GradientStop Color="#A5A5A5">
+&lt;/GradientStop> 
+&lt;/RadialGradientBrush.GradientStops> 
+&lt;/RadialGradientBrush> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;Setter Property="Margin" Value="10,10,10,0"/> 
+&lt;Setter Property="DockPanel.Dock" Value="Top"/> 
+&lt;Setter Property="Height" Value="25"/> 
+&lt;Setter Property="Width" Value="100"/> 
+&lt;Setter Property="Foreground" Value="White"/> 
+&lt;/Style> 
+&lt;/DockPanel.Resources> 
+&lt;StackPanel Name="Controls" DockPanel.Dock="Left"> 
+&lt;StackPanel.Background> 
+&lt;LinearGradientBrush> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="#0000E5">
+&lt;/GradientStop> 
+&lt;GradientStop Color="#000011">
+&lt;/GradientStop> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/StackPanel.Background> 
+&lt;TextBlock Margin="10,10,10,10">Pick a Letter
+&lt;/TextBlock> 
+&lt;StackPanel Margin="0,0,0,20" Orientation="Horizontal"> 
+&lt;TextBox Width="25" Height="25" Margin="10,0,0,0" MaxLength="1" Name="guessedChar">
+&lt;/TextBox> 
+&lt;Button Margin="10,0,10,0" Click="btnGo" Name="goButton" Height="25" Width="35">Go
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;Button Click="btnNewWord">New Word
+&lt;/Button> 
+&lt;Button Click="btnQuit">Quit
+&lt;/Button> 
+&lt;!--Controls Pane--> 
+&lt;/StackPanel> ... 
+&lt;/DockPanel> ... 
+&lt;/DockPanel> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Implementing the Code-Behind File    
+      </Paragraph>
+
+      <Paragraph>The code-behind file for the sample contains the basic game logic as well as code to manipulate the UI based on the progress of the game. This section focuses primarily on how to manipulate the UI. See Wordgame for the details of the game logic.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="starting_up">Starting the Application</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="update_word_display">Updating the Word Display Pane</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="updating_image">Updating the Image Pane</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="handling_user_interaction">Handling User Interaction</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Starting the Application    
+      </Paragraph>
+
+      <Paragraph>The first thing the application must do is create a window and load the XAML page that contains the UI. You do this in your application definition.    
+      </Paragraph>
+
+      <Paragraph>All Windows Presentation Foundation samples are associated with an <Hyperlink NavigateUri="32b1c054-5aca-423b-b4b5-ed8dc4dc637d.xaml">Application Object Overview</Hyperlink>
+, <Run FontWeight="Bold">Application</Run>
+. You create the application object in your project's application definition. In a standard Microsoft Visual Studio project, this file is normally named MyApp.xaml.     
+      </Paragraph>
+
+      <Paragraph>In <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+, the samples set the <Run FontWeight="Bold">Application</Run>
+ object's StartupUri property to the name of the starting XAML, and the application object automatically created a window and loaded the specified page. This approach is best-suited to multi-page applications, because it creates a NavigationWindow object to host the page, including <Run FontWeight="Bold">Forward/Back</Run>
+ buttons at the top of the page.    
+      </Paragraph>
+
+      <Paragraph>Because the Wordgame sample has only a single page, it instead creates the window in its code-behind file. The application definition has two files, an XAML and an associated code-behind file. The XAML file creates an <Run FontWeight="Bold">Application</Run>
+ object and attaches an event handler to the object's Startup event.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="WordGame1.app" Startup="On_Startup"/> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The <Run FontWeight="Bold">Startup</Run>
+ event occurs during application startup. The handler creates a window and displays the application's UI. There are several ways to handle this task. In this case, the root element of the page that implements the UI is 
+&lt;Window>. This means that the page object inherits from Window and supports its properties, methods, and events. By creating an instance of the page object, you automatically create a window. The sample then calls the page object's InitializeComponent method to initialize the page. If you fail to call this method when you create an instance of an XAML-based page, the page does not render and you will see a blank page. Finally, the sample calls the window's Show method, to show the window.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public partial class app : Application { private void On_Startup(object sender, StartupEventArgs args){ Page1 myWindow = new Page1(); 
+myWindow.InitializeComponent(); 
+myWindow.Show(); 
+} } </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>Once the window has been created, it loads and displays the page. However, there are several tasks that need to be done before you actually render the page and are ready to start the game, including:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Set focus to the textbox, so that the user can enter a letter without having to manually set focus.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Initialize the word list and select the first word.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Update the display to reflect the first word.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>You need to wait until the XAML page has completely loaded before you attempt to set focus on an element. <Run FontWeight="Bold">Window</Run>
+ supports a number of events that are raised as the page loading process proceeds. The event that is most useful for this scenario is Loaded, which occurs when the XAML page is completely loaded. The root <Run FontWeight="Bold">Window</Run>
+ element of the page attaches an event handler to the <Run FontWeight="Bold">Loaded</Run>
+ event. The initialization code implemented in that handler is shown in the following example. There are several global variables shown here that are referred to later.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>Partial Class Page1 Inherits Window Dim completeWord As String Dim usedLetters As String Dim currentWordState As StringBuilder 'A stringbuilder object with the current state of the word Dim currentImageIndex As Integer = 0 'Keeps track of the index Sub On_Loaded(ByVal Sender As Object, ByVal e As RoutedEventArgs) guessedChar.Focus() 'Reset focus to text box InitWordList() completeWord = SelectWord() currentWordState = New StringBuilder() InitCurrentWord() UpdateDisplay(False) End Sub ... End Class </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public partial class Page1 : Window { string _masterWord;string _lettersUsed;StringBuilder _currentWord;//A stringbuilder object with the current state of the word int currentImageIndex = 0;//Keeps track of which index private void On_Loaded(object sender, RoutedEventArgs e){ guessedChar.Focus(); 
+//Reset focus to text box InitWordList(); 
+_masterWord = SelectWord(); 
+InitCurrentWord(); 
+UpdateDisplay(false); 
+} ... } </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The first line gives focus to the <Run FontWeight="Bold">TextBox</Run>
+ control by calling the Focus method. This method is exposed by all Windows Presentation Foundation elements to allow you to explicitly control focus on your page.    
+      </Paragraph>
+
+      <Paragraph>The details of handling the word list can be found in the sample. They are not discussed here aside from noting that the selected word is assigned to the global _masterWord variable. You will see that variable later.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Updating the Word Display Pane    
+      </Paragraph>
+
+      <Paragraph>The last line of the example shown in the previous section updates the Word Display pane. The method is called during startup to initialize the display and after each new letter is chosen to update the display with the current game state. The UpdateDisplay method is of interest for Windows Presentation Foundation programming since it shows how to programmatically manipulate the UI that was specified in the XAML file. The method does the following:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Resets the text box to a null string.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Updates the current state of the guessed word.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Adds the current letter to the list of guessed letters.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void UpdateDisplay(bool isLoss){ guessedChar.Text = "";//Reset text box for next letter guessedChar.Focus(); 
+//Reset focus to text box if (isLoss) //you lost currentState.Text = " " + _masterWord;else currentState.Text = " " + _currentWord.ToString(); 
+lettersUsed.Text = " " + _lettersUsed;} </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>Sub UpdateDisplay(ByVal isLoss As Boolean) guessedChar.Text = "" 'Reset text box for next letter guessedChar.Focus() 'Reset focus to text box If isLoss = True Then 'you lost currentState.Text = " " &amp; 
+completeWord Else currentState.Text = " " &amp; 
+currentWordState.ToString() lettersUsed.Text = " " &amp; 
+usedLetters End If End Sub </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The content of the textbox is contained in its Text property. To clear the textbox, just set <Run FontWeight="Bold">Text</Run>
+ to an empty string. The focus will usually have shifted to one of the buttons, so the code resets the focus to the <Run FontWeight="Bold">TextBox</Run>
+ in preparation for the next letter.    
+      </Paragraph>
+
+      <Paragraph>The current state of the word is contained in a StringBuilder object named _currentText. You initialize _currentText with a string of "*" characters, one for each character in _masterWord. Each time the user guesses a letter correctly, the corresponding asterisks are replaced with the character. The <Run FontWeight="Bold">StringBuilder</Run>
+ object is easier to manipulate in this way than a normal String type. If the user has lost the game, the entire word is displayed.    
+      </Paragraph>
+
+      <Paragraph>In terms of display, the current state of the word is assigned to the currentState <Run FontWeight="Bold">Span</Run>
+ element. If you look on the XAML page, you will see that this element has no content defined. The content of the element is instead specified dynamically at run time, based on the current state of the game. To update the content of a <Run FontWeight="Bold">Span</Run>
+ element, assign the desired string to the element's <Run FontWeight="Bold">Text</Run>
+ property. If you want to append the string to the current content rather than overwrite it, use "+=" in place of "=".    
+      </Paragraph>
+
+      <Paragraph>Each time the user guesses a letter, it is appended to the list of used letters. This list is stored in a string called _lettersUsed and displayed in a <Run FontWeight="Bold">TextBlock</Run>
+ element, much like the _currentWord.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Updating the Image Pane    
+      </Paragraph>
+
+      <Paragraph>Each time you start a new word, including at the beginning of the game, the Image region contains an image with the text: "Pick a Letter". Each time the user guesses incorrectly, the image is updated to reflect the number of incorrect guesses. When the game ends a losing or winning image is displayed. The Wordgame sample uses a series of images that sequentially build a "smiley face" or "frowning face", depending on the outcome of the game.    
+      </Paragraph>
+
+      <Paragraph>In the WordGame sample's project folder, the images are all contained in the Images subfolder that is included in the project. By default, the images are included in the assembly as resources.     
+      </Paragraph>
+
+      <Paragraph>In the XAML file, the Image region contains a single <Run FontWeight="Bold">Image</Run>
+ tag with its Source attribute set to the starting image, "Images\Start.gif". This is the image that is displayed when the application starts up. As the application proceeds, the image must be programmatically changed each time the user makes a wrong guess, and also when the user starts a new word. The image names all have the form "Images\example.gif". For convenience, the strings are placed in an array in the order they will be displayed, with the winning image at the end.     
+      </Paragraph>
+
+      <Paragraph>To load an image, you need to create and initialize a new BitmapImage object. Assign the appropriate bitmap resource to the <Run FontWeight="Bold">BitmapImage</Run>
+ object's UriSource property and end the initialization. Then assign the <Run FontWeight="Bold">BitmapImage</Run>
+ object to the <Run FontWeight="Bold">Image</Run>
+ tag's <Run FontWeight="Bold">Source</Run>
+ attribute. The following example shows how WordGame updates the image when the user makes an incorrect guess.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>if (goodGuess == false) //Bad guess. Display next image { BitmapImage bi = new BitmapImage(); 
+bi.BeginInit(); 
+bi.UriSource = new Uri(@"pack://Application:,,,/" + images[++currentImageIndex]); 
+bi.EndInit(); 
+gameImage.Source = bi;if (currentImageIndex == images.Length - 2) //You lost. Display whole word { UpdateDisplay(true); 
+goButton.IsEnabled = false;//Disable Go button until new word is selected } } </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>If goodGuess = False Then 'Bad guess. Display next image currentImageIndex += 1 bi = New BitmapImage() bi.BeginInit() bi.UriSource = New Uri("pack://Application:,,,/" &amp; 
+game_Images(currentImageIndex)) bi.EndInit() gameImage.Source = bi If currentImageIndex = game_Images.Length - 2 Then 'You lost. Display whole word UpdateDisplay(True) goButton.IsEnabled = False 'Disable Go button until new word is selected End If End If </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Handling User Interaction    
+      </Paragraph>
+
+      <Paragraph>There are four controls with which the user can interact: the <Run FontWeight="Bold">TextBox</Run>
+ control and the <Run FontWeight="Bold">Go</Run>
+, <Run FontWeight="Bold">New Word</Run>
+, and <Run FontWeight="Bold">Quit</Run>
+ buttons. The <Run FontWeight="Bold">TextBox</Run>
+ control has already been discussed above. This section briefly describes how the three <Run FontWeight="Bold">Button</Run>
+ controls work.    
+      </Paragraph>
+
+      <Paragraph>The <Run FontWeight="Bold">Go</Run>
+ button notifies the application that the user has selected a letter. The code-behind file has an associated event handler named btnGo that does the following:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Checks to make sure that the user actually entered a letter. If not, the handler simply returns control to the UI.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Retrieves the letter from the <Run FontWeight="Bold">Text</Run>
+ control.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Adds the letter to the string that contains used letters.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Checks to see whether the letter matches any in the word and replaces the corresponding asterisks with characters.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Updates the Word Display pane, which also clears the <Run FontWeight="Bold">Text</Run>
+ control and gives it focus for the next letter.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Updates the Image pane, if necessary, as follows:         
+          </Paragraph>
+
+          <List MarkerStyle="Disc">
+            <ListItem>
+              <Paragraph>If the user guesses incorrectly, load the next image. If the next image is the losing image, disable the <Run FontWeight="Bold">Go</Run>
+ button until the user selects another word.            
+              </Paragraph>
+
+            </ListItem>
+
+            <ListItem>
+              <Paragraph>If the user guesses correctly, do nothing unless the user has completed the word. In that case, load the winning image and disable the <Run FontWeight="Bold">Go</Run>
+ button until the user selects another word.            
+              </Paragraph>
+
+            </ListItem>
+
+          </List>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The following is an edited version of the event handler that omits some of the purely game-related code for readibility. See the WordGame sample for the complete code.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void btnGo(object sender, RoutedEventArgs e){ if (guessedChar.Text == "") //Check for empty text box return;char selectedLetter = guessedChar.Text[0];_lettersUsed += selectedLetter;bool goodGuess = false;for (int i = 0;i 
+&lt;_masterWord.Length;i++){ if (_masterWord[i] == selectedLetter){ goodGuess = true;if (_currentWord[i] == '*'){ guessedRight++;_currentWord[i] = _masterWord[i];} } } UpdateDisplay(false); 
+if (goodGuess == true){ if (guessedRight == _masterWord.Length) //You Won. { currentImageIndex = images.Length - 1;//The win image is the last on the list BitmapImage bi = new BitmapImage(); 
+bi.BeginInit(); 
+bi.UriSource = new Uri(@"pack://Application:,,,/" + images[currentImageIndex]); 
+bi.EndInit(); 
+gameImage.Source = bi;goButton.IsEnabled = false;//Disable Go button until new word is selected } return;} if (goodGuess == false) //Bad guess. Display next image { BitmapImage bi = new BitmapImage(); 
+bi.BeginInit(); 
+bi.UriSource = new Uri(@"pack://Application:,,,/" + images[++currentImageIndex]); 
+bi.EndInit(); 
+gameImage.Source = bi;if (currentImageIndex == images.Length - 2) //You lost. Display whole word { UpdateDisplay(true); 
+goButton.IsEnabled = false;//Disable Go button until new word is selected } } } </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>Sub btnGo(ByVal Sender As Object, ByVal e As RoutedEventArgs) Dim selectedLetter As Char Dim goodGuess As Boolean Dim i As Integer Dim bi As BitmapImage If guessedChar.Text = "" Then 'Check for empty text box Return End If selectedLetter = guessedChar.Text(0) usedLetters = usedLetters &amp; 
+selectedLetter goodGuess = False For i = 0 To completeWord.Length - 1 If completeWord(i) = selectedLetter Then goodGuess = True If currentWordState(i) = "*" Then guessedRight += 1 currentWordState(i) = completeWord(i) End If End If Next i UpdateDisplay(False) If goodGuess = True Then 'Good Guess If guessedRight = completeWord.Length Then 'You Won. currentImageIndex = game_Images.Length - 1 'The win image is the last on the list bi = New BitmapImage() bi.BeginInit() bi.UriSource = New Uri("pack://Application:,,,/" &amp; 
+game_Images(currentImageIndex)) bi.EndInit() gameImage.Source = bi goButton.IsEnabled = False 'Disable Go button until new word is selected End If Return End If If goodGuess = False Then 'Bad guess. Display next image currentImageIndex += 1 bi = New BitmapImage() bi.BeginInit() bi.UriSource = New Uri("pack://Application:,,,/" &amp; 
+game_Images(currentImageIndex)) bi.EndInit() gameImage.Source = bi If currentImageIndex = game_Images.Length - 2 Then 'You lost. Display whole word UpdateDisplay(True) goButton.IsEnabled = False 'Disable Go button until new word is selected End If End If End Sub </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The <Run FontWeight="Bold">Next Word</Run>
+ button has a <Run FontWeight="Bold">Click</Run>
+ event handler named btnNewWord. The code in the handler is similar to the startup code. It does the following:     
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Selects and initializes a new word.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Updates the Word Display pane.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Enables the <Run FontWeight="Bold">Go</Run>
+ button.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Loads the starting image into the Image pane.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void btnNewWord(object sender, RoutedEventArgs e){ _masterWord = SelectWord(); 
+InitCurrentWord(); 
+UpdateDisplay(false); 
+goButton.IsEnabled = true;//Enable Go button currentImageIndex = 0;BitmapImage bi = new BitmapImage(); 
+bi.BeginInit(); 
+bi.UriSource = new Uri(@"pack://Application:,,,/" + images[currentImageIndex], UriKind.Relative); 
+bi.EndInit(); 
+gameImage.Source = bi;} </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>Sub btnNewWord(ByVal Sender As Object, ByVal e As RoutedEventArgs) Dim bi As BitmapImage completeWord = SelectWord() InitCurrentWord() UpdateDisplay(False) goButton.IsEnabled = True 'Enable Go button currentImageIndex = 0 bi = New BitmapImage() bi.BeginInit() bi.UriSource = New Uri("pack://Application:,,,/" &amp; 
+game_Images(currentImageIndex), UriKind.RelativeOrAbsolute) bi.EndInit() gameImage.Source = bi End Sub </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The <Run FontWeight="Bold">Quit</Run>
+ button is the simplest of the three. It calls the application object's Shutdown method to shut the application down. MyApplication is a keyword that you can use with Extensible Application Markup Language (XAML) applications that becomes a reference to the <Run FontWeight="Bold">Application</Run>
+ object when the application is compiled.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>private void btnQuit(object sender, RoutedEventArgs e){ Application.Current.Shutdown(); 
+} </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>Sub btnQuit(ByVal Sender As Object, ByVal e As RoutedEventArgs) app.Current.Shutdown() End Sub </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Compiling and Deploying the Application    
+      </Paragraph>
+
+      <Paragraph>To compile and run the sample application on your development system, load the sample into Visual Studio and press <Run FontWeight="Bold">F5</Run>
+. You can also compile the sample from the command line with MSBuild. See <Hyperlink NavigateUri="aefbe9d1-2bca-4bbb-9406-796980eeca63.xaml">Creating, Building, Deploying, and Launching WPF Applications</Hyperlink>
+ for details.    
+      </Paragraph>
+
+      <Paragraph>Once you have finished your application, you will want to deploy it on a client system. This is handled somewhat differently with Windows Presentation Foundation. When you compile an application, MSBuild produces an .exe file, an application manifest (.manifest), and a deployment manifest (.application). You will find these files in your project's bin\Debug or bin\Release folder.    
+      </Paragraph>
+
+      <Paragraph>Applications should normally be launched with the .application file. When you initially launch this file, the application is deployed on your system. When you deploy a sample, the system:    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Adds the application to the application cache and to the <Run FontWeight="Bold">Add or Remove Programs</Run>
+ Control Panel application.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Launches the application.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>Following a successful deployment, double-clicking the .application file simply launches the application. You can remove the application from the system with <Run FontWeight="Bold">Add or Remove Programs</Run>
+.    
+      </Paragraph>
+
+      <Paragraph>Once the application has been deployed, you cannot simply recompile and run it. The application cache is not updated and launching the .application file will run the original executable. To run the new version, you must do one of the following before you compile.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph>Use the <Run FontWeight="Bold">Add or Remove Programs</Run>
+ Control Panel application to remove your application from the cache.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Increment your application's version number. When you run the .deploy file, the new version of your application is added to the cache and replaces the previous version's entry in the <Run FontWeight="Bold">Add or Remove Programs</Run>
+ Control Panel application.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>While you are developing an application, you will probably find it simpler to run the sample's .exe file. This launches the sample without installing it in the application cache, which eliminates the need to clear the cache or change the version each time you recompile. This is how Visual Studio launches your application when you press <Run FontWeight="Bold">F5</Run>
+. However, once your application is near completion, you should deploy it on your local system to make sure that your application will deploy properly on client systems.             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Create a Windows Presentation Foundation Application  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

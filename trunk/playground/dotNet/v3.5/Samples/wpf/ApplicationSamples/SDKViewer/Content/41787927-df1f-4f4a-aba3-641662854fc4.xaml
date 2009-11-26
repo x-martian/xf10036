@@ -1,0 +1,584 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_41787927_df1f_4f4a_aba3_641662854fc4"
+  Tag     ="UI Automation TextPattern Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation TextPattern Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This overview describes how to use Microsoft UI Automation to expose the textual content, including format and style attributes, of text controls in UI Automation-supported platforms. These controls include, but are not limited to, the Microsoft .NET Framework version 3.0 TextBox and RichTextBox as well as their Win32 equivalents. 
+    </Paragraph>
+
+    <Paragraph>Exposing the textual content of a control is accomplished through the use of the TextPattern <Run>control pattern</Run>
+, which represents the contents of a text container as a text stream. In turn, <Run FontWeight="Bold">TextPattern</Run>
+ requires the support of the TextPatternRange class to expose format and style attributes. <Run FontWeight="Bold">TextPatternRange</Run>
+ supports <Run FontWeight="Bold">TextPattern</Run>
+ by representing contiguous or multiple, disjoint text spans in a text container with a collection of Start and End endpoints. <Run FontWeight="Bold">TextPatternRange</Run>
+ supports functionality such as selection, comparison, retrieval and traversal.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Note</Run>
+   The <Run FontWeight="Bold">TextPattern</Run>
+ classes do not provide a means to insert or modify text. However, depending on the control, this may be accomplished by the UI Automation ValuePattern or through direct keyboard input. See the TextPattern Insert Text Sample for an example.
+    </Paragraph>
+
+    <Paragraph>The functionality described in this overview is vital to Assistive Technology vendors and their end users. Assistive technologies can use UI Automation to gather complete text formatting information for the user and provide programmatic navigation and selection of text by TextUnit (character, word, line, paragraph, etc.).
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="UI_Automation_TextPattern_vs__Cicero">UI Automation TextPattern vs. Text Services Framework</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Control_Types">Control Types</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="TextPattern_Client_API_s">TextPattern Client API's</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="TextPattern_Provider_API_s">TextPattern Provider API's</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Security">Security</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Performance">Performance</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Glossary">TextPattern Terminology</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">UI Automation TextPattern vs. Text Services Framework
+    </Paragraph>
+
+    <Paragraph>Text Services Framework (TSF) is a simple and scalable system framework that enables natural language services and advanced text input on the desktop and within applications. In addition to providing interfaces for applications to expose their text store it also supports metadata for that text store.
+    </Paragraph>
+
+    <Paragraph>However, TSF was designed for applications that need to inject input into context-aware scenarios whereas <Run FontWeight="Bold">TextPattern</Run>
+ is a read-only solution (with the limited workaround noted above) meant to provide optimized access to a text store for screen-readers and Braille devices.
+    </Paragraph>
+
+    <Paragraph>In short, accessible technologies that require read-only access to a text store can use <Run FontWeight="Bold">TextPattern</Run>
+, but will need the more complex functionality of TSF for context-aware input.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Control Types
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Text
+    </Paragraph>
+
+    <Paragraph>The Text control is the basic element representing a piece of text on the screen. 
+    </Paragraph>
+
+    <Paragraph>A standalone text control can be used as a label or static text on a form. Text controls can also be contained within the structure of a ListItem, TreeItem or DataItem.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Text controls may not appear in the content view of the UI Automation tree (see <Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+). This is because text controls are often displayed through the NameProperty of another control. For instance, the text that is used to label an Edit control is exposed through the NameProperty of the Edit control. Because the Edit control is in the content view of the UI Automation tree, it is not necessary for the text element itself to be in that view of the UI Automation tree. The only text that shows up in the content view is text that is not redundant information. This enables any assistive technology to quickly filter only on the pieces of information that their users need.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Edit
+    </Paragraph>
+
+    <Paragraph>Edit controls let a user view and edit a single line of text.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The single line of text may wrap in certain layout scenarios.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Document
+    </Paragraph>
+
+    <Paragraph>Document controls let a user navigate and obtain information from multiple pages of text.
+    </Paragraph>
+
+    <Paragraph FontSize="22">TextPattern Client API's
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">System.Windows.Automation.TextPattern Class</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The entry point for the Microsoft UI Automation text model. 
+            </Paragraph>
+
+            <Paragraph>This class also contains the two <Run FontWeight="Bold">TextPattern</Run>
+ event listeners, TextSelectionChangedEvent and TextChangedEvent.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">System.Windows.Automation.Text Namespace</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains the <Run FontWeight="Bold">TextPattern</Run>
+ enumerations for specific text attributes in addition to the <Run FontWeight="Bold">TextPatternRange</Run>
+ class.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">System.Windows.Automation.Text.TextPatternRange Class</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>The representation of a span of text within a text container that supports <Run FontWeight="Bold">TextPattern</Run>
+.
+            </Paragraph>
+
+            <Paragraph><Run>UI Automation client</Run>
+s should be careful about the current validity of a text range created using <Run FontWeight="Bold">TextPatternRange</Run>
+. If the original text in the <Run>UI Automation provider</Run>
+ (or text control) is completely replaced by new text, the current text range becomes invalid. However, the text range may still have some viability if only part of the original text is changed and the underlying text control is managing its text "pointer" with anchors (or endpoints) rather than with absolute character positioning.
+            </Paragraph>
+
+            <Table CellSpacing="5">
+              <TableRowGroup>
+                <TableRow>
+                  <TableCell>
+                    <Paragraph>Note: 
+                    </Paragraph>
+
+                  </TableCell>
+
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <Paragraph>Clients can listen for a TextChangedEvent for notification of any changes to the textual content they are working with.
+                    </Paragraph>
+
+                  </TableCell>
+
+                </TableRow>
+
+              </TableRowGroup>
+
+            </Table>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">System.Windows.Automation.AutomationTextAttribute Class</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Used to identify the formatting attributes of a text range.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">TextPattern Provider API's
+    </Paragraph>
+
+    <Paragraph>UI elements or controls that support <Run FontWeight="Bold">TextPattern</Run>
+ by implementing the ITextProvider and ITextRangeProvider interfaces, either natively or through Microsoft UI Automation proxies, are capable of exposing detailed attribute information for any text they contain in addition to providing robust navigational capabilities.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">TextPattern</Run>
+ provider does not have to support all AutomationTextAttributes if the control lacks support for any particular attributes.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">TextPattern</Run>
+ provider must support the GetSelection and Select functions if the control supports text selection or placement of the text cursor (or system caret) within the text area. If the control does not support this functionality then it does not need to support either of these methods. However, the control must expose the type of text selection it supports by implementing the SupportedTextSelection property.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">TextPattern</Run>
+ provider must always support the <Run FontWeight="Bold">TextUnit</Run>
+ constants Character and Document as well as any other <Run FontWeight="Bold">TextUnit</Run>
+ constants it is capable of supporting. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The provider may skip support for a specific <Run FontWeight="Bold">TextUnit</Run>
+ by deprecating up to the next supported <Run FontWeight="Bold">TextUnit</Run>
+ in the following order: <Run FontWeight="Bold">Character</Run>
+, Format, Word, Line, Paragraph, Page, and <Run FontWeight="Bold">Document</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ITextProvider Interface</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Exposes methods, properties and attributes that support <Run FontWeight="Bold">TextPattern</Run>
+ in client applications (see <Run FontWeight="Bold">ITextProvider</Run>
+).
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">ITextRangeProvider Interface</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Represents a span of text in a text provider (see <Run FontWeight="Bold">ITextRangeProvider</Run>
+).
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">System.Windows.Automation.TextPatternIdentifiers Class</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Contains values that are used as identifiers for text providers (see TextPatternIdentifiers).
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Security
+    </Paragraph>
+
+    <Paragraph>The UI Automation architecture was designed with security in mind (see <Hyperlink NavigateUri="1d853695-973c-48ae-b382-4132ae702805.xaml">UI Automation Security Overview</Hyperlink>
+). However, the TextPattern classes described in this overview require some specific security considerations.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Microsoft UI Automation text providers supply read-only interfaces and do not provide the ability to change the existing text in a control.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UI Automation clients can only use Microsoft UI Automation if they are fully "trusted". An example of this would be the protected Logon Desktop, where only known and trusted applications can run.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Developers of UI Automation providers should be aware that all information they choose to expose in their controls through Microsoft UI Automation is essentially public and fully accessible by other code. Microsoft UI Automation makes no effort to determine the trustworthiness of any UI Automation client and therefore the UI Automation provider should not expose protected content or sensitive textual information (such as password fields).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>One of the most significant changes in security for Windows Vista is broadly referred to as “Secure Input” which encompasses technologies such as Least-privileged (or Limited) User Accounts (LUA) and UI Privilege Level Isolation (UIPI).
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph>UIPI prevents one program from controlling and/or monitoring another more “privileged” program, preventing cross-process window message attacks that spoof user input.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph>LUA sets limits on the privileges of applications being run by users in the Administrators group. Applications won't necessarily have administrator privileges, but will instead run with the least privileges necessary. As a consequence, there may be some restrictions enforced in LUA scenarios. Most notably string truncation (including TextPattern strings), where it may be necessary to limit the size of strings being retrieved from administrator-level applications so they aren't forced to allocate memory to the point of disabling the application.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Performance
+    </Paragraph>
+
+    <Paragraph>Because TextPattern relies on cross-process calls for most of its functionality, it does not provide a caching mechanism to improve performance when processing content. This is unlike other control patterns in Microsoft UI Automation that can be accessed using the GetCachedPattern or TryGetCachedPattern methods.
+    </Paragraph>
+
+    <Paragraph>One tactic for improving performance is by making sure UI Automation clients attempt to retrieve moderately-sized blocks of text using GetText. For example, GetText(1) calls will incur cross-process hits for each character whereas one GetText(-1) call will incur one cross-process hit, but can have high latency depending on the size of the text provider.
+    </Paragraph>
+
+    <Paragraph FontSize="22">TextPattern Terminology
+    </Paragraph>
+
+    <Paragraph><Run>Attribute</Run>
+<Span><Run>A formatting characteristic of a text range (for example, IsItalicAttribute or FontNameAttribute).</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Run>Degenerate Range</Run>
+<Span><Span>A degenerate range is an empty or zero-character text range. For the purposes of the TextPattern control pattern, the text insertion point (or system caret) is considered a degenerate range. If no text is selected, <Run FontWeight="Bold">GetSelection</Run>
+ would return a degenerate range at the text insertion point and RangeFromPoint would return a degenerate range as its starting endpoint. RangeFromChild and GetVisibleRanges may return degenerate ranges when the text provider cannot find any text ranges that match the given condition. This degenerate range can be used as a starting endpoint within the text provider. FindText and FindAttribute return a null reference (<Run FontWeight="Bold">Nothing</Run>
+ in Microsoft Visual Basic .NET) to avoid confusion with a discovered range versus a degenerate range.</Span>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Run>Embedded Object</Run>
+<Span><Span>There are two types of embedded objects in the UI Automation text model. They consist of text-based content elements such as hyperlinks or tables, and control elements such as images and buttons. For more detailed information, see <Hyperlink NavigateUri="a5b513ec-7fa6-4460-869f-c18ff04f7cf2.xaml">Access Embedded Objects Using UI Automation</Hyperlink>
+.</Span>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Run>Endpoint</Run>
+<Span><Span>The absolute <Run FontWeight="Bold">Start</Run>
+ or <Run FontWeight="Bold">End</Run>
+ point of a text range within a text container. </Span>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">The following illustrates a set of start and end points.</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph><Run>TextRange</Run>
+<Span><Run>A representation of a span of text, with start and end points, in a text container including all associated attributes and functionality.</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">TextUnit</Run>
+</Span>
+<Span><Run>A pre-defined unit of text (character, word, line, paragraph, etc) used for navigating through logical segments of a text range.</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="ec722dff-6009-4279-b86a-e18d3fa94ebf.xaml">Use Caching in UI Automation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0d635c35-ffa8-4dc8-bbc9-12fcd5445776.xaml">Support Control Patterns in a UI Automation Provider</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="571561d8-5f49-43a9-a054-87735194e013.xaml">UI Automation Control Patterns for Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="cc229b33-234b-469b-ad60-f0254f32d45d.xaml">UI Automation Control Patterns Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="03b98058-bdb3-47a0-8ff7-45e6cdf67166.xaml">UI Automation Tree Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="8b81645b-8be3-4e26-9c98-4fb0fceca06b.xaml">Control Pattern Mapping for UI Automation Clients</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/tsf/tsf/text_services_framework.asp">Text Services Framework</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation TextPattern Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,217 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_49a326fc_ecad_4f8b_b2ac_5b50aad54688"
+  Tag     ="Use a HierarchicalDataTemplate"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_49a326fc_ecad_4f8b_b2ac_5b50aad54688"
+    Tag     ="Use a HierarchicalDataTemplate"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>How to: Use a HierarchicalDataTemplate</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>This example shows how to use hierarchical data templates, which describe how to display hierarchical data, such as a list that contains other lists.    
+      </Paragraph>
+
+      <Paragraph FontSize="22">Example    
+      </Paragraph>
+
+      <Paragraph>In the following example, <Run FontStyle="italic">ListLeagueList</Run>
+ is a list of Major League Baseball leagues, and <Run FontStyle="italic">src</Run>
+ is mapped to the namespace where it is defined. Each league is consisted of divisions, with each division being consisted of teams. The following example defines data templates to specify how to display this data:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;DockPanel.Resources> 
+&lt;ObjectDataProvider x:Key="MLB" ObjectType="{x:Type src:ListLeagueList}"/> 
+&lt;HierarchicalDataTemplate DataType = "{x:Type src:League}" ItemsSource = "{Binding Path=Divisions}"> 
+&lt;TextBlock Text="{Binding Path=Name}"/> 
+&lt;/HierarchicalDataTemplate> 
+&lt;HierarchicalDataTemplate DataType = "{x:Type src:Division}" ItemsSource = "{Binding Path=Teams}"> 
+&lt;TextBlock Text="{Binding Path=Name}"/> 
+&lt;/HierarchicalDataTemplate> 
+&lt;DataTemplate DataType="{x:Type src:Team}"> 
+&lt;TextBlock Text="{Binding Path=Name}"/> 
+&lt;/DataTemplate> 
+&lt;/DockPanel.Resources> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The following example creates a Menu control that uses the resource defined in the previous example:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Menu Name="menu1" DockPanel.Dock="Top" Margin="10,10,10,10"> 
+&lt;MenuItem Header="Menu"> 
+&lt;MenuItem Name="mi1" Header="Major League Baseball" ItemsSource="{Binding Source={StaticResource MLB}}" /> 
+&lt;/MenuItem> 
+&lt;/Menu> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The following example creates a TreeView control that uses the same resource:    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;TreeView> 
+&lt;TreeViewItem ItemsSource="{Binding Source={StaticResource MLB}}" Header="Tree" /> 
+&lt;/TreeView> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>To see the entire example, please see Hierarchical Data Template Sample.    
+      </Paragraph>
+
+      <Paragraph>For an example of how to use hierarchical data templates with an XMLDataProvider, see <Hyperlink NavigateUri="1defbb78-b8e7-4c0e-b650-576453ac828d.xaml">How to: Create Simple or Complex TreeViews</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Reference    
+      </Paragraph>
+
+      <Paragraph>HierarchicalDataTemplate      
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="0f4d9f8c-0230-4013-bd7b-e8e7fed01b4a.xaml">Data Templates Overview</Hyperlink>
+
+        <LineBreak/><Hyperlink NavigateUri="9183b4aa-9796-426b-b447-48fa3b337541.xaml">Data Binding Overviews</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph>Data Binding Samples      
+        <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Use a HierarchicalDataTemplate  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

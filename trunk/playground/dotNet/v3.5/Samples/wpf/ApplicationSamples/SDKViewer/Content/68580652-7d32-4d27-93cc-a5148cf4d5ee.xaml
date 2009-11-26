@@ -1,0 +1,226 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_68580652_7d32_4d27_93cc_a5148cf4d5ee"
+  Tag     ="Control the Opacity of a Drawing"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Control the Opacity of a Drawing</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to modify the opacity of a Drawing. The DrawingGroup class is the only type of <Run FontWeight="Bold">Drawing</Run>
+ object that has an Opacity property. 
+    </Paragraph>
+
+    <Paragraph>To change the opacity of a <Run FontWeight="Bold">Drawing</Run>
+ object, add it to a <Run FontWeight="Bold">DrawingGroup</Run>
+ and set the <Run FontWeight="Bold">Opacity</Run>
+ property of the <Run FontWeight="Bold">DrawingGroup</Run>
+ object. 
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Opacity</Run>
+ setting of the <Run FontWeight="Bold">DrawingGroup</Run>
+ object is multiplied by the opacity of its child drawings; 
+for example, if a <Run FontWeight="Bold">DrawingGroup</Run>
+ has an <Run FontWeight="Bold">Opacity</Run>
+ of 0.5 and it contains a GeometryDrawing that has a 50 percent opaque Brush, the brush is 25 percent opaque (0.5 * 0.5). 
+    </Paragraph>
+
+    <Paragraph>To alter the opacity of select portions of a drawing, use an OpacityMask. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">DrawingGroup</Run>
+ to combine several <Run FontWeight="Bold">GeometryDrawing</Run>
+ objects. The example also sets the opacity of the <Run FontWeight="Bold">DrawingGroup</Run>
+ object to 0.25 so that the drawings are 25 percent opaque. 
+    </Paragraph>
+
+    <Paragraph>The following illustration shows the output that the example produces. The illustration shows the <Run FontWeight="Bold">DrawingGroup</Run>
+ before and after its <Run FontWeight="Bold">Opacity</Run>
+ is set to 0.25.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+namespace SDKSample { public class OpacityExample : Page { public OpacityExample() { // // Create a GeometryDrawing. // // Define the drawing's contents. PathFigure pLineFigure = new PathFigure(); 
+pLineFigure.StartPoint = new Point(25, 25); 
+PolyLineSegment pLineSegment = new PolyLineSegment(); 
+pLineSegment.Points.Add(new Point(0, 50)); 
+pLineSegment.Points.Add(new Point(25, 75)); 
+pLineSegment.Points.Add(new Point(50, 50)); 
+pLineSegment.Points.Add(new Point(25, 25)); 
+pLineSegment.Points.Add(new Point(25, 0)); 
+pLineFigure.Segments.Add(pLineSegment); 
+PathGeometry pGeometry = new PathGeometry(); 
+pGeometry.Figures.Add(pLineFigure); 
+GeometryDrawing drawing1 = new GeometryDrawing( Brushes.Lime, new Pen(Brushes.Black, 10), pGeometry ); 
+// // Create another GeometryDrawing. // GeometryDrawing drawing2 = new GeometryDrawing( Brushes.Lime, new Pen(Brushes.Black, 2), new EllipseGeometry(new Point(10, 10), 5, 5) ); 
+// Create the DrawingGroup and add the // geometry drawings. DrawingGroup aDrawingGroup = new DrawingGroup(); 
+aDrawingGroup.Children.Add(drawing1); 
+aDrawingGroup.Children.Add(drawing2); 
+// // Set the opacity of the DrawingGroup to 0.25. // aDrawingGroup.Opacity = 0.25; 
+// Use an Image control and a DrawingImage to // display the drawing. DrawingImage aDrawingImage = new DrawingImage(aDrawingGroup); 
+// Freeze the DrawingImage for performance benefits. aDrawingImage.Freeze(); 
+Image anImage = new Image(); 
+anImage.Source = aDrawingImage; 
+anImage.Stretch = Stretch.None; 
+anImage.HorizontalAlignment = HorizontalAlignment.Left; 
+// Create a border around the images and add it to the // page. Border imageBorder = new Border(); 
+imageBorder.BorderBrush = Brushes.Gray; 
+imageBorder.BorderThickness = new Thickness(1); 
+imageBorder.VerticalAlignment = VerticalAlignment.Top; 
+imageBorder.HorizontalAlignment = HorizontalAlignment.Left; 
+imageBorder.Margin = new Thickness(20); 
+imageBorder.Child = anImage; 
+this.Background = Brushes.White; 
+this.Margin = new Thickness(20); 
+this.Content = imageBorder; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_68580652_7d32_4d27_93cc_a5148cf4d5ee_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="PresentationOptions" Background="White" Margin="20"> 
+&lt;Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20"> 
+&lt;Image Stretch="None"> 
+&lt;Image.Source> 
+&lt;DrawingImage PresentationOptions:Freeze="True"> 
+&lt;DrawingImage.Drawing> 
+&lt;!-- The drawing group, with an Opacity of 0.25. --> 
+&lt;DrawingGroup Opacity="0.25"> 
+&lt;GeometryDrawing Brush="Lime" Geometry="M 25,25 L 0,50 25,75 50,50 25,25 25,0"> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="10" Brush="Black" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;GeometryDrawing Brush="Lime"> 
+&lt;GeometryDrawing.Geometry> 
+&lt;EllipseGeometry Center="10,10" RadiusX="5" RadiusY="5" /> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="2" Brush="Black" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingGroup> 
+&lt;/DrawingImage.Drawing> 
+&lt;/DrawingImage> 
+&lt;/Image.Source> 
+&lt;/Image> 
+&lt;/Border> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="391032dd-2fba-4804-bb8a-3b071797a9f4.xaml">PresentationOptions:Freeze Attribute</Hyperlink>
+
+      <LineBreak/>Freeze
+      <LineBreak/>OpacityMask
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Control the Opacity of a Drawing to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

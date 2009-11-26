@@ -1,0 +1,225 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3b115594_6a93_4972_b24d_61aa16f1c15f"
+  Tag     ="Use Event Triggers to Control a Storyboard After It Starts"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Use Event Triggers to Control a Storyboard After It Starts</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to control a Storyboard after it starts. To start a <Run FontWeight="Bold">Storyboard</Run>
+ by using XAML, use BeginStoryboard, which distributes the animations to the objects and properties they animate, and starts the storyboard. If you give <Run FontWeight="Bold">BeginStoryboard</Run>
+ a name by specifying its Name property, you make it a controllable storyboard. You can then interactively control the storyboard after it starts. 
+    </Paragraph>
+
+    <Paragraph>Use the following storyboard actions together with EventTrigger objects to control a storyboard.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>PauseStoryboard: Pauses the storyboard.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ResumeStoryboard: Resumes a paused storyboard.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>SetStoryboardSpeedRatio: Changes the storyboard speed.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>SkipStoryboardToFill: Advances a storyboard to the end of its fill period, if it has one.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>StopStoryboard: Stops the storyboard.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>RemoveStoryboard: Removes the storyboard, freeing resources.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses controllable storyboard actions to interactively control a storyboard.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Note: </Run>
+To see an example of controlling a storyboard by using code, see <Hyperlink NavigateUri="040f13f0-69f9-4ab5-be2b-079f4f80c7c0.xaml">How to: Control a Storyboard After It Starts</Hyperlink>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_3b115594_6a93_4972_b24d_61aa16f1c15f_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowTitle="Controlling a Storyboard" > 
+&lt;StackPanel Margin="20" > 
+&lt;!-- This rectangle is animated. --> 
+&lt;Rectangle Name="myRectangle" Width="100" Height="20" Margin="12,0,0,5" Fill="#AA3333FF" HorizontalAlignment="Left" /> 
+&lt;!-- This StackPanel contains all the Buttons. --> 
+&lt;StackPanel Orientation="Horizontal" Margin="0,30,0,0"> 
+&lt;Button Name="BeginButton">Begin
+&lt;/Button> 
+&lt;Button Name="PauseButton">Pause
+&lt;/Button> 
+&lt;Button Name="ResumeButton">Resume
+&lt;/Button> 
+&lt;Button Name="SeekButton">Seek
+&lt;/Button> 
+&lt;Button Name="SkipToFillButton">Skip To Fill
+&lt;/Button> 
+&lt;Button Name="SetSpeedRatioButton">Triple Speed
+&lt;/Button> 
+&lt;Button Name="StopButton">Stop
+&lt;/Button> 
+&lt;StackPanel.Triggers> 
+&lt;!-- Begin the Storyboard --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="BeginButton"> 
+&lt;BeginStoryboard Name="MyBeginStoryboard"> 
+&lt;Storyboard > 
+&lt;DoubleAnimation Storyboard.TargetName="myRectangle" Storyboard.TargetProperty="Width" Duration="0:0:5" From="100" To="500" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;!-- Pause the Storyboard --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="PauseButton"> 
+&lt;PauseStoryboard BeginStoryboardName="MyBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;!-- Resume the Storyboard --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="ResumeButton"> 
+&lt;ResumeStoryboard BeginStoryboardName="MyBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;!-- Seek one second into the storyboard's active period. --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="SeekButton"> 
+&lt;SeekStoryboard BeginStoryboardName="MyBeginStoryboard" Offset="0:0:1" Origin="BeginTime" /> 
+&lt;/EventTrigger> 
+&lt;!-- Skip to Fill --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="SkipToFillButton"> 
+&lt;SkipStoryboardToFill BeginStoryboardName="MyBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;!-- Stop the Storyboard --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="StopButton"> 
+&lt;StopStoryboard BeginStoryboardName="MyBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;!-- Triple the speed of the Storyboard --> 
+&lt;EventTrigger RoutedEvent="Button.Click" SourceName="SetSpeedRatioButton"> 
+&lt;SetStoryboardSpeedRatio SpeedRatio="3" BeginStoryboardName="MyBeginStoryboard" /> 
+&lt;/EventTrigger> 
+&lt;/StackPanel.Triggers> 
+&lt;/StackPanel> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For additional examples, see the Animation Example Gallery.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="040f13f0-69f9-4ab5-be2b-079f4f80c7c0.xaml">How to: Control a Storyboard After It Starts</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ResumeStoryboard
+      <LineBreak/>SetStoryboardSpeedRatio
+      <LineBreak/>SkipStoryboardToFill
+      <LineBreak/>PauseStoryboard
+      <LineBreak/>StopStoryboard
+      <LineBreak/>SeekStoryboard
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="bd9ce563-725d-4385-87c9-d7ee38cf79ea.xaml">Animation Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Use Event Triggers to Control a Storyboard After It Starts to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,186 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_b00aaa19_c6df_4c3b_a9fd_88a0b488df2b"
+  Tag     ="Convert Bound Data"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Convert Bound Data</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to apply conversion to data that is used in bindings.
+    </Paragraph>
+
+    <Paragraph>To convert data during binding, you must create a class that implements the IValueConverter interface, which includes the Convert and ConvertBack methods.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows the implementation of a date converter that converts the date value passed in so that it only shows the year, the month, and the day. When implementing the IValueConverter interface, it is a good practice to decorate the implementation with a ValueConversionAttribute attribute to indicate to development tools the data types involved in the conversion, as in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[ValueConversion(typeof(DateTime), typeof(String))] public class DateConverter : IValueConverter { public object Convert(object value, Type targetType, object parameter, CultureInfo culture) { DateTime date = (DateTime)value; 
+return date.ToShortDateString(); 
+} public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) { string strValue = value.ToString(); 
+DateTime resultDateTime; 
+if (DateTime.TryParse(strValue, out resultDateTime)) { return resultDateTime; 
+} return value; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Once you have created a converter, you can add it as a resource in your Extensible Application Markup Language (XAML) file. In the following example, <Run FontStyle="italic">src</Run>
+ maps to the namespace in which <Run FontStyle="italic">DateConverter</Run>
+ is defined.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;src:DateConverter x:Key="dateConverter"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Finally, you can use the converter in your binding using the following syntax. In the following example, the text content of the TextBlock is bound to <Run FontStyle="italic">StartDate</Run>
+, which is a property of an external data source.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,8,0" Name="startDateTitle" Style="{StaticResource smallTitleStyle}">Start Date:
+&lt;/TextBlock> 
+&lt;TextBlock Name="StartDateDTKey" Grid.Row="2" Grid.Column="1" Text="{Binding Path=StartDate, Converter={StaticResource dateConverter}}" Style="{StaticResource textStyleTextBlock}"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The style resources referenced in the above example are defined in the resource section of the sample not shown in this topic. For the complete code sample from which the above code examples were extracted, see Data Binding Demo.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="eb98b33d-9866-49ae-b981-bc5ff20d607a.xaml">How to: Implement Binding Validation</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Data Binding Overviews
+      <LineBreak/>Data Binding Samples
+      <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Convert Bound Data to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

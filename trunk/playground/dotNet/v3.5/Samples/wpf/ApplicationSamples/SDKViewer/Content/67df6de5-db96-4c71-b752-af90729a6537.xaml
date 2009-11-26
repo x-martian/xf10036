@@ -1,0 +1,493 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_67df6de5_db96_4c71_b752_af90729a6537"
+  Tag     ="Menu Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Menu Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Menu class enables you to organize elements associated with commands and event handlers in a hierarchical order. Each <Run FontWeight="Bold">Menu</Run>
+ element contains a collection of MenuItem elements. This topic introduces the <Run FontWeight="Bold">Menu</Run>
+ class and provides examples of how to use it in both Extensible Application Markup Language (XAML) and C#.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="menu_control">Menu Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_menus">Creating Menus</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="menus_with_shortcutkeys">MenuItems with Keyboard Shortcuts</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="menu_styling">Menu Styling</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Menu Control
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Menu</Run>
+ control presents a list of items that specify commands or options for an application. Typically, clicking a <Run FontWeight="Bold">MenuItem</Run>
+ opens a submenu or causes an application to carry out a command. The following graphic shows the three different states of a menu control. The default state is when no device such as a mouse pointer is resting on the <Run FontWeight="Bold">Menu</Run>
+. The focus state occurs when the mouse pointer is hovering over the <Run FontWeight="Bold">Menu</Run>
+ and pressed state occurs when a mouse button is clicked over the <Run FontWeight="Bold">Menu</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Menus in different states</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating Menus
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create menus with submenus in XAML. One <Run FontWeight="Bold">MenuItem</Run>
+ has an attached ToolTip. The example also shows how to use the IsCheckable property to make <Run FontWeight="Bold">MenuItem</Run>
+ elements that can be checked.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Menu Width="30" Margin="10, 10, 5, 5" HorizontalAlignment="Left" Background="White"> 
+&lt;MenuItem Header="_File"> 
+&lt;MenuItem Header="_New" IsCheckable="true"/> 
+&lt;MenuItem Header="_Open" IsCheckable="true"/> 
+&lt;MenuItem Header="_Close" IsCheckable="true"/> 
+&lt;Separator/> 
+&lt;MenuItem Header="Menu with Submenu"> 
+&lt;MenuItem Header="_submenuitem1" IsCheckable="true"/> 
+&lt;MenuItem Header="_submenuitem2" IsCheckable="true"> 
+&lt;MenuItem Header="_submenuitem2.1" IsCheckable="true"/> 
+&lt;/MenuItem> 
+&lt;/MenuItem> 
+&lt;Separator/> 
+&lt;MenuItem Header="_Menu item with ToolTip"> 
+&lt;MenuItem.ToolTip> 
+&lt;ToolTip> ToolTip Information. 
+&lt;/ToolTip> 
+&lt;/MenuItem.ToolTip> 
+&lt;/MenuItem> 
+&lt;/MenuItem> 
+&lt;/Menu> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see Menu Sample.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to generate a <Run FontWeight="Bold">Menu</Run>
+ using C#.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>menu = new Menu(); 
+menu.Background = Brushes.LightBlue; 
+menu.Width = SystemParameters.CaptionWidth; 
+mi = new MenuItem(); 
+mi.Width = 50; 
+mi.Header = "_File"; 
+menu.Items.Add(mi); 
+mia = new MenuItem(); 
+mia.Header = "_Cut"; 
+mia.InputGestureText = "Ctrl+X"; 
+mi.Items.Add(mia); 
+mib = new MenuItem(); 
+mib.Command = System.Windows.Input.ApplicationCommands.Copy; 
+mib.Header = "_Copy"; 
+mi.Items.Add(mib); 
+mic = new MenuItem(); 
+mic.Command = System.Windows.Input.ApplicationCommands.Paste; 
+mic.Header = "_Paste"; 
+mi.Items.Add(mic); 
+cv2.Children.Add(menu); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see Menu Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">MenuItems with Keyboard Shortcuts
+    </Paragraph>
+
+    <Paragraph>Keyboard shortcuts are character combinations that can be entered with the keyboard to invoke <Run FontWeight="Bold">Menu</Run>
+ commands. For example, the shortcut for <Run FontWeight="Bold">Copy</Run>
+ is Ctrl+C. There are two properties to use with keyboard shortcuts and menus items — the InputGestureText or Command property.
+    </Paragraph>
+
+    <Paragraph FontSize="18">InputGestureText
+    </Paragraph>
+
+    <Paragraph>The following XAML and C# examples show how to use the <Run FontWeight="Bold">InputGestureText</Run>
+ property to assign keyboard shortcuts text to <Run FontWeight="Bold">MenuItem</Run>
+ controls. The following examples assign <Run FontWeight="Bold">Ctrl+X</Run>
+ for the <Run FontWeight="Bold">Cut</Run>
+ command. This does not associate the command with the <Run FontWeight="Bold">MenuItem</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;MenuItem Header="_Cut" InputGestureText="Ctrl+X"/> 
+&lt;MenuItem Header="_Find" InputGestureText="Ctrl+F"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>mia = new MenuItem(); 
+mia.Header = "_Cut"; 
+mia.InputGestureText = "Ctrl+X"; 
+mi.Items.Add(mia); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Command
+    </Paragraph>
+
+    <Paragraph>The following XAML and C# examples show how to use the <Run FontWeight="Bold">Command</Run>
+ property to associate the <Run FontWeight="Bold">Copy</Run>
+ and <Run FontWeight="Bold">Paste</Run>
+ commands with <Run FontWeight="Bold">MenuItem</Run>
+ controls. Not only does the command property associate a command with a <Run FontWeight="Bold">MenuItem</Run>
+ but it also supplies the input gesture text to use as a shortcut.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;MenuItem Command="ApplicationCommands.Open"> 
+&lt;MenuItem.Header>_Open
+&lt;/MenuItem.Header> 
+&lt;/MenuItem> 
+&lt;MenuItem Command="ApplicationCommands.Close"> 
+&lt;MenuItem.Header>_Close
+&lt;/MenuItem.Header> 
+&lt;/MenuItem> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>mib = new MenuItem(); 
+mib.Command = System.Windows.Input.ApplicationCommands.Copy; 
+mib.Header = "_Copy"; 
+mi.Items.Add(mib); 
+mic = new MenuItem(); 
+mic.Command = System.Windows.Input.ApplicationCommands.Paste; 
+mic.Header = "_Paste"; 
+mi.Items.Add(mic); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see Menu Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Menu Styling
+    </Paragraph>
+
+    <Paragraph>With control styling, you can dramatically change the appearance and behavior of <Run FontWeight="Bold">Menu</Run>
+ controls without having to write a custom control. In addition to setting visual properties, you can also apply a Style to individual parts of a control, change the behavior of parts of the control through properties, or add additional parts or change the layout of a control. The following examples demonstrate several ways to add a <Run FontWeight="Bold">Style</Run>
+ to a <Run FontWeight="Bold">Menu</Run>
+ control. 
+    </Paragraph>
+
+    <Paragraph>The first code example defines a <Run FontWeight="Bold">Style</Run>
+ called <Run FontStyle="italic">Simple</Run>
+ that shows how to use the current system settings in your style. The code assigns the color of the <Run FontStyle="italic">MenuHighlightBrush</Run>
+ as the menu's background color and the <Run FontStyle="italic">MenuTextBrush</Run>
+ as the menu's foreground color. Notice that you use resource keys to assign the brushes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Simple" TargetType="{x:Type MenuItem}"> 
+&lt;Setter Property = "Background" Value= "{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/> 
+&lt;Setter Property = "Foreground" Value= "{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}"/> 
+&lt;Setter Property = "Height" Value= "{DynamicResource {x:Static SystemParameters.CaptionHeightKey}}"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following sample uses Trigger elements that enable you to change the appearance of a <Run FontWeight="Bold">MenuItem</Run>
+ in response to events that occur on the <Run FontWeight="Bold">Menu</Run>
+. When you move the mouse over the <Run FontWeight="Bold">Menu</Run>
+, the foreground color and the font characteristics of the menu items change.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Triggers" TargetType="{x:Type MenuItem}"> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="MenuItem.IsMouseOver" Value="true"> 
+&lt;Setter Property = "Foreground" Value="Red"/> 
+&lt;Setter Property = "FontSize" Value="16"/> 
+&lt;Setter Property = "FontStyle" Value="Italic"/> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see Menu Styles Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a9f81446-2888-4a58-a0a8-6eaba3e53e7f.xaml">How to: Create a Menu</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="70796f6e-4bea-48f5-9f72-ea8d85c472db.xaml">How to: Create a Menu with Keyboard Shortcuts</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="7d174dde-d934-41be-8942-ab25c2fca5df.xaml">How to: Style a Separator Used as a Menu Item</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>WPF Controls Gallery Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Menu Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

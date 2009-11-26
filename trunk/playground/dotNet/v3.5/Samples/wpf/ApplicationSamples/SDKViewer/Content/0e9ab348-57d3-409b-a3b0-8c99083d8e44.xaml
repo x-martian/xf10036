@@ -1,0 +1,128 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_0e9ab348_57d3_409b_a3b0_8c99083d8e44"
+  Tag     ="Animate Bitmap Effects"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate Bitmap Effects</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to animate the ShadowDepth and Softness properties of a DropShadowBitmapEffect and the Radius property of a BlurBitmapEffect to create the illusion of a button rising up from the screen.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_0e9ab348_57d3_409b_a3b0_8c99083d8e44_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;StackPanel> 
+&lt;Button Margin="50" Width="200" Name="myButton"> Click Me to Animate Drop Shadow! 
+&lt;Button.RenderTransform> 
+&lt;ScaleTransform x:Name="MyAnimatedScaleTransform" ScaleX="1" ScaleY="1" CenterX="100" /> 
+&lt;/Button.RenderTransform> 
+&lt;Button.BitmapEffect> 
+&lt;BitmapEffectGroup> 
+&lt;BlurBitmapEffect x:Name="myBlurBitmapEffect" Radius="0" KernelType="Box" /> 
+&lt;DropShadowBitmapEffect x:Name="myDropShadowBitmapEffect" Color="Black" ShadowDepth="0" /> 
+&lt;/BitmapEffectGroup> 
+&lt;/Button.BitmapEffect> 
+&lt;Button.Triggers> 
+&lt;EventTrigger RoutedEvent="Button.Click"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Animate the ScaleX property to make the button get larger and smaller in the horizontal axis. --> 
+&lt;DoubleAnimation Storyboard.TargetName="MyAnimatedScaleTransform" Storyboard.TargetProperty="ScaleX" To="5.0" Duration="0:0:1" AutoReverse="True" /> 
+&lt;!-- Animate the ScaleY property to make the button get larger and smaller in the vertical axis. --> 
+&lt;DoubleAnimation Storyboard.TargetName="MyAnimatedScaleTransform" Storyboard.TargetProperty="ScaleY" To="5.0" Duration="0:0:1" AutoReverse="True" /> 
+&lt;!-- Animate the blur to make the object appear to be comming out of the screen. Use a spline key frame to make the blur animate suddenly at the very end of the animation. --> 
+&lt;DoubleAnimationUsingKeyFrames Storyboard.TargetName="myBlurBitmapEffect" Storyboard.TargetProperty="Radius" AutoReverse="True"> 
+&lt;DoubleAnimationUsingKeyFrames.KeyFrames> 
+&lt;SplineDoubleKeyFrame KeySpline="0.6,0.0 0.9,0.00" Value="30" KeyTime="0:0:1" /> 
+&lt;/DoubleAnimationUsingKeyFrames.KeyFrames> 
+&lt;/DoubleAnimationUsingKeyFrames> 
+&lt;!-- Animate shadow depth of the effect. --> 
+&lt;DoubleAnimation Storyboard.TargetName="myDropShadowBitmapEffect" Storyboard.TargetProperty="ShadowDepth" From="0" To="50" Duration="0:0:1" AutoReverse="True" /> 
+&lt;!-- Animate shadow softness. As the object gets farther away, the shadow gets softer. --> 
+&lt;DoubleAnimation Storyboard.TargetName="myDropShadowBitmapEffect" Storyboard.TargetProperty="Softness" From="0" To="1" Duration="0:0:1" AutoReverse="True" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Button.Triggers> 
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="23cb338e-4b59-4b52-b294-96431f9c9568.xaml">Bitmap Effects Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate Bitmap Effects to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

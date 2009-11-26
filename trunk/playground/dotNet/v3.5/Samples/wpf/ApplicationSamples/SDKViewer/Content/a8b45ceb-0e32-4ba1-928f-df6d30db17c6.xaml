@@ -1,0 +1,170 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a8b45ceb_0e32_4ba1_928f_df6d30db17c6"
+  Tag     ="Animate a Rectangle Geometry by Using Key Frames"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Animate a Rectangle Geometry by Using Key Frames</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to animate the Rect property of a RectangleGeometry by using key frames.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses the RectAnimationUsingKeyFrames class to animate the <Run FontWeight="Bold">Rect</Run>
+ property of a <Run FontWeight="Bold">RectangleGeometry</Run>
+. This animation uses three key frames in the following manner:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>During the first two seconds, uses an instance of the LinearRectKeyFrame class to animate a gradual change in the position, width, and height of a rectangle. Linear key frames like <Run FontWeight="Bold">LinearRectKeyFrame</Run>
+ create a smooth linear transition between values.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>During the end of the next half second, uses an instance of the DiscreteRectKeyFrame class to suddenly decrease the height of the rectangle. Discrete key frames like <Run FontWeight="Bold">DiscreteRectKeyFrame</Run>
+ create sudden changes between values, that is, the decrease in height occurs quickly and is not subtle.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>During the final two seconds, uses an instance of the SplineRectKeyFrame class to change the rectangle back to its original size and position. <Run>Spline</Run>
+ key frames like <Run FontWeight="Bold">SplineRectKeyFrame</Run>
+ create a variable transition between values according to the values of the KeySpline property. In this example, the change begins slowly and speeds up exponentially toward the end of the time segment.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_a8b45ceb_0e32_4ba1_928f_df6d30db17c6_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="ThicknessAnimationUsingKeyFrames Example"> 
+&lt;StackPanel Orientation="Vertical" HorizontalAlignment="Center"> 
+&lt;Path Stroke="Black" StrokeThickness="1" Fill="LemonChiffon"> 
+&lt;Path.Data> 
+&lt;RectangleGeometry x:Name="myRectangleGeometry" Rect="0,200,100,100" /> 
+&lt;/Path.Data> 
+&lt;Path.Triggers> 
+&lt;EventTrigger RoutedEvent="Path.Loaded"> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;!-- Animate the Rect property of the RectangleGeometry which causes the rectangle to animate its position as well as its width and height. --> 
+&lt;RectAnimationUsingKeyFrames Storyboard.TargetName="myRectangleGeometry" Storyboard.TargetProperty ="Rect" Duration="0:0:6" FillBehavior="HoldEnd" RepeatBehavior="Forever"> 
+&lt;!-- Animate position, width, and height in first 2 seconds. LinearRectKeyFrame creates a smooth, linear animation between values. --> 
+&lt;LinearRectKeyFrame Value="600,50,200,50" KeyTime="0:0:2" /> 
+&lt;!-- In the next half second, change height to 10. DiscreteRectKeyFrame creates a sudden "jump" between values. --> 
+&lt;DiscreteRectKeyFrame Value="600,50,200,10" KeyTime="0:0:2.5" /> 
+&lt;!-- In the final 2 seconds of the animation, go back to the starting position, width, and height. Spline key frames like SplineRectKeyFrame creates a variable transition between values depending on the KeySpline property. In this example, the animation starts off slow but toward the end of the time segment, it speeds up exponentially.--> 
+&lt;SplineRectKeyFrame Value="0,200,100,100" KeyTime="0:0:4.5" KeySpline="0.6,0.0 0.9,0.00" /> 
+&lt;/RectAnimationUsingKeyFrames> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger> 
+&lt;/Path.Triggers> 
+&lt;/Path> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see KeyFrame Animation Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>RectangleGeometry
+      <LineBreak/>Rect
+      <LineBreak/>RectAnimationUsingKeyFrames
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="10028f97-bb63-41fc-b8ad-663dac7ea203.xaml">Key-Frame Animations Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="a5f9ab1a-d14c-4816-8540-3c5b8c8143d5.xaml">Key-Frame Animation How-to Topics</Hyperlink>
+
+      <LineBreak/>KeyFrame Animation Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Animate a Rectangle Geometry by Using Key Frames to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

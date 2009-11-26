@@ -1,0 +1,166 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_dec1b2ce_9ca5_4bb2_bf54_f8a80a3c8beb"
+  Tag     ="Replace the Default Content Host for a RichTextBox"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Replace the Default Content Host for a RichTextBox</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use Windows Presentation Foundation (WPF) styles to replace the default content host for a RichTextBox.
+    </Paragraph>
+
+    <Paragraph>The <Run FontStyle="italic">content host</Run>
+ is the element that renders the contents of the <Run FontWeight="Bold">RichTextBox</Run>
+. The default control template for a <Run FontWeight="Bold">RichTextBox</Run>
+ specifies a ScrollViewer as the content host.
+    </Paragraph>
+
+    <Paragraph>In cases where the scrolling features provided by a <Run FontWeight="Bold">ScrollViewer</Run>
+ are unwanted or unneeded, a lighter-weight AdornerDecorator element may be specified as the content host for a <Run FontWeight="Bold">RichTextBox</Run>
+. <Run FontWeight="Bold">ScrollViewer</Run>
+ and <Run FontWeight="Bold">AdornerDecorator</Run>
+ are the only supported elements for the content host.
+    </Paragraph>
+
+    <Paragraph>For a working sample that demonstrates this example, see Replace the Default Content Host for a RichTextBox Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The ControlTemplate for a <Run FontWeight="Bold">RichTextBox</Run>
+ must contain exactly one element that is tagged as the content host element. To tag an element as the content host, assign it the special name <Run FontWeight="Bold">PART_ContentHost</Run>
+. The content host element must be either a <Run FontWeight="Bold">ScrollViewer</Run>
+ or an <Run FontWeight="Bold">AdornerDecorator</Run>
+. The content host element may not host any child elements.
+    </Paragraph>
+
+    <Paragraph>The following Extensible Application Markup Language (XAML) example defines a style that overrides the default control template for a <Run FontWeight="Bold">RichTextBox</Run>
+. This style is compatible with elements that descend from TextBoxBase. In the example, an <Run FontWeight="Bold">AdornerDecorator</Run>
+ is specified as the content host.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.Resources> 
+&lt;Style x:Key="TextBoxNoScrollViewer" TargetType="{x:Type TextBoxBase}"> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type TextBoxBase}"> 
+&lt;Border CornerRadius="2" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" > 
+&lt;!-- The control template for a TextBox or RichTextBox must include an element tagged as the content host. An element is tagged as the content host element when it has the special name PART_ContentHost. The content host element must be a ScrollViewer, or an element that derives from Decorator. --> 
+&lt;AdornerDecorator x:Name="PART_ContentHost" Focusable="False" /> 
+&lt;/Border> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;/Window.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following XAML example defines a <Run FontWeight="Bold">RichTextBox</Run>
+ that makes use of the previously declared style by using the Style attribute coupled with a static resource reference to the style's <Hyperlink NavigateUri="1985cd45-f197-42d5-b75e-886add64b248.xaml">x:Key Attribute</Hyperlink>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;RichTextBox Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Style="{StaticResource TextBoxNoScrollViewer}" > 
+&lt;FlowDocument> 
+&lt;Paragraph> RichTextBox styled not to use a ScrollViewer as the content host. 
+&lt;/Paragraph> 
+&lt;/FlowDocument> 
+&lt;/RichTextBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Replace the Default Content Host for a RichTextBox to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

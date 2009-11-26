@@ -1,0 +1,166 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{38F783CA-EF77-43C3-B73B-9C6DB704E39F}</ProjectGuid>
+    <OutputType>winexe</OutputType>
+    <RootNamespace>Microsoft.Windows.SdkViewer</RootNamespace>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>SdkViewer</AssemblyName>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <SignManifests>true</SignManifests>
+    <ManifestCertificateThumbprint>1820A38A56262DA195BCBB3788B4F052DE48967B</ManifestCertificateThumbprint>
+    <ManifestKeyFile>SdkViewer.pfx</ManifestKeyFile>
+    <TargetZone>LocalIntranet</TargetZone>
+    <GenerateManifests>true</GenerateManifests>
+    <MinFrameworkVersionRequired>3.0</MinFrameworkVersionRequired>
+    <ProductName>Windows Presentation Foundation SDK Viewer</ProductName>
+    <PublisherName>Microsoft</PublisherName>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <ApplicationVersion>1.0.0.*</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <PublishUrl>Publish\</PublishUrl>
+    <CreateWebPageOnPublish>false</CreateWebPageOnPublish>
+    <PlatformTarget Condition="'$(TARGET_WOW)' != '' And '$(HostInBrowser)' != 'true' And '$(OutputType)' != 'Library'">x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="PresentationFramework.Luna" />
+    <Reference Include="PresentationFramework.Royale" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Reachframework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+  </ItemGroup>
+  <!-- Use ProjectReference if not building in Visual Studio which stores project references in the SLN file -->
+  <ItemGroup>
+    <ApplicationDefinition Include="SdkViewerApplication.xaml" />
+    <Compile Include="SdkViewerApplication.xaml.cs">
+      <DependentUpon>SdkViewerApplication.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="MainPage.xaml" />
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Controls\BrowserTabControl.xaml" />
+    <Compile Include="Controls\BrowserTabControl.xaml.cs">
+      <DependentUpon>Controls\BrowserTabControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\BrowserTabControlAutomationPeer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Controls\BrowserTabItem.xaml" />
+    <Compile Include="Controls\BrowserTabItem.xaml.cs">
+      <DependentUpon>Controls\BrowserTabItem.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\BrowserTabItemAutomationPeer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Controls\TearOffPanel.xaml" />
+    <Compile Include="Controls\TearOffPanel.xaml.cs">
+      <DependentUpon>Controls\TearOffPanel.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Controls\IndexPanel.xaml" />
+    <Compile Include="Controls\IndexPanel.xaml.cs">
+      <DependentUpon>Controls\IndexPanel.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Controls\SdkPrintDialog.xaml" />
+    <Compile Include="Controls\SdkPrintDialog.xaml.cs">
+      <DependentUpon>Controls\SdkPrintDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Controls\SnippetViewer.xaml" />
+    <Compile Include="Controls\SnippetViewer.xaml.cs">
+      <DependentUpon>Controls\SnippetViewer.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Controls\SdkSinglePageViewer.xaml" />
+    <Compile Include="Controls\SdkSinglePageViewer.xaml.cs">
+      <DependentUpon>Controls\SdkSinglePageViewer.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\SdkSinglePageViewerAutomationPeer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Controls\XamlEditor.xaml" />
+    <Compile Include="Controls\XamlEditor.xaml.cs">
+      <DependentUpon>Controls\XamlEditor.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="DWM\DwmApi.cs" />
+    <Compile Include="DWM\Win32.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Save.bmp" />
+    <Content Include="App.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="wpf_conceptual.HxT" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <BaseApplicationManifest Include="Properties\app.manifest" />
+    <None Include="SdkViewer.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Samples\Samples.VisualStudio.csproj">
+      <Project>{963BD76E-DCA7-4F4C-8AE8-FF09D673573B}</Project>
+      <Name>Samples.VisualStudio</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /y /i /f /r  "$(ProjectDir)Content\*.*" "$(TargetDir)OnlineContent\."</PostBuildEvent>
+  </PropertyGroup>
+</Project>

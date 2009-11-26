@@ -1,0 +1,337 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_517d1606_83e9_436f_8258_19d48493ea3b"
+  Tag     ="RepeatButton Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>RepeatButton Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The RepeatButton class represents a control that is similar to a Button. However, repeat buttons give you control over when and how the Click event occurs. The <Run FontWeight="Bold">RepeatButton</Run>
+ fires its <Run FontWeight="Bold">Click</Run>
+ event repeatedly from the time it is pressed until it is released. The Delay property determines when the event begins. You can also control the interval of the repetitions with the Interval property. This topic introduces the <Run FontWeight="Bold">RepeatButton</Run>
+ control in Windows Presentation Foundation (WPF) and illustrates how to use it in Extensible Application Markup Language (XAML) and C#.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="repeatbutton_control">RepeatButton Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_repeatbuttons">Creating RepeatButtons</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="repeatbutton_styling">RepeatButton Styling</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">RepeatButton Control
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">RepeatButton</Run>
+ is a button that fires <Run FontWeight="Bold">Click</Run>
+ events repeatedly when it is pressed and held. The rate and aspects of repeating are determined by the <Run FontWeight="Bold">Delay</Run>
+ and <Run FontWeight="Bold">Interval</Run>
+ properties that the control exposes.
+    </Paragraph>
+
+    <Paragraph>The following graphic shows an example of the three states of a repeat button control, <Run FontStyle="italic">Default</Run>
+, <Run FontStyle="italic">PointerFocused</Run>
+, and <Run FontStyle="italic">Pressed</Run>
+. The first button shows the default state of the <Run FontWeight="Bold">RepeatButton</Run>
+. The second shows how the appearance of the button changes when the mouse pointer hovers over the button giving it focus. The last button shows the appearance of the <Run FontWeight="Bold">RepeatButton</Run>
+ when the user presses the mouse button.over the control.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Typical RepeatButton</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating RepeatButtons
+    </Paragraph>
+
+    <Paragraph>The following example generates two repeat buttons, <Run FontWeight="Bold">Increase</Run>
+ and <Run FontWeight="Bold">Decrease</Run>
+, and a button that initially contains the number 0 (zero).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;RepeatButton Width="100" DockPanel.Dock="Top" Delay="500" Interval="100" Click="Increase">Increase
+&lt;/RepeatButton> 
+&lt;RepeatButton Width="100" DockPanel.Dock="Top" Delay="500" Interval="100" Click="Decrease">Decrease
+&lt;/RepeatButton> 
+&lt;Button Name="btn" Width="100" DockPanel.Dock="Top" FontSize="16">0
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>After creating the buttons, you can add an event handler to handle the <Run FontWeight="Bold">Click</Run>
+ events. Event handlers must be written in a procedural programming language, such as C# or Microsoft Visual Basic. The following event handler is written in C#.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void Increase(object sender, RoutedEventArgs e) { Int32 Num = Convert.ToInt32(btn.Content); 
+btn.Content = ((Num + 1).ToString()); 
+} void Decrease(object sender, RoutedEventArgs e) { Int32 Num = Convert.ToInt32(btn.Content); 
+btn.Content = ((Num - 1).ToString()); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete see Repeat Buttons Sample.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to generate a <Run FontWeight="Bold">RepeatButton</Run>
+ in C#. The example creates a <Run FontWeight="Bold">RepeatButton</Run>
+ (<Run FontStyle="italic">Increase</Run>
+) and adds the button as a child of a Canvas element (<Run FontStyle="italic">cv3</Run>
+).
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>rpbtn = new RepeatButton(); 
+rpbtn.Width = 50; 
+rpbtn.HorizontalAlignment = HorizontalAlignment.Left; 
+rpbtn.Width = (100); 
+rpbtn.Height = (25); 
+rpbtn.Content = "Increase"; 
+rpbtn.Delay = (100); 
+rpbtn.Interval = (50); 
+spanel2.Children.Add(rpbtn); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see Creating Controls Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22">RepeatButton Styling
+    </Paragraph>
+
+    <Paragraph>With control styling, you can dramatically change the appearance and behavior of <Run FontWeight="Bold">RepeatButton</Run>
+ controls without having to write a custom control. In addition to setting visual properties, you can also apply Style elements to individual parts of a control, change the behavior of parts of the control through properties, add additional parts, and change the layout of a control. The following examples demonstrate several ways to add styles to <Run FontWeight="Bold">RepeatButton</Run>
+ controls. 
+    </Paragraph>
+
+    <Paragraph>The first code example defines a style called <Run FontStyle="italic">Simple</Run>
+ that shows how to use the current system settings in your style. The code assigns the color of the ControlLightBrush as the button's background color and the ControlDarkBrush as the button's foreground color.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Simple" TargetType="{x:Type RepeatButton}"> 
+&lt;Setter Property = "Background" Value= "{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/> 
+&lt;Setter Property = "Foreground" Value= "{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/> 
+&lt;Setter Property = "FontSize" Value= "14"/> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This sample uses triggers that enable you to change the appearance of a <Run FontWeight="Bold">RepeatButton</Run>
+ in response to events that occur on the button. When you move the mouse over the button its appearance changes.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style x:Key="Triggers" TargetType="{x:Type RepeatButton}"> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="Button.IsMouseOver" Value="true"> 
+&lt;Setter Property = "Foreground" Value="Green"/> 
+&lt;Setter Property = "Background" Value="Red"/> 
+&lt;Setter Property = "FontSize" Value="16"/> 
+&lt;Setter Property = "FontStyle" Value="Italic"/> 
+&lt;/Trigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see RepeatButton Styles Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="8f16f642-a2a1-4e53-ae84-39781e72834c.xaml">How to: Use RepeatButton to Raise Events Repeatedly</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>WPF Controls Gallery Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about RepeatButton Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

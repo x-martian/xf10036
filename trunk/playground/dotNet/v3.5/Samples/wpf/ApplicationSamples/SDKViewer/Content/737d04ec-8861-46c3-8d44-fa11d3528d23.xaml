@@ -1,0 +1,1595 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_737d04ec_8861_46c3_8d44_fa11d3528d23"
+  Tag     ="WPF Windows Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Presentation Foundation Windows Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Users interact with applications through windows, irrespective of whether a standalone application or a browser-hosted application. The fundamental purpose of a window is to host and display content. The type of content that a window hosts depends on the type of data that an application operates over, which can include media, Extensible Application Markup Language (XAML) pages, Web pages, documents, database tables and records, and system information.
+    </Paragraph>
+
+    <Paragraph>This topic provides an introduction to windowing fundamentals in WPF, including creating, showing, configuring and managing windows. Specifically, this topic covers the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="TheWindowClass">The Window Class</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="DefiningAWindow">Defining a Window</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="ConfiguringWindowForMSBuild">Configuring a Window Definition for MSBuild</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="WindowLifetime">Window Lifetime</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="WindowLocation">Window Location</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="WindowSize">Window Size</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Window Appearance</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="SecurityConsiderations">Security Considerations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">The Window Class
+    </Paragraph>
+
+    <Paragraph>The following figure illustrates the elements of a typical window:
+    </Paragraph>
+
+    <Paragraph>A window is divided into two areas: the non-client area and client area.
+    </Paragraph>
+
+    <Paragraph>The <Run FontStyle="italic">non-client area</Run>
+ of a window is implemented by WPF, and includes the elements that are common to most windows, including the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A border.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A title bar.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>An icon.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Minimize, Maximize, and Restore buttons.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A Close button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>A System menu, which provides options to minimize, maximize, restore, moves, resize, and close a window.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The <Run FontStyle="italic">client area</Run>
+ of a window is the area within the border and title bar of a window, and is used by developers to host application- and window-specific content.
+    </Paragraph>
+
+    <Paragraph>In WPF, a window is encapsulated by the Window class, which allows you to:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Configure the size, position, and appearance of a window.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Host content within a window.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Display a window.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Manage a windows lifetime.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Message boxes and dialog boxes are other types of windows that are discussed in <Hyperlink NavigateUri="0d23d544-a393-4a02-a3aa-d8cd5d3d6511.xaml">Dialog Boxes Overview</Hyperlink>
+. Furthermore, the NavigationWindow is a special type of window that derives from <Run FontWeight="Bold">Window</Run>
+ and extends it with support for displaying and navigating browsable content (see <Hyperlink NavigateUri="86ad2143-606a-4e34-bf7e-51a2594248b8.xaml">Navigation Overview</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph FontSize="22">Defining a Window
+    </Paragraph>
+
+    <Paragraph>When you implement a window, you define its appearance and behavior. In WPF, you can define the appearance and behavior of a window using code, markup, or markup and code-behind.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Defining a Window in Code
+    </Paragraph>
+
+    <Paragraph>To define a window in code, you create a class that derives from <Run FontWeight="Bold">Window</Run>
+, as shown in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System.Windows; 
+public class CodeWindow : Window {}</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You then define the appearance and behavior of the window by using properties of the <Run FontWeight="Bold">Window</Run>
+ class. This example adds a button to the client area of the window, which is exposed by means of the Content property of the window.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Span>using System.Windows; 
+<Run FontWeight="Bold">using System.Windows.Controls;</Run>
+ public class CodeWindow : Window { public CodeWindow() { // Set the window title, width, and height this.Title = "Code Window"; 
+this.Width = 800 this.Height = 600; 
+// Add a button to the client area Button button = new Button(); 
+button.Content = "Window Content"; 
+button.Click += button_Click; 
+this.Content = button; 
+} void button_Click(object sender, RoutedEventArgs e) { MessageBox.Show("Button was clicked."); 
+} }</Span>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Once consideration when using code to define window appearance and behavior is that it can take a considerable amount of code to define its appearance, especially with respect to layout, data binding, 2-D and 3-D graphics, and animation. Often, implementing these types of appearance in markup with XAML can be much simpler, as XAML is generally more expressive than code.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Defining a Window in Markup
+    </Paragraph>
+
+    <Paragraph>The following example shows a window that is created using markup:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"> 
+&lt;!--Client Area--> 
+&lt;/Window></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To configure the window, you set attributes of the <Run FontWeight="Bold">Window</Run>
+ element. You add content to the client area of a window by adding child elements to the <Run FontWeight="Bold">Window</Run>
+ element:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="Markup Window" Width="800" Height="600"> 
+&lt;!--Client Area--> 
+&lt;Button>Window Content
+&lt;/Button> 
+&lt;/Window></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In most situations, however, it is unlikely that a window will be defined entirely in markup; 
+windows that interact with users through the use of controls will need to implement behavior in code-behind, including event handlers and window-specific functionality.
+    </Paragraph>
+
+    <Paragraph>However, there are some situations where using only markup makes sense. For example, if the content of a window is a Frame, it is unlikely that the window will need to support interaction with the user. Instead, user interaction will be handled by the browsable content that is hosted by the <Run FontWeight="Bold">Frame</Run>
+. The same is likely when using a <Run FontWeight="Bold">NavigationWindow</Run>
+ (see <Hyperlink NavigateUri="86ad2143-606a-4e34-bf7e-51a2594248b8.xaml">Navigation Overview</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph FontSize="18">Defining a Window in Markup and Code-Behind
+    </Paragraph>
+
+    <Paragraph>Defining a window using markup and code-behind is the best of both worlds; 
+you can utilize the expressiveness of XAML to define your appearance, while using code to implement the behavior.
+    </Paragraph>
+
+    <Paragraph>The following example shows a window that is defined using both markup and code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CSharp.MarkupAndCodebehindWindow"> 
+&lt;!--Client Area--> 
+&lt;/Window> // Code-Behind using System.Windows; 
+public partial class MarkupAndCodebehindWindow : Window { public MarkupAndCodebehindWindow() { InitializeComponent(); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To enable a markup file and code-behind file to work together, the following is required:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>In markup, the <Run FontWeight="Bold">Window</Run>
+ element must include the <Run FontWeight="Bold">x:Class</Run>
+ attribute, which instructs MSBuild to create a partial class for the markup file when the project is built with the name specified by the <Run FontWeight="Bold">x:Class</Run>
+ attribute. This requires the addition of an XML namespace declaration for the XAML schema, xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml".
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In code-behind, the class must be a partial class with the same name that is specified by the <Run FontWeight="Bold">x:Class</Run>
+ attribute in markup, and needs to derive from <Run FontWeight="Bold">Window</Run>
+. This allows the code-behind file to be associated with the partial class that is generated for the markup file when it is built (see <Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>In code-behind, the class must implement a constructor that calls the <Run FontWeight="Bold">InitializeComponent</Run>
+ method. <Run FontWeight="Bold">InitializeComponent</Run>
+ is implemented by the markup file's generated partial class to register events and set properties that are defined in markup.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>When you add a new window to your project using Microsoft Visual Studio, the window is defined using both markup and code-behind, and includes the necessary configuration to create the association between the markup and code-behind files.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to use markup and code-behind to set the title of the window, declare a button using XAML, and to handle the Click event in code-behind.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CSharp.MarkupAndCodebehindWindow" Title="Markup and Code-Behind Window" Width="800" Height="600"> 
+&lt;!--Client Area--> 
+&lt;Button Click="button_Click">Window Content
+&lt;/Button> 
+&lt;/Window> // Code-Behind using System.Windows; 
+public partial class MarkupAndCodebehindWindow : Window { public MarkupAndCodebehindWindow() { InitializeComponent(); 
+} void button_Click(object sender, RoutedEventArgs e) { MessageBox.Show("Button was clicked."); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Configuring a Window Definition for MSBuild
+    </Paragraph>
+
+    <Paragraph>How you define your window determines how it is configured for Microsoft build engine (MSBuild). If your window is defined in code, the code file needs to be configured as an MSBuild <Run FontWeight="Bold">Compile</Run>
+ item:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> ... 
+&lt;Compile Include="CodeOnlyWindow.cs" /> ... 
+&lt;/Project></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If your window is defined in markup only with the <Run FontWeight="Bold">x:Class</Run>
+ attribute, the markup file needs to be configured as an MSBuild <Run FontWeight="Bold">Page</Run>
+ built item:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> ... 
+&lt;Page Include="MarkupOnlyWindow.xaml" /> ... 
+&lt;/Project></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If a window is defined in markup only, without the <Run FontWeight="Bold">x:Class</Run>
+ attribute, the markup file can be configured as an MSBuild <Run FontWeight="Bold">Page</Run>
+, <Run FontWeight="Bold">Resource</Run>
+, or <Run FontWeight="Bold">Content</Run>
+ item (see <Hyperlink NavigateUri="7ad2943b-3961-41d3-8fc6-1582d43f5d99.xaml">Windows Presentation Foundation Application Data Files</Hyperlink>
+).
+    </Paragraph>
+
+    <Paragraph>For a window that is defined using both markup and code-behind:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The markup file needs to be configured as an MSBuild <Run FontWeight="Bold">Page</Run>
+ item.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The code-behind file needs to be configures as an MSBuild <Run FontWeight="Bold">Compile</Run>
+ item.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>This is shown in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> ... 
+&lt;Page Include="MarkupAndCodeBehindWindow.xaml" /> 
+&lt;Compile Include=" MarkupAndCodeBehindWindow.xaml.cs" /> ... 
+&lt;/Project></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In this example, the code-behind file has the same file name as the markup file, with the language specific suffix (<Run FontWeight="Bold">.cs</Run>
+ or <Run FontWeight="Bold">.vb</Run>
+). This is not required, although the implicit association improves the maintainability of your MSBuild project. When you use Visual Studio to create a new window, it uses this file naming convention by default.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For in-depth coverage of building WPF applications, see <Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Window Lifetime
+    </Paragraph>
+
+    <Paragraph>Once the window has been defined and configured for MSBuild, you can begin using it. As with any class, a window has a lifetime that begins after it is first instantiated. After a window is instantiated, its lifetime includes being shown, activated, deactivated, and ends with being closed.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Opening a Window
+    </Paragraph>
+
+    <Paragraph>To open a window, you first create an instance of it, as demonstrated by the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CSharp.App" Startup="app_Startup"> 
+&lt;/Application> // Code-Behind public partial class App : Application { public App() { InitializeComponent(); 
+} void app_Startup(object sender, StartupEventArgs e) { // Open a window MarkupAndCodebehindWindow window = new MarkupAndCodebehindWindow(); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In this example, the <Run FontWeight="Bold">MarkupAndCodeBehindWindow</Run>
+ is instantiated when the application starts (see <Hyperlink NavigateUri="32b1c054-5aca-423b-b4b5-ed8dc4dc637d.xaml">Application Management Overview</Hyperlink>
+). When a window is instantiated, a reference to it is automatically added to a list of windows that is managed by the Application object (see Windows). Furthermore, the first window to be instantiated is, by default, set by <Run FontWeight="Bold">Application</Run>
+ as the main application window (see MainWindow).
+    </Paragraph>
+
+    <Paragraph>To show a window, you call the Show method:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void app_Startup(object sender, StartupEventArgs e) { // Open a window MarkupAndCodebehindWindow window = new MarkupAndCodebehindWindow(); 
+window.Show(); 
+}</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A window that is shown by calling <Run FontWeight="Bold">Show</Run>
+ is modeless. This means that it does not prevent users from activating other windows in the same application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph><Run FontWeight="Bold">Window</Run>
+ also implements the ShowDialog method, which is used to open a modal window. The most common type of modal window is a dialog box, which is discussed further in <Hyperlink NavigateUri="0d23d544-a393-4a02-a3aa-d8cd5d3d6511.xaml">Dialog Boxes Overview</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>As a shortcut, and as long as the window definition includes markup, you can declaratively configure your application definition to open the main window automatically by setting the StartupUri property in markup:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Application x:Class="CSharp.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="MarkupAndCodeBehindWindow.xaml"> 
+&lt;/Application></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the application starts, this markup causes the <Run FontWeight="Bold">MarkupAndCodeBehindWindow</Run>
+ window to be shown modelessly by calling its <Run FontWeight="Bold">Show</Run>
+ method.
+    </Paragraph>
+
+    <Paragraph>When <Run FontWeight="Bold">Show</Run>
+ is called, a window needs to perform some initialization work before it is actually shown. The focus of the initialization is to establish the infrastructure that allows it to receive user input. When initialization is complete, the SourceInitialized event is raised, after which the window is finally shown.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Window Ownership
+    </Paragraph>
+
+    <Paragraph>When a window is opened by calling <Run FontWeight="Bold">Show</Run>
+, it has no knowledge of, or relationship with, the window that created it. As such, users will be able to interact with each window independently of the other. Visually, this means that:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Either window can cover the other (unless one of the windows has its Topmost property set to <Run FontWeight="Bold">true</Run>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Either window can be minimized, maximized, and restored without affecting the other.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>For some applications, however, an opened window needs to have a tighter visual relationship with the window that opens it. For example, an Integrated Development Environment (IDE) application may open windows like property and tool windows, which should always cover the window that creates them, and should always minimize, maximize, and restore in concert with the window that created them.
+    </Paragraph>
+
+    <Paragraph>You can establish this behavior by making one window <Run FontStyle="italic">own</Run>
+ another window. This is done by setting the Owner property of the opened window with a reference to the window that opens it:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create a new owned window OwnedWindow ownedWindow = new OwnedWindow(); 
+ownedWindow.Owner = this; 
+// Set opening window (this) as the owner ownedWindow.Show();</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Once the window relationship is established, the owned window can reference its owner through the <Run FontWeight="Bold">Owner</Run>
+ property. The owner window can discover all the windows it owns by enumerating the OwnedWindows property.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Window Activation
+    </Paragraph>
+
+    <Paragraph>When a window is first displayed, it becomes the foreground window, which means that it is the window that is currently capturing user input such as key strokes and mouse clicks; 
+this window is also known as the <Run FontStyle="italic">active window</Run>
+. A window becomes the active window when it is opened for the first time, or when a user selects it. In both cases, the window raises the Activated event.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>When a window is first opened, the Loaded, and ContentRendered events are raised after the prior to the <Run FontWeight="Bold">Activated</Run>
+ event. Consequently, a window is considered to have opened only when <Run FontWeight="Bold">ContentRendered</Run>
+ is raised.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>After a window becomes active, a user can activate another window in the same application, or activate another application. When they do so, the currently active window becomes deactivated and raises the Deactivated event:
+    </Paragraph>
+
+    <Paragraph>One reason to handle <Run FontWeight="Bold">Activated</Run>
+ and <Run FontWeight="Bold">Deactivated</Run>
+ is to enable and disable functionality that can only run when a window is active, for example windows that require constant user input or attention such as games or video players.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to handle <Run FontWeight="Bold">Activated</Run>
+ and <Run FontWeight="Bold">Deactivated</Run>
+ to implement this behavior:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Window x:Class="CSharp.CustomMediaPlayer" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Custom Media Player" Activated="window_Activated" Deactivated="window_Deactivated" > 
+&lt;DockPanel> 
+&lt;!-- Player Buttons --> 
+&lt;StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center"> 
+&lt;Button Name="playButton" Click="playButton_Click">Play
+&lt;/Button> 
+&lt;Button Name="clickButton" Click="stopButton_Click">Stop
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;!-- Media Player --> 
+&lt;MediaElement Stretch="Fill" Name="mediaElement" LoadedBehavior="Manual" Source="numbers.wmv" /> 
+&lt;/DockPanel> 
+&lt;/Window> // Code-Behind public partial class CustomMediaPlayer : Window { ... bool isMediaElementPlaying; 
+void playButton_Click(object sender, RoutedEventArgs e) { // Start media player this.mediaElement.Play(); 
+this.isMediaElementPlaying = true; 
+} void stopButton_Click(object sender, RoutedEventArgs e) { // Stop media player this.mediaElement.Stop(); 
+this.isMediaElementPlaying = false; 
+} void window_Activated(object sender, EventArgs e) { // Recommence playing media if window is activated if( this.isMediaElementPlaying ) this.mediaElement.Play(); 
+} void window_Deactivated(object sender, EventArgs e) { // Pause playing if media is being played and window is deactivated if (this.isMediaElementPlaying) this.mediaElement.Pause(); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Sometimes, a window may still be processing even if it is inactive. For example, a mail client may continue polling the mail server while the user is using other applications. Applications like these often provide different or additional behavior while the main window is deactivated. With respect to the mail program, this may mean not only adding the new mail to the inbox, but may also mean adding an icon to the system tray to notify the user. To determine if it needs to perform this behavior, it can detect whether a window is activated or not by inspecting the IsActive property.
+    </Paragraph>
+
+    <Paragraph>Alternatively, a window may want become the active window, particularly if it needs to notify the user more urgently. You can do this by calling the Activate method.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Note</Run>
+<Run FontWeight="Bold">Application</Run>
+ also raises Activated and Deactivated events.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Closing a Window
+    </Paragraph>
+
+    <Paragraph>When a user is finished with a window, they will want to close it. A window can be closed by using elements in the non-client area, including the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The <Run FontWeight="Bold">Close</Run>
+ item of the <Run FontWeight="Bold">System</Run>
+ menu.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Pressing <Run FontWeight="Bold">ALT+F4</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Pressing the <Run FontWeight="Bold">Close</Run>
+ button.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Developers can also add custom mechanisms to the client area to close a window, including the following:
+    </Paragraph>
+
+    <Paragraph>An <Run FontWeight="Bold">Exit</Run>
+ item in the <Run FontWeight="Bold">File</Run>
+ menu, typically for main application windows.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Close</Run>
+ item in the <Run FontWeight="Bold">File</Run>
+ menu, typically on a secondary application window.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Cancel</Run>
+ button, typically on a modal dialog box.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Close</Run>
+ button, typically on a modeless dialog box.
+    </Paragraph>
+
+    <Paragraph>To close a window in response to one of these developer-provided mechanisms, you need to call the Close method.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to close a window when the <Run FontWeight="Bold">File | Exit</Run>
+ menu is clicked:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;!-- Menu bar --> 
+&lt;Menu DockPanel.Dock="Top"> 
+&lt;MenuItem Header="_File"> 
+&lt;MenuItem Header="_Exit" Click="exitMenu_Click" /> 
+&lt;/MenuItem> 
+&lt;/Menu> // Code-Behind void exitMenu_Click(object sender, EventArgs e) { // Close the window this.Close(); 
+}</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When a window closes, it raises two events: Closing and Closed.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Closing</Run>
+ is raised before the window closes, and allows you to prevent the window from actually closing. One common reason to do this is if window content contains data that needs to be saved, or if some activity is taking place. In these situations, a window can use the <Run FontWeight="Bold">Closing</Run>
+ event to notify the user and ask them if they'd like to continue closing the window or not. Essentially, this is a backup technique for users who may try to close windows that contain data which hasn't been saved.
+    </Paragraph>
+
+    <Paragraph>You can handle <Run FontWeight="Bold">Closing</Run>
+ like so:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Window Closing="window_Closing" ... > ... 
+&lt;/Window> // Code-Behind void window_Closing(object sender, CancelEventArgs e) { // Ask user if they want to close the window if( this.canClose ) { string msg = "Do you want to close this window?"; 
+string title = "Custom Media Player?"; 
+MessageBoxButton buttons = MessageBoxButton.YesNo; 
+MessageBoxImage icon = MessageBoxImage.Warning; 
+// Show message box and get user's answer MessageBoxResult result = MessageBox.Show(msg, title, buttons, icon); 
+// Don't close window if user clicked No e.Cancel = (result == MessageBoxResult.No); 
+} }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">Closing</Run>
+ event handler is passed a CancelEventArgs, which exposes a <Run FontWeight="Bold">Boolean</Run>
+ Cancel property that you set to <Run FontWeight="Bold">true</Run>
+ to prevent a window from closing.
+    </Paragraph>
+
+    <Paragraph>If <Run FontWeight="Bold">Closing</Run>
+ is not handled, or it is handled but not canceled, the window will close. Right before a window closes, and after a window can be prevented from closing, <Run FontWeight="Bold">Closed</Run>
+ is raised.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>An application can be configured to shut down automatically when either the main application window closes (see <Run FontWeight="Bold">MainWindow</Run>
+) or the last window closes. See ShutdownMode.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>While a window can be explicitly closed through non-client area and client area provided mechanisms, a window can also be implicitly closed as a result of behavior in other parts of the application or Windows, including:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>When a user either logs off from or shuts down Windows.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When the owner of a window closes (see <Run FontWeight="Bold">Owner</Run>
+).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When the main application window is closed and <Run FontWeight="Bold">ShutdownMode</Run>
+ is OnMainWindowClose.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>When a window is closed, it cannot be reopened, although its lifetime doesn't end until the reference to it is set to <Run FontWeight="Bold">null</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Window Lifetime Events
+    </Paragraph>
+
+    <Paragraph>The following figure illustrates the key events in the lifetime of a window, and the sequence in which they are raised.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Window Location
+    </Paragraph>
+
+    <Paragraph>The location of a window on the desktop can be discovered by inspecting the Left and Top properties. You can set these properties if you'd like to change the current location of a window.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Window</Run>
+ also allows you to configure both the location it appears in when first opened and its location is with respect to other windows.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Startup Location
+    </Paragraph>
+
+    <Paragraph>The position that a window appears in when it opens is determined by the WindowStartupLocation property, which can be one of the following WindowStartupLocation enumeration values:
+    </Paragraph>
+
+    <Paragraph>Manual (default).
+    </Paragraph>
+
+    <Paragraph>CenterScreen.
+    </Paragraph>
+
+    <Paragraph>CenterOwner.
+    </Paragraph>
+
+    <Paragraph>If the startup location is specified as <Run FontWeight="Bold">Manual</Run>
+, Window will ask Windows for a position to appear in. You can override this by supplying a specific location.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Topmost Windows and Z-Order
+    </Paragraph>
+
+    <Paragraph>Besides having an x and y location on the desktop, as determined by the <Run FontWeight="Bold">Left</Run>
+ and <Run FontWeight="Bold">Top</Run>
+ properties, respectively, windows also have a z location. The z location is known as the <Run FontStyle="italic">z-order</Run>
+, and determines whether one window is positioned above or below another.
+    </Paragraph>
+
+    <Paragraph>By default, the z-order of a window is determined by whether it is currently activated; 
+if activated, it appears above all other windows. You change this behavior through the use of the <Run FontWeight="Bold">Topmost</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>Windows actually divides the z-order into two layers: <Run FontStyle="italic">normal z-order</Run>
+ and <Run FontStyle="italic">topmost z-order</Run>
+. By default, windows appear in the normal z-order layer. However, you can specify that a window appears in the topmost z-order by setting its <Run FontWeight="Bold">Topmost</Run>
+ property to <Run FontWeight="Bold">true</Run>
+. All windows in the topmost z-order appear above all windows in the normal z-order, and is the ideal location for windows that must always be visible to the user, such as the Windows <Run FontWeight="Bold">Task Manager</Run>
+. Within each z-order, the default behavior still applies: the currently activated window appears above all other windows within the same z-order.
+    </Paragraph>
+
+    <Paragraph>The following figure illustrates the effect of the <Run FontWeight="Bold">Topmost</Run>
+ property on windows in the normal and topmost z-orders.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Window Size
+    </Paragraph>
+
+    <Paragraph>As with the location of a window, the size of a window can be discovered and configured using a variety of properties.
+    </Paragraph>
+
+    <Paragraph>MinWidth, Width, and MaxWidth determine the range of widths that a window can have during its lifetime, as illustrated by the following figure:
+    </Paragraph>
+
+    <Paragraph>MinHeight, Height, and MaxHeight determine the range of heights that a window can have during its lifetime, as illustrated by the following figure:
+    </Paragraph>
+
+    <Paragraph>After a window is resized, you can detect its current width and height by inspecting ActualWidth and ActualHeight, respectively.
+    </Paragraph>
+
+    <Paragraph>When a window opens, you can specify its initial size relative to the size of its contents by setting the SizeToContent property.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Sizing Property Dependency
+    </Paragraph>
+
+    <Paragraph>
+&lt;TODO: wait for hamid>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Window Appearance
+    </Paragraph>
+
+    <Paragraph>You change the appearance of the client area of a window by adding window-specific content to it, such as buttons, labels, and text boxes. To configure the non-client area, <Run FontWeight="Bold">Window</Run>
+ provides several properties that include Icon to set a window's icon and Title to set its title.
+    </Paragraph>
+
+    <Paragraph>You can also change the appearance and behavior of non-client area border by configuring a window's resize mode, window style, and whether it appears as a button in the desktop's task bar.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Resize Mode
+    </Paragraph>
+
+    <Paragraph>Depending on the WindowStyle, you can change how the user will resize the window, or whether they can at all. While being related to sizing, the choice of window style affects whether a user can resize the window by dragging its border with the mouse, whether the <Run FontWeight="Bold">Minimize</Run>
+, <Run FontWeight="Bold">Maximize</Run>
+, and <Run FontWeight="Bold">Resize</Run>
+ buttons appear on the non-client area, and, if they do appear, whether they are enabled.
+    </Paragraph>
+
+    <Paragraph>You can configure how a window resizes by setting its ResizeMode property, which can be one of the following ResizeMode enumeration values:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>NoResize.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>CanMinimize.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>CanResize (the default).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>CanResizeWithGrip.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following figure illustrates the effect of each:
+    </Paragraph>
+
+    <Paragraph>As with <Run FontWeight="Bold">WindowStyle</Run>
+, the resize mode of a window is unlikely to change during it's lifetime, which means that you'll most likely set it from markup:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Window ... ResizeMode="CanResizeWithGrip"> ... 
+&lt;/Window></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that you can detect whether a window is maximized, minimized, or restored by inspecting the WindowState property.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Window Style
+    </Paragraph>
+
+    <Paragraph>The border that is exposed from the non-client area of a window is suitable for most applications. However, there are circumstances where different types of borders are needed, or no borders are needed at all, depending on the type of window.
+    </Paragraph>
+
+    <Paragraph>To control what type of border a window gets, you set its <Run FontWeight="Bold">WindowStyle</Run>
+ property with one of the values of the WindowStyle enumeration, which are:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>None.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>SingleBorderWindow (the default).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ThreeDBorderWindow.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>ToolWindow.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The effect of these window styles are illustrated in the following figure:
+    </Paragraph>
+
+    <Paragraph>You can set <Run FontWeight="Bold">WindowStyle</Run>
+ using either markup or code, although, because it is unlikely to change during the lifetime of a window, you will most likely configure it using markup:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Window ... WindowStyle="ToolWindow"> ... 
+&lt;/Window></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="16pt">Non-Rectangular Window Style
+    </Paragraph>
+
+    <Paragraph>There are also situations where the border styles that <Run FontWeight="Bold">WindowStyle</Run>
+ allows you to have are not sufficient. For example, you may want to create an application with the same non-rectangular type of border as an application like Microsoft Windows Media Player.
+    </Paragraph>
+
+    <Paragraph>For example, consider the speech bubble window shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>This type of window can be created by setting the <Run FontWeight="Bold">WindowStyle</Run>
+ attribute to <Run FontWeight="Bold">None</Run>
+ (<Run FontWeight="Bold">None</Run>
+), and by using special support that <Run FontWeight="Bold">Window</Run>
+ has for transparency:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Window ... WindowStyle="None" AllowsTransparency="True" Background="Transparent"> ... 
+&lt;/Window></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This combination of <Run FontWeight="Bold">WindowStyle</Run>
+, <Run FontWeight="Bold">AllowsTransparency</Run>
+, and <Run FontWeight="Bold">Background</Run>
+ attributes and values instructs the window to render completely transparent. This allows you to then provide your own border, by using a Path for example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Window ... WindowStyle="None" AllowsTransparency="True" Background="Transparent"> ... 
+&lt;Path Stroke="DarkGray" StrokeThickness="2"> 
+&lt;!-- Path and fill for speech bubble --> ... 
+&lt;/Path> ... 
+&lt;/Window></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you do create a non-rectangular border for your window, that means you cannot use the WPF-provided non-client area elements and, consequently, must implement your own.
+    </Paragraph>
+
+    <Paragraph>See Non-Rectangular Windows Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Task Bar Presence
+    </Paragraph>
+
+    <Paragraph>The default appearance of a window includes a task bar button, like the one shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>Some types of windows don't have a task bar button, such as message boxes and dialog boxes (see <Hyperlink NavigateUri="0d23d544-a393-4a02-a3aa-d8cd5d3d6511.xaml">Dialog Boxes Overview</Hyperlink>
+). You can toggle whether the task bar button for a window is shown by setting the ShowInTaskbar property (<Run FontWeight="Bold">true</Run>
+ by default):
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- Markup --> 
+&lt;Window ... ShowInTaskbar="False"> ... 
+&lt;/Window></Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Security Considerations
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Window</Run>
+ requires <Run FontWeight="Bold">UnmanagedCode</Run>
+ security permission to be instantiated. For applications installed on and launched from the local machine, this falls within the set of permissions that are granted to the application.
+    </Paragraph>
+
+    <Paragraph>However, this falls outside the set of permissions granted to standalone applications that are launched from the <Run FontWeight="Bold">Internet</Run>
+ or <Run FontWeight="Bold">LocalIntranet</Run>
+ using ClickOnce. Consequently, users will receive a ClickOnce security warning, and will need to elevate the permission set for the application to full trust.
+    </Paragraph>
+
+    <Paragraph>Additionally, cannot show windows or dialog boxes by default. See <Hyperlink NavigateUri="2a39a054-3e2a-4659-bcb7-8bcea490ba31.xaml">Windows Presentation Foundation Security Strategy - Platform Security</Hyperlink>
+ for a discussion on standalone application security considerations.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Window
+      <LineBreak/>MessageBox
+      <LineBreak/>NavigationWindow
+      <LineBreak/>Application
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0d23d544-a393-4a02-a3aa-d8cd5d3d6511.xaml">Dialog Boxes Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="a58696fd-bdad-4b55-9759-136dfdf8b91c.xaml">Building a Windows Presentation Foundation Application</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Windows Presentation Foundation Standalone Applications Overview
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Windows Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

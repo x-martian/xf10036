@@ -1,0 +1,529 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_255905af_0b17_485c_93d4_8a2db2a6524b"
+  Tag     ="UI Automation Properties for Clients"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>UI Automation Properties for Clients</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This overview introduces you to Microsoft UI Automation properties. 
+    </Paragraph>
+
+    <Paragraph>Properties on AutomationElement objects contain information about user interface (UI) elements, usually controls. The properties of an <Run FontWeight="Bold">AutomationElement</Run>
+ are generic; 
+that is, not specific to a control type. Many of these properties are exposed in the AutomationElementInformation structure.
+    </Paragraph>
+
+    <Paragraph><Run>Control pattern</Run>
+s also have properties. The properties of control patterns are specific to the pattern. For example, ScrollPattern has properties that enable a client application to discover whether a window is vertically or horizontally scrollable, and what the current view sizes and scroll positions are. Control patterns expose all their properties through a structure; 
+for example, ScrollPatternInformation.
+    </Paragraph>
+
+    <Paragraph>UI Automation properties are read-only. To set properties of a control, you must use the methods of the appropriate control pattern. For example, use Scroll to change the position values of a scrolling window.
+    </Paragraph>
+
+    <Paragraph>To improve performance, property values of controls and control patterns can be cached when <Run FontWeight="Bold">AutomationElement</Run>
+ objects are retrieved. For more information, see <Hyperlink NavigateUri="94c15031-4975-43cc-bcd5-c9439ed21c9c.xaml">Caching in UI Automation Clients</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Property_IDs">Property IDs</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Property_Conditions">Property Conditions</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Retrieving_Properties">Retrieving Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="_Default_Property_Values">Default Property Values</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Property_changed_Events">Property-changed Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Additional_AutomationElement_Properties">Additional AutomationElement Properties</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Property IDs
+    </Paragraph>
+
+    <Paragraph>Property identifiers (IDs) are unique, constant values that are encapsulated in AutomationProperty objects. <Run>UI Automation client</Run>
+ applications get these IDs from the <Run FontWeight="Bold">AutomationElement</Run>
+ class or from the appropriate control pattern class, such as <Run FontWeight="Bold">ScrollPattern</Run>
+. <Run>UI Automation provider</Run>
+s get them from AutomationElementIdentifiers or from one of the control pattern identifiers classes, such as ScrollPatternIdentifiers.
+    </Paragraph>
+
+    <Paragraph>The numeric Id of an <Run FontWeight="Bold">AutomationProperty</Run>
+ is used by providers to identify properties that are being queried for in the System.Windows.Automation.Provider.IRawElementProviderSimple.GetPropertyValue(System.Int32) method. In general, client applications do not need to examine the <Run FontWeight="Bold">Id</Run>
+. The ProgrammaticName is used only for debugging and diagnostic purposes.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Property Conditions
+    </Paragraph>
+
+    <Paragraph>The property IDs are used in constructing PropertyCondition objects used to find <Run FontWeight="Bold">AutomationElement</Run>
+ objects. For example, you might wish to find an <Run FontWeight="Bold">AutomationElement</Run>
+ that has a certain name, or all controls that are enabled. Each <Run FontWeight="Bold">PropertyCondition</Run>
+ specifies an <Run FontWeight="Bold">AutomationProperty</Run>
+ identifier and the value that the property must match.
+    </Paragraph>
+
+    <Paragraph>For more information, see the following reference topics:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>FindFirst 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>FindAll 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Condition 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Retrieving Properties
+    </Paragraph>
+
+    <Paragraph>Some properties of <Run FontWeight="Bold">AutomationElement</Run>
+ and all properties of a control pattern class are exposed as nested properties of the <Run FontWeight="Bold">Current</Run>
+ or <Run FontWeight="Bold">Cached</Run>
+ property of the <Run FontWeight="Bold">AutomationElement</Run>
+ or control pattern object.
+    </Paragraph>
+
+    <Paragraph>In addition, any <Run FontWeight="Bold">AutomationElement</Run>
+ or control pattern property, including a property that is not available in the Cached or Current structure, can be retrieved by using one of the following methods:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>GetCachedPropertyValue 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>GetCurrentPropertyValue 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>These methods offer slightly better performance as well as access to the full range of properties.
+    </Paragraph>
+
+    <Paragraph>The following code example shows the two ways of retrieving a property on an <Run FontWeight="Bold">AutomationElement</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// elementList is an AutomationElement. // The following two calls are equivalent. string name = elementList.Current.Name; 
+name = elementList.GetCurrentPropertyValue(AutomationElement.NameProperty) as string; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' elementList is an AutomationElement. ' The following two calls are equivalent. Dim name As String = elementList.Current.Name name = CStr(elementList.GetCurrentPropertyValue(AutomationElement.NameProperty)) </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To retrieve properties of control patterns supported by the <Run FontWeight="Bold">AutomationElement</Run>
+, you do not need to retrieve the control pattern object. Simply pass one of the pattern property identifiers to the method.
+    </Paragraph>
+
+    <Paragraph>The following code example shows the two ways of retrieving a property on a control pattern.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// elementList is an AutomationElement representing a list box. // Error-checking is omitted. Assume that elementList is known to support SelectionPattern. SelectionPattern selectPattern = elementList.GetCurrentPattern(SelectionPattern.Pattern) as SelectionPattern; 
+bool isMultipleSelect = selectPattern.Current.CanSelectMultiple; 
+// The following call is equivalent to the one above. isMultipleSelect = (bool) elementList.GetCurrentPropertyValue(SelectionPattern.CanSelectMultipleProperty); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' elementList is an AutomationElement representing a list box. ' Error-checking is omitted. Assume that elementList is known to support SelectionPattern. Dim selectPattern As SelectionPattern = _ DirectCast(elementList.GetCurrentPattern(SelectionPattern.Pattern), SelectionPattern) Dim isMultipleSelect As Boolean = selectPattern.Current.CanSelectMultiple ' The following call is equivalent to the one above. isMultipleSelect = CBool(elementList.GetCurrentPropertyValue(SelectionPattern.CanSelectMultipleProperty)) </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run FontWeight="Bold">Get</Run>
+ methods return an Object. The application must cast the returned object to the proper type before using the value.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Default Property Values
+    </Paragraph>
+
+    <Paragraph>If a UI Automation provider does not implement a property, the UI Automation system is able to supply a default value. For example, if the provider for a control does not support the property identified by HelpTextProperty, UI Automation returns an empty string. Similarly, if the provider does not support the property identified by IsDockPatternAvailableProperty, UI Automation returns <Run FontWeight="Bold">false</Run>
+.
+    </Paragraph>
+
+    <Paragraph>You can change this behavior by using the System.Windows.Automation.AutomationElement.GetCachedPropertyValue(System.Windows.Automation.AutomationProperty,System.Boolean) and System.Windows.Automation.AutomationElement.GetCurrentPropertyValue(System.Windows.Automation.AutomationProperty,System.Boolean) method overloads. When you specify <Run FontWeight="Bold">true</Run>
+ as the second parameter, UI Automation does not return a default value, but instead returns the special value NotSupported.
+    </Paragraph>
+
+    <Paragraph>The following example code attempts to retrieve a property from an element, and if the property is not supported, an application-defined value is used instead.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// elementList is an AutomationElement. object help = elementList.GetCurrentPropertyValue(AutomationElement.HelpTextProperty, true); 
+if (help == AutomationElement.NotSupported) { help = "No help available"; 
+} string helpText = (string)help; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>' elementList is an AutomationElement. Dim help As Object = elementList.GetCurrentPropertyValue(AutomationElement.HelpTextProperty, True) If help Is AutomationElement.NotSupported Then help = "No help available" End If Dim helpText As String = CStr(help) </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To discover what properties are supported by an element, use GetSupportedProperties. This returns an array of <Run FontWeight="Bold">AutomationProperty</Run>
+ identifiers.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Property-changed Events
+    </Paragraph>
+
+    <Paragraph>When a property value on an <Run FontWeight="Bold">AutomationElement</Run>
+ or control pattern changes, an event is raised. An application can subscribe to such events by calling AddAutomationPropertyChangedEventHandler, supplying an array of <Run FontWeight="Bold">AutomationProperty</Run>
+ identifiers as the last parameter in order to specify the properties of interest.
+    </Paragraph>
+
+    <Paragraph>In the AutomationPropertyChangedEventHandler, you can identify the property that has changed by checking the Property member of the event arguments. The arguments also contain the old and new values of the UI Automation property that has changed. These values are of type <Run FontWeight="Bold">Object</Run>
+ and must be cast to the correct type before being used.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Additional AutomationElement Properties
+    </Paragraph>
+
+    <Paragraph>In addition to the <Run FontWeight="Bold">Current</Run>
+ and <Run FontWeight="Bold">Cached</Run>
+ property structures, <Run FontWeight="Bold">AutomationElement</Run>
+ has the following properties, which are retrieved through simple property accessors.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Property 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>CachedChildren 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>A collection of child <Run FontWeight="Bold">AutomationElement</Run>
+ objects that are in the cache.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>CachedParent 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>An <Run FontWeight="Bold">AutomationElement</Run>
+ parent object that is in the cache.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>FocusedElement 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>(Static property) The <Run FontWeight="Bold">AutomationElement</Run>
+ that has the input focus.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>RootElement 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>(Static property) The root <Run FontWeight="Bold">AutomationElement</Run>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b688effa-b3e8-4b05-944d-05ed89a245aa.xaml">Subscribe to UI Automation Events</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="94c15031-4975-43cc-bcd5-c9439ed21c9c.xaml">Caching in UI Automation Clients</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6acc6d08-bd67-4e2e-915c-9c1d34eb86fe.xaml">Server-Side UI Automation Provider Implementation</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about UI Automation Properties for Clients to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

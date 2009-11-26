@@ -1,0 +1,429 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f02aac6f_3436_4f7c_b6ea_0452cba5332c"
+  Tag     ="Add Custom Data to Ink Data"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Add Custom Data to Ink Data</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can add custom data to ink that will be saved when the ink is saved as ink serialized format (ISF). You can save the custom data to the DrawingAttributes, the StrokeCollection, or the Stroke. Being able to save custom data on three objects gives you the ability to decide the best place to save the data. All three classes use similar methods to store and access custom data.
+    </Paragraph>
+
+    <Paragraph>Only the following types can be saved as custom data:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Boolean 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Boolean</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Byte 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Byte</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Char 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Char</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>DateTime 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">DateTime</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Decimal 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Decimal</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Double 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Double</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Int16 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Int16</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Int32 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Int32</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Int64 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Int64</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Single 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Single</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>String 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UInt16 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">UInt16</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UInt32 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">UInt32</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>UInt64 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">UInt64</Run>
+[]
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example demonstrates how to add and retrieve custom data from a <Run FontWeight="Bold">StrokeCollection</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Guid timestamp = new Guid("12345678-9012-3456-7890-123456789012"); 
+// Add a timestamp to the StrokeCollection. private void AddTimestamp() { inkCanvas1.Strokes.AddPropertyData(timestamp, DateTime.Now); 
+} // Get the timestamp of the StrokeCollection. private void GetTimestamp() { if (inkCanvas1.Strokes.ContainsPropertyData(timestamp)) { object date = inkCanvas1.Strokes.GetPropertyData(timestamp); 
+if (date is DateTime) { MessageBox.Show("This StrokeCollection's timestamp is " + ((DateTime)date).ToString()); 
+} } else { MessageBox.Show( "The StrokeCollection does not have a timestamp."); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Private timestamp As New Guid("12345678-9012-3456-7890-123456789012") ' Add a timestamp to the StrokeCollection. Private Sub AddTimestamp() inkCanvas1.Strokes.AddPropertyData(timestamp, DateTime.Now) End Sub 'AddTimestamp ' Get the timestamp of the StrokeCollection. Private Sub GetTimestamp() If inkCanvas1.Strokes.ContainsPropertyData(timestamp) Then Dim [date] As Object = inkCanvas1.Strokes.GetPropertyData(timestamp) If TypeOf [date] Is DateTime Then MessageBox.Show("This StrokeCollection's timestamp is " + CType([date], DateTime).ToString()) End If Else MessageBox.Show("The StrokeCollection does not have a timestamp.") End If End Sub 'GetTimestamp </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example creates an application that displays an InkCanvas and two buttons. The button, <Run>switchAuthor</Run>
+, enables two pens to be used by two different authors. The button <Run>changePenColors</Run>
+ changes the color of each stroke on the <Run FontWeight="Bold">InkCanvas</Run>
+ according to the author. The application defines two <Run FontWeight="Bold">DrawingAttributes</Run>
+ objects and adds a custom property to each one that indicates which author drew the <Run FontWeight="Bold">Stroke</Run>
+. When the user clicks <Run>changePenColors</Run>
+, the application changes the appearance of the stroke according to the value of the custom property.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Adding Custom Data to Ink" Height="500" Width="700" > 
+&lt;DockPanel Name="root"> 
+&lt;StackPanel Background="DarkSlateBlue"> 
+&lt;Button Name="switchAuthor" Click="switchAuthor_click" > Switch to student's pen 
+&lt;/Button> 
+&lt;Button Name="changePenColors" Click="changeColor_click" > Change the color of the pen ink 
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;InkCanvas Name="inkCanvas1"> 
+&lt;/InkCanvas> 
+&lt;/DockPanel> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Data; 
+using System.Windows.Documents; 
+using System.Windows.Media; 
+using System.Windows.Media.Imaging; 
+using System.Windows.Shapes; 
+using System.Windows.Ink; 
+/// 
+&lt;summary> /// Interaction logic for Window1.xaml /// 
+&lt;/summary> public partial class Window1 : Window { Guid authorGuid = new Guid("12345678-9012-3456-7890-123456789012"); 
+DrawingAttributes teachersDA = new DrawingAttributes(); 
+DrawingAttributes studentsDA = new DrawingAttributes(); 
+string teacher = "teacher"; 
+string student = "student"; 
+bool useStudentPen = false; 
+public Window1() { InitializeComponent(); 
+teachersDA.Color = Colors.Red; 
+teachersDA.Width = 5; 
+teachersDA.Height = 5; 
+teachersDA.AddPropertyData(authorGuid, teacher); 
+studentsDA.Color = Colors.Blue; 
+studentsDA.Width = 5; 
+studentsDA.Height = 5; 
+studentsDA.AddPropertyData(authorGuid, student); 
+inkCanvas1.DefaultDrawingAttributes = teachersDA; 
+} // Switch between using the 'pen' DrawingAttributes and the // 'highlighter' DrawingAttributes. void switchAuthor_click(Object sender, RoutedEventArgs e) { useStudentPen = !useStudentPen; 
+if (useStudentPen) { switchAuthor.Content = "Use teacher's pen"; 
+inkCanvas1.DefaultDrawingAttributes = studentsDA; 
+} else { switchAuthor.Content = "Use student's pen"; 
+inkCanvas1.DefaultDrawingAttributes = teachersDA; 
+} } // Change the color of the ink that on the InkCanvas that used the pen. void changeColor_click(Object sender, RoutedEventArgs e) { foreach (Stroke s in inkCanvas1.Strokes) { if (s.DrawingAttributes.ContainsPropertyData(authorGuid)) { object data = s.DrawingAttributes.GetPropertyData(authorGuid); 
+if ((data is string) &amp;&amp; 
+((string)data == teacher)) { s.DrawingAttributes.Color = Colors.Black; 
+} if ((data is string) &amp;&amp; 
+((string)data == student)) { s.DrawingAttributes.Color = Colors.Green; 
+} } } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System Imports System.Windows Imports System.Windows.Controls Imports System.Windows.Data Imports System.Windows.Documents Imports System.Windows.Media Imports System.Windows.Media.Imaging Imports System.Windows.Shapes Imports System.Windows.Ink '/ 
+&lt;summary> '/ Interaction logic for Window1.xaml '/ 
+&lt;/summary> Partial Class Window1 Inherits Window ' Private authorGuid As New Guid("12345678-9012-3456-7890-123456789012") Private teachersDA As New DrawingAttributes() Private studentsDA As New DrawingAttributes() Private teacher As String = "teacher" Private student As String = "student" Private useStudentPen As Boolean = False Public Sub New() InitializeComponent() teachersDA.Color = Colors.Red teachersDA.Width = 5 teachersDA.Height = 5 teachersDA.AddPropertyData(authorGuid, teacher) studentsDA.Color = Colors.Blue studentsDA.Width = 5 studentsDA.Height = 5 studentsDA.AddPropertyData(authorGuid, student) inkCanvas1.DefaultDrawingAttributes = teachersDA End Sub 'New ' Switch between using the 'pen' DrawingAttributes and the ' 'highlighter' DrawingAttributes. Sub switchAuthor_click(ByVal sender As [Object], ByVal e As RoutedEventArgs) useStudentPen = Not useStudentPen If useStudentPen Then switchAuthor.Content = "Use teacher's pen" inkCanvas1.DefaultDrawingAttributes = studentsDA Else switchAuthor.Content = "Use student's pen" inkCanvas1.DefaultDrawingAttributes = teachersDA End If End Sub 'switchAuthor_click ' Change the color of the ink that on the InkCanvas that used the pen. Sub changeColor_click(ByVal sender As [Object], ByVal e As RoutedEventArgs) Dim s As Stroke For Each s In inkCanvas1.Strokes If s.DrawingAttributes.ContainsPropertyData(authorGuid) Then Dim data As Object = s.DrawingAttributes.GetPropertyData(authorGuid) If TypeOf data Is String AndAlso CStr(data) = teacher Then s.DrawingAttributes.Color = Colors.Black End If If TypeOf data Is String AndAlso CStr(data) = student Then s.DrawingAttributes.Color = Colors.Green End If End If Next s End Sub 'changeColor_click End Class 'Window1 </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Add Custom Data to Ink Data to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,525 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_773a6231_d56e_4cb8_83a0_86062f31dbe4"
+  Tag     ="Implement an Application with a Simple Linear Topology"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Implement an Application with a Simple Linear Topology</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This tutorial takes you through a simple structured navigation application with a linear topology. See <Hyperlink NavigateUri="025d30ef-fec5-436d-ad7a-5d5483331c26.xaml">Structured Navigation Overview</Hyperlink>
+ for a discussion of structured navigation.
+    </Paragraph>
+
+    <Paragraph>The sample discussed in this tutorial is "XAML"-Based PageFunction Sample. It consists of an initial Extensible Application Markup Language (XAML) page that launches a set of pages that comprise a simple structured navigation application. The application uses a simple linear topology, much like a standard Wizard. It has an opening page that introduces the application, and two task pages. One page collects a string and the other a boolean value. When the application terminates, the data that was collected is returned to the initial page. This model can easily be extended to more complex topologies that are launched from anywhere in an application
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="simpleiui2_launching">Launching the Application</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="simpleiui2_startpage">StartPage</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="simpleiui2_task2">The First Task Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="simpleiui2_Task2">The Second Task Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="returned_data">Handling the Returned Data</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Launching the Application
+    </Paragraph>
+
+    <Paragraph>The initial page consists of a button to launch the application and two TextBlock elements to display the collected data when The application terminates. The following example shows the handler for the launch button.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void StartButton(object sender, RoutedEventArgs e) { TaskData returnData = new TaskData(); 
+StartPage nextPage = new StartPage(returnData); 
+nextPage.InitializeComponent(); 
+nextPage.Return += new ReturnEventHandler
+&lt;TaskData>(nextPage_Return); 
+myWindow = (NavigationWindow)app.Current.MainWindow; 
+myWindow.Navigate(nextPage); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The initial page in this application is named StartPage. The launch button handler creates and initializes an instance of this page and passes a new TaskData object to the page's constructor. It also attaches a handler to the page's Return event. This handler is discussed later. The launch button handler then starts the application by navigating the window to the StartPage object.
+    </Paragraph>
+
+    <Paragraph>TaskData is a simple privately defined class that is designed to contain the data that is collected by the application. When the application terminates, the object is passed back to the initial page. TaskData consists largely of three properties.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>IsCancelled. A boolean that indicates whether the user cancelled the application.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Task1Data. A string that contains the data collected by the Task1 page.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Task2Data. A boolean that contains the data collected by the Task2 page.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">StartPage
+    </Paragraph>
+
+    <Paragraph>StartPage is intended to introduce the application. As with all PageFunction pages, the root element is <Run FontWeight="Bold">PageFunction</Run>
+. The type of the <Run FontWeight="Bold">PageFunction</Run>
+ is set to TaskData, which specifies that the object will pass a TaskData object back the calling page when it calls OnReturn. The user interface (UI) is divided into two regions, defined by StackPanel elements. The left region contains some explanatory text. The right region contains two buttons, one to cancel the application and the other to take you to the first task page.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;PageFunction x:Class="SimpleIUI2.StartPage" xmlns:local="clr-namespace:SimpleIUI2" x:TypeArguments="local:TaskData" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;DockPanel > 
+&lt;StackPanel DockPanel.Dock="Left" Orientation="Vertical" Background="LightGray"> 
+&lt;TextBlock FontSize="14" FontWeight="Bold" Margin="10,20,10,10">Some Explanatory Text
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;StackPanel Orientation="Vertical" Background="LightBlue"> 
+&lt;TextBlock Name="SomeText" FontSize="14" FontWeight="Bold" Margin="10,20,10,10">Starting Page
+&lt;/TextBlock> 
+&lt;Button Margin="10,20,10,10" HorizontalAlignment="Left" Name="task1" Click="NextTask" Height="30" Width="150">Go to Task 1
+&lt;/Button> 
+&lt;Button Name="cancel" HorizontalAlignment="Left" Click="NextTask" Height="30" Width="100" Margin="10,20,10,10">Cancel
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/DockPanel> 
+&lt;/PageFunction> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The code-behind file contains Click for the two buttons. The first is clicked by the user when they are ready for the first task, Task1. The handler creates an instance of Task1, passing the TaskData object to its constructor. It then initializes the object and navigates the window.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class StartPage : PageFunction
+&lt;TaskData> { public TaskData returnData; 
+public ReturnEventArgs
+&lt;TaskData> returnArgs; 
+public StartPage() { } public StartPage(TaskData data) { returnData = data; 
+} private void NextTask(object sender, RoutedEventArgs args) { NavigationWindow navWindow; 
+ReturnEventArgs
+&lt;TaskData> returnArgs; 
+returnData = new TaskData(); 
+navWindow = (NavigationWindow)app.Current.MainWindow; 
+if (sender == task1) { Task1 nextPage = new Task1(returnData); 
+nextPage.InitializeComponent(); 
+nextPage.Return += new ReturnEventHandler
+&lt;TaskData>(nextPage_Return); 
+navWindow.Navigate(nextPage); 
+} if (sender == cancel) { this.RemoveFromJournal = true; 
+returnData.IsCancelled = true; 
+returnArgs = new ReturnEventArgs
+&lt;TaskData>(returnData); 
+OnReturn(returnArgs); 
+} } void nextPage_Return(object sender, ReturnEventArgs
+&lt;TaskData> args) { this.RemoveFromJournal = true; 
+OnReturn(args); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If the user choses to cancel the application, the corresponding button handler sets the TaskData object's IsCancelled property to true. It then sets the page's RemoveFromJournal property to <Run FontWeight="Bold">true</Run>
+. This removes the page from the journal, along with any page functions that might have been subsequently created. This step is optional, but useful for some types of applications. See <Hyperlink NavigateUri="025d30ef-fec5-436d-ad7a-5d5483331c26.xaml">Structured Navigation Overview</Hyperlink>
+ for details. Finally, the handler initializes a new ReturnEventArgs object with the TaskData object and calls <Run FontWeight="Bold">OnReturn</Run>
+ to return to the initial page.
+    </Paragraph>
+
+    <Paragraph>The nextPage_Return event handler is called when Task1 calls it's <Run FontWeight="Bold">OnReturn</Run>
+ method. This happens when the user either completes or cancels the application. The handler receives a TaskData object containing the data that has been collected. No UI is displayed. This handler is simply a mechanism to pass the TaskData object back to the initial page when the application is either completed or canceled.
+    </Paragraph>
+
+    <Paragraph FontSize="22">The First Task Page
+    </Paragraph>
+
+    <Paragraph>Task1 has a TextBox control that takes a string from the user. There are also two buttons, one to go to Task2 and one to cancel the application. The <Run FontWeight="Bold">PageFunction</Run>
+ objects JournalEntry.KeepAlive attribute is set to "True". This keeps the object in memory. This means that if the user navigates back to this page by clicking the Back button, the data that they entered will still be there.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;PageFunction x:Class="SimpleIUI2.Task1" xmlns:local="clr-namespace:SimpleIUI2" x:TypeArguments="local:TaskData" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" JournalEntry.KeepAlive="True" Loaded="Init"> 
+&lt;DockPanel> 
+&lt;StackPanel DockPanel.Dock="Left" Orientation="Vertical" Background="LightGray"> 
+&lt;TextBlock FontSize="14" FontWeight="Bold" Margin="10,20,10,10">Some Explanatory Text
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;StackPanel Orientation="Vertical" Background="LightYellow"> 
+&lt;TextBlock Name="SomeText" FontSize="14" FontWeight="Bold" Margin="10,20,10,10">Task 1: Enter Some Text
+&lt;/TextBlock> 
+&lt;TextBox Margin="10,20,10,10" HorizontalAlignment="Left" Name="txtReturnValue" Height="30" Width="150"/> 
+&lt;Button Margin="10,20,10,10" HorizontalAlignment="Left" Name="task2" Click="NextTask" Height="25" Width="150">Go to Task 2
+&lt;/Button> 
+&lt;Button Margin="10,20,10,10" HorizontalAlignment="Left" Name="cancel" Click="NextTask" Height="25" Width="100">Cancel
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/DockPanel> 
+&lt;/PageFunction> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Click event handler for the Task2 button collects the data from the TextBox and assigns it to the TaskData object. It then creates a Task2 object and navigates to it, passing the TaskData object to the Task2 constructor.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class Task1 : PageFunction
+&lt;TaskData> { private TaskData returnData; 
+private ReturnEventArgs
+&lt;TaskData> returnArgs; 
+public Task1() { } public Task1(TaskData data) { returnData = data; 
+} private void Init(object sender, RoutedEventArgs args) { txtReturnValue.Focus(); 
+} private void NextTask(object sender, RoutedEventArgs args) { NavigationWindow navWindow = (NavigationWindow)app.Current.MainWindow; 
+if (sender == task2) { returnData.Task1Data = txtReturnValue.Text; 
+Task2 nextPage = new Task2(returnData); 
+nextPage.InitializeComponent(); 
+nextPage.Return += new ReturnEventHandler
+&lt;TaskData>(nextPage_Return); 
+navWindow.Navigate(nextPage); 
+} else if (sender == cancel) { returnData.IsCancelled = true; 
+returnArgs = new ReturnEventArgs
+&lt;TaskData>(returnData); 
+OnReturn(returnArgs); 
+} } void nextPage_Return(object sender, ReturnEventArgs
+&lt;TaskData> args) { OnReturn(args); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Click handler for the Cancel button is essentially identical to the StartPage. The <Run FontWeight="Bold">Return</Run>
+ event handler also simply serves as a mechanism to pass the TaskData object back to the initial page.
+    </Paragraph>
+
+    <Paragraph FontSize="22">The Second Task Page
+    </Paragraph>
+
+    <Paragraph>Task2 contains two RadioButton controls that allow the user to specify a boolean result. It also has two buttons: a Done button indicates that the user is finished, and a Cancel button to cancel the application.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;PageFunction xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" JournalEntry.KeepAlive="True" x:Class="SimpleIUI2.Task2" xmlns:local="clr-namespace:SimpleIUI2" x:TypeArguments="local:TaskData" > 
+&lt;DockPanel> 
+&lt;StackPanel DockPanel.Dock="Left" Orientation="Vertical" Background="LightGray"> 
+&lt;TextBlock FontSize="14" FontWeight="Bold" Margin="10,20,10,10">Some Explanatory Text
+&lt;/TextBlock> 
+&lt;/StackPanel> 
+&lt;StackPanel Background="LightGreen" Orientation="Vertical"> 
+&lt;TextBlock Name="SomeText" FontSize="14" FontWeight="Bold" Margin="10,20,10,10">Task 2: True or False?
+&lt;/TextBlock> 
+&lt;StackPanel> 
+&lt;RadioButton Name="rdbtnTrue">True
+&lt;/RadioButton> 
+&lt;RadioButton Name="rdbtnFalse">False
+&lt;/RadioButton> 
+&lt;/StackPanel> 
+&lt;Button Margin="10,20,10,10" HorizontalAlignment="Left" Name="done" Click="NextTask" Height="25" Width="100">Done
+&lt;/Button> 
+&lt;Button Margin="10,20,10,10" HorizontalAlignment="Left" Name="cancel" Click="NextTask" Height="25" Width="100">Cancel
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/DockPanel> 
+&lt;/PageFunction> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If the user clicks the Done button, the handler sets the TaskData object's Task2Data property to the appropriate value. It also sets IsCancelled to false, to indicate that the user finished the application. If the user clicks the Cancel button, the handler sets IsCancelled to <Run FontWeight="Bold">true</Run>
+ and deletes the information from Task1Data. In either case, the handler then calls <Run FontWeight="Bold">OnReturn</Run>
+, which passes the TaskData object back to Task1, and eventually back to the initial page.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class Task1 : PageFunction
+&lt;TaskData> { private TaskData returnData; 
+private ReturnEventArgs
+&lt;TaskData> returnArgs; 
+public Task1() { } public Task1(TaskData data) { returnData = data; 
+} private void Init(object sender, RoutedEventArgs args) { txtReturnValue.Focus(); 
+} private void NextTask(object sender, RoutedEventArgs args) { NavigationWindow navWindow = (NavigationWindow)app.Current.MainWindow; 
+if (sender == task2) { returnData.Task1Data = txtReturnValue.Text; 
+Task2 nextPage = new Task2(returnData); 
+nextPage.InitializeComponent(); 
+nextPage.Return += new ReturnEventHandler
+&lt;TaskData>(nextPage_Return); 
+navWindow.Navigate(nextPage); 
+} else if (sender == cancel) { returnData.IsCancelled = true; 
+returnArgs = new ReturnEventArgs
+&lt;TaskData>(returnData); 
+OnReturn(returnArgs); 
+} } void nextPage_Return(object sender, ReturnEventArgs
+&lt;TaskData> args) { OnReturn(args); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Handling the Returned Data
+    </Paragraph>
+
+    <Paragraph>When the user either completes or cancels the application, they initiate a series of <Run FontWeight="Bold">OnReturn</Run>
+ calls that pass the TaskData object back through the sequence of pages to the initial page. The following example shows that page's <Run FontWeight="Bold">Return</Run>
+ event handler. It extracts the data from the returned TaskData object and displays the results.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class Page1 : Page { NavigationWindow myWindow; 
+private void StartButton(object sender, RoutedEventArgs e) { TaskData returnData = new TaskData(); 
+StartPage nextPage = new StartPage(returnData); 
+nextPage.InitializeComponent(); 
+nextPage.Return += new ReturnEventHandler
+&lt;TaskData>(nextPage_Return); 
+myWindow = (NavigationWindow)app.Current.MainWindow; 
+myWindow.Navigate(nextPage); 
+} void nextPage_Return(object sender, ReturnEventArgs
+&lt;TaskData> args) { if (args.Result.IsCancelled) { textFromTask1.Text = "User cancelled the application"; 
+return; 
+} textFromTask1.Text = "Text from Task1:" + " " + args.Result.Task1Data; 
+valueFromTask2.Text = "Value from Task2:" + " " + args.Result.Task2Data.ToString(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Implement an Application with a Simple Linear Topology to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,888 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ee5258b7_6567_415a_9b1c_c0cbe46e79ef"
+  Tag     ="Input Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Input Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The Windows Presentation Foundation (WPF) subsystem provides a powerful new API for input.
+    </Paragraph>
+
+    <Paragraph>This topic describes the services provided by WPF and explains the architecture of the input systems. 
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="introduction">Input API</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="input_in_a_tree">Event Routing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="keyboard_sample">Handling Input Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Text Input</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="text_input">Focus</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run>Mouse Position</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="commands">Commands</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="whats_next">What's Next</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Input API
+    </Paragraph>
+
+    <Paragraph>The primary input API are found on the base element classes: UIElement, ContentElement, FrameworkElement, and FrameworkContentElement. For more information about the base elements, see the <Hyperlink NavigateUri="2c997092-72c6-4767-bc84-74267f4eee72.xaml">Base Elements Overview</Hyperlink>
+. These classes provide functionality for input events related to key presses, mouse buttons, mouse wheel, mouse movement, focus management, and mouse capture, to name a few. Many input events have a pair of events associated with them. For example, the drag enter event is associated with the DragEnter and PreviewDragEnter events. The difference in these events is in how they are routed to the target element. Preview events tunnel down the element tree from the root element to the target element. Bubbling events bubble up from the target element to the root element. Event routing in WPF is discussed in more detail later in this overview and in the <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Keyboard and Mouse Classes
+    </Paragraph>
+
+    <Paragraph>In addition to the input API on the base classes, the Keyboard class and Mouse classes provide additional API for working with keyboard and mouse input. The input API on the <Run FontWeight="Bold">Keyboard</Run>
+ and <Run FontWeight="Bold">Mouse</Run>
+ classes are static; 
+therefore, instances of these classes are not required. The <Run FontWeight="Bold">Keyboard</Run>
+ and <Run FontWeight="Bold">Mouse</Run>
+ classes delegate most of their functionally to the underlying KeyboardDevice and MouseDevice. 
+    </Paragraph>
+
+    <Paragraph>Examples of input API on the <Run FontWeight="Bold">Keyboard</Run>
+ class are the Modifiers property which returns the ModifierKeys currently pressed and the IsKeyDown method which determines whether a specified key is pressed. 
+    </Paragraph>
+
+    <Paragraph>The following example uses the GetKeyStates method to determine if a Key is in the down state.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Uses the Keyboard.GetKeyStates to determine if a key is down. // A bitwise AND operation is used in the comparision. // e is an instance of KeyEventArgs. if ((Keyboard.GetKeyStates(e.Key) &amp; 
+KeyStates.Down) > 0) { btnNone.Background = Brushes.Red; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Examples of input API on the <Run FontWeight="Bold">Mouse</Run>
+ class are MiddleButton which obtains the state of the middle mouse button and DirectlyOver which gets the element the mouse pointer is currently over.
+    </Paragraph>
+
+    <Paragraph>The following example determines whether the LeftButton on the mouse is in the Pressed state.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>if (Mouse.LeftButton == MouseButtonState.Pressed) { UpdateSampleResults("Left Button Pressed"); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>These classes are covered in more details throughout this overview.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Stylus Input
+    </Paragraph>
+
+    <Paragraph>WPF has integrated support for the Stylus. The <Run FontWeight="Bold">Stylus</Run>
+ is a pen input made popular by the Tablet PC. WPF applications can treat the stylus as a mouse by using the mouse API, but WPF also exposes a stylus that use a model similar to the keyboard and mouse. All stylus-related members contain the word <Run FontStyle="italic">Stylus</Run>
+.
+    </Paragraph>
+
+    <Paragraph>Since the stylus is able to act as a mouse, applications which only support mouse input are still able to obtain some level of stylus support automatically. When the stylus is used in such a manner, the application first handles the appropriate stylus event and then handles the corresponding mouse event. In addition, higher level services such as inking are also available. For more information about ink, see <Hyperlink NavigateUri="760332dd-594a-475d-865b-01659db8cab7.xaml">Getting Started with Ink</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Event Routing
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">FrameworkElement</Run>
+ can contain other elements, forming a tree of elements. In WPF, the parent element can participate in input directed to its child elements or other descendants. This is especially useful for building controls out of smaller controls, a process known as "control composition" or "compositing." For more information about element trees, see the <Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+ overview.
+    </Paragraph>
+
+    <Paragraph>Routing is the process of delivering events to multiple elements until one of them marks the event as handled. Events use one of three routing mechanisms: direct-only (also known as "no routing"), bubbling, and tunneling. In direct-only routing, the target element is the only element notified. Bubbling works up the element tree by first notifying the target element, then the target's parent, and so on. Tunneling starts at the root of the element tree and works down, ending with the target element. For more information about routed events, see the <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>WPF input events generally come in pairs that consists of a tunneling event and a bubbling event. Tunneling events are distinguished from bubbling events with the "Preview" prefix. For instance, PreviewMouseMove is the tunneling version of a mouse move event and MouseMove is the bubbling version of this event. 
+    </Paragraph>
+
+    <Paragraph>For more information about how input is routed through a tree of elements, see the Events Overview.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Handling Input Events
+    </Paragraph>
+
+    <Paragraph>To receive input on an element an event handler must be associated with that particular event. In XAML this is straightforward. Simply include the name of the event as an attribute of the element that will be listening for this event. Then, set the value of the attribute to the name of the event handler. The event handler must be written in procedural code such as C# and can be included in a code-behind file. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Keyboard Input Event Example
+    </Paragraph>
+
+    <Paragraph>The follow example listens for a left arrow key press. A StackPanel is created that has Button. An event handler to listen for the left arrow key press is attached to the <Run FontWeight="Bold">Button</Run>
+ attaches. 
+    </Paragraph>
+
+    <Paragraph>The first section of the example creates the <Run FontWeight="Bold">StackPanel</Run>
+ and the <Run FontWeight="Bold">Button</Run>
+ and attaches the event handler for the KeyDown.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Button Background="AliceBlue" KeyDown="OnButtonKeyDown" Content="Button1"/> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the UI elements StackPanel keyboardStackPanel = new StackPanel(); 
+Button keyboardButton1 = new Button(); 
+// Set properties on buttons keyboardButton1.Background = Brushes.AliceBlue; 
+keyboardButton1.Content = "Button 1"; 
+// Attach buttons to StackPanel keyboardStackPanel.Children.Add(keyboardButton1); 
+// Attach event handler keyboardButton1.KeyDown += new KeyEventHandler(OnButtonKeyDown); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The second section of code is written in procedural code and defines the event handler. When the left arrow key is pressed and the Button has keyboard focus, the Background color of the <Run FontWeight="Bold">Button</Run>
+ is changed. If the key is pressed, but it is not the left arrow key, the <Run FontWeight="Bold">Background</Run>
+ color of the <Run FontWeight="Bold">Button</Run>
+ is changed back to its starting color. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void OnButtonKeyDown(object sender, KeyEventArgs e) { Button source = e.Source as Button; 
+if (source != null) { if (e.Key == Key.Left) { source.Background = Brushes.LemonChiffon; 
+} else { source.Background = Brushes.AliceBlue; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Mouse Input Event Example
+    </Paragraph>
+
+    <Paragraph>In the following example, the <Run FontWeight="Bold">Background</Run>
+ color of a <Run FontWeight="Bold">Button</Run>
+ is changed when the mouse pointer enters the <Run FontWeight="Bold">Button</Run>
+. The <Run FontWeight="Bold">Background</Run>
+ color is restored when the mouse leaves the <Run FontWeight="Bold">Button</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The first section of the example creates the <Run FontWeight="Bold">StackPanel</Run>
+ and the <Run FontWeight="Bold">Button</Run>
+ control and attaches the event handlers for the MouseEnter and MouseLeave events to the <Run FontWeight="Bold">Button</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Button Background="AliceBlue" MouseEnter="OnMouseExampleMouseEnter" MouseLeave="OnMosueExampleMouseLeave">Button 
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the UI elements StackPanel mouseMoveStackPanel = new StackPanel(); 
+Button mouseMoveButton = new Button(); 
+// Set properties on button mouseMoveButton.Background = Brushes.AliceBlue; 
+mouseMoveButton.Content = "Button"; 
+// Attach buttons to StackPanel mouseMoveStackPanel.Children.Add(mouseMoveButton); 
+// Attach event handler mouseMoveButton.MouseEnter += new MouseEventHandler(OnMouseExampleMouseEnter); 
+mouseMoveButton.MouseLeave += new MouseEventHandler(OnMosueExampleMouseLeave); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The second section of code is written in procedural code and defines the event handlers. When the mouse enters the <Run FontWeight="Bold">Button</Run>
+, the <Run FontWeight="Bold">Background</Run>
+ color of the <Run FontWeight="Bold">Button</Run>
+ is changed to SlateGray. When the mouse leaves the <Run FontWeight="Bold">Button</Run>
+, the <Run FontWeight="Bold">Background</Run>
+ color of the <Run FontWeight="Bold">Button</Run>
+ is changed back to AliceBlue.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void OnMouseExampleMouseEnter(object sender, MouseEventArgs e) { // Cast the source of the event to a Button Button source = e.Source as Button; 
+// If source is a Button if (source != null) { source.Background = Brushes.SlateGray; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void OnMosueExampleMouseLeave(object sender, MouseEventArgs e) { // Cast the source of the event to a Button Button source = e.Source as Button; 
+// If source is a Button if (source != null) { source.Background = Brushes.AliceBlue; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Text Input
+    </Paragraph>
+
+    <Paragraph>The TextInput event enables you to listen for text input in a device-independent manner. The keyboard is the primary means of text input, but speech, handwriting, and other input devices can generate text input.
+    </Paragraph>
+
+    <Paragraph>For keyboard input, WPF first sends the appropriate KeyDown / KeyUp events and if those are not handled and the key is textual then a TextInput event is raised. There is not always a simple one-to-one mapping between KeyDown/KeyUp and TextInput events because multiple keystrokes can generate a single character of text input and single keystrokes can generate multi-character strings. This is especially true for languages such as Chinese, Japanese, and Korean which use Input Method Editors (IMEs) to generate the thousands of different characters in their corresponding alphabets.
+    </Paragraph>
+
+    <Paragraph>When WPF sends a KeyUp/KeyDown event, if the keystrokes could become part of a TextInput event, Key is set to Key.TextInput so applications do not accidentally process keystrokes that are part of larger text input. In these cases, Key reveals the real keystroke. Similarly, if an IME is active, Key has the value of Key.ImeProcessed, and ImeProcessedKey gives the actual keystroke.
+    </Paragraph>
+
+    <Paragraph>Consider a simple example where pressing CTRL+O opens a file (regardless of what control has focus), and pressing the <Run FontWeight="Bold">Open</Run>
+ button performs the same action.
+    </Paragraph>
+
+    <Paragraph>In Win32, you would define an accelerator table and then handle WM_COMMAND, usually with a switch statement. You might also try to handle WM_KEYDOWN inside the WndProc of the window, but unless you also modified the WndProc of the button and edit box you would only get keystrokes if focus was not on the button or edit box.
+    </Paragraph>
+
+    <Paragraph>In Windows Forms, you would set KeyPreview on the form to <Run FontWeight="Bold">true</Run>
+ and handle the key down event on the form.
+    </Paragraph>
+
+    <Paragraph>The following example defines a handler for the Click event and a handler for the <Run FontWeight="Bold">KeyDown</Run>
+ event, 
+    </Paragraph>
+
+    <Paragraph>The first segment of code creates the user interface.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel KeyDown="OnTextInputKeyDown"> 
+&lt;Button Click="OnTextInputButtonClick" Content="Open" /> 
+&lt;TextBox> . . . 
+&lt;/TextBox> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Create the UI elements StackPanel textInputStackPanel = new StackPanel(); 
+Button textInputeButton = new Button(); 
+TextBox textInputTextBox = new TextBox(); 
+textInputeButton.Content = "Open"; 
+// Attach elements to StackPanel textInputStackPanel.Children.Add(textInputeButton); 
+textInputStackPanel.Children.Add(textInputTextBox); 
+// Attach event handler textInputStackPanel.KeyDown += new KeyEventHandler(OnTextInputKeyDown); 
+textInputeButton.Click += new RoutedEventHandler(OnTextInputButtonClick); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The second segment of code contains the event handlers
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void OnTextInputKeyDown(object sender, KeyEventArgs e) { if (e.Key == Key.O &amp;&amp; 
+Keyboard.Modifiers == ModifierKeys.Control) { handle(); 
+e.Handled = true; 
+} } public void OnTextInputButtonClick(object sender, RoutedEventArgs e) { handle(); 
+e.Handled = true; 
+} public void handle() { MessageBox.Show("Pretend this opens a file"); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Because input bubbles up the tree, the <Run FontWeight="Bold">StackPanel</Run>
+ receives the input regardless of which element keyboard focus has. The TextBox control is notified first and the <Run FontStyle="italic">OnTextInputKeyDown</Run>
+ handler is only called if the <Run FontWeight="Bold">TextBox</Run>
+ did not handle the input. If the PreviewKeyDown event is used instead of the <Run FontWeight="Bold">KeyDown</Run>
+ event, the <Run FontStyle="italic">OnTextInputKeyDown</Run>
+ handler is called first.
+    </Paragraph>
+
+    <Paragraph>In this example, the handling logic is written two times—one time for CTRL+O, and again for button's click event. This can be simplified by using commands. Commands are discussed in this overview and in the <Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Focus
+    </Paragraph>
+
+    <Paragraph>There are two main concepts that pertain to focus in WPF: logical focus and keyboard focus. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">Keyboard Focus
+    </Paragraph>
+
+    <Paragraph>Keyboard focus refers to the element that is receiving keyboard input. There can be only one element on the whole desktop that has keyboard focus. In WPF, the element that has keyboard focus will have IsKeyboardFocused set to <Run FontWeight="Bold">true</Run>
+. The static <Run FontWeight="Bold">Keyboard</Run>
+ method FocusedElement returns the element that currently has keyboard focus.
+    </Paragraph>
+
+    <Paragraph>Keyboard focus can be obtained by tabbing to an element or by clicking the mouse on certain elements. Keyboard focus can also be obtained programmatically by using the Focus method on the <Run FontWeight="Bold">Keyboard</Run>
+ class. <Run FontWeight="Bold">Focus</Run>
+ attempts to give the specified element keyboard focus. The element returned by <Run FontWeight="Bold">Focus</Run>
+ is the element that currently has keyboard focus.
+    </Paragraph>
+
+    <Paragraph>The Focusable property determines whether an element can obtain focus. Some classes, such as Panel, have <Run FontWeight="Bold">Focusable</Run>
+ set to <Run FontWeight="Bold">false</Run>
+ by default; 
+therefore, you may have to set this property to <Run FontWeight="Bold">true</Run>
+ if you want that element to be able to obtain focus.
+    </Paragraph>
+
+    <Paragraph>The following example uses <Run FontWeight="Bold">Focus</Run>
+ to set keyboard focus on a <Run FontWeight="Bold">Button</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void OnLoaded(object sender, RoutedEventArgs e) { // Sets keyboard focus on the first Button in the sample. Keyboard.Focus(firstButton); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information about keyboard focus, see the <Hyperlink NavigateUri="0230c4eb-0c8a-462b-ac4b-ae3e511659f4.xaml">Focus Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Logical Focus
+    </Paragraph>
+
+    <Paragraph>Logical focus refers to the System.Windows.Input.FocusManager.FocusedElement in a focus scope. There can be multiple elements that have logical focus in an application, but there may only be one element that has logical focus in a particular focus scope.
+    </Paragraph>
+
+    <Paragraph>A focus scope is a container element that keeps track of the <Run FontWeight="Bold">FocusedElement</Run>
+ within its scope. When focus leaves a focus scope, the focused element will lose keyboard focus but will retain logical focus. When focus returns to the focus scope, the focused element will obtain keyboard focus. This allows for keyboard focus to be changed between multiple focus scopes but insures that the focused element within the focus scope remains the focused element when focus returns.
+    </Paragraph>
+
+    <Paragraph>An element can be turned into a focus scope in Extensible Application Markup Language (XAML) by setting the FocusManager attached property IsFocusScope to <Run FontWeight="Bold">true</Run>
+, or in code by setting the attached property by using the SetIsFocusScope method.
+    </Paragraph>
+
+    <Paragraph>The following example makes a <Run FontWeight="Bold">StackPanel</Run>
+ into a focus scope by setting the <Run FontWeight="Bold">IsFocusScope</Run>
+ attached property.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>StackPanel focuseScope2 = new StackPanel(); 
+FocusManager.SetIsFocusScope(focuseScope2, true); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Classes in WPF which are focus scopes by default are Window, Menu, ToolBar, and ContextMenu.
+    </Paragraph>
+
+    <Paragraph>An element that has keyboard focus will also have logical focus for the focus scope it belongs to; 
+therefore, setting focus on an element with the <Run FontWeight="Bold">Focus</Run>
+ method on the Keyboard class or the base element classes will attempt to give the element keyboard focus and logical focus.
+    </Paragraph>
+
+    <Paragraph>To determine the focused element in a focus scope, use GetFocusedElement.
+    </Paragraph>
+
+    <Paragraph>To change the focused element for a focus scope, use SetFocusedElement.
+    </Paragraph>
+
+    <Paragraph>For more information about logical focus, see the <Hyperlink NavigateUri="0230c4eb-0c8a-462b-ac4b-ae3e511659f4.xaml">Focus Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Mouse Position
+    </Paragraph>
+
+    <Paragraph>The WPF input API provides helpful information with regard to coordinate spaces. For example, coordinate <Run>(0,0)</Run>
+ is the upper-left coordinate, but the upper-left of which element in the tree? The element that is the input target? The element you attached your event handler to? Or something else? To avoid confusion, the WPF input API requires that you specify your frame of reference when you work with coordinates. For example, the GetPosition method returns the coordinate of the mouse pointer relative to the specified element.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Commands
+    </Paragraph>
+
+    <Paragraph>Commands enable input handling at a more semantic level than device input. Commands are simple directives, such as <Run FontWeight="Bold">Cut</Run>
+, <Run FontWeight="Bold">Copy</Run>
+, <Run FontWeight="Bold">Paste</Run>
+, or <Run FontWeight="Bold">Open</Run>
+. Commands are useful for centralizing your command logic. The same command might be accessed from a <Run FontWeight="Bold">Menu</Run>
+, on a <Run FontWeight="Bold">ToolBar</Run>
+, or through a keyboard shortcut. Commands also provide a mechanism for disabling controls when the command becomes unavailable.
+    </Paragraph>
+
+    <Paragraph>Commands in WPF implement the ICommand interface. Two methods <Run FontWeight="Bold">ICommand</Run>
+ contains are Execute and CanExecute. <Run FontWeight="Bold">Execute</Run>
+ performs the action of the command and <Run FontWeight="Bold">CanExecute</Run>
+ returns a value indicating whether the command can execute. Normally, if a command cannot execute, the command source will disable itself.
+    </Paragraph>
+
+    <Paragraph>RoutedCommand is the WPF implementation of <Run FontWeight="Bold">ICommand</Run>
+. When a <Run FontWeight="Bold">RoutedCommand</Run>
+ is executed, a PreviewExecuted and an Executed event are raised on the command target, which tunnel and bubble through the element tree like other input. If a command target is not set, the element with keyboard focus will be the command target. The logic which performs the command is attached to a CommandBinding. When an <Run FontWeight="Bold">Executed</Run>
+ event reaches a <Run FontWeight="Bold">CommandBinding</Run>
+ for that specific command, the ExecutedRoutedEventHandler on the <Run FontWeight="Bold">CommandBinding</Run>
+ is called. This handler performs the action of the command. 
+    </Paragraph>
+
+    <Paragraph>For more information on commanding, see the <Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>WPF provides a library of common commands which consists of ApplicationCommands, MediaCommands, ComponentCommands, NavigationCommands, and EditingCommands, or you can define your own.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to set up a MenuItem so that when it is clicked it will invoke the Paste command on the <Run FontWeight="Bold">TextBox</Run>
+, assuming the <Run FontWeight="Bold">TextBox</Run>
+ has keyboard focus.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Menu> 
+&lt;MenuItem Command="ApplicationCommands.Paste" /> 
+&lt;/Menu> 
+&lt;TextBox /> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Creating the UI objects StackPanel mainStackPanel = new StackPanel(); 
+TextBox pasteTextBox = new TextBox(); 
+Menu stackPanelMenu = new Menu(); 
+MenuItem pasteMenuItem = new MenuItem(); 
+// Adding objects to the panel and the menu stackPanelMenu.Items.Add(pasteMenuItem); 
+mainStackPanel.Children.Add(stackPanelMenu); 
+mainStackPanel.Children.Add(pasteTextBox); 
+// Setting the command to the Paste command pasteMenuItem.Command = ApplicationCommands.Paste; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information about commands in WPF, see the <Hyperlink NavigateUri="bc208dfe-367d-426a-99de-52b7e7511e81.xaml">Commanding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What's Next
+    </Paragraph>
+
+    <Paragraph>You now have several techniques to handle input in WPF. You should also have an improved understanding of the various types of input events and the routed event mechanisms used by WPF.
+    </Paragraph>
+
+    <Paragraph>Additional resources are available that explain WPF framework elements and event routing in more detail. See the following overviews for more information, Commanding Overview_NA, <Hyperlink NavigateUri="0230c4eb-0c8a-462b-ac4b-ae3e511659f4.xaml">Focus Overview</Hyperlink>
+, Base Elements-Overviews, <Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+ overview, Events Overview, and the <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Input Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

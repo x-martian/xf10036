@@ -1,0 +1,813 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6dec9657_4d8c_4e46_8c54_40fb80008265"
+  Tag     ="WPF Graphics Rendering Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Windows Presentation Foundation Graphics Rendering Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic provides an overview of the WPF visual layer. It focuses on the role of the Visual class for rendering support in the WPF model.
+    </Paragraph>
+
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="role_of_visual_object">Role of the Visual Object</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="visual_tree">Visual Tree</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="visual_rendering_behavior">Visual Rendering Behavior</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="visualtreehelper_class">VisualTreeHelper Class</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="other_visual_object_classes">Other Visual Object Classes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Role of the Visual Object
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Visual</Run>
+ class is the basic abstraction from which every FrameworkElement object derives. It also serves as the entry point for writing new controls in WPF, and in many ways can be thought of as the window handle (HWND) in the Win32 application model.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Visual</Run>
+ object is a core WPF object, whose primary role is to provide rendering support. User interface controls, such as Button and TextBox, derive from the <Run FontWeight="Bold">Visual</Run>
+ class, and use it for persisting their rendering data. The <Run FontWeight="Bold">Visual</Run>
+ object provides support for:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Output display: Rendering the persisted, serialized drawing content of a visual.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Transformations: Performing transformations on a visual.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Clipping: Providing clipping region support for a visual.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Hit testing: Determining whether a coordinate or geometry is contained within the bounds of a visual.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Bounding box calculations: Determining the bounding rectangle of a visual.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>However, the <Run FontWeight="Bold">Visual</Run>
+ object does not include support for non-rendering features, such as:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Event handling
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Layout
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Styles
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Data binding
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Globalization
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontWeight="Bold">Visual</Run>
+ is exposed as a public abstract class from which child classes must be derived. The following illustration shows the hierarchy of the visual objects that are exposed in WPF.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Visual class hierarchy</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="18">Visual Object Hierarchies
+    </Paragraph>
+
+    <Paragraph>Many of the objects in WPF are composed of other visual objects, meaning they can contain varying hierarchies of descendant objects. For example, the Paragraph object can contain a number of other objects, including Run and Span.
+    </Paragraph>
+
+    <Paragraph>Many of the user interface elements in WPF, such as controls, are composed of multiple visual objects, representing different types of rendering elements. The following code shows a <Run FontWeight="Bold">Button</Run>
+ control defined in markup.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Click="OnClick">OK
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you were to enumerate the visual objects that comprise the default <Run FontWeight="Bold">Button</Run>
+ control, you would find the hierarchy of visual objects illustrated below:
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Button</Run>
+ control contains a ClassicBorderDecorator element, which in turn, contains a ContentPresenter element. The <Run FontWeight="Bold">ClassicBorderDecorator</Run>
+ element is responsible for drawing a border and a background for the <Run FontWeight="Bold">Button</Run>
+. The <Run FontWeight="Bold">ContentPresenter</Run>
+ element is responsible for displaying the contents of the <Run FontWeight="Bold">Button</Run>
+. In this case, since you are displaying text, the <Run FontWeight="Bold">ContentPresenter</Run>
+ element contains a TextBlock element. The fact that the <Run FontWeight="Bold">Button</Run>
+ control uses a <Run FontWeight="Bold">ContentPresenter</Run>
+ means that the content could be represented by other elements, such as an Image or a geometry, such as an EllipseGeometry.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Control Templates
+    </Paragraph>
+
+    <Paragraph>The key to the expansion of a control into a hierarchy of controls is the ControlTemplate. A control template specifies the default visual hierarchy for a control. When you explicitly reference a control, you implicitly reference its visual hierarchy. You can override the default values for a control template to create a customized visual appearance for a control. For example, you could modify the background color value of the <Run FontWeight="Bold">Button</Run>
+ control so that it uses a linear gradient color value instead of a solid color value. For more information, see <Hyperlink NavigateUri="e223c759-f8c4-4717-acfb-b1e40bdf5f3b.xaml">Button ControlTemplate Example</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Drawing Content in Visual Objects
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">Visual</Run>
+ object stores its rendering data as a <Run FontWeight="Bold">vector graphics instruction list</Run>
+. Each item in the instruction list represents a low-level set of graphics data and associated resources in a serialized format. There are four different types of graphics data that can contain drawing content.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Drawing content type 
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Description 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Vector graphics
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Represents vector graphics data, and any associated Brush and Pen information.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Image
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Represents an image within a region defined by a Rect.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Glyph
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Represents a drawing that renders a GlyphRun, which is a sequence of glyphs from a specified font resource. This is how text is represented.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Video
+            </Paragraph>
+
+          </TableCell>
+
+          <TableCell>
+            <Paragraph>Represents a drawing that renders video.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A user interface element, such as a <Run FontWeight="Bold">Button</Run>
+ control, contains several vector graphics instruction lists that describe the entire rendering definition of a control. The following code shows a <Run FontWeight="Bold">Button</Run>
+ control defined in markup.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Button Click="OnClick"> 
+&lt;Image Source="images\greenlight.jpg">
+&lt;/Image> 
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you were to enumerate the visual objects and vector graphics instruction lists that comprise the <Run FontWeight="Bold">Button</Run>
+ control, you would find the hierarchy of objects illustrated below:
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Button</Run>
+ control contains a <Run FontWeight="Bold">ClassicBorderDecorator</Run>
+ element, which in turn, contains a <Run FontWeight="Bold">ContentPresenter</Run>
+ element. The <Run FontWeight="Bold">ClassicBorderDecorator</Run>
+ element is responsible for drawing all the discrete graphic elements that make up the border and background of a button. The <Run FontWeight="Bold">ContentPresenter</Run>
+ element is responsible for displaying the contents of the <Run FontWeight="Bold">Button</Run>
+. In this case, since you are displaying an image, the <Run FontWeight="Bold">ContentPresenter</Run>
+ element contains a <Run FontWeight="Bold">Image</Run>
+ element.
+    </Paragraph>
+
+    <Paragraph>There are a number of points to note about the hierarchy of visual objects and vector graphics instruction lists:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>The ordering in the hierarchy represents the rendering order of the drawing information. From the root visual element, child elements are traversed, left to right, top to bottom. If an element has visual child elements, they are traversed before the element’s siblings.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Non-leaf node elements in the hierarchy, such as <Run FontWeight="Bold">ContentPresenter</Run>
+, are used to contain child elements—they do not contain instruction lists.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If a visual element contains both a vector graphics instruction list and visual children, the instruction list in the parent visual element is rendered before drawings in any of the visual child objects.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The items in the vector graphics instruction list are rendered left to right.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Visual Tree
+    </Paragraph>
+
+    <Paragraph>The <Run>visual tree</Run>
+ contains all visual elements used in an application's user interface. Since a visual element contains persisted drawing information, you can think of the visual tree as a scene graph, containing all the rendering information needed to compose the output to the display device. This tree is the accumulation of all visual elements created directly by the application, whether in code or in markup. The visual tree also contains all visual elements created by the template expansion of elements such as controls and data objects.
+    </Paragraph>
+
+    <Paragraph>The following code shows a StackPanel element defined in markup.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;Label>User name:
+&lt;/Label> 
+&lt;TextBox /> 
+&lt;Button Click="OnClick">OK
+&lt;/Button> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you were to enumerate the visual objects that comprise the <Run FontWeight="Bold">StackPanel</Run>
+ element in the markup example, you would find the hierarchy of visual objects illustrated below:
+    </Paragraph>
+
+    <Paragraph FontSize="18">Rendering Order
+    </Paragraph>
+
+    <Paragraph>The visual tree determines the rendering order of WPF visual and drawing objects. The order of traversal starts with the root visual, which is the top-most node in the visual tree. The root visual’s children are then traversed, left to right. If a visual has children, its children are traversed before the visual’s siblings. This means that the content of a child visual is rendered in front of the visual's own content.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Root Visual
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">root visual </Run>
+is the top-most element in a visual tree hierarchy. In most applications, the base class of the root visual is either Window or NavigationWindow. However, if you were hosting visual objects in a Win32 application, the root visual would be the top-most visual you were hosting in the Win32 window. For more information, see <Hyperlink NavigateUri="f0e1600c-3217-43d5-875d-1864fa7fe628.xaml">Tutorial: Hosting Visual Objects in a Win32 Application</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Relationship to the Logical Tree
+    </Paragraph>
+
+    <Paragraph>The logical tree in WPF represents the elements of an application at run time. Although you do not manipulate this tree directly, this view of the application is useful for understanding property inheritance and event routing. Unlike the visual tree, the logical tree can represent non-visual data objects, such as ListItem. In many cases, the logical tree maps very closely to an application's markup definitions. The following code shows a DockPanel element defined in markup.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;DockPanel> 
+&lt;ListBox> 
+&lt;ListBoxItem>Dog
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Cat
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Fish
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;Button Click="OnClick">OK
+&lt;/Button> 
+&lt;/DockPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If you were to enumerate the logical objects that comprise the <Run FontWeight="Bold">DockPanel</Run>
+ element in the markup example, you would find the hierarchy of logical objects illustrated below:
+    </Paragraph>
+
+    <Paragraph>Both the visual tree and logical tree are synchronized with the current set of application elements, reflecting any addition, deletion, or modification of elements. However, the trees present different views of the application. Unlike the visual tree, the logical tree does not expand a control's <Run FontWeight="Bold">ContentPresenter</Run>
+ element. This means there is not a direct one-to-one correspondence between a logical tree and a visual tree for the same set of objects. In fact, invoking the <Run FontWeight="Bold">LogicalTreeHelper</Run>
+ object's GetChildren method and the <Run FontWeight="Bold">VisualTreeHelper</Run>
+ object's GetChild method using the same element as a parameter yields differing results.
+    </Paragraph>
+
+    <Paragraph>For more information on the logical tree, see <Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Viewing the Visual Tree with XamlPad
+    </Paragraph>
+
+    <Paragraph>The WPF tool, XamlPad, provides an option for viewing and exploring the visual tree that corresponds to the currently defined XAML content. Click the <Run FontWeight="Bold">Show Visual Tree </Run>
+button on the menu bar to display the visual tree. The following illustrates the expansion of XAML content into visual tree nodes in the <Run FontWeight="Bold">Visual Tree Explorer</Run>
+ panel of XamlPad:
+    </Paragraph>
+
+    <Paragraph>Notice how the Label, <Run FontWeight="Bold">TextBox</Run>
+, and <Run FontWeight="Bold">Button</Run>
+ controls each display a separate visual object hierarchy in the <Run FontWeight="Bold">Visual Tree Explorer</Run>
+ panel of XamlPad. This is because WPF controls have a <Run FontWeight="Bold">ControlTemplate</Run>
+ that contains the visual tree of that control. When you explicitly reference a control, you implicitly reference its visual hierarchy.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Visual Rendering Behavior
+    </Paragraph>
+
+    <Paragraph>WPF introduces several features that affect the rendering behavior of visual objects: retained mode graphics, vector graphics, and device independent graphics.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Retained Mode Graphics
+    </Paragraph>
+
+    <Paragraph>One of the keys to understanding the role of the Visual object is to understand the difference between <Run FontWeight="Bold">immediate mode</Run>
+ and <Run FontWeight="Bold">retained mode</Run>
+ graphics systems. A standard Win32 application based on GDI or GDI+ uses an immediate mode graphics system. This means that the application is responsible for repainting the portion of the client area that is invalidated, due to an action such as a window being resized, or an object changing its visual appearance.
+    </Paragraph>
+
+    <Paragraph>In contrast, WPF uses a retained mode system. This means application objects that have a visual appearance define a set of serialized drawing data. Once the drawing data is defined, the system is responsible thereafter for responding to all repaint requests for rendering the application objects. Even at run time, you can modify or create application objects, and still rely on the system for responding to paint requests. The power in a retained mode graphics system is that drawing information is always persisted in a serialized state by the application, but rendering responsibility left to the system.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Intelligent Redrawing
+    </Paragraph>
+
+    <Paragraph>One of the biggest benefits in using retained mode graphics is that WPF can efficiently optimize what needs to be redrawn in the application. Even if you have a complex scene with varying levels of opacity, you generally do not need to write special-purpose code to optimize redrawing. Compare this with Win32 programming in which you can spend a great deal of effort in optimizing your application by minimizing the amount of redrawing in the update region. See Redrawing in the Update Region for an example of the type of complexity involved in optimizing redrawing in Win32 applications.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Vector Graphics
+    </Paragraph>
+
+    <Paragraph>WPF uses <Run FontWeight="Bold">vector graphics</Run>
+ as its rendering data format. Vector graphics—which include Scalable Vector Graphics (SVG), Windows metafiles (.wmf), and TrueType fonts—store rendering data and transmit it as a list of instructions that describe how to recreate an image using graphics primitives. For example, TrueType fonts are outline fonts that describe a set of lines, curves, and commands, rather than an array of pixels. One of the key benefits of vector graphics is the ability to scale to any size and resolution.
+    </Paragraph>
+
+    <Paragraph>Unlike vector graphics, bitmap graphics store rendering data as a pixel-by-pixel representation of an image, pre-rendered for a specific resolution. One of the key differences between bitmap and vector graphic formats is fidelity to the original source image. For example, when the size of a source image is modified, bitmap graphics systems stretch the image, whereas vector graphics systems scale the image, preserving the image fidelity. 
+    </Paragraph>
+
+    <Paragraph>The following illustration shows a source image that has been resized by 300%. Notice the distortions that appear when the source image is stretched as a bitmap graphics image rather than scaled as a vector graphics image.
+    </Paragraph>
+
+    <Paragraph>The following markup shows two Path elements defined. The second element uses a ScaleTransform to resize the drawing instructions of the first element by 300%. Notice that the drawing instructions in the <Run FontWeight="Bold">Path</Run>
+ elements remain unchanged.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Path Data="M10,100 C 60,0 100,200 150,100 z" Fill="{StaticResource linearGradientBackground}" Stroke="Black" StrokeThickness="2" /> 
+&lt;Path Data="M10,100 C 60,0 100,200 150,100 z" Fill="{StaticResource linearGradientBackground}" Stroke="Black" StrokeThickness="2" > 
+&lt;Path.RenderTransform> 
+&lt;ScaleTransform ScaleX="3.0" ScaleY="3.0" /> 
+&lt;/Path.RenderTransform> 
+&lt;/Path> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">About Resolution and Device-Independent Graphics
+    </Paragraph>
+
+    <Paragraph>There are two system factors that determine the size of text and graphics on your screen: resolution and DPI. Resolution describes the number of pixels that appear on the screen. As the resolution gets higher, pixels get smaller, causing graphics and text to appear smaller. A graphic displayed on a monitor set to 1024 x 768 will appear much smaller when the resolution is changed to 1600 x 1200. 
+    </Paragraph>
+
+    <Paragraph>The other system setting, DPI, describes the size of a screen inch in pixels. Most Windows systems have a DPI of 96, which means a screen inch is 96 pixels. Increasing the DPI setting makes the screen inch larger; 
+decreasing the DPI makes the screen inch smaller. This means that a screen inch isn't the same size as a real-world inch; 
+on most systems, it's probably not. As you increase the DPI, DPI-aware graphics and text become larger because you've increased the size of the screen inch. Increasing the DPI can make text easier to read, especially at high resolutions.
+    </Paragraph>
+
+    <Paragraph>Not all applications are DPI-aware: some use hardware pixels as the primary unit of measurement; 
+changing the system DPI has no effect on these applications. Many other applications use DPI-aware units to describe font sizes, but use pixels to describe everything else. Making the DPI too small or too large can cause layout problems for these applications, because the applications' text scales with the system's DPI setting, but the applications' UI does not. This problem has been eliminated for applications developed using WPF. 
+    </Paragraph>
+
+    <Paragraph>WPF supports automatic scaling by using the <Run>device independent pixel</Run>
+ as its primary unit of measurement, instead of hardware pixels; 
+graphics and text scale properly without any extra work from the application developer. The following illustration shows an example of how WPF text and graphics are appear at different DPI settings.
+    </Paragraph>
+
+    <Paragraph FontSize="22">VisualTreeHelper Class
+    </Paragraph>
+
+    <Paragraph>The VisualTreeHelper class is a static helper class that provides functionality for managing <Run FontWeight="Bold">Visual</Run>
+ and Visual3D objects in the runtime environment.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Hit Testing
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">VisualTreeHelper</Run>
+ class provides methods for hit testing on visual objects when the default hit test support does not meet your needs. You can use the HitTest methods in the <Run FontWeight="Bold">VisualTreeHelper</Run>
+ class to determine whether a geometry or point coordinate value is within the boundary of a given object, such as a control or graphic element. For example, you could use hit testing to determine whether a mouse click within the bounding rectangle of an object falls within the geometry of a circle You can also choose to override the default implementation of hit testing to perform your own custom hit test calculations.
+    </Paragraph>
+
+    <Paragraph>For more information on hit testing, see <Hyperlink NavigateUri="b1a64b61-14be-4d75-b89a-5c67bebb2c7b.xaml">Hit Testing in the Visual Layer</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Enumerating the Visual Tree
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">VisualTreeHelper</Run>
+ class provides functionality for enumerating the members of a visual tree. To retrieve a parent, call the GetParent method. To retrieve a child, or direct descendant, of a visual object, call the <Run FontWeight="Bold">GetChild</Run>
+ method. This method returns a child <Run FontWeight="Bold">Visual</Run>
+ of the parent at the specified index.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to enumerate all the descendants of a visual object, which is a technique you might want to use if you were interested in serializing all the rendering information of a visual object hierarchy.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Enumerate all the descendants of the visual object. static public void EnumVisual(Visual myVisual) { for (int i = 0; 
+i 
+&lt; 
+VisualTreeHelper.GetChildrenCount(myVisual); 
+i++) { // Retrieve child visual at specified index value. Visual childVisual = (Visual)VisualTreeHelper.GetChild(myVisual, i); 
+// Do processing of the child visual object. // Enumerate children of the child visual object. EnumVisual(childVisual); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In most cases, the logical tree is a more useful representation of the elements in a WPF application. Although you do not modify the logical tree directly, this view of the application is useful for understanding property inheritance and event routing. Unlike the visual tree, the logical tree can represent non-visual data objects, such as <Run FontWeight="Bold">ListItem</Run>
+. For more information on the logical tree, see <Hyperlink NavigateUri="e83f25e5-d66b-4fc7-92d2-50130c9a6649.xaml">Element Tree</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">VisualTreeHelper</Run>
+ class provides methods for returning the bounding rectangle of visual objects. You can return the bounding rectangle of a visual object by calling GetContentBounds. You can return the bounding rectangle of all the descendants of a visual object, including the visual object itself, by calling GetDescendantBounds. The following code shows how you would calculate the bounding rectangle of a visual object and all its descendants.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Return the bounding rectangle of the parent visual object and all of its descendants. Rect rectBounds = VisualTreeHelper.GetDescendantBounds(parentVisual); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Other Visual Object Classes
+    </Paragraph>
+
+    <Paragraph>There are three other visual objects that are used in WPF: DrawingVisual, Viewport3DVisual, and ContainerVisual.
+    </Paragraph>
+
+    <Paragraph FontSize="18">DrawingVisual Class
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">DrawingVisual</Run>
+ is a lightweight drawing class that is used to render shapes, images, or text. This class is considered lightweight because it does not provide layout or event handling, which improves its runtime performance. For this reason, drawings are ideal for backgrounds and clip art. The <Run FontWeight="Bold">DrawingVisual</Run>
+ can be used to create a custom visual object.
+    </Paragraph>
+
+    <Paragraph>For more information, see <Hyperlink NavigateUri="0b4e711d-e640-40cb-81c3-8f5c59909b7d.xaml">Using DrawingVisual Objects</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Viewport3DVisual Class
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Viewport3DVisual</Run>
+ provides a bridge between 2D <Run FontWeight="Bold">Visual</Run>
+ and <Run FontWeight="Bold">Visual3D</Run>
+ objects. The <Run FontWeight="Bold">Visual3D</Run>
+ class is the base class for all 3D visual elements. The <Run FontWeight="Bold">Viewport3DVisual</Run>
+ requires that you define a Camera value and a Viewport value. The camera allows you to view the scene. The viewport establishes where the projection maps onto the 2D surface. For more information on 3D in WPF, see <Hyperlink NavigateUri="67f31ed4-e36b-4b02-9889-dcce245d7afc.xaml">3-D Graphics Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">ContainerVisual Class
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">ContainerVisual</Run>
+ class is used as a container for a collection of <Run FontWeight="Bold">Visual</Run>
+ objects. The <Run FontWeight="Bold">DrawingVisual</Run>
+ class derives from the <Run FontWeight="Bold">ContainerVisual</Run>
+ class, allowing it to contain a collection of visual objects.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>Visual
+      <LineBreak/>VisualTreeHelper
+      <LineBreak/>DrawingVisual
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b1a64b61-14be-4d75-b89a-5c67bebb2c7b.xaml">Hit Testing in the Visual Layer</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0b4e711d-e640-40cb-81c3-8f5c59909b7d.xaml">Using DrawingVisual Objects</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="f0e1600c-3217-43d5-875d-1864fa7fe628.xaml">Tutorial: Hosting Visual Objects in a Win32 Application</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Windows Presentation Foundation Graphics Rendering Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

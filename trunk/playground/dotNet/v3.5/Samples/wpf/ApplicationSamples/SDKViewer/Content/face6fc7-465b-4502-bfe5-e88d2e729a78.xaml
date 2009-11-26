@@ -1,0 +1,397 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_face6fc7_465b_4502_bfe5_e88d2e729a78"
+  Tag     ="Object Lifetime Events"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Object Lifetime Events</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This topic describes the specific WPF events that signify stages in an object's lifetime of creation, use, and destruction.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="intro">Object Lifetime Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="common_events">Common Lifetime Events for Elements</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="window_events">Window Class Lifetime Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="navhost_events">Navigation Host Lifetime Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="e2e">Navigation End to End Lifetime</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="app_events">Application Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic assumes that you understand dependency properties from the perspective of a consumer of existing dependency properties on Windows Presentation Foundation (WPF) classes, and have read the <Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+ topic. In order to follow the examples in this topic, you should also understand Extensible Application Markup Language (XAML) and know how to write WPF applications.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Object Lifetime Events
+    </Paragraph>
+
+    <Paragraph>All objects in Microsoft .NET Framework managed code go through the same set of stages of life, creation, use, and destruction. Many objects also have a finalization stage of life that occurs as part of the destruction phase. WPF objects, more specifically the visual objects that WPF identifies as elements, also have a set of common stages of object life. The WPF programming and application models expose these stages as a series of events. There are four main types of objects in WPF with respect to lifetime events; 
+elements in general, window elements, navigation hosts, and application objects. Windows and navigation hosts are also within the larger grouping of visual objects (elements), so we'll begin by describing the lifetime events that are common to all elements and then introducing the more specific ones that apply to windows or navigation hosts. Application objects don't have visual element events and will be discussed last.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Common Lifetime Events for Elements
+    </Paragraph>
+
+    <Paragraph>Any framework-defined element (those objects deriving from either FrameworkElement or FrameworkContentElement) has three common lifetime events: Initialized, Loaded, and Unloaded.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Initialized</Run>
+ is raised first, and roughly corresponds to the construction of the object. Specifically, the event is raised in response to either the source hookup (top level windows), visual parent hookup (child elements), or by calling EndInit (in markup scenarios), whichever happens first. When you are writing handlers in response to the <Run FontWeight="Bold">Initialized</Run>
+ event, you must consider that there is no guarantee that other elements in the element tree around where the handler is attached have been created. Member variables may be null, or data sources might not yet be populated by the underlying binding. Properties will be set to values based on any resources or styles associated with the object.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Loaded</Run>
+ is raised next and is tied to either the source hookup (for top level windows) or visual parent hookup (for anything that isn't a window). In the <Run FontWeight="Bold">Loaded</Run>
+ event you are guaranteed that all child elements of the event source element are constructed, but not that all of their <Run FontWeight="Bold">Loaded</Run>
+ events has completed. <Run FontWeight="Bold">Loaded</Run>
+ is fired after the first render is completed. Standard data binding will have occurred prior to <Run FontWeight="Bold">Loaded</Run>
+, asynchronous data binding <Run FontStyle="italic">may</Run>
+ have occurred.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Unloaded</Run>
+ is raised last and is initiated by either the presentation source or the visual parent being removed. When <Run FontWeight="Bold">Unloaded</Run>
+ is raised and handled, the element that is the event source's parent (as determined by Parent property) or any given element upwards in the logical or visual trees may have already been unset, meaning that data binding, resource references, and styles may not be set to their normal or last known runtime value.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Window Class Lifetime Events
+    </Paragraph>
+
+    <Paragraph>A top level Window has several additional lifetime events in addition to the visual element events. These are ContentRendered, Closing, and Closed.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph><Run FontWeight="Bold">ContentRendered</Run>
+ is raised <Run FontStyle="italic">after</Run>
+ the first completed rendering of the window. Any changes to user interface properties in this handler would force another render; 
+<Run FontWeight="Bold">Loaded</Run>
+ would be a better choice if you intended to change user interface properties. Instead, <Run FontWeight="Bold">ContentRendered</Run>
+ is more intended to inform your application logic that the application is ready for input.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Window</Run>
+ raises SourceInitialized after its HwndSource has been initialized, but before it becomes visible. One important aspect of <Run FontWeight="Bold">HwndSource</Run>
+ initialization is to create a Win32 window handle for a <Run FontWeight="Bold">Window</Run>
+, which is important for interoperability.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Closing</Run>
+ is raised in response to either the user closing the <Run FontWeight="Bold">Window</Run>
+ (via <Run FontWeight="Bold">Alt+F4</Run>
+, close box, system menu, or any other gesture) or programmatic dismissing of the <Run FontWeight="Bold">Window</Run>
+ (calling the Close method). <Run FontWeight="Bold">Closing</Run>
+ will not be raised in response to setting the Visibility property to Hidden, nor by calling the Hide method. <Run FontWeight="Bold">Closing</Run>
+ is a cancelable event: you can prevent the window from being closed by modifying the event arguments in a handler. Typically, <Run FontWeight="Bold">Closing</Run>
+ this is the best place to write data validation of the <Run FontWeight="Bold">Window</Run>
+, because you can keep the display up through the cancel logic, to allow the user to correct any errors. You may also want to prompt the user to confirm closing the <Run FontWeight="Bold">Window</Run>
+, or allow them to save any changes they've made through your application.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Closed</Run>
+ is raised last and happens after the <Run FontWeight="Bold">Window</Run>
+ has been completely dismissed. The <Run FontWeight="Bold">Closed</Run>
+ event handler is where you would typically choose to record persistent application settings information, or commit changes.
+    </Paragraph>
+
+    <Paragraph>In addition to these normal lifetime events, there is also a concept of "activation" events: Activated and Deactivated. These events are raised when the user selects, or activates, the <Run FontWeight="Bold">Window</Run>
+. When a <Run FontWeight="Bold">Window</Run>
+ is first displayed, it typically becomes active, at which point the <Run FontWeight="Bold">Activated</Run>
+ event is raised. <Run FontWeight="Bold">Activated</Run>
+ is raised after <Run FontWeight="Bold">Initialized</Run>
+ in this case. When a <Run FontWeight="Bold">Window</Run>
+ is closed by a user, it is then activated, and in this case <Run FontWeight="Bold">Deactivated</Run>
+ is raised after <Run FontWeight="Bold">Closing</Run>
+, but before <Run FontWeight="Bold">Closed</Run>
+.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22">Navigation Host Lifetime Events
+    </Paragraph>
+
+    <Paragraph>There are two implemented navigation host classes: NavigationWindow and Frame. <Run FontWeight="Bold">NavigationWindow</Run>
+ has the same lifetime events as <Run FontWeight="Bold">Window</Run>
+, because it derives from <Run FontWeight="Bold">Window</Run>
+, but <Run FontWeight="Bold">Frame</Run>
+ has separate hierarchy and only the visual element lifetime events (<Run FontWeight="Bold">Initialized</Run>
+, <Run FontWeight="Bold">Loaded</Run>
+, and <Run FontWeight="Bold">Unloaded</Run>
+).
+    </Paragraph>
+
+    <Paragraph>Both <Run FontWeight="Bold">Frame</Run>
+ and <Run FontWeight="Bold">NavigationWindow</Run>
+ separately implement a set of navigation events, which effectively correspond to the lifetime or status progress of the <Run FontStyle="italic">content</Run>
+ they host (typically, the content will be Page elements). This topic will link to the <Run FontWeight="Bold">NavigationWindow</Run>
+ implementations of the events; 
+you can find the parallel versions referenced on the <Run FontWeight="Bold">Frame</Run>
+ class page, NavigationService class page, and <Run FontWeight="Bold">Application</Run>
+ class page.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Navigating is raised just before a navigation takes place. If content that is itself in a frame is being loaded, this event might be raised multiple times during the download of a page.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationProgress is raised at periodic intervals while a navigation is taking place, with the progress being noted in the NavigationProgressEventArgs arguments of the event.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Navigated is raised after the navigation target has been resolved and the download has begun. If content that is itself in a frame is being loaded, this event might be raised multiple times during the download of a page. For an asynchronous navigation, this event indicates that a partial element tree has been provided to the parser, but more child elements <Run FontStyle="italic">may</Run>
+ still be coming. For a synchronous navigation, this event indicates the entire and complete element tree has been provided to the parser.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>LoadCompleted is raised after the entire page, including all images and frames, has been downloaded and parsed. Handlers for this event might be used to inform your navigation application logic that the application is ready for input.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">ContentRendered</Run>
+ is raised <Run FontStyle="italic">after</Run>
+<Run FontWeight="Bold">LoadCompleted</Run>
+. Again, changes to user interface properties in this handler would force another render; 
+<Run FontWeight="Bold">Loaded</Run>
+ would be a better choice if you intended to change user interface properties.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationStopped is raised <Run FontStyle="italic">only</Run>
+ in cases where <Run FontWeight="Bold">LoadCompleted</Run>
+ is <Run FontStyle="italic">not</Run>
+ raised, and indicates that the either the requested bits could not be downloaded, or that the user or some other external factor like a connection failure has stopped the download. As such this is not a "normal" lifetime event but we list it here because you'll see it in cases where the final events of a "normal" lifetime wouldn't be raised, and it will be useful to listen for this event and know why.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Navigation End to End Lifetime
+    </Paragraph>
+
+    <Paragraph>Programmers of window-based applications have life a bit easier, you really only have the one set of lifetime events to really worry about. When looking at a navigation based application, you have the lifetime of the host, and for each page, and it is often important to understand how they interact. The easiest way to understand this is to look at a simple scenario.
+    </Paragraph>
+
+    <Paragraph>Suppose you had two pages; 
+Page1 and Page2, hosted in a <Run FontWeight="Bold">NavigationWindow</Run>
+. Starting up (provided that Page1 is the startup page), you will see the following events in this order:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>NavigationWindow.Initialized
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationWindow.Navigating
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationWindow.Loading
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Page1.Initialized
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationWindow.Navigated
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationWindow.LoadCompleted
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Page1.Loaded
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>If a user clicked on a hyperlink that navigates to Page2, you would see this:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>NavigationWindow.Navigating
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Page2.Initialized
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Page1.Unloaded
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationWindow.Navigated
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>NavigationWindow.LoadCompleted
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Page2.Loaded
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Application Events
+    </Paragraph>
+
+    <Paragraph>In addition to the per-element lifetime events, the <Run FontWeight="Bold">Application</Run>
+ object offers two lifetime events; 
+Startup and Exit. <Run FontWeight="Bold">Startup</Run>
+ is raised prior to any windows being created or navigations being performed. <Run FontWeight="Bold">Exit</Run>
+ is raised after all windows are destroyed. <Run FontWeight="Bold">Application</Run>
+, like <Run FontWeight="Bold">Window</Run>
+, offers activation events; 
+Activated and Deactivated. The final event of interest on <Run FontWeight="Bold">Application</Run>
+ is SessionEnding, which has nothing really to do with the application lifetime itself, but rather is raised when the user session is ending for the operating system (either due to a logoff or shutdown).
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="1fbada8e-4867-4ed1-8d97-62c07dad7ebc.xaml">Dependency Property Value Precedence</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Object Lifetime Events to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

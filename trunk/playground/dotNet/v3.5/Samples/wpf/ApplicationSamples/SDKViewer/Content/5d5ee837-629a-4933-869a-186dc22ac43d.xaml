@@ -1,0 +1,335 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5d5ee837_629a_4933_869a_186dc22ac43d"
+  Tag     ="Navigation Toplogies Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Navigation Topologies Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In WPF, as with standard Web applications, browsable content is built using pages (Page), hyperlinks (Hyperlink), and (<Hyperlink NavigateUri="43adb517-21a7-4df3-98e8-09e9cdf764c4.xaml">Pack URIs in Windows Presentation Foundation</Hyperlink>
+). The following example illustrates WPF pages and hyperlinks:
+    </Paragraph>
+
+    <Paragraph>Although simplistic, this is an example of a navigation topology, which is an arrangement of pages that is determined by how those pages can be navigated between. Here, each page can be navigated to from a hyperlink on the other. Furthermore, the navigation topology is defined in Extensible Application Markup Language (XAML), at compile-time, which produces a rigid topology.
+    </Paragraph>
+
+    <Paragraph>Although perfectly suitable in some scenarios, this simplistic type of navigation topology has two key issues. First, the navigation topologies of some applications may not be known until run time. Second, this topology doesn't scale well in the face of more complex browsing scenarios, particularly those that involve multiple physical pages to perform a single logical function.
+    </Paragraph>
+
+    <Paragraph>This topic provides in introduction into the use of page functions and structured navigation to create both fixed and adaptive types of navigation topologies that are composed of multiple pages.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Before reading this topic, you should be familiar with the concept of structured navigation in WPF using page functions. For more information on both of these topics, see Structured Navigation Overview
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Structured Navigation Topologies
+    </Paragraph>
+
+    <Paragraph>Structured navigation enables a special set of navigation topologies that are either hard to recreate using unstructured navigation, or can't be created at all. A <Run FontStyle="italic">navigation topology</Run>
+ is the structure that reflects the organization of pages within an application and how they are navigated between. There are two basic types of navigation topologies:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Fixed Topology</Run>
+: the structure is defined at compile time, and does not change at run time. Fixed topologies are useful for structures that require navigation through a fixed sequence of pages in either a linear or hierarchical structure.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Adaptive Topology</Run>
+: the structure is defined at run time in response to data that is collected by the application from the user, the application, or the system. Adaptive topologies are useful for applications that have tasks whose pages are navigated in different orders based on user input or external data.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>A navigation topology for an application might be either completely fixed, completely adaptive, or some combination of both. Irrespective of the resulting topology that you use, the user experience should be presented as a seamless sequence of page navigations like the one shown in the following figure:
+    </Paragraph>
+
+    <Paragraph>The following sections give simple examples of three of the most common topologies, including fixed linear, fixed hierarchical, and adaptive. You can extend or combine them to create more complex navigation topologies as required.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Fixed Linear Topology
+    </Paragraph>
+
+    <Paragraph>A fixed linear topology is a structure that is analogous to the structure of a wizard, which has one or more pages that are navigated to and from in a fixed sequence.
+    </Paragraph>
+
+    <Paragraph>The standard behaviors of a fixed linear topology application consist of the following:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Navigating from the calling page to the start page, where the start page initializes the task and navigates to the first task page.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can navigate between the pages using Back and Forward buttons or hyperlinks.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can navigate between pages using navigation history.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can cancel the task from any task page using a Cancel button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can accept the button on the last task page using a Finish button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If a user cancels the task, the task returns an appropriate task result and does not return any data.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If a user accepts a task, the task returns an appropriate task result and returns the data collected by the task.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When the task is completed, whether accepted or canceled, the pages that comprise the task are removed from navigation history, to make the task atomic and isolated.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>A fixed linear topology can be constructed using pages and hyperlinks, if content does not interact with users. However, wizards gather data from users over one or more pages and, in these cases, a fixed linear topology should be constructed with page functions, for structured navigation and data passing. The following figure shows the high-level structure and flow of a fixed linear topology application:
+    </Paragraph>
+
+    <Paragraph>See Fixed Linear Topology Sample for an example of a fixed linear topology implementation using page functions.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Fixed Hierarchical Topology
+    </Paragraph>
+
+    <Paragraph>In some applications, which page is navigated to from another page may be determined at run time, whether through user, application, or external data. To support this style of application, the application's navigation topology is organized into a fixed hierarchy. At run time, at each point in the hierarchy where one page may be able to navigate to two or more other pages, the page will gather the appropriate data it needs to make the decision about which page to navigate to.
+    </Paragraph>
+
+    <Paragraph>Although the order in which the fixed hierarchical structure of pages is navigated in is determined at run time, the user experience should have the same behaviors as those exhibited by an application with a fixed linear topology:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Navigating from the calling page to the start page, where the start page initializes the task and navigates to the first task page.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can navigate between the pages using Back and Forward buttons or hyperlinks.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can navigate between pages using navigation history.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can cancel the task from any task page using a Cancel button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can accept the button on the last task page using a Finish button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If a user cancels the task, the task returns an appropriate task result and does not return any data.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If a user accepts a task, the task returns an appropriate task result and returns the data collected by the task.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When the task is completed, whether accepted or canceled, the pages that comprise the task are removed from navigation history, to make the task atomic and isolated.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Because some pages in a fixed hierarchical topology need to process data at run time to determine which page to navigate to next, the pages in a fixed hierarchical topology application can only be constructed with page functions.
+    </Paragraph>
+
+    <Paragraph>The following figure shows a set of pages from which a user will determine the order of navigation at run time:
+    </Paragraph>
+
+    <Paragraph>The next figure illustrates the actual path taken:
+    </Paragraph>
+
+    <Paragraph>See Fixed Hierarchical Topology Sample for an example of a fixed hierarchical topology implementation using page functions and structured navigation.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Adaptive Topology
+    </Paragraph>
+
+    <Paragraph>When one or more pages that comprise a task can only be ordered based on run time conditions, as determined by user, application, or external data, the structure of those pages cannot be specified at compile time. Instead, the application constructs and applies the order of page navigation at run time. The user experience for an adaptive topology application is somewhat different than that for fixed topology applications.
+    </Paragraph>
+
+    <Paragraph>Navigating from the calling page to a hub page that acquires the data it needs to determine which pages will be navigated during a task, and in what order they will be navigated in. If the order is determine by user input, the hub page may use a data entry page to acquire the necessary information; 
+otherwise, the hub will acquire the necessary data from the application or external sources. Once the hub page has the data, it navigates the user to the first page in the task, after which the user experience is the same as it is for fixed topology applications:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Users can navigate between the pages using Back and Forward buttons or hyperlinks.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can navigate between pages using navigation history.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can cancel the task from any task page using a Cancel button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Users can accept the button on the last task page using a Finish button.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If a user cancels the task, the task returns an appropriate task result and does not return any data.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If a user accepts a task, the task returns an appropriate task result and returns the data collected by the task.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When the task is completed, whether accepted or canceled, the pages that comprise the task are removed from navigation history, to make the task atomic and isolated.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>As with a fixed hierarchical topology, the number and order of pages in an adaptive topology are determined at run time and, consequently, only page functions can be used.
+    </Paragraph>
+
+    <Paragraph>The following figure shows a set of pages from which a user will determine both the pages that are navigated and the order in which they are navigated at run time:
+    </Paragraph>
+
+    <Paragraph>The next figure illustrates the actual path taken:
+    </Paragraph>
+
+    <Paragraph>See Adaptive Topology Sample for an example of an adaptive topology implementation using page functions and structured navigation.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>PageFunction
+      <LineBreak/>NavigationService
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="025d30ef-fec5-436d-ad7a-5d5483331c26.xaml">Structured Navigation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Navigation Topologies Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

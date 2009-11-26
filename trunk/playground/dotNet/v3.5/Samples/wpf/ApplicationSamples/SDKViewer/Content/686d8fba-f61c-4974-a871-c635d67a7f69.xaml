@@ -1,0 +1,143 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_686d8fba_f61c_4974_a871_c635d67a7f69"
+  Tag     ="Draw Text to a Control's Background"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Draw Text to a Control's Background</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You can draw text directly to the background of a control by converting a text string to a FormattedText object, and then drawing the object to the control's DrawingContext. You can also use this technique for drawing to the background of objects derived from Panel, such as Canvas and StackPanel.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Example of controls with custom text backgrounds</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>To draw to the background of a control, create a new DrawingBrush object and draw the converted text to the object's <Run FontWeight="Bold">DrawingContext</Run>
+. Then, assign the new <Run FontWeight="Bold">DrawingBrush</Run>
+ to the control's background property.
+    </Paragraph>
+
+    <Paragraph>The following code example shows how to create a <Run FontWeight="Bold">FormattedText</Run>
+ object and draw to the background of a Label and Button object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Handle the WindowLoaded event for the window. private void WindowLoaded(object sender, EventArgs e) { // Update the background property of the label and button. myLabel.Background = new DrawingBrush(DrawMyText("My Custom Label")); 
+myButton.Background = new DrawingBrush(DrawMyText("Display Text")); 
+} // Convert the text string to a geometry and draw it to the control's DrawingContext. private Drawing DrawMyText(string textString) { // Create a new DrawingGroup of the control. DrawingGroup drawingGroup = new DrawingGroup(); 
+// Open the DrawingGroup in order to access the DrawingContext. using (DrawingContext drawingContext = drawingGroup.Open()) { // Create the formatted text based on the properties set. FormattedText formattedText = new FormattedText( textString, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Comic Sans MS Bold"), 48, Brushes.Black // This brush does not matter since we use the geometry of the text. ); 
+// Build the geometry object that represents the text. Geometry textGeometry = formattedText.BuildGeometry(new Point(20, 0)); 
+// Draw a rounded rectangle under the text that is slightly larger than the text. drawingContext.DrawRoundedRectangle(Brushes.PapayaWhip, null, new Rect(new Size(formattedText.Width + 50, formattedText.Height + 5)), 5.0, 5.0); 
+// Draw the outline based on the properties that are set. drawingContext.DrawGeometry(Brushes.Gold, new Pen(Brushes.Maroon, 1.5), textGeometry); 
+// Return the updated DrawingGroup content to be used by the control. return drawingGroup; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>For the complete code sample from which the following code example was extracted, see Draw Text to Control Background Sample.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>FormattedText
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b1d851c1-331c-4814-9964-6fe769db6f1f.xaml">Drawing Formatted Text</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Draw Text to a Control's Background to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

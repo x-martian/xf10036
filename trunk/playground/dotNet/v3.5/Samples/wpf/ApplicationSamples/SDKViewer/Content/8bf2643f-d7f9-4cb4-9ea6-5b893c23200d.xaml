@@ -1,0 +1,110 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_8bf2643f_d7f9_4cb4_9ea6_5b893c23200d"
+  Tag     ="Hit Test Geometry in a Visual"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Hit Test Geometry in a Visual</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to perform a hit test on a visual object that is composed of one or more Geometry objects.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example shows how to retrieve the DrawingGroup from a visual object that uses the GetDrawing method. A hit test is then performed on the geometry of each drawing in the <Run FontWeight="Bold">DrawingGroup</Run>
+ to determine which geometry was hit.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// Determine if a geometry within the visual was hit. static public void HitTestGeometryInVisual(Visual visual, Point pt) { // Retrieve the group of drawings for the visual. DrawingGroup drawingGroup = VisualTreeHelper.GetDrawing(visual); 
+// Enumerate the drawings in the drawing group. for (int i = 0; 
+i 
+&lt; 
+drawingGroup.Children.Count; 
+i++) { // Convert the drawing to a geometry drawing. // If the drawing is a non-geometry drawing (such as text or line), // the conversions fails, and null is returned. GeometryDrawing geometryDrawing = drawingGroup.Children[i] as GeometryDrawing; 
+// Determine whether the hit test point falls within the geometry. if ((geometryDrawing != null) &amp;&amp; 
+geometryDrawing.Geometry.FillContains(pt)) { // Perform action based on hit test on geometry. } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The FillContains method is an overloaded method that allows you to hit test by using a specified Point or <Run FontWeight="Bold">Geometry</Run>
+. You can also provide a ToleranceType that specifies the margin of error for the hit test.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6c8bdbf2-19e0-4fbb-bf89-c1252b2ebc61.xaml">How to: Hit Test Using Geometry as a Parameter</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b1a64b61-14be-4d75-b89a-5c67bebb2c7b.xaml">Hit Testing in the Visual Layer</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Hit Test Geometry in a Visual to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

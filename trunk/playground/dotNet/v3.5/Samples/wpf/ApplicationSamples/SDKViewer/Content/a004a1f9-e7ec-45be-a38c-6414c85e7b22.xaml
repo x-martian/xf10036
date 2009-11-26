@@ -1,0 +1,164 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_a004a1f9_e7ec_45be_a38c_6414c85e7b22"
+  Tag     ="Load a XAML File into a FlowDocumentReader"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Load a XAML File into a FlowDocumentReader</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example demonstrates how to parse a XAML file that contains a FlowDocument, and display the loaded file in a FlowDocumentReader.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example defines an empty, named <Run FontWeight="Bold">FlowDocumentReader</Run>
+ that will be manipulated by the code example below.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;FlowDocumentReader Name="flowDocRdr" IsFindEnabled="True" IsPrintEnabled="True" MinZoom="50" MaxZoom="1000" Zoom="120" ZoomIncrement="5" /> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>At the most basic level, there are steps involved in loading a FlowDocument file into a <Run FontWeight="Bold">FlowDocumentReader</Run>
+.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Open the <Run FontWeight="Bold">FlowDocument</Run>
+ file as a stream.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Parse the stream into a <Run FontWeight="Bold">FlowDocument</Run>
+ object. The Load method provided by the XamlReader class is intended to perform this operation.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Set the resulting <Run FontWeight="Bold">FlowDocument</Run>
+ object as the value of the Document property on the <Run FontWeight="Bold">FlowDocumentReader</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following example performs these steps.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void LoadFlowDocumentReaderWithXAMLFile(string fileName) { // Open the file that contains the FlowDocument... FileStream xamlFile = new FileStream(fileName, FileMode.Open, FileAccess.Read); 
+// and parse the file with the XamlReader.Load method. FlowDocument content = XamlReader.Load(xamlFile) as FlowDocument; 
+// Finally, set the Document property to the FlowDocument object that was // parsed from the input file. flowDocRdr.Document = content; 
+xamlFile.Close(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>If the <Run FontWeight="Bold">FlowDocument</Run>
+ references external resources (such as image files) using relative uniform resource identifiers (URIs), it is necessary to specify a ParserContext that includes a BaseUri so that the parser can make sense of the relative URIs. The <Run FontWeight="Bold">XamlReader</Run>
+ class provides Load method that accepts a <Run FontWeight="Bold">ParserContext</Run>
+.
+    </Paragraph>
+
+    <Paragraph>For a functional sample that enables the user to load a XAML file into a <Run FontWeight="Bold">FlowDocumentReader</Run>
+, see FlowDocumentReader Load/Save XAML Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="cd69ef4f-8bd5-4957-964d-5b96e4652138.xaml">How to: Save the Contents of a FlowDocumentReader as a XAML File</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Load a XAML File into a FlowDocumentReader to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

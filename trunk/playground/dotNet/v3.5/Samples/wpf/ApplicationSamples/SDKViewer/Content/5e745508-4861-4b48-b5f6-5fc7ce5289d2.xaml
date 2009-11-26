@@ -1,0 +1,272 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5e745508_4861_4b48_b5f6_5fc7ce5289d2"
+  Tag     ="Marking Routed Events as Handled, and Class Handling"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Marking Routed Events as Handled, and Class Handling</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When routed events travel a route through the tree of elements in an application, handlers of the event have the option to mark the event handled within the event arguments. Handling the event will effectively shorten the route for most concerned listeners and will prevent unnecessary handling of an event that has already initiated an appropriate response within your application logic. Class handling is a programming concept that is supported by routed events. A class handler has the opportunity to handle a particular event at a class level that is invoked before any instance handler on any instance. You can use the class handler to alter event data before instance handlers receive the event and its data. Some class handlers already exist on WPF controls as part of a control's specific design and implementation, and it might occasionally be necessary to work around the class handler behavior for certain scenarios.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="prerequisites">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Preview_Events_vs__Bubbling_Events_and_Handling">"Preview" Tunneling Events vs. Bubbling Events, and Event Handling</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="When_to_Mark_Events_as_Handled">When to Mark Events as Handled</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Class_Handlers_and_Instance_Handlers">Class Handlers and Instance Handlers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Class_Handling_of_Routed_Events">Class Handling of Routed Events</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="AddingInstanceHandlersthatAreRaisedEvenWhenEventsareMarkedHandled">Adding Instance Handlers that Are Raised Even When Events are Marked Handled</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Deliberately_Suppressing_Input_Events_for_Control">Deliberately Suppressing Input Events for Control Compositing</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic elaborates on concepts introduced in the <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+    </Paragraph>
+
+    <Paragraph FontSize="22">"Preview" Tunneling Events vs. Bubbling Events, and Event Handling
+    </Paragraph>
+
+    <Paragraph>Preview routed events are events that follow a <Run>tunneling</Run>
+ route through the element tree. The "Preview" expressed in the naming convention is indicative of the general principle for input events that preview/tunneling events are raised prior to the equivalent bubbling event. Also, the handled characteristics of input events that have a tunneling event and a related bubbling event is that if the tunneling/preview event is marked as handled by an event listener, then the bubbling event will be marked handled even before any listeners of the bubbling event specifically receive it. The tunneling and bubbling events deliberately share the same instance of event data.
+    </Paragraph>
+
+    <Paragraph>The connection between the tunneling and bubbling events is accomplished by the internal implementation of how any given WPF class raises its own declared events, and this is true of the paired input events. But unless this class-level implementation exists, there is no connection between a tunneling event and a bubbling event that share the naming scheme: without such implementation they would be two entirely separate events and would not be raised in sequence, or share event data.
+    </Paragraph>
+
+    <Paragraph>For more information about how to implement tunnel/bubble input event pairs in a custom class, see <Hyperlink NavigateUri="b79f459a-1c3f-4045-b2d4-1659cc8eaa3c.xaml">How to: Create a Custom Routed Event</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">When to Mark Events as Handled
+    </Paragraph>
+
+    <Paragraph>When you set the value of the Handled property to <Run FontWeight="Bold">true</Run>
+ in the event data for a routed event, this is refered to as "marking the event handled". There is no absolute rule for when you should mark routed events as handled, either as an application author, or as a control author who responds to or implements events. For the most part, the concept of "handled" as carried in the routed events arguments should be used as a limited protocol for your own application's responses to the various events exposed in WPF  APIs as well as for any custom events built on the general routed event system. Another way to consider the "handled" issue is that you should generally mark an event handled if your code responded to the event in a significant and relatively complete way.  There should not typically be more than one significant response that require separate handler implementations for any single event occurence.  If more responses are needed, the necessary code should be dealt with through application logic rather than by using the routed event system for forwarding. "Significant response" examples include: setting focus, modifying public state, setting properties that affect the visual representation, and raising other new events. Examples of non-significant responses include: modifying private state (with no visual impact, or programmatic representation), logging of events, or looking at arguments of an event and choosing not to respond to it.
+    </Paragraph>
+
+    <Paragraph>The routed event system behavior reinforces this "significant response" model for using handled state, because handlers added in XAML or the common signature of AddHandler are not invoked in response to a handled event. You must go through the extra effort of adding a handler with the <Run>handledEventsToo</Run>
+ parameter version (AddHandler) in order to handle events that are marked handled.
+    </Paragraph>
+
+    <Paragraph>In some circumstances, controls themselves mark certain events as handled. This represents a decision by WPF control authors that the control's actions in response to the event handled that event in a significant or complete way as part of the control implementation. Usually this is done by adding a class handler for an event, or by overriding one of the class handler virtuals that exist on a base class. You can still work around this event handling if necessary; 
+see the <Hyperlink TargetName="WorkingAroundEventSuppressionByControls">Working AroundEvent Suppression By Controls</Hyperlink>
+ section in this topic.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Class Handlers and Instance Handlers
+    </Paragraph>
+
+    <Paragraph>Routed events consider two different types of listeners to the event: class listeners and instance listeners. Class listeners exist because types have called a particular EventManager API ,RegisterClassHandler, in their static constructor, or have overridden a class handler virtual method from an element base class. Instance listeners are particular class instances / elements where one or more handlers has been attached for that routed event by a call to <Run FontWeight="Bold">AddHandler</Run>
+. Existing WPF routed events make calls to <Run FontWeight="Bold">AddHandler</Run>
+ as part of the common language runtime (CLR) event wrapper add{} and remove{} implementations of the event, which is also how the simple XAML mechanism of attaching event handlers via an attribute syntax is enabled. Therefore even the simple XAML usage ultimately equates to an <Run FontWeight="Bold">AddHandler</Run>
+ call.
+    </Paragraph>
+
+    <Paragraph>Elements within the visual tree are checked for registered handler implementations. Handlers are potentially raised throughout the route, in the order that is inherent in the type of the routing strategy for that routed event. For instance, bubbling events will first invoke those handlers that are attached to the same element that raised the event. Then the event "bubbles" to the next parent element and so on until the application root element is reached.
+    </Paragraph>
+
+    <Paragraph>From the perspective of the root element in a bubbling route, if class handling or any element closer to the source of the event invoke handlers that mark the event arguments as being handled, then any normally added handlers on the root elements are not invoked, and the event route is effectively shortened before reaching that root element. However, the route is not completely halted, because event handlers may be added using a special conditional that they should still be invoked, even if a class handler or instance handler has marked an event as handled. This is explained in the section <Run FontWeight="Bold">Adding Instance Handlers that Are Raised Even When Events are Marked Handled</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Class Handling of Routed Events
+    </Paragraph>
+
+    <Paragraph>On each given node in an event route, class listeners have the opportunity to respond to an event before any instance listener can. For this reason, class handlers are sometimes used to suppress events that a particular class implementation does not wish to propagate, or to provide special handling. For instance. a class might raise its own class-specific event that contains more specifics about what some user input condition means in the context of that particular class. The class implementation might then mark the class-handled general event as handled. Class handlers are typically added such that they are not invoked for events where shared event data already marked handled, but there is also a RegisterClassHandler signature that registers class handlers to invoke even when events are marked handled.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Class Handler Virtuals
+    </Paragraph>
+
+    <Paragraph>Some elements, particularly the base elements such as UIElement, expose empty virtual methods that correspond to their list of public routed events. These virtual methods can be overridden to implement a class handler for that event. In their implementation, the base element classes register that virtual method as their class handler for an event using <Run FontWeight="Bold">RegisterClassHandler</Run>
+ as described above. The virtual methods make it much simpler to implement class handling for the relevant routed events, without requiring special initialization in static constructors for each type. For instance, you can add class handling for the DragEnter event in any <Run FontWeight="Bold">UIElement</Run>
+ derived class, by overriding the OnDragEnter virtual method. You could then choose to handle the event, raise other events, initiate class-specific logic that might change element properties on instances, or any combination of those actions. You should generally call the base implementation in such overrides even if you mark the event handled. Calling the base implementation is prudent because it is possible that other classes in the hierarchy also had class handling that should be preserved. You should only not call the base implementation if your class has a deliberate requirement to change the base class handling logic. Whether you call the base implementation before or after your override code will depend on the nature of your implementation.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Input Event Class Handling
+    </Paragraph>
+
+    <Paragraph>The class handler virtual methods are all registered such that they are only invoked in cases where any shared event data are not already marked handled. Also, for the input events uniquely, the tunneling and bubbling versions typically are raised in sequence and share event data. This entails that for a given pair of class handlers of input events where one is the tunneling version and the other is the bubbling version, you may not want to mark the event handled immediately. If you implement the tunneling class handling virtual method to mark the event handled, that will prevent the bubbling class handler from being invoked (as well as preventing any normally registered instance handlers for either the tunneling or bubbling event from being invoked).
+    </Paragraph>
+
+    <Paragraph>Once class handling on a node is complete, the instance listeners are considered. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Adding Instance Handlers that Are Raised Even When Events are Marked Handled
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">AddHandler</Run>
+ method supplies a particular overload that allows you to add handlers that will be invoked by the event system whenever an event reaches the handling element in the route, even if some other handler has already adjusted the event data to mark that event as handled. This is not typically done. Generally, handlers can be written to adjust all areas of application code that might be influenced by an event, regardless of where it was handled in an element tree, even if multiple end results are desired. Also, typically there is really only one element that needs to respond to that event, and the appropriate application logic had already happened. But the <Run>handledEventsToo</Run>
+ overload is available for the exceptional cases where some other element in an element tree or control compositing has already marked an event as handled, but other elements either higher or lower in the element tree (depending on route) still wish to have their own handlers invoked.
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">When to Mark Handled Events as Unhandled
+    </Paragraph>
+
+    <Paragraph>Generally, events marked handled should not be marked unhandled (<Run FontWeight="Bold">Handled</Run>
+ set back to <Run FontWeight="Bold">false</Run>
+) even by handlers that act on <Run>handledEventsToo</Run>
+. However, some input events have high-level and lower-level events that can overlap. For instance, if a child element listens to a high-level key event such as TextInput while a parent element listens to a low-level event such as KeyDown, if the parent element handles the low-level event, that can suppress the higher level event even in the child element that intuitively should have first opportunity to handle the event.
+    </Paragraph>
+
+    <Paragraph>In these situations it may be necessary to add handlers to both parent elements and child elements for the low-level event. The child element handler implementation can mark the low-level event as handled, but the parent element handler implementation would set it unhandled again so that further elements up the tree (as well as the high-level event) can have the opportunity to respond.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Deliberately Suppressing Input Events for Control Compositing
+    </Paragraph>
+
+    <Paragraph>The main scenario where class handling of events is used is for input events and composited controls. A composited control is by definition composed of multiple practical controls. Often the author of the control wishes to amalgamate all of the possible input events that each of the components might raise, in order to report the entire control as the singular event source. In some cases the control author might wish to suppress the events from components entirely, or substitute a component-defined event that carries more information or implies a more specific behavior. The canonical example that is immediately visible to any component author is how a Windows Presentation Foundation (WPF) Button handles any mouse event that maps to the intuitive event that all buttons have: a Click event.
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">Button</Run>
+ base class (ButtonBase) derives from Control which in turn derives from FrameworkElement and <Run FontWeight="Bold">UIElement</Run>
+, and much of the event infrastructure needed for control input processing is available at the <Run FontWeight="Bold">UIElement</Run>
+ level. In particular, <Run FontWeight="Bold">UIElement</Run>
+ processes general Mouse events that handle hit testing for the mouse cursor within its bounds, and provides distinct events for the most common button actions, such as MouseLeftButtonDown. <Run FontWeight="Bold">UIElement</Run>
+ also provides an empty virtual OnMouseLeftButtonDown as the preregistered class handler for <Run FontWeight="Bold">MouseLeftButtonDown</Run>
+, and <Run FontWeight="Bold">ButtonBase</Run>
+ overrides it. In the override, which passes the argument events, the implementation marks that RoutedEventArgs instance as handled by setting <Run FontWeight="Bold">Handled</Run>
+<Run FontWeight="Bold">true</Run>
+, and that same event data is what continues along the remainder of the route, to other class handlers and also to instance handlers or event setters. Also, the OnMouseLeftButtonDown override then raises the <Run FontWeight="Bold">Click</Run>
+ event. The end result for most listeners will be that the <Run FontWeight="Bold">MouseLeftButtonDown</Run>
+ event "disappears" and is replaced instead by <Run FontWeight="Bold">Click</Run>
+ , an event that holds more meaning because it is known that this event originated from a true button and not some composite piece of the button, or from some other element entirely.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Working Around Event Suppression by Controls
+    </Paragraph>
+
+    <Paragraph>Sometimes this event suppression behavior within individual controls can interfere with the general intentions of event handling logic for your application. For instance, if for some reason your application had a handler for <Run FontWeight="Bold">MouseLeftButtonDown</Run>
+ located at the application root element, you would notice that any mouse click on a button would not invoke <Run FontWeight="Bold">MouseLeftButtonDown</Run>
+ handlers at the root level. The event itself actually did bubble up (again, event routes are not truly ended, but they change reporting behavior after being marked handled). Once the event reached the button, the <Run FontWeight="Bold">ButtonBase</Run>
+ class handling marked the <Run FontWeight="Bold">MouseLeftButtonDown</Run>
+ handled because it wished to substitute the <Run FontWeight="Bold">Click</Run>
+ event with more meaning. Therefore, any standard <Run FontWeight="Bold">MouseLeftButtonDown</Run>
+ handler further up the route would not be invoked. There are two ways in which you could still have your handlers be invoked in this circumstance. The first way is to deliberately add the handler using the <Run>handledEventsToo</Run>
+ signature of <Run FontWeight="Bold">AddHandler</Run>
+. A limitation of this approach is that this technique for attaching an event handler is only accessible from procedural code. The simple syntax of specifing the event handler name as an event attribute value via Extensible Application Markup Language (XAML) does not enable that behavior. The second way works only for input events, where the tunneling and bubbling versions of the event are paired. For these events, you can add handlers to the Preview/tunneling equivalent event instead. That event will tunnel starting from the root, so the button would not intercept it, presuming that you attached the Preview handler at some ancestor element level in the application's <Run>logical tree</Run>
+. If you use this approach, be cautious about marking any Preview event handled. For the example given with PreviewMouseLeftButtonDown being handled at the root element, if you marked the event as <Run FontWeight="Bold">Handled</Run>
+ in the handler implementation, you would actually suppress the <Run FontWeight="Bold">Click</Run>
+ event. That is typically not desirable behavior.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b79f459a-1c3f-4045-b2d4-1659cc8eaa3c.xaml">How to: Create a Custom Routed Event</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>EventManager
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="b5032308-aa9c-4d02-af11-630ecec8df7e.xaml">Preview Events</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Marking Routed Events as Handled, and Class Handling to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

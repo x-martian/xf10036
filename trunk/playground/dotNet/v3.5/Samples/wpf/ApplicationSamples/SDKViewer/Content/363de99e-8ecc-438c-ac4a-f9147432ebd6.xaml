@@ -1,0 +1,152 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_363de99e_8ecc_438c_ac4a_f9147432ebd6"
+  Tag     ="Apply a FocusVisualStyle to a Control"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Apply a FocusVisualStyle to a Control</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows you how to create a focus-specific style in resources that is applied to the control, using the FocusVisualStyle property.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example defines a style that creates additional control compositing that only applies when that control is focused in the user interface (UI). This is accomplished by defining a style with a ControlTemplate, then referencing that style as a resource when setting the <Run FontWeight="Bold">FocusVisualStyle</Run>
+. Note that in this case the <Run FontWeight="Bold">FocusVisualStyle</Run>
+ is additive to any normal style; 
+the fact that you create a new <Run FontWeight="Bold">ControlTemplate</Run>
+ does not impact the normal styling of the button, as it would had you attempted to create a style with a <Run FontWeight="Bold">ControlTemplate</Run>
+ and setting that style to the Style property. In this case an external rectangle resembling a border is placed outside of the rectangular area that is bound to the actual height and width of the rectangular control being focused. Negative values are set on Top and Left to make the border appear outside the focused control, somewhat like a highlight.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Conceptually, the visual behavior of focus applied to a control should be coherent from control to control. The most sensible way to ensure coherence is to only change the focus visual style if you are composing an entire theme, where each control that is defined in the theme will get either the very same Style, or some variation of a Style that at least is visually coherent from control to control. Setting this property on invididual control styles and not as part of a theme is not the intended usage of this property because it may lead to a confusing user experience regarding keyboard focus. If you are intending control-specific behaviors that are deliberately not coherent across a theme, a much better approach is to use triggers in styles for individual input state properties, such as IsFocused or IsKeyboardFocusWithin.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_363de99e_8ecc_438c_ac4a_f9147432ebd6_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;Page.Resources> 
+&lt;Style x:Key="MyFocusVisual"> 
+&lt;Setter Property="Control.Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type Control}"> 
+&lt;Canvas> 
+&lt;Grid> 
+&lt;Rectangle Name="r1" StrokeThickness="2" Stroke="Red" StrokeDashArray="1 2"/> 
+&lt;Border Name="border" Width="{TemplateBinding ActualWidth}" Height="{TemplateBinding ActualHeight}" CornerRadius="2" BorderThickness="1" /> 
+&lt;/Grid> 
+&lt;/Canvas> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> 
+&lt;/Page.Resources> 
+&lt;StackPanel Background="Ivory" Orientation="Horizontal"> 
+&lt;Canvas Width="10"/> 
+&lt;Button Width="100" Height="30" FocusVisualStyle="{DynamicResource MyFocusVisual}">Focus Here
+&lt;/Button> 
+&lt;Canvas Width="100"/> 
+&lt;Button Width="100" Height="30" FocusVisualStyle="{DynamicResource MyFocusVisual}">Focus Here
+&lt;/Button> 
+&lt;/StackPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Creating a FocusVisualStyle Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styling and Templating</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Apply a FocusVisualStyle to a Control to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

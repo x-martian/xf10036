@@ -1,0 +1,151 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3584c0a1_9cd0_4968_8b63_b06390890ef6"
+  Tag     ="Client-Side UI Automation Provider Implementation"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Client-Side UI Automation Provider Implementation</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Several different user interface (UI) frameworks are in use within Microsoft operating systems, including Win32, Windows Forms, and WPF. Microsoft UI Automation exposes information about UI elements to clients. However, UI Automation does not itself have awareness of the different types of controls that exist in these frameworks and the techniques that are needed to extract information from them. Instead, it leaves this task to objects called providers. A provider extracts information from a specific control and hands that information to UI Automation, which then presents it to the client in a consistent manner.
+    </Paragraph>
+
+    <Paragraph>Providers can exist either on the server side or on the client side. A server-side provider is implemented by the control itself. WPF elements implement providers, as can any third-party controls written with UI Automation in mind.
+    </Paragraph>
+
+    <Paragraph>However, older controls such as those in Win32 and Windows Forms do not directly support UI Automation. These controls are served instead by providers that exist in the client process and obtain information about controls using cross-process communication; 
+for example, by monitoring windows messages to and from the controls. Such client-side providers are sometimes called proxies.
+    </Paragraph>
+
+    <Paragraph>Windows Vista supplies providers for standard Win32 and Windows Forms controls. In addition, a fallback provider gives partial UI Automation support to any control that is not served by another server-side provider or proxy but has a Microsoft Active Accessibility implementation. All these providers are automatically loaded and available to client applications.
+    </Paragraph>
+
+    <Paragraph>For more information on support for Win32 and Windows Forms controls, see <Hyperlink NavigateUri="3770ea8a-2655-4add-9c59-fe0610ad5084.xaml">UI Automation Support for Standard Controls</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Applications can also register other client-side providers.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Distributing_Client-Side_Providers">Distributing Client-Side Providers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="Registering_and_Configuring_Client-Side_Providers">Registering and Configuring Client-Side Providers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Distributing Client-Side Providers
+    </Paragraph>
+
+    <Paragraph>UI Automation expects to find client-side providers in a managed-code assembly. The namespace in this assembly should have the same name as the assembly. For example, an assembly called ContosoProxies.dll would contain the ContosoProxies namespace. Within the namespace, create a UIAutomationClientSideProviders class. In the implementation of the static ClientSideProviderDescriptionTable field, create an array of ClientSideProviderDescription structures describing the providers.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Registering and Configuring Client-Side Providers
+    </Paragraph>
+
+    <Paragraph>Client-side providers in a dynamic-link library (DLL) are loaded by calling RegisterClientSideProviderAssembly. No further action is required by a client application to make use of the providers.
+    </Paragraph>
+
+    <Paragraph>Providers implemented in the client's own code are registered by using RegisterClientSideProviders. This method takes as an argument an array of <Run FontWeight="Bold">ClientSideProviderDescription</Run>
+ structures, each of which specifies the following properties:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>A callback function that creates the provider object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The class name of the controls that the provider will serve.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The image name of the application (usually the full name of the executable file) that the provider will serve.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Flags that govern how the class name is matched against window classes found in the target application.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The last two parameters are optional. The client might specify the image name of the target application when it wants to use different providers for different applications. For example, the client might use one provider for a Win32 list view control in a known application that supports the Multiple View pattern, and another for a similar control in another known application that does not.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d91edaf2-be28-41ec-a508-af421cb43c3d.xaml">Create a Client-Side UI Automation Provider</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="f325f0d8-1715-41ea-85ca-45b82ffea8bc.xaml">Implement UI Automation Providers in a Client Application</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Client-Side UI Automation Provider Implementation to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

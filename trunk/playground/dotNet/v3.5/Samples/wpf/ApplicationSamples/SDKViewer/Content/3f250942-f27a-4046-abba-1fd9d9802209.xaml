@@ -1,0 +1,324 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_3f250942_f27a_4046_abba_1fd9d9802209"
+  Tag     ="RadioButton Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>RadioButton Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The RadioButton class represents a Button that can be selected, but not cleared, by a user. You can set the IsChecked property of a <Run FontWeight="Bold">RadioButton</Run>
+ by clicking it, but it can only be cleared programmatically. This topic provides examples of how to create a <Run FontWeight="Bold">RadioButton</Run>
+ control using Extensible Application Markup Language (XAML) and to set event handlers on the control using C#.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="radiobutton_control">RadioButton Control</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_radiobuttons">Creating RadioButtons</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_radiobutton_groups">Creating RadioButton Groups</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_groups_with_groupname">Creating RadioButton Groups Using GroupName</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">RadioButton Control
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">RadioButton</Run>
+ is a control that is usually used as an item in a group of <Run FontWeight="Bold">RadioButton</Run>
+ controls however, it is possible to create a single <Run FontWeight="Bold">RadioButton</Run>
+. A <Run FontWeight="Bold">RadioButton</Run>
+ control is a ContentControl, which means that it can contain content such as text, images, or panels. <Run FontWeight="Bold">RadioButton</Run>
+ controls inherit from the ToggleButton class, which in turn inherits from ButtonBase. Because <Run FontWeight="Bold">RadioButton</Run>
+ controls inherit from <Run FontWeight="Bold">ToggleButton</Run>
+, they enable a user to change selections. Unlike a CheckBox, however, the user cannot clear the selected <Run FontWeight="Bold">RadioButton</Run>
+ by clicking it again. If the <Run FontWeight="Bold">RadioButton</Run>
+ is part of a group of <Run FontWeight="Bold">RadioButton</Run>
+ controls, the group contains functionality to manage toggling selections. The following graphic shows an example of a <Run FontWeight="Bold">RadioButton</Run>
+ control.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Typical RadioButton</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating RadioButtons
+    </Paragraph>
+
+    <Paragraph>The following example shows how to create a single <Run FontWeight="Bold">RadioButton</Run>
+ with XAML.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;RadioButton Name="rb" FontSize="12" Click="WriteText">Click the radio button. 
+&lt;/RadioButton> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>After creating the <Run FontWeight="Bold">RadioButton</Run>
+, you can add an event handler to handle Click events. Event handlers must be written in a procedural programming language, such as C# or Microsoft Visual Basic. The following event handlers demonstrate this.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void WriteText(object sender, RoutedEventArgs e) { rb.Content = "You followed directions."; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Sub WriteText(ByVal Sender As Object, ByVal e As RoutedEventArgs) rb.Content = "You followed directions." End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Creating RadioButton Groups
+    </Paragraph>
+
+    <Paragraph>When <Run FontWeight="Bold">RadioButton</Run>
+ elements are grouped, the buttons are mutually exclusive. A user can select only one item at a time within a <Run FontWeight="Bold">RadioButton</Run>
+ group. Unlike a <Run FontWeight="Bold">CheckBox</Run>
+, when a <Run FontWeight="Bold">RadioButton</Run>
+ is selected it cannot be cleared by clicking it. The application programmatically clears a selected item when the user selects a new item. Whether a <Run FontWeight="Bold">RadioButton</Run>
+ is selected is determined by the state of its <Run FontWeight="Bold">IsChecked</Run>
+ property. You can group <Run FontWeight="Bold">RadioButton</Run>
+ controls by placing them inside a parent or by giving them a group name. The following code sample groups three <Run FontWeight="Bold">RadioButton</Run>
+ controls inside a StackPanel parent.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;RadioButton Name="rb1" Checked="WriteText2">Yes
+&lt;/RadioButton> 
+&lt;RadioButton Name="rb2" Checked="WriteText2">No
+&lt;/RadioButton> 
+&lt;RadioButton Name="rb3" Checked="WriteText2">No opinion
+&lt;/RadioButton> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Creating RadioButton Groups Using GroupName
+    </Paragraph>
+
+    <Paragraph>You can group <Run FontWeight="Bold">RadioButton</Run>
+ elements by using the GroupName property. The following code sample creates two separate <Run FontWeight="Bold">RadioButton</Run>
+ groups: <Run FontStyle="italic">colorgrp</Run>
+ and <Run FontStyle="italic">numgrp</Run>
+. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;StackPanel> 
+&lt;RadioButton GroupName="colorgrp">Red
+&lt;/RadioButton> 
+&lt;RadioButton GroupName="colorgrp">Blue
+&lt;/RadioButton> 
+&lt;RadioButton GroupName="numgrp">1
+&lt;/RadioButton> 
+&lt;RadioButton GroupName="numgrp">2
+&lt;/RadioButton> 
+&lt;/StackPanel> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample see RadioButton Sample. 
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="4f37941a-4c00-47b3-9adc-d29e81a8fca6.xaml">How to: Create a RadioButton</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6c9ba847-eab7-4bba-9c74-6b56ef72067b.xaml">RadioButton</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about RadioButton Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

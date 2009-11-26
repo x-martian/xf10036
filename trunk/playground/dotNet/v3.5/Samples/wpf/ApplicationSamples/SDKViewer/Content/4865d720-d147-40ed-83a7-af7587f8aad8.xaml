@@ -1,0 +1,319 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_4865d720_d147_40ed_83a7_af7587f8aad8"
+  Tag     ="Sort a GridView Column When a Header Is Clicked"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Sort a GridView Column When a Header Is Clicked</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to create a ListView control that implements a GridView view mode and sorts the data content when a user clicks a column header.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example defines a <Run FontWeight="Bold">GridView</Run>
+ with three columns that bind to the Year, Month, and Day, properties of the DateTime structure. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;GridView> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding Path=Year}" Header="Year" Width="100"/> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding Path=Month}" Header="Month" Width="100"/> 
+&lt;GridViewColumn DisplayMemberBinding="{Binding Path=Day}" Header="Day" Width="100"/> 
+&lt;/GridView> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the data items that are defined as an ArrayList of <Run FontWeight="Bold">DateTime</Run>
+ objects. The <Run FontWeight="Bold">ArrayList</Run>
+ is defined as the ItemsSource for the <Run FontWeight="Bold">ListView</Run>
+ control.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView.ItemsSource> 
+&lt;s:ArrayList> 
+&lt;p:DateTime>1993/1/1 12:22:02
+&lt;/p:DateTime> 
+&lt;p:DateTime>1993/1/2 13:2:01
+&lt;/p:DateTime> 
+&lt;p:DateTime>1997/1/3 2:1:6
+&lt;/p:DateTime> 
+&lt;p:DateTime>1997/1/4 13:6:55
+&lt;/p:DateTime> 
+&lt;p:DateTime>1999/2/1 12:22:02
+&lt;/p:DateTime> 
+&lt;p:DateTime>1998/2/2 13:2:01
+&lt;/p:DateTime> 
+&lt;p:DateTime>2000/2/3 2:1:6
+&lt;/p:DateTime> 
+&lt;p:DateTime>2002/2/4 13:6:55
+&lt;/p:DateTime> 
+&lt;p:DateTime>2001/3/1 12:22:02
+&lt;/p:DateTime> 
+&lt;p:DateTime>2006/3/2 13:2:01
+&lt;/p:DateTime> 
+&lt;p:DateTime>2004/3/3 2:1:6
+&lt;/p:DateTime> 
+&lt;p:DateTime>2004/3/4 13:6:55
+&lt;/p:DateTime> 
+&lt;/s:ArrayList> 
+&lt;/ListView.ItemsSource> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The <Run>s</Run>
+ and <Run>p</Run>
+ identifiers in the XAML tags refer to namespace mappings that are defined in the metadata of the XAML page. The following example shows the metadata definition. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ListViewSort.Window1" xmlns:s="clr-namespace:System.Collections;assembly=mscorlib" xmlns:p="clr-namespace:System;assembly=mscorlib"> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To sort the data according to the contents of a column, the example defines an event handler to handle the Click event that occurs when you press the column header button. The following example shows how to specify an event handler for the GridViewColumnHeader control. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListView x:Name='lv' Height="150" HorizontalAlignment="Center" VerticalAlignment="Center" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" > </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The example defines the event handler so that the sort direction changes between ascending order and descending order each time you press the column header button. The following example shows the event handler.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class Window1 : Window { public Window1() { InitializeComponent(); 
+} GridViewColumnHeader _lastHeaderClicked = null; 
+ListSortDirection _lastDirection = ListSortDirection.Ascending; 
+void GridViewColumnHeaderClickedHandler(object sender, RoutedEventArgs e) { GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader; 
+ListSortDirection direction; 
+if (headerClicked != null) { if (headerClicked.Role != GridViewColumnHeaderRole.Padding) { if (headerClicked != _lastHeaderClicked) { direction = ListSortDirection.Ascending; 
+} else { if (_lastDirection == ListSortDirection.Ascending) { direction = ListSortDirection.Descending; 
+} else { direction = ListSortDirection.Ascending; 
+} } string header = headerClicked.Column.Header as string; 
+Sort(header, direction); 
+if (direction == ListSortDirection.Ascending) { headerClicked.Column.HeaderTemplate = Resources["HeaderTemplateArrowUp"] as DataTemplate; 
+} else { headerClicked.Column.HeaderTemplate = Resources["HeaderTemplateArrowDown"] as DataTemplate; 
+} _lastHeaderClicked = headerClicked; 
+_lastDirection = direction; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows the sorting algorithm that is called by the event handler to sort the data. The sort is performed by creating a new SortDescription structure.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>private void Sort(string sortBy, ListSortDirection direction) { ICollectionView dataView = CollectionViewSource.GetDefaultView(lv.ItemsSource); 
+dataView.SortDescriptions.Clear(); 
+SortDescription sd = new SortDescription(sortBy, direction); 
+dataView.SortDescriptions.Add(sd); 
+dataView.Refresh(); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see ListView That Sorts Data Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ListView
+      <LineBreak/>GridView
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="989e12b0-260e-4570-95c6-489284003ce2.xaml">ListView Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="b2d02267-32b3-40ce-8e9f-06972d8749d9.xaml">GridView Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>GridView How-to Topics
+      <LineBreak/><Hyperlink NavigateUri="aafce40c-9bfe-45ec-86a3-599616a11276.xaml">ListView How-to Topics</Hyperlink>
+
+      <LineBreak/>ListView Samples
+      <LineBreak/>ListView That Sorts Data Sample
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Sort a GridView Column When a Header Is Clicked to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

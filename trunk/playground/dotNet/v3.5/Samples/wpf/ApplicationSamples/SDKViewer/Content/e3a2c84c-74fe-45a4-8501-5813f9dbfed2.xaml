@@ -1,0 +1,150 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_e3a2c84c_74fe_45a4_8501_5813f9dbfed2"
+  Tag     ="Invoke a Print Dialog"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Invoke a Print Dialog</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To provide the ability to print from you application, you can simply create and open a PrintDialog object. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The <Run FontWeight="Bold">PrintDialog</Run>
+ control provides a single entry point for UI, configuration, and XPS job submission. The control is easy to use and can be instantiated by using Extensible Application Markup Language (XAML) markup or code. The following example demonstrates how to instantiate and open the control in code and how to print from it. It also shows how to ensure that the dialog will give the user the option of setting a specific range of pages. The example code assumes that there is a file FixedDocumentSequence.xps in the root of the C: drive. You can find such a file in the \Content subfolder after you download the full sample from PrintDialog Sample. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public void InvokePrint(object sender, RoutedEventArgs e) { // Create the print dialog object and set options PrintDialog pDialog = new PrintDialog(); 
+pDialog.PageRangeSelection = PageRangeSelection.AllPages; 
+pDialog.UserPageRangeEnabled = true; 
+// Display the dialog. This returns true if the user presses the Print button. Nullable
+&lt;Boolean> print = pDialog.ShowDialog(); 
+if (print == true) { XpsDocument xpsDocument = new XpsDocument("C:\\FixedDocumentSequence.xps", FileAccess.ReadWrite); 
+FixedDocumentSequence fixedDocSeq = xpsDocument.GetFixedDocumentSequence(); 
+pDialog.PrintDocument(fixedDocSeq.DocumentPaginator, "Test print job"); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Once the dialog is open, users will be able to select from the printers installed on their computer. They will also have the option of selecting the <Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/prntspol_About_MXDW.asp">Microsoft XPS Document Writer</Hyperlink>
+ to create an XML Paper Specification (XPS) file instead of printing.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The <Run FontWeight="Bold">System.Windows.Controls.PrintDialog</Run>
+ control of WPF, which is discussed in this topic, should not be confused with the System.Windows.Forms.PrintDialog component of Windows Forms.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Strictly speaking, you can use the PrintDocument method without ever opening the dialog. In that sense, the control can be used as an unseen printing component. But for performance reasons, it would be better to use either the AddJob method or one of the many Write and WriteAsync methods of the XpsDocumentWriter. For more about this, see <Hyperlink NavigateUri="0b1c0a3f-b19e-43d6-bcc9-eb3ec4e555ad.xaml">How to: Programmatically Print XPS Files</Hyperlink>
+ and Printing an XPS Document.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>PrintDialog
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="0de8ac41-9aa6-413d-a121-7aa6f41539b1.xaml">Printing Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Printing Samples
+      <LineBreak/><Hyperlink NavigateUri="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/prntspol_About_MXDW.asp">Microsoft XPS Document Writer</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Invoke a Print Dialog to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

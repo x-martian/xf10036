@@ -1,0 +1,244 @@
+﻿<!--
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+//
+// Copyright (C) Microsoft Corporation, 2005.  All rights reserved.
+//
+// File: MainPage.xaml.cs
+//
+// Description: This is the markup file for MainPage.xaml which
+//              is the start page for the SdkViewer app.
+//
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+-->
+
+
+
+
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="Microsoft.Windows.SdkViewer.MainPage"
+    xmlns:CC="clr-namespace:Microsoft.Windows.SdkViewer.Controls"
+    xmlns:SDK="clr-namespace:Microsoft.Windows.SdkViewer"
+    xmlns:INPUT="clr-namespace:System.Windows.Input;assembly=PresentationCore"
+    Title="Microsoft Windows Presentation Foundation SDK"
+    Name="mainPage"
+    Margin="5"
+    FocusManager.FocusedElement="{Binding ElementName=LocationTextBox}" xmlns:MappingPIGen1="clr-namespace:Microsoft.Windows.SdkViewer.Controls" xmlns:MappingPIGen2="clr-namespace:Microsoft.Windows.SdkViewer" xmlns:MappingPIGen3="clr-namespace:System.Windows.Input;assembly=PresentationCore">
+
+    <!-- KeyBinding gestures -->
+    <Page.InputBindings>
+        <INPUT:KeyBinding Command="SDK:MainPage.ToggleKioskModeCommand" Gesture="F11" />
+        <INPUT:KeyBinding Command="SDK:MainPage.SelectLocationCommand" Gesture="Alt+D" />
+        <INPUT:KeyBinding Command="SDK:MainPage.CreateNewTabCommand" Gesture="Alt+T" />
+        <INPUT:KeyBinding Command="SDK:MainPage.CloseCurrentTabCommand" Gesture="Alt+W" />
+    </Page.InputBindings>
+
+    <!-- CommandBinding handlers -->
+    <Page.CommandBindings>
+        <INPUT:CommandBinding Command="SDK:MainPage.ToggleKioskModeCommand" Executed="OnToggleKioskModeCommand" />
+        <INPUT:CommandBinding Command="SDK:MainPage.SelectLocationCommand" Executed="OnSelectLocationCommand" />
+        <INPUT:CommandBinding Command="SDK:MainPage.CreateNewTabCommand" Executed="OnCreateNewTabCommand" />
+        <INPUT:CommandBinding Command="SDK:MainPage.CloseCurrentTabCommand" Executed="OnCloseCurrentTabCommand" />
+    </Page.CommandBindings>
+
+    <Page.Resources>
+    
+        <!-- This is the style of the "IsUsingOnlineContentButton" ToggleButton -->
+        <Style x:Key="ContentToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border
+                            x:Name="ToggleButtonRoot"
+                            CornerRadius="5"
+                            Background="White"
+                            BorderBrush="Silver"
+                            BorderThickness="1"
+                            Padding="{TemplateBinding Padding}">
+                            <StackPanel Orientation="Vertical" Margin="3">
+                                <Label FontFamily="Calibri" FontSize="7pt" VerticalAlignment="Top" Padding="0" HorizontalAlignment="Center">Help content _location</Label>
+                                <Label x:Name="TextContent" FontFamily="Calibri" FontSize="7pt" FontWeight="Bold" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                        
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="ToggleButtonRoot" Property="Background" Value="silver" />
+                                <Setter TargetName="ToggleButtonRoot" Property="BorderBrush" Value="blue" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="ToggleButtonRoot" Property="BorderBrush" Value="black" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="TextContent" Property="Content" Value="Online" />
+                                <Setter TargetName="TextContent" Property="Foreground" Value="lime" />
+                                <Setter Property="ToolTip" Value="Currently using Online Content. This button toggles the documentation to either use content retrieved from an on-line server or content installed on the local machine." />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter TargetName="TextContent" Property="Content" Value="Local" />
+                                <Setter TargetName="TextContent" Property="Foreground" Value="gold" />
+                                <Setter Property="ToolTip" Value="Currently using Local Content. This button toggles the documentation to either use content retrieved from an on-line server or content installed on the local machine." />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="HeaderButton" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="4,0,0,0" />
+            <Setter Property="FontFamily" Value="Calibri" />
+            <Setter Property="FontSize" Value="8pt" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        
+    </Page.Resources>
+    
+    <Grid>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!-- _MainMenu -->
+            <!-- _Toolbar -->
+            <!-- _MainContent -->
+
+        <!-- ****************************************************** -->
+        <!-- *** ToolBar -->
+        <Grid
+            Name="TopToolbar"
+            Margin="0,0,0,5"
+            Grid.Row="1"
+            DockPanel.Dock="Left"
+            SnapsToDevicePixels="True">
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+            
+            <!-- Back and Forward buttons -->
+            <StackPanel
+                Grid.Column="0"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                Margin="0,0,10,0">
+                <Button
+                    Name="GoBackButton"
+                    Style="{DynamicResource BackButtonStyle}"
+                    Click="CurrentTabGoBack"
+                    IsEnabled="{Binding ElementName=TabbedViewer, Path=Content.SelectedItem.TargetFrame.CanGoBack, Mode=OneWay}" />
+                <Button
+                    Name="GoForwardButton"
+                    Style="{DynamicResource ForwardButtonStyle}"
+                    Click="CurrentTabGoForward"
+                    IsEnabled="{Binding ElementName=TabbedViewer, Path=Content.SelectedItem.TargetFrame.CanGoForward, Mode=OneWay}" />
+            </StackPanel>
+            
+            <!-- Address bar -->
+            <DockPanel
+                Grid.Column="1"
+                LastChildFill="True"
+                VerticalAlignment="Center"
+                Margin="0,0,10,0">
+                <Label
+                    DockPanel.Dock="Left"
+                    Style="{StaticResource BoldLabel}"
+                    Foreground="Black"
+                    FontWeight="Normal"
+                    FontFamily="Calibri"
+                    FontSize="10pt"
+                    VerticalAlignment="Center">A_ddress:</Label>
+                <Button
+                    Name="GoButton"
+                    DockPanel.Dock="Right"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Click="OnGoClicked"
+                    Width="40"
+                    Margin="5,0,0,0">
+                    <Label>_Go</Label>
+                </Button>
+                <TextBox
+                    Name="LocationTextBox"
+                    Text="{Binding ElementName=TabbedViewer, Path=Content.SelectedItem.TargetFrame.Source, Mode=OneWay}"
+                    KeyDown="OnLocationTextBoxKeyDown"
+                    Padding="0,3,0,3"
+                    FontFamily="Calibri"
+                    FontSize="10pt"
+                    VerticalAlignment="Center" />
+            </DockPanel>
+            
+            <!-- View buttons-->
+            <StackPanel
+                Grid.Column="2"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                Margin="5">
+                <Button Name="ShowIndexButton"
+			MinWidth="75"
+                        Style="{StaticResource HeaderButton}"
+                        Click="OnShowTableOfContentsClicked"
+                        ToolTip="Show Index"><Label>Inde_x</Label></Button>
+                <Button Style="{StaticResource HeaderButton}" Click="OnShowDocumentationClicked" ToolTip="Show Documentation"><Label>D_ocumentation</Label></Button>
+                <ToggleButton
+                    Name="IsUsingOnlineContentButton"
+                    IsChecked="{Binding Source={x:Static SDK:Settings.Instance}, Path=IsUsingOnlineContent, Mode=OneWay}"
+                    Checked="OnUseOnlineContent"
+                    Unchecked="OnUseLocalContent"
+                    Style="{StaticResource ContentToggleButtonStyle}"
+                    Margin="10,4,0,4" />
+            </StackPanel>
+        </Grid>
+        <!-- *** ToolBar -->
+        <!-- ****************************************************** -->
+
+
+        <!-- ****************************************************** -->
+        <!-- *** MainContent -->
+        <Grid
+            Grid.Row="2"
+            Name="TearOffPanelRoot">
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*" /> <!-- IndexPanel and GridSplitter -->
+                <ColumnDefinition Width="80*" /> <!-- Document -->
+                </Grid.ColumnDefinitions>
+
+            <CC:TearOffPanel
+                x:Name="IndexPanel"
+                Grid.Column="0"
+                Tag="Index"
+                StateChanged="OnIndexPanelStateChanged"
+                Margin="0,0,5,0"> <!-- this margin is used to accommodate the GridSplitter's Width and margin within the same cell -->
+                <CC:IndexPanel
+                    SnapsToDevicePixels="True"
+                    SelectedItemChanged="OnIndexPanelSelectedItemChanged"
+                    NavigationMapSource="pack://application:,,,/wpf_conceptual.hxt" />
+            </CC:TearOffPanel>
+            <GridSplitter
+                x:Name="IndexPanelSplitter"
+                Grid.Column="0"
+                Style="{StaticResource GridSplitterStyle}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="stretch"
+                Width="5"
+                Visibility="{Binding ElementName=IndexPanel, Path=Visibility}"
+                Margin="0,20,3,20" />
+            
+            <CC:TearOffPanel
+                x:Name="TabbedViewer"
+                Grid.Column="1"
+                Tag="WPF SDK">
+                <CC:BrowserTabControl SelectionChanged="OnTabControlSelectionChanged">
+                    <CC:BrowserTabItem IsSelected="true" Source="pack://application:,,,/Content/f667bd15-2134-41e9-b4af-5ced6fafab5d.xaml" />
+                </CC:BrowserTabControl>
+            </CC:TearOffPanel>
+        </Grid>
+        <!-- *** MainContent -->
+        <!-- ****************************************************** -->
+                
+    </Grid>
+</Page>

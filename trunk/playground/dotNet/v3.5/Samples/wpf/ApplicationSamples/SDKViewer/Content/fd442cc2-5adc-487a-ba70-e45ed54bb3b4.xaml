@@ -1,0 +1,375 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_fd442cc2_5adc_487a_ba70_e45ed54bb3b4"
+  Tag     ="Apply Emissive Material to a 3-D Object"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Apply Emissive Material to a 3-D Object</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to use EmissiveMaterial to make a Material of a 3-D object emit a light equal to the color of its brush and alter the appearance of the underlying Material. The code below shows the application of the DiffuseMaterial and <Run FontWeight="Bold">EmissiveMaterial</Run>
+, creating a gradient that appears like it is being seen through a blue filter. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;!-- The material applied to the 3D object is made up of a DiffuseMaterial (gradient brush) with an EmissiveMaterial layered on top (blue SolidColorBrush). The EmmisiveMaterial alters the appearance of the gradient toward blue. --> 
+&lt;GeometryModel3D.Material> 
+&lt;MaterialGroup> 
+&lt;DiffuseMaterial> 
+&lt;DiffuseMaterial.Brush> 
+&lt;LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="Yellow" Offset="0" /> 
+&lt;GradientStop Color="Red" Offset="0.25" /> 
+&lt;GradientStop Color="Blue" Offset="0.75" /> 
+&lt;GradientStop Color="LimeGreen" Offset="1" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/DiffuseMaterial.Brush> 
+&lt;/DiffuseMaterial> 
+&lt;EmissiveMaterial> 
+&lt;EmissiveMaterial.Brush> 
+&lt;SolidColorBrush x:Name="mySolidColorBrush" Color="Blue" /> 
+&lt;/EmissiveMaterial.Brush> 
+&lt;/EmissiveMaterial> 
+&lt;/MaterialGroup> 
+&lt;/GeometryModel3D.Material> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>In procedural code:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>// The material property of GeometryModel3D specifies the material applied to the 3D object. // In this sample the material applied to the 3D object is made up of two materials layered // on top of each other - a DiffuseMaterial (gradient brush) with an EmissiveMaterial // layered on top (blue SolidColorBrush). The EmmisiveMaterial alters the appearance of // the gradient toward blue. // Create a horizontal linear gradient with four stops. LinearGradientBrush myHorizontalGradient = new LinearGradientBrush(); 
+myHorizontalGradient.StartPoint = new Point(0, 0.5); 
+myHorizontalGradient.EndPoint = new Point(1, 0.5); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.Yellow, 0.0)); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.Red, 0.25)); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.Blue, 0.75)); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.LimeGreen, 1.0)); 
+// Define material that will use the gradient. DiffuseMaterial myDiffuseMaterial = new DiffuseMaterial(myHorizontalGradient); 
+// Add this gradient to a MaterialGroup. MaterialGroup myMaterialGroup = new MaterialGroup(); 
+myMaterialGroup.Children.Add(myDiffuseMaterial); 
+// Define an Emissive Material with a blue brush. Color c = new Color(); 
+c.ScA = 1; 
+c.ScB = 255; 
+c.ScR = 0; 
+c.ScG = 0; 
+EmissiveMaterial myEmissiveMaterial = new EmissiveMaterial(new SolidColorBrush(c)); 
+// Add the Emmisive Material to the Material Group. myMaterialGroup.Children.Add(myEmissiveMaterial); 
+// Add the composite material to the 3D model. myGeometryModel.Material = myMaterialGroup; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following code shows the entire sample in XAML.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_fd442cc2_5adc_487a_ba70_e45ed54bb3b4_1">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" > 
+&lt;DockPanel> 
+&lt;Viewbox> 
+&lt;Canvas Width="321" Height="201"> 
+&lt;!-- The Viewport3D provides a rendering surface for 3-D visual content. --> 
+&lt;Viewport3D ClipToBounds="True" Width="150" Height="150" Canvas.Left="0" Canvas.Top="10"> 
+&lt;!-- Defines the camera used to view the 3D object. --> 
+&lt;Viewport3D.Camera> 
+&lt;PerspectiveCamera x:Name="myPerspectiveCamera" Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" /> 
+&lt;/Viewport3D.Camera> 
+&lt;!-- The ModelVisual3D children contain the 3D models --> 
+&lt;Viewport3D.Children> 
+&lt;!-- This ModelVisual3D defines the lights cast in the scene. Without light, the 3D object cannot be seen. Also, the direction of the lights affect shadowing. --> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" /> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;ModelVisual3D> 
+&lt;ModelVisual3D.Content> 
+&lt;GeometryModel3D> 
+&lt;!-- The geometry specifes the shape of the 3D plane. In this case, a flat sheet is created. --> 
+&lt;GeometryModel3D.Geometry> 
+&lt;MeshGeometry3D TriangleIndices="0,1,2 3,4,5 " Normals="0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 0,0,1 " TextureCoordinates="0,0 1,0 1,1 1,1 0,1 0,0 " Positions="-0.5,-0.5,0.5 0.5,-0.5,0.5 0.5,0.5,0.5 0.5,0.5,0.5 -0.5,0.5,0.5 -0.5,-0.5,0.5 " /> 
+&lt;/GeometryModel3D.Geometry> 
+&lt;!-- The material applied to the 3D object is made up of a DiffuseMaterial (gradient brush) with an EmissiveMaterial layered on top (blue SolidColorBrush). The EmmisiveMaterial alters the appearance of the gradient toward blue. --> 
+&lt;GeometryModel3D.Material> 
+&lt;MaterialGroup> 
+&lt;DiffuseMaterial> 
+&lt;DiffuseMaterial.Brush> 
+&lt;LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Color="Yellow" Offset="0" /> 
+&lt;GradientStop Color="Red" Offset="0.25" /> 
+&lt;GradientStop Color="Blue" Offset="0.75" /> 
+&lt;GradientStop Color="LimeGreen" Offset="1" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/DiffuseMaterial.Brush> 
+&lt;/DiffuseMaterial> 
+&lt;EmissiveMaterial> 
+&lt;EmissiveMaterial.Brush> 
+&lt;SolidColorBrush x:Name="mySolidColorBrush" Color="Blue" /> 
+&lt;/EmissiveMaterial.Brush> 
+&lt;/EmissiveMaterial> 
+&lt;/MaterialGroup> 
+&lt;/GeometryModel3D.Material> 
+&lt;!-- The Transform specifies how to transform the 3D object. This transform rotates the object.--> 
+&lt;GeometryModel3D.Transform> 
+&lt;RotateTransform3D> 
+&lt;RotateTransform3D.Rotation> 
+&lt;AxisAngleRotation3D x:Name="myAngleRotation" Axis="0,3,0" Angle="40" /> 
+&lt;/RotateTransform3D.Rotation> 
+&lt;/RotateTransform3D> 
+&lt;/GeometryModel3D.Transform> 
+&lt;/GeometryModel3D> 
+&lt;/ModelVisual3D.Content> 
+&lt;/ModelVisual3D> 
+&lt;/Viewport3D.Children> 
+&lt;/Viewport3D> 
+&lt;/Canvas> 
+&lt;/Viewbox> 
+&lt;/DockPanel> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Below is the entire sample in procedural code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Media3D; 
+namespace SDKSample { public partial class EmissiveMaterialExample : Page { public EmissiveMaterialExample() { // Declare scene objects. Viewport3D myViewport3D = new Viewport3D(); 
+Model3DGroup myModel3DGroup = new Model3DGroup(); 
+GeometryModel3D myGeometryModel = new GeometryModel3D(); 
+ModelVisual3D myModelVisual3D = new ModelVisual3D(); 
+// Defines the camera used to view the 3D object. In order to view the 3D object, // the camera must be positioned and pointed such that the object is within view // of the camera. PerspectiveCamera myPCamera = new PerspectiveCamera(); 
+// Specify where in the 3D scene the camera is. myPCamera.Position = new Point3D(0, 0, 2); 
+// Specify the direction that the camera is pointing. myPCamera.LookDirection = new Vector3D(0, 0, -1); 
+// Define camera's horizontal field of view in degrees. myPCamera.FieldOfView = 60; 
+// Asign the camera to the viewport myViewport3D.Camera = myPCamera; 
+// Define the lights cast in the scene. Without light, the 3D object cannot // be seen. Also, the direction of the lights affect shadowing. Note: to // illuminate an object from additional directions, create additional lights. DirectionalLight myDirectionalLight = new DirectionalLight(); 
+myDirectionalLight.Color = Colors.White; 
+myDirectionalLight.Direction = new Vector3D(-0.61, -0.5, -0.61); 
+myModel3DGroup.Children.Add(myDirectionalLight); 
+// The geometry specifes the shape of the 3D plane. In this sample, a flat sheet // is created. MeshGeometry3D myMeshGeometry3D = new MeshGeometry3D(); 
+// Create a collection of normal vectors for the MeshGeometry3D. Vector3DCollection myNormalCollection = new Vector3DCollection(); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myNormalCollection.Add(new Vector3D(0,0,1)); 
+myMeshGeometry3D.Normals = myNormalCollection; 
+// Create a collection of vertex positions for the MeshGeometry3D. Point3DCollection myPositionCollection = new Point3DCollection(); 
+myPositionCollection.Add(new Point3D(-0.5, -0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(0.5, -0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(0.5, 0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(0.5, 0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(-0.5, 0.5, 0.5)); 
+myPositionCollection.Add(new Point3D(-0.5, -0.5, 0.5)); 
+myMeshGeometry3D.Positions = myPositionCollection; 
+// Create a collection of texture coordinates for the MeshGeometry3D. PointCollection myTextureCoordinatesCollection = new PointCollection(); 
+myTextureCoordinatesCollection.Add(new Point(0, 0)); 
+myTextureCoordinatesCollection.Add(new Point(1, 0)); 
+myTextureCoordinatesCollection.Add(new Point(1, 1)); 
+myTextureCoordinatesCollection.Add(new Point(1, 1)); 
+myTextureCoordinatesCollection.Add(new Point(0, 1)); 
+myTextureCoordinatesCollection.Add(new Point(0, 0)); 
+myMeshGeometry3D.TextureCoordinates = myTextureCoordinatesCollection; 
+// Create a collection of triangle indices for the MeshGeometry3D. Int32Collection myTriangleIndicesCollection = new Int32Collection(); 
+myTriangleIndicesCollection.Add(0); 
+myTriangleIndicesCollection.Add(1); 
+myTriangleIndicesCollection.Add(2); 
+myTriangleIndicesCollection.Add(3); 
+myTriangleIndicesCollection.Add(4); 
+myTriangleIndicesCollection.Add(5); 
+myMeshGeometry3D.TriangleIndices = myTriangleIndicesCollection; 
+// Apply the mesh to the geometry model. myGeometryModel.Geometry = myMeshGeometry3D; 
+// The material property of GeometryModel3D specifies the material applied to the 3D object. // In this sample the material applied to the 3D object is made up of two materials layered // on top of each other - a DiffuseMaterial (gradient brush) with an EmissiveMaterial // layered on top (blue SolidColorBrush). The EmmisiveMaterial alters the appearance of // the gradient toward blue. // Create a horizontal linear gradient with four stops. LinearGradientBrush myHorizontalGradient = new LinearGradientBrush(); 
+myHorizontalGradient.StartPoint = new Point(0, 0.5); 
+myHorizontalGradient.EndPoint = new Point(1, 0.5); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.Yellow, 0.0)); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.Red, 0.25)); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.Blue, 0.75)); 
+myHorizontalGradient.GradientStops.Add(new GradientStop(Colors.LimeGreen, 1.0)); 
+// Define material that will use the gradient. DiffuseMaterial myDiffuseMaterial = new DiffuseMaterial(myHorizontalGradient); 
+// Add this gradient to a MaterialGroup. MaterialGroup myMaterialGroup = new MaterialGroup(); 
+myMaterialGroup.Children.Add(myDiffuseMaterial); 
+// Define an Emissive Material with a blue brush. Color c = new Color(); 
+c.ScA = 1; 
+c.ScB = 255; 
+c.ScR = 0; 
+c.ScG = 0; 
+EmissiveMaterial myEmissiveMaterial = new EmissiveMaterial(new SolidColorBrush(c)); 
+// Add the Emmisive Material to the Material Group. myMaterialGroup.Children.Add(myEmissiveMaterial); 
+// Add the composite material to the 3D model. myGeometryModel.Material = myMaterialGroup; 
+// Apply a transform to the object. In this sample, a rotation transform is applied, // rendering the 3D object rotated. RotateTransform3D myRotateTransform3D = new RotateTransform3D(); 
+AxisAngleRotation3D myAxisAngleRotation3d = new AxisAngleRotation3D(); 
+myAxisAngleRotation3d.Axis = new Vector3D(0,3,0); 
+myAxisAngleRotation3d.Angle = 40; 
+myRotateTransform3D.Rotation = myAxisAngleRotation3d; 
+myGeometryModel.Transform = myRotateTransform3D; 
+// Add the geometry model to the model group. myModel3DGroup.Children.Add(myGeometryModel); 
+// Add the group of models to the ModelVisual3d. myModelVisual3D.Content = myModel3DGroup; 
+myViewport3D.Children.Add(myModelVisual3D); 
+// Apply the viewport to the page so it will be rendered. this.Content = myViewport3D; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="adb4a598-71a2-4dd5-b677-ea3fc11b78b2.xaml">How to: Create a 3-D Scene</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="229fd6eb-7401-4992-b0c9-8b28de230c0f.xaml">How to: Animate Material Properties in a 3-D Scene</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="d93c8ad6-4939-4d29-9544-4d16d98093c1.xaml">How to: Apply Material to the Front and Back of a 3-D Object</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="67f31ed4-e36b-4b02-9889-dcce245d7afc.xaml">3-D Graphics Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Apply Emissive Material to a 3-D Object to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

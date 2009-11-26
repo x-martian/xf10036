@@ -1,0 +1,639 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_555e55a7_0851_4ec8_b1c6_0acba7e9b648"
+  Tag     ="Tutorial: Create a Win32 Application Hosting WPF Content"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Tutorial: Create a Win32 Application Hosting WPF Content</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>To put WPF inside Win32 applications, use HwndSource, which provides the HWND that contains your WPF content. First you create the <Run FontWeight="Bold">HwndSource</Run>
+, giving it parameters similar to CreateWindow. Then you tell the <Run FontWeight="Bold">HwndSource</Run>
+ about the WPF content you want inside it. Finally, you get the HWND out of the <Run FontWeight="Bold">HwndSource</Run>
+. This walkthrough illustrates how to create a mixed WPF inside Win32 application that reimplements the operating system <Run FontWeight="Bold">Date and Time Properties</Run>
+ dialog.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>Prerequisites</Run>
+
+    </Paragraph>
+
+    <Paragraph>See <Hyperlink NavigateUri="0ffbde0d-701d-45a3-a6fa-dd71f4d9772e.xaml">WPF and Win32 Interoperation Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>A Walkthrough of Windows Presentation Framework Inside Win32 (HwndSource)</Run>
+
+    </Paragraph>
+
+    <Paragraph>The following graphic shows the intended end product of this tutorial:
+    </Paragraph>
+
+    <Paragraph>You can recreate this dialog by creating C++ Win32 project in Microsoft Visual Studio, and using the dialog editor to create the following:
+    </Paragraph>
+
+    <Paragraph>(You do not need to use Microsoft Visual Studio to use <Run FontWeight="Bold">HwndSource</Run>
+, and you do not need to use C++ to write Win32 programs, but this is a fairly typical way to do it, and lends itself well to a stepwise tutorial explanation).
+    </Paragraph>
+
+    <Paragraph>You need to accomplish five particular substeps in order to put a WPF clock into the dialog:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Enable your Win32 project to call managed code (<Run FontWeight="Bold">/clr</Run>
+) by changing project settings in Microsoft Visual Studio.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Create a WPF Page in a separate DLL.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Put that WPF <Run FontWeight="Bold">Page</Run>
+ inside an <Run FontWeight="Bold">HwndSource</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Get an HWND for that <Run FontWeight="Bold">Page</Run>
+ using the Handle property.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use Win32 to decide where to place the HWND within the larger Win32 application
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22"><Run>/clr</Run>
+
+    </Paragraph>
+
+    <Paragraph>The first step is to turn this unmanaged Win32 project into one that can call managed code. You use the /clr compiler option, which will link to the necessary DLLs you want to use, and adjust the Main method for use with WPF.
+    </Paragraph>
+
+    <Paragraph>To enable the use of managed code inside the C++ project: Right-click on win32clock project and select <Run FontWeight="Bold">Properties</Run>
+. On the <Run FontWeight="Bold">General</Run>
+ property page (the default), change Common Language Runtime support to <Run FontWeight="Bold">/clr</Run>
+.
+    </Paragraph>
+
+    <Paragraph>Next, add references to DLLs necessary for WPF: PresentationCore.dll, PresentationFramework.dll, System.dll, WindowsBase.dll, UIAutomationProvider.dll, and UIAutomationTypes.dll. (Following instructions assume the operating system is installed on C: drive.)
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Right-click on win32clock project and select <Run FontWeight="Bold">References...</Run>
+, and inside that dialog:
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Right-click on win32clock project and select <Run FontWeight="Bold">References...</Run>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click <Run FontWeight="Bold">Add New Reference</Run>
+, click Browse tab, enter C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\PresentationCore.dll, and click OK.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Repeat for PresentationFramework.dll: C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\PresentationFramework.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Repeat for WindowsBase.dll: C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Repeat for UIAutomationTypes.dll: C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\UIAutomationTypes.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Repeat for UIAutomationProvider.dll: C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\UIAutomationProvider.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click <Run FontWeight="Bold">Add New Reference</Run>
+, select System.dll, click <Run FontWeight="Bold">OK</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click <Run FontWeight="Bold">OK</Run>
+ to exit the win32clock Property Pages for adding references.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Finally, add the <Run>STAThreadAttribute</Run>
+ to the<Run>_tWinMain</Run>
+ method for use with WPF:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>[System::STAThreadAttribute] int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This attribute tells the common language runtime (CLR) that when it initializes Component Object Model (COM), it should use a single threaded apartment model (STA), which is necessary for WPF (and Windows Forms).
+    </Paragraph>
+
+    <Paragraph FontSize="18">Create a Windows Presentation Framework Page
+    </Paragraph>
+
+    <Paragraph>Next, you create a DLL that defines a WPF <Run FontWeight="Bold">Page</Run>
+. It’s often easiest to create the WPF <Run FontWeight="Bold">Page</Run>
+ as a standalone application, and write and debug the WPF portion that way. Once done, that project can be turned into a DLL by right-clicking the project, clicking on <Run FontWeight="Bold">Properties</Run>
+, going to the Application, and changing Output type to Windows Class Library.
+    </Paragraph>
+
+    <Paragraph>The WPF dll project can then be combined with the Win32 project (one solution that contains two projects) – right-click on the solution, select <Run FontWeight="Bold">Add\Existing Project</Run>
+.
+    </Paragraph>
+
+    <Paragraph>To use that WPF dll from the Win32 project, you need to add a reference:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Right-click on win32clock project and select <Run FontWeight="Bold">References...</Run>
+. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click <Run FontWeight="Bold">Add New Reference</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click the <Run FontWeight="Bold">Projects</Run>
+ tab. Select WPFClock, click OK.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Click <Run FontWeight="Bold">OK</Run>
+ to exit the win32clock Property Pages for adding references.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="18">HwndSource
+    </Paragraph>
+
+    <Paragraph>Next, you use <Run FontWeight="Bold">HwndSource</Run>
+ to make the WPF <Run FontWeight="Bold">Page</Run>
+ look like an HWND. You add this block of code to a C++ file:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>namespace ManagedCode { using namespace System; 
+using namespace System::Windows; 
+using namespace System::Windows::Interop; 
+using namespace System::Windows::Media; 
+HWND GetHwnd(HWND parent, int x, int y, int width, int height) { HwndSource^ source = gcnew HwndSource( 0, // class style WS_VISIBLE | WS_CHILD, // style 0, // exstyle x, y, width, height, "hi", // NAME IntPtr(parent) // parent window ); 
+UIElement^ page = gcnew WPFClock::Clock(); 
+source->RootVisual = page; 
+return (HWND) source->Handle.ToPointer(); 
+} } }</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This is a long piece of code that could use some explanation. The first part is various clauses so that you do not need to fully qualify all the calls:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>namespace ManagedCode { using namespace System; 
+using namespace System::Windows; 
+using namespace System::Windows::Interop; 
+using namespace System::Windows::Media;</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Then you define a function that creates the WPF content, puts an <Run FontWeight="Bold">HwndSource</Run>
+ around it, and returns the HWND:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>HWND GetHwnd(HWND parent, int x, int y, int width, int height) {</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>First you creates an <Run FontWeight="Bold">HwndSource</Run>
+, whose parameters are similar to CreateWindow:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>HwndSource^ source = gcnew HwndSource( 0, // class style WS_VISIBLE | WS_CHILD, // style 0, // exstyle x, y, width, height, "hi", // NAME IntPtr(parent) // parent window );</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Then you create the WPF content class by calling its constructor:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>UIElement^ page = gcnew WPFClock::Clock();</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You then connect the page to the <Run FontWeight="Bold">HwndSource</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>source->RootVisual = page;</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>And in the final line, return the HWND for the <Run FontWeight="Bold">HwndSource</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>return (HWND) source->Handle.ToPointer();</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="18">Positioning the Hwnd
+    </Paragraph>
+
+    <Paragraph>Now that you have an HWND that contains the WPF clock, you need to put that HWND inside the Win32 dialog. If you knew just where to put the HWND, you would just pass that size and location to the <Run>GetHwnd</Run>
+ function you defined earlier. But you used a resource file to define the dialog, so you are not exactly sure where any of the HWNDs are positioned. You can use the Microsoft Visual Studio dialog editor to put a Win32 STATIC control where you want the clock to go (“Insert clock here”), and use that to position the WPF clock.
+    </Paragraph>
+
+    <Paragraph>Where you handle WM_INITDIALOG, you use <Run>GetDlgItem</Run>
+ to retrieve the HWND for the placeholder STATIC:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>HWND placeholder = GetDlgItem(hDlg, IDC_CLOCK);</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>You then calculate the size and position of that placeholder STATIC, so you can put the WPF clock in that place:
+    </Paragraph>
+
+    <Paragraph>RECT rectangle; 
+
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>GetWindowRect(placeholder, &amp;rectangle); 
+int width = rectangle.right - rectangle.left; 
+int height = rectangle.bottom - rectangle.top; 
+POINT point; 
+point.x = rectangle.left; 
+point.y = rectangle.top; 
+result = MapWindowPoints(NULL, hDlg, &amp;point, 1);</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Then you hide the placeholder STATIC:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>ShowWindow(placeholder, SW_HIDE);</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>And create the WPF clock HWND in that location:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run/>
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>HWND clock = ManagedCode::GetHwnd(hDlg, point.x, point.y, width, height);</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The final result looks like:
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>HwndSource
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="0ffbde0d-701d-45a3-a6fa-dd71f4d9772e.xaml">WPF and Win32 Interoperation Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Tutorial: Create a Win32 Application Hosting WPF Content to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

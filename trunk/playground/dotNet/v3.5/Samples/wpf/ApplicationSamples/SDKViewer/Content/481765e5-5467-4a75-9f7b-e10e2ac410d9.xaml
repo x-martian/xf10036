@@ -1,0 +1,1128 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_481765e5_5467_4a75_9f7b_e10e2ac410d9"
+  Tag     ="Styling and Templating"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Styling and Templating</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Presentation Foundation (WPF) styling and templating refer to a suite of features (styles, templates, triggers, and storyboards) that allow an application, document, or user interface (UI) designer to create visually compelling applications and to standardize on a particular look for their product. An author or designer can customize a look extensively on an application-by-application basis, but a strong styling and templating model is necessary to allow maintenance and sharing of a look. Windows Presentation Foundation (WPF) provides that model.
+    </Paragraph>
+
+    <Paragraph>Another feature of the WPF styling model is the separation of presentation and logic. This means that designers can design the appearance of an application using only XAML at the same time that developers write the programming logic. The designer is creating the design directly, so the design isn't lost in translation from mockup to implementation.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_fundamentals">Prerequisites</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_basics">Styles Basics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_datatemplates">Data Templates</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_controltemplates">Control Templates</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_triggers">Triggers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_whats_next">What's Next</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Prerequisites
+    </Paragraph>
+
+    <Paragraph>This topic discusses the Introduction to Styling and Templating Sample application, which is an application with two TextBlock elements and a ListBox control that is bound to a list of images:
+    </Paragraph>
+
+    <Paragraph>This topic focuses on the styling and templating aspects of the application and does not discuss any data binding concepts. For information about data binding, see <Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>In addition, it is important to understand <Run FontWeight="Bold">Resources</Run>
+, which are essentially what enable objects such as Style, ControlTemplate, and DataTemplate to be reusable. For more information on resources, see <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Styles Basics
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_extending">Extending Styles</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_targettype">The TargetType Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_styles_and_resources">Styles and Resources</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="affecting_styles_at_run_time">Setting Styles Programmatically</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_binding_dynamicresource">Setter.Value Property as a Binding or DynamicResource</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="setting_event_handlers">Setting Event Handlers Using a Style</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>You can think of a <Run FontWeight="Bold">Style</Run>
+ as a convenient way to apply property values. For instance, you may have the following <Run FontWeight="Bold">TextBlock</Run>
+ elements and you want to change the default look of the text.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock>My Pictures
+&lt;/TextBlock> 
+&lt;TextBlock>Check out my new pictures!
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This image shows the default look:
+    </Paragraph>
+
+    <Paragraph>An obvious way to do that would be to set the properties such as FontSize and FontFamily on the <Run FontWeight="Bold">TextBlock</Run>
+ elements directly. However, if you want your <Run FontWeight="Bold">TextBlock</Run>
+ elements to share the same properties but you don't want to have to make two changes every time you need to make a change, you can create a <Run FontWeight="Bold">Style</Run>
+ and place it in the <Run FontWeight="Bold">Resources</Run>
+ section of your XAML file, as shown here:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.Resources> ... 
+&lt;!--A Style that affects all TextBlocks--> 
+&lt;Style TargetType="TextBlock"> 
+&lt;Setter Property="HorizontalAlignment" Value="Center" /> 
+&lt;Setter Property="FontFamily" Value="Comic Sans MS"/> 
+&lt;Setter Property="FontSize" Value="14"/> 
+&lt;/Style> ... 
+&lt;/Window.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When you set the TargetType of your style to the <Run FontWeight="Bold">TextBlock</Run>
+ type without assigning the style with an <Run FontWeight="Bold">x:Key</Run>
+, the style gets applied to both of your <Run FontWeight="Bold">TextBlock</Run>
+ elements. We provide more information about this in <Hyperlink TargetName="styling_targettype">The TargetType Property</Hyperlink>
+ section.
+    </Paragraph>
+
+    <Paragraph>Now the <Run FontWeight="Bold">TextBlock</Run>
+ elements appear as follows:
+    </Paragraph>
+
+    <Paragraph FontSize="18">Extending Styles
+    </Paragraph>
+
+    <Paragraph>Perhaps you want your two <Run FontWeight="Bold">TextBlock</Run>
+ elements to share some similarities, such as the <Run FontWeight="Bold">FontFamily</Run>
+ and the centered HorizontalAlignment, but you also want the text "My Pictures" to have some additional properties. You can do that using the BasedOn property, as shown here:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.Resources> ... 
+&lt;!--A Style that extends the previous TextBlock Style--> 
+&lt;!--This is a "named style" with an x:Key of TitleText--> 
+&lt;Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock" x:Key="TitleText"> 
+&lt;Setter Property="FontSize" Value="26"/> 
+&lt;Setter Property="Foreground"> 
+&lt;Setter.Value> 
+&lt;LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1"> 
+&lt;LinearGradientBrush.GradientStops> 
+&lt;GradientStop Offset="0.0" Color="#90DDDD" /> 
+&lt;GradientStop Offset="1.0" Color="#5BFFFF" /> 
+&lt;/LinearGradientBrush.GradientStops> 
+&lt;/LinearGradientBrush> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> ... 
+&lt;/Window.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Notice that the above style is given an <Run FontWeight="Bold">x:Key</Run>
+. To apply the style, you set the Style property on your <Run FontWeight="Bold">TextBlock</Run>
+, as shown here:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Style="{StaticResource TitleText}" Name="textblock1">My Pictures
+&lt;/TextBlock> 
+&lt;TextBlock>Check out my new pictures!
+&lt;/TextBlock> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This <Run FontWeight="Bold">TextBlock</Run>
+ style now has a <Run FontWeight="Bold">HorizontalAlignment</Run>
+ value of Center, a FontFamily value of <Run FontWeight="Bold">Comic Sans MS</Run>
+, a FontSize value of 26, and a Foreground value set to the LinearGradientBrush specified above. Notice that we have essentially overridden the <Run FontWeight="Bold">FontSize</Run>
+ value of the base style. This is because if there is more than one Setter setting the same property in a <Run FontWeight="Bold">Style</Run>
+, the <Run FontWeight="Bold">Setter</Run>
+ that is declared last takes precedence.
+    </Paragraph>
+
+    <Paragraph>The following shows you what the <Run FontWeight="Bold">TextBlock</Run>
+ elements now look like:
+    </Paragraph>
+
+    <Paragraph>This <Run>TitleText</Run>
+ style extends the style that has been created for the <Run FontWeight="Bold">TextBlock</Run>
+ type. You can also extend a style that has an <Run FontWeight="Bold">x:Key</Run>
+. For more information about the <Run FontWeight="Bold">BasedOn</Run>
+ property, see the <Run FontWeight="Bold">BasedOn</Run>
+ page.
+    </Paragraph>
+
+    <Paragraph FontSize="18">The TargetType Property
+    </Paragraph>
+
+    <Paragraph>As shown in the first example above, setting the <Run FontWeight="Bold">TargetType</Run>
+ property to <Run>TextBlock</Run>
+ without assigning the style with an <Run FontWeight="Bold">x:Key</Run>
+ allows your style to be applied to all <Run FontWeight="Bold">TextBlock</Run>
+ elements. What actually happens is that doing so implicitly sets the <Run FontWeight="Bold">x:Key</Run>
+ to <Run>{x:Type TextBlock}</Run>
+. This also means that if you give the <Run FontWeight="Bold">Style</Run>
+ an <Run FontWeight="Bold">x:Key</Run>
+ value of anything other than <Run>{x:Type TextBlock}</Run>
+, the <Run FontWeight="Bold">Style</Run>
+ would not be applied to all <Run FontWeight="Bold">TextBlock</Run>
+ elements automatically. Instead, you need to apply the style to the <Run FontWeight="Bold">TextBlock</Run>
+ elements explicitly.
+    </Paragraph>
+
+    <Paragraph>If you do not set the <Run FontWeight="Bold">TargetType</Run>
+ property on your style, then you must provide an <Run FontWeight="Bold">x:Key</Run>
+. In that case, you must also qualify the properties in your <Run FontWeight="Bold">Setter</Run>
+ objects with a class name, using the syntax <Run>Property="ClassName.Property"</Run>
+. For example, instead of setting <Run>Property="FontSize"</Run>
+, you would need to set Property to <Run>"TextBlock.FontSize"</Run>
+ or <Run>"Control.FontSize"</Run>
+.
+    </Paragraph>
+
+    <Paragraph>Also note that many WPF controls consist of a combination of other WPF controls. You want to keep that in mind if you create a style that applies to all controls of a type. For instance, if you create a style that targets the TextBox type in a Canvas, the style is applied to all <Run FontWeight="Bold">TextBox</Run>
+ controls in the canvas, even if the <Run FontWeight="Bold">TextBox</Run>
+ is part of another control, such as a ComboBox.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Styles and Resources
+    </Paragraph>
+
+    <Paragraph>You can use a style on any element that derives from FrameworkElement or FrameworkContentElement. The most common way to declare a style is as a resource inside of the <Run FontWeight="Bold">Resources</Run>
+ section in a XAML file, as the examples shown above. Because styles are resources, they obey the same scoping rules that apply to all resources, so where you declare it affects where it can be applied. If, for instance, you declare the style in the root element of your application definition XAML file, the style can be used anywhere in your application. If you are creating a navigation application and declare the style in one of the application's XAML files, the style can only be used in that XAML file. For more information on scoping rules for resources, see <Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>In addition, we provide more information about styles and resources in the <Hyperlink TargetName="styling_whats_next">What's Next</Hyperlink>
+ section.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Setting Styles Programmatically
+    </Paragraph>
+
+    <Paragraph>To set the defined <Run>TitleText</Run>
+ style on a <Run FontWeight="Bold">TextBlock</Run>
+ named <Run>textblock1</Run>
+, do the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>textblock1.Style = (Style)(this.Resources["TitleText"]); 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that once a style has been applied it is sealed and cannot be changed. Therefore, if you want to dynamically change a style that has already been applied you must create a new style to replace the existing one. The IsSealed property provides information.
+    </Paragraph>
+
+    <Paragraph>The StyleSelector class allows you to create an object that chooses a style to apply based on custom logic. For an example, see the <Run FontWeight="Bold">StyleSelector</Run>
+ page.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Setter.Value Property as a Binding or DynamicResource
+    </Paragraph>
+
+    <Paragraph>Note that you can set the Value property of your <Run FontWeight="Bold">Setter</Run>
+ to a Binding or a <Run FontWeight="Bold">DynamicResource</Run>
+ extension. For more information, see the <Run FontWeight="Bold">Setter</Run>
+.<Run FontWeight="Bold">Value</Run>
+ page.
+    </Paragraph>
+
+    <Paragraph>Also take a look at the <Hyperlink TargetName="styling_triggers">Triggers</Hyperlink>
+ section on this topic.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Setting Event Handlers Using a Style
+    </Paragraph>
+
+    <Paragraph>So far we've only discussed the use of setters to set property value. You can also set event handlers in a style. For more information, see the EventSetter page.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Data Templates
+    </Paragraph>
+
+    <Paragraph>In this sample application, we have a <Run FontWeight="Bold">ListBox</Run>
+ control that is bound to a list of photos:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ListBox ItemsSource="{Binding Source={StaticResource MyPhotos}}" Background="Silver" Width="600" Margin="10" SelectedIndex="0"/> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This <Run FontWeight="Bold">ListBox</Run>
+ currently looks like the following:
+    </Paragraph>
+
+    <Paragraph>Most controls have some type of content, and that content often comes from data you are binding to. In this sample, the data is the list of photos. In WPF, you use a <Run FontWeight="Bold">DataTemplate</Run>
+ to define the visual representation of data. Basically, what you put into a <Run FontWeight="Bold">DataTemplate</Run>
+ determines what the data looks like in the rendered application.
+    </Paragraph>
+
+    <Paragraph>In our sample application, each custom <Run>Photo</Run>
+ object has a <Run>Source</Run>
+ property of type string that specifies the file path of the image. Currently, the photo objects appear as file paths.
+    </Paragraph>
+
+    <Paragraph>For the photos to appear as images, you create a <Run FontWeight="Bold">DataTemplate</Run>
+ as a resource:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window.Resources> ... 
+&lt;!--DataTemplate to display Photos as images instead of text strings of Paths--> 
+&lt;DataTemplate DataType="{x:Type local:Photo}"> 
+&lt;Border Margin="3"> 
+&lt;Image Source="{Binding Source}"/> 
+&lt;/Border> 
+&lt;/DataTemplate> ... 
+&lt;/Window.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Notice that the DataType property is very similar to the <Run FontWeight="Bold">TargetType</Run>
+ property of the <Run FontWeight="Bold">ControlTemplate</Run>
+. When you specify the <Run FontWeight="Bold">DataType</Run>
+ property to a type and not assign it an <Run FontWeight="Bold">x:Key</Run>
+, the <Run FontWeight="Bold">DataTemplate</Run>
+ gets applied whenever that type appears. You always have the option to assign the <Run FontWeight="Bold">DataTemplate</Run>
+ with an <Run FontWeight="Bold">x:Key</Run>
+ and then set it as a <Run>StaticResource</Run>
+ for properties that take <Run FontWeight="Bold">DataTemplate</Run>
+ types, such as the ItemTemplate property or the ContentTemplate property.
+    </Paragraph>
+
+    <Paragraph>Essentially, the <Run FontWeight="Bold">DataTemplate</Run>
+ in the above example defines that whenever there is a <Run>Photo</Run>
+ object, it should appear as an Image within a Border. With this <Run FontWeight="Bold">DataTemplate</Run>
+, our application now looks like this:
+    </Paragraph>
+
+    <Paragraph>The data templating model provides other features. For example, if you are displaying data using a HeaderedItemsControl type such as a Menu or a TreeView, there is the HierarchicalDataTemplate. Another data templating feature is the DataTemplateSelector, which allows you to choose a <Run FontWeight="Bold">DataTemplate</Run>
+ to use based on custom logic. For more information, see <Hyperlink NavigateUri="0f4d9f8c-0230-4013-bd7b-e8e7fed01b4a.xaml">Data Templating Overview</Hyperlink>
+, which provides a more in-depth discussion of the different data templating features.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Control Templates
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="what_is_controltemplate">What is a ControlTemplate?</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_a_controltemplate">Creating a ControlTemplate</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_isitemshost">IsItemsHost Property</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="itemspresenter_and_contentpresenter">ItemsPresenter and ContentPresenter</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_templatingbinding">TemplateBinding</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Now that our photos appear as images, let's display them horizontally instead of vertically; 
+we want to make the <Run FontWeight="Bold">ListBox</Run>
+ horizontal.
+    </Paragraph>
+
+    <Paragraph>A <Run FontWeight="Bold">ListBox</Run>
+ has an ItemsPanel property that allows you to set an ItemsPanelTemplate, the template that controls the layout of the items of the <Run FontWeight="Bold">ListBox</Run>
+. One option is to simply create a <Run FontWeight="Bold">ListBox</Run>
+ style and set the <Run FontWeight="Bold">ItemsPanel</Run>
+ property, as in the following example:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style TargetType="{x:Type ListBox}"> 
+&lt;Setter Property="ItemsPanel"> 
+&lt;Setter.Value> 
+&lt;ItemsPanelTemplate> 
+&lt;StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"/> 
+&lt;/ItemsPanelTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This works just fine and gives us a horizontal <Run FontWeight="Bold">ListBox</Run>
+. However, if we want a horizontal <Run FontWeight="Bold">ListBox</Run>
+ that has additional properties, such as rounded corners, then we need to work with the <Run FontWeight="Bold">ControlTemplate</Run>
+ of the <Run FontWeight="Bold">ListBox</Run>
+.
+    </Paragraph>
+
+    <Paragraph>Before we provide an example to show how to do that, it is important to first explain the concept of a <Run FontWeight="Bold">ControlTemplate</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">What is a ControlTemplate?
+    </Paragraph>
+
+    <Paragraph>For most controls, there is appearance and behavior. Consider a button: appearance is the raised area that you can press, and the behavior is the Click event that gets raised in response to a click.
+    </Paragraph>
+
+    <Paragraph>Sometimes, there may be a control that provides the behavior that you need but not the appearance that you need. So far, we have shown that you can use style setters to set property values to affect the look of control. However, to change the structure of a control or to set property values on the components that comprise a control, you need to use a <Run FontWeight="Bold">ControlTemplate</Run>
+.
+    </Paragraph>
+
+    <Paragraph>In WPF, the <Run FontWeight="Bold">ControlTemplate</Run>
+ of a control defines the appearance of the control. You can change the structure and appearance of a control by defining a new <Run FontWeight="Bold">ControlTemplate</Run>
+ for the control. In many cases, this gives you enough flexibility so that you don't have to write your own custom controls. If you do not define your own <Run FontWeight="Bold">ControlTemplate</Run>
+ for your control, you get the default template that matches the system theme, which is what gives the Button control its default look.
+    </Paragraph>
+
+    <Paragraph>One thing to keep in mind is that once you create a <Run FontWeight="Bold">ControlTemplate</Run>
+ for you control, you are replacing the entire <Run FontWeight="Bold">ControlTemplate</Run>
+. For example, you may define your <Run FontWeight="Bold">Button</Run>
+<Run FontWeight="Bold">ControlTemplate</Run>
+ the following way. Note that the ContentPresenter element simply marks where the Content of the <Run FontWeight="Bold">Button</Run>
+ should go. We will discuss the different pieces in a later section.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style TargetType="{x:Type Button}"> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type Button}"> 
+&lt;Grid> 
+&lt;Ellipse Fill="{TemplateBinding Background}"/> 
+&lt;ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/> 
+&lt;/Grid> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When this gets applied, the <Run FontWeight="Bold">Button</Run>
+ appears as an Ellipse:
+    </Paragraph>
+
+    <Paragraph>Remember that what the <Run FontWeight="Bold">Button</Run>
+ looks like when it is in focus or pressed is all part of the default appearance of the button that you are replacing. Therefore, depending on your needs, you may want to put in your definition what your button should look like when it is pressed. The <Hyperlink NavigateUri="c19049bb-5ceb-492d-afd2-751dca0ed8e3.xaml">ControlTemplate Examples</Hyperlink>
+ give you guidance on the parts you may want to include.
+    </Paragraph>
+
+    <Paragraph>
+&lt;TODO: components that comprise the controls - where? How?>
+    </Paragraph>
+
+    <Paragraph FontSize="18">Creating a ControlTemplate
+    </Paragraph>
+
+    <Paragraph>Now let's create a <Run FontWeight="Bold">ControlTemplate</Run>
+ that defines a <Run FontWeight="Bold">ListBox</Run>
+ that is horizontal and has rounded corners. To replace the <Run FontWeight="Bold">ControlTemplate</Run>
+ of a control, set the Template property to the new <Run FontWeight="Bold">ControlTemplate</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style TargetType="{x:Type ListBox}"> 
+&lt;Setter Property="Template"> 
+&lt;Setter.Value> 
+&lt;ControlTemplate TargetType="{x:Type ListBox}"> 
+&lt;Border CornerRadius="5" Background="{TemplateBinding ListBox.Background}"> 
+&lt;ScrollViewer HorizontalScrollBarVisibility="Auto"> 
+&lt;StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" IsItemsHost="True"/> 
+&lt;/ScrollViewer> 
+&lt;/Border> 
+&lt;/ControlTemplate> 
+&lt;/Setter.Value> 
+&lt;/Setter> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When you set the <Run FontWeight="Bold">Template</Run>
+ property this way, it is really no different than setting other control properties using a <Run FontWeight="Bold">Style</Run>
+: you are using a <Run FontWeight="Bold">Style</Run>
+ as a tool to help you set the <Run FontWeight="Bold">Template</Run>
+ property. This means that another way to set a <Run FontWeight="Bold">ControlTemplate</Run>
+ is to set the <Run FontWeight="Bold">Template</Run>
+ property on your control directly. If you do it that way, you would create a <Run FontWeight="Bold">ControlTemplate</Run>
+ in the <Run FontWeight="Bold">Resources</Run>
+ section, provide it with an <Run FontWeight="Bold">x:Key</Run>
+, and then use it as a static resource. For an example, see the <Run FontWeight="Bold">Template</Run>
+ property.
+    </Paragraph>
+
+    <Paragraph>As you can see in the above example, the <Run FontWeight="Bold">ControlTemplate</Run>
+ class has a TargetType property that works the same way as the <Run FontWeight="Bold">TargetType</Run>
+ property of the <Run FontWeight="Bold">Style</Run>
+ class.
+    </Paragraph>
+
+    <Paragraph>Try experimenting with the <Run FontWeight="Bold">ControlTemplate</Run>
+. For example, replace the StackPanel with a WrapPanel, set the HorizontalScrollBarVisibility property of the ScrollViewer to Disabled, and then set the Width of the <Run FontWeight="Bold">ListBox</Run>
+ to <Run>300</Run>
+. (The <Run FontWeight="Bold">WrapPanel</Run>
+ only puts items to the next row when the first row runs out of space. If you don't set the <Run FontWeight="Bold">HorizontalScrollBarVisibility</Run>
+ property of the <Run FontWeight="Bold">ScrollViewer</Run>
+ to <Run FontWeight="Bold">Disabled</Run>
+ the first row does not run out of space because you can scroll to the end. As a result, the <Run FontWeight="Bold">WrapPanel</Run>
+ does not wrap the items.)
+    </Paragraph>
+
+    <Paragraph FontSize="18">IsItemsHost Property
+    </Paragraph>
+
+    <Paragraph>One important property that must be there is the IsItemsHost property. The <Run FontWeight="Bold">IsItemsHost</Run>
+ property is used to indicate in the template of an ItemsControl (controls such as <Run FontWeight="Bold">ListBox</Run>
+ that work with a list of items,) where generated elements should go. Setting the property to <Run FontWeight="Bold">true</Run>
+ on the <Run FontWeight="Bold">StackPanel</Run>
+ means that any items added to the <Run FontWeight="Bold">ListBox</Run>
+ go into the <Run FontWeight="Bold">StackPanel</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">ItemsPresenter and ContentPresenter
+    </Paragraph>
+
+    <Paragraph>However, depending on how you define the <Run FontWeight="Bold">ControlTemplate</Run>
+ of your <Run FontWeight="Bold">ItemsControl</Run>
+, sometimes you use the ItemsPresenter element instead of the <Run FontWeight="Bold">IsItemsHost</Run>
+ property. The <Run FontWeight="Bold">IsItemsHost</Run>
+ property is a property on Panel types, so if the container that you are specifying for your items is not a <Run FontWeight="Bold">Panel</Run>
+, you use the <Run FontWeight="Bold">ItemsPresenter</Run>
+ element to mark where the items should go. The <Run FontWeight="Bold">ItemsPresenter</Run>
+ page shows you an alternative way to create a <Run FontWeight="Bold">ControlTemplate</Run>
+ that defines a horizontal <Run FontWeight="Bold">ListBox</Run>
+ with rounded corners that uses an <Run FontWeight="Bold">ItemsPresenter</Run>
+. For another example that uses the <Run FontWeight="Bold">ItemsPresenter</Run>
+, see <Hyperlink NavigateUri="a49adb77-0202-4caa-b94a-8bb110d7fa9a.xaml">TreeView ControlTemplate Example</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>If you are creating a template for a ContentControl such as a <Run FontWeight="Bold">Button</Run>
+, the corresponding element is the <Run FontWeight="Bold">ContentPresenter</Run>
+. Similarly, you place this element in the <Run FontWeight="Bold">ControlTemplate</Run>
+ of your <Run FontWeight="Bold">ContentControl</Run>
+ type to indicate where the content should be displayed, as demonstrated in the example in the <Hyperlink TargetName="what_is_controltemplate">What is a ControlTemplate?</Hyperlink>
+ section. For other examples, see <Hyperlink NavigateUri="c1d5359a-8e4a-4925-ab3e-e92bf6694859.xaml">Label ControlTemplate Example</Hyperlink>
+ and <Hyperlink NavigateUri="964e3117-b759-47c0-b478-005d6ba2c6b9.xaml">ListBoxItem ControlTemplate Example</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">TemplateBinding
+    </Paragraph>
+
+    <Paragraph>Another important thing to notice in the previous example is the Background value that is set to <Run>{TemplateBinding ListBox.Background}</Run>
+. This is simply indicating that the <Run FontWeight="Bold">Background</Run>
+ of the <Run FontWeight="Bold">Border</Run>
+ should be synchronized with the <Run FontWeight="Bold">Background</Run>
+ value that is set on the <Run FontWeight="Bold">ListBox</Run>
+. You use <Run FontWeight="Bold">TemplateBinding</Run>
+ in your <Run FontWeight="Bold">ControlTemplate</Run>
+ when you want to give the user of your control the control over the values of certain properties. <Run FontWeight="Bold">TemplateBinding</Run>
+ is a markup extension that is represented by TemplateBindingExtension class.
+    </Paragraph>
+
+    <Paragraph>You may have noticed that DataTemplate and ControlTemplate are similar in that their content becomes the visualization of an object. With the ListBox ControlTemplate definition, our application now looks like the following:
+    </Paragraph>
+
+    <Paragraph FontSize="22">Triggers
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This section contains the following subsections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_propertytriggers">Property Triggers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_eventtriggers">EventTriggers and Storyboards</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="styling_multitriggers">MultiTriggers, DataTriggers and MultiDataTriggers</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph><Run FontWeight="Bold">Style</Run>
+, <Run FontWeight="Bold">ControlTemplate</Run>
+, <Run FontWeight="Bold">DataTemplate</Run>
+ all have a <Run FontWeight="Bold">Triggers</Run>
+ property that can contain a set of triggers. A trigger sets properties or starts actions such as animation when a property value changes or when an event is raised. This topic introduces the different types of triggers.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Property Triggers
+    </Paragraph>
+
+    <Paragraph>To demonstrate how to use triggers to set properties, let's make each ListBoxItem partially transparent unless it is selected.
+    </Paragraph>
+
+    <Paragraph>The following style sets the Opacity value of a <Run FontWeight="Bold">ListBoxItem</Run>
+ to <Run>0.5</Run>
+. When the IsSelected property is <Run FontWeight="Bold">true</Run>
+, however, the <Run FontWeight="Bold">Opacity</Run>
+ is set to <Run>1.0</Run>
+:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Style TargetType="{x:Type ListBoxItem}"> 
+&lt;Setter Property="Opacity" Value="0.5" /> 
+&lt;Setter Property="MaxHeight" Value="75" /> 
+&lt;Style.Triggers> 
+&lt;Trigger Property="IsSelected" Value="True"> 
+&lt;Trigger.Setters> 
+&lt;Setter Property="Opacity" Value="1.0" /> 
+&lt;/Trigger.Setters> 
+&lt;/Trigger> ... 
+&lt;/Style.Triggers> 
+&lt;/Style> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Notice that we have also set the MaxHeight property of the <Run FontWeight="Bold">ListBoxItem</Run>
+ to <Run>75</Run>
+. In the following screenshot, the third item is the selected item:
+    </Paragraph>
+
+    <Paragraph FontSize="18">EventTriggers and Storyboards
+    </Paragraph>
+
+    <Paragraph>A Trigger sets property values based on the value of a property, and an EventTrigger starts a set of actions based on the occurrence of an event. For example, the following <Run FontWeight="Bold">EventTrigger</Run>
+ objects specify that when the mouse pointer enters the <Run FontWeight="Bold">ListBoxItem</Run>
+, the <Run FontWeight="Bold">MaxHeight</Run>
+ property animates to a value of <Run>90</Run>
+ over a <Run>0.2</Run>
+ second period. When the mouse moves away from the item, the property returns to the original value over a period of <Run>1</Run>
+ second. Note how it is not necessary to specify a To value for the MouseLeave animation. This is because the animation is able to keep track of the original value.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;EventTrigger RoutedEvent="Mouse.MouseEnter"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="MaxHeight" To="90" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> 
+&lt;EventTrigger RoutedEvent="Mouse.MouseLeave"> 
+&lt;EventTrigger.Actions> 
+&lt;BeginStoryboard> 
+&lt;Storyboard> 
+&lt;DoubleAnimation Duration="0:0:1" Storyboard.TargetProperty="MaxHeight" /> 
+&lt;/Storyboard> 
+&lt;/BeginStoryboard> 
+&lt;/EventTrigger.Actions> 
+&lt;/EventTrigger> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For more information, see the <Hyperlink NavigateUri="1a698c3c-30f1-4b30-ae56-57e8a39811bd.xaml">Storyboards Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>In the following screenshot, the mouse is pointing to the third item:
+    </Paragraph>
+
+    <Paragraph FontSize="18">MultiTriggers, DataTriggers and MultiDataTriggers
+    </Paragraph>
+
+    <Paragraph>In addition to <Run FontWeight="Bold">Trigger</Run>
+ and <Run FontWeight="Bold">EventTrigger</Run>
+, there are other types of triggers. MultiTrigger allows you to set property values based on multiple conditions. You use DataTrigger and MultiDataTrigger when the property of your condition is data-bound.
+    </Paragraph>
+
+    <Paragraph FontSize="22">What's Next
+    </Paragraph>
+
+    <Paragraph>To share a set of resources, including styles and templates, across applications, you can create a XAML file and define a ResourceDictionary. For example, take a look at the following screenshot that shows part of the Styling with ControlTemplates Sample:
+    </Paragraph>
+
+    <Paragraph>If you look at the XAML files in the sample, you will notice that the files all have the following:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;ResourceDictionary.MergedDictionaries> 
+&lt;ResourceDictionary Source="Shared.xaml" /> 
+&lt;/ResourceDictionary.MergedDictionaries> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>It is the sharing of <Run>shared.xaml</Run>
+, which defines a <Run FontWeight="Bold">ResourceDictionary</Run>
+ that contains a set of style and brush resources that enables the controls in the sample to have the same theme, or a consistent look.
+    </Paragraph>
+
+    <Paragraph>For another example, see Themed Application Sample. For more information, see <Hyperlink NavigateUri="d159531f-05d4-49fd-b951-c332de51e5bc.xaml">Merged Resource Dictionaries</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>If you are creating a theme for you custom control, take a look at the External Control Library section of the <Hyperlink NavigateUri="3d864748-cff0-4e63-9b23-d8e5a635b28f.xaml">Control Authoring Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Classic Theme
+      <LineBreak/>Photo Store Demo
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Styling and Templating to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

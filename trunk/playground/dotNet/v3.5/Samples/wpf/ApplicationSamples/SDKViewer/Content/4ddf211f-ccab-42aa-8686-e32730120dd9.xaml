@@ -1,0 +1,1753 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_4ddf211f_ccab_42aa_8686_e32730120dd9"
+  Tag     ="Tutorial: Integrate Data, Layout, and Components in a Simple Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_4ddf211f_ccab_42aa_8686_e32730120dd9"
+    Tag     ="Tutorial: Integrate Data, Layout, and Components in a Simple Application"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>Tutorial: Integrate Data, Layout, and Components in a Simple Application</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>This tutorial explains how to effectively integrate data, layout, and components in an end-to-end Microsoft .NET Framework version 3.0 application. It also provides a broad overview of control and data styling.    
+      </Paragraph>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Summary    
+      </Paragraph>
+
+      <Paragraph>This tutorial guides you through the steps to create the elements of a user interface (UI) for an application, and introduces you to Extensible Application Markup Language (XAML) code-behind, which is used to handle events. The tutorial also presents a broad overview of layout panels and controls, as well as simple data-binding techniques and techniques for styling a UI. After completing the tutorial, you will understand how to combine XAML with code such as Microsoft Visual Basic .NET or C# in order to build an Application with navigation functionality.    
+      </Paragraph>
+
+      <Paragraph>The sample code used to build this tutorial is also available in Microsoft Visual Basic .NET. If you're interested in seeing the Microsoft Visual Basic .NET version, see Building a UI Using Layout, Components, and Data Sample.    
+      </Paragraph>
+
+      <Paragraph>This tutorial contains the following sections.    
+      </Paragraph>
+
+      <List MarkerStyle="Disc">
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Introduction">Summary</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Set_up_the_Structure_of_the_Application">Set up the Structure of the Application</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Add_Controls">Add Controls</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Add_Layout">Add Layout</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Add_an_Image">Add an Image</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Add_Code_to_Process_Events">Add Code to Process Events</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Create_the_UI_for_Pane2">Create the UI for Pane2</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Add_Code_to_Style_a_Control">Add Code to Style a Control</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Bind_Data_to_a_Control">Bind Data to a Control</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="Whats_Next">What's Next</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Prerequisites    
+      </Paragraph>
+
+      <Paragraph>Over the course of the tutorial, you'll create a simple data-bound application using C#. We'll refer to the output of the tutorial as <Run FontStyle="italic">ExpenseIt</Run>
+. The tutorial does not assume a particular developer environment and should be compatible with command-line compilation or an integrated development environment such as Microsoft Visual Studio.    
+      </Paragraph>
+
+      <Paragraph>Images and complete source code used in this tutorial can be downloaded here. Before compiling the project, download the required images and application icon. The project file assumes an images directory off the root of the project called <Run FontStyle="italic">images</Run>
+. If this directory is not present, the compiler cannot build this project.    
+      </Paragraph>
+
+      <Paragraph>To compile this application on the command line using MSBuild, use the following syntax:    
+      </Paragraph>
+
+      <Paragraph><Run>MSBuild ExpenseIt.csproj</Run>
+
+      </Paragraph>
+
+      <Paragraph>To compile and run the application in Visual Studio, press F5.    
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph>Note:             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph>Visual Studio generates a project file automatically. Because this tutorial does not assume that Visual Studio is installed, the process for creating a project file is detailed. For more information on the creation of .csproj files, see <Hyperlink NavigateUri="aefbe9d1-2bca-4bbb-9406-796980eeca63.xaml">Creating, Building, Deploying, and Launching WPF Applications</Hyperlink>
+. If you are using Visual Studio to complete this tutorial, overwrite the content of the generated .csproj file with the preceding MSBuild text.             
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Set up the Structure of the Application    
+      </Paragraph>
+
+      <Paragraph>In this step you set up the infrastructure of your application. It is necessary to create several supporting files in order to successfully compile a project.     
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open your favorite text editor or development environment and create a new file named <Run FontWeight="Bold">Pane1.xaml</Run>
+.         
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Add a root Page element to <Run FontWeight="Bold">Pane1.xaml</Run>
+ and define the associated project variables for the new files. Add a closing DockPanel tag as well. Your code should look like this:         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane1"> 
+&lt;DockPanel> 
+&lt;/DockPanel> 
+&lt;/Page></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Create a second file in your text editor and name it <Run FontWeight="Bold">Pane1.xaml.cs</Run>
+. This file will eventually contain code that handles events. For now, it must exist because it's declared in <Run FontWeight="Bold">Pane1.xaml</Run>
+. The content of <Run FontWeight="Bold">Pane1.xaml.cs</Run>
+ should look like this:         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>using System;using System.Windows;using System.Windows.Controls;using System.Windows.Documents;using System.Windows.Navigation;using System.Windows.Data;namespace ExpenseIt { }</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Create a third file in your text editor and name it <Run FontWeight="Bold">MyApp.xaml</Run>
+. This file is used for compilation and defines the application as an <Run FontWeight="Bold">Application</Run>
+. This file will eventually contain code that defines the styles used in the application.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.MyApp" StartupUri="Pane1.xaml"> 
+&lt;Application.Resources> 
+&lt;/Application.Resources> 
+&lt;/Application></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Create a fourth file named <Run FontWeight="Bold">Pane2.xaml</Run>
+. The content of this file is defined in greater detail in subsequent steps. For now, copy and paste the following code into <Run FontWeight="Bold">Pane2.xaml</Run>
+.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane2"> 
+&lt;DockPanel> 
+&lt;/DockPanel> 
+&lt;/Page></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Create a final new file and name it <Run FontWeight="Bold">ExpenseIt.csproj</Run>
+. This file defines global build variables for the compiled project. Copy and paste the following code into <Run FontWeight="Bold">ExpenseIt.csproj</Run>
+.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run/>
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;?xml version="1.0" encoding="utf-8"?> 
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> 
+&lt;PropertyGroup> 
+&lt;AssemblyName>ExpenseIt
+&lt;/AssemblyName> 
+&lt;TargetType>winexe
+&lt;/TargetType> 
+&lt;Configuration>Release
+&lt;/Configuration> 
+&lt;SchemaVersion>2.0
+&lt;/SchemaVersion> 
+&lt;OutputPath>bin\$(Configuration)\
+&lt;/OutputPath> 
+&lt;/PropertyGroup> 
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets"/> 
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets"/> 
+&lt;ItemGroup> 
+&lt;Resource Include="Images\msn_watermark.png"/> 
+&lt;/ItemGroup> 
+&lt;ItemGroup> 
+&lt;ApplicationDefinition Include="MyApp.xaml"/> 
+&lt;Page Include="Pane1.xaml"/> 
+&lt;Page Include="Pane2.xaml"/> 
+&lt;/ItemGroup> 
+&lt;ItemGroup> 
+&lt;Compile Include="Pane1.xaml.cs"> 
+&lt;DependentUpon>Pane1.xaml
+&lt;/DependentUpon> 
+&lt;SubType>Code
+&lt;/SubType> 
+&lt;/Compile> 
+&lt;/ItemGroup> 
+&lt;ItemGroup> 
+&lt;Reference Include="System"/> 
+&lt;Reference Include="System.Xml"/> 
+&lt;Reference Include="System.Data"/> 
+&lt;Reference Include="UIAutomationProvider"/> 
+&lt;Reference Include="WindowsBase"/> 
+&lt;Reference Include="PresentationCore"/> 
+&lt;Reference Include="PresentationFramework"/> 
+&lt;Reference Include="UIAutomationTypes"/> 
+&lt;/ItemGroup> 
+&lt;/Project></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Add Controls    
+      </Paragraph>
+
+      <Paragraph>In this step you add a TextBlock element, a ListBox, and a Button to the application.     
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open <Run FontWeight="Bold">Pane1.xaml</Run>
+
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Enter the following code inside the <Run FontWeight="Bold">DockPanel</Run>
+ tags.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>... 
+&lt;TextBlock VerticalAlignment="Center" HorizontalAlignment="Right">Name:
+&lt;/TextBlock> 
+&lt;ListBox Name="ListBox1"> 
+&lt;ListBoxItem>Mike
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Lisa
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>John
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Mary
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;Button Width="100" Height="30">Create Report
+&lt;/Button> ...</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+          <Paragraph>This XAML creates a list of names that a user can select from, as well as a <Run FontWeight="Bold">Button</Run>
+ to create the expense report. The event handler for the <Run FontWeight="Bold">Button</Run>
+ element is added later in the tutorial.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Compile and run the application.         
+          </Paragraph>
+
+          <Paragraph>The following image shows the controls that are created by the code in this step.        
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold">Layout, Data, and Component Model Image</Run>
+
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold"/>
+            <LineBreak/>
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph/>
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Add Layout    
+      </Paragraph>
+
+      <Paragraph>In this step you add layout to your application. There are various types of predefined Panel elements: Canvas, <Run FontWeight="Bold">DockPanel</Run>
+, StackPanel, and Grid. Each <Run FontWeight="Bold">Panel</Run>
+ produces different layout positioning for its child elements.    
+      </Paragraph>
+
+      <Paragraph>Because the ExpenseIt application uses a paned UI, a <Run FontWeight="Bold">DockPanel</Run>
+ is the ideal parent element for the application. For more information on <Run FontWeight="Bold">Panel</Run>
+ elements, see <Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+.    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Wrap the code you added in the last step within a <Run FontWeight="Bold">Grid</Run>
+. This enables the controls to be separated into columns and rows. Replace the contents of <Run FontWeight="Bold">Pane1.xaml</Run>
+ with the following XAML.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane1" WindowTitle="Layout, Components, and Data Sample"> 
+&lt;DockPanel> 
+&lt;Grid DockPanel.Dock="Top" Width="600" VerticalAlignment="Top" Margin="0,0,15,0"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="250"/> 
+&lt;ColumnDefinition Width="50"/> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" Margin="0,10,15,0" HorizontalAlignment="Left" VerticalAlignment="Center"> Name:
+&lt;/TextBlock> 
+&lt;ListBox Grid.Column="2" Margin="0,10,0,0" Height="75" Grid.Row="0" Name="ListBox1"> 
+&lt;ListBoxItem>Mike
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Lisa
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>John
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Mary
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;Button Grid.Column="2" Grid.Row="1" Width="125" Margin="0,25,0,0" Height="25">Create Report
+&lt;/Button> 
+&lt;/Grid> 
+&lt;/DockPanel> 
+&lt;/Page></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Compile and run the application.         
+          </Paragraph>
+
+          <Paragraph>The following image shows how the addition of the <Run FontWeight="Bold">Grid</Run>
+ element affects the layout of the application.        
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold">Layout, Data, and Component Model Layout</Run>
+
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold"/>
+            <LineBreak/>
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph/>
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Add an Image    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open <Run FontWeight="Bold">Pane1.xaml</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Replace the contents of <Run FontWeight="Bold">Pane1.xaml</Run>
+ with the following XAML.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane1" WindowTitle="Layout, Components, and Data Sample"> 
+&lt;DockPanel> 
+&lt;DockPanel DockPanel.Dock="Top"> 
+&lt;Canvas DockPanel.Dock="Left" Width="230" Height="100"> 
+&lt;Image Source="images/msn_watermark.png" /> 
+&lt;/Canvas> 
+&lt;TextBlock VerticalAlignment="Center" FontFamily="Trebuchet MS" FontWeight="Bold" FontSize="18" Foreground="#0066cc">Create an Expense Report
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;Grid DockPanel.Dock="Top" Width="600" VerticalAlignment="Top" Margin="0,0,15,0"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="250"/> 
+&lt;ColumnDefinition Width="50"/> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" Margin="0,10,15,0" HorizontalAlignment="Left" VerticalAlignment="Center"> Name:
+&lt;/TextBlock> 
+&lt;ListBox Grid.Column="2" Margin="0,10,0,0" Height="75" Grid.Row="0" Name="ListBox1"> 
+&lt;ListBoxItem>Mike
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Lisa
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>John
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Mary
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;Button Grid.Column="2" Grid.Row="1" Width="125" Margin="0,25,0,0" Height="25">Create Report
+&lt;/Button> 
+&lt;/Grid> 
+&lt;/DockPanel> 
+&lt;/Page></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+          <Paragraph>This XAML creates a new <Run FontWeight="Bold">Canvas</Run>
+ element that contains an Image. It also creates a TextBlock element that contains the caption <Run FontStyle="italic">Create an Expense Report</Run>
+. The attributes on these elements enable you to customize the look of the UI.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Compile and run the application.         
+          </Paragraph>
+
+          <Paragraph>The following graphic shows how the addition of the image affected the UI of the application.        
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold">Layout, Data, and Component Model Image</Run>
+
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold"/>
+            <LineBreak/>
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph/>
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Add Code to Process Events    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open <Run FontWeight="Bold">Pane1.xaml</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Replace the <Run FontWeight="Bold">Button</Run>
+ element defined in the previous step with the following code.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph>Note:                 
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph>The name of the event to handle is <Run FontStyle="italic">Click</Run>
+. The name of the developer-defined event handler is <Run FontStyle="italic">CreateReport</Run>
+. The event handler for Click is set to CreateReport on the <Run FontWeight="Bold">Button</Run>
+ control.                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>... 
+&lt;Button Grid.Column="2" Grid.Row="2" Width="125" Margin="0,25,0,0" Height="25" Click="CreateReport">Create Report
+&lt;/Button> ...</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Add the following Loaded event to the root Page element defined in <Run FontWeight="Bold">Pane1.xaml</Run>
+.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane1" WindowTitle="Layout, Components, and Data Sample" Loaded="OnLoaded"> ...</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Open the <Run FontWeight="Bold">Pane1.xaml.cs</Run>
+ that you created in the <Hyperlink TargetName="Set_up_the_Structure_of_the_Application">Set up the Structure of the Application</Hyperlink>
+ step of the tutorial.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Overwrite the contents of the file with the following text. This adds code to process the Click event and then to navigate to the new Pane2.xaml file you created in the <Hyperlink TargetName="Set_up_the_Structure_of_the_Application">Set up the Structure of the Application</Hyperlink>
+ step of the tutorial.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>using System;using System.Windows;using System.Windows.Controls;using System.Windows.Documents;using System.Windows.Navigation;using System.Windows.Data;namespace ExpenseIt { public partial class Pane1 : Page { NavigationWindow myWindow;Application myApp;private void OnLoaded(object sender, EventArgs e){ myApp = (Application)System.Windows.Application.Current;myWindow = (NavigationWindow)myApp.MainWindow;} private void CreateReport(object sender, RoutedEventArgs args){ Pane2 pane2 = new Pane2(); 
+pane2.InitializeComponent(); 
+myWindow.Navigate(pane2); 
+} } }</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Create the UI for Pane2    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">Pane1.xaml</Run>
+ and <Run FontWeight="Bold">Pane2.xaml</Run>
+ are similar. <Run FontWeight="Bold">Pane1.xaml</Run>
+ displays a list of employees, and <Run FontWeight="Bold">Pane2.xaml</Run>
+ displays expenses for each employee.    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open the <Run FontWeight="Bold">Pane2.xaml</Run>
+ file and add the following code.        
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane2"> 
+&lt;DockPanel> 
+&lt;DockPanel DockPanel.Dock="Top"> 
+&lt;Canvas DockPanel.Dock="Left" Width="230" Height="100"> 
+&lt;Image Source="images/msn_watermark.png" /> 
+&lt;/Canvas> 
+&lt;TextBlock VerticalAlignment="Center" FontFamily="Trebuchet MS" FontWeight="Bold" FontSize="18" Foreground="#0066cc">Expense report for:
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;Grid DockPanel.Dock="Top"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"> Name:
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" Name="Text_Name" /> 
+&lt;TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"> Department:
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="1" Name="Text_Department"/> 
+&lt;/Grid> 
+&lt;DockPanel DockPanel.Dock="Top"> 
+&lt;Canvas Width="230"/> 
+&lt;Grid VerticalAlignment="Top" DockPanel.Dock="Top" Margin="0,0,15,0"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Border Grid.Column="0" Grid.Row="0" Height="30" Background="#4E87D4"> 
+&lt;TextBlock Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"> Expense Type
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;Border Grid.Column="1" Grid.Row="0" Height="30" Background="#4E87D4"> 
+&lt;TextBlock Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">Amount
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;/Grid> 
+&lt;Grid VerticalAlignment="Top" DockPanel.Dock="Top" Height="100" Margin="0,0,15,0"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;ListBox Grid.Column="0" Grid.Row="0" /> 
+&lt;ListBox Grid.Column="1" Grid.Row="0" /> 
+&lt;/Grid> 
+&lt;/DockPanel> 
+&lt;/DockPanel> 
+&lt;/Page></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+          <Paragraph>This code adds panels and controls to create the basic UI structure for <Run FontWeight="Bold">Pane2.xaml</Run>
+, as you did for <Run FontWeight="Bold">Pane1.xaml</Run>
+ in the first step. It also adds vertical gradients that specify the background and fill colors of the various UI elements.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Compile and run the application.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph>The following image shows the UI elements added to <Run FontWeight="Bold">Pane2.xaml</Run>
+.    
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold">Layout, Data, and Component Model Pane2</Run>
+
+      </Paragraph>
+
+      <Paragraph><Run FontWeight="Bold"/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Add Code to Style a Control    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open the <Run FontWeight="Bold">MyApp.xaml</Run>
+ file that you created in the <Hyperlink TargetName="Set_up_the_Structure_of_the_Application">Set up the Structure of the Application</Hyperlink>
+ step of this tutorial.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Overwrite the content of the file with the following code. This style applies to a <Run FontWeight="Bold">Canvas</Run>
+ element to dock it left and make it 230 pixels wide and 100 pixels high.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.MyApp" StartupUri="Pane1.xaml"> 
+&lt;Application.Resources> 
+&lt;Style x:Key="BackgroundImageStyler"> 
+&lt;Setter Property="Image.Source" Value="images/msn_watermark.png"/> 
+&lt;/Style> 
+&lt;!-- additional styles go here --> 
+&lt;/Application.Resources> 
+&lt;/Application></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Continue adding the following code beneath the <Run>BackgroundImageStyler</Run>
+ style you inserted in the previous step to create additional styles. Notice that the styles are resources scoped to the entire <Run FontWeight="Bold">Application</Run>
+. For an example of using Resources in a .NET Framework 3.0 application, see <Hyperlink NavigateUri="507ea937-5191-406b-8797-0a3d9f94156d.xaml">How to: Use Application Resources</Hyperlink>
+.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>... 
+&lt;Style x:Key="BackgroundTextStyler"> 
+&lt;Setter Property="TextBlock.VerticalAlignment" Value="Center">
+&lt;/Setter> 
+&lt;Setter Property="TextBlock.FontFamily" Value="Trebuchet MS">
+&lt;/Setter> 
+&lt;Setter Property="TextBlock.FontWeight" Value="Bold">
+&lt;/Setter> 
+&lt;Setter Property="TextBlock.FontSize" Value="18">
+&lt;/Setter> 
+&lt;Setter Property="TextBlock.Foreground" Value="#0066cc">
+&lt;/Setter> 
+&lt;/Style> 
+&lt;Style x:Key="LabelStyler"> 
+&lt;Setter Property="TextBlock.VerticalAlignment" Value="Center">
+&lt;/Setter> 
+&lt;Setter Property="TextBlock.HorizontalAlignment" Value="Right">
+&lt;/Setter> 
+&lt;/Style> ...</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Open <Run FontWeight="Bold">Pane1.xaml</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Overwrite the content of the file with the following code. Notice that you are removing attributes from the elements and replacing them with styles.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane1" WindowTitle="Layout, Components, and Data Sample" Loaded="OnLoaded"> 
+&lt;DockPanel> 
+&lt;DockPanel DockPanel.Dock="Top"> 
+&lt;Canvas DockPanel.Dock="Left" Width="230" Height="100"> 
+&lt;Image Style="{StaticResource BackgroundImageStyler}" /> 
+&lt;/Canvas> 
+&lt;TextBlock Style="{StaticResource BackgroundTextStyler}">Create an Expense Report
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;Grid DockPanel.Dock="Top" Width="600" VerticalAlignment="Top" Margin="0,0,15,0"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="250"/> 
+&lt;ColumnDefinition Width="50"/> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" Margin="0,10,15,0" Style="{StaticResource LabelStyler}"> Name:
+&lt;/TextBlock> 
+&lt;ListBox Grid.Column="2" Margin="0,10,0,0" Height="75" Grid.Row="0" Name="ListBox1"> 
+&lt;ListBoxItem>Mike
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Lisa
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>John
+&lt;/ListBoxItem> 
+&lt;ListBoxItem>Mary
+&lt;/ListBoxItem> 
+&lt;/ListBox> 
+&lt;Button Grid.Column="2" Grid.Row="2" Width="125" Margin="0,25,0,0" Height="25" Click="CreateReport">Create Report
+&lt;/Button> 
+&lt;/Grid> 
+&lt;/DockPanel> 
+&lt;/Page></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Open <Run FontWeight="Bold">Pane2.xaml</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Overwrite the content of the file with the following code.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane2"> 
+&lt;DockPanel> 
+&lt;DockPanel DockPanel.Dock="Top"> 
+&lt;Canvas DockPanel.Dock="Left" Width="230" Height="100"> 
+&lt;Image Style="{StaticResource BackgroundImageStyler}" /> 
+&lt;/Canvas> 
+&lt;TextBlock Style="{StaticResource BackgroundTextStyler}">Expense report for:
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;Grid DockPanel.Dock="Top"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" Style="{StaticResource LabelStyler}"> Name:
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" Name="Text_Name" /> 
+&lt;TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" Style="{StaticResource LabelStyler}"> Department:
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="1" Name="Text_Department"/> 
+&lt;/Grid> 
+&lt;DockPanel DockPanel.Dock="Top"> 
+&lt;Canvas Width="230"/> 
+&lt;Grid VerticalAlignment="Top" DockPanel.Dock="Top" Margin="0,0,15,0"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Border Grid.Column="0" Grid.Row="0" Height="30" Background="#4E87D4"> 
+&lt;TextBlock Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"> Expense Type
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;Border Grid.Column="1" Grid.Row="0" Height="30" Background="#4E87D4"> 
+&lt;TextBlock Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">Amount
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;/Grid> 
+&lt;Grid VerticalAlignment="Top" DockPanel.Dock="Top" Height="100" Margin="0,0,15,0"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;ListBox Grid.Column="0" Grid.Row="0" /> 
+&lt;ListBox Grid.Column="1" Grid.Row="0" /> 
+&lt;/Grid> 
+&lt;/DockPanel> 
+&lt;/DockPanel> 
+&lt;/Page> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+          <Paragraph>This code removes element attributes and applies Styles instead.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Compile and run the application. After adding the code in this step, the application looks basically the same as it did previously. The difference is that the UI elements are created with styles rather than attributes declared on elements. This approach is more flexible and requires less code.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph/>
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">Bind Data to a Control    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open <Run FontWeight="Bold">Pane1.xaml</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Overwrite the content of the file with the following code.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane1" WindowTitle="Layout, Components, and Data Sample" Loaded="OnLoaded"> 
+&lt;DockPanel> 
+&lt;DockPanel.Resources> 
+&lt;XmlDataProvider x:Key="ExpenseDataSource" XPath="Expenses"> 
+&lt;x:XData> 
+&lt;Expenses xmlns=""> 
+&lt;Person Name="Mike" Department="Legal"> 
+&lt;Expense ExpenseReason="Lunch" ExpenseAmount="50" /> 
+&lt;Expense ExpenseReason="Transportation" ExpenseAmount="50" /> 
+&lt;/Person> 
+&lt;Person Name="Lisa" Department="Marketing"> 
+&lt;Expense ExpenseReason="Document printing" ExpenseAmount="50"/> 
+&lt;Expense ExpenseReason="Gift" ExpenseAmount="125" /> 
+&lt;/Person> 
+&lt;Person Name="John" Department="Engineering"> 
+&lt;Expense ExpenseReason="Magazine subscription" ExpenseAmount="50"/> 
+&lt;Expense ExpenseReason="New machine" ExpenseAmount="600" /> 
+&lt;Expense ExpenseReason="Software" ExpenseAmount="500" /> 
+&lt;/Person> 
+&lt;Person Name="Mary" Department="Finance"> 
+&lt;Expense ExpenseReason="Dinner" ExpenseAmount="100" /> 
+&lt;/Person> 
+&lt;/Expenses> 
+&lt;/x:XData> 
+&lt;/XmlDataProvider> 
+&lt;DataTemplate x:Key="NameDataStyle"> 
+&lt;TextBlock> 
+&lt;TextBlock.Text> 
+&lt;Binding XPath="@Name"/> 
+&lt;/TextBlock.Text> 
+&lt;/TextBlock> 
+&lt;/DataTemplate> 
+&lt;/DockPanel.Resources> 
+&lt;DockPanel DockPanel.Dock="Top"> 
+&lt;Canvas DockPanel.Dock="Left" Width="230" Height="100"> 
+&lt;Image Style="{StaticResource BackgroundImageStyler}" /> 
+&lt;/Canvas> 
+&lt;TextBlock Style="{StaticResource BackgroundTextStyler}">Create an Expense Report
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;Grid DockPanel.Dock="Top" Width="600" VerticalAlignment="Top" Margin="0,0,15,0"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition Width="250"/> 
+&lt;ColumnDefinition Width="50"/> 
+&lt;ColumnDefinition Width="Auto"/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" Margin="0,10,15,0" Style="{StaticResource LabelStyler}"> Name:
+&lt;/TextBlock> 
+&lt;ListBox Grid.Column="2" Margin="0,10,0,0" Height="75" Grid.Row="0" Name="ListBox1" ItemsSource="{Binding Source={StaticResource ExpenseDataSource}, XPath=Person}" ItemTemplate="{StaticResource NameDataStyle}"/> 
+&lt;Button Grid.Column="2" Grid.Row="2" Width="125" Margin="0,25,0,0" Height="25" Click="CreateReport">Create Report
+&lt;/Button> 
+&lt;/Grid> 
+&lt;/DockPanel> 
+&lt;/Page> </Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+          <Paragraph>This code creates the XML data that is bound to various controls. Notice that the data is supplied within a <Run FontWeight="Bold">DockPanel</Run>
+ resource.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Connect Data to Controls    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open <Run FontWeight="Bold">Pane1.xaml.cs</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Overwrite the content of the file with the following code.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>C# </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>using System;using System.Windows;using System.Windows.Controls;using System.Windows.Documents;using System.Windows.Navigation;using System.Windows.Shapes;using System.Windows.Data;namespace ExpenseIt { public partial class Pane1 : Page { NavigationWindow myWindow;Application myApp;private void OnLoaded(object sender, EventArgs e){ myApp = (Application)System.Windows.Application.Current;myWindow = (NavigationWindow)myApp.MainWindow;} private void CreateReport(object sender, RoutedEventArgs args){ Pane2 pane2 = new Pane2(); 
+pane2.DataContext = ListBox1.SelectedItem;myWindow.Navigate(pane2); 
+pane2.InitializeComponent(); 
+} } }</Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+          <Paragraph>This code connects the data in <Run FontWeight="Bold">Pane2.DataContext</Run>
+ with the item you select in the ListBox.        
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="18">Add Style to Data    
+      </Paragraph>
+
+      <List MarkerStyle="Decimal">
+        <ListItem>
+          <Paragraph>Open <Run FontWeight="Bold">Pane2.xaml</Run>
+.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Overwrite the content of the file with the following code.         
+          </Paragraph>
+
+          <Table>
+            <TableRowGroup>
+              <TableRow>
+                <TableCell>
+                  <Paragraph FontSize="22"><Run>XAML </Run>
+
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+              <TableRow>
+                <TableCell>
+                  <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="ExpenseIt.Pane2"> 
+&lt;DockPanel> 
+&lt;DockPanel.Resources> 
+&lt;DataTemplate x:Key="lbItemsStyle"> 
+&lt;TextBlock> 
+&lt;TextBlock.Text> 
+&lt;Binding XPath="@ExpenseReason"/> 
+&lt;/TextBlock.Text> 
+&lt;/TextBlock> 
+&lt;/DataTemplate> 
+&lt;DataTemplate x:Key="lbItemsStyle2"> 
+&lt;TextBlock> 
+&lt;TextBlock.Text> 
+&lt;Binding XPath="@ExpenseAmount"/> 
+&lt;/TextBlock.Text> 
+&lt;/TextBlock> 
+&lt;/DataTemplate> 
+&lt;/DockPanel.Resources> 
+&lt;DockPanel DockPanel.Dock="Top"> 
+&lt;Canvas DockPanel.Dock="Left" Width="230" Height="100"> 
+&lt;Image Style="{StaticResource BackgroundImageStyler}" /> 
+&lt;/Canvas> 
+&lt;TextBlock Style="{StaticResource BackgroundTextStyler}">Expense report for:
+&lt;/TextBlock> 
+&lt;/DockPanel> 
+&lt;Grid DockPanel.Dock="Top"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" Style="{StaticResource LabelStyler}"> Name:
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="0" Name="Text_Name" Text="{Binding XPath=@Name}" /> 
+&lt;TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" Style="{StaticResource LabelStyler}"> Department:
+&lt;/TextBlock> 
+&lt;TextBlock Grid.Column="1" Grid.Row="1" Name="Text_Department" Text="{Binding XPath=@Department}"/> 
+&lt;/Grid> 
+&lt;DockPanel DockPanel.Dock="Top"> 
+&lt;Canvas Width="230"/> 
+&lt;Grid VerticalAlignment="Top" DockPanel.Dock="Top" Margin="0,0,15,0"> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition /> 
+&lt;RowDefinition /> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;Border Grid.Column="0" Grid.Row="0" Height="30" Background="#4E87D4"> 
+&lt;TextBlock Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"> Expense Type
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;Border Grid.Column="1" Grid.Row="0" Height="30" Background="#4E87D4"> 
+&lt;TextBlock Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">Amount
+&lt;/TextBlock> 
+&lt;/Border> 
+&lt;/Grid> 
+&lt;Grid VerticalAlignment="Top" DockPanel.Dock="Top" Height="100" Margin="0,0,15,0"> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition /> 
+&lt;ColumnDefinition /> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;ListBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding XPath=Expense}" ItemTemplate="{StaticResource lbItemsStyle}"/> 
+&lt;ListBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding XPath=Expense}" ItemTemplate="{StaticResource lbItemsStyle2}"/> 
+&lt;/Grid> 
+&lt;/DockPanel> 
+&lt;/DockPanel> 
+&lt;/Page></Run>
+                
+                  </Paragraph>
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableRowGroup>
+
+          </Table>
+
+          <Paragraph><Run/>
+          </Paragraph>
+
+          <Paragraph/>
+          <Paragraph>This code supplies styling information for the data. Notice that the styles are defined as <Run FontWeight="Bold">DockPanel</Run>
+ resources.        
+          </Paragraph>
+
+        </ListItem>
+
+        <ListItem>
+          <Paragraph>Compile and run the application.         
+          </Paragraph>
+
+          <Paragraph>The following two graphics show Pane 1 and Pane 2 when the application is complete.        
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold">Layout, Data, and Component Model Final1</Run>
+
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold"/>
+            <LineBreak/>
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold">Layout, Data, and Component Model Final2</Run>
+
+          </Paragraph>
+
+          <Paragraph><Run FontWeight="Bold"/>
+            <LineBreak/>
+          </Paragraph>
+
+        </ListItem>
+
+      </List>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22">What's Next    
+      </Paragraph>
+
+      <Paragraph>You now have a number of techniques at your disposal for creating a UI using Windows Presentation Foundation. You should now have a broad understanding of the basic building blocks of a data-bound .NET Framework 3.0 application. This topic is by no means exhaustive, but hopefully you also now have a sense of some of the possibilities you might discover on your own beyond the techniques in this topic.    
+      </Paragraph>
+
+      <Paragraph>Additional resources are available that detail <Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+, and <Hyperlink NavigateUri="dea454e2-abd8-4c53-ba37-d3ed53187d64.xaml">Data</Hyperlink>
+. Data Styling is explored in greater depth in <Hyperlink NavigateUri="0f4d9f8c-0230-4013-bd7b-e8e7fed01b4a.xaml">Data Templates Overview</Hyperlink>
+. For more information about .NET Framework 3.0 application development, see the <Hyperlink NavigateUri="b96bed40-8946-4285-8fe4-88045ab854ed.xaml">Get Started Using Windows Presentation Foundation</Hyperlink>
+.    
+      </Paragraph>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="f73644af-9941-4611-8754-6d4cef03fc44.xaml">Panels Overview</Hyperlink>
+
+        <LineBreak/><Hyperlink NavigateUri="c707c95f-7811-401d-956e-2fffd019a211.xaml">Data Binding Overview</Hyperlink>
+
+        <LineBreak/><Hyperlink NavigateUri="aefbe9d1-2bca-4bbb-9406-796980eeca63.xaml">Creating, Building, Deploying, and Launching WPF Applications</Hyperlink>
+
+        <LineBreak/><Hyperlink NavigateUri="0f4d9f8c-0230-4013-bd7b-e8e7fed01b4a.xaml">Data Templates Overview</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="04f91da8-708c-46c7-8172-f1695ec847cd.xaml">Getting Started</Hyperlink>
+
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Tutorial: Integrate Data, Layout, and Components in a Simple Application  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

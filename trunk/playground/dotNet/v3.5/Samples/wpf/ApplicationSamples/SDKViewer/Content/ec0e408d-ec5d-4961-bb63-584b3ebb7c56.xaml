@@ -1,0 +1,165 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ec0e408d_ec5d_4961_bb63_584b3ebb7c56"
+  Tag     ="Use a DataTemplate in Your Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_ec0e408d_ec5d_4961_bb63_584b3ebb7c56"
+    Tag     ="Use a DataTemplate in Your Application"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>How to: Use a DataTemplate in Your Application</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>This example shows how to apply reusable data templates that determine data binding and user interface (UI) presentation aspects for your data.     
+      </Paragraph>
+
+      <Paragraph>Data templates can be thought of as providing styling similar to the UI visual styling that is available to Windows Presentation Foundation applications. With data templates you also apply a reusable pattern of data binding. In this example, a DataTemplate is stored as a common resource of the outermost element of the Extensible Application Markup Language (XAML) page. In this case, that outermost element is a DockPanel element. The data template is named <Run FontStyle="italic">LBDataTemplate</Run>
+ by assigning the <Run FontWeight="Bold">x:Key</Run>
+ attribute of the DataTemplate.    
+      </Paragraph>
+
+      <Paragraph>Although an arbitrary element tree of images and other elements could be enveloped within the data template, this template is simple, with only a TextBlock used to display a text value for any ListBoxItem to which the template is applied. Of interest here is the uniform binding that is specified for all users of this template.    
+      </Paragraph>
+
+      <Paragraph>The attribute of the TextBlock element is assigned the binding expression <Run FontWeight="Bold">{Binding XPath=@name}</Run>
+. In this particular example, an outside XML data file is being accessed;therefore, an XPath is assigned as the <Run FontWeight="Bold">XPath</Run>
+ attribute of the binding expression. The <Run FontWeight="Bold">@name</Run>
+ designates that the <Run FontWeight="Bold">name</Run>
+ attribute of an XML node is the data that the UI element is bound to.    
+      </Paragraph>
+
+      <Paragraph>The binding is performed when the template is repeatedly applied on behalf of list items in the collection of a ListBox that uses the <Run FontStyle="italic">LBDataTemplage</Run>
+ data template. A ListBox is told to apply the template to items in its collection by assigning the ItemTemplate attribute of the ListBox. Several different ListBoxes in this example reuse the same data template. In this manner, other named data templates could be defined and shared by other UI elements in an evolution of this program.     
+      </Paragraph>
+
+      <Paragraph FontSize="22">Example    
+      </Paragraph>
+
+      <Paragraph>Here is a XAML page showing a data template that is reused throughout the page.    
+      </Paragraph>
+
+      <Paragraph>For the complete code sample from which the following code example was extracted, see Master-Detail Paradigm Using XmlDataSource Sample.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;DockPanel Width="400" Height="200" Background="Cornsilk"> 
+&lt;DockPanel.Resources> 
+&lt;XmlDataProvider x:Key="LeaguesDSO" Source="Data\Leagues.xml" XPath="Leagues/League"/> 
+&lt;DataTemplate x:Key="LBDataTemplate"> 
+&lt;TextBlock Text="{Binding XPath=@name}" /> 
+&lt;/DataTemplate> 
+&lt;/DockPanel.Resources> 
+&lt;DockPanel Name="dpMain" DataContext="{Binding Source={StaticResource LeaguesDSO}}"> 
+&lt;TextBlock DockPanel.Dock="Top" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center">Master-Detail Binding Paradigm
+&lt;/TextBlock> 
+&lt;DockPanel Dock="Left" Margin="10,0,10,0"> 
+&lt;TextBlock DockPanel.Dock="Top">Major League Baseball
+&lt;/TextBlock> 
+&lt;ListBox Name="leagueLB" DockPanel.Dock="Top" ItemsSource="{Binding }" ItemTemplate="{DynamicResource LBDataTemplate}" IsSynchronizedWithCurrentItem="true"/> 
+&lt;/DockPanel> 
+&lt;DockPanel Name="dpDivision" Dock="Left" Margin="10,0,10,0"> 
+&lt;TextBlock Name="divisionCaption" DockPanel.Dock="Top" Text="{Binding XPath=@name}"/> 
+&lt;ListBox Name="divisionLB" DockPanel.Dock="Top" ItemsSource="{Binding XPath=Division}" ItemTemplate="{DynamicResource LBDataTemplate}" SelectionChanged="DivisionChanged" IsSynchronizedWithCurrentItem="true"/> 
+&lt;/DockPanel> 
+&lt;DockPanel Name="dpTeam" Dock="Left" Margin="10,0,10,0"> 
+&lt;TextBlock Name="teamCaption" DockPanel.Dock="Top" Text="{Binding XPath=@name}"/> 
+&lt;ListBox Name="teamLB" DockPanel.Dock="Top" ItemsSource="{Binding XPath=Team}" ItemTemplate="{DynamicResource LBDataTemplate}" /> 
+&lt;/DockPanel> 
+&lt;/DockPanel> 
+&lt;/DockPanel> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="481765e5-5467-4a75-9f7b-e10e2ac410d9.xaml">Styles Overview</Hyperlink>
+
+        <LineBreak/><Hyperlink NavigateUri="9183b4aa-9796-426b-b447-48fa3b337541.xaml">Data Binding Overviews</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph>XML Data Source Sample      
+        <LineBreak/>Data Binding Samples      
+        <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Use a DataTemplate in Your Application  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

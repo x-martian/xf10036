@@ -1,0 +1,212 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_dcf71c7b_9e86_4b8e_8e39_0d0ce0389ef4"
+  Tag     ="Use a Drawing as an Image Source"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Use a Drawing as an Image Source</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to use a Drawing as the Source for an Image control. To display a <Run FontWeight="Bold">Drawing</Run>
+ with an <Run FontWeight="Bold">Image</Run>
+ control, use a DrawingImage as the <Run FontWeight="Bold">Image</Run>
+ control's <Run FontWeight="Bold">Source</Run>
+ and set the <Run FontWeight="Bold">DrawingImage</Run>
+ object's System.Windows.Media.DrawingImage.Drawing property to the drawing you want to display. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example uses a <Run FontWeight="Bold">DrawingImage</Run>
+ and an <Run FontWeight="Bold">Image</Run>
+ control to display a GeometryDrawing. This example produces the following output: 
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">A DrawingImage</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold"/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Media; 
+using System.Windows.Media.Animation; 
+using System.Windows.Shapes; 
+namespace SDKSample { public class DrawingImageExample : Page { public DrawingImageExample() { // // Create the Geometry to draw. // GeometryGroup ellipses = new GeometryGroup(); 
+ellipses.Children.Add( new EllipseGeometry(new Point(50,50), 45, 20) ); 
+ellipses.Children.Add( new EllipseGeometry(new Point(50, 50), 20, 45) ); 
+// // Create a GeometryDrawing. // GeometryDrawing aGeometryDrawing = new GeometryDrawing(); 
+aGeometryDrawing.Geometry = ellipses; 
+// Paint the drawing with a gradient. aGeometryDrawing.Brush = new LinearGradientBrush( Colors.Blue, Color.FromRgb(204,204,255), new Point(0,0), new Point(1,1)); 
+// Outline the drawing with a solid color. aGeometryDrawing.Pen = new Pen(Brushes.Black, 10); 
+// // Use a DrawingImage and an Image control // to display the drawing. // DrawingImage geometryImage = new DrawingImage(aGeometryDrawing); 
+// Freeze the DrawingImage for performance benefits. geometryImage.Freeze(); 
+Image anImage = new Image(); 
+anImage.Source = geometryImage; 
+anImage.HorizontalAlignment = HorizontalAlignment.Left; 
+// // Place the image inside a border and // add it to the page. // Border exampleBorder = new Border(); 
+exampleBorder.Child = anImage; 
+exampleBorder.BorderBrush = Brushes.Gray; 
+exampleBorder.BorderThickness = new Thickness(1); 
+exampleBorder.HorizontalAlignment = HorizontalAlignment.Left; 
+exampleBorder.VerticalAlignment = VerticalAlignment.Top; 
+exampleBorder.Margin = new Thickness(10); 
+this.Margin = new Thickness(20); 
+this.Background = Brushes.White; 
+this.Content = exampleBorder; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_dcf71c7b_9e86_4b8e_8e39_0d0ce0389ef4_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="PresentationOptions" Background="White" Margin="20"> 
+&lt;Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"> 
+&lt;!-- This image uses a Drawing object for its source. --> 
+&lt;Image> 
+&lt;Image.Source> 
+&lt;DrawingImage PresentationOptions:Freeze="True"> 
+&lt;DrawingImage.Drawing> 
+&lt;GeometryDrawing> 
+&lt;GeometryDrawing.Geometry> 
+&lt;GeometryGroup> 
+&lt;EllipseGeometry Center="50,50" RadiusX="45" RadiusY="20" /> 
+&lt;EllipseGeometry Center="50,50" RadiusX="20" RadiusY="45" /> 
+&lt;/GeometryGroup> 
+&lt;/GeometryDrawing.Geometry> 
+&lt;GeometryDrawing.Brush> 
+&lt;LinearGradientBrush> 
+&lt;GradientStop Offset="0.0" Color="Blue" /> 
+&lt;GradientStop Offset="1.0" Color="#CCCCFF" /> 
+&lt;/LinearGradientBrush> 
+&lt;/GeometryDrawing.Brush> 
+&lt;GeometryDrawing.Pen> 
+&lt;Pen Thickness="10" Brush="Black" /> 
+&lt;/GeometryDrawing.Pen> 
+&lt;/GeometryDrawing> 
+&lt;/DrawingImage.Drawing> 
+&lt;/DrawingImage> 
+&lt;/Image.Source> 
+&lt;/Image> 
+&lt;/Border> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="df28ab41-25fb-4ab3-b51d-7f695b24f55e.xaml">How to: Draw an Image Using ImageDrawing</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="391032dd-2fba-4804-bb8a-3b071797a9f4.xaml">PresentationOptions:Freeze Attribute</Hyperlink>
+
+      <LineBreak/>Freeze
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="9b5ce5c0-e204-4320-a7a8-0b2210d62f88.xaml">Drawing Objects Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="89c71692-4f43-4057-b611-67c6a8a863a2.xaml">Freezable Objects Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Use a Drawing as an Image Source to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

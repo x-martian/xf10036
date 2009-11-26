@@ -1,0 +1,1454 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_ef236a50_d44f_43c8_ba7c_82b0c733c0b7"
+  Tag     ="Flow Document Overview"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Flow Document Overview</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Flow documents are designed to optimize viewing and readability. Rather than being set to one predefined layout, flow documents dynamically adjust and reflow their content based on run-time variables such as window size, device resolution, and optional user preferences. In addition, flow documents offer advanced document features, such as pagination and columns. This topic provides an overview of flow documents and how to create them.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph>This topic contains the following sections.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="what_is_a_flow_document">What is a Flow Document</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="flow_document_types">Flow Document Types</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="creating_flow_content">Creating Flow Content</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="flow_related_classes">Flow Related Classes</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="text_decorations">Text Decorations</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="content_schema">Content Schema</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What is a Flow Document
+    </Paragraph>
+
+    <Paragraph>A flow document is designed to "reflow content" depending on window size, device resolution, and other environment variables. In addition, flow documents have a number of built in features including search, viewing modes that optimize readability, and the ability to change the size and appearance of fonts. Flow Documents are best utilized when ease of reading is the primary document consumption scenario. In contrast, Fixed Documents are designed to have a static presentation. Fixed Documents are useful when fidelity of the source content is essential. See <Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+ for more information on different types of documents. 
+    </Paragraph>
+
+    <Paragraph>The following illustration shows a sample flow document viewed in several windows of different sizes. As the display area changes, the content reflows to make the best use of the available space.
+    </Paragraph>
+
+    <Paragraph>As seen in the image above, flow content can include many components including paragraphs, lists, images, and more. These components correspond to elements in markup and objects in procedural code. We will go over these classes in detail later in the <Hyperlink TargetName="flow_related_classes">Flow Related Classes</Hyperlink>
+ section of this overview. For now, here is a simple code example that creates a flow document consisting of a paragraph with some bold text and a list.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ef236a50_d44f_43c8_ba7c_82b0c733c0b7_0">
+                <cc:SnippetViewer.SnippetText>
+&lt;!-- This simple flow document includes a paragraph with some bold text in it and a list. --> 
+&lt;FlowDocumentReader xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;FlowDocument> 
+&lt;Paragraph> 
+&lt;Bold>Some bold text in the paragraph.
+&lt;/Bold> Some text that is not bold. 
+&lt;/Paragraph> 
+&lt;List> 
+&lt;ListItem> 
+&lt;Paragraph>ListItem 1
+&lt;/Paragraph> 
+&lt;/ListItem> 
+&lt;ListItem> 
+&lt;Paragraph>ListItem 2
+&lt;/Paragraph> 
+&lt;/ListItem> 
+&lt;ListItem> 
+&lt;Paragraph>ListItem 3
+&lt;/Paragraph> 
+&lt;/ListItem> 
+&lt;/List> 
+&lt;/FlowDocument> 
+&lt;/FlowDocumentReader> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+namespace SDKSample { public partial class SimpleFlowExample : Page { public SimpleFlowExample() { Paragraph myParagraph = new Paragraph(); 
+// Add some Bold text to the paragraph myParagraph.Inlines.Add(new Bold(new Run("Some bold text in the paragraph."))); 
+// Add some plain text to the paragraph myParagraph.Inlines.Add(new Run(" Some text that is not bold.")); 
+// Create a List and populate with three list items. List myList = new List(); 
+// First create paragraphs to go into the list item. Paragraph paragraphListItem1 = new Paragraph(new Run("ListItem 1")); 
+Paragraph paragraphListItem2 = new Paragraph(new Run("ListItem 2")); 
+Paragraph paragraphListItem3 = new Paragraph(new Run("ListItem 3")); 
+// Add ListItems with paragraphs in them. myList.ListItems.Add(new ListItem(paragraphListItem1)); 
+myList.ListItems.Add(new ListItem(paragraphListItem2)); 
+myList.ListItems.Add(new ListItem(paragraphListItem3)); 
+// Create a FlowDocument with the paragraph and list. FlowDocument myFlowDocument = new FlowDocument(); 
+myFlowDocument.Blocks.Add(myParagraph); 
+myFlowDocument.Blocks.Add(myList); 
+// Add the FlowDocument to a FlowDocumentReader Control FlowDocumentReader myFlowDocumentReader = new FlowDocumentReader(); 
+myFlowDocumentReader.Document = myFlowDocument; 
+this.Content = myFlowDocumentReader; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The illustration below shows what this code snippet looks like.
+    </Paragraph>
+
+    <Paragraph>In this example, the FlowDocumentReader control is used to host the flow content. See <Hyperlink TargetName="flow_document_types">Flow Document Types</Hyperlink>
+ for more information on flow content hosting controls. Paragraph, List, ListItem, and Bold elements are used to control content formatting, based on their order in markup. For example, the <Run FontWeight="Bold">Bold</Run>
+ element spans across only part of the text in the paragraph; 
+as a result, only that part of the text is bold. If you have used HTML, this will be familiar to you.
+    </Paragraph>
+
+    <Paragraph>As highlighted in the illustration above, there are several features built into Flow Documents:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Search: Allows the user to perform a full text search of an entire document.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Viewing Mode: The user can select their preferred viewing mode including a single-page (page-at-a-time) viewing mode, a two-page-at-a-time (book reading format) viewing mode, and a continuous scrolling (bottomless) viewing mode. For more information about these viewing modes, see FlowDocumentReaderViewingMode.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Page Navigation Controls: If the viewing mode of the document uses pages, the page navigation controls include a button to jump to the next page (the down arrow) or previous page (the up arrow), as well as indicators for the current page number and total number of pages. Flipping through pages can also be accomplished using the keyboard arrow keys.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Zoom: The zoom controls enable the user to increase or decrease the zoom level by clicking the plus or minus buttons, respectively. The zoom controls also include a slider for adjusting the zoom level. For more information, see <Hyperlink NavigateUri="ms-help://MS.MSSDK.1033/MS.NETFX30SDK.1033/cpref30/html/P_System_Windows_Controls_FlowDocumentReader_Zoom.xaml">Zoom</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>These features can be modified based upon the control used to host the flow content. The next section describes the different controls.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Flow Document Types
+    </Paragraph>
+
+    <Paragraph>Display of flow document content and how it appears is dependent upon what object is used to host the flow content. There are four controls that support viewing of flow content: <Run FontWeight="Bold">FlowDocumentReader</Run>
+, FlowDocumentPageViewer, RichTextBox, and FlowDocumentScrollViewer. These controls are briefly described below.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Note: </Run>
+ FlowDocument is required to directly host flow content, so all of these viewing controls consume a <Run FontWeight="Bold">FlowDocument</Run>
+ to enable flow content hosting. 
+    </Paragraph>
+
+    <Paragraph FontSize="18">FlowDocumentReader
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">FlowDocumentReader</Run>
+ includes features that enable the user to dynamically choose between various viewing modes, including a single-page (page-at-a-time) viewing mode, a two-page-at-a-time (book reading format) viewing mode, and a continuous scrolling (bottomless) viewing mode. For more information about these viewing modes, see <Run FontWeight="Bold">FlowDocumentReaderViewingMode</Run>
+. If you do not need the ability to dynamically switch between different viewing modes, <Run FontWeight="Bold">FlowDocumentPageViewer</Run>
+ and <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+ provide lighter-weight flow content viewers that are fixed in a particular viewing mode.
+    </Paragraph>
+
+    <Paragraph FontSize="18">FlowDocumentPageViewer and FlowDocumentScrollViewer
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">FlowDocumentPageViewer</Run>
+ shows content in page-at-a-time viewing mode, while <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+ shows content in continuous scrolling mode. Both <Run FontWeight="Bold">FlowDocumentPageViewer</Run>
+ and <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+ are fixed to a particular viewing mode. Compare to <Run FontWeight="Bold">FlowDocumentReader</Run>
+, which includes features that enable the user to dynamically choose between various viewing modes (as provided by the <Run FontWeight="Bold">FlowDocumentReaderViewingMode</Run>
+ enumeration), at the cost of being more resource intensive than <Run FontWeight="Bold">FlowDocumentPageViewer</Run>
+ or <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+.
+    </Paragraph>
+
+    <Paragraph>By default, a vertical scrollbar is always shown, and a horizontal scrollbar becomes visible if needed. The default UI for <Run FontWeight="Bold">FlowDocumentScrollViewer</Run>
+ does not include a toolbar; 
+however, the IsToolBarVisible property can be used to enable a built-in toolbar.
+    </Paragraph>
+
+    <Paragraph FontSize="18">RichTextBox
+    </Paragraph>
+
+    <Paragraph>You use a <Run FontWeight="Bold">RichTextBox</Run>
+ when you want to allow the user to edit flow content. For example, if you wanted to create an editor that allowed a user to manipulate things like tables, italic and bold formatting, etc, you would use a <Run FontWeight="Bold">RichTextBox</Run>
+. 
+    </Paragraph>
+
+    <Paragraph FontSize="22">Creating Flow Content
+    </Paragraph>
+
+    <Paragraph>Flow content can be complex, consisting of various elements including text, images, tables, and even UIElement derived classes like controls. To understand how to create complex flow content, the following points are critical: 
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Flow-related Classes</Run>
+: Each class used in flow content has a specific purpose. In addition, the hierarchical relation between flow classes helps you understand how they are used. For example, classes derived from the Block class are used to contain other objects while classes derived from Inline contain objects that are displayed.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Content Schema</Run>
+: A flow document can require a substantial number of nested elements. The content schema specifies possible parent/child relationships between elements. 
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>The following sections will go over each of these areas in more detail.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Flow Related Classes
+    </Paragraph>
+
+    <Paragraph>The diagram below shows the objects most typically used with flow content:
+    </Paragraph>
+
+    <Paragraph>For the purposes of flow content, there are two important categories:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Block-derived classes</Run>
+: Also called "Block content elements" or just "Block Elements". Elements that inherit from <Run FontWeight="Bold">Block</Run>
+ can be used to group elements under a common parent or to apply common attributes to a group. 
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Run FontWeight="Bold">Inline-derived classes</Run>
+: Also called "Inline content elements". Elements that inherit from <Run FontWeight="Bold">Inline</Run>
+ are used within a Block-derived class to render something to the screen.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>Each class in these two categories is briefly described below.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Block-derived Classes
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Paragraph</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Paragraph</Run>
+ is typically used to group content into a paragraph. The simplest and most common use of Paragraph is to create a paragraph of text.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ef236a50_d44f_43c8_ba7c_82b0c733c0b7_1">
+                <cc:SnippetViewer.SnippetText>
+&lt;FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Paragraph> Some paragraph text. 
+&lt;/Paragraph> 
+&lt;/FlowDocument> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+namespace SDKSample { public partial class ParagraphExample : Page { public ParagraphExample() { // Create paragraph with some text. Paragraph myParagraph = new Paragraph(); 
+myParagraph.Inlines.Add(new Run("Some paragraph text.")); 
+// Create a FlowDocument and add the paragraph to it. FlowDocument myFlowDocument = new FlowDocument(); 
+myFlowDocument.Blocks.Add(myParagraph); 
+this.Content = myFlowDocument; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>However, you can also contain other inline-derived elements as you will see below.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Section</Run>
+
+    </Paragraph>
+
+    <Paragraph>Section is used only to contain other <Run FontWeight="Bold">Block</Run>
+-derived elements. It does not apply any default formatting to the elements it contains. However, any property values set on a <Run FontWeight="Bold">Section</Run>
+ applies to its child elements. A section also enables you to programmatically iterate through its child collection. <Run FontWeight="Bold">Section</Run>
+ is used in a similar manner to the 
+&lt;DIV> tag in HTML. 
+    </Paragraph>
+
+    <Paragraph>In the example below, three paragraphs are defined under one <Run FontWeight="Bold">Section</Run>
+. The section has a Background property value of Red, therefore the background color of the paragraphs is also red.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ef236a50_d44f_43c8_ba7c_82b0c733c0b7_2">
+                <cc:SnippetViewer.SnippetText>
+&lt;FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;!-- By default, Section applies no formatting to elements contained within it. However, in this example, the section has a Background property value of "Red", therefore, the three paragraphs (the block) inside the section also have a red background. --> 
+&lt;Section Background="Red"> 
+&lt;Paragraph> Paragraph 1 
+&lt;/Paragraph> 
+&lt;Paragraph> Paragraph 2 
+&lt;/Paragraph> 
+&lt;Paragraph> Paragraph 3 
+&lt;/Paragraph> 
+&lt;/Section> 
+&lt;/FlowDocument> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Media; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+namespace SDKSample { public partial class SectionExample : Page { public SectionExample() { // Create three paragraphs Paragraph myParagraph1 = new Paragraph(new Run("Paragraph 1")); 
+Paragraph myParagraph2 = new Paragraph(new Run("Paragraph 2")); 
+Paragraph myParagraph3 = new Paragraph(new Run("Paragraph 3")); 
+// Create a Section and add the three paragraphs to it. Section mySection = new Section(); 
+mySection.Background = Brushes.Red; 
+mySection.Blocks.Add(myParagraph1); 
+mySection.Blocks.Add(myParagraph2); 
+mySection.Blocks.Add(myParagraph3); 
+// Create a FlowDocument and add the section to it. FlowDocument myFlowDocument = new FlowDocument(); 
+myFlowDocument.Blocks.Add(mySection); 
+this.Content = myFlowDocument; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">BlockUIContainer</Run>
+
+    </Paragraph>
+
+    <Paragraph>BlockUIContainer enables <Run FontWeight="Bold">UIElement</Run>
+ elements (i.e. a Button) to be embedded in block-derived flow content. InlineUIContainer (see below) is used to embed <Run FontWeight="Bold">UIElement</Run>
+ elements in inline-derived flow content. <Run FontWeight="Bold">BlockUIContainer</Run>
+ and <Run FontWeight="Bold">InlineUIContainer</Run>
+ are important because there is no other way to use a <Run FontWeight="Bold">UIElement</Run>
+ in flow content unless it is contained within one of these two elements. 
+    </Paragraph>
+
+    <Paragraph>The following example shows how to use the <Run FontWeight="Bold">BlockUIContainer</Run>
+ element to host <Run FontWeight="Bold">UIElement</Run>
+ objects within flow content.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;FlowDocument ColumnWidth="400"> 
+&lt;Section Background="GhostWhite"> 
+&lt;Paragraph> A UIElement element may be embedded directly in flow content by enclosing it in a BlockUIContainer element. 
+&lt;/Paragraph> 
+&lt;BlockUIContainer> 
+&lt;Button>Click me!
+&lt;/Button> 
+&lt;/BlockUIContainer> 
+&lt;Paragraph> The BlockUIContainer element may host no more than one top-level UIElement. However, other UIElements may be nested within the UIElement contained by an BlockUIContainer element. For example, a StackPanel can be used to host multiple UIElement elements within a BlockUIContainer element. 
+&lt;/Paragraph> 
+&lt;BlockUIContainer> 
+&lt;StackPanel> 
+&lt;Label Foreground="Blue">Choose a value:
+&lt;/Label> 
+&lt;ComboBox> 
+&lt;ComboBoxItem IsSelected="True">a
+&lt;/ComboBoxItem> 
+&lt;ComboBoxItem>b
+&lt;/ComboBoxItem> 
+&lt;ComboBoxItem>c
+&lt;/ComboBoxItem> 
+&lt;/ComboBox> 
+&lt;Label Foreground ="Red">Choose a value:
+&lt;/Label> 
+&lt;StackPanel> 
+&lt;RadioButton>x
+&lt;/RadioButton> 
+&lt;RadioButton>y
+&lt;/RadioButton> 
+&lt;RadioButton>z
+&lt;/RadioButton> 
+&lt;/StackPanel> 
+&lt;Label>Enter a value:
+&lt;/Label> 
+&lt;TextBox> A text editor embedded in flow content. 
+&lt;/TextBox> 
+&lt;/StackPanel> 
+&lt;/BlockUIContainer> 
+&lt;/Section> 
+&lt;/FlowDocument> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following figure shows how this example renders.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">List</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">List</Run>
+ is used to create a bulleted or numeric list. Set the MarkerStyle property to a TextMarkerStyle enumeration value to determine the style of the list. The example below shows how to create a simple list.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ef236a50_d44f_43c8_ba7c_82b0c733c0b7_4">
+                <cc:SnippetViewer.SnippetText>
+&lt;FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;List> 
+&lt;ListItem> 
+&lt;Paragraph> List Item 1 
+&lt;/Paragraph> 
+&lt;/ListItem> 
+&lt;ListItem> 
+&lt;Paragraph> List Item 2 
+&lt;/Paragraph> 
+&lt;/ListItem> 
+&lt;ListItem> 
+&lt;Paragraph> List Item 3 
+&lt;/Paragraph> 
+&lt;/ListItem> 
+&lt;/List> 
+&lt;/FlowDocument> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Media; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+namespace SDKSample { public partial class ListExample : Page { public ListExample() { // Create three paragraphs Paragraph myParagraph1 = new Paragraph(new Run("List Item 1")); 
+Paragraph myParagraph2 = new Paragraph(new Run("List Item 2")); 
+Paragraph myParagraph3 = new Paragraph(new Run("List Item 3")); 
+// Create the ListItem elements for the List and add the // paragraphs to them. ListItem myListItem1 = new ListItem(); 
+myListItem1.Blocks.Add(myParagraph1); 
+ListItem myListItem2 = new ListItem(); 
+myListItem2.Blocks.Add(myParagraph2); 
+ListItem myListItem3 = new ListItem(); 
+myListItem3.Blocks.Add(myParagraph3); 
+// Create a List and add the three ListItems to it. List myList = new List(); 
+myList.ListItems.Add(myListItem1); 
+myList.ListItems.Add(myListItem2); 
+myList.ListItems.Add(myListItem3); 
+// Create a FlowDocument and add the section to it. FlowDocument myFlowDocument = new FlowDocument(); 
+myFlowDocument.Blocks.Add(myList); 
+this.Content = myFlowDocument; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Note:</Run>
+<Run FontWeight="Bold">List</Run>
+ is the only flow element that uses the <Run FontWeight="Bold">ListItemsCollection</Run>
+ to manage child elements rather then the <Run FontWeight="Bold">BlockCollection</Run>
+ or <Run FontWeight="Bold">InlineCollection</Run>
+. See <Hyperlink NavigateUri="4e03f058-8377-4438-a36e-e186c8fc494b.xaml">Flow Collection Elements</Hyperlink>
+ for more information about these collections.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Table</Run>
+
+    </Paragraph>
+
+    <Paragraph>Table is used to create a table. <Run FontWeight="Bold">Table</Run>
+ is similar to the Grid element but it has more capabilities and, therefore, requires greater resource overhead. Because <Run FontWeight="Bold">Grid</Run>
+ is a <Run FontWeight="Bold">UIElement</Run>
+, it cannot be used in flow content unless it is contained in a <Run FontWeight="Bold">BlockUIContainer</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Inline-derived Classes
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Run</Run>
+
+    </Paragraph>
+
+    <Paragraph>Run is used to contain unformatted text. You might expect <Run FontWeight="Bold">Run</Run>
+ objects to be used extensively in flow content, however, in markup, <Run FontWeight="Bold">Run</Run>
+ elements are not required to be used explicitly. For example, in the markup below, the first <Run FontWeight="Bold">Paragraph</Run>
+ uses the <Run FontWeight="Bold">Run</Run>
+ element explicitly while the second does not. Both paragraphs generate identical output.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Paragraph> 
+&lt;Run>Paragraph that explicitly uses the Run element.
+&lt;/Run> 
+&lt;/Paragraph> 
+&lt;Paragraph> Paragraph that omits the the Run element. It still works because the Run element is created by the parser anyway. 
+&lt;/Paragraph> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Note: </Run>
+<Run FontWeight="Bold">Run</Run>
+ is required to be used when creating or manipulating flow documents using code.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Span</Run>
+
+    </Paragraph>
+
+    <Paragraph>Span groups other inline content elements together. No inherent rendering is applied to content within a <Run FontWeight="Bold">Span</Run>
+ element. However, elements that inherit from <Run FontWeight="Bold">Span</Run>
+ including Hyperlink, <Run FontWeight="Bold">Bold</Run>
+, Italic, Underline, Superscript, and Subscript do apply formatting to text.
+    </Paragraph>
+
+    <Paragraph>Below is an example of a <Run FontWeight="Bold">Span</Run>
+ being used to contain inline content including text, a <Run FontWeight="Bold">Bold</Run>
+ element, and a <Run FontWeight="Bold">Button</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ef236a50_d44f_43c8_ba7c_82b0c733c0b7_6">
+                <cc:SnippetViewer.SnippetText>
+&lt;FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Paragraph> Text before the Span. 
+&lt;Span Background="Red">Text within the Span is red and 
+&lt;Bold>this text is inside the Span-derived element Bold.
+&lt;/Bold> A Span can contain more then text, it can contain any inline content. For example, it can contain a 
+&lt;InlineUIContainer> 
+&lt;Button>Button
+&lt;/Button> 
+&lt;/InlineUIContainer> or other UIElement, a Floater, a Figure, etc.
+&lt;/Span> 
+&lt;/Paragraph> 
+&lt;/FlowDocument> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following screenshot shows how this example renders.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">InlineUIContainer</Run>
+
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">InlineUIContainer</Run>
+ enables <Run FontWeight="Bold">UIElement</Run>
+ elements (i.e. a control like <Run FontWeight="Bold">Button</Run>
+) to be embedded in an <Run FontWeight="Bold">Inline</Run>
+ content element. This element is the inline equivalent to <Run FontWeight="Bold">BlockUIContainer</Run>
+ described above. Below is an example that uses <Run FontWeight="Bold">InlineUIContainer</Run>
+ to insert a <Run FontWeight="Bold">Button</Run>
+ inline in a <Run FontWeight="Bold">Paragraph</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Media; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+namespace SDKSample { public partial class InlineUIContainerExample : Page { public InlineUIContainerExample() { Run run1 = new Run(" Text to precede the button... "); 
+Run run2 = new Run(" Text to follow the button... "); 
+// Create a new button to be hosted in the paragraph. Button myButton = new Button(); 
+myButton.Content = "Click me!"; 
+// Create a new InlineUIContainer to contain the Button. InlineUIContainer myInlineUIContainer = new InlineUIContainer(); 
+// Set the BaselineAlignment property to "Bottom" so that the // Button aligns properly with the text. myInlineUIContainer.BaselineAlignment = BaselineAlignment.Bottom; 
+// Asign the button as the UI container's child. myInlineUIContainer.Child = myButton; 
+// Create the paragraph and add content to it. Paragraph myParagraph = new Paragraph(); 
+myParagraph.Inlines.Add(run1); 
+myParagraph.Inlines.Add(myInlineUIContainer); 
+myParagraph.Inlines.Add(run2); 
+// Create a FlowDocument and add the paragraph to it. FlowDocument myFlowDocument = new FlowDocument(); 
+myFlowDocument.Blocks.Add(myParagraph); 
+this.Content = myFlowDocument; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">Figure and Floater</Run>
+
+    </Paragraph>
+
+    <Paragraph>Figure and Floater are used to embed content in Flow Documents with placement properties that can be customized independent of the primary content flow. <Run FontWeight="Bold">Figure</Run>
+ or <Run FontWeight="Bold">Floater</Run>
+ elements are often used to highlight or accentuate portions of content, to host supporting images or other content within the main content flow, or to inject loosely related content such as advertisements.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to embed a <Run FontWeight="Bold">Figure</Run>
+ into a paragraph of text. 
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ef236a50_d44f_43c8_ba7c_82b0c733c0b7_7">
+                <cc:SnippetViewer.SnippetText>
+&lt;FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Paragraph> 
+&lt;Figure Width="300" Height="100" Background="GhostWhite" HorizontalAnchor="PageLeft" > 
+&lt;Paragraph FontStyle="Italic" Background="Beige" Foreground="DarkGreen" > A Figure embeds content into flow content with placement properties that can be customized independently from the primary content flow 
+&lt;/Paragraph> 
+&lt;/Figure> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure. 
+&lt;/Paragraph> 
+&lt;/FlowDocument> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Media; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+namespace SDKSample { public partial class FigureExample : Page { public FigureExample() { // Create strings to use as content. string strFigure = "A Figure embeds content into flow content with" + " placement properties that can be customized" + " independently from the primary content flow"; 
+string strOther = "Lorem ipsum dolor sit amet, consectetuer adipiscing" + " elit, sed diam nonummy nibh euismod tincidunt ut laoreet" + " dolore magna aliquam erat volutpat. Ut wisi enim ad" + " minim veniam, quis nostrud exerci tation ullamcorper" + " suscipit lobortis nisl ut aliquip ex ea commodo consequat." + " Duis autem vel eum iriure."; 
+// Create a Figure and assign content and layout properties to it. Figure myFigure = new Figure(); 
+myFigure.Width = new FigureLength(300); 
+myFigure.Height = new FigureLength(100); 
+myFigure.Background = Brushes.GhostWhite; 
+myFigure.HorizontalAnchor = FigureHorizontalAnchor.PageLeft; 
+Paragraph myFigureParagraph = new Paragraph(new Run(strFigure)); 
+myFigureParagraph.FontStyle = FontStyles.Italic; 
+myFigureParagraph.Background = Brushes.Beige; 
+myFigureParagraph.Foreground = Brushes.DarkGreen; 
+myFigure.Blocks.Add(myFigureParagraph); 
+// Create the paragraph and add content to it. Paragraph myParagraph = new Paragraph(); 
+myParagraph.Inlines.Add(myFigure); 
+myParagraph.Inlines.Add(new Run(strOther)); 
+// Create a FlowDocument and add the paragraph to it. FlowDocument myFlowDocument = new FlowDocument(); 
+myFlowDocument.Blocks.Add(myParagraph); 
+this.Content = myFlowDocument; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following illustration shows how this example renders.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">LineBreak</Run>
+
+    </Paragraph>
+
+    <Paragraph>LineBreak causes a line break to occur in flow content. The following example demonstrates the use of <Run FontWeight="Bold">LineBreak</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ef236a50_d44f_43c8_ba7c_82b0c733c0b7_8">
+                <cc:SnippetViewer.SnippetText>
+&lt;FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;Paragraph> Before the LineBreak in Paragraph. 
+&lt;LineBreak /> After the LineBreak in Paragraph. 
+&lt;LineBreak/>
+&lt;LineBreak/> After two LineBreaks in Paragraph. 
+&lt;/Paragraph> 
+&lt;Paragraph> 
+&lt;LineBreak/> 
+&lt;/Paragraph> 
+&lt;Paragraph> After a Paragraph with only a LineBreak in it. 
+&lt;/Paragraph> 
+&lt;/FlowDocument> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following screenshot shows how this example renders.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Flow Collection Elements
+    </Paragraph>
+
+    <Paragraph>In many of the examples above, the <Run FontWeight="Bold">BlockCollection</Run>
+ and <Run FontWeight="Bold">InlineCollection</Run>
+ are used to construct flow content programmatically (see <Hyperlink NavigateUri="4e03f058-8377-4438-a36e-e186c8fc494b.xaml">Flow Collection Elements</Hyperlink>
+ for documentation on these collections). For example, to add elements to a <Run FontWeight="Bold">Paragraph</Run>
+, you can use the syntax: 
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">…</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">myParagraph.Inlines.Add(new Run("Some text"));</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">…</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph>This adds a <Run FontWeight="Bold">Run</Run>
+ to the <Run FontWeight="Bold">InlineCollection</Run>
+ of the <Run FontWeight="Bold">Paragraph</Run>
+. This is the same as the implicit <Run FontWeight="Bold">Run</Run>
+ found inside a <Run FontWeight="Bold">Paragraph</Run>
+ in markup:
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">…</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">
+&lt;Paragraph></Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">Some Text</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">
+&lt;/Paragraph></Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">…</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph>As an example of using the <Run FontWeight="Bold">BlockCollection</Run>
+, consider adding a <Run FontWeight="Bold">Paragraph</Run>
+ element to a <Run FontWeight="Bold">FlowDocument</Run>
+:
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">…</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">myFlowDocument.Blocks.Add(myParagraph);</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph><Span><Run FontWeight="Bold">…</Run>
+</Span>
+
+    </Paragraph>
+
+    <Paragraph>When working with flow content programmatically, you will likely make extensive use of these collections. These collections are fully documented in <Hyperlink NavigateUri="4e03f058-8377-4438-a36e-e186c8fc494b.xaml">Flow Collection Elements</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>Whether a flow element uses an <Run FontWeight="Bold">InlineCollection</Run>
+ (Inlines) or <Run FontWeight="Bold">BlockCollection</Run>
+ (Blocks) to contain its child elements depends on what type of child elements (<Run FontWeight="Bold">Block</Run>
+ or <Run FontWeight="Bold">Inline</Run>
+) can be contained by the parent. Containment rules for flow content elements are summarized in the content schema in the next section.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">Note:</Run>
+ There is a third type of collection used with flow content, the ListItemCollection, but this collection is only used with a List. For more information on all three types of collections, see <Hyperlink NavigateUri="4e03f058-8377-4438-a36e-e186c8fc494b.xaml">Flow Collection Elements</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Text Decorations
+    </Paragraph>
+
+    <Paragraph>Text decorations allow you to apply the underline, overline, baseline, and strikethrough effects to text (see pictures below). These decorations are added using the TextDecorations property that is exposed by a number of objects including <Run FontWeight="Bold">Inline</Run>
+, <Run FontWeight="Bold">Paragraph</Run>
+, TextBlock, and TextBox.
+    </Paragraph>
+
+    <Paragraph>The following example shows how to set the TextDecorations property of a <Run FontWeight="Bold">Paragraph</Run>
+.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;FlowDocument ColumnWidth="200"> 
+&lt;Paragraph TextDecorations="Strikethrough"> This text will render with the strikethrough effect. 
+&lt;/Paragraph> 
+&lt;/FlowDocument> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Paragraph parx = new Paragraph(new Run("This text will render with the strikethrough effect.")); 
+parx.TextDecorations = TextDecorations.Strikethrough; 
+</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following figure shows how this example renders.
+    </Paragraph>
+
+    <Paragraph>The following figures show how the <Run FontWeight="Bold">Overline</Run>
+, <Run FontWeight="Bold">Baseline</Run>
+, and <Run FontWeight="Bold">Underline</Run>
+ decorations render, respectively.
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph FontSize="22">Content Schema
+    </Paragraph>
+
+    <Paragraph>Given the number of different flow content elements, it can be overwhelming to keep track of what type of child elements an element can contain. The diagram below summarizes the containment rules for flow elements. The arrows represent the possible parent/child relationships. 
+    </Paragraph>
+
+    <Paragraph>As can be seen from the diagram above, the children allowed for an element are not necessarily determined by whether it is a <Run FontWeight="Bold">Block</Run>
+ element or an <Run FontWeight="Bold">Inline</Run>
+ element. For example, a <Run FontWeight="Bold">Span</Run>
+ (an <Run FontWeight="Bold">Inline</Run>
+ element) can only have <Run FontWeight="Bold">Inline</Run>
+ child elements while a <Run FontWeight="Bold">Figure</Run>
+ (also an <Run FontWeight="Bold">Inline</Run>
+ element) can only have <Run FontWeight="Bold">Block</Run>
+ child elements. Therefore, a diagram is useful for quickly determining what element can be contained in another. As an example, let's use the diagram to determine how to construct the flow content of a <Run FontWeight="Bold">RichTextBox</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">1.</Run>
+ A <Run FontWeight="Bold">RichTextBox</Run>
+ must contain a <Run FontWeight="Bold">FlowDocument</Run>
+ which in turn must contain a <Run FontWeight="Bold">Block</Run>
+-derived object. Below is the corresponding segment from the diagram above.
+    </Paragraph>
+
+    <Paragraph>Thus far, this is what the markup might look like.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;RichTextBox> 
+&lt;FlowDocument> 
+&lt;!-- One or more Block-derived object… --> 
+&lt;/FlowDocument> 
+&lt;/RichTextBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">2.</Run>
+ According to the diagram, there are several <Run FontWeight="Bold">Block</Run>
+ elements to choose from including <Run FontWeight="Bold">Paragraph</Run>
+, <Run FontWeight="Bold">Section</Run>
+, <Run FontWeight="Bold">Table</Run>
+, <Run FontWeight="Bold">List</Run>
+, and <Run FontWeight="Bold">BlockUIContainer</Run>
+ (see Block-derived classes above). Let's say we want a <Run FontWeight="Bold">Table</Run>
+. According to the diagram above, a <Run FontWeight="Bold">Table</Run>
+ contains a TableRowGroup containing TableRow elements, which contain TableCell elements which contain a <Run FontWeight="Bold">Block</Run>
+-derived object. Below is the corresponding segment for <Run FontWeight="Bold">Table</Run>
+ taken from the diagram above.
+    </Paragraph>
+
+    <Paragraph>Below is the corresponding markup.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;RichTextBox> 
+&lt;FlowDocument> 
+&lt;Table> 
+&lt;TableRowGroup> 
+&lt;TableRow> 
+&lt;TableCell> 
+&lt;!-- One or more Block-derived object… --> 
+&lt;/TableCell> 
+&lt;/TableRow> 
+&lt;/TableRowGroup> 
+&lt;/Table> 
+&lt;/FlowDocument> 
+&lt;/RichTextBox> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph><Run FontWeight="Bold">3.</Run>
+ Again, one or more <Run FontWeight="Bold">Block</Run>
+ elements are required underneath a <Run FontWeight="Bold">TableCell</Run>
+. To make it simple, let's place some text inside the cell. We can do this using a <Run FontWeight="Bold">Paragraph</Run>
+ with a <Run FontWeight="Bold">Run</Run>
+ element. Below is the corresponding segments from the diagram showing that a <Run FontWeight="Bold">Paragraph</Run>
+ can take an <Run FontWeight="Bold">Inline</Run>
+ element and that a <Run FontWeight="Bold">Run</Run>
+ (an <Run FontWeight="Bold">Inline</Run>
+ element) can only take plain text.
+    </Paragraph>
+
+    <Paragraph>Below is the entire example in markup.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <BlockUIContainer>
+              <cc:SnippetViewer Name="_ef236a50_d44f_43c8_ba7c_82b0c733c0b7_12">
+                <cc:SnippetViewer.SnippetText>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> 
+&lt;RichTextBox> 
+&lt;FlowDocument> 
+&lt;!-- Normally a table would have multiple rows and multiple cells but this code is for demonstration purposes.--> 
+&lt;Table> 
+&lt;TableRowGroup> 
+&lt;TableRow> 
+&lt;TableCell> 
+&lt;Paragraph> 
+&lt;!-- The schema does not actually require explicit use of the Run tag in markup. It is only included here for clarity. --> 
+&lt;Run>Paragraph in a Table Cell.
+&lt;/Run> 
+&lt;/Paragraph> 
+&lt;/TableCell> 
+&lt;/TableRow> 
+&lt;/TableRowGroup> 
+&lt;/Table> 
+&lt;/FlowDocument> 
+&lt;/RichTextBox> 
+&lt;/Page> 
+                </cc:SnippetViewer.SnippetText>
+              </cc:SnippetViewer>
+
+            </BlockUIContainer>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6e8db7bc-050a-4070-aa72-bb8c46e87ff8.xaml">Documents in Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="4e03f058-8377-4438-a36e-e186c8fc494b.xaml">Flow Collection Elements</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="5e1105f4-8fc4-473a-ba55-88c8e71386e6.xaml">Table Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Flow Document Overview to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

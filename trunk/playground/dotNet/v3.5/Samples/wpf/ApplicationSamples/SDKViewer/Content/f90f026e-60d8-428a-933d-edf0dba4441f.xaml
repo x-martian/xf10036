@@ -1,0 +1,128 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f90f026e_60d8_428a_933d_edf0dba4441f"
+  Tag     ="Override Metadata for a Dependency Property"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Override Metadata for a Dependency Property</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to override default dependency property metadata that comes from an inherited class, by calling the OverrideMetadata method and providing type-specific metadata.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>By defining its PropertyMetadata, a class can define the <Run>dependency property</Run>
+'s behaviors, such as its default value and property system callbacks. Many dependency property classes already have default metadata established as part of their registration process. This includes the dependency properties that are part of the WPF API. A class that inherits the dependency property through its class inheritance can override the original metadata so that the characteristics of the property that can be altered through metadata will match any subclass-specific requirements.
+    </Paragraph>
+
+    <Paragraph>Overriding metadata on a dependency property must be done prior to that property being placed in use by the property system (this equates to the time that specific instances of objects that register the property are instantiated). Calls to <Run FontWeight="Bold">OverrideMetadata</Run>
+ must be performed within the static constructors of the type that provides itself as the <Run>forType</Run>
+ parameter of <Run FontWeight="Bold">OverrideMetadata</Run>
+. If you attempt to change metadata once instances of the owner type exist, this will not raise exceptions, but will result in inconsistent behaviors in the property system. Also, metadata can only be overridden once per type. Subsequent attempts to override metadata on the same type will raise an exception.
+    </Paragraph>
+
+    <Paragraph>In the following example, the custom class <Run>MyAdvancedStateControl</Run>
+ overrides the metadata provided for <Run>StateProperty</Run>
+ by <Run>MyAdvancedStateControl</Run>
+ with new property metadata. For instance, the default value of the <Run>StateProperty</Run>
+ is now <Run FontWeight="Bold">true</Run>
+ when the property is queried on a newly constructed <Run>MyAdvancedStateControl</Run>
+ instance.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class MyStateControl : ButtonBase { public MyStateControl() : base() { } public Boolean State { get { return (Boolean)this.GetValue(StateProperty); 
+} set { this.SetValue(StateProperty, value); 
+} } public static readonly DependencyProperty StateProperty = DependencyProperty.Register( "State", typeof(Boolean), typeof(MyStateControl),new PropertyMetadata(false)); 
+} ... public class MyAdvancedStateControl : MyStateControl { public MyAdvancedStateControl() : base() { } static MyAdvancedStateControl() { MyStateControl.StateProperty.OverrideMetadata(typeof(MyAdvancedStateControl), new PropertyMetadata(true)); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>DependencyProperty
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="d119d00c-3afb-48d6-87a0-c4da4f83dee5.xaml">Dependency Properties Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="e6bfcfac-b10d-4f58-9f77-a864c2a2938f.xaml">Custom Dependency Properties</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="e16dd710-1530-4462-81a2-43719b973970.xaml">Properties How-to Topics</Hyperlink>
+
+      <LineBreak/>Properties Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Override Metadata for a Dependency Property to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

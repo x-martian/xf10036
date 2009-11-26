@@ -1,0 +1,467 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_cdf364f8_b7dd_4325_b5cf_be82acbb8f45"
+  Tag     ="Implement an Application with a Simple Adaptive Topology"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Implement an Application with a Simple Adaptive Topology</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This tutorial takes you through a simple structured navigation application with an adaptive topology. See <Hyperlink NavigateUri="025d30ef-fec5-436d-ad7a-5d5483331c26.xaml">Structured Navigation Overview</Hyperlink>
+ for a discussion of structured navigation.
+    </Paragraph>
+
+    <Paragraph>The sample discussed in this tutorial is Structured Navigation Application with Adaptive Topology Sample. It consists of an initial Extensible Application Markup Language (XAML) page that launches a set of pages that comprise a simple structured navigation application. From the user perspective, the application presents a linear sequence of pages that looks much like the application described in <Hyperlink NavigateUri="773a6231-d56e-4cb8-83a0-86062f31dbe4.xaml">How to: Implement an Application with a Simple Linear Topology</Hyperlink>
+. However, unlike that application, the order in which the application pages are presented is determined at runtime with navigation handled by a UI-less navigation hub. This basic model can be easily extended to much more complex and sophisticated scenarios.
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adaptive_topology">Adaptive Topology</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adaptive_Start">The Start Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adaptive_navhub1">The Navigation Hub</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adaptive_tasks">Task Pages</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="adaptive_navhub2">Return to the Navigation Hub</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph><Hyperlink TargetName="return_to_the_start_page">Return to the Start Page</Hyperlink>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Adaptive Topology
+    </Paragraph>
+
+    <Paragraph>With an adaptive topology, the set of task pages and the order in which they are displayed is determined at run time. In the Structured Navigation Application with Adaptive Topology Sample sample discussed in this section, the pages that are visible to the user consist of a start page followed by three task pages. To provide some simple logic to present the pages differently each time the application is run, the order in which the three task pages are presented is chosen randomly. The seed for the random number generator is taken from the current time, so the order typically is different each time you run the application. Because there is no fixed order to the pages, navigation from task page to task page is handled by a navigation hub. The navigation hub's purpose is only to handle navigation, so it has no user interface (UI).
+    </Paragraph>
+
+    <Paragraph FontSize="22">The Start Page
+    </Paragraph>
+
+    <Paragraph>The start page launches the set of tasks and displays the returned information when the user is finished. The UI consists of a <Run FontWeight="Bold">StartTasks</Run>
+ button, a <Run FontWeight="Bold">Shutdown</Run>
+ button, and four text elements to display the information returned by the task pages. See Structured Navigation Application with Adaptive Topology Sample for details.
+    </Paragraph>
+
+    <Paragraph>The start page's UI includes a Start button to launch the In the start page's code-behind file, and a ShutDown button to close the application. It also has several TextBlock elements to display the returned data. See Structured Navigation Application with Adaptive Topology Sample for details. 
+    </Paragraph>
+
+    <Paragraph>When the start button is clicked, the <Run FontWeight="Bold">Start</Run>
+ button's Click event handler creates a <Run FontWeight="Bold">NavHub</Run>
+ object that acts as the navigation hub. The Click handler then attaches an event handler to the <Run FontWeight="Bold">NavHub</Run>
+ object's Return event, and navigates to the <Run FontWeight="Bold">NavHub</Run>
+ object.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class StartPage : Page { private void StartTasks(object sender, RoutedEventArgs e) { NavigationWindow navWindow; 
+navWindow = (NavigationWindow)app.Current.MainWindow; 
+NavHub nextPage = new NavHub(); 
+nextPage.Return += new ReturnEventHandler
+&lt;TaskData>(navHub_Return); 
+navWindow.Navigate(nextPage); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">The Navigation Hub
+    </Paragraph>
+
+    <Paragraph>The navigation hub handles all the navigation logic for the task pages. Since it has no UI, it is implemented as a stand-alone class.
+    </Paragraph>
+
+    <Paragraph>As soon as navigation is complete, the <Run FontWeight="Bold">NavHub</Run>
+'s Start method is called. This method handles several tasks, as follows:
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Declares and initializes some global variables.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Sets the attached KeepAlive property to <Run FontWeight="Bold">true</Run>
+ to ensure that the object remains in memory as the user navigates through the task pages.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Determines the order in which the task pages will be displayed. This example simply uses the current time and a random number generator to select the starting page. The remaining two pages follow in a standard order. You can replace this with whatever logic suits your application. Because there is no fixed order, the tasks are named <Run FontStyle="italic">Green</Run>
+, <Run FontStyle="italic">Blue</Run>
+, and <Run FontStyle="italic">Yellow</Run>
+.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Creates a TaskData object to contain the data that is returned by the task pages.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Creates and initializes objects for the task page functions and puts them in an array in the specified order. This simplifies handling the objects as the user progresses through the task pages. All the objects are assigned the TaskData type.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Attaches event handlers to the three page's <Run FontWeight="Bold">Return</Run>
+ event. All objects return to the same event handler.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Navigates to the first task's page function object.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public class NavHub : PageFunction
+&lt;TaskData> { private NavigationWindow navWindow; 
+private int currentTask = 0; 
+private PageFunction
+&lt;TaskData>[] tasks; 
+private TaskData dataObject; 
+protected override void Start() { JournalEntry.SetKeepAlive(this, true); 
+Application app = System.Windows.Application.Current; 
+navWindow = (NavigationWindow)app.MainWindow; 
+//pick a random starting task, to vary the order of the pages DateTime currentTime = DateTime.Now; 
+int startTask = currentTime.Millisecond % 3; 
+tasks = new PageFunction
+&lt;TaskData>[3]; 
+dataObject = new TaskData(); 
+YellowTask yellowTask = new YellowTask(dataObject); 
+BlueTask blueTask = new BlueTask(dataObject); 
+GreenTask greenTask = new GreenTask(dataObject); 
+//Initialize the pages yellowTask.InitializeComponent(); 
+blueTask.InitializeComponent(); 
+greenTask.InitializeComponent(); 
+switch (startTask) { case 1: tasks[0] = yellowTask; 
+tasks[1] = blueTask; 
+tasks[2] = greenTask; 
+break; 
+case 2: tasks[0] = greenTask; 
+tasks[1] = yellowTask; 
+tasks[2] = blueTask; 
+break; 
+default: tasks[0] = blueTask; 
+tasks[1] = greenTask; 
+tasks[2] = yellowTask; 
+break; 
+} tasks[0].Return += new ReturnEventHandler
+&lt;TaskData>(NavHub_Return); 
+tasks[1].Return += new ReturnEventHandler
+&lt;TaskData>(NavHub_Return); 
+tasks[2].Return += new ReturnEventHandler
+&lt;TaskData>(NavHub_Return); 
+navWindow.Navigate(tasks[0]); 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Task Pages
+    </Paragraph>
+
+    <Paragraph>The task pages are all very similar. The UI consists of a pane with explanatory text and two buttons. All buttons use a common Click event handler. For the first two pages, the buttons are labeled <Run FontWeight="Bold">Next Task</Run>
+ and <Run FontWeight="Bold">Cancel</Run>
+. On the final page, <Run FontWeight="Bold">Next Task</Run>
+ is relabeled <Run FontWeight="Bold">Done</Run>
+ to allow the user to signal completion of the tasks. When the user clicks one of these buttons to navigate to the next task, control actually calls OnReturn which navigates back to the navigation hub. The navigation hub determines where the user should go next and navigates to the appropriate page function object. 
+    </Paragraph>
+
+    <Paragraph>Because the UI needs to be somewhat different for the last page, you need to indicate to a page that it is the last in the sequence. You do this by setting the TaskData object's Response property to TaskResponse.LastPage. The following sample shows the code for the <Run FontStyle="italic">Green</Run>
+ page. The other two are essentially identical. The Start method, which is called before the page is rendered, checks the Response property. If it is set to TaskResponse.LastPage, it modifies the UI by relabeling the <Run FontWeight="Bold">Next Task</Run>
+ button to <Run FontWeight="Bold">Done</Run>
+. It also sets the <Run FontStyle="italic">lastTask</Run>
+ variable to <Run FontWeight="Bold">true</Run>
+, which is used later by the Click event handler.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class GreenTask : PageFunction
+&lt;TaskData> { TaskData dataObject; 
+bool lastTask = false; 
+public GreenTask() { } public GreenTask(TaskData data) { dataObject = data; 
+} protected override void Start() { if (dataObject.Response == TaskResponse.LastPage) { lastTask = true; 
+nextTask.Content = "Done"; 
+} } private void NextTask(object sender, RoutedEventArgs e) { if (rdbtnTrue.IsChecked == true) dataObject.GreenBool = true; 
+else dataObject.GreenBool = false; 
+if (sender == nextTask &amp;&amp; 
+lastTask == false) { dataObject.Response = TaskResponse.NextTask; 
+} else if (sender == nextTask &amp;&amp; 
+lastTask == true) { dataObject.Response = TaskResponse.Done; 
+} else { dataObject.Response = TaskResponse.Cancel; 
+} ReturnEventArgs
+&lt;TaskData> returnArgs = new ReturnEventArgs
+&lt;TaskData>(dataObject); 
+OnReturn(returnArgs); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>When the user clicks a button the handler:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Assigns appropriate values to the TaskData object.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Sets the appropriate response type. For the first two task pages, <Run FontWeight="Bold">ResponseType</Run>
+ is set to <Run FontWeight="Bold">pfResponse.NextTask</Run>
+. If this is the last task page, object's <Run FontWeight="Bold">responseType</Run>
+ property is set to <Run FontWeight="Bold">TaskResponse.Done</Run>
+. If the user has clicked <Run FontWeight="Bold">Cancel</Run>
+, <Run FontWeight="Bold">ResponseType</Run>
+ is set to <Run FontWeight="Bold">TaskResponse.Cancel</Run>
+. All these values are from a private enumeration defined in NavHub.cs.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Calls the task page's <Run FontWeight="Bold">OnReturn</Run>
+ method to return the TaskData object to the navigation hub.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Return to the Navigation Hub
+    </Paragraph>
+
+    <Paragraph>When a task page calls <Run FontWeight="Bold">OnReturn</Run>
+, that raises the <Run FontWeight="Bold">Return</Run>
+ event, which is handled by the navigation hub.
+    </Paragraph>
+
+    <Paragraph>The navigation hub's <Run FontWeight="Bold">Return</Run>
+ event handler first compares the event's sender to the task array to determine which task just completed. It then examines the data object's Response property to determine the user action. If the user selected the next task, the handler checks to see whether that will be the last page in the sequence. If so, it sets the data object's Response property to TaskResponse.LastPage and navigates to the next page. If the Response property has any value other than TaskResponse.NextTask, the application has either been completed or canceled. In that case, the handler sets the RemoveFromJournal property to true to remove the application from the journal. It then calls <Run FontWeight="Bold">OnReturn</Run>
+ to return the data object to the start page.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void NavHub_Return(object sender, ReturnEventArgs
+&lt;TaskData> args) { dataObject = (TaskData)args.Result; 
+for (int i = 0; 
+i 
+&lt; 
+2; 
+i++) { if(sender == tasks[i]) currentTask = i; 
+break; 
+} if (dataObject.Response == TaskResponse.NextTask) { ++currentTask; 
+if (currentTask == 2) dataObject.Response = TaskResponse.LastPage; 
+navWindow.Navigate(tasks[currentTask]); 
+} else { this.RemoveFromJournal = true; 
+ReturnEventArgs
+&lt;TaskData> returnArgs = new ReturnEventArgs
+&lt;TaskData>(dataObject); 
+OnReturn(returnArgs); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Return to the Start Page
+    </Paragraph>
+
+    <Paragraph>When the navigation hub returns to the start page, the <Run FontWeight="Bold">Return</Run>
+ event handler checks to see if the user canceled the application. If not, it extracts the information returned by the task pages from the event argument and displays it.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>void navHub_Return(object sender, ReturnEventArgs
+&lt;TaskData> args) { TaskData dataObject = (TaskData)args.Result; 
+returnType.Text = " " + dataObject.Response.ToString(); 
+yellowReturn.Text = " "; 
+blueReturn.Text = " "; 
+greenReturn.Text = " "; 
+if (dataObject.Response != TaskResponse.Cancel) { yellowReturn.Text += dataObject.YellowString; 
+blueReturn.Text += dataObject.BlueNumber.ToString(); 
+greenReturn.Text += dataObject.GreenBool.ToString(); 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Implement an Application with a Simple Adaptive Topology to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

@@ -1,0 +1,240 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_4116072e_616a_48b0_a21e_9c1dd588e77a"
+  Tag     ="Implement a DataTrigger"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <!--///////////////////////////////////////////////////////////////////////////////// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.///////////////////////////////////////////////////////////////////////////////-->
+  <cc:SdkSinglePageViewer
+    Name    ="_4116072e_616a_48b0_a21e_9c1dd588e77a"
+    Tag     ="Implement a DataTrigger"
+    xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+    xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>How to: Implement a DataTrigger</Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run Foreground="DarkGray">[The content included in this documentation is a sub-set of the Windows SDK, and may not be complete or current. Please see the online Windows SDK for current documentation.]</Run>
+
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph>A data trigger's purpose is to set properties when the value of the data meets certain criteria. The following example demonstrates how to implement a data trigger.     
+      </Paragraph>
+
+      <Paragraph FontSize="22">Example    
+      </Paragraph>
+
+      <Paragraph>There are two objects in the following example: <Run FontStyle="italic">Place</Run>
+ and <Run FontStyle="italic">Places</Run>
+. <Run FontStyle="italic">Place</Run>
+ is a simple object that has two data members, <Run FontStyle="italic">_name</Run>
+ and <Run FontStyle="italic">_state</Run>
+. The <Run FontStyle="italic">Place</Run>
+ object contains two properties <Run FontStyle="italic">Name</Run>
+ and <Run FontStyle="italic">State</Run>
+. The <Run FontStyle="italic">Name</Run>
+ property gets and sets the value <Run FontStyle="italic">of _name</Run>
+ and the property <Run FontStyle="italic">State</Run>
+ gets and sets the value of <Run FontStyle="italic">_state</Run>
+. The <Run FontStyle="italic">Place</Run>
+ constructor takes two parameters, <Run FontStyle="italic">name</Run>
+ and <Run FontStyle="italic">state</Run>
+ which are used to set the values of <Run FontStyle="italic">_name</Run>
+ and <Run FontStyle="italic">_state</Run>
+.     
+      </Paragraph>
+
+      <Paragraph>The <Run FontStyle="italic">Places</Run>
+ object is a collection of <Run FontStyle="italic">Place</Run>
+ objects. The <Run FontStyle="italic">Places</Run>
+ object inherits from the ObservableCollection. The <Run FontStyle="italic">Places</Run>
+ object is a collection by specifying the <Run FontStyle="italic">Place</Run>
+, <Run FontStyle="italic">ObservableCollection
+&lt;Place></Run>
+, object as the value for the template. The contructor for the <Run FontStyle="italic">Places</Run>
+ adds 11 <Run FontStyle="italic">Place</Run>
+ objects in the collection by calling the <Run FontStyle="italic">Add</Run>
+ method that is in the inherited <Run FontWeight="Bold">ObservableCollection</Run>
+ object.     
+      </Paragraph>
+
+      <Paragraph>For the complete code sample from which the following code example was extracted, see Binding Using Data Triggers Sample.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>C# </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>public class Place { private string _name;private string _state;public string Name { get { return _name;} set { _name = value;} } public string State { get { return _state;} set { _state = value;} } public Place(string name, string state){ this._name = name;this._state = state;} } public class Places : ObservableCollection
+&lt;Place> { public Places(){ Add(new Place("Bellevue", "WA")); 
+Add(new Place("Gold Beach", "OR")); 
+Add(new Place("Kirkland", "WA")); 
+Add(new Place("Los Angeles", "CA")); 
+Add(new Place("Portland", "ME")); 
+Add(new Place("Portland", "OR")); 
+Add(new Place("Redmond", "WA")); 
+Add(new Place("San Diego", "CA")); 
+Add(new Place("San Francisco", "CA")); 
+Add(new Place("San Jose", "CA")); 
+Add(new Place("Seattle", "WA")); 
+} } </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph>The <Run FontStyle="italic">Places</Run>
+ object is created and will be referenced with the name <Run FontStyle="italic">PlacesData</Run>
+. Now that the object is created, it would best to jump to the bottom of the example and look at the StackPanel element. The ListBox element, which is a child element of the <Run FontWeight="Bold">StackPanel</Run>
+, is bound to <Run FontStyle="italic">PlacesData</Run>
+ by setting its ItemsSource attribute equal to <Run FontStyle="italic">{Binding Source={StaticResource PlacesData}}</Run>
+. Now that the object is bound, we can jump back up to the Style element. The TargetType for the <Run FontWeight="Bold">Style</Run>
+ that is being created will be a ListBoxItem. The Data Triggers will be defined as child elements of the <Run FontWeight="Bold">Style.Triggers</Run>
+ element. For this sample, we are going to set the color of the text to Red whenever the State is equal to WA. This is done by using the DataTrigger element. The Binding element will bind to the State property. The value attribute will be set equal to WA since that is the condition that we are looking for in order to set the color of the foreground. The Setter element will be used to perform the action of making the foreground change to red. The Property attribute is set to Foreground and the Value attribute is set to red.     
+      </Paragraph>
+
+      <Paragraph>The next thing that this sample will do is set the color of the background to Cyan whenever the Name property is Portland and the State property is OR. This will be accomplished by using the MultiDataTrigger element. Under this element, the child element MultiDataTrigger.Conditions will be where the conditions are defined. The first Condition element will be bound to the Name property. The Value attribute will be set to Portland. and the second Condition element will be bound to the State property and its Value attribute will be set to OR. To determine what action to perform when the condition is met, the Setter element, which is a child of the MultiDataTrigger.Setters element, will be used. The Property attribute is set to Background and the Value attribute is set to Cyan.     
+      </Paragraph>
+
+      <Table>
+        <TableRowGroup>
+          <TableRow>
+            <TableCell>
+              <Paragraph FontSize="22"><Run>XAML </Run>
+
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+          <TableRow>
+            <TableCell>
+              <Paragraph TextAlignment="Left" FontSize="8pt" FontFamily="Courier New" xml:space="preserve"><Run>
+&lt;Window.Resources> 
+&lt;c:Places x:Key="PlacesData"/> 
+&lt;Style TargetType="{x:Type ListBoxItem}"> 
+&lt;Style.Triggers> 
+&lt;DataTrigger Binding="{Binding Path=State}" Value="WA"> 
+&lt;Setter Property="Foreground" Value="Red" /> 
+&lt;/DataTrigger> 
+&lt;MultiDataTrigger> 
+&lt;MultiDataTrigger.Conditions> 
+&lt;Condition Binding="{Binding Path=Name}" Value="Portland" /> 
+&lt;Condition Binding="{Binding Path=State}" Value="OR" /> 
+&lt;/MultiDataTrigger.Conditions> 
+&lt;MultiDataTrigger.Setters> 
+&lt;Setter Property="Background" Value="Cyan" /> 
+&lt;/MultiDataTrigger.Setters> 
+&lt;/MultiDataTrigger> 
+&lt;/Style.Triggers> 
+&lt;/Style> 
+&lt;DataTemplate DataType="{x:Type c:Place}"> 
+&lt;Canvas Width="160" Height="20"> 
+&lt;TextBlock FontSize="12" Width="130" Canvas.Left="0" Text="{Binding Path=Name}"/> 
+&lt;TextBlock FontSize="12" Width="30" Canvas.Left="130" Text="{Binding Path=State}"/> 
+&lt;/Canvas> 
+&lt;/DataTemplate> 
+&lt;/Window.Resources> 
+&lt;StackPanel> 
+&lt;TextBlock FontSize="18" Margin="5" FontWeight="Bold" HorizontalAlignment="Center">Data Trigger Sample
+&lt;/TextBlock> 
+&lt;ListBox Width="180" HorizontalAlignment="Center" Background="Honeydew" ItemsSource="{Binding Source={StaticResource PlacesData}}"/> 
+&lt;/StackPanel> </Run>
+            
+              </Paragraph>
+
+            </TableCell>
+
+          </TableRow>
+
+        </TableRowGroup>
+
+      </Table>
+
+      <Paragraph><Run/>
+      </Paragraph>
+
+      <Paragraph FontSize="22"><Run>See Also</Run>
+
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Reference    
+      </Paragraph>
+
+      <Paragraph>ListBox      
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Concepts    
+      </Paragraph>
+
+      <Paragraph><Hyperlink NavigateUri="9183b4aa-9796-426b-b447-48fa3b337541.xaml">Data Binding Overviews</Hyperlink>
+
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph FontSize="16pt">Other Resources    
+      </Paragraph>
+
+      <Paragraph>Data Binding Samples      
+        <LineBreak/><Hyperlink NavigateUri="a3b2563e-d879-41a7-9dfd-ac56b27fdcad.xaml">Data Binding How-to Topics</Hyperlink>
+
+        <LineBreak/>
+        <LineBreak/>
+      </Paragraph>
+
+      <Paragraph/>
+      <Paragraph/>
+      <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Implement a DataTrigger  to Microsoft. </Span>
+
+      </Paragraph>
+
+    </FlowDocument>
+
+  </cc:SdkSinglePageViewer>
+
+</cc:SdkSinglePageViewer>
+

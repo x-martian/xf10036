@@ -1,0 +1,220 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_269c61e0_6bd9_4291_9bed_1c5ee66da486"
+  Tag     ="Add an Event Handler Using Code"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Add an Event Handler Using Code</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This example shows how to add an event handler to an element by using code.
+    </Paragraph>
+
+    <Paragraph>If you want to add an event handler to a XAML element, and the markup page that contains the element has already been loaded, you must add the handler using code. Alternatively, if you are building up the element tree for an application entirely using code and not declaring any elements using XAML, you can call specific methods to add event handlers to the constructed element tree.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example adds a new Button to an existing page that is initially defined in XAML. A code-behind file implements an event handler method and then adds that method as a new event handler on the <Run FontWeight="Bold">Button</Run>
+.
+    </Paragraph>
+
+    <Paragraph>The C# example uses the <Run FontWeight="Bold">+=</Run>
+ operator to assign a handler to an event. This is the same operator that is used to assign a handler in the common language runtime (CLR) event handling model. Microsoft Visual Basic does not support this operator as a means of adding event handlers. It instead requires one of two techniques:
+    </Paragraph>
+
+    <List MarkerStyle="Disc">
+      <ListItem>
+        <Paragraph>Use the AddHandler method, together with an <Run FontWeight="Bold">AddressOf</Run>
+ operator, to reference the event handler implementation.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use the <Run FontWeight="Bold">Handles</Run>
+ keyword as part of the event handler definition. This technique is not shown here; 
+see <Hyperlink NavigateUri="ad4eb9aa-3afc-4a71-8cf6-add3fbea54a1.xaml">Visual Basic and WPF Event Handling</Hyperlink>
+.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;TextBlock Name="text1">Start by clicking the button below
+&lt;/TextBlock> 
+&lt;Button Name="b1" Click="MakeButton">Make new button and add handler to it
+&lt;/Button> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>public partial class RoutedEventAddRemoveHandler { void MakeButton(object sender, RoutedEventArgs e) { Button b2 = new Button(); 
+b2.Content = "New Button"; 
+// Associate event handler to the button. You can remove the event // handler using "-=" syntax rather than "+=". b2.Click += new RoutedEventHandler(Onb2Click); 
+root.Children.Insert(root.Children.Count, b2); 
+DockPanel.SetDock(b2, Dock.Top); 
+text1.Text = "Now click the second button..."; 
+b1.IsEnabled = false; 
+} void Onb2Click(object sender, RoutedEventArgs e) { text1.Text = "New Button (b2) Was Clicked!!"; 
+} </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Public Partial Class RoutedEventAddRemoveHandler Public Sub MakeButton(sender As Object, e As RoutedEventArgs) Dim b2 As Button = New Button() b2.Content = "New Button" AddHandler b2.Click, AddressOf Onb2Click root.Children.Insert(root.Children.Count, b2) DockPanel.SetDock(b2, Dock.Top) text1.Text = "Now click the second button..." b1.IsEnabled = False End Sub Public Sub Onb2Click(sender As Object, e As RoutedEventArgs) text1.Text = "New Button (b2) Was Clicked!!" End Sub </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Adding an event handler in the initially parsed XAML page is much simpler. Within the object element where you want to add the event handler, add an attribute that matches the name of the event that you want to handle. Then specify the value of that attribute as the name of the event handler method that you defined in the code-behind file of the XAML page. For more information, see <Hyperlink NavigateUri="a80db4cd-dd0f-479f-a45f-3740017c22e4.xaml">XAML Overview</Hyperlink>
+ or <Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>For the complete sample, see Adding an Event Handler Sample.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="1a2189ae-13b4-45b0-b12c-8de2e49c29d2.xaml">Routed Events Overview</Hyperlink>
+
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Other Resources
+    </Paragraph>
+
+    <Paragraph>Adding an Event Handler Sample
+      <LineBreak/><Hyperlink NavigateUri="00463181-36eb-4be0-bfa2-452854cce642.xaml">Events How-to Topics</Hyperlink>
+
+      <LineBreak/>Events Samples
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Add an Event Handler Using Code to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

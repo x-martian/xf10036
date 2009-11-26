@@ -1,0 +1,609 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_5001227e_9326_48a4_9dcd_ba1b89ee6653"
+  Tag     ="Localize an Application"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Localize an Application</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This tutorial explains how to create a localized application by using the LocBaml tool.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The LocBaml tool is not a production-ready application. It is presented as a sample that uses some of the localization APIs and illustrates how you might write a localization tool.
+            </Paragraph>
+
+            <Paragraph/>
+            <Paragraph>This topic contains the following sections.
+            </Paragraph>
+
+            <List MarkerStyle="Disc">
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="Introduction">Introduction Section</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="Requirements">Requirements</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="create_sample_app">Create a Sample Application</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="create_dll">Create a DLL</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="build_locbaml">Build the LocBaml Tool</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="parse_dll">Use LocBaml to Parse a File</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="translate_loc_content">Translate the Localizable Content</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="merge_translations">Use LocBaml to Generate a New .resources.dll File</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="Some_Tips_for_Using_LocBaml">Some Tips for Using LocBaml</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="Whats_Next">What's Next</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+              <ListItem>
+                <Paragraph><Hyperlink TargetName="seeAlsoSection">Related Topics</Hyperlink>
+
+                </Paragraph>
+
+              </ListItem>
+
+            </List>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Introduction Section
+    </Paragraph>
+
+    <Paragraph>This discussion gives you a step-by-step approach to localizing an application. First, you will prepare your application so that the text that will be translated can be extracted. After the text is translated, you will merge the translated text into a new copy of the original application.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Requirements
+    </Paragraph>
+
+    <Paragraph>Over the course of this discussion, you will use Microsoft build engine (MSBuild), which is a compiler that runs from the command line. For instructions on how to use MSBuild, see Creating, Building, Deploying, and Launching "Avalon" Applications.
+    </Paragraph>
+
+    <Paragraph>Also, you will be instructed to use a project file. For information on project files, see Creating a Project File.
+    </Paragraph>
+
+    <Paragraph>All the examples in this discussion use en-US (English-US) as the culture. This enables you to work through the steps of the examples without installing a different language.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Create a Sample Application
+    </Paragraph>
+
+    <Paragraph>In this step, you will prepare your application for localization. In the Windows Presentation Foundation (WPF) samples, a HelloApp sample is supplied that will be used for the code examples in this discussion. If you would like to use this sample, download the Extensible Application Markup Language (XAML) files from Use LocBaml Tool.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Develop your application to the point where you want to start localization.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Specify the development language in the project file so that MSBuild generates a main assembly and a satellite assembly. The project file in the HelloApp sample is HelloApp.csproj. In that file, you will find the development language identified as follows:
+        </Paragraph>
+
+        <Paragraph><Run>
+&lt;UICulture>en-US
+&lt;/UICulture></Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Add Uids to your XAML files. Uids are used to keep track of changes to files and to identify items that must be translated. To add Uids to your files, run <Run FontWeight="Bold">updateuid</Run>
+ on your project file. 
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold">msbuild /t:updateuid helloapp.csproj</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph>To verify that you have no missing or duplicate Uids, run <Run FontWeight="Bold">checkuid</Run>
+.
+    </Paragraph>
+
+    <Paragraph><Run FontWeight="Bold">msbuild /t:checkuid helloapp.csproj</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="22">Create a DLL
+    </Paragraph>
+
+    <Paragraph>The input for LocBaml must be a .baml, .resoures, or .dll file.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Compile HelloApp to create a dynamic-link library (DLL), which will be the input for the LocBaml tool. Compile as follows: 
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold">msbuild helloapp.csproj</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Go to the Bin\Debug\en-US directory to find the newly created .dll (HelloApp.resources.dll). Example:C:\HelloApp\Bin\Debug\en-US\HelloApp.resources.dll.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The input for the LocBaml tool is HelloApp.resources.dll.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Build the LocBaml Tool
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>All the files necessary to build LocBaml are located in the WPF samples. Download the C# files from the Use LocBaml Tool sample.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>From the command line, run the project file (locbaml.csproj) to build the tool.
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold">msbuild locbaml.csproj</Run>
+
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Go to the Bin\Release directory to find the newly created executable file (locbaml.exe). Example:C:\LocBaml\Bin\Release\locbaml.exe.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The options that you can specify when you run LocBaml are as follows:
+        </Paragraph>
+
+        <List MarkerStyle="Disc">
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">parse</Run>
+ or <Run FontWeight="Bold">-p:</Run>
+ Parses Baml, resources, or DLL files to generate a .csv or .txt file.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">generate</Run>
+ or <Run FontWeight="Bold">-g:</Run>
+ Generates a localized binary file by using a translated file.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">out</Run>
+ or <Run FontWeight="Bold">-o</Run>
+ [<Run>filedirectory</Run>
+]<Run FontWeight="Bold">:</Run>
+ Output file name.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">culture</Run>
+ or <Run FontWeight="Bold">-cul</Run>
+ [<Run>culture</Run>
+]<Run FontWeight="Bold">:</Run>
+ Locale of output assemblies.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">translation</Run>
+ or <Run FontWeight="Bold">-trans</Run>
+ [<Run>translation.csv</Run>
+]<Run FontWeight="Bold">:</Run>
+ Translated or localized file.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">asmpath</Run>
+ or <Run FontWeight="Bold">-asmpath:</Run>
+ [<Run>filedirectory</Run>
+]<Run FontWeight="Bold">:</Run>
+ If your XAML code contains custom controls, you must supply the <Run FontWeight="Bold">asmpath</Run>
+ to the custom control assembly.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">nologo:</Run>
+ Displays no logo or copyright information.
+            </Paragraph>
+
+          </ListItem>
+
+          <ListItem>
+            <Paragraph><Run FontWeight="Bold">verbose:</Run>
+ Displays verbose mode information.
+            </Paragraph>
+
+          </ListItem>
+
+        </List>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph>Note: 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph>If you need a list of the options when you are running the tool, type <Run FontWeight="Bold">LocBaml.exe</Run>
+ and press <Run FontWeight="Bold">Enter</Run>
+.
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Use LocBaml to Parse a File
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Now that you have created the LocBaml tool, you are ready to use it to parse HelloApp.resources.dll to extract the text content that will be localized.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Use the following syntax to parse the .dll file and store the output as a .csv file.
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold">LocBaml.exe /parse HelloApp.resources.dll /out:c:\Hello.csv.</Run>
+
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph>Note: 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph>If the input file, HelloApp.resources.dll, is not in the same directory as LocBaml.exe move one of the files so that both files are in the same directory.
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>When you run LocBaml to parse files, the output consists of seven fields delimited by commas (.csv files) or tabs (.txt files). For example [Baml Name]<Run FontWeight="Bold">,</Run>
+[Resource Key]<Run FontWeight="Bold">,</Run>
+[Localization Category]<Run FontWeight="Bold">,</Run>
+[Readable]<Run FontWeight="Bold">,</Run>
+[Modifiable]<Run FontWeight="Bold">,</Run>
+[Comments]<Run FontWeight="Bold">,</Run>
+[Value].
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The following list shows the output from parsing HelloApp.resources.dll. If there is no value for a particular field, the field will display as an empty field. For example, in the following output there are no localization comments, so the sixth field contains no text (notice the double commas). The final field <Run FontWeight="Bold">Value</Run>
+ is the text that must be translated. Notice that there is nothing to translate in the first line of output, and that the Localization Category is set to <Run FontStyle="italic">ignore</Run>
+.
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold"/>
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph>HelloApp.g.en-US.resources:window1.baml<Run FontWeight="Bold">,</Run>
+Stack1:System.Windows.Controls.StackPanel.$Content<Run FontWeight="Bold">,</Run>
+Ignore<Run FontWeight="Bold">,</Run>
+FALSE<Run FontWeight="Bold">,</Run>
+ FALSE<Run FontWeight="Bold">,,</Run>
+#Text1;#Text2; 
+
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph>HelloApp.g.en-US.resources:window1.baml<Run FontWeight="Bold">,</Run>
+Text1:System.Windows.Controls.TextBlock.$Content<Run FontWeight="Bold">,</Run>
+None<Run FontWeight="Bold">,</Run>
+TRUE<Run FontWeight="Bold">,</Run>
+ TRUE<Run FontWeight="Bold">,,</Run>
+Hello World 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph>HelloApp.g.en-US.resources:window1.baml<Run FontWeight="Bold">,</Run>
+Text2:System.Windows.Controls.TextBlock.$Content<Run FontWeight="Bold">,</Run>
+None<Run FontWeight="Bold">,</Run>
+TRUE<Run FontWeight="Bold">,</Run>
+ TRUE<Run FontWeight="Bold">,,</Run>
+Goodbye World 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Translate the Localizable Content
+    </Paragraph>
+
+    <Paragraph>Use any tool that you have available to translate the extracted content. A good way to do this is to write the resources to a .csv file and view them in Microsoft Excel, making translation changes to the last column (value).
+    </Paragraph>
+
+    <Paragraph FontSize="22">Use LocBaml to Generate a New .resources.dll File
+    </Paragraph>
+
+    <Paragraph>The content that was identified by parsing HelloApp.resources.dll with LocBaml has been translated and must be merged back into the original application. Use the <Run FontWeight="Bold">generate</Run>
+.or <Run FontWeight="Bold">-g</Run>
+ option to generate a new .resources.dll file.
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>Use the following syntax to generate a new HelloApp.resources.dll file. Mark the culture as en-US (/cul:en-US). This example generates an updated en-US file; 
+however, when you generate a .resources.dll file for your application, use the culture that you are translating to.
+        </Paragraph>
+
+        <Paragraph><Run FontWeight="Bold">LocBaml.exe /generate HelloApp.resources.dll /trans:Hello.csv /out:c:\ /cul:en-US</Run>
+
+        </Paragraph>
+
+        <Table CellSpacing="5">
+          <TableRowGroup>
+            <TableRow>
+              <TableCell>
+                <Paragraph>Note: 
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+            <TableRow>
+              <TableCell>
+                <Paragraph>If the input file, Hello.csv is not in the same directory as the executable, LocBaml.exe, move one of the files so that both files are in the same directory.
+                </Paragraph>
+
+              </TableCell>
+
+            </TableRow>
+
+          </TableRowGroup>
+
+        </Table>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>Replace the old HelloApp.resources.dll file in the C:\HelloApp\Bin\Debug\en-US\HelloApp.resources.dll directory with your newly created HelloApp.resources.dll file.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>"Hello World" and "Goodbye World" should now be translated in your application.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">Some Tips for Using LocBaml
+    </Paragraph>
+
+    <List MarkerStyle="Decimal">
+      <ListItem>
+        <Paragraph>All dependent assemblies that define custom controls must be copied into the local directory of LocBaml or installed into the GAC. This is necessary because the localization API must have access to the dependent assemblies when it reads the binary XAML (BAML).
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>If the main assembly is signed, the generated resource dll must also be signed in order for it to be loaded.
+        </Paragraph>
+
+      </ListItem>
+
+      <ListItem>
+        <Paragraph>The version of the localized resource dll needs to be synchronized with the main assembly.
+        </Paragraph>
+
+      </ListItem>
+
+    </List>
+
+    <Paragraph FontSize="22">What's Next
+    </Paragraph>
+
+    <Paragraph>You should now have a basic understanding of how to use the LocBaml tool. You should be able to make a file that contains Uids. By using the LocBaml tool, you should be able to parse a file to extract the localizable content, and after the content is translated, you should be able to generate a .resources.dll file that merges the translated content. This topic does not include every possible detail, but you now have the knowledge necessary to use LocBaml for localizing your applications.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="4571ccfe-8a60-4f06-9b37-7ac0b1c2d10f.xaml">Globalization for the Windows Presentation Foundation</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="6fed9264-18bb-4d05-8867-1fe356c6f687.xaml">Use Automatic Layout Overview</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Localize an Application to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

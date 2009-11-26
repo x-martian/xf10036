@@ -1,0 +1,197 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_6885a730_e054_4c16_8c1e_ffe17b1f7c32"
+  Tag     ="Control a MediaElement (Play, Pause, Stop, Volume, and Speed)"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Control a MediaElement (Play, Pause, Stop, Volume, and Speed)</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The following example shows how to control playback of media using a MediaElement. The example creates a simple media player that allows you to play, pause, stop, and skip back and forth in the media as well as adjust the volume and speed ratio.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The code below creates the UI.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>The LoadedBehavior property of <Run FontWeight="Bold">MediaElement</Run>
+ must be set to <Run>Manual</Run>
+ in order to be able to interactively stop, pause, and play the media.
+            </Paragraph>
+
+            <Paragraph/>
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="SDKSample.MediaElementExample" > 
+&lt;StackPanel Background="Black"> 
+&lt;!-- To interactively stop, pause, and play the media, the LoadedBehavior property of the MediaElement must be set to "Manual". --> 
+&lt;MediaElement Source="media\numbers.wmv" Name="myMediaElement" Width="450" Height="250" LoadedBehavior="Manual" Stretch="Fill" MediaOpened="Element_MediaOpened"/> 
+&lt;StackPanel HorizontalAlignment="Center" Width="450" Orientation="Horizontal"> 
+&lt;!-- Play button. --> 
+&lt;Image Source="images\UI_play.gif" MouseDown="OnMouseDownPlayMedia" Margin="5" /> 
+&lt;!-- Pause button. --> 
+&lt;Image Source="images\UI_pause.gif" MouseDown="OnMouseDownPauseMedia" Margin="5" /> 
+&lt;!-- Stop button. --> 
+&lt;Image Source="images\UI_stop.gif" MouseDown="OnMouseDownStopMedia" Margin="5" /> 
+&lt;!-- Volume slider. This slider allows a Volume range between 0 and 1. --> 
+&lt;TextBlock Foreground="White" VerticalAlignment="Center" Margin="5" >Volume
+&lt;/TextBlock> 
+&lt;Slider Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume" Minimum="0" Maximum="1" Value="0.5" Width="70"/> 
+&lt;!-- Volume slider. This slider allows a Volume range between 0 and 10. --> 
+&lt;TextBlock Foreground="White" Margin="5" VerticalAlignment="Center">Speed
+&lt;/TextBlock> 
+&lt;Slider Name="speedRatioSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaSpeedRatio" Value="1" Width="70" /> 
+&lt;!-- Seek to slider. Ths slider allows you to jump to different parts of the media playback. --> 
+&lt;TextBlock Foreground="White" Margin="5" VerticalAlignment="Center">Seek To
+&lt;/TextBlock> 
+&lt;Slider Name="timelineSlider" Margin="5" ValueChanged="SeekToMediaPosition" Width="70"/> 
+&lt;/StackPanel> 
+&lt;/StackPanel> 
+&lt;/Page> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>The code below implements the functionality of the sample UI controls. The Play, Pause, and Stop methods are used to respectively play, pause and stop the media. Changing the Position property of the <Run FontWeight="Bold">MediaElement</Run>
+ allows you to skip around in the media. Finally, the Volume and SpeedRatio properties are used to adjust the volume and playback speed of the media.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+using System.Windows.Navigation; 
+using System.Windows.Shapes; 
+using System.Windows.Data; 
+using System.Windows.Media; 
+using System.Windows.Input; 
+namespace SDKSample { public partial class MediaElementExample : Page { // Play the media. void OnMouseDownPlayMedia(object sender, MouseButtonEventArgs args) { // The Play method will begin the media if it is not currently active or // resume media if it is paused. This has no effect if the media is // already running. myMediaElement.Play(); 
+// Initialize the MediaElement property values. InitializePropertyValues(); 
+} // Pause the media. void OnMouseDownPauseMedia(object sender, MouseButtonEventArgs args) { // The Pause method pauses the media if it is currently running. // The Play method can be used to resume. myMediaElement.Pause(); 
+} // Stop the media. void OnMouseDownStopMedia(object sender, MouseButtonEventArgs args) { // The Stop method stops and resets the media to be played from // the beginning. myMediaElement.Stop(); 
+} // Change the volume of the media. public void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs
+&lt;double> args) { myMediaElement.Volume = (double)volumeSlider.Value; 
+} // Change the speed of the media. public void ChangeMediaSpeedRatio(object sender, RoutedPropertyChangedEventArgs
+&lt;double> args) { myMediaElement.SpeedRatio = (double)speedRatioSlider.Value; 
+} // When the media opens, initialize the "Seek To" slider maximum value // to the total number of miliseconds in the length of the media clip. public void Element_MediaOpened(object sender, EventArgs e) { timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds; 
+} // Jump to different parts of the media (seek to). public void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs
+&lt;double> args) { int SliderValue = (int)timelineSlider.Value; 
+// Overloaded constructor takes the arguments days, hours, minutes, seconds, miniseconds. // Create a TimeSpan with miliseconds equal to the slider value. TimeSpan ts = new TimeSpan(0,0,0,0, SliderValue); 
+myMediaElement.Position = ts; 
+} void InitializePropertyValues() { // Set the media's starting Volume and SpeedRatio to the current value of the // their respective slider controls. myMediaElement.Volume = (double)volumeSlider.Value; 
+myMediaElement.SpeedRatio = (double)speedRatioSlider.Value; 
+} } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Tasks
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="6128ca77-b826-4e36-b968-6f237157c543.xaml">How to: Control a MediaElement by Using a Storyboard</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Control a MediaElement (Play, Pause, Stop, Volume, and Speed) to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

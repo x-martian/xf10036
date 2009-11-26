@@ -1,0 +1,234 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_d159531f_05d4_49fd_b951_c332de51e5bc"
+  Tag     ="Merged Resource Dictionaries"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Merged Resource Dictionaries</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Windows Presentation Foundation (WPF) resources support a merged resource dictionary feature. This feature provides a way to define the resources portion of a WPF application outside of the compiled XAML application. Resources can then be shared across applications and are also more conveniently isolated for localization.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Introducing a Merged Resource Dictionary
+    </Paragraph>
+
+    <Paragraph>In markup, you use the following syntax to introduce a merged resource dictionary into a page:
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Page.Resources> 
+&lt;ResourceDictionary> 
+&lt;ResourceDictionary.MergedDictionaries> 
+&lt;ResourceDictionary Source="myresourcedictionary.xaml"/> 
+&lt;ResourceDictionary Source="myresourcedictionary2.xaml"/> 
+&lt;/ResourceDictionary.MergedDictionaries> 
+&lt;/ResourceDictionary> 
+&lt;/Page.Resources> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Note that the ResourceDictionary element does not have an <Hyperlink NavigateUri="1985cd45-f197-42d5-b75e-886add64b248.xaml">x:Key Attribute</Hyperlink>
+, which is generally required for all items in a resource collection. But another <Run FontWeight="Bold">ResourceDictionary</Run>
+ reference within the MergedDictionaries collection is a special case, reserved for this merged resource dictionary scenario. The <Run FontWeight="Bold">ResourceDictionary</Run>
+ that introduces a merged resource dictionary cannot have an <Hyperlink NavigateUri="1985cd45-f197-42d5-b75e-886add64b248.xaml">x:Key Attribute</Hyperlink>
+. Typically, each <Run FontWeight="Bold">ResourceDictionary</Run>
+ within the <Run FontWeight="Bold">MergedDictionaries</Run>
+ collection specifies a Source attribute. The value of <Run FontWeight="Bold">Source</Run>
+ should be a uniform resource identifier (URI) that resolves to the location of the resources file to be merged. The destination of that URI must be another XAML file, with <Run FontWeight="Bold">ResourceDictionary</Run>
+ as its root element.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>It is legal to define resources within a <Run FontWeight="Bold">ResourceDictionary</Run>
+ that is specified as a merged dictionary, either as an alternative to specifying <Run FontWeight="Bold">Source</Run>
+, or in addition to whatever resources are included from the specified source. However, this is not a common scenario; 
+the main scenario for merged dictionaries is to merge resources from external file locations. If you want to specify resources within the markup for a page, you should typically define these in the main <Run FontWeight="Bold">ResourceDictionary</Run>
+ and not in the merged dictionaries.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Merged Dictionary Behavior
+    </Paragraph>
+
+    <Paragraph>Resources in a merged dictionary occupy a location in the resource lookup scope that is just after the scope of the main resource dictionary they are merged into. Although a resource key must be unique within any individual dictionary, a key can exist multiple times in a set of merged dictionaries. In this case, the resource that is returned will come from the last dictionary found sequentially in the <Run FontWeight="Bold">MergedDictionaries</Run>
+ collection. If the <Run FontWeight="Bold">MergedDictionaries</Run>
+ collection was defined in XAML, then the order of the merged dictionaries in the collection is the order of the elements as provided in the markup. If a key is defined in the primary dictionary and also in a dictionary that was merged, then the resource that is returned will come from the primary dictionary. These scoping rules apply equally for both static resource references and dynamic resource references.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Merged Dictionaries and Code
+    </Paragraph>
+
+    <Paragraph>Merged dictionaries can be added to a <Run FontWeight="Bold">Resources</Run>
+ dictionary through code. The default, initially empty <Run FontWeight="Bold">ResourceDictionary</Run>
+ that exists for any <Run FontWeight="Bold">Resources</Run>
+ property also has a default, initially empty <Run FontWeight="Bold">MergedDictionaries</Run>
+ collection property. To add a merged dictionary through code, you obtain a reference to the desired primary <Run FontWeight="Bold">ResourceDictionary</Run>
+, get its <Run FontWeight="Bold">MergedDictionaries</Run>
+ property value, and call <Run FontWeight="Bold">Add</Run>
+ on the generic <Run FontWeight="Bold">Collection</Run>
+ that is contained in <Run FontWeight="Bold">MergedDictionaries</Run>
+. The object you add must be a new <Run FontWeight="Bold">ResourceDictionary</Run>
+. In code, you do not set the <Run FontWeight="Bold">Source</Run>
+ property. Instead, you must obtain a <Run FontWeight="Bold">ResourceDictionary</Run>
+ object by either creating one or loading one. One way to load an existing <Run FontWeight="Bold">ResourceDictionary</Run>
+ to call System.Windows.Markup.XamlReader.Load(System.IO.Stream) on an existing XAML file stream that has a <Run FontWeight="Bold">ResourceDictionary</Run>
+ root, then casting the XamlReader.Load return value to <Run FontWeight="Bold">ResourceDictionary</Run>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Merged Resource Dictionary URIs
+    </Paragraph>
+
+    <Paragraph>There are several techniques for how to include a merged resource dictionary, which are indicated by the uniform resource identifier (URI) format that you will use. Broadly speaking, these techniques can be divided into two categories: resources that are compiled as part of the project, and resources that are not compiled as part of the project.
+    </Paragraph>
+
+    <Paragraph>For resources that are compiled as part of the project, you can use a relative path that refers to the resource location. The relative path is evaluated during compilation. Your resource must be defined as part of the project as a Resource build action. If you include a resource .xaml file in the project as Resource, you do not need to copy the resource file to the output directory, the resource is already included within the compiled application. You can also use Content build action, but you must then copy the files to the output directory and also deploy the resource files in the same path relationship to the executable.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>Do not use the Embedded Resource build action. The build action itself is supported for WPF applications, but the resolution of <Run FontWeight="Bold">Source</Run>
+ does not incorporate ResourceManager, and thus cannot separate the individual resource out of the stream. You could still use Embedded Resource for other purposes so long as you also used ResourceManager to access the resources.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>A related technique is to use a Pack URI to a XAML file, and refer to it as Source. Pack URI enables references to components of referenced assemblies and other techniques. For more information on Pack URIs, see <Hyperlink NavigateUri="7ad2943b-3961-41d3-8fc6-1582d43f5d99.xaml">Windows Presentation Foundation Application Data Files</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph>For resources that are not compiled as part of the project, the URI is evaluated at run time. You can use a common URI transport such as file: or http: to refer to the resource file. The disadvantage of using the noncompiled resource approach is that file: access requires additional deployment steps, and http: access implies the Internet security zone.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Reusing Merged Dictionaries
+    </Paragraph>
+
+    <Paragraph>You can reuse or share merged resource dictionaries between applications, because the resource dictionary to merge can be referenced through any valid uniform resource identifier (URI). Exactly how you do this will depend on your application deployment strategy and which application model you follow. The aforementioned Pack URI strategy provides a way to commonly source a merged resource across multiple projects during development by sharing an assembly reference. In this scenario the resources are still distributed by the client, and at least one of the applications must deploy the referenced assembly. It is also possible to reference merged resources through a distributed URI that uses the http protocol.
+    </Paragraph>
+
+    <Paragraph>Writing merged dictionaries as local application files or to local shared storage is another possible merged dictionary / application deployment scenario.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Localization
+    </Paragraph>
+
+    <Paragraph>If resources that need to be localized are isolated to dictionaries that are merged into primary dictionaries, and kept as loose XAML, these files can be localized separately. This technique is a lightweight alternative to localizing the satellite resource assemblies. For details, see <Hyperlink NavigateUri="56e5a5c8-6c96-4d19-b8e1-a5be1dc564af.xaml">WPF Globalization and Localization Overview</Hyperlink>
+.
+    </Paragraph>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>ResourceDictionary
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Concepts
+    </Paragraph>
+
+    <Paragraph><Hyperlink NavigateUri="91580b89-a0a8-4889-aecb-fddf8e63175f.xaml">Resources Overview</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="c1cfcddb-e39c-41c8-a7f3-60984914dfae.xaml">Resources and Code</Hyperlink>
+
+      <LineBreak/><Hyperlink NavigateUri="7ad2943b-3961-41d3-8fc6-1582d43f5d99.xaml">Windows Presentation Foundation Application Data Files</Hyperlink>
+
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Merged Resource Dictionaries to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

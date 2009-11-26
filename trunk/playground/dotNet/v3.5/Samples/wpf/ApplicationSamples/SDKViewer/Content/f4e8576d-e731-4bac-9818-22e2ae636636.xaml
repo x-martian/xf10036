@@ -1,0 +1,198 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_f4e8576d_e731_4bac_9818_22e2ae636636"
+  Tag     ="Handwriting Recognition"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Handwriting Recognition</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>This section discusses the fundamentals of recognition as it pertains to digital ink in the WPF platform.
+    </Paragraph>
+
+    <Paragraph FontSize="22">Recognition Solutions
+    </Paragraph>
+
+    <Paragraph>The following example shows how to recognize ink using the InkAnalyzer.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph>Note: 
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph>This sample requires that handwriting recognizers be installed on the system.
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Create a new WPF application project in Visual Studio 2005 called <Run FontWeight="Bold">InkRecognition</Run>
+. Replace the contents of the Window1.xaml file with the following XAML code. This code renders the application's user interface.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="InkRecognition.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="InkRecognition" > 
+&lt;Canvas Name="theRootCanvas"> 
+&lt;Border Background="White" BorderBrush="Black" BorderThickness="2" Height="300" Width="300" Canvas.Top="10" Canvas.Left="10"> 
+&lt;InkCanvas Name="theInkCanvas">
+&lt;/InkCanvas> 
+&lt;/Border> 
+&lt;TextBox Name="textBox1" Height="25" Width="225" Canvas.Top="325" Canvas.Left="10">
+&lt;/TextBox> 
+&lt;Button Height="25" Width="75" Canvas.Top="325" Canvas.Left="235" Click="buttonClick">Recognize
+&lt;/Button> 
+&lt;/Canvas> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph>Add a reference to the WPF Ink Analysis assemblies, IAWinFX.dll, IACore.dll, and IALoader.dll, which can be found in \Program Files\Reference Assemblies\Microsoft\Tablet PC\v1.7. Replace the contents of the code behind file with the following code.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System.Windows; 
+using System.Windows.Ink; 
+namespace InkRecognition { /// 
+&lt;summary> /// Interaction logic for Window1.xaml /// 
+&lt;/summary> public partial class Window1 : Window { public Window1() { InitializeComponent(); 
+} // Recognizes handwriting by using RecognizerContext private void buttonClick(object sender, RoutedEventArgs e) { InkAnalyzer theInkAnalyzer = new InkAnalyzer(); 
+theInkAnalyzer.AddStrokes(theInkCanvas.Strokes); 
+AnalysisStatus status = theInkAnalyzer.Analyze(); 
+if (status.Successful) { textBox1.Text = theInkAnalyzer.GetRecognizedString(); 
+} else { MessageBox.Show("Recognition Failed"); 
+} } } } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System.Windows Imports System.Windows.Ink '/ 
+&lt;summary> '/ Interaction logic for Window1.xaml '/ 
+&lt;/summary> Namespace InkRecognition Class Window1 Inherits Window Public Sub New() InitializeComponent() End Sub 'New ' Recognizes handwriting by using RecognizerContext Private Sub buttonClick(ByVal sender As Object, ByVal e As RoutedEventArgs) Dim theInkAnalyzer As New InkAnalyzer() theInkAnalyzer.AddStrokes(theInkCanvas.Strokes) Dim status As AnalysisStatus = theInkAnalyzer.Analyze() If status.Successful Then textBox1.Text = theInkAnalyzer.GetRecognizedString() Else MessageBox.Show("Recognition Failed") End If End Sub 'buttonClick End Class 'Window1 End Namespace </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22"><Run>See Also</Run>
+
+    </Paragraph>
+
+    <Paragraph FontSize="16pt">Reference
+    </Paragraph>
+
+    <Paragraph>InkAnalyzer
+      <LineBreak/>AnalysisStatus
+      <LineBreak/>InkCanvas
+      <LineBreak/>
+      <LineBreak/>
+    </Paragraph>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about Handwriting Recognition to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

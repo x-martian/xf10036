@@ -1,0 +1,179 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) Microsoft Corporation, 2006.  All rights reserved.
+//
+/////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<cc:SdkSinglePageViewer
+  Name    ="_932dc410_2bf3_4486_ab31_13487ba59f60"
+  Tag     ="Drag and Drop Ink"
+  xmlns:cc="clr-namespace:Microsoft.Windows.SdkViewer.Controls;assembly=SdkViewer"
+  xmlns   ="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>How to: Drag and Drop Ink</Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow/>
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph FontSize="22">Example
+    </Paragraph>
+
+    <Paragraph>The following example creates an application that enables the user to drag selected strokes from one InkCanvas to the other.
+    </Paragraph>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>XAML </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>
+&lt;Window x:Class="Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="InkDragDropSample" Height="500" Width="700" > 
+&lt;Grid> 
+&lt;Grid.RowDefinitions> 
+&lt;RowDefinition Height="Auto"/> 
+&lt;RowDefinition Height="*"/> 
+&lt;/Grid.RowDefinitions> 
+&lt;Grid.ColumnDefinitions> 
+&lt;ColumnDefinition/> 
+&lt;ColumnDefinition/> 
+&lt;/Grid.ColumnDefinitions> 
+&lt;InkCanvas Name="ic1" AllowDrop="True" Grid.Column="0" Grid.Row="0" Margin="10,10,10,10" Background="AliceBlue" PreviewMouseDown="InkCanvas_PreviewMouseDown" Drop="InkCanvas_Drop"/> 
+&lt;InkCanvas Name="ic2" AllowDrop="True" Grid.Column="1" Grid.Row="0" Margin="10,10,10,10" Background="Beige" PreviewMouseDown="InkCanvas_PreviewMouseDown" Drop="InkCanvas_Drop"/> 
+&lt;CheckBox Grid.Row="1" Checked="switchToSelect" Unchecked="switchToInk"> Select Mode 
+&lt;/CheckBox> 
+&lt;/Grid> 
+&lt;/Window> </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>C# </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>using System; 
+using System.IO; 
+using System.Windows; 
+using System.Windows.Ink; 
+using System.Windows.Controls; 
+using System.Windows.Data; 
+using System.Windows.Input; 
+using System.Windows.Media; 
+public partial class Window1 : Window { public Window1() { InitializeComponent(); 
+} void InkCanvas_PreviewMouseDown(object sender, MouseEventArgs e) { InkCanvas ic = (InkCanvas)sender; 
+Point pt = e.GetPosition(ic); 
+// If the user is moving selected strokes, prepare the strokes to be // moved to another InkCanvas. if (ic.HitTestSelection(pt) == InkCanvasSelectionHitResult.Selection) { StrokeCollection selectedStrokes = ic.GetSelectedStrokes(); 
+StrokeCollection strokesToMove = selectedStrokes.Clone(); 
+// Remove the offset of the selected strokes so they // are positioned when the strokes are dropped. Rect inkBounds = strokesToMove.GetBounds(); 
+TranslateStrokes(strokesToMove, -inkBounds.X, -inkBounds.Y); 
+// Perform drag and drop. MemoryStream ms = new MemoryStream(); 
+strokesToMove.Save(ms); 
+DataObject dataObject = new DataObject( StrokeCollection.InkSerializedFormat, ms); 
+DragDropEffects effects = DragDrop.DoDragDrop(ic, dataObject, DragDropEffects.Move); 
+if ((effects &amp; 
+DragDropEffects.Move) == DragDropEffects.Move) { // Remove the selected strokes // from the current InkCanvas. ic.Strokes.Remove(selectedStrokes); 
+} } } void InkCanvas_Drop(object sender, DragEventArgs e) { // Get the strokes that were moved. InkCanvas ic = (InkCanvas)sender; 
+MemoryStream ms = (MemoryStream)e.Data.GetData( StrokeCollection.InkSerializedFormat); 
+ms.Position = 0; 
+StrokeCollection strokes = new StrokeCollection(ms); 
+// Translate the strokes to the position at which // they were dropped. Point pt = e.GetPosition(ic); 
+TranslateStrokes(strokes, pt.X, pt.Y); 
+// Add the strokes to the InkCanvas and keep them selected. ic.Strokes.Add(strokes); 
+ic.Select(strokes); 
+} // Helper method that transletes the specified strokes. void TranslateStrokes(StrokeCollection strokes, double x, double y) { Matrix mat = new Matrix(); 
+mat.Translate(x, y); 
+strokes.Transform(mat, false); 
+} void switchToSelect(object sender, RoutedEventArgs e) { ic1.EditingMode = InkCanvasEditingMode.Select; 
+ic2.EditingMode = InkCanvasEditingMode.Select; 
+} void switchToInk(object sender, RoutedEventArgs e) { ic1.EditingMode = InkCanvasEditingMode.Ink; 
+ic2.EditingMode = InkCanvasEditingMode.Ink; 
+} } </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Table CellSpacing="5">
+      <TableRowGroup>
+        <TableRow>
+          <TableCell>
+            <Paragraph FontSize="22"><Run>Visual Basic </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+        <TableRow>
+          <TableCell>
+            <Paragraph xml:space="preserve" TextAlignment="Left" FontSize="8pt" FontFamily="Courier New"><Run>Imports System Imports System.IO Imports System.Windows Imports System.Windows.Ink Imports System.Windows.Controls Imports System.Windows.Data Imports System.Windows.Input Imports System.Windows.Media Class Window1 Inherits Window Public Sub New() InitializeComponent() End Sub 'New Sub InkCanvas_PreviewMouseDown(ByVal sender As Object, _ ByVal e As MouseButtonEventArgs) Dim ic As InkCanvas = CType(sender, InkCanvas) Dim pt As Point = e.GetPosition(ic) ' If the user is moving selected strokes, prepare the strokes to be ' moved to another InkCanvas. If ic.HitTestSelection(pt) = InkCanvasSelectionHitResult.Selection Then Dim selectedStrokes As StrokeCollection = _ ic.GetSelectedStrokes() Dim strokesToMove As StrokeCollection = _ selectedStrokes.Clone() ' Remove the offset of the selected strokes so they ' are positioned when the strokes are dropped. Dim inkBounds As Rect = strokesToMove.GetBounds() TranslateStrokes(strokesToMove, -inkBounds.X, -inkBounds.Y) ' Perform drag and drop. Dim ms As New MemoryStream() strokesToMove.Save(ms) Dim dataObject As New DataObject _ (StrokeCollection.InkSerializedFormat, ms) Dim effects As DragDropEffects = _ DragDrop.DoDragDrop(ic, dataObject, DragDropEffects.Move) If (effects And DragDropEffects.Move) = DragDropEffects.Move Then ' Remove the selected strokes from the current InkCanvas. ic.Strokes.Remove(selectedStrokes) End If End If End Sub 'OnMouseDown Sub InkCanvas_Drop(ByVal sender As Object, _ ByVal e As DragEventArgs) ' Get the strokes that were moved. Dim ic As InkCanvas = CType(sender, InkCanvas) Dim ms As MemoryStream = CType(e.Data.GetData( _ StrokeCollection.InkSerializedFormat), _ MemoryStream) ms.Position = 0 Dim strokes As New StrokeCollection(ms) ' Translate the strokes to the position at which ' they were dropped. Dim pt As Point = e.GetPosition(ic) TranslateStrokes(strokes, pt.X, pt.Y) ' Add the strokes to the InkCanvas and keep them selected. ic.Strokes.Add(strokes) ic.Select(strokes) End Sub 'OnDrop ' Helper method that transletes the specified strokes. Sub TranslateStrokes(ByVal strokes As StrokeCollection, _ ByVal x As Double, ByVal y As Double) Dim mat As New Matrix() mat.Translate(x, y) strokes.Transform(mat, False) End Sub 'TranslateStrokes Sub switchToSelect(ByVal sender As Object, _ ByVal e As RoutedEventArgs) ic1.EditingMode = InkCanvasEditingMode.Select ic2.EditingMode = InkCanvasEditingMode.Select End Sub 'switchToSelect Sub switchToInk(ByVal sender As Object, _ ByVal e As RoutedEventArgs) ic1.EditingMode = InkCanvasEditingMode.Ink ic2.EditingMode = InkCanvasEditingMode.Ink End Sub 'switchToInk End Class 'Window1 </Run>
+
+            </Paragraph>
+
+          </TableCell>
+
+        </TableRow>
+
+      </TableRowGroup>
+
+    </Table>
+
+    <Paragraph/>
+    <Paragraph/>
+    <Paragraph><Span><Hyperlink NavigateUri="mailto:wsdkfdb@microsoft.com?subject=Feedback">Send comments</Hyperlink>
+ about How to: Drag and Drop Ink to Microsoft. </Span>
+
+    </Paragraph>
+
+  </FlowDocument>
+
+</cc:SdkSinglePageViewer>
+

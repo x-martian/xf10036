@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="TaskSwitcherControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:MDITaskSwitchingSample" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="550" Height="320">
+
+    <Border Width="Auto" Height="Auto" CornerRadius="20,20,20,20" BorderThickness="1,1,1,1" BorderBrush="#FF333333">
+        <Border.Background>
+            <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
+                <GradientStop Color="#FFD8ECFF" Offset="0" />
+                <GradientStop Color="#FF0161C2" Offset="1" />
+                <GradientStop Color="#FFC3DFFB" Offset="0.817" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid Width="Auto" Height="Auto" KeyboardNavigation.ControlTabNavigation="Cycle">
+            <Grid.Resources>
+                <local:TaskSwitcherTextConverter x:Key="taskSwitcherTextConverter" />
+
+                <LinearGradientBrush x:Key="BrushSelectedTabItem" EndPoint="0.5,0" StartPoint="0.5,1">
+                    <GradientStop Color="#FF759AC0" Offset="0" />
+                    <GradientStop Color="#FFC5E2FF" Offset="1" />
+                    <GradientStop Color="#FFC3DFFB" Offset="0.86" />
+                </LinearGradientBrush>
+
+                <!-- Makes the border of ListBoxItems with keyboard focus invisible -->
+                <Style x:Key="MyFocusVisualStyle" TargetType="Control">
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                </Style>
+
+                <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisualStyle}" />
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="{x:Static SystemColors.ControlTextColor}" />
+                    </Style.Resources>
+                </Style>
+
+                <!-- Makes the border of TextBlock with keyboard focus invisible -->
+                <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock">
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisualStyle}" />
+                </Style>
+
+                <Style x:Key="{x:Type ListBox}" TargetType="ListBox">
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisualStyle}" />
+                </Style>
+
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.538*" />
+                <ColumnDefinition Width="0.462*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.135*" />
+                <RowDefinition Height="0.835*" />
+                <RowDefinition Height="25" />
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="tbTitle" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="Select Task" TextWrapping="Wrap" Margin="10,0,10,0" FontSize="20" Foreground="#FFFFFFFF" FontWeight="Normal" Grid.ColumnSpan="2" />
+            
+      
+            <ListBox ItemsSource="{Binding}" SelectionMode="Single" BorderBrush="{x:Null}" Background="{x:Null}" Margin="10,10,10,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Grid.Row="1" x:Name="lbFormList">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1" x:Name="bd" Padding="2" Margin="5,0,0,0">
+                            <TextBlock x:Name="tb" FontSize="14" Focusable="True" Text="{Binding Converter=
+                                        {StaticResource taskSwitcherTextConverter}}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsSelected, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, 
+                                            AncestorType={x:Type ListBoxItem}}}" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="{StaticResource BrushSelectedTabItem}" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="LightBlue" />
+                                <Setter TargetName="tb" Property="Foreground" Value="White" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel ItemHeight="30" ItemWidth="130" Background="{x:Null}" Orientation="Horizontal" Width="265" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+			<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Grid.Row="1" Grid.Column="1" Stretch="Uniform" x:Name="rectFormPreview" Margin="10,10,10,1" />
+			<Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Grid.Row="2" Grid.ColumnSpan="2" CornerRadius="0,0,20,20" BorderThickness="1,1,1,1" Background="#FF8CD0FF">
+				<TextBlock Text="TextBlock" TextWrapping="NoWrap" Margin="13,0,13,0" VerticalAlignment="Center" x:Name="tbCurrentApplication" TextTrimming="CharacterEllipsis" Foreground="#FF000000" />
+			</Border>
+		</Grid>
+    </Border>
+
+</UserControl>

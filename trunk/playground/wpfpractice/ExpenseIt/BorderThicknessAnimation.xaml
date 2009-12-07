@@ -6,21 +6,29 @@
   <Page.Resources>
     <!-- This style applied to any TextBox on the page -->
     <Style TargetType="{x:Type TextBox}">
+
+      <Setter Property="BitmapEffect">
+        <Setter.Value>
+        <!-- This BitmapEffect is targeted by the animation. -->
+        <OuterGlowBitmapEffect x:Name="myOuterGlowBitmapEffect" GlowColor="Blue" GlowSize="0" />
+        </Setter.Value>
+      </Setter>
+
+
       <Style.Triggers>
+        <EventTrigger RoutedEvent="TextBox.GotFocus">
+          <BeginStoryboard>
+            <Storyboard>
 
-        <!-- When the TextBox gains focus such as when the cursor appears
-             in the TextBox, apply the OuterGlowBitmapEffect to the TextBox. -->
-        <Trigger Property="IsFocused" Value="True">
-          <Setter Property = "BitmapEffect" >
-            <Setter.Value>
+              <!-- Animate the GlowSize from 0 to 40 over half a second. --> 
+              <DoubleAnimation
+                Storyboard.TargetName="myOuterGlowBitmapEffect"
+                Storyboard.TargetProperty="GlowSize"
+                From="0" To="40" Duration="0:0:0.5" />
+            </Storyboard>
+          </BeginStoryboard>
+        </EventTrigger>
 
-              <!-- The OuterGlow is blue, extends out 30 pixels, has the 
-                   maximum noise possible, and is 40% Opaque. -->
-              <OuterGlowBitmapEffect GlowColor="Blue" GlowSize="30" Noise="1"
-               Opacity="0.4" />
-            </Setter.Value>
-          </Setter>
-        </Trigger>
       </Style.Triggers>
     </Style>
   </Page.Resources>

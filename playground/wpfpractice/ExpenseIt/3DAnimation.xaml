@@ -5,18 +5,21 @@
       <Canvas Width="321" Height="201">
 
         <!-- The Viewport3D provides a rendering surface for 3-D visual content. -->
-        <Viewport3D ClipToBounds="True" Width="150" Height="150" Canvas.Left="0" Canvas.Top="10">
+        <Viewport3D Name="MyAnimatedObject"
+          ClipToBounds="True" Width="150" Height="150"
+          Canvas.Left="0" Canvas.Top="10">
 
           <!-- Defines the camera used to view the 3D object. -->
           <Viewport3D.Camera>
-            <PerspectiveCamera x:Name="myPerspectiveCamera" Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" />
+            <PerspectiveCamera x:Name="myPerspectiveCamera" Position="0,0,2" LookDirection="0,0,-1" 
+             FieldOfView="60" />
           </Viewport3D.Camera>
 
           <!-- The ModelVisual3D children contain the 3D models -->
           <Viewport3D.Children>
 
             <!-- This ModelVisual3D defines the lights cast in the scene. Without light, the
-                 3D object cannot be seen. Also, the direction of the lights affect shadowing. -->
+                 3D object cannot be seen. Also, the direction of the light affect shadowing. -->
             <ModelVisual3D>
               <ModelVisual3D.Content>
                 <DirectionalLight Color="#FFFFFF" Direction="-0.612372,-0.5,-0.612372" />
@@ -34,13 +37,14 @@
                      TextureCoordinates="0,0 1,0 1,1 1,1 0,1 0,0 "
                      Positions="-0.5,-0.5,0.5 0.5,-0.5,0.5 0.5,0.5,0.5 0.5,0.5,0.5 -0.5,0.5,0.5 -0.5,-0.5,0.5 " />
                   </GeometryModel3D.Geometry>
-
                   <!-- The material specifies the material applied to the plane. In this case it is a linear gradient.-->
                   <GeometryModel3D.Material>
                     <MaterialGroup>
                       <DiffuseMaterial>
                         <DiffuseMaterial.Brush>
-                          <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+
+                          <!-- The Opacity property of this LinearGradient is animated. See Storyboard below. -->
+                          <LinearGradientBrush x:Name="myGradientBrush"  StartPoint="0,0.5" EndPoint="1,0.5">
                             <LinearGradientBrush.GradientStops>
                               <GradientStop Color="Yellow" Offset="0" />
                               <GradientStop Color="Red" Offset="0.25" />
@@ -52,13 +56,11 @@
                       </DiffuseMaterial>
                     </MaterialGroup>
                   </GeometryModel3D.Material>
-
-                  <!-- The Transform specifies how to transform the 3D object. The rotation
-                       is animated using the Storyboard below. -->
+                  <!-- The Transform specifies how to transform the 3D object. In this sample, the object is rotated.-->
                   <GeometryModel3D.Transform>
                     <RotateTransform3D>
                       <RotateTransform3D.Rotation>
-                        <QuaternionRotation3D x:Name="myQuaternionRotation3D" />
+                        <AxisAngleRotation3D Axis="0,3,0" Angle="40" />
                       </RotateTransform3D.Rotation>
                     </RotateTransform3D>
                   </GeometryModel3D.Transform>
@@ -66,36 +68,19 @@
               </ModelVisual3D.Content>
             </ModelVisual3D>
           </Viewport3D.Children>
-
-          <!-- Trigger the rotation animation when the 3D object loads. -->
+          <!-- Trigger the animation when the 3D object loads. -->
           <Viewport3D.Triggers>
             <EventTrigger RoutedEvent="Viewport3D.Loaded">
               <BeginStoryboard>
                 <Storyboard>
 
-                  <!-- This animation animates the Rotation property of the RotateTransform
-                       causing the 3D shape to rotate and wobble as the rotation angle and 
-                       axis are animated. -->
-                  <QuaternionAnimationUsingKeyFrames
-                   Storyboard.TargetName="myQuaternionRotation3D" 
-                   Storyboard.TargetProperty="Quaternion" >
-                    <QuaternionAnimationUsingKeyFrames.KeyFrames>
-
-                      <!-- Using a LinearQuaternionKeyFrame, the 3D object gradually rotates from an askew 
-                           position to a flat position. -->
-                      <LinearQuaternionKeyFrame KeyTime="0:0:1" Value="0,0,1,0"  />
-
-                      <!-- Using a DiscreteQuaternionKeyFrame, the object suddenly rotates to an askew  
-                           position. This happens immdeiately after the first 1 and a half seconds of the animation. -->
-                      <DiscreteQuaternionKeyFrame KeyTime="0:0:1.5" Value="0.3, 0.3, 1, 0" />
-
-                      <!-- Using a SplineQuaternionKeyFrame, the object rotates back to a flat position. 
-                           The animation starts out slowly at first and then speeds up. This KeyFrame ends 
-                           after the fourth second. -->
-                      <SplineQuaternionKeyFrame KeySpline="0.6,0.0 0.9,0.00" KeyTime="0:0:4" Value="0,0,1,0" />
-
-                    </QuaternionAnimationUsingKeyFrames.KeyFrames>
-                  </QuaternionAnimationUsingKeyFrames>
+                  <!-- This animation animates the opacity of the material applied to the 3D Object. -->
+                  <DoubleAnimation
+                   Storyboard.TargetName="myGradientBrush" 
+                   Storyboard.TargetProperty="Opacity" 
+                   Duration="0:0:2" 
+                   To="0.1" 
+                   AutoReverse="True" RepeatBehavior="Forever" />
 
                 </Storyboard>
               </BeginStoryboard>

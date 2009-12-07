@@ -76,6 +76,9 @@ namespace SDKSample
             myBorder5.Background = Brushes.White;
             myBorder5.BorderBrush = Brushes.Black;
             myBorder5.BorderThickness = new Thickness(1);
+            myBorder5.Width = 200;
+            myBorder5.Height = 300;
+            DockPanel.SetDock(myBorder5, Dock.Right);
             TextBlock myTextBlock5 = new TextBlock();
             myTextBlock5.Foreground = Brushes.Black;
             myTextBlock5.Text = "This content will Fill the remaining space";
@@ -91,8 +94,9 @@ namespace SDKSample
                        
             // Add the parent Canvas as the Content of the Window Object
             mainWindow.Content = myDockPanel;
-            mainWindow.Show ();
-
+            mainWindow.Show();
+            //myDockPanel.Children.Remove(myBorder5);
+            //myDockPanel.Children.Add(myBorder5);
         }
     }
 

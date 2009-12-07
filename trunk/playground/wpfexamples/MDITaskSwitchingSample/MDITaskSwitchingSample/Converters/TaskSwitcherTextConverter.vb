@@ -9,6 +9,10 @@ Public Class TaskSwitcherTextConverter
 
         Dim obj As TabItemMetaData = DirectCast(value, MDITaskSwitchingSample.TabItemMetaData)
 
+        If obj Is Nothing Then
+            Return ""
+        End If
+
         If obj.InstanceCount = 0 Then
             Return obj.TabHeader
 

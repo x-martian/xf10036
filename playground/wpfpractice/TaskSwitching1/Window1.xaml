@@ -1,0 +1,31 @@
+﻿<Window x:Class="Window1" Name="window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:my="clr-namespace:TaskSwitching"
+    Title="Window1" Height="300" Width="300">
+    
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" CanExecute="FileClose_CanExcute" Executed="FileClose_Excuted" />
+        <CommandBinding Command="ApplicationCommands.Open" CanExecute="FileOpen_CanExcute" Executed="FileOpen_Excuted" />
+    </Window.CommandBindings>
+    
+    <Grid x:Name="dockPanel">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="238*" />
+        </Grid.RowDefinitions>
+        <!-- Menu DockPanel.Dock="Top" Height="22" Name="Menu1" -->
+        <Menu Name="Menu1" Margin="0,0,0,2">
+        <MenuItem Header="_File">
+                <MenuItem Command="ApplicationCommands.Open" ToolTipService.ShowOnDisabled="True" Header="_Open" />
+                <MenuItem Command="ApplicationCommands.Close" ToolTipService.ShowOnDisabled="True" Header="_Close" />
+                <MenuItem Header="E_xit" Name="MenuItem1" />
+            </MenuItem>
+        </Menu>
+        <my:UserControl1 x:Name="userControl1" Margin="0" Grid.Row="1" Width="Auto" Height="Auto" >
+            <my:UserControl1.CommandBindings>
+                <CommandBinding Command="Close" CanExecute="UserControl_CanExecute" Executed="UserControl_Executed" />
+            </my:UserControl1.CommandBindings>
+        </my:UserControl1>
+    </Grid>
+</Window>

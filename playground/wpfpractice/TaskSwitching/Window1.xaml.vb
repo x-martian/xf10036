@@ -23,6 +23,8 @@
     End Sub
 
     Private Sub FileOpen_Excuted(ByVal sender As System.Object, ByVal e As System.Windows.Input.ExecutedRoutedEventArgs)
+        userControl1.Visibility = Windows.Visibility.Visible
+        Me.dockPanel.Children.Add(userControl1)
     End Sub
 
     Private Sub UserControl_CanExecute(ByVal sender As System.Object, ByVal e As System.Windows.Input.CanExecuteRoutedEventArgs)

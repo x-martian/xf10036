@@ -32,8 +32,15 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type local:ImageButton}">
-						<Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" SnapsToDevicePixels="true" BorderBrush="{TemplateBinding BorderBrush}" Fill="{TemplateBinding Background}" RenderDefaulted="{TemplateBinding IsDefaulted}" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" ThemeColor="NormalColor">
-							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True"/>
+						<Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" SnapsToDevicePixels="true" BorderBrush="{TemplateBinding BorderBrush}" Fill="{TemplateBinding Background}" RenderDefaulted="{TemplateBinding IsDefaulted}" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" ThemeColor="NormalColor" Margin="0">
+							<Grid Margin="4">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="0.497*"/>
+									<ColumnDefinition Width="0.503*"/>
+								</Grid.ColumnDefinitions>
+								<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True"/>
+								<Image HorizontalAlignment="Stretch" Margin="8" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Grid.Column="1" Source="{TemplateBinding Source}"/>
+							</Grid>
 						</Microsoft_Windows_Themes:ButtonChrome>
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsKeyboardFocused" Value="true">
@@ -53,6 +60,6 @@
 	</Window.Resources>
 
 	<Grid x:Name="LayoutRoot">
-		<local:ImageButton HorizontalAlignment="Left" Margin="157,96,0,0" Style="{DynamicResource ImageButtonStyle}" VerticalAlignment="Top" Width="147" Height="127" Content="ImageButton"/>
+		<local:ImageButton Margin="25,25,100,200" Style="{DynamicResource ImageButtonStyle}" Content="ImageButton" Source="diamond_thailand_2001_t.jpg"/>
 	</Grid>
 </Window>

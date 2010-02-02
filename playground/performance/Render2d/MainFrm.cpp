@@ -14,7 +14,7 @@
 #define new DEBUG_NEW
 #endif
 
-typedef void (*PFUNC)(void* imageArray, int iw, int ih, int il, void* disp, void* lut);
+typedef void (*PFUNC)(void* imageArray, int iw, int ih, int il, int cnt, void* disp, void* lut);
 
 // CMainFrame
 
@@ -241,7 +241,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
 	m_bitmap.CreateCompatibleBitmap(GetDC(), w, h);
 	m_memDC.SelectObject(&m_bitmap);
 	delete [] m_interp;
-	m_interp = new BYTE[300*300];
+	m_interp = new BYTE[300*300*512];
 	InvalidateRect(&rect, FALSE);
 }
 
@@ -387,9 +387,9 @@ void CMainFrame::Trail(int iw, int ih, int il)
 void CMainFrame::OnActionMathdll()
 {
 #ifdef _DEBUG
-	std::ofstream fs("D:\\clrBench\\DLL_CppNativeHostDebug.txt");
+	std::ofstream fs(".\\clrBench\\DLL_CppNativeHostDebug.txt");
 #else
-	std::ofstream fs("D:\\clrBench\\DLL_CppNativeHostRelease.txt");
+	std::ofstream fs(".\\clrBench\\DLL_CppNativeHostRelease.txt");
 #endif
 	HMODULE hModule = ::LoadLibrary("interpolator.dll");
 	PFUNC pfunc = (PFUNC)::GetProcAddress(hModule, "fninterpolator");
@@ -407,7 +407,7 @@ void CMainFrame::OnActionMathdll()
 		delta = now.QuadPart - m_tmr.QuadPart;
 
 		::QueryPerformanceCounter(&m_tmr);
-		pfunc(m_pData, IMAGEWIDTH, IMAGEHEIGHT, i, m_interp, m_lut);
+		pfunc(m_pData, IMAGEWIDTH, IMAGEHEIGHT, 0, i, m_interp, m_lut);
 		QueryPerformanceCounter(&now);
 
 		LONGLONG span = now.QuadPart - m_tmr.QuadPart - delta;

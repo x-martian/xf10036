@@ -700,7 +700,7 @@ private:
 					}
 				}
 			}
-		} while (++currentImage<il);
+		} while (++currentImage<=il);
 	}
 };
 }

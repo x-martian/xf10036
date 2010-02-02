@@ -191,8 +191,7 @@ namespace Render2DCS
             
             if (dispArray != IntPtr.Zero)
                 Marshal.FreeHGlobal(dispArray);
-            dispArray = Marshal.AllocHGlobal(ClientRectangle.Width * ClientRectangle.Height * 512);
-            Marshal.WriteByte(dispArray, 300 * 300 * 512 - 1, 1);
+            dispArray = Marshal.AllocHGlobal(ClientRectangle.Width * ClientRectangle.Height);
             
 			Invalidate();
         }
@@ -246,7 +245,7 @@ namespace Render2DCS
 	    	fs.Close();
         }
 
-        private unsafe static void interpolate(short* imageArray, int iw, int ih, int il, int cnt, byte* disp, byte* lut)
+        private unsafe void interpolate(short* imageArray, int iw, int ih, int il, int cnt, byte* disp, byte* lut)
         {
             // do the interplation in an unsafe context
             int w = 300;
@@ -255,7 +254,7 @@ namespace Render2DCS
             double* interp = (double*)(Marshal.AllocHGlobal((iw + 1) * 8));
             do
             {
-                Byte* pv = (Byte*)disp;
+                Byte* pv = (Byte*)dispArray;
                 short* p0 = imageArray + iw * ih * il;
                 for (int j = 0; j < h; ++j)
                 {
@@ -279,24 +278,27 @@ namespace Render2DCS
                             lo = imageArray + iw * (ih * ie);
                     }
                     double y = 1.0 - x;
-                    double* mid = (double*)interp;
-                    for (int m = 0; m < iw; ++m)
+                    double* mid = interp;
                     {
-                        *mid = *lo * y + *hi * x;
-                        ++mid; ++lo; ++hi;
-                    }
-                    *mid = *interp;
-
-                    for (int i = 0; i < w; ++i)
-                    {
-                        x = (double)((2 * i + 1) * iw - w) / (double)(2 * w);
-                        if (x > 0.0)
+                        double* tmp = mid;
+                        for (int m = 0; m < iw; ++m)
                         {
-                            int index = (int)x;
-                            x -= index;
-                            double s = *(interp + index) * (1 - x) + *(interp + index + 1) * x;
-                            *pv = *(lut + (int)s);
-                            ++pv;
+                            *tmp = *lo * y + *hi * x;
+                            ++tmp; ++lo; ++hi;
+                        }
+                        *tmp = *mid;
+
+                        for (int i = 0; i < w; ++i)
+                        {
+                            x = (double)((2 * i + 1) * iw - w) / (double)(2 * w);
+                            if (x > 0.0)
+                            {
+                                int index = (int)x;
+                                x -= index;
+                                double s = *(mid + index) * (1 - x) + *(mid + index + 1) * x;
+                                *pv = *(lut + (int)s);
+                                ++pv;
+                            }
                         }
                     }
                 }
